@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "ms-python.python",
+    "charliermarsh.ruff",
+    "ms-playwright.playwright",
+    "redhat.vscode-yaml"
+  ]
+}

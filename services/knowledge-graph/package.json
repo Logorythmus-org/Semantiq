@@ -1,0 +1,14 @@
+{
+  "name": "@tech-club/service-knowledge-graph",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo \"knowledge graph service build scaffold\"",
+    "dev": "echo \"knowledge graph service dev scaffold\"",
+    "test": "echo \"knowledge graph service tests scaffold\""
+  }
+}

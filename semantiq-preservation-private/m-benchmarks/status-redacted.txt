@@ -1,0 +1,34 @@
+ D cli/ui_commands.py
+ D webapp/README.md
+ D webapp/docs/ethics.md
+ D webapp/index.html
+ D webapp/package.json
+ D webapp/postcss.config.js
+ D webapp/src/api/client.ts
+ D webapp/src/api/types.ts
+ D webapp/src/components/Layout.tsx
+ D webapp/src/index.css
+ D webapp/src/main.tsx
+ D webapp/src/pages/Home.tsx
+ D webapp/src/pages/RunDetail.tsx
+ D webapp/tailwind.config.js
+ D webapp/tsconfig.json
+ D webapp/tsconfig.node.json
+!! .pytest_cache/
+!! adapters/__pycache__/
+!! benchmarks/__pycache__/
+!! benchmarks/hacs/__pycache__/
+!! benchmarks/vision/__pycache__/
+!! cli/__pycache__/
+!! core/__pycache__/
+!! evaluation/__pycache__/
+!! evaluation/reliability/__pycache__/
+!! evaluation/reliability/tests/__pycache__/
+!! pipeline/__pycache__/
+!! semantiq_m_benchmarks.egg-info/
+!! tests/__pycache__/
+!! tests/hacs/__pycache__/
+!! tests/vision/__pycache__/
+!! venv/
+!! webapp/dist/
+!! webapp/node_modules/

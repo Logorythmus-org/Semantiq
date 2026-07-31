@@ -1,0 +1,848 @@
+diff --git a/cli/ui_commands.py b/cli/ui_commands.py
+deleted file mode 100644
+index 5d16fc4..0000000
+--- a/cli/ui_commands.py
++++ /dev/null
+@@ -1,204 +0,0 @@
+-import os
+-import json
+-import typer
+-from typing import List, Optional, Dict, Any
+-from pathlib import Path
+-import uvicorn
+-from fastapi import FastAPI, HTTPException
+-from fastapi.staticfiles import StaticFiles
+-from fastapi.middleware.cors import CORSMiddleware
+-from pydantic import BaseModel
+-
+-app = typer.Typer(name="ui", help="SemantIQ-M Web UI Commands")
+-
+-# --- FastAPI App ---
+-fastapi_app = FastAPI(title="SemantIQ-M API")
+-
+-# Allow CORS for dev (Vite runs on 5173, API on 8000)
+-fastapi_app.add_middleware(
+-    CORSMiddleware,
+-    allow_origins=["*"],
+-    allow_credentials=True,
+-    allow_methods=["*"],
+-    allow_headers=["*"],
+-)
+-
+-class RunMetadata(BaseModel):
+-    provider: str
+-    model: str
+-    timestamp: str
+-    status: Optional[str] = "completed"
+-
+-class CategoryScore(BaseModel):
+-    categoryId: str
+-    score: float
+-    label: str
+-
+-class RunSummary(BaseModel):
+-    runId: str
+-    domain: str
+-    subject: str
+-    overallScore: float
+-    categories: List[Dict[str, Any]]
+-    metadata: RunMetadata
+-
+-def load_run_summary(path: Path, domain: str) -> Optional[RunSummary]:
+-    if not path.exists():
+-        return None
+-    try:
+-        with open(path, "r") as f:
+-            data = json.load(f)
+-            
+-        # Normalize data based on domain schema
+-        # SMF/HACS/Vision schemas might differ slightly, but we aim for the Unified Schema
+-        
+-        run_id = data.get("run_id") or path.parent.name
+-        model = data.get("model", "unknown")
+-        provider = data.get("provider", "unknown")
+-        timestamp = data.get("timestamp", "")
+-        overall_score = data.get("overall_score", 0.0)
+-        
+-        categories = []
+-        cat_summaries = data.get("category_summaries", {})
+-        
+-        # Vision/HACS use dict for categories, SMF might too
+-        if isinstance(cat_summaries, dict):
+-            for cat_id, cat_data in cat_summaries.items():
+-                score = cat_data.get("mean_score") if isinstance(cat_data, dict) else cat_data
+-                categories.append({
+-                    "categoryId": cat_id,
+-                    "score": score,
+-                    "label": cat_id.upper() # or look up name
+-                })
+-        
+-        return RunSummary(
+-            runId=run_id,
+-            domain=domain.upper(),
+-            subject=model,
+-            overallScore=overall_score,
+-            categories=categories,
+-            metadata=RunMetadata(
+-                provider=provider,
+-                model=model,
+-                timestamp=timestamp,
+-                status="completed"
+-            )
+-        )
+-    except Exception as e:
+-        print(f"Error loading {path}: {e}")
+-        return None
+-
+-def scan_runs() -> List[RunSummary]:
+-    runs = []
+-    base_dir = Path("reports")
+-    
+-    domains = ["smf", "hacs", "vision"]
+-    
+-    for domain in domains:
+-        domain_runs_dir = base_dir / domain / "runs"
+-        if not domain_runs_dir.exists():
+-            continue
+-            
+-        for run_dir in domain_runs_dir.iterdir():
+-            if run_dir.is_dir():
+-                summary_path = run_dir / "overall_summary.json"
+-                summary = load_run_summary(summary_path, domain)
+-                if summary:
+-                    runs.append(summary)
+-    
+-    # Sort by timestamp desc
+-    runs.sort(key=lambda x: x.metadata.timestamp, reverse=True)
+-    return runs
+-
+-@fastapi_app.get("/api/runs", response_model=List[RunSummary])
+-def get_runs():
+-    return scan_runs()
+-
+-@fastapi_app.get("/api/runs/{run_id}")
+-def get_run_detail(run_id: str):
+-    # Find the run file
+-    base_dir = Path("reports")
+-    domains = ["smf", "hacs", "vision"]
+-    
+-    for domain in domains:
+-        summary_path = base_dir / domain / "runs" / run_id / "overall_summary.json"
+-        if summary_path.exists():
+-            with open(summary_path, "r") as f:
+-                data = json.load(f)
+-            # Inject domain info
+-            data["domain"] = domain.upper()
+-            data["runId"] = run_id
+-            
+-            # Normalize categories for the UI
+-            cats = []
+-            cat_summaries = data.get("category_summaries", {})
+-            if isinstance(cat_summaries, dict):
+-                for cat_id, cat_data in cat_summaries.items():
+-                    score = cat_data.get("mean_score") if isinstance(cat_data, dict) else cat_data
+-                    cats.append({
+-                        "categoryId": cat_id,
+-                        "score": score,
+-                        "label": cat_id.upper()
+-                    })
+-            data["categories"] = cats
+-            
+-            # Metadata normalization
+-            if "metadata" not in data:
+-                 data["metadata"] = {
+-                     "provider": data.get("provider"),
+-                     "model": data.get("model"),
+-                     "timestamp": data.get("timestamp"),
+-                     "status": "completed"
+-                 }
+-            
+-            return data
+-            
+-    raise HTTPException(status_code=404, detail="Run not found")
+-
+-# Serve static files (React App)
+-# We assume the user has built the app to webapp/dist
+-static_dir = Path("webapp/dist")
+-if static_dir.exists():
+-    fastapi_app.mount("/", StaticFiles(directory="webapp/dist", html=True), name="static")
+-else:
+-    # Fallback for dev mode (or if not built)
+-    @fastapi_app.get("/")
+-    def read_root():
+-        return {"message": "SemantIQ-M API running. Webapp not built. Run 'npm run build' in webapp/."}
+-
+-
+-# --- Typer Commands ---
+-
+-@app.command("serve")
+-def serve(
+-    host: str = "127.0.0.1",
+-    port: int = 8000,
+-    dev: bool = False
+-):
+-    """
+-    Start the Web UI server.
+-    """
+-    print(f"Starting SemantIQ-M UI at http://{host}:{port}")
+-    if not Path("webapp/dist").exists() and not dev:
+-        print("Warning: webapp/dist not found. Only API will be available.")
+-        print("Run 'bench ui build' to build the frontend.")
+-        
+-    uvicorn.run(fastapi_app, host=host, port=port)
+-
+-@app.command("build")
+-def build():
+-    """
+-    Build the React frontend (requires npm).
+-    """
+-    print("Building Web UI...")
+-    import subprocess
+-    try:
+-        subprocess.run(["npm", "install"], cwd="webapp", check=True, shell=True)
+-        subprocess.run(["npm", "run", "build"], cwd="webapp", check=True, shell=True)
+-        print("Build complete. Output in webapp/dist")
+-    except subprocess.CalledProcessError as e:
+-        print(f"Build failed: {e}")
+-        raise typer.Exit(code=1)
+-
+-if __name__ == "__main__":
+-    app()
+diff --git a/webapp/README.md b/webapp/README.md
+deleted file mode 100644
+index 2764992..0000000
+--- a/webapp/README.md
++++ /dev/null
+@@ -1,68 +0,0 @@
+-# SemantIQ-M Unified Web UI
+-
+-The official visualization and analysis frontend for the SemantIQ-M Benchmark Suite.
+-
+-## Overview
+-This Web UI provides a unified view across three benchmark domains:
+-1. **SMF (Text)**: Semantic Alignment & Safety.
+-2. **HACS (Human-AI)**: Human-in-the-loop collaboration.
+-3. **Vision (T2I)**: Text-to-Image semantic correctness.
+-
+-It is designed as a **read-only, local-first** application to ensure privacy and reproducibility.
+-
+-## Getting Started
+-
+-### Prerequisites
+-- Node.js (v18+)
+-- Python (v3.10+) for the CLI
+-
+-### Running Locally
+-You can launch the UI directly from the SemantIQ CLI:
+-
+-```bash
+-# Serve the UI (starts API + Static File Server)
+-bench ui serve
+-
+-# Build the frontend (if needed)
+-bench ui build
+-```
+-
+-Access the UI at: http://127.0.0.1:8000
+-
+-### Development Mode
+-For active frontend development (hot-reloading):
+-
+-1. Start the API server:
+-   ```bash
+-   bench ui serve --dev
+-   ```
+-2. In a separate terminal, start Vite:
+-   ```bash
+-   cd webapp
+-   npm run dev
+-   ```
+-   Access at: http://localhost:5173 (Requests will be proxied to the API)
+-
+-## Architecture
+-
+-### Data Loading
+-The UI does not have a database. It reads JSON artifacts directly from the `reports/` directory:
+-- `reports/smf/runs/<id>/overall_summary.json`
+-- `reports/hacs/runs/<id>/overall_summary.json`
+-- `reports/vision/runs/<id>/overall_summary.json`
+-
+-### Tech Stack
+-- **Framework**: React + Vite + TypeScript
+-- **Styling**: Tailwind CSS
+-- **Charts**: Recharts
+-- **Icons**: Lucide React
+-- **Backend**: FastAPI (Python) - serves static files and provides a read-only API over the file system.
+-
+-## Privacy & Security
+-- **Local Execution**: All data remains on your machine. No telemetry is sent to SemantIQ.
+-- **Read-Only**: The UI cannot execute new runs or modify existing data.
+-- **No External Calls**: The application does not fetch resources from the public internet (fonts/icons are bundled or standard).
+-
+-## Limitations
+-- **Image Hosting**: In this version, Vision benchmark images are stored locally.
+-- **Scalability**: Designed for single-user analysis, not for hosting thousands of concurrent runs.
+diff --git a/webapp/docs/ethics.md b/webapp/docs/ethics.md
+deleted file mode 100644
+index 939d242..0000000
+--- a/webapp/docs/ethics.md
++++ /dev/null
+@@ -1,32 +0,0 @@
+-# Ethics & UX Safeguards
+-
+-## Core Principles
+-The SemantIQ-M Unified Web UI is designed as a **research and evaluation tool**, not a competitive arena. Our presentation of benchmark data adheres to the following ethical guidelines:
+-
+-### 1. No Leaderboards
+-We deliberately avoid a single, global ranking table ("Leaderboard"). 
+-- **Reasoning**: Intelligence is multidimensional. Reducing performance to a single number obscures critical trade-offs between safety, instruction following, and creativity.
+-- **Implementation**: The "Runs" page is a flat list or filterable table, not sorted by score by default.
+-
+-### 2. Contextual Explanations
+-Every score must be presented with context.
+-- **Implementation**: Tooltips explain what a metric measures (e.g., "Object Presence" vs. "Aesthetic Quality").
+-- **Uncertainty**: Where possible, variance or confidence intervals should be shown (e.g., stability across multiple runs).
+-
+-### 3. Non-Gamified Visualizations
+-Charts should not use colors that imply "good" (green) or "bad" (red) for neutral properties.
+-- **Implementation**: We use a neutral, consistent color palette (Indigo/Slate) across all domains.
+-- **Comparison**: Side-by-side comparisons highlight differences in *profile*, not just magnitude of superiority.
+-
+-### 4. Privacy & Local-First
+-This tool is designed to run locally.
+-- **Data Loading**: No data is sent to external servers. All JSON artifacts are loaded from the local `reports/` directory.
+-- **Vision Data**: Generated images are displayed locally and never auto-uploaded.
+-
+-### 5. Responsible AI Benchmarking
+-We explicitly state that passing these benchmarks does not imply:
+-- General Intelligence (AGI)
+-- Consciousness or Sentience
+-- Complete Safety in all contexts
+-
+-Users are reminded that benchmarks are proxies for specific capabilities, not comprehensive guarantees.
+diff --git a/webapp/index.html b/webapp/index.html
+deleted file mode 100644
+index 56a17ac..0000000
+--- a/webapp/index.html
++++ /dev/null
+@@ -1,12 +0,0 @@
+-<!doctype html>
+-<html lang="en">
+-  <head>
+-    <meta charset="UTF-8" />
+-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+-    <title>SemantIQ-M Benchmarks</title>
+-  </head>
+-  <body>
+-    <div id="root"></div>
+-    <script type="module" src="/src/main.tsx"></script>
+-  </body>
+-</html>
+diff --git a/webapp/package.json b/webapp/package.json
+deleted file mode 100644
+index 0550654..0000000
+--- a/webapp/package.json
++++ /dev/null
+@@ -1,31 +0,0 @@
+-{
+-  "name": "semantiq-vision-web",
+-  "private": true,
+-  "version": "0.1.0",
+-  "type": "module",
+-  "scripts": {
+-    "dev": "vite",
+-    "build": "tsc && vite build",
+-    "preview": "vite preview"
+-  },
+-  "dependencies": {
+-    "clsx": "^2.1.1",
+-    "lucide-react": "^0.294.0",
+-    "react": "^18.2.0",
+-    "react-dom": "^18.2.0",
+-    "react-router-dom": "^6.20.0",
+-    "recharts": "^2.10.0",
+-    "tailwind-merge": "^2.0.0"
+-  },
+-  "devDependencies": {
+-    "@types/node": "^25.0.3",
+-    "@types/react": "^18.2.37",
+-    "@types/react-dom": "^18.2.15",
+-    "@vitejs/plugin-react": "^4.2.0",
+-    "autoprefixer": "^10.4.0",
+-    "postcss": "^8.4.0",
+-    "tailwindcss": "^3.3.0",
+-    "typescript": "^5.2.2",
+-    "vite": "^5.0.0"
+-  }
+-}
+diff --git a/webapp/postcss.config.js b/webapp/postcss.config.js
+deleted file mode 100644
+index 2e7af2b..0000000
+--- a/webapp/postcss.config.js
++++ /dev/null
+@@ -1,6 +0,0 @@
+-export default {
+-  plugins: {
+-    tailwindcss: {},
+-    autoprefixer: {},
+-  },
+-}
+diff --git a/webapp/src/api/client.ts b/webapp/src/api/client.ts
+deleted file mode 100644
+index 62eb3e1..0000000
+--- a/webapp/src/api/client.ts
++++ /dev/null
+@@ -1,22 +0,0 @@
+-import { RunSummary } from './types';
+-
+-// In a real build, we might fetch from a backend API or load a static JSON manifest.
+-// For the "ui serve" command, we assume an API at /api
+-
+-const API_BASE = '/api';
+-
+-export async function fetchRuns(): Promise<RunSummary[]> {
+-  const response = await fetch(`${API_BASE}/runs`);
+-  if (!response.ok) {
+-    throw new Error('Failed to fetch runs');
+-  }
+-  return response.json();
+-}
+-
+-export async function fetchRunDetail(runId: string): Promise<any> {
+-  const response = await fetch(`${API_BASE}/runs/${runId}`);
+-  if (!response.ok) {
+-    throw new Error('Failed to fetch run detail');
+-  }
+-  return response.json();
+-}
+diff --git a/webapp/src/api/types.ts b/webapp/src/api/types.ts
+deleted file mode 100644
+index c89e94d..0000000
+--- a/webapp/src/api/types.ts
++++ /dev/null
+@@ -1,42 +0,0 @@
+-export type BenchmarkDomain = "SMF" | "HACS" | "VISION";
+-
+-export interface CategoryScore {
+-  categoryId: string;
+-  score: number;
+-  label: string;
+-}
+-
+-export interface RunMetadata {
+-  provider: string;
+-  model: string;
+-  timestamp: string;
+-  status?: "completed" | "failed" | "running";
+-}
+-
+-export interface RunSummary {
+-  runId: string;
+-  domain: BenchmarkDomain;
+-  subject: string; // Model name or "Human"
+-  overallScore: number;
+-  categories: CategoryScore[];
+-  metadata: RunMetadata;
+-}
+-
+-// SMF Specifics
+-export interface SMFRunDetail extends RunSummary {
+-  domain: "SMF";
+-  // Add more specific fields if needed
+-}
+-
+-// HACS Specifics
+-export interface HACSRunDetail extends RunSummary {
+-  domain: "HACS";
+-  moduleScores: Record<string, number>;
+-}
+-
+-// Vision Specifics
+-export interface VisionRunDetail extends RunSummary {
+-  domain: "VISION";
+-  promptScores?: Record<string, any>;
+-  violationRate?: number;
+-}
+diff --git a/webapp/src/components/Layout.tsx b/webapp/src/components/Layout.tsx
+deleted file mode 100644
+index b99d6f1..0000000
+--- a/webapp/src/components/Layout.tsx
++++ /dev/null
+@@ -1,67 +0,0 @@
+-import { Link, Outlet, useLocation } from 'react-router-dom';
+-import { LayoutDashboard, List, GitCompare, Info } from 'lucide-react';
+-import clsx from 'clsx';
+-
+-export default function Layout() {
+-  const location = useLocation();
+-
+-  const navItems = [
+-    { label: 'Overview', path: '/', icon: LayoutDashboard },
+-    { label: 'Runs', path: '/runs', icon: List },
+-    { label: 'Compare', path: '/compare', icon: GitCompare },
+-    { label: 'About', path: '/about', icon: Info },
+-  ];
+-
+-  return (
+-    <div className="min-h-screen flex flex-col bg-slate-50">
+-      <header className="bg-white border-b border-slate-200 sticky top-0 z-10">
+-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+-          <div className="flex justify-between h-16">
+-            <div className="flex">
+-              <div className="flex-shrink-0 flex items-center">
+-                <span className="text-xl font-bold text-indigo-600">SemantIQ-M</span>
+-                <span className="ml-2 text-xs bg-slate-100 px-2 py-1 rounded text-slate-500">Benchmark Explorer</span>
+-              </div>
+-              <nav className="ml-8 flex space-x-4 h-full items-center">
+-                {navItems.map((item) => {
+-                  const Icon = item.icon;
+-                  const isActive = location.pathname === item.path;
+-                  return (
+-                    <Link
+-                      key={item.path}
+-                      to={item.path}
+-                      className={clsx(
+-                        'inline-flex items-center px-3 py-2 text-sm font-medium rounded-md transition-colors',
+-                        isActive
+-                          ? 'bg-indigo-50 text-indigo-700'
+-                          : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+-                      )}
+-                    >
+-                      <Icon className="w-4 h-4 mr-2" />
+-                      {item.label}
+-                    </Link>
+-                  );
+-                })}
+-              </nav>
+-            </div>
+-            <div className="flex items-center">
+-               <span className="text-xs text-slate-400">v0.1.0</span>
+-            </div>
+-          </div>
+-        </div>
+-      </header>
+-
+-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
+-        <Outlet />
+-      </main>
+-
+-      <footer className="bg-white border-t border-slate-200 mt-auto">
+-        <div className="max-w-7xl mx-auto px-4 py-6 sm:px-6 lg:px-8">
+-          <p className="text-center text-sm text-slate-400">
+-            SemantIQ-M Benchmarks • Research & Evaluation Tool • No Intelligence Claims
+-          </p>
+-        </div>
+-      </footer>
+-    </div>
+-  );
+-}
+diff --git a/webapp/src/index.css b/webapp/src/index.css
+deleted file mode 100644
+index 313db97..0000000
+--- a/webapp/src/index.css
++++ /dev/null
+@@ -1,7 +0,0 @@
+-@tailwind base;
+-@tailwind components;
+-@tailwind utilities;
+-
+-body {
+-  @apply bg-slate-50 text-slate-900;
+-}
+diff --git a/webapp/src/main.tsx b/webapp/src/main.tsx
+deleted file mode 100644
+index 3d7150d..0000000
+--- a/webapp/src/main.tsx
++++ /dev/null
+@@ -1,10 +0,0 @@
+-import React from 'react'
+-import ReactDOM from 'react-dom/client'
+-import App from './App.tsx'
+-import './index.css'
+-
+-ReactDOM.createRoot(document.getElementById('root')!).render(
+-  <React.StrictMode>
+-    <App />
+-  </React.StrictMode>,
+-)
+diff --git a/webapp/src/pages/Home.tsx b/webapp/src/pages/Home.tsx
+deleted file mode 100644
+index 25e5ea0..0000000
+--- a/webapp/src/pages/Home.tsx
++++ /dev/null
+@@ -1,69 +0,0 @@
+-import { ArrowRight, Activity, Users, Eye } from 'lucide-react';
+-import { Link } from 'react-router-dom';
+-
+-export default function Home() {
+-  return (
+-    <div className="space-y-12">
+-      <div className="text-center space-y-4">
+-        <h1 className="text-4xl font-extrabold text-slate-900 tracking-tight">
+-          Unified Multimodal Benchmarking
+-        </h1>
+-        <p className="text-lg text-slate-600 max-w-2xl mx-auto">
+-          Explore and analyze performance across Text (SMF), Human-AI (HACS), and Vision (T2I) domains.
+-          Transparent, reproducible, and research-focused.
+-        </p>
+-        <div className="pt-4">
+-          <Link
+-            to="/runs"
+-            className="inline-flex items-center px-6 py-3 border border-transparent text-base font-medium rounded-md shadow-sm text-white bg-indigo-600 hover:bg-indigo-700"
+-          >
+-            View Benchmark Runs
+-            <ArrowRight className="ml-2 w-5 h-5" />
+-          </Link>
+-        </div>
+-      </div>
+-
+-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+-        <DomainCard
+-          title="SMF (Text)"
+-          description="Semantic Alignment & Safety benchmarks for Large Language Models."
+-          icon={Activity}
+-          color="bg-blue-50 text-blue-700"
+-        />
+-        <DomainCard
+-          title="HACS (Human-AI)"
+-          description="Human-in-the-loop evaluation for collaboration and interaction quality."
+-          icon={Users}
+-          color="bg-purple-50 text-purple-700"
+-        />
+-        <DomainCard
+-          title="Vision (T2I)"
+-          description="Deterministic rendering and semantic scoring for Text-to-Image models."
+-          icon={Eye}
+-          color="bg-pink-50 text-pink-700"
+-        />
+-      </div>
+-
+-      <div className="bg-amber-50 border border-amber-200 rounded-lg p-6 text-sm text-amber-800">
+-        <h3 className="font-semibold mb-2">Research Disclaimer</h3>
+-        <p>
+-          This platform provides evaluation metrics based on specific, predefined benchmarks. 
+-          High scores indicate adherence to these specific tests, not general intelligence or consciousness. 
+-          We do not endorse "leaderboards" or competitive rankings without context.
+-        </p>
+-      </div>
+-    </div>
+-  );
+-}
+-
+-function DomainCard({ title, description, icon: Icon, color }: any) {
+-  return (
+-    <div className="bg-white overflow-hidden shadow rounded-lg border border-slate-100 p-6 hover:shadow-md transition-shadow">
+-      <div className={`inline-flex items-center justify-center p-3 rounded-lg ${color} mb-4`}>
+-        <Icon className="w-6 h-6" />
+-      </div>
+-      <h3 className="text-lg font-medium text-slate-900">{title}</h3>
+-      <p className="mt-2 text-slate-500">{description}</p>
+-    </div>
+-  );
+-}
+diff --git a/webapp/src/pages/RunDetail.tsx b/webapp/src/pages/RunDetail.tsx
+deleted file mode 100644
+index 7ce9a8d..0000000
+--- a/webapp/src/pages/RunDetail.tsx
++++ /dev/null
+@@ -1,131 +0,0 @@
+-import { useEffect, useState } from 'react';
+-import { useParams } from 'react-router-dom';
+-import { fetchRunDetail } from '../api/client';
+-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip, CartesianGrid } from 'recharts';
+-import clsx from 'clsx';
+-
+-export default function RunDetail() {
+-  const { runId } = useParams<{ runId: string }>();
+-  const [run, setRun] = useState<any>(null);
+-  const [loading, setLoading] = useState(true);
+-
+-  useEffect(() => {
+-    if (runId) {
+-      fetchRunDetail(runId)
+-        .then(setRun)
+-        .catch(console.error)
+-        .finally(() => setLoading(false));
+-    }
+-  }, [runId]);
+-
+-  if (loading) return <div className="text-center py-12">Loading...</div>;
+-  if (!run) return <div className="text-center py-12">Run not found.</div>;
+-
+-  const chartData = run.categories.map((c: any) => ({
+-    subject: c.categoryId.toUpperCase(),
+-    score: c.score,
+-    fullMark: 1.0,
+-  }));
+-
+-  return (
+-    <div className="space-y-8">
+-      {/* Header */}
+-      <div className="bg-white shadow rounded-lg p-6 border border-slate-200">
+-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center">
+-          <div>
+-            <div className="flex items-center gap-3">
+-               <h1 className="text-2xl font-bold text-slate-900">{run.subject}</h1>
+-               <span className={clsx(
+-                  "px-2 py-1 text-xs font-semibold rounded-full",
+-                  run.domain === 'SMF' && "bg-blue-100 text-blue-800",
+-                  run.domain === 'HACS' && "bg-purple-100 text-purple-800",
+-                  run.domain === 'VISION' && "bg-pink-100 text-pink-800"
+-                )}>
+-                  {run.domain}
+-                </span>
+-            </div>
+-            <p className="text-slate-500 text-sm mt-1">Run ID: {run.runId}</p>
+-          </div>
+-          <div className="mt-4 md:mt-0 text-right">
+-             <div className="text-3xl font-bold text-indigo-600">{run.overallScore?.toFixed(2)}</div>
+-             <div className="text-xs text-slate-500 uppercase tracking-wide">Overall Score</div>
+-          </div>
+-        </div>
+-        
+-        <div className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-4 text-sm text-slate-600">
+-           <div>
+-             <span className="block font-medium text-slate-900">Provider</span>
+-             {run.metadata.provider}
+-           </div>
+-           <div>
+-             <span className="block font-medium text-slate-900">Model</span>
+-             {run.metadata.model}
+-           </div>
+-           <div>
+-             <span className="block font-medium text-slate-900">Date</span>
+-             {new Date(run.metadata.timestamp).toLocaleDateString()}
+-           </div>
+-           <div>
+-             <span className="block font-medium text-slate-900">Status</span>
+-             {run.metadata.status || "Completed"}
+-           </div>
+-        </div>
+-      </div>
+-
+-      {/* Visualizations */}
+-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+-        <div className="bg-white shadow rounded-lg p-6 border border-slate-200">
+-          <h3 className="text-lg font-medium text-slate-900 mb-4">Performance Profile</h3>
+-          <div className="h-80 w-full">
+-            <ResponsiveContainer width="100%" height="100%">
+-              <RadarChart cx="50%" cy="50%" outerRadius="80%" data={chartData}>
+-                <PolarGrid />
+-                <PolarAngleAxis dataKey="subject" />
+-                <PolarRadiusAxis angle={30} domain={[0, 1]} />
+-                <Radar
+-                  name={run.subject}
+-                  dataKey="score"
+-                  stroke="#4f46e5"
+-                  fill="#4f46e5"
+-                  fillOpacity={0.6}
+-                />
+-                <Tooltip />
+-              </RadarChart>
+-            </ResponsiveContainer>
+-          </div>
+-        </div>
+-
+-        <div className="bg-white shadow rounded-lg p-6 border border-slate-200">
+-           <h3 className="text-lg font-medium text-slate-900 mb-4">Category Breakdown</h3>
+-           <div className="h-80 w-full">
+-            <ResponsiveContainer width="100%" height="100%">
+-              <BarChart data={chartData} layout="vertical" margin={{ top: 5, right: 30, left: 40, bottom: 5 }}>
+-                <CartesianGrid strokeDasharray="3 3" />
+-                <XAxis type="number" domain={[0, 1]} />
+-                <YAxis dataKey="subject" type="category" width={80} />
+-                <Tooltip />
+-                <Bar dataKey="score" fill="#4f46e5" radius={[0, 4, 4, 0]} />
+-              </BarChart>
+-            </ResponsiveContainer>
+-           </div>
+-        </div>
+-      </div>
+-
+-      {/* Domain Specifics */}
+-      {run.domain === 'VISION' && (
+-        <div className="bg-white shadow rounded-lg p-6 border border-slate-200">
+-          <h3 className="text-lg font-medium text-slate-900 mb-4">Vision Analysis</h3>
+-          <p className="text-sm text-slate-600">
+-             Vision benchmarks focus on semantic adherence. The violation rate indicates how often specific constraints (e.g., "no red objects") were breached.
+-          </p>
+-          <div className="mt-4">
+-             {/* Placeholder for specific vision metrics or images if we had them served */}
+-             <div className="bg-slate-50 p-4 rounded text-center text-slate-500 text-sm">
+-                Image artifacts are available locally in <code>runs/vision/{run.runId}/images</code>.
+-             </div>
+-          </div>
+-        </div>
+-      )}
+-    </div>
+-  );
+-}
+diff --git a/webapp/tailwind.config.js b/webapp/tailwind.config.js
+deleted file mode 100644
+index dca8ba0..0000000
+--- a/webapp/tailwind.config.js
++++ /dev/null
+@@ -1,11 +0,0 @@
+-/** @type {import('tailwindcss').Config} */
+-export default {
+-  content: [
+-    "./index.html",
+-    "./src/**/*.{js,ts,jsx,tsx}",
+-  ],
+-  theme: {
+-    extend: {},
+-  },
+-  plugins: [],
+-}
+diff --git a/webapp/tsconfig.json b/webapp/tsconfig.json
+deleted file mode 100644
+index 5d7c3f5..0000000
+--- a/webapp/tsconfig.json
++++ /dev/null
+@@ -1,30 +0,0 @@
+-{
+-  "compilerOptions": {
+-    "target": "ES2020",
+-    "useDefineForClassFields": true,
+-    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+-    "module": "ESNext",
+-    "skipLibCheck": true,
+-
+-    /* Bundler mode */
+-    "moduleResolution": "bundler",
+-    "allowImportingTsExtensions": true,
+-    "resolveJsonModule": true,
+-    "isolatedModules": true,
+-    "noEmit": true,
+-    "jsx": "react-jsx",
+-
+-    /* Linting */
+-    "strict": true,
+-    "noUnusedLocals": true,
+-    "noUnusedParameters": true,
+-    "noFallthroughCasesInSwitch": true,
+-    
+-    "baseUrl": ".",
+-    "paths": {
+-      "@/*": ["./src/*"]
+-    }
+-  },
+-  "include": ["src"],
+-  "references": [{ "path": "./tsconfig.node.json" }]
+-}
+diff --git a/webapp/tsconfig.node.json b/webapp/tsconfig.node.json
+deleted file mode 100644
+index 42872c5..0000000
+--- a/webapp/tsconfig.node.json
++++ /dev/null
+@@ -1,10 +0,0 @@
+-{
+-  "compilerOptions": {
+-    "composite": true,
+-    "skipLibCheck": true,
+-    "module": "ESNext",
+-    "moduleResolution": "bundler",
+-    "allowSyntheticDefaultImports": true
+-  },
+-  "include": ["vite.config.ts"]
+-}

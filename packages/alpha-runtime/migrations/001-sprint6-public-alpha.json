@@ -1,0 +1,24 @@
+{
+  "id": "001-sprint6-public-alpha",
+  "description": "Adds Public Alpha hardening records for feature flags, compliance, consent, diagnostics, feedback, backups, incidents, limitations and release candidates.",
+  "entities": [
+    "feature_flags",
+    "compliance_registry",
+    "ai_feature_registry",
+    "provider_usage_records",
+    "consent_records",
+    "telemetry_preferences",
+    "diagnostic_bundles",
+    "feedback_items",
+    "known_limitations",
+    "incident_reports",
+    "backup_manifests",
+    "restore_records",
+    "demo_workspace_metadata",
+    "release_candidate_records",
+    "alpha_deployment_profiles"
+  ],
+  "freshInstall": true,
+  "upgradeFrom": ["sprint-1", "sprint-2", "sprint-3", "sprint-4", "sprint-5"],
+  "rollback": "Drop alpha readiness records after exporting audit history."
+}

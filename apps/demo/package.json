@@ -1,0 +1,11 @@
+{
+  "name": "@tech-club/app-demo",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "echo \"demo app build scaffold\"",
+    "dev": "echo \"demo app dev scaffold\"",
+    "test": "echo \"demo app tests scaffold\""
+  }
+}

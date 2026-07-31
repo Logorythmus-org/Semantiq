@@ -1,0 +1,8 @@
+* d42708f (HEAD -> main, origin/main) feat: complete public release playbook, governance structure, and ops automation
+* 0eb2030 Fix CI build errors: dependencies, schema renaming, pytest execution
+*   f33315b Merge remote-tracking branch 'origin/main'
+|\  
+| * ea4eaf7 Initial commit
+* ca34832 Snapshot of SemantIQ-M-Benchmarks before sync
+* 25bbd2a docs: add readme and architecture overview, fix pyproject.toml
+* 6d16d29 chore: initial project setup

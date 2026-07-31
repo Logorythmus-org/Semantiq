@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use SemantIQ Benchmarks in your research or software, please cite it as below."
+title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit"
+version: "0.1.0-alpha.1"
+date-released: "2026-07-31"
+repository-code: "https://github.com/Semant-iq/Semantiq.git"
+license: "MIT"
+authors:
+  - family-names: "Tech Club Foundation"
+    given-names: "Core Contributors"
+keywords:
+  - "ai-evaluation"
+  - "benchmarking"
+  - "local-first"
+  - "explainable-scoring"
+  - "reproducible-science"
+abstract: "SemantIQ Benchmarks is an independent, open-source, local-first evaluation toolkit for measuring quality, reasoning, semantic consistency, and scientific potential of AI model outputs."

@@ -1,0 +1,17 @@
+{
+  "name": "Tech Club",
+  "dockerComposeFile": "../docker-compose.yml",
+  "service": "postgres",
+  "workspaceFolder": "/workspaces/Tech-Club",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dbaeumer.vscode-eslint",
+        "esbenp.prettier-vscode",
+        "ms-python.python",
+        "charliermarsh.ruff",
+        "ms-playwright.playwright"
+      ]
+    }
+  }
+}

@@ -1,0 +1,189 @@
+services:
+  web:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo Tech Club web MVP scaffold ready && sleep infinity"
+    volumes:
+      - .:/workspace
+    ports:
+      - "3000:3000"
+
+  api-gateway:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo Tech Club API Gateway MVP scaffold ready && sleep infinity"
+    volumes:
+      - .:/workspace
+    ports:
+      - "8081:8080"
+
+  api:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /workspace
+    command: node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs services/api/src/docker-server.ts
+    environment:
+      NODE_ENV: development
+      TECHCLUB_ENV: docker
+      TECHCLUB_PROFILE: docker
+      API_HOST: 0.0.0.0
+      API_PORT: 8080
+      DATABASE_URL: postgresql://techclub:techclub@postgres:5432/techclub
+      DATABASE_POOL_SIZE: 5
+      DATABASE_CONNECT_TIMEOUT: 5000
+      DATABASE_STATEMENT_TIMEOUT: 10000
+      LOCAL_AI_PROVIDER: disabled
+    depends_on:
+      postgres:
+        condition: service_healthy
+    ports:
+      - "8080:8080"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8080/ready').then(r => { if (!r.ok) process.exit(1) }).catch(() => process.exit(1))"
+        ]
+      interval: 5s
+      timeout: 3s
+      retries: 12
+      start_period: 10s
+
+  identity:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo identity service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  workspace:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo workspace service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  question:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo question service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  graph:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo graph service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  semantiq:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo semantiq service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  research:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo research service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  community:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo community service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  agent-runtime:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo agent-runtime service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  workflow-runtime:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo workflow-runtime service health=/health && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  docs:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: bash -lc "echo docs MVP scaffold ready && sleep infinity"
+    volumes:
+      - .:/workspace
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: techclub
+      POSTGRES_PASSWORD: techclub
+      POSTGRES_DB: techclub
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U techclub -d techclub"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  neo4j:
+    image: neo4j:5-community
+    environment:
+      NEO4J_AUTH: neo4j/techclub-local
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    volumes:
+      - neo4j-data:/data
+
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: techclub
+      MINIO_ROOT_PASSWORD: techclub-local
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    volumes:
+      - minio-data:/data
+
+  mailhog:
+    image: mailhog/mailhog:latest
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3001:3000"
+
+volumes:
+  postgres-data:
+  neo4j-data:
+  minio-data:

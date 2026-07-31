@@ -1,0 +1,586 @@
+diff --git a/frontend/src/app/page.tsx b/frontend/src/app/page.tsx
+index 1dea75b..2e1a5ac 100644
+--- a/frontend/src/app/page.tsx
++++ b/frontend/src/app/page.tsx
+@@ -3,30 +3,122 @@ import { Button } from "@/components/ui/button";
+ 
+ export default function Landing() {
+   return (
+-    <div className="container py-24">
+-      <div className="mx-auto max-w-3xl text-center">
+-        <h1 className="text-4xl font-bold">The Global Standard for Semantic Intelligence</h1>
+-        <p className="mt-4 text-gray-400">Benchmark, evaluate, and monitor language models with scientific rigor.</p>
+-        <div className="mt-8">
+-          <Link href="/dashboard">
+-            <Button size="lg">Go to Dashboard</Button>
+-          </Link>
++    <div className="relative">
++      <div className="absolute inset-0 bg-gradient-to-br from-[#0B1120] via-[#0B1120] to-[#0f172a]" />
++      <div className="relative">
++        <div className="sticky top-0 z-30 w-full backdrop-blur bg-black/20 border-b border-gray-800">
++          <div className="mx-auto max-w-6xl flex h-14 items-center px-4">
++            <div className="flex items-center gap-2">
++              <div className="h-3 w-3 rounded-full bg-electric" />
++              <span className="font-semibold">SemantIQ</span>
++            </div>
++            <div className="mx-auto hidden md:flex items-center gap-6 text-sm text-gray-300">
++              <Link href="#features" className="hover:text-white">Features</Link>
++              <Link href="#solutions" className="hover:text-white">Solutions</Link>
++              <Link href="/research" className="hover:text-white">Research Hub</Link>
++              <Link href="#pricing" className="hover:text-white">Pricing</Link>
++            </div>
++            <div className="ml-auto flex items-center gap-3">
++              <Link href="/dashboard" className="text-sm text-gray-300 hover:text-white">Log In</Link>
++              <Link href="/run">
++                <Button className="bg-[#6366F1] hover:bg-indigo-600">Get Started Free</Button>
++              </Link>
++            </div>
++          </div>
+         </div>
+-        <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-3">
+-          <div className="rounded-lg border border-gray-800 p-6">
+-            <div className="text-xl font-semibold">Benchmarks</div>
+-            <div className="mt-2 text-sm text-gray-400">SMF, WIF, CBF and more.</div>
++
++        <section className="mx-auto max-w-6xl px-4 py-16">
++          <div className="text-center">
++            <h1 className="text-4xl md:text-5xl font-bold text-white">Master Multi-Model Evaluation. From Prompt to Production.</h1>
++            <p className="mt-4 text-gray-300 max-w-3xl mx-auto">
++              Vergleichen Sie LLMs wie GPT-4, Claude und lokale Modelle Seite an Seite. Verwalten Sie Prompt-Bibliotheken und führen Sie Batch-Tests sicher mit Ihren eigenen API-Keys durch.
++            </p>
++            <div className="mt-8 flex items-center justify-center gap-3">
++              <Link href="/batch">
++                <Button size="lg" className="bg-[#6366F1] hover:bg-indigo-600">Start Evaluating Now</Button>
++              </Link>
++              <Link href="/dashboard">
++                <Button size="lg" variant="ghost" className="border border-gray-700">Watch Demo</Button>
++              </Link>
++            </div>
+           </div>
+-          <div className="rounded-lg border border-gray-800 p-6">
+-            <div className="text-xl font-semibold">Analytics</div>
+-            <div className="mt-2 text-sm text-gray-400">Scores, trends, and insights.</div>
++          <div className="mt-12 mx-auto max-w-5xl">
++            <div className="rounded-2xl border border-[#334155] bg-white/5 backdrop-blur p-6">
++              <div className="grid grid-cols-3 gap-4">
++                <div className="rounded-lg border border-gray-800 bg-black/20 p-4">
++                  <div className="text-sm text-gray-400 mb-1">GPT-4</div>
++                  <div className="h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++                </div>
++                <div className="rounded-lg border border-gray-800 bg-black/20 p-4">
++                  <div className="text-sm text-gray-400 mb-1">Claude</div>
++                  <div className="h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++                </div>
++                <div className="rounded-lg border border-gray-800 bg-black/20 p-4">
++                  <div className="text-sm text-gray-400 mb-1">Llama</div>
++                  <div className="h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++                </div>
++              </div>
++              <div className="mt-4 h-32 rounded-lg border border-gray-800 bg-black/20" />
++            </div>
+           </div>
+-          <div className="rounded-lg border border-gray-800 p-6">
+-            <div className="text-xl font-semibold">Research</div>
+-            <div className="mt-2 text-sm text-gray-400">Studies and reports.</div>
++        </section>
++
++        <section className="mx-auto max-w-6xl px-4">
++          <div className="flex items-center justify-center text-sm text-gray-400 border-t border-b border-gray-800 py-3">
++            Trusted by engineering teams at: AcmeAI • Vector Labs • Promptly • Nova Systems • Luma
+           </div>
+-        </div>
+-        <div className="mt-12 text-sm text-gray-500">Latest Benchmark: Claude 3.5 scored 0.89 in Reflexivity</div>
++        </section>
++
++        <section id="features" className="mx-auto max-w-6xl px-4 py-16">
++          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
++            <div className="rounded-2xl border border-[#334155] bg-white/10 backdrop-blur p-6">
++              <div className="text-xl font-semibold text-white">Unified Playground</div>
++              <div className="mt-2 text-sm text-gray-300">Testen Sie Prompts gegen jeden Anbieter in einer Ansicht.</div>
++            </div>
++            <div className="rounded-2xl border border-[#334155] bg-white/10 backdrop-blur p-6">
++              <div className="text-xl font-semibold text-white">Secure Batch Processing</div>
++              <div className="mt-2 text-sm text-gray-300">Skalieren Sie Tests von 1 auf 1000 Prompts. BYOK.</div>
++            </div>
++            <div className="rounded-2xl border border-[#334155] bg-white/10 backdrop-blur p-6">
++              <div className="text-xl font-semibold text-white">Research-Driven Library</div>
++              <div className="mt-2 text-sm text-gray-300">Speichern, versionieren und optimieren Sie Ihre besten Prompts.</div>
++            </div>
++          </div>
++        </section>
++
++        <section id="solutions" className="mx-auto max-w-6xl px-4 py-12">
++          <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
++            <div className="rounded-lg border border-gray-800 p-6">
++              <div className="text-sm text-gray-400 mb-2">Schritt 1</div>
++              <div className="text-lg font-semibold">Connect your Models</div>
++              <div className="mt-2 h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++            </div>
++            <div className="rounded-lg border border-gray-800 p-6">
++              <div className="text-sm text-gray-400 mb-2">Schritt 2</div>
++              <div className="text-lg font-semibold">Build your Library</div>
++              <div className="mt-2 h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++            </div>
++            <div className="rounded-lg border border-gray-800 p-6">
++              <div className="text-sm text-gray-400 mb-2">Schritt 3</div>
++              <div className="text-lg font-semibold">Analyze & Deploy</div>
++              <div className="mt-2 h-24 rounded-md bg-gradient-to-br from-indigo-500/20 to-cyan-500/20" />
++            </div>
++          </div>
++        </section>
++
++        <footer className="mx-auto max-w-6xl px-4 py-12 border-t border-gray-800">
++          <div className="flex items-center justify-between">
++            <div className="text-sm text-gray-400">© {new Date().getFullYear()} SemantIQ</div>
++            <div className="flex items-center gap-4 text-sm text-gray-300">
++              <Link href="/research" className="hover:text-white">Research Hub</Link>
++              <Link href="/dashboard" className="hover:text-white">Docs</Link>
++              <Link href="/dashboard" className="hover:text-white">Contact</Link>
++            </div>
++            <Link href="/run">
++              <Button className="bg-[#6366F1] hover:bg-indigo-600">Ready to upgrade your AI workflow?</Button>
++            </Link>
++          </div>
++        </footer>
+       </div>
+     </div>
+   );
+diff --git a/frontend/src/app/run/page.tsx b/frontend/src/app/run/page.tsx
+index 620d309..0a65d6e 100644
+--- a/frontend/src/app/run/page.tsx
++++ b/frontend/src/app/run/page.tsx
+@@ -28,6 +28,7 @@ export default function RunPlaygroundPage() {
+   const [maxTokens, setMaxTokens] = useState<Record<string, number>>({ openai: 256, grok: 256 });
+   const [systemPrompt, setSystemPrompt] = useState("");
+   const [userPrompt, setUserPrompt] = useState("");
++  const [varInputs, setVarInputs] = useState<Record<string, string>>({});
+   const [isRunning, setIsRunning] = useState(false);
+   const [runs, setRuns] = useState<number[]>([]);
+   const [statuses, setStatuses] = useState<Record<number, string>>({});
+@@ -39,7 +40,41 @@ export default function RunPlaygroundPage() {
+       grok: localStorage.getItem("semantiq_api_key_grok") || "",
+       openrouter: localStorage.getItem("semantiq_api_key_openrouter") || "",
+     };
+-  }, [showKeys]);
++  }, []);
++
++  const varNames = useMemo(() => {
++    const m = userPrompt.match(/\{\{([^}]+)\}\}/g) || [];
++    const names = Array.from(new Set(m.map((x) => x.replace(/[{}]/g, ""))));
++    return names;
++  }, [userPrompt]);
++
++  useEffect(() => {
++    if (typeof window === "undefined") return;
++    const params = new URLSearchParams(window.location.search);
++    const p = params.get("prompt");
++    const s = params.get("system");
++    const prov = params.get("providers");
++    const mods = params.get("models");
++    if (p) setUserPrompt(p);
++    if (s) setSystemPrompt(s);
++    if (prov) {
++      const arr = prov.split(",").map((x) => x.trim()).filter(Boolean);
++      setSelected((prev) => {
++        const next: Record<string, boolean> = { ...prev };
++        Object.keys(next).forEach((k) => { next[k] = arr.includes(k); });
++        return next;
++      });
++    }
++    if (mods) {
++      const entries = mods.split(",").map((pair) => pair.split(":"));
++      const next: Record<string, string> = {};
++      PROVIDERS.forEach((p) => { next[p.provider] = p.defaultModel; });
++      for (const [provKey, modelName] of entries) {
++        if (provKey && modelName) next[provKey] = decodeURIComponent(modelName);
++      }
++      setModels(next);
++    }
++  }, []);
+ 
+   useEffect(() => {
+     if (!runs.length) return;
+@@ -76,9 +111,19 @@ export default function RunPlaygroundPage() {
+     setRuns([]);
+     setStatuses({});
+     setAnswers({});
+-    const promptText = systemPrompt.trim()
+-      ? `System:\n${systemPrompt.trim()}\n\nUser:\n${userPrompt.trim()}`
+-      : userPrompt.trim();
++    const fill = (txt: string) => {
++      let out = txt;
++      for (const k of Object.keys(varInputs)) {
++        const re = new RegExp(`\\{\\{${k}\\}\\}`, "g");
++        out = out.replace(re, String(varInputs[k] ?? ""));
++      }
++      return out;
++    };
++    const sysFilled = fill(systemPrompt.trim());
++    const userFilled = fill(userPrompt.trim());
++    const promptText = sysFilled
++      ? `System:\n${sysFilled}\n\nUser:\n${userFilled}`
++      : userFilled;
+     const modelsPayload = selectedProviders.map((p) => ({
+       provider: p.provider,
+       model_name: models[p.provider] || p.defaultModel,
+@@ -195,6 +240,24 @@ export default function RunPlaygroundPage() {
+               onChange={(e) => setUserPrompt(e.target.value)}
+               placeholder="Ihr Prompt für alle ausgewählten Modelle"
+             />
++            {!!varNames.length && (
++              <div className="mt-3">
++                <div className="text-sm text-gray-400 mb-2">Variablen</div>
++                <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
++                  {varNames.map((name) => (
++                    <div key={name} className="flex items-center gap-2">
++                      <div className="text-xs w-32 text-gray-400">{name}</div>
++                      <input
++                        className="flex-1 rounded-md border border-gray-700 bg-background px-2 py-1 text-sm"
++                        value={varInputs[name] || ""}
++                        onChange={(e) => setVarInputs((prev) => ({ ...prev, [name]: e.target.value }))}
++                        placeholder={`Wert für ${name}`}
++                      />
++                    </div>
++                  ))}
++                </div>
++              </div>
++            )}
+           </div>
+         </div>
+       </div>
+diff --git a/frontend/src/components/header.tsx b/frontend/src/components/header.tsx
+index 0ba7720..e6c22a8 100644
+--- a/frontend/src/components/header.tsx
++++ b/frontend/src/components/header.tsx
+@@ -1,24 +1,59 @@
+  "use client";
+  import { Button } from "@/components/ui/button";
+  import { cn } from "@/lib/utils";
+- import { Search } from "lucide-react";
+  import Link from "next/link";
+-
+-export function Header() {
+-  return (
+-    <header className={cn("flex h-14 items-center border-b border-gray-800 px-4")}>
+-      <div className="flex w-full items-center gap-4">
+-        <div className="hidden md:block">
+-          <Link href="/dashboard" className="text-sm text-gray-400">Dashboard</Link>
+-        </div>
+-        <div className="ml-auto flex items-center gap-2">
+-          <div className="flex items-center gap-2 rounded-md border border-gray-700 px-2">
+-            <Search size={16} />
+-            <input className="bg-transparent text-sm outline-none" placeholder="Search" />
+-          </div>
+-          <Button variant="ghost">Profile</Button>
+-        </div>
+-      </div>
+-    </header>
+-  );
+-}
++ import { usePathname } from "next/navigation";
++ import { useEffect, useState } from "react";
++ import { CheckCircle2, CircleDashed } from "lucide-react";
++ 
++ export function Header() {
++   const pathname = usePathname();
++   const [apiHealthy, setApiHealthy] = useState<boolean>(true);
++   const [spendToday, setSpendToday] = useState<number>(0);
++   useEffect(() => {
++     let mounted = true;
++     async function ping() {
++       try {
++         const res = await fetch("/api/proxy/runs", { cache: "no-store" });
++         if (!mounted) return;
++         setApiHealthy(res.ok);
++       } catch {
++         if (!mounted) return;
++         setApiHealthy(false);
++       }
++     }
++     ping();
++     const v = typeof window !== "undefined" ? Number(localStorage.getItem("semantiq_spend_today") || "0") : 0;
++     setSpendToday(Number.isFinite(v) ? v : 0);
++     return () => { mounted = false; };
++   }, []);
++   const crumbs = (pathname || "/").split("/").filter(Boolean);
++   return (
++     <header className={cn("flex h-14 items-center border-b border-gray-800 px-4")}>
++       <div className="flex w-full items-center gap-4">
++         <div className="hidden md:block text-sm text-gray-400">
++           <span>
++             {crumbs.length ? crumbs.map((c, i) => (
++               <span key={i}>
++                 <Link href={"/" + crumbs.slice(0, i + 1).join("/")} className="hover:text-gray-200">{c[0]?.toUpperCase() + c.slice(1)}</Link>
++                 {i < crumbs.length - 1 ? " > " : ""}
++               </span>
++             )) : <Link href="/dashboard" className="hover:text-gray-200">Dashboard</Link>}
++           </span>
++         </div>
++         <div className="ml-auto flex items-center gap-3">
++           <div className="text-xs text-gray-400 rounded-md border border-gray-700 px-2 py-1">
++             Used: ${spendToday.toFixed(2)} today
++           </div>
++           <div className="flex items-center gap-1 text-xs rounded-md border border-gray-700 px-2 py-1">
++             {apiHealthy ? <CheckCircle2 size={14} className="text-green-500" /> : <CircleDashed size={14} className="text-red-500" />}
++             <span className="text-gray-400">{apiHealthy ? "APIs online" : "API down"}</span>
++           </div>
++           <Link href="/profile">
++             <Button variant="ghost">Profile</Button>
++           </Link>
++         </div>
++       </div>
++     </header>
++   );
++ }
+diff --git a/frontend/src/components/sidebar.tsx b/frontend/src/components/sidebar.tsx
+index 49f7a0f..877c978 100644
+--- a/frontend/src/components/sidebar.tsx
++++ b/frontend/src/components/sidebar.tsx
+@@ -2,6 +2,7 @@
+  import Link from "next/link";
+  import { cn } from "@/lib/utils";
+  import { Badge } from "@/components/ui/badge";
++ import { Home, FlaskConical, BookText, Rocket, Newspaper, Settings, User } from "lucide-react";
+ 
+ export function Sidebar() {
+   return (
+@@ -9,15 +10,23 @@ export function Sidebar() {
+       <div className="mb-6 flex items-center gap-2">
+         <div className="h-3 w-3 rounded-full bg-electric" />
+         <span className="text-sm font-semibold">SemantIQ</span>
+-        <Badge className="ml-auto">v0.2</Badge>
++        <Badge className="ml-auto">v0.3</Badge>
+       </div>
+-      <nav className="flex flex-col gap-2">
+-        <Link className="rounded-md px-3 py-2 hover:bg-gray-800" href="/dashboard">Dashboard</Link>
+-        <Link className="rounded-md px-3 py-2 hover:bg-gray-800" href="/run">Playground</Link>
+-        <Link className="rounded-md px-3 py-2 hover:bg-gray-800" href="/runs">Runs</Link>
+-        <Link className="rounded-md px-3 py-2 hover:bg-gray-800" href="/benchmarks">Benchmarks</Link>
+-        <Link className="rounded-md px-3 py-2 hover:bg-gray-800" href="/settings">Settings</Link>
++      <div className="text-xs text-gray-500 mb-2 px-3">Main</div>
++      <nav className="flex flex-col gap-1">
++        <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/dashboard"><Home size={16} /> Dashboard</Link>
++        <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/run"><FlaskConical size={16} /> Playground</Link>
++        <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/library"><BookText size={16} /> Prompt Library</Link>
++        <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/batch"><Rocket size={16} /> Batch Processor</Link>
++        <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/research"><Newspaper size={16} /> Research / Papers</Link>
+       </nav>
++      <div className="mt-auto">
++        <div className="text-xs text-gray-500 mt-4 mb-2 px-3">Meta</div>
++        <nav className="flex flex-col gap-1">
++          <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/settings"><Settings size={16} /> Settings & API Vault</Link>
++          <Link className="flex items-center gap-2 rounded-md px-3 py-2 hover:bg-gray-800" href="/profile"><User size={16} /> User Profile</Link>
++        </nav>
++      </div>
+     </aside>
+   );
+ }
+diff --git a/frontend/src/lib/api.ts b/frontend/src/lib/api.ts
+index 0252181..4177867 100644
+--- a/frontend/src/lib/api.ts
++++ b/frontend/src/lib/api.ts
+@@ -26,6 +26,20 @@ export async function listBenchmarks(): Promise<Array<{ id: string; module: stri
+   return get("/benchmarks");
+ }
+ 
++export async function listPrompts(): Promise<Array<{ id: string; title: string; content: string; tags: string[]; variables: string[]; version?: string }>> {
++  return get("/prompts");
++}
++
++export async function createPrompt(payload: { id: string; title: string; content: string; tags?: string[]; variables?: string[]; version?: string }): Promise<{ id: string }> {
++  const res = await fetch(`/api/proxy/prompts`, {
++    method: "POST",
++    headers: { "content-type": "application/json" },
++    body: JSON.stringify(payload),
++  });
++  if (!res.ok) throw new Error(`${res.status}`);
++  return res.json() as Promise<{ id: string }>;
++}
++
+ export async function playgroundRun(payload: {
+   models: Array<{ provider: string; model_name: string; temperature?: number; max_tokens?: number; api_key?: string }>;
+   benchmarks_data?: Array<{ id: string; module: string; prompt_text: string; dimensions?: string[] }>;
+@@ -44,6 +58,6 @@ export async function playgroundRun(payload: {
+   return res.json() as Promise<{ runs: number[] }>;
+ }
+ 
+-export async function getRunResults(id: string | number): Promise<{ count: number; answers: Array<{ id: number; benchmark_id: string; answer_text: string }> }> {
++export async function getRunResults(id: string | number): Promise<{ count: number; answers: Array<{ id: number; benchmark_id: string; answer_text: string; usage?: Record<string, any>; prompt?: string | null }> }> {
+   return get(`/runs/${id}/results`);
+ }
+diff --git a/src/semantiq/api/main.py b/src/semantiq/api/main.py
+index fe92d2c..007228a 100644
+--- a/src/semantiq/api/main.py
++++ b/src/semantiq/api/main.py
+@@ -9,7 +9,7 @@ from sqlmodel.ext.asyncio.session import AsyncSession
+ from sqlmodel import select
+ 
+ from semantiq.db.engine import get_session, init_db
+-from semantiq.db.models import RunDB, StudyDB, ReportDB, AnswerDB, EvaluationDB
++from semantiq.db.models import RunDB, StudyDB, ReportDB, AnswerDB, EvaluationDB, BenchmarkDB, PromptDB
+ from semantiq.storage.storage import PostgresStorage
+ from semantiq.schemas.research import StudyConfig
+ from semantiq.orchestrator.manager import create_study
+@@ -73,7 +73,22 @@ async def list_runs(session: AsyncSession = Depends(get_session)) -> list[dict[s
+ @app.get("/runs/{run_id}/results", dependencies=[Depends(require_api_key)])
+ async def get_run_results(run_id: int, session: AsyncSession = Depends(get_session)) -> dict[str, Any]:
+     results = await storage.get_run_results(session, run_id)
+-    return {"count": len(results), "answers": [{"id": a.id, "benchmark_id": a.benchmark_id, "answer_text": a.answer_text} for a in results]}
++    rows: list[dict[str, Any]] = []
++    for a in results:
++        prompt = None
++        try:
++            b = await session.get(BenchmarkDB, a.benchmark_id)
++            prompt = b.prompt if b else None
++        except Exception:
++            prompt = None
++        rows.append({
++            "id": a.id,
++            "benchmark_id": a.benchmark_id,
++            "answer_text": a.answer_text,
++            "usage": a.usage or {},
++            "prompt": prompt,
++        })
++    return {"count": len(results), "answers": rows}
+ 
+ 
+ @app.get("/benchmarks", dependencies=[Depends(require_api_key)])
+@@ -162,3 +177,19 @@ async def get_run_metrics(run_id: int, session: AsyncSession = Depends(get_sessi
+             totals.setdefault(k, []).append(v)
+     averages = {k: (sum(v) / len(v) if v else 0.0) for k, v in totals.items()}
+     return {"run_id": run_id, "averages": averages}
++
++
++@app.get("/prompts", dependencies=[Depends(require_api_key)])
++async def list_prompts(session: AsyncSession = Depends(get_session)) -> list[dict[str, Any]]:
++    items = await storage.list_prompts(session)
++    return [{"id": p.id, "title": p.title, "content": p.content, "tags": p.tags, "variables": p.variables, "version": p.version, "created_at": p.created_at} for p in items]
++
++
++@app.post("/prompts", dependencies=[Depends(require_api_key)])
++async def create_prompt(payload: dict, session: AsyncSession = Depends(get_session)) -> dict[str, Any]:
++    required = ["id", "title"]
++    for k in required:
++        if k not in payload:
++            raise HTTPException(status_code=400, detail=f"{k} required")
++    item = await storage.insert_prompt(session, payload)
++    return {"id": item.id}
+diff --git a/src/semantiq/db/models.py b/src/semantiq/db/models.py
+index cf4079b..6342b90 100644
+--- a/src/semantiq/db/models.py
++++ b/src/semantiq/db/models.py
+@@ -66,3 +66,13 @@ class ReportDB(SQLModel, table=True):
+     format: str = Field(default="md")
+     content: bytes | None = None
+     created_at: datetime = Field(default_factory=datetime.utcnow)
++
++
++class PromptDB(SQLModel, table=True):
++    id: str = Field(primary_key=True)
++    title: str
++    content: str
++    variables: list[str] = Field(default_factory=list, sa_column=Column(JSON))
++    tags: list[str] = Field(default_factory=list, sa_column=Column(JSON))
++    version: str | None = None
++    created_at: datetime = Field(default_factory=datetime.utcnow)
+diff --git a/src/semantiq/runner/runner.py b/src/semantiq/runner/runner.py
+index d5b746d..a21a5c1 100644
+--- a/src/semantiq/runner/runner.py
++++ b/src/semantiq/runner/runner.py
+@@ -1,9 +1,11 @@
+ from __future__ import annotations
+ 
+ from datetime import datetime
++import time
+ 
+ from semantiq.schemas import BenchmarkDefinition, ModelAnswer, ModelConfig
+ from semantiq.models.providers.base import BaseModelProvider
++from semantiq.schemas import UsageMeta
+ 
+ 
+ class BenchmarkRunner:
+@@ -18,8 +20,15 @@ class BenchmarkRunner:
+         for b in benchmarks:
+             if on_progress:
+                 on_progress(f"Running benchmark {b.id}…")
++            start = time.perf_counter()
+             ans = await model_provider.generate(b.prompt_text, model_config)
++            end = time.perf_counter()
+             ans.benchmark_id = b.id
+             ans.timestamp = datetime.utcnow()
++            latency_ms = int((end - start) * 1000)
++            if ans.usage_meta:
++                ans.usage_meta.latency_ms = latency_ms
++            else:
++                ans.usage_meta = UsageMeta(latency_ms=latency_ms)
+             results.append(ans)
+-        return results
+\ No newline at end of file
++        return results
+diff --git a/src/semantiq/storage/storage.py b/src/semantiq/storage/storage.py
+index ae2ed3f..3f0fa84 100644
+--- a/src/semantiq/storage/storage.py
++++ b/src/semantiq/storage/storage.py
+@@ -5,7 +5,7 @@ from typing import Protocol, Sequence
+ from sqlmodel import select
+ from sqlmodel.ext.asyncio.session import AsyncSession
+ 
+-from semantiq.db.models import RunDB, AnswerDB, EvaluationDB, BenchmarkDB
++from semantiq.db.models import RunDB, AnswerDB, EvaluationDB, BenchmarkDB, PromptDB
+ 
+ 
+ class StorageInterface(Protocol):
+@@ -17,6 +17,8 @@ class StorageInterface(Protocol):
+     async def insert_evaluations(self, session: AsyncSession, rows: Sequence[dict]) -> list[EvaluationDB]: ...
+     async def get_run(self, session: AsyncSession, run_id: int) -> RunDB | None: ...
+     async def get_run_results(self, session: AsyncSession, run_id: int) -> list[AnswerDB]: ...
++    async def list_prompts(self, session: AsyncSession) -> list[PromptDB]: ...
++    async def insert_prompt(self, session: AsyncSession, row: dict) -> PromptDB: ...
+ 
+ 
+ class PostgresStorage:
+@@ -79,3 +81,20 @@ class PostgresStorage:
+         res = await session.exec(select(AnswerDB).where(AnswerDB.run_id == run_id))
+         return list(res)
+ 
++    async def list_prompts(self, session: AsyncSession) -> list[PromptDB]:
++        res = await session.exec(select(PromptDB))
++        return list(res)
++
++    async def insert_prompt(self, session: AsyncSession, row: dict) -> PromptDB:
++        item = PromptDB(
++            id=row["id"],
++            title=row["title"],
++            content=row.get("content", ""),
++            variables=row.get("variables", []),
++            tags=row.get("tags", []),
++            version=row.get("version"),
++        )
++        session.add(item)
++        await session.commit()
++        await session.refresh(item)
++        return item
+diff --git a/src/semantiq/worker.py b/src/semantiq/worker.py
+index c73e5e6..da8a534 100644
+--- a/src/semantiq/worker.py
++++ b/src/semantiq/worker.py
+@@ -12,6 +12,7 @@ from semantiq.models.providers.openai_provider import OpenAIProvider
+ from semantiq.models.providers.mock_providers import MockGeminiProvider
+ from semantiq.models.providers.openrouter_provider import OpenRouterProvider
+ from semantiq.config.loader import load_model_config_from_yaml
++from semantiq.db.models import BenchmarkDB
+ 
+ 
+ async def run_benchmark_job(ctx, run_id: int, model_config: dict | None = None, provider_key: str | None = None, benchmarks_path: str | None = None, config_path: str | None = None, benchmarks_data: list[dict] | None = None) -> None:
+@@ -36,6 +37,11 @@ async def run_benchmark_job(ctx, run_id: int, model_config: dict | None = None,
+                     bms.append(BenchmarkDefinition.model_validate(item))
+                 except Exception:
+                     continue
++            for b in bms:
++                existing = await storage.get_benchmark_by_id(session, b.id)
++                if existing is None:
++                    session.add(BenchmarkDB(id=b.id, prompt=b.prompt_text, module=b.module, dimensions=b.dimensions))
++            await session.commit()
+         else:
+             bms = load_benchmarks(benchmarks_path or "examples/benchmarks/example_benchmarks.json")
+         pk = provider_key or (model_config.get("provider") if model_config else "gemini")

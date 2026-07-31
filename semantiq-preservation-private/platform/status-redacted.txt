@@ -1,0 +1,36 @@
+ M frontend/src/app/page.tsx
+ M frontend/src/app/run/page.tsx
+ M frontend/src/components/header.tsx
+ M frontend/src/components/sidebar.tsx
+ M frontend/src/lib/api.ts
+ M src/semantiq/api/main.py
+ M src/semantiq/db/models.py
+ M src/semantiq/runner/runner.py
+ M src/semantiq/storage/storage.py
+ M src/semantiq/worker.py
+?? frontend/src/app/analysis/
+?? frontend/src/app/batch/
+?? frontend/src/app/library/
+?? frontend/src/app/profile/
+?? frontend/src/app/research/
+!! .env
+!! .pytest_cache/
+!! .ruff_cache/
+!! .venv/
+!! frontend/.next/
+!! frontend/node_modules/
+!! src/semantiq/__pycache__/
+!! src/semantiq/benchmarks/__pycache__/
+!! src/semantiq/config/__pycache__/
+!! src/semantiq/dashboard/__pycache__/
+!! src/semantiq/db/__pycache__/
+!! src/semantiq/evaluation/__pycache__/
+!! src/semantiq/export/__pycache__/
+!! src/semantiq/human_rater/__pycache__/
+!! src/semantiq/models/__pycache__/
+!! src/semantiq/models/providers/__pycache__/
+!! src/semantiq/runner/__pycache__/
+!! src/semantiq/schemas/__pycache__/
+!! src/semantiq/security/__pycache__/
+!! src/semantiq/storage/__pycache__/
+!! tests/__pycache__/

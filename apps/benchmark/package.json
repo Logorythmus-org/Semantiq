@@ -1,0 +1,11 @@
+{
+  "name": "@tech-club/app-benchmark",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "echo \"benchmark app build scaffold\"",
+    "dev": "echo \"benchmark app dev scaffold\"",
+    "test": "echo \"benchmark app tests scaffold\""
+  }
+}

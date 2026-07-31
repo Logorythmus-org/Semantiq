@@ -1,0 +1,27 @@
+{
+  "artifactId": "semantiq:software-release:semantiq-benchmarks:v0.1.0-alpha.1",
+  "artifactType": "software-release",
+  "title": "SemantIQ Benchmarks Controlled Public Alpha Release Candidate",
+  "version": "0.1.0-alpha.1",
+  "createdAt": "2026-07-31T12:00:00Z",
+  "releasedAt": "2026-07-31T12:00:00Z",
+  "repositoryUrl": "https://github.com/tech-club/tech-club",
+  "gitCommit": "a1b2c3d4e5f67890123456789abcdef012345678",
+  "gitTag": "v0.1.0-alpha.1",
+  "contentHash": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "hashAlgorithm": "sha256",
+  "doi": "10.5281/zenodo.EXAMPLE_VERSION",
+  "conceptDoi": "10.5281/zenodo.EXAMPLE_CONCEPT",
+  "creators": [
+    {
+      "name": "Tech Club Foundation Core Team",
+      "orcid": "0000-0000-0000-0000",
+      "role": "Maintainer"
+    }
+  ],
+  "license": "MIT",
+  "provenance": {
+    "isVersionOf": "semantiq:software-release:semantiq-benchmarks",
+    "generatedBy": "semantiq-release-pipeline-v0.1.0"
+  }
+}

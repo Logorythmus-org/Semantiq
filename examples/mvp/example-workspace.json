@@ -1,0 +1,10 @@
+{
+  "formatVersion": "mvp-alpha-1",
+  "workspace": {
+    "id": "workspace:mvp",
+    "name": "MVP Alpha Workspace",
+    "ownerId": "identity:mvp"
+  },
+  "question": "How can evidence improve learning?",
+  "notes": "Generated example workspace for the local-first MVP acceptance journey."
+}

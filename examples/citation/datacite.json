@@ -1,0 +1,24 @@
+{
+  "identifier": {
+    "identifier": "10.5281/zenodo.EXAMPLE_VERSION",
+    "identifierType": "DOI"
+  },
+  "creators": [
+    {
+      "name": "Tech Club Foundation",
+      "nameType": "Organizational"
+    }
+  ],
+  "titles": [
+    {
+      "title": "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit"
+    }
+  ],
+  "publisher": "Zenodo",
+  "publicationYear": 2026,
+  "resourceType": {
+    "resourceType": "Software Evaluation Toolkit",
+    "resourceTypeGeneral": "Software"
+  },
+  "schemaVersion": "http://datacite.org/schema/kernel-4"
+}

@@ -1,0 +1,3 @@
+# Phase A Validation Recovery Prevalidation Baseline
+
+Date: 2026-07-11. Windows amd64, Node 22.15.0 host, pnpm 11.7.0, Docker 29.3.1, Compose 5.1.1, active context `desktop-linux`, PostgreSQL image `postgres:16-alpine`. Repository: `C:\Users\Kaveh\Desktop\Tech-Club`. API entrypoint: `services/api/src/docker-server.ts` in Docker and `services/api/src/server.ts` on host. Config: `packages/config/src/settings.ts`. Tests: `pnpm test`; verifier: `pnpm verify`. Migration head before recovery: 1/foundation. Existing blocker: Docker engine unavailable before this recovery; historical lint warnings: 2. Test database: `techclub_test`; validation resources use `techclub-validation-*`. No active development containers or volumes were targeted.

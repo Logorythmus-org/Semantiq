@@ -1,0 +1,9 @@
+* e7d9f52 (HEAD -> main, origin/main, origin/HEAD) Add server-side API proxy; enable CORS; implement OpenRouter provider; update playground UI and API; minor Dockerfile tweaks
+* c5b0559 Add benchmark validation; fix benchmarks; add DevOps configs; ignore frontend build/deps
+* 5c92a44 Add GitHub Actions workflow for Jekyll deployment
+* ea46547 Update issue templates
+* 5acee74 Setup CI (lint/tests/docker), Dependabot, and CODEOWNERS
+*   e122fd4 Resolve merge conflicts with remote README and LICENSE
+|\  
+| * 82bff70 Initial commit
+* 37d9c0b Initial import of SemantIQ project

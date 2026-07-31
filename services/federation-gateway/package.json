@@ -1,0 +1,1 @@
+{"name":"@tech-club/service-federation-gateway","version":"0.0.0","type":"module","private":true,"exports":{".":"./src/index.ts"},"scripts":{"build":"echo \"federation gateway build scaffold\"","dev":"echo \"federation gateway dev scaffold\"","test":"echo \"federation gateway tests scaffold\""}}

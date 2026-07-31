@@ -1,0 +1,22 @@
+export const documentationPortalSections = [
+  "What is Tech Club?",
+  "Local-first philosophy",
+  "Installation",
+  "Quickstart",
+  "First workspace",
+  "First question",
+  "Semantiq",
+  "Research projects",
+  "Agent workflows",
+  "Marketplace",
+  "Federation",
+  "Backup and restore",
+  "Privacy",
+  "AI transparency",
+  "Troubleshooting",
+  "Developer guide",
+  "CLI reference",
+  "API reference",
+  "Known limitations",
+  "Alpha roadmap"
+] as const;

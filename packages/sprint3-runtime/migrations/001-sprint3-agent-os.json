@@ -1,0 +1,32 @@
+{
+  "id": "001-sprint3-agent-os",
+  "version": "1.0.0",
+  "forward": [
+    "create goals",
+    "create plans",
+    "create workflows",
+    "create workflow_executions",
+    "create agents",
+    "create memory_records",
+    "create approvals",
+    "create reflections",
+    "create learning_records",
+    "create tool_usage",
+    "create collaboration_messages",
+    "create prompt_versions"
+  ],
+  "rollback": [
+    "drop prompt_versions",
+    "drop collaboration_messages",
+    "drop tool_usage",
+    "drop learning_records",
+    "drop reflections",
+    "drop approvals",
+    "drop memory_records",
+    "drop agents",
+    "drop workflow_executions",
+    "drop workflows",
+    "drop plans",
+    "drop goals"
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "id": "001-sprint2-intelligence-research",
+  "version": "1.0.0",
+  "forward": [
+    "create semantiq_reports",
+    "create question_analysis_findings",
+    "create ai_suggestions",
+    "create research_projects",
+    "create evidence_records",
+    "create hypotheses",
+    "create research_tasks",
+    "create prompt_versions",
+    "create provider_usage_records",
+    "create approval_history"
+  ],
+  "rollback": [
+    "drop approval_history",
+    "drop provider_usage_records",
+    "drop prompt_versions",
+    "drop research_tasks",
+    "drop hypotheses",
+    "drop evidence_records",
+    "drop research_projects",
+    "drop ai_suggestions",
+    "drop question_analysis_findings",
+    "drop semantiq_reports"
+  ],
+  "storageAdapters": ["memory", "json", "sqlite", "postgresql", "neo4j"]
+}

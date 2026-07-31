@@ -1,0 +1,21 @@
+{
+  "artifactId": "semantiq:dataset-pack:eval-dataset-2026:v1.0.0",
+  "artifactType": "dataset-pack",
+  "title": "Public Alpha Evaluation Export Dataset Pack",
+  "version": "1.0.0",
+  "createdAt": "2026-07-31T12:00:00Z",
+  "repositoryUrl": "https://github.com/tech-club/tech-club",
+  "gitCommit": "a1b2c3d4e5f67890123456789abcdef012345678",
+  "contentHash": "99887766554433221100fedcba98765432109876543210fedcba987654321099",
+  "hashAlgorithm": "sha256",
+  "creators": [
+    {
+      "name": "Semantiq Open Dataset Curators",
+      "role": "DataCurator"
+    }
+  ],
+  "license": "CC0-1.0",
+  "provenance": {
+    "isDerivedFrom": "semantiq:benchmark-pack:synthetic-smoke:v1.0.0"
+  }
+}

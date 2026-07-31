@@ -1,0 +1,24 @@
+{
+  "id": "001-sprint7-alpha-operations",
+  "description": "Adds controlled alpha cohorts, invitations, research consent, product events, feedback taxonomy, usability sessions, experiments, issues, product decisions, release channels, update validations and beta readiness records.",
+  "entities": [
+    "alpha_cohorts",
+    "alpha_invitations",
+    "research_consent_records",
+    "product_events",
+    "contextual_feedback",
+    "usability_sessions",
+    "concept_assessments",
+    "semantiq_user_feedback",
+    "ai_suggestion_feedback",
+    "alpha_issues",
+    "product_experiments",
+    "product_decisions",
+    "alpha_release_channels",
+    "update_validations",
+    "beta_readiness_reports"
+  ],
+  "freshInstall": true,
+  "upgradeFrom": ["sprint-6"],
+  "rollback": "Export research and issue records, then remove Sprint 7 operation tables."
+}

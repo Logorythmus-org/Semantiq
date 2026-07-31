@@ -1,0 +1,10 @@
+{
+  "name": "@tech-club/scientific-atlas",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts.ts"
+  }
+}

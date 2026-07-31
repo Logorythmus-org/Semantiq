@@ -1,0 +1,19 @@
+name: Model Connector Request
+description: Request a new model backend connector
+title: "[Connector Request]: "
+labels: ["connector", "enhancement"]
+body:
+  - type: input
+    id: provider_name
+    attributes:
+      label: Model Provider Name
+      placeholder: e.g. Local vLLM, Mistral API, Groq
+    validations:
+      required: true
+  - type: textarea
+    id: details
+    attributes:
+      label: API & Endpoint Details
+      placeholder: Provide link to official provider documentation.
+    validations:
+      required: true

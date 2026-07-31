@@ -1,0 +1,8 @@
+* @tech-club/maintainers
+/packages/core/ @tech-club/platform
+/packages/identity/ @tech-club/security
+/packages/workspace/ @tech-club/workspace
+/packages/semantiq/ @tech-club/semantiq
+/services/ @tech-club/platform
+/apps/ @tech-club/apps
+/Docs/ @tech-club/docs

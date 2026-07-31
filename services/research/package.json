@@ -1,0 +1,14 @@
+{
+  "name": "@tech-club/service-research",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo \"research service build scaffold\"",
+    "dev": "echo \"research service dev scaffold\"",
+    "test": "echo \"research service tests scaffold\""
+  }
+}
