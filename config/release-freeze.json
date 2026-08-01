@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "releaseFreezeActive": true,
+  "allowedLocalPhases": ["Phase 8", "Phase 9", "Phase 10"],
+  "prohibitedActions": [
+    "git_push_from_parent_workspace_root",
+    "git_tag_parent_workspace_as_semantiq",
+    "publish_npm_from_parent_root",
+    "unauthorized_github_release"
+  ],
+  "requiredSealsForPublication": [
+    "products/semantiq/extraction-manifest.json",
+    "Docs/phase-11/PHASE_11_RELEASE_SEAL.md",
+    "Docs/phase-12/PHASE_12_PUBLICATION_AUTHORIZATION.json"
+  ],
+  "disallowedParentPaths": [
+    "packages/wallet",
+    "packages/civilization-kernel",
+    "packages/question-network",
+    "apps/",
+    "services/",
+    "Tech-Club-Architect-Blueprint.md"
+  ]
+}

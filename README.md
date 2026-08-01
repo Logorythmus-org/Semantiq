@@ -1,6 +1,10 @@
-# SemantIQ Benchmarks
+# SemantIQ Benchmarks (Local Development Workspace)
 
-**SemantIQ Benchmarks** is an independent, open-source, local-first evaluation toolkit for measuring the quality, reasoning, consistency, evidence grounding, and scientific potential of AI model outputs.
+> **Development Notice**: This workspace contains the local development environment for **SemantIQ Benchmarks** alongside internal Tech Club monorepo platform modules.
+> All development during **Phase 8, Phase 9, and Phase 10 is local-only**.
+> Public release to GitHub occurs strictly via **Phase 11 (Clean-Room Extraction)** and **Phase 12 (Authorized Publication)** under `config/release-freeze.json` safeguards.
+
+---
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version: 0.1.0-alpha.1](https://img.shields.io/badge/Version-0.1.0--alpha.1-green.svg)](CHANGELOG.md)
