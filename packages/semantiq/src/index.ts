@@ -22,6 +22,8 @@ export * from "./multi-agent-model.js";
 export * from "./agent-authority.js";
 export * from "./interaction-schema.js";
 export * from "./delegation-model.js";
+export * from "./shared-context.js";
+export * from "./negotiation-consensus.js";
 
 import type {
   BenchmarkHistory,
