@@ -5,6 +5,7 @@
   "packageName": "@tech-club/semantiq",
   "includedPaths": [
     "packages/semantiq",
+    "products/semantiq/specs/verb-taxonomy.json",
     "examples/citation",
     "examples/ecosystem",
     "examples/kaggle",
