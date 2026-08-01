@@ -6,6 +6,7 @@
   "includedPaths": [
     "packages/semantiq",
     "products/semantiq/specs/verb-taxonomy.json",
+    "products/semantiq/specs/single-agent-scenarios.json",
     "examples/citation",
     "examples/ecosystem",
     "examples/kaggle",

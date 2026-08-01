@@ -17,6 +17,7 @@ export * from "./event-schema.js";
 export * from "./execution-graph.js";
 export * from "./mission-boundary.js";
 export * from "./consequence-recovery.js";
+export * from "./scenario-pack.js";
 
 import type {
   BenchmarkHistory,
