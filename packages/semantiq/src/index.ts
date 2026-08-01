@@ -24,6 +24,8 @@ export * from "./interaction-schema.js";
 export * from "./delegation-model.js";
 export * from "./shared-context.js";
 export * from "./negotiation-consensus.js";
+export * from "./conflict-detection.js";
+export * from "./responsibility-graph.js";
 
 import type {
   BenchmarkHistory,
