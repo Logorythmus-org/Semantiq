@@ -15,6 +15,8 @@ export * from "./verb-taxonomy.js";
 export * from "./environment-permissions.js";
 export * from "./event-schema.js";
 export * from "./execution-graph.js";
+export * from "./mission-boundary.js";
+export * from "./consequence-recovery.js";
 
 import type {
   BenchmarkHistory,
