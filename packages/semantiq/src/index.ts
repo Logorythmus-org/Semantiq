@@ -26,6 +26,7 @@ export * from "./shared-context.js";
 export * from "./negotiation-consensus.js";
 export * from "./conflict-detection.js";
 export * from "./responsibility-graph.js";
+export * from "./multi-agent-scenarios.js";
 
 import type {
   BenchmarkHistory,
