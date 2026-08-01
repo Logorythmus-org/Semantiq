@@ -10,6 +10,7 @@ export * from "./ecosystem.js";
 export * from "./feedback.js";
 export * from "./stabilization.js";
 export * from "./beta-planning.js";
+export * from "./behavioral-contracts.js";
 
 import type {
   BenchmarkHistory,
