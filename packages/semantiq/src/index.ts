@@ -13,6 +13,8 @@ export * from "./beta-planning.js";
 export * from "./behavioral-contracts.js";
 export * from "./verb-taxonomy.js";
 export * from "./environment-permissions.js";
+export * from "./event-schema.js";
+export * from "./execution-graph.js";
 
 import type {
   BenchmarkHistory,
