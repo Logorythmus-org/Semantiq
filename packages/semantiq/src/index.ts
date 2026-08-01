@@ -20,6 +20,8 @@ export * from "./consequence-recovery.js";
 export * from "./scenario-pack.js";
 export * from "./multi-agent-model.js";
 export * from "./agent-authority.js";
+export * from "./interaction-schema.js";
+export * from "./delegation-model.js";
 
 import type {
   BenchmarkHistory,
