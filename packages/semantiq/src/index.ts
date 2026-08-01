@@ -18,6 +18,8 @@ export * from "./execution-graph.js";
 export * from "./mission-boundary.js";
 export * from "./consequence-recovery.js";
 export * from "./scenario-pack.js";
+export * from "./multi-agent-model.js";
+export * from "./agent-authority.js";
 
 import type {
   BenchmarkHistory,
