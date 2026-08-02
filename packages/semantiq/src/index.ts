@@ -40,6 +40,7 @@ export * from "./governance-api-freeze.js";
 export * from "./governance-performance.js";
 export * from "./governance-replay.js";
 export * from "./governance-truth-audit.js";
+export * from "./phase10-5-freeze.js";
 
 import type {
   BenchmarkHistory,
