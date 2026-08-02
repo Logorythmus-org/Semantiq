@@ -34,6 +34,7 @@ export * from "./human-approval-model.js";
 export * from "./governance-decision.js";
 export * from "./governance-incident-audit.js";
 export * from "./compliance-mapping.js";
+export * from "./trust-risk-profiles.js";
 
 import type {
   BenchmarkHistory,
