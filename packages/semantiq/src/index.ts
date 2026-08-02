@@ -37,6 +37,7 @@ export * from "./compliance-mapping.js";
 export * from "./trust-risk-profiles.js";
 export * from "./governance-evidence-integration.js";
 export * from "./governance-api-freeze.js";
+export * from "./governance-performance.js";
 
 import type {
   BenchmarkHistory,
