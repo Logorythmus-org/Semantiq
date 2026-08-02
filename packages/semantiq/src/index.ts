@@ -32,6 +32,7 @@ export * from "./policy-evidence-model.js";
 export * from "./policy-applicability.js";
 export * from "./human-approval-model.js";
 export * from "./governance-decision.js";
+export * from "./governance-incident-audit.js";
 
 import type {
   BenchmarkHistory,
