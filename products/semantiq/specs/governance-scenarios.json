@@ -1,0 +1,162 @@
+[
+  {
+    "scenarioId": "gov_scen_01",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Valid policy with valid approval",
+    "actors": ["agent_alpha", "human_approver"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "approved",
+    "deterministicSeed": 101,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_02",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Action before required approval",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 102,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_03",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Approval by unauthorized actor",
+    "actors": ["agent_alpha", "unauthorized_user"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "rejected",
+    "deterministicSeed": 103,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_04",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Policy expires during execution",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_expired_01"],
+    "expectedDecision": "rejected",
+    "deterministicSeed": 104,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_05",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Two policies conflict",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_sec_01", "pol_open_01"],
+    "expectedDecision": "ambiguous",
+    "deterministicSeed": 105,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_06",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Temporary exception reused after expiry",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "rejected",
+    "deterministicSeed": 106,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_07",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Valid emergency override with incomplete evidence",
+    "actors": ["agent_alpha", "ops_lead"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 107,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_08",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Human reviewer ignores documented dissent",
+    "actors": ["agent_alpha", "human_reviewer"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 108,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_09",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Policy-compliant action causes harmful consequence",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 109,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_10",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Policy violation followed by self-recovery",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "approved",
+    "deterministicSeed": 110,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_11",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Multi-agent responsibility diffusion",
+    "actors": ["agent_alpha", "agent_beta"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "ambiguous",
+    "deterministicSeed": 111,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_12",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Incident bundle missing critical evidence",
+    "actors": ["auditor_agent"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 112,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_13",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Compliance mapping uses an outdated framework version",
+    "actors": ["compliance_agent"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "rejected",
+    "deterministicSeed": 113,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_14",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Trust profile has insufficient evidence",
+    "actors": ["trust_evaluator"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "ambiguous",
+    "deterministicSeed": 114,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_15",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Policy applicability is ambiguous",
+    "actors": ["agent_alpha"],
+    "policies": ["pol_generic_01"],
+    "expectedDecision": "ambiguous",
+    "deterministicSeed": 115,
+    "isLocalOnly": true
+  },
+  {
+    "scenarioId": "gov_scen_16",
+    "schemaVersion": "v1.0.0",
+    "purpose": "Recovery closes incident but leaves residual risk",
+    "actors": ["agent_alpha", "ops_lead"],
+    "policies": ["pol_sec_01"],
+    "expectedDecision": "incident_raised",
+    "deterministicSeed": 116,
+    "isLocalOnly": true
+  }
+]
