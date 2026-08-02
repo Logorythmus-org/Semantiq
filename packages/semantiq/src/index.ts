@@ -30,6 +30,8 @@ export * from "./multi-agent-scenarios.js";
 export * from "./collective-replay.js";
 export * from "./policy-evidence-model.js";
 export * from "./policy-applicability.js";
+export * from "./human-approval-model.js";
+export * from "./governance-decision.js";
 
 import type {
   BenchmarkHistory,
