@@ -28,6 +28,8 @@ export * from "./conflict-detection.js";
 export * from "./responsibility-graph.js";
 export * from "./multi-agent-scenarios.js";
 export * from "./collective-replay.js";
+export * from "./policy-evidence-model.js";
+export * from "./policy-applicability.js";
 
 import type {
   BenchmarkHistory,
