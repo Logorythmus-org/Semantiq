@@ -39,6 +39,7 @@ export * from "./governance-evidence-integration.js";
 export * from "./governance-api-freeze.js";
 export * from "./governance-performance.js";
 export * from "./governance-replay.js";
+export * from "./governance-truth-audit.js";
 
 import type {
   BenchmarkHistory,
