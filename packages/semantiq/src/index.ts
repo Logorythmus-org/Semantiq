@@ -54,6 +54,7 @@ export * from "./documentation-extractor.js";
 export * from "./license-auditor.js";
 export * from "./clean-room-generator.js";
 export * from "./isolated-validator.js";
+export * from "./external-user-simulator.js";
 
 import type {
   BenchmarkHistory,
