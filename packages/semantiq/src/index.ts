@@ -46,6 +46,7 @@ export * from "./governance-scenarios.js";
 export * from "./source-inventory.js";
 export * from "./manifest-validator.js";
 export * from "./dependency-graph.js";
+export * from "./runtime-dependency-remover.js";
 
 import type {
   BenchmarkHistory,
