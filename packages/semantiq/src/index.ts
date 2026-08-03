@@ -56,6 +56,7 @@ export * from "./clean-room-generator.js";
 export * from "./isolated-validator.js";
 export * from "./external-user-simulator.js";
 export * from "./security-auditor.js";
+export * from "./reproducibility-auditor.js";
 
 import type {
   BenchmarkHistory,

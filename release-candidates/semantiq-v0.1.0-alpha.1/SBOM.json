@@ -1,0 +1,33 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "library",
+      "name": "@tech-club/semantiq",
+      "version": "0.1.0-alpha.1",
+      "licenses": [
+        {
+          "license": {
+            "id": "MIT"
+          }
+        }
+      ]
+    }
+  },
+  "components": [
+    {
+      "type": "library",
+      "name": "typescript",
+      "version": "5.4.0",
+      "licenses": [{ "license": { "id": "Apache-2.0" } }]
+    },
+    {
+      "type": "library",
+      "name": "vitest",
+      "version": "1.6.0",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    }
+  ]
+}
