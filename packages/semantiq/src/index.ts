@@ -43,6 +43,7 @@ export * from "./governance-truth-audit.js";
 export * from "./phase10-5-freeze.js";
 export * from "./exception-model.js";
 export * from "./governance-scenarios.js";
+export * from "./source-inventory.js";
 
 import type {
   BenchmarkHistory,
