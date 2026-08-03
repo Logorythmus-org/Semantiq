@@ -50,6 +50,7 @@ export * from "./runtime-dependency-remover.js";
 export * from "./cli.js";
 export * from "./data-layer.js";
 export * from "./test-harness.js";
+export * from "./documentation-extractor.js";
 
 import type {
   BenchmarkHistory,
