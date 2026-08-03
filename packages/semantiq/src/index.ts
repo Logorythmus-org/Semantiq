@@ -45,6 +45,7 @@ export * from "./exception-model.js";
 export * from "./governance-scenarios.js";
 export * from "./source-inventory.js";
 export * from "./manifest-validator.js";
+export * from "./dependency-graph.js";
 
 import type {
   BenchmarkHistory,

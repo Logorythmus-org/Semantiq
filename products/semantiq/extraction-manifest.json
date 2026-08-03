@@ -20,6 +20,7 @@
     "products/semantiq/specs/single-agent-scenarios.json",
     "products/semantiq/specs/multi-agent-scenarios.json",
     "products/semantiq/specs/governance-scenarios.json",
+    "products/semantiq/specs/package-graph.json",
     "examples/citation",
     "examples/ecosystem",
     "examples/kaggle",
