@@ -53,6 +53,7 @@ export * from "./test-harness.js";
 export * from "./documentation-extractor.js";
 export * from "./license-auditor.js";
 export * from "./clean-room-generator.js";
+export * from "./isolated-validator.js";
 
 import type {
   BenchmarkHistory,
