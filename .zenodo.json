@@ -1,20 +1,25 @@
 {
   "title": "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
-  "description": "SemantIQ Benchmarks is an independent, open-source, local-first evaluation toolkit for measuring quality, reasoning, semantic consistency, and scientific potential of AI model outputs.",
+  "description": "Independent, open-source, local-first evaluation toolkit for AI model quality, governance evidence, reasoning, and scientific potential.",
   "upload_type": "software",
-  "creators": [
-    {
-      "name": "Tech Club Foundation Core Contributors",
-      "affiliation": "Tech Club Open Knowledge Community"
-    }
-  ],
   "access_right": "open",
   "license": "MIT",
+  "creators": [
+    {
+      "name": "SemantIQ Benchmarks Contributors",
+      "affiliation": "SemantIQ Benchmarks"
+    }
+  ],
   "keywords": [
-    "ai-evaluation",
+    "AI evaluation",
+    "governance",
     "benchmarking",
     "local-first",
-    "explainable-scoring",
-    "reproducible-science"
-  ]
+    "TypeScript",
+    "open-source"
+  ],
+  "notes": "This release is the Phase 11 independent extraction candidate. Not yet published. Treat as unpublished until Phase 12.",
+  "version": "0.1.0-alpha.1",
+  "language": "eng",
+  "related_identifiers": []
 }

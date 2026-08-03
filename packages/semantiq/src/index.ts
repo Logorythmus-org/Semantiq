@@ -51,6 +51,7 @@ export * from "./cli.js";
 export * from "./data-layer.js";
 export * from "./test-harness.js";
 export * from "./documentation-extractor.js";
+export * from "./license-auditor.js";
 
 import type {
   BenchmarkHistory,
