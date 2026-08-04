@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResultClaimRecord",
+  "type": "object",
+  "required": [
+    "claimId",
+    "claimClass",
+    "claimText",
+    "scopeBlock",
+    "supportingEvidence",
+    "hasMandatoryDisclaimer"
+  ],
+  "properties": {
+    "claimId": { "type": "string" },
+    "claimClass": {
+      "type": "string",
+      "enum": [
+        "observation",
+        "measurement",
+        "evaluator_judgment",
+        "aggregate_finding",
+        "inference",
+        "recommendation",
+        "unsupported_claim",
+        "prohibited_claim"
+      ]
+    },
+    "claimText": { "type": "string" },
+    "scopeBlock": { "$ref": "claim-scope.schema.json" },
+    "supportingEvidence": { "type": "array", "items": { "type": "string" } },
+    "hasMandatoryDisclaimer": { "type": "boolean" }
+  }
+}
