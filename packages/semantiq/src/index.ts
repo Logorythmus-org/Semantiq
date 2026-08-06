@@ -59,6 +59,7 @@ export * from "./security-auditor.js";
 export * from "./reproducibility-auditor.js";
 export * from "./trust-constitution.js";
 export * from "./scientific-claims.js";
+export * from "./human-responsibility.js";
 
 import type {
   BenchmarkHistory,

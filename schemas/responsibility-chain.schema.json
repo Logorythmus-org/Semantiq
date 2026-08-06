@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ResponsibilityChainRecord",
+  "type": "object",
+  "required": [
+    "deployingOrganization",
+    "accountableHumanRole",
+    "modelSelector",
+    "configurationOwner",
+    "dataOwner",
+    "automationApprover",
+    "humanReviewer",
+    "appealOwner",
+    "incidentOwner",
+    "affectedPopulation",
+    "decisionScope",
+    "semantiqInfluenceLevel",
+    "influenceExplanation",
+    "alternativeNonAutomatedPath",
+    "expirationReviewDate"
+  ],
+  "properties": {
+    "deployingOrganization": { "type": "string" },
+    "accountableHumanRole": { "type": "string" },
+    "modelSelector": { "type": "string" },
+    "configurationOwner": { "type": "string" },
+    "dataOwner": { "type": "string" },
+    "automationApprover": { "type": "string" },
+    "humanReviewer": { "type": "string" },
+    "appealOwner": { "type": "string" },
+    "incidentOwner": { "type": "string" },
+    "affectedPopulation": { "type": "string" },
+    "decisionScope": { "type": "string" },
+    "semantiqInfluenceLevel": { "type": "string", "enum": ["none", "advisory", "prohibited_sole_decider"] },
+    "influenceExplanation": { "type": "string" },
+    "alternativeNonAutomatedPath": { "type": "string" },
+    "expirationReviewDate": { "type": "string" }
+  }
+}

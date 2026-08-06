@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HighImpactUseDisclosure",
+  "type": "object",
+  "required": [
+    "disclosureId",
+    "domain",
+    "isSoleAutomatedDecider",
+    "hasHumanAppealPath",
+    "responsibilityRecord"
+  ],
+  "properties": {
+    "disclosureId": { "type": "string" },
+    "domain": {
+      "type": "string",
+      "enum": [
+        "employment",
+        "housing",
+        "education",
+        "immigration",
+        "criminal_justice",
+        "medical_treatment",
+        "credit_insurance_welfare",
+        "legal_guilt",
+        "voting_rights",
+        "social_ranking"
+      ]
+    },
+    "isSoleAutomatedDecider": { "type": "boolean" },
+    "hasHumanAppealPath": { "type": "boolean" },
+    "responsibilityRecord": { "$ref": "responsibility-chain.schema.json" }
+  }
+}
