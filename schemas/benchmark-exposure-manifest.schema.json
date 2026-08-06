@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BenchmarkExposureManifest",
+  "type": "object",
+  "required": ["benchmarkId", "exposureTier", "isPublicBundleExportable", "version"],
+  "properties": {
+    "benchmarkId": { "type": "string" },
+    "exposureTier": {
+      "type": "string",
+      "enum": [
+        "tier_a_public_reference",
+        "tier_b_rotating",
+        "tier_c_transformational",
+        "tier_d_protected_challenge"
+      ]
+    },
+    "isPublicBundleExportable": { "type": "boolean" },
+    "rotationScheduleDays": { "type": "integer" },
+    "version": { "type": "string" }
+  }
+}

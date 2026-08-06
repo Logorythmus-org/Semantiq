@@ -60,6 +60,7 @@ export * from "./reproducibility-auditor.js";
 export * from "./trust-constitution.js";
 export * from "./scientific-claims.js";
 export * from "./human-responsibility.js";
+export * from "./benchmark-integrity.js";
 
 import type {
   BenchmarkHistory,

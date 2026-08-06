@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContaminationRecord",
+  "type": "object",
+  "required": [
+    "incidentId",
+    "benchmarkId",
+    "detectedAt",
+    "contaminationSource",
+    "affectedModels",
+    "isResultSuspended"
+  ],
+  "properties": {
+    "incidentId": { "type": "string" },
+    "benchmarkId": { "type": "string" },
+    "detectedAt": { "type": "string" },
+    "contaminationSource": { "type": "string" },
+    "affectedModels": { "type": "array", "items": { "type": "string" } },
+    "isResultSuspended": { "type": "boolean" }
+  }
+}
