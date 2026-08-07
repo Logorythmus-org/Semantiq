@@ -62,6 +62,7 @@ export * from "./scientific-claims.js";
 export * from "./human-responsibility.js";
 export * from "./benchmark-integrity.js";
 export * from "./rubric-legitimacy.js";
+export * from "./score-disputes.js";
 
 import type {
   BenchmarkHistory,

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScoreDisputeRecord",
+  "type": "object",
+  "required": [
+    "disputeId",
+    "targetResultId",
+    "challenger",
+    "submittedAt",
+    "state",
+    "justification",
+    "stateHistory"
+  ],
+  "properties": {
+    "disputeId": { "type": "string" },
+    "targetResultId": { "type": "string" },
+    "challenger": { "type": "string" },
+    "submittedAt": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": [
+        "submitted",
+        "acknowledged",
+        "under_review",
+        "evidence_requested",
+        "partially_accepted",
+        "accepted",
+        "rejected_with_reasons",
+        "appealed",
+        "resolved",
+        "reopened",
+        "superseded"
+      ]
+    },
+    "evidenceUrls": { "type": "array", "items": { "type": "string" } },
+    "justification": { "type": "string" },
+    "stateHistory": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["state", "timestamp", "notes"],
+        "properties": {
+          "state": { "type": "string" },
+          "timestamp": { "type": "string" },
+          "notes": { "type": "string" }
+        }
+      }
+    }
+  }
+}

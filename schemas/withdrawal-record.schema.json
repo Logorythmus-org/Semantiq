@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "WithdrawalRecord",
+  "type": "object",
+  "required": [
+    "withdrawalId",
+    "targetResultId",
+    "withdrawalType",
+    "withdrawnAt",
+    "justification",
+    "originalEvidencePreserved"
+  ],
+  "properties": {
+    "withdrawalId": { "type": "string" },
+    "targetResultId": { "type": "string" },
+    "withdrawalType": { "type": "string", "enum": ["partial_withdrawal", "full_withdrawal"] },
+    "withdrawnAt": { "type": "string" },
+    "justification": { "type": "string" },
+    "originalEvidencePreserved": { "type": "boolean" }
+  }
+}

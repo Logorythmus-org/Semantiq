@@ -1,0 +1,41 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CorrectionRecord",
+  "type": "object",
+  "required": [
+    "correctionId",
+    "originalResultId",
+    "correctionLevel",
+    "issuedAt",
+    "originalEvidencePreserved",
+    "originalScore",
+    "rationale",
+    "isSuspended",
+    "isWithdrawn"
+  ],
+  "properties": {
+    "correctionId": { "type": "string" },
+    "originalResultId": { "type": "string" },
+    "correctionLevel": {
+      "type": "string",
+      "enum": [
+        "clarification",
+        "metadata_correction",
+        "score_recalculation",
+        "annotation",
+        "suspension",
+        "partial_withdrawal",
+        "full_withdrawal",
+        "benchmark_deprecation",
+        "methodology_revision"
+      ]
+    },
+    "issuedAt": { "type": "string" },
+    "originalEvidencePreserved": { "type": "boolean" },
+    "originalScore": { "type": "number" },
+    "revisedScore": { "type": "number" },
+    "rationale": { "type": "string" },
+    "isSuspended": { "type": "boolean" },
+    "isWithdrawn": { "type": "boolean" }
+  }
+}
