@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EvaluatorDisagreementRecord",
+  "type": "object",
+  "required": [
+    "disagreementId",
+    "rubricId",
+    "primaryEvaluatorId",
+    "dissentingEvaluatorId",
+    "divergenceReason",
+    "isAggregationPermitted"
+  ],
+  "properties": {
+    "disagreementId": { "type": "string" },
+    "rubricId": { "type": "string" },
+    "primaryEvaluatorId": { "type": "string" },
+    "dissentingEvaluatorId": { "type": "string" },
+    "divergenceReason": { "type": "string" },
+    "isAggregationPermitted": { "type": "boolean" }
+  }
+}

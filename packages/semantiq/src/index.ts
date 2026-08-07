@@ -61,6 +61,7 @@ export * from "./trust-constitution.js";
 export * from "./scientific-claims.js";
 export * from "./human-responsibility.js";
 export * from "./benchmark-integrity.js";
+export * from "./rubric-legitimacy.js";
 
 import type {
   BenchmarkHistory,

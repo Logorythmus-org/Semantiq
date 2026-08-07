@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RubricAssumptionManifest",
+  "type": "object",
+  "required": [
+    "rubricId",
+    "constructName",
+    "operationalDefinition",
+    "intendedUse",
+    "linguisticAssumptions",
+    "culturalAssumptions",
+    "philosophicalAssumptions",
+    "version"
+  ],
+  "properties": {
+    "rubricId": { "type": "string" },
+    "constructName": { "type": "string" },
+    "operationalDefinition": { "type": "string" },
+    "intendedUse": { "type": "string" },
+    "excludedInterpretations": { "type": "array", "items": { "type": "string" } },
+    "linguisticAssumptions": { "type": "array", "items": { "type": "string" } },
+    "culturalAssumptions": { "type": "array", "items": { "type": "string" } },
+    "philosophicalAssumptions": { "type": "array", "items": { "type": "string" } },
+    "accessibilityAssumptions": { "type": "array", "items": { "type": "string" } },
+    "targetPopulation": { "type": "string" },
+    "knownDisagreements": { "type": "array", "items": { "type": "string" } },
+    "alternativeRubrics": { "type": "array", "items": { "type": "string" } },
+    "version": { "type": "string" }
+  }
+}
