@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TrustMetrics",
+  "type": "object",
+  "required": [
+    "independentReproductionCount",
+    "failedReproductionCount",
+    "multilingualCoverageLanguagesCount",
+    "protectedTestConcentrationPercentage",
+    "knownBlindSpotsCount",
+    "openSecurityRisksCount"
+  ],
+  "properties": {
+    "independentReproductionCount": { "type": "integer" },
+    "failedReproductionCount": { "type": "integer" },
+    "multilingualCoverageLanguagesCount": { "type": "integer" },
+    "protectedTestConcentrationPercentage": { "type": "number" },
+    "knownBlindSpotsCount": { "type": "integer" },
+    "openSecurityRisksCount": { "type": "integer" }
+  }
+}
