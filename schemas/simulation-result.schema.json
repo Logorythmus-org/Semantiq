@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SimulationResult",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "observedControlBehavior",
+    "evidence",
+    "status",
+    "severity",
+    "residualRisk",
+    "remediation",
+    "owner",
+    "releaseBlockerStatus"
+  ],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "observedControlBehavior": { "type": "string" },
+    "evidence": { "type": "string" },
+    "status": { "type": "string", "enum": ["pass", "fail", "partial", "blocked"] },
+    "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+    "residualRisk": { "type": "string" },
+    "remediation": { "type": "string" },
+    "owner": { "type": "string" },
+    "releaseBlockerStatus": { "type": "boolean" }
+  }
+}

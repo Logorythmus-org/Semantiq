@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AdversarialScenario",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "title",
+    "threatActor",
+    "motivation",
+    "preconditions",
+    "affectedAssets",
+    "attemptedAction",
+    "expectedControl"
+  ],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "title": { "type": "string" },
+    "threatActor": { "type": "string" },
+    "motivation": { "type": "string" },
+    "preconditions": { "type": "string" },
+    "affectedAssets": { "type": "array", "items": { "type": "string" } },
+    "attemptedAction": { "type": "string" },
+    "expectedControl": { "type": "string" }
+  }
+}

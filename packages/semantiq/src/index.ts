@@ -65,6 +65,7 @@ export * from "./rubric-legitimacy.js";
 export * from "./score-disputes.js";
 export * from "./community-governance.js";
 export * from "./self-observation.js";
+export * from "./adversarial-simulation.js";
 
 import type {
   BenchmarkHistory,
