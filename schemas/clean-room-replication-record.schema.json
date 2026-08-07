@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CleanRoomReplicationRecord",
+  "type": "object",
+  "required": [
+    "replicationId",
+    "commit",
+    "environment",
+    "installationResult",
+    "boundaryResult",
+    "typecheckResult",
+    "testResult",
+    "checksumVerification",
+    "deviations",
+    "reproducibilityStatus",
+    "timestamp"
+  ],
+  "properties": {
+    "replicationId": { "type": "string" },
+    "commit": { "type": "string" },
+    "environment": {
+      "type": "object",
+      "required": ["nodeVersion", "pnpmVersion", "operatingSystem", "isolationMode"],
+      "properties": {
+        "nodeVersion": { "type": "string" },
+        "pnpmVersion": { "type": "string" },
+        "operatingSystem": { "type": "string" },
+        "isolationMode": { "type": "string" }
+      }
+    },
+    "installationResult": { "type": "string" },
+    "boundaryResult": { "type": "string" },
+    "typecheckResult": { "type": "string" },
+    "testResult": { "type": "string" },
+    "checksumVerification": { "type": "string" },
+    "deviations": { "type": "array", "items": { "type": "string" } },
+    "reproducibilityStatus": {
+      "type": "string",
+      "enum": [
+        "internal_clean_room_reproduction",
+        "external_independent_reproduction",
+        "reproduction_failed"
+      ]
+    },
+    "timestamp": { "type": "string" }
+  }
+}

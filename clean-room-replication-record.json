@@ -1,0 +1,18 @@
+{
+  "replicationId": "rep-clean-room-20260807",
+  "commit": "4f5788f000000000000000000000000000000000",
+  "environment": {
+    "nodeVersion": "v22.15.0",
+    "pnpmVersion": "11.7.0",
+    "operatingSystem": "win32",
+    "isolationMode": "clean_room_simulation"
+  },
+  "installationResult": "PASSED (frozen lockfile consistent, package graph validated)",
+  "boundaryResult": "PASSED (node scripts/boundary-validator.mjs exit code 0)",
+  "typecheckResult": "PASSED (pnpm typecheck exit code 0 with 0 errors)",
+  "testResult": "PASSED (123 test files passed, 456 tests passed, 0 failures)",
+  "checksumVerification": "PASSED (release-candidates/semantiq-v0.1.0-alpha.1/CHECKSUMS.sha256 verified)",
+  "deviations": [],
+  "reproducibilityStatus": "internal_clean_room_reproduction",
+  "timestamp": "2026-08-07T18:45:00Z"
+}
