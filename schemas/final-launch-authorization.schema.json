@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FinalLaunchAuthorizationRecord",
+  "type": "object",
+  "required": [
+    "authorizationId",
+    "decision",
+    "releaseLevel",
+    "targetCommit",
+    "targetTag",
+    "mandatoryReleaseStatement",
+    "publicLimitations",
+    "releaseExclusions",
+    "rollbackTriggers",
+    "gateStatuses",
+    "timestamp"
+  ],
+  "properties": {
+    "authorizationId": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": [
+        "AUTHORIZED — LEVEL 2 PUBLIC ALPHA",
+        "AUTHORIZED WITH CONDITIONS",
+        "BLOCKED"
+      ]
+    },
+    "releaseLevel": { "type": "string", "const": "2-public-alpha" },
+    "targetCommit": { "type": "string" },
+    "targetTag": { "type": "string" },
+    "mandatoryReleaseStatement": { "type": "string" },
+    "publicLimitations": { "type": "array", "items": { "type": "string" } },
+    "releaseExclusions": { "type": "array", "items": { "type": "string" } },
+    "rollbackTriggers": { "type": "array", "items": { "type": "string" } },
+    "gateStatuses": {
+      "type": "object",
+      "required": [
+        "artifactIdentity",
+        "internalVerification",
+        "cleanRoomReproducibility",
+        "publicationSecurity",
+        "scientificHonesty",
+        "humanResponsibility",
+        "contestability",
+        "governanceHonesty",
+        "antiGamingIntegrity",
+        "rollbackCapability"
+      ],
+      "properties": {
+        "artifactIdentity": { "type": "boolean" },
+        "internalVerification": { "type": "boolean" },
+        "cleanRoomReproducibility": { "type": "boolean" },
+        "publicationSecurity": { "type": "boolean" },
+        "scientificHonesty": { "type": "boolean" },
+        "humanResponsibility": { "type": "boolean" },
+        "contestability": { "type": "boolean" },
+        "governanceHonesty": { "type": "boolean" },
+        "antiGamingIntegrity": { "type": "boolean" },
+        "rollbackCapability": { "type": "boolean" }
+      }
+    },
+    "timestamp": { "type": "string" }
+  }
+}

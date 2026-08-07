@@ -68,6 +68,7 @@ export * from "./self-observation.js";
 export * from "./adversarial-simulation.js";
 export * from "./release-authorization.js";
 export * from "./release-candidate-integrity.js";
+export * from "./final-launch-authorization.js";
 
 import type {
   BenchmarkHistory,
