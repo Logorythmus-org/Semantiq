@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConflictDisclosureRecord",
+  "type": "object",
+  "required": [
+    "disclosureId",
+    "maintainerId",
+    "entityName",
+    "relationshipType",
+    "isRecusedFromVoting"
+  ],
+  "properties": {
+    "disclosureId": { "type": "string" },
+    "maintainerId": { "type": "string" },
+    "entityName": { "type": "string" },
+    "relationshipType": {
+      "type": "string",
+      "enum": ["employment", "funding", "sponsorship", "model_provider", "consulting"]
+    },
+    "isRecusedFromVoting": { "type": "boolean" }
+  }
+}
