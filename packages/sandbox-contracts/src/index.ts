@@ -16,3 +16,5 @@ export type * from "./mcp.js";
 export * from "./mcp.js";
 export type * from "./browser-gui.js";
 export * from "./browser-gui.js";
+export type * from "./multi-agent.js";
+export * from "./multi-agent.js";
