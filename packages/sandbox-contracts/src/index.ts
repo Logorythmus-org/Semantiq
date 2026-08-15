@@ -14,3 +14,5 @@ export type * from "./credentials.js";
 export * from "./credentials.js";
 export type * from "./mcp.js";
 export * from "./mcp.js";
+export type * from "./browser-gui.js";
+export * from "./browser-gui.js";
