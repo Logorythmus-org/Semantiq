@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FallbackPolicy",
+  "type": "object",
+  "required": [
+    "primaryProviderId",
+    "fallbackProviderIds",
+    "maxRetriesPerProvider",
+    "backoffBaseMs",
+    "preservePartialEvidence"
+  ],
+  "properties": {
+    "primaryProviderId": { "type": "string" },
+    "fallbackProviderIds": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "maxRetriesPerProvider": { "type": "integer" },
+    "backoffBaseMs": { "type": "integer" },
+    "preservePartialEvidence": { "type": "boolean" }
+  }
+}

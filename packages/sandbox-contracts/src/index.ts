@@ -22,3 +22,5 @@ export type * from "./parallel.js";
 export * from "./parallel.js";
 export type * from "./cross-provider.js";
 export * from "./cross-provider.js";
+export type * from "./fallback.js";
+export * from "./fallback.js";
