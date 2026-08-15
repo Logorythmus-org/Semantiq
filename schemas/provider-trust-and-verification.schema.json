@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderAttestation",
+  "type": "object",
+  "required": [
+    "identity",
+    "declaredTrustTier",
+    "securityGrade",
+    "tckSummary",
+    "capabilities",
+    "signatureHex"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "required": ["providerId", "organization", "publicKeyHex", "registeredAt"],
+      "properties": {
+        "providerId": { "type": "string" },
+        "organization": { "type": "string" },
+        "publicKeyHex": { "type": "string" },
+        "endpointUrl": { "type": "string" },
+        "registeredAt": { "type": "string" }
+      }
+    },
+    "declaredTrustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
+    "tckSummary": {
+      "type": "object",
+      "required": [
+        "tckSuiteVersion",
+        "totalTests",
+        "passedTests",
+        "failedTests",
+        "executedAt",
+        "tckEvidenceSha256"
+      ],
+      "properties": {
+        "tckSuiteVersion": { "type": "string" },
+        "totalTests": { "type": "integer" },
+        "passedTests": { "type": "integer" },
+        "failedTests": { "type": "integer" },
+        "executedAt": { "type": "string" },
+        "tckEvidenceSha256": { "type": "string" }
+      }
+    },
+    "capabilities": { "type": "object" },
+    "signatureHex": { "type": "string" }
+  }
+}
