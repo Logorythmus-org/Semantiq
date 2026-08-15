@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ParallelExecutionPlan",
+  "type": "object",
+  "required": ["planId", "benchmarkSuiteId", "shards", "policy", "createdAt"],
+  "properties": {
+    "planId": { "type": "string" },
+    "benchmarkSuiteId": { "type": "string" },
+    "shards": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["shardId", "scenarioId", "modelId", "repetitionIndex", "deterministicSeed", "spec"],
+        "properties": {
+          "shardId": { "type": "string" },
+          "scenarioId": { "type": "string" },
+          "modelId": { "type": "string" },
+          "repetitionIndex": { "type": "integer" },
+          "deterministicSeed": { "type": "string" },
+          "spec": { "type": "object" }
+        }
+      }
+    },
+    "policy": {
+      "type": "object",
+      "required": ["maxConcurrentSandboxes", "maxMemoryMebibytesTotal", "maxCpuCoresTotal", "retryAttemptsOnTransientError"],
+      "properties": {
+        "maxConcurrentSandboxes": { "type": "integer" },
+        "maxMemoryMebibytesTotal": { "type": "integer" },
+        "maxCpuCoresTotal": { "type": "integer" },
+        "rateLimitPerMinute": { "type": "integer" },
+        "retryAttemptsOnTransientError": { "type": "integer" }
+      }
+    },
+    "createdAt": { "type": "string" }
+  }
+}

@@ -18,3 +18,5 @@ export type * from "./browser-gui.js";
 export * from "./browser-gui.js";
 export type * from "./multi-agent.js";
 export * from "./multi-agent.js";
+export type * from "./parallel.js";
+export * from "./parallel.js";
