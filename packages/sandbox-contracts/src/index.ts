@@ -12,3 +12,5 @@ export * from './crypto-utils.js';
 export * from './schemas.js';
 export type * from "./credentials.js";
 export * from "./credentials.js";
+export type * from "./mcp.js";
+export * from "./mcp.js";
