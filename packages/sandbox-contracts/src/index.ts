@@ -26,3 +26,5 @@ export type * from "./fallback.js";
 export * from "./fallback.js";
 export type * from "./trust-verification.js";
 export * from "./trust-verification.js";
+export type * from "./security-boundary.js";
+export * from "./security-boundary.js";
