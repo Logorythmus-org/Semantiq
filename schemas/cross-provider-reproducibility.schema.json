@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CrossProviderDivergenceReport",
+  "type": "object",
+  "required": [
+    "comparisonId",
+    "scenarioId",
+    "equivalenceLevel",
+    "isEquivalent",
+    "divergences",
+    "comparisonTimestamp"
+  ],
+  "properties": {
+    "comparisonId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "equivalenceLevel": {
+      "type": "string",
+      "enum": ["EXACT_BYTE_IDENTICAL", "SEMANTICALLY_EQUIVALENT", "DIVERGENT"]
+    },
+    "isEquivalent": { "type": "boolean" },
+    "divergences": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["property", "baselineValue", "candidateValue", "category", "description"],
+        "properties": {
+          "property": { "type": "string" },
+          "baselineValue": { "type": "string" },
+          "candidateValue": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "BENIGN_ENVIRONMENTAL_DRIFT",
+              "PERFORMANCE_VARIANCE",
+              "BEHAVIORAL_DIVERGENCE",
+              "CRITICAL_FAULT"
+            ]
+          },
+          "description": { "type": "string" }
+        }
+      }
+    },
+    "comparisonTimestamp": { "type": "string" }
+  }
+}

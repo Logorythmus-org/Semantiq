@@ -20,3 +20,5 @@ export type * from "./multi-agent.js";
 export * from "./multi-agent.js";
 export type * from "./parallel.js";
 export * from "./parallel.js";
+export type * from "./cross-provider.js";
+export * from "./cross-provider.js";
