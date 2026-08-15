@@ -69,6 +69,7 @@ export * from "./adversarial-simulation.js";
 export * from "./release-authorization.js";
 export * from "./release-candidate-integrity.js";
 export * from "./final-launch-authorization.js";
+export * from "./sandbox.js";
 
 import type {
   BenchmarkHistory,

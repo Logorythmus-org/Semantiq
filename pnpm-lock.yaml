@@ -67,6 +67,30 @@ importers:
 
   apps/playground: {}
 
+  packages/adapter-cloud-base:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
+  packages/adapter-oci:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
+  packages/adapter-opensandbox:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
+  packages/adapter-replay:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
   packages/adapters: {}
 
   packages/agent-os:
@@ -112,6 +136,12 @@ importers:
   packages/beta-readiness: {}
 
   packages/cache: {}
+
+  packages/capability-discovery:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/civilization-kernel: {}
 
@@ -161,11 +191,23 @@ importers:
 
   packages/education-network: {}
 
+  packages/environment-compiler:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
   packages/eu-ai-act-readiness: {}
 
   packages/events: {}
 
   packages/evidence: {}
+
+  packages/evidence-normalizer:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/execution: {}
 
@@ -214,6 +256,12 @@ importers:
   packages/knowledge: {}
 
   packages/learning: {}
+
+  packages/lifecycle-engine:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/limitations-registry: {}
 
@@ -289,6 +337,23 @@ importers:
   packages/restore-runtime: {}
 
   packages/rollback-runtime: {}
+
+  packages/sandbox-contracts: {}
+
+  packages/sandbox-router:
+    dependencies:
+      '@tech-club/capability-discovery':
+        specifier: workspace:*
+        version: link:../capability-discovery
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
+
+  packages/sandbox-tck:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/scientific-atlas: {}
 
