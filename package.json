@@ -6,7 +6,7 @@
   "packageManager": "pnpm@11.7.0",
   "scripts": {
     "techclub": "node scripts/techclub.mjs",
-    "dev": "node scripts/techclub.mjs dev",
+    "dev": "node scripts/semantiq.mjs dev",
     "build": "pnpm -r --if-present build",
     "lint": "eslint .",
     "format": "prettier . --write",
@@ -22,8 +22,8 @@
     "test:coverage": "vitest run --coverage",
     "verify": "node scripts/verify-local.mjs",
     "test:e2e": "playwright test",
-    "docs": "node scripts/techclub.mjs docs",
-    "benchmark": "node scripts/techclub.mjs benchmark",
+    "docs": "node scripts/semantiq.mjs docs",
+    "benchmark": "node scripts/semantiq.mjs benchmark",
     "benchmark:question-discovery": "node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs scripts/question-discovery-performance.ts",
     "doctor": "tsx tools/automation/cli.mjs doctor",
     "preflight": "tsx tools/automation/cli.mjs preflight",
@@ -35,7 +35,7 @@
     "health": "node scripts/repository-health.mjs",
     "config:check": "tsx scripts/config-check.mjs",
     "config:init": "tsx scripts/config-init.mjs",
-    "graph": "node scripts/techclub.mjs graph",
+    "graph": "node scripts/semantiq.mjs graph",
     "changeset": "changeset",
     "prepare": "node scripts/prepare.mjs"
   },
@@ -75,5 +75,8 @@
     "url": "https://github.com/Logorythmus-org/Semantiq/issues"
   },
   "homepage": "https://github.com/Logorythmus-org/Semantiq#readme",
-  "license": "MIT"
+  "license": "MIT",
+  "bin": {
+    "semantiq": "./scripts/semantiq.mjs"
+  }
 }
