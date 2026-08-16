@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/adapter-cloud-base",
+  "name": "@semantiq/adapter-cloud-base",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -7,6 +7,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/sandbox-contracts": "workspace:*"
+    "@semantiq/sandbox-contracts": "workspace:*"
   }
 }

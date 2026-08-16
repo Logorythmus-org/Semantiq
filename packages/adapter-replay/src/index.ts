@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-replay
+ * @package @semantiq/adapter-replay
  * Entry Point
  */
 

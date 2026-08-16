@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-oci
+ * @package @semantiq/adapter-oci
  * Local OCI / Docker Adapter Implementation
  */
 

@@ -69,7 +69,7 @@ export interface QuestionFilter {
   readonly frameStale?: boolean;
   readonly hasAssumptions?: boolean;
   readonly hasUnknowns?: boolean;
-  /** Prompt 4 stores a controlled uncertainty level, exposed under this compatibility name. */
+  /** Controlled uncertainty level, exposed under this compatibility name. */
   readonly uncertaintyType?: QuestionUncertaintyLevel;
   /** Reserved until the semantic model owns a controlled constraint taxonomy. */
   readonly constraintType?: string;

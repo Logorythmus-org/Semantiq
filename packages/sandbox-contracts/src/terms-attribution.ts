@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Terms, Attribution, NOTICE, Trademarks, and Commercial Compliance Architecture
  */
 

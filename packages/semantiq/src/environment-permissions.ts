@@ -1,5 +1,5 @@
 /**
- * Environment and Permission Observation Model for SemantIQ Benchmarks (Prompt 8.4).
+ * Environment and Permission Observation Model for SemantIQ Benchmarks.
  * Models environment resource classes, permission states, scopes, drift detection, and secret redaction.
  */
 

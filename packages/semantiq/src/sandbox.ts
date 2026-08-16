@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @semantiq/semantiq
  * SemantIQ Sandbox Subsystem Bridge
  */
 

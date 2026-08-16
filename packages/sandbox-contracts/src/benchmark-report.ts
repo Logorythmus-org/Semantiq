@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Canonical Sandbox Benchmark Report Architecture
  */
 

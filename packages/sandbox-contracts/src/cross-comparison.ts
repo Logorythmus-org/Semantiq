@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Cross-Model and Cross-Provider Fair Comparison Architecture
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Provider Licensing Boundary, Clean-Room Isolation, and Compliance Architecture
  */
 

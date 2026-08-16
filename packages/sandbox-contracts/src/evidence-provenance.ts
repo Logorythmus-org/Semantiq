@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * End-to-End Evidence Provenance and Lineage Graph Architecture
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Full Sandbox Phase Architecture Audit and Final Release Verification
  */
 

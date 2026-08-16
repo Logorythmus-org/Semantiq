@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/lifecycle-engine
+ * @package @semantiq/lifecycle-engine
  * Canonical 8-Stage Execution Lifecycle Controller
  */
 

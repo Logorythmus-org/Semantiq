@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/rollback-runtime",
+  "name": "@semantiq/rollback-runtime",
   "version": "0.0.0",
   "type": "module",
   "private": true,

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/capability-discovery
+ * @package @semantiq/capability-discovery
  * Entry Point
  */
 

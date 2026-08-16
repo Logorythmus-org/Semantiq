@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * 8-Vector Holistic Execution Cost Model and Ledger Architecture
  */
 

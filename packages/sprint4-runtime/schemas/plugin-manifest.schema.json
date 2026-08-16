@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://tech-club.local/schemas/plugin-manifest.schema.json",
+  "$id": "https://semantiq.org/schemas/plugin-manifest.schema.json",
   "title": "Tech Club Plugin Manifest",
   "type": "object",
   "required": [

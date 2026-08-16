@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Provider Economics, Sustainable Funding, and Cost Allocation Architecture
  */
 

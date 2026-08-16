@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Base Abstract Classes for Sandbox Adapters & Instances
  */
 

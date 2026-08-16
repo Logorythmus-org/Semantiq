@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/agent-runtime",
+  "name": "@semantiq/agent-runtime",
   "version": "0.0.0",
   "type": "module",
   "private": true,

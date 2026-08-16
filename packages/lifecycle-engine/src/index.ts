@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/lifecycle-engine
+ * @package @semantiq/lifecycle-engine
  * Entry Point
  */
 

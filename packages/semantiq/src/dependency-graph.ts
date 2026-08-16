@@ -31,7 +31,7 @@ export class DependencyGraphEngine {
   classifyDependency(name: string, isDev = false, isOptional = false): DependencyNode {
     let category: DependencyCategory = "UNRESOLVED";
 
-    if (name.startsWith("@tech-club/semantiq") || name === "semantiq") {
+    if (name.startsWith("@semantiq/semantiq") || name === "semantiq") {
       category = "SEMANTIQ_OWNED";
     } else if (
       name.includes("civilization") ||
@@ -40,7 +40,7 @@ export class DependencyGraphEngine {
       name.includes("question-network")
     ) {
       category = "FORBIDDEN";
-    } else if (name.startsWith("@tech-club/")) {
+    } else if (name.startsWith("@semantiq/")) {
       category = "PARENT_ONLY";
     } else if (isDev) {
       category = "EXTERNAL_DEVELOPMENT";

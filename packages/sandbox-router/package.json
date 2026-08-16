@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/sandbox-router",
+  "name": "@semantiq/sandbox-router",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -7,7 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/sandbox-contracts": "workspace:*",
-    "@tech-club/capability-discovery": "workspace:*"
+    "@semantiq/sandbox-contracts": "workspace:*",
+    "@semantiq/capability-discovery": "workspace:*"
   }
 }

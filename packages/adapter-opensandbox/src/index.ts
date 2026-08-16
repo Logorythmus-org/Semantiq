@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-opensandbox
+ * @package @semantiq/adapter-opensandbox
  * Entry Point
  */
 

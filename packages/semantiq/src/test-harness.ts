@@ -70,7 +70,7 @@ export class TestHarnessEngine {
   validateHarness(importList: readonly string[]): TestRunReport {
     const forbiddenPrefixes = ["sprint", "civil", "wallet", "marketplace"];
     const hasParentImports = importList.some((imp) => {
-      if (!imp.startsWith("@tech-club/")) return false;
+      if (!imp.startsWith("@semantiq/")) return false;
       return forbiddenPrefixes.some((kw) => imp.includes(kw));
     });
 

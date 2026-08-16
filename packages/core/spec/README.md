@@ -1,3 +1,3 @@
-# Core Spec
+# Core Domain Specifications
 
-Core implementation follows `specs/032-core-domain-implementation.md` and the Phase 5 Prompt 3 Spec-Kit requirements.
+Core domain entities and contracts for SemantIQ benchmarks and knowledge evaluation.

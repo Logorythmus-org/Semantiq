@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-tck
+ * @package @semantiq/sandbox-tck
  * Automated Sandbox Technology Compatibility Kit (TCK)
  */
 

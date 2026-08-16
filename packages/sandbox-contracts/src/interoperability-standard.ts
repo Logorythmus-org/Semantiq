@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * SemantIQ Provider Interoperability Standard (SPIS) Architecture
  */
 

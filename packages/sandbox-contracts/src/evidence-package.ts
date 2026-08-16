@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Portable Evidence Package and Observable Behavioral Chain Architecture
  */
 

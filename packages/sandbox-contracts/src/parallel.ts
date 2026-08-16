@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Parallel Benchmark Execution Provider-Neutral Contracts and Interfaces
  */
 

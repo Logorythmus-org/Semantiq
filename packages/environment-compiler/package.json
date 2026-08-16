@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/environment-compiler",
+  "name": "@semantiq/environment-compiler",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -7,6 +7,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/sandbox-contracts": "workspace:*"
+    "@semantiq/sandbox-contracts": "workspace:*"
   }
 }

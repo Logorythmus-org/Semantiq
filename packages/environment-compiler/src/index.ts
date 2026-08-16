@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/environment-compiler
+ * @package @semantiq/environment-compiler
  * Entry Point
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Sandbox Benchmark DSL and Declarative Scenario Compiler Architecture
  */
 

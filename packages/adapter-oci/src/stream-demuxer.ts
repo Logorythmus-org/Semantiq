@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-oci
+ * @package @semantiq/adapter-oci
  * OCI 8-Byte Binary Stream Demultiplexer
  * Demuxes standard OCI binary headers: [streamType (1B)][reserved (3B)][frameSize (4B BE)][payload (NB)]
  */

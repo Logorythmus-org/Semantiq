@@ -1,5 +1,5 @@
 /**
- * Behavioral Event Schema and Evidence Integrity for SemantIQ Benchmarks (Prompt 8.5).
+ * Behavioral Event Schema and Evidence Integrity for SemantIQ Benchmarks.
  * Defines 19 canonical event types, event DAG integrity validation, checksum verification,
  * redaction traceability, and annotation separation.
  */

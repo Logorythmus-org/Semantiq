@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Transition Phenomena Laboratory and Controlled Behavioral Experimentation Architecture
  */
 

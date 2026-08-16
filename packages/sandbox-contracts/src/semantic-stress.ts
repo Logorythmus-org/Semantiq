@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Semantic Stress Environment and Observable Robustness Testing Architecture
  */
 

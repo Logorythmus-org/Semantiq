@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/lifecycle-engine
+ * @package @semantiq/lifecycle-engine
  * Lifecycle State Machine Types
  */
 

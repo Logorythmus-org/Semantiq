@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Failure Injection and Chaos Engineering Architecture for AI Agent Evaluation
  */
 

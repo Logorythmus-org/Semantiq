@@ -18,7 +18,7 @@ export class RuntimeDependencyRemoverEngine {
 
     for (const imp of importList) {
       const isForbiddenDomain = FORBIDDEN_DOMAINS.some((domain) => imp.includes(domain));
-      if (isForbiddenDomain || imp.startsWith("@tech-club/sprint")) {
+      if (isForbiddenDomain || imp.startsWith("@semantiq/sprint")) {
         parentCount++;
       } else if (imp.includes("..") && imp.includes("packages/")) {
         unresolvedCount++;

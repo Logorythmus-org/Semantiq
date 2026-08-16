@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-router
+ * @package @semantiq/sandbox-router
  * Router Types & Contracts
  */
 

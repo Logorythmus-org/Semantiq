@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/sdk",
+  "name": "@semantiq/sdk",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -7,6 +7,6 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/core": "workspace:*"
+    "@semantiq/core": "workspace:*"
   }
 }

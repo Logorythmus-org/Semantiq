@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Security Boundary Specifications, Policies, and Containment Enforcement
  */
 

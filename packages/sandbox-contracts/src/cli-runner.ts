@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Local-First CLI Runner and Provider Dispatch Architecture
  */
 

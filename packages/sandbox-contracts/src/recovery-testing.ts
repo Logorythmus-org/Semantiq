@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @semantiq/sandbox-contracts
  * Recovery Testing Protocols and Metrics Architecture for AI Agent Evaluation
  */
 

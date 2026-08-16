@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/evidence-normalizer
+ * @package @semantiq/evidence-normalizer
  * Canonical Evidence Types & Models
  */
 
