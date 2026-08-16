@@ -2,8 +2,8 @@
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Version: 0.1.0-alpha.1](https://img.shields.io/badge/Version-0.1.0--alpha.1-green.svg)](CHANGELOG.md)
-[![Product Status: Public Alpha Authorized](https://img.shields.io/badge/Product%20Status-Public%20Alpha%20Authorized-brightgreen.svg)](Docs/release/PHASE_12_V2_PROMPT_20_FINAL_PUBLIC_ALPHA_AUTHORIZATION.md)
-[![Sandbox Status: Internal Gate Passed](https://img.shields.io/badge/Sandbox%20Subsystem-Internal%20Gate%20Passed-brightgreen.svg)](Docs/sandbox/SANDBOX_PHASE_RELEASE_GATE_SPEC.md)
+[![Product Status: Public Alpha](https://img.shields.io/badge/Product%20Status-Public%20Alpha-brightgreen.svg)](docs/project/release-notes.md)
+[![Documentation](https://img.shields.io/badge/Docs-Passing-brightgreen.svg)](docs/README.md)
 
 ---
 
@@ -63,7 +63,7 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ---
 
-## Quick Start (3 Command Verification)
+## Quick Start
 
 ```bash
 # 1. Clone & Install
@@ -71,11 +71,16 @@ git clone https://github.com/Logorythmus-org/Semantiq.git
 cd Semantiq
 pnpm install
 
-# 2. Run Diagnostics Doctor
-pnpm doctor
+# 2. Run System Health Preflight & Diagnostics
+pnpm semantiq doctor
+pnpm preflight
 
-# 3. Run Local Offline Smoke Test
+# 3. Run Local Offline Evaluation Smoke Test
 pnpm smoke
+
+# 4. Reproduce & Export Benchmark Evidence
+pnpm reproduce
+pnpm export
 ```
 
 ---
