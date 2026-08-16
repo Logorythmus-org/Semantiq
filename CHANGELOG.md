@@ -1,5 +1,20 @@
 # Changelog
 
+## [0.1.0-alpha.2] - 2026-08-16
+
+### Public Alpha Consolidation & Hygiene Release
+
+This release establishes the curated public foundation for SemantIQ under the Logorythmus organization.
+
+#### Highlights
+- **Repository Consolidation**: Focused repository on 48 core evaluation packages, 4 applications, and 1 API service (~2.74 MB total weight).
+- **Branding & Package Namespaces**: Fully aligned packages under `@semantiq/*` and established the canonical `semantiq` CLI.
+- **Documentation Normalization**: Streamlined public documentation into `docs/` with comprehensive getting started, benchmark methodology, and reproducibility walkthroughs.
+- **Licensing Uniformity**: Reconciled explicit MIT licensing across all workspace packages with Creative Commons documentation and CC0 baseline data.
+- **Zero-Egress Security Posture**: Enforced local-first deterministic execution with automated credential redaction.
+
+---
+
 ## 0.1.0-alpha.1 — Public Alpha Consolidation (2026-08-16)
 
 This update consolidates the SemantIQ Public Alpha repository into a clean, lightweight, product-focused distribution.

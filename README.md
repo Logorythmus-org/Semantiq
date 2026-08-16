@@ -1,7 +1,7 @@
 # SemantIQ Benchmarks
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.1.0-alpha.1](https://img.shields.io/badge/Version-0.1.0--alpha.1-green.svg)](CHANGELOG.md)
+[![Version: 0.1.0-alpha.1](https://img.shields.io/badge/Version-0.1.0--alpha.2-green.svg)](CHANGELOG.md)
 [![Product Status: Public Alpha](https://img.shields.io/badge/Product%20Status-Public%20Alpha-brightgreen.svg)](docs/project/release-notes.md)
 [![Documentation](https://img.shields.io/badge/Docs-Passing-brightgreen.svg)](docs/README.md)
 

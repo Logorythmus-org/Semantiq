@@ -1,7 +1,7 @@
 cff-version: 1.2.0
 message: "If you use SemantIQ Benchmarks in your research or software, please cite it as below."
 title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit"
-version: "0.1.0-alpha.1"
+version: 0.1.0-alpha.2
 date-released: "2026-07-31"
 repository-code: "https://github.com/Logorythmus-org/Semantiq.git"
 license: MIT
