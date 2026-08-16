@@ -1,3 +1,0 @@
-# Events
-
-Events: NodeIdentityCreated, NodeKeyRotated, NodeDiscovered, FederationInvitationCreated, FederationInvitationAccepted, TrustRequested, TrustGranted, TrustRestricted, TrustRevoked, FederationPolicyUpdated, FederationAgreementCreated, FederationAgreementRevoked, RemoteReferenceCreated, KnowledgeShareRequested, KnowledgeShared, ReplicationStarted, ReplicationCompleted, SynchronizationStarted, SynchronizationCompleted, SynchronizationFailed, ConflictDetected, ConflictResolved, FederatedSearchStarted, FederatedSearchCompleted, CollaborationSessionCreated, RemoteExecutionRequested, RemoteExecutionApproved, RemoteExecutionCompleted, RemoteObjectRevoked, NodeHealthChanged.

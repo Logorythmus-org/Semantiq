@@ -8,13 +8,23 @@
   "codeRepository": "https://github.com/Logorythmus-org/Semantiq.git",
   "issueTracker": "https://github.com/Logorythmus-org/Semantiq/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "programmingLanguage": ["TypeScript", "JavaScript"],
-  "runtimePlatform": ["Node.js >= 22.0.0"],
+  "programmingLanguage": [
+    "TypeScript",
+    "JavaScript"
+  ],
+  "runtimePlatform": [
+    "Node.js >= 22.0.0"
+  ],
   "developmentStatus": "active",
   "author": [
     {
       "@type": "Organization",
       "name": "Tech Club Foundation"
     }
-  ]
+  ],
+  "publisher": {
+    "@type": "Organization",
+    "name": "Logorythmus",
+    "url": "https://github.com/Logorythmus-org"
+  }
 }

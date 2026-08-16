@@ -2,7 +2,7 @@ packages:
   - "apps/*"
   - "packages/*"
   - "services/*"
-  - "tooling/*"
+  - "tools/*"
   - "examples/*"
 allowBuilds:
   esbuild: true

@@ -13,7 +13,7 @@ describe("Parent Workspace Runtime Dependency Removal (Prompt 11.4)", () => {
   });
 
   it("detects parent-only package import", () => {
-    const dirtyImports = ["./policy-evidence-model.js", "@tech-club/wallet"];
+    const dirtyImports = ["./policy-evidence-model.js", "@semantiq/wallet"];
     const report = engine.auditRuntimeImports(dirtyImports);
     expect(report.isStandalone).toBe(false);
     expect(report.parentImportCount).toBe(1);

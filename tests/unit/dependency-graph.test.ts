@@ -27,14 +27,14 @@ describe("Independent Package and Dependency Graph (Prompt 11.3)", () => {
   });
 
   it("detects forbidden dependency error", () => {
-    const forbiddenNode = engine.classifyDependency("@tech-club/wallet", false, false);
+    const forbiddenNode = engine.classifyDependency("@semantiq/wallet", false, false);
     const report = engine.validateGraph([forbiddenNode]);
     expect(report.isValid).toBe(false);
     expect(report.forbiddenCount).toBe(1);
   });
 
   it("detects parent-only dependency error", () => {
-    const parentNode = engine.classifyDependency("@tech-club/sprint1-runtime", false, false);
+    const parentNode = engine.classifyDependency("@semantiq/sprint1-runtime", false, false);
     const report = engine.validateGraph([parentNode]);
     expect(report.isValid).toBe(false);
     expect(report.parentOnlyCount).toBe(1);

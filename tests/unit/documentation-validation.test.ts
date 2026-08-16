@@ -1,11 +1,12 @@
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-describe("Prompt 7.2 — Documentation Validation Verification", () => {
+describe("Documentation Validation", () => {
   it("verifies master documentation index and key guide files exist", () => {
-    expect(existsSync("Docs/DOCUMENTATION_INDEX.md")).toBe(true);
-    expect(existsSync("Docs/DOCUMENTATION_VALIDATION_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/QUICK_START.md")).toBe(true);
-    expect(existsSync("Docs/FAQ.md")).toBe(true);
+    expect(existsSync("docs/README.md")).toBe(true);
+    expect(existsSync("docs/getting-started/index.md")).toBe(true);
+    expect(existsSync("docs/getting-started/installation.md")).toBe(true);
+    expect(existsSync("docs/concepts/architecture.md")).toBe(true);
+    expect(existsSync("docs/project/limitations.md")).toBe(true);
   });
 });

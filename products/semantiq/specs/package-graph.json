@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
   "product": "SemantIQ Benchmarks",
-  "packageName": "@tech-club/semantiq",
+  "packageName": "@semantiq/semantiq",
   "dependencies": [
     {
       "packageName": "typescript",
@@ -17,9 +17,9 @@
     }
   ],
   "forbiddenDependencies": [
-    "@tech-club/civilization-kernel",
-    "@tech-club/wallet",
-    "@tech-club/question-network",
-    "@tech-club/marketplace"
+    "@semantiq/civilization-kernel",
+    "@semantiq/wallet",
+    "@semantiq/question-network",
+    "@semantiq/marketplace"
   ]
 }

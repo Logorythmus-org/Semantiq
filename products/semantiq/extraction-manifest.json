@@ -2,7 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "version": "1.0.0",
   "product": "SemantIQ Benchmarks",
-  "packageName": "@tech-club/semantiq",
+  "packageName": "@semantiq/semantiq",
   "defaultPolicy": "deny",
   "checksumPolicy": "sha256",
   "symlinkPolicy": "reject_escape",
@@ -24,7 +24,7 @@
     "examples/citation",
     "examples/ecosystem",
     "examples/kaggle",
-    "Docs/QUICK_START.md",
+    "docs/getting-started/index.md",
     "CITATION.cff",
     "codemeta.json",
     "LICENSE"
@@ -52,9 +52,9 @@
     "canonical-release-audit.md"
   ],
   "forbiddenImports": [
-    "@tech-club/civilization-kernel",
-    "@tech-club/wallet",
-    "@tech-club/question-network",
-    "@tech-club/marketplace"
+    "@semantiq/civilization-kernel",
+    "@semantiq/wallet",
+    "@semantiq/question-network",
+    "@semantiq/marketplace"
   ]
 }

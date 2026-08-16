@@ -26,8 +26,7 @@ describe("Prompt 7.6 — Community Launch Verification", () => {
     expect(existsSync(".github/ISSUE_TEMPLATE/config.yml")).toBe(true);
     expect(existsSync(".github/ISSUE_TEMPLATE/benchmark_pack_proposal.yml")).toBe(true);
     expect(existsSync(".github/ISSUE_TEMPLATE/model_connector_request.yml")).toBe(true);
-    expect(existsSync("Docs/COMMUNITY_LAUNCH_KIT.md")).toBe(true);
-    expect(existsSync("Docs/ECOSYSTEM_CONTRIBUTION_GUIDE.md")).toBe(true);
-    expect(existsSync("Docs/COMMUNITY_LAUNCH_REPORT.md")).toBe(true);
+    expect(existsSync("docs/project/governance.md")).toBe(true);
+    expect(existsSync("docs/integrations/custom-adapters.md")).toBe(true);
   });
 });

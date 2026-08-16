@@ -35,7 +35,7 @@ describe("Independent Test Harness (Prompt 11.7)", () => {
   });
 
   it("detects parent import violation in harness", () => {
-    const report = engine.validateHarness(["@tech-club/sprint1-runtime"]);
+    const report = engine.validateHarness(["@semantiq/sprint1-runtime"]);
     expect(report.passed).toBe(false);
     expect(report.hasParentImports).toBe(true);
   });

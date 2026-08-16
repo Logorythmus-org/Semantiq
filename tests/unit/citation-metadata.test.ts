@@ -11,11 +11,8 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
     expect(existsSync("CITATION.cff")).toBe(true);
     expect(existsSync("codemeta.json")).toBe(true);
     expect(existsSync(".zenodo.json")).toBe(true);
-    expect(existsSync("Docs/CITATION_GUIDE.md")).toBe(true);
-    expect(existsSync("Docs/ZENODO_DOI_WORKFLOW.md")).toBe(true);
-    expect(existsSync("Docs/VERSION_DOI_VS_CONCEPT_DOI.md")).toBe(true);
-    expect(existsSync("Docs/AUTHOR_AND_CONTRIBUTOR_IDENTIFIERS.md")).toBe(true);
-    expect(existsSync("Docs/DOI_PUBLICATION_CHECKLIST.md")).toBe(true);
+    expect(existsSync("docs/project/licensing.md")).toBe(true);
+    expect(existsSync("docs/project/governance.md")).toBe(true);
   });
 
   it("verifies cross-file version consistency", () => {
@@ -32,9 +29,9 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
       title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
       version: "0.1.0-alpha.1",
       dateReleased: "2026-07-31",
-      repositoryCode: "https://github.com/tech-club/tech-club",
+      repositoryCode: "https://github.com/Logorythmus-org/Semantiq",
       license: "MIT",
-      authors: [{ name: "Tech Club Foundation" }]
+      authors: [{ name: "Logorythmus" }]
     };
 
     const bibtex = formatBibtexCitation(meta);

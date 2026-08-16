@@ -7,7 +7,7 @@ describe("SemantIQ Source Inventory Freeze (Prompt 11.1)", () => {
   it("classifies public core source path correctly", () => {
     const item = engine.classifyPath("packages/semantiq/src/policy-evidence-model.ts", true);
     expect(item.classification).toBe("PUBLIC_CORE");
-    expect(item.owningPackage).toBe("@tech-club/semantiq");
+    expect(item.owningPackage).toBe("@semantiq/semantiq");
     expect(item.licenseStatus).toBe("MIT");
   });
 

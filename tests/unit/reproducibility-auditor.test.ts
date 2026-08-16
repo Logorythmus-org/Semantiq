@@ -5,7 +5,7 @@ describe("Reproducibility, SBOM, and Artifact Integrity (Prompt 11.14)", () => {
   const engine = new ReproducibilityAuditorEngine();
 
   it("generates valid CycloneDX-1.5 SBOM metadata", () => {
-    const sbom = engine.generateSbom("@tech-club/semantiq@0.1.0-alpha.1", [
+    const sbom = engine.generateSbom("@semantiq/semantiq@0.1.0-alpha.1", [
       {
         name: "typescript",
         version: "5.4.0",
@@ -16,7 +16,7 @@ describe("Reproducibility, SBOM, and Artifact Integrity (Prompt 11.14)", () => {
     ]);
 
     expect(sbom.specVersion).toBe("CycloneDX-1.5");
-    expect(sbom.rootPackage).toBe("@tech-club/semantiq@0.1.0-alpha.1");
+    expect(sbom.rootPackage).toBe("@semantiq/semantiq@0.1.0-alpha.1");
     expect(sbom.packages.length).toBe(1);
   });
 

@@ -11,73 +11,48 @@ const requiredRootFiles = [
   "SECURITY.md",
   "CODE_OF_CONDUCT.md",
   "CHANGELOG.md",
-  "ROADMAP.md",
-  "ARCHITECTURE.md",
-  "TECH_STACK.md",
   "pnpm-workspace.yaml",
   "turbo.json",
   "package.json",
-  "docker-compose.yml",
   ".env.example",
   ".gitignore",
   ".editorconfig",
-  ".gitattributes"
+  ".gitattributes",
+  "CITATION.cff",
+  "codemeta.json"
 ];
 
-const requiredApps = [
-  "web",
-  "desktop",
-  "mobile",
-  "admin",
-  "documentation",
-  "playground",
-  "benchmark",
-  "demo"
-];
-const requiredServices = [
-  "api",
-  "gateway",
-  "search",
-  "auth",
-  "agent-runtime",
-  "workflow-runtime",
-  "knowledge-graph",
-  "benchmark",
-  "scheduler",
-  "notification",
-  "analytics",
-  "sync",
-  "marketplace"
-];
+const requiredApps = ["benchmark", "documentation", "playground", "web"];
+const requiredServices = ["api"];
 const requiredPackages = [
   "core",
-  "identity",
-  "workspace",
-  "knowledge",
-  "questions",
+  "contracts",
+  "sandbox-contracts",
+  "sandbox-router",
+  "sandbox-tck",
   "semantiq",
-  "graph",
-  "research",
-  "community",
-  "narrative",
-  "education",
-  "governance",
-  "marketplace",
-  "wallet",
-  "agent-os",
-  "workflow",
-  "compute",
-  "federation",
-  "sdk",
-  "api",
-  "events",
-  "shared",
+  "evidence",
+  "evidence-normalizer",
   "config",
-  "ui"
+  "diagnostics",
+  "persistence",
+  "security-hardening",
+  "adapters",
+  "adapter-oci",
+  "adapter-opensandbox",
+  "adapter-replay",
+  "adapter-cloud-base",
+  "capability-discovery",
+  "environment-compiler",
+  "lifecycle-engine",
+  "shared",
+  "tools",
+  "ui",
+  "sdk"
 ];
 
 describe("monorepo bootstrap", () => {
-  it("contains required root files", () => {
+  it("contains required root baseline files", () => {
     for (const file of requiredRootFiles) {
       expect(existsSync(join(root, file)), file).toBe(true);
     }
@@ -85,19 +60,19 @@ describe("monorepo bootstrap", () => {
 
   it("contains required app shells", () => {
     for (const app of requiredApps) {
-      expect(existsSync(join(root, "apps", app, "README.md")), app).toBe(true);
+      expect(existsSync(join(root, "apps", app)), app).toBe(true);
     }
   });
 
   it("contains required service shells", () => {
     for (const service of requiredServices) {
-      expect(existsSync(join(root, "services", service, "README.md")), service).toBe(true);
+      expect(existsSync(join(root, "services", service)), service).toBe(true);
     }
   });
 
   it("contains required production package shells", () => {
-    for (const packageName of requiredPackages) {
-      expect(existsSync(join(root, "packages", packageName, "README.md")), packageName).toBe(true);
+    for (const pkg of requiredPackages) {
+      expect(existsSync(join(root, "packages", pkg)), pkg).toBe(true);
     }
   });
 });

@@ -1,3 +1,0 @@
-# Question Runtime Error Catalog
-
-Stable categories are validation (422), not found (404), forbidden (403), conflict/domain (409), rate limit (429), and sanitized infrastructure (503/500). Key codes include `invalid_question_id`, `question_not_found`, `question_archived`, `question_mutation_forbidden`, `question_version_conflict`, `idempotency_conflict`, `question_relation_exists`, `question_relation_not_found`, `question_relation_version_conflict`, `question_semantic_version_conflict`, `question_search_unavailable`, `question_moderation_version_conflict`, and `rate_limit_exceeded`. Database/SQL details are never returned.
