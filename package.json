@@ -1,0 +1,62 @@
+{
+  "name": "tech-club",
+  "version": "0.1.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "techclub": "node scripts/techclub.mjs",
+    "dev": "node scripts/techclub.mjs dev",
+    "build": "pnpm -r --if-present build",
+    "lint": "eslint .",
+    "format": "prettier . --write",
+    "format:check": "prettier --check --ignore-unknown .gitignore .dockerignore package.json pnpm-workspace.yaml eslint.config.mjs vitest.config.mjs scripts/prepare.mjs scripts/repository-health.mjs scripts/config-check.mjs scripts/config-init.mjs scripts/verify-local.mjs scripts/question-performance.ts scripts/question-discovery-performance.ts packages/config/src/index.ts packages/config/src/settings.ts packages/shared/src/index.ts packages/shared/src/core-primitives.ts packages/persistence/src/*.ts packages/questions/src/*.ts packages/workflow-runtime/src/index.ts services/api/src/*.ts services/question/src/*.ts \"tests/unit/*.ts\" \"tests/integration/*.ts\" \"tests/contracts/*.ts\" \"tests/security/*.ts\" \"tests/smoke/*.ts\" \"tests/api/*.ts\" \"Docs/implementation-cycle-1/**/*.md\" \"Docs/adr/*.md\" \"Docs/backend/*.md\" .env.example .env.test.example Dockerfile docker-compose.yml",
+    "typecheck": "tsc -p tsconfig.base.json --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run tests/unit tests/contracts packages/*/tests",
+    "test:integration": "vitest run tests/integration",
+    "test:api": "vitest run tests/api",
+    "test:contracts": "vitest run tests/contracts",
+    "test:smoke": "vitest run tests/smoke",
+    "test:security": "vitest run tests/security",
+    "test:coverage": "vitest run --coverage",
+    "verify": "node scripts/verify-local.mjs",
+    "test:e2e": "playwright test",
+    "docs": "node scripts/techclub.mjs docs",
+    "benchmark": "node scripts/techclub.mjs benchmark",
+    "benchmark:question-discovery": "node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs scripts/question-discovery-performance.ts",
+    "doctor": "node scripts/techclub.mjs doctor",
+    "health": "node scripts/repository-health.mjs",
+    "config:check": "tsx scripts/config-check.mjs",
+    "config:init": "tsx scripts/config-init.mjs",
+    "graph": "node scripts/techclub.mjs graph",
+    "changeset": "changeset",
+    "prepare": "node scripts/prepare.mjs"
+  },
+  "devDependencies": {
+    "@changesets/cli": "2.31.0",
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@eslint/js": "9.18.0",
+    "@playwright/test": "1.55.1",
+    "@types/node": "22.10.7",
+    "@vitest/coverage-v8": "3.2.6",
+    "eslint": "9.18.0",
+    "globals": "15.14.0",
+    "husky": "9.1.7",
+    "prettier": "3.4.2",
+    "tsx": "4.19.2",
+    "turbo": "2.5.4",
+    "typescript": "5.7.3",
+    "typescript-eslint": "8.20.0",
+    "vitest": "3.2.6"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx,mjs,cjs,json,md,yml,yaml}": [
+      "prettier --write"
+    ],
+    "*.{ts,tsx,js,jsx,mjs,cjs}": [
+      "eslint --fix"
+    ]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "external-reasoning-pack",
+  "title": "External Ecosystem Reasoning Benchmark Pack",
+  "version": "1.0.0",
+  "author": "Ecosystem Community",
+  "license": "CC0-1.0",
+  "subjects": [
+    {
+      "id": "ext_sub_001",
+      "kind": "question",
+      "version": "1.0.0",
+      "title": "Third-Party Reasoning Question",
+      "content": "Evaluate scientific reasoning in LLM outputs.",
+      "contextIds": [],
+      "evidenceIds": ["ev_ext_1"]
+    }
+  ]
+}

@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxPhaseCompletionReport",
+  "type": "object",
+  "required": [
+    "phase",
+    "version",
+    "promptsCompleted",
+    "totalSpecsCreated",
+    "totalAdrsCreated",
+    "totalTestSuitesPassing",
+    "totalUnitTestsPassing",
+    "checksVerifiedCount",
+    "zeroDaysFound",
+    "lockInRisk",
+    "verdict",
+    "auditedAt",
+    "releaseSealSignatureHex"
+  ],
+  "properties": {
+    "phase": {
+      "type": "string",
+      "enum": ["SANDBOX_PHASE"]
+    },
+    "version": { "type": "string" },
+    "promptsCompleted": { "type": "integer", "minimum": 1 },
+    "totalSpecsCreated": { "type": "integer", "minimum": 1 },
+    "totalAdrsCreated": { "type": "integer", "minimum": 1 },
+    "totalTestSuitesPassing": { "type": "integer", "minimum": 1 },
+    "totalUnitTestsPassing": { "type": "integer", "minimum": 1 },
+    "checksVerifiedCount": { "type": "integer", "minimum": 1 },
+    "zeroDaysFound": { "type": "integer", "minimum": 0 },
+    "lockInRisk": { "type": "number", "minimum": 0, "maximum": 1 },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "PHASE_COMPLETED_AND_SEALED",
+        "CONDITIONALLY_COMPLETED",
+        "PHASE_INCOMPLETE"
+      ]
+    },
+    "auditedAt": { "type": "string" },
+    "releaseSealSignatureHex": { "type": "string" }
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech-club.local/schemas/asset-manifest.schema.json",
+  "title": "Tech Club Asset Manifest",
+  "type": "object",
+  "required": ["packageVersion", "assetId", "slug", "type", "title", "version", "capabilities", "permissions", "dependencies", "compatibility", "licenseId"],
+  "properties": {
+    "packageVersion": { "const": "techclub-asset-v1" },
+    "assetId": { "type": "string" },
+    "slug": { "type": "string" },
+    "type": { "type": "string" },
+    "title": { "type": "string" },
+    "version": { "type": "string" },
+    "capabilities": { "type": "array", "items": { "type": "string" } },
+    "permissions": { "type": "array", "items": { "type": "string" } },
+    "dependencies": { "type": "array" },
+    "compatibility": { "type": "object" },
+    "licenseId": { "type": "string" }
+  }
+}

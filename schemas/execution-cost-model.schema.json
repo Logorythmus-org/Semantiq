@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "HolisticExecutionCostLedger",
+  "type": "object",
+  "required": [
+    "runId",
+    "benchmarkId",
+    "scenarioId",
+    "currency",
+    "inference",
+    "runtimeCompute",
+    "browserGui",
+    "gpu",
+    "storage",
+    "network",
+    "tools",
+    "evaluation",
+    "totalGrossCostUsd",
+    "grantSubsidiesUsd",
+    "totalNetCostUsd",
+    "timestamp",
+    "ledgerSignatureHex"
+  ],
+  "properties": {
+    "runId": { "type": "string" },
+    "benchmarkId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "currency": { "type": "string", "enum": ["USD"] },
+    "inference": {
+      "type": "object",
+      "required": ["modelId", "promptTokens", "completionTokens", "reasoningTokens", "cachedTokens", "costUsd"],
+      "properties": {
+        "modelId": { "type": "string" },
+        "promptTokens": { "type": "integer", "minimum": 0 },
+        "completionTokens": { "type": "integer", "minimum": 0 },
+        "reasoningTokens": { "type": "integer", "minimum": 0 },
+        "cachedTokens": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "runtimeCompute": {
+      "type": "object",
+      "required": ["providerId", "cpuCoreSeconds", "ramGibSeconds", "wallClockDurationMs", "coldBootSurchargeUsd", "costUsd"],
+      "properties": {
+        "providerId": { "type": "string" },
+        "cpuCoreSeconds": { "type": "number", "minimum": 0 },
+        "ramGibSeconds": { "type": "number", "minimum": 0 },
+        "wallClockDurationMs": { "type": "integer", "minimum": 0 },
+        "coldBootSurchargeUsd": { "type": "number", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "browserGui": {
+      "type": "object",
+      "required": ["browserSessions", "activeDurationMs", "screenCaptureFrames", "costUsd"],
+      "properties": {
+        "browserSessions": { "type": "integer", "minimum": 0 },
+        "activeDurationMs": { "type": "integer", "minimum": 0 },
+        "screenCaptureFrames": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "gpu": {
+      "type": "object",
+      "required": ["gpuType", "allocatedGpuCount", "durationMs", "costUsd"],
+      "properties": {
+        "gpuType": { "type": "string" },
+        "allocatedGpuCount": { "type": "integer", "minimum": 0 },
+        "durationMs": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "storage": {
+      "type": "object",
+      "required": ["diskAllocatedGb", "ioReadBytes", "ioWriteBytes", "snapshotCount", "costUsd"],
+      "properties": {
+        "diskAllocatedGb": { "type": "number", "minimum": 0 },
+        "ioReadBytes": { "type": "number", "minimum": 0 },
+        "ioWriteBytes": { "type": "number", "minimum": 0 },
+        "snapshotCount": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "network": {
+      "type": "object",
+      "required": ["ingressBytes", "egressBytes", "costUsd"],
+      "properties": {
+        "ingressBytes": { "type": "number", "minimum": 0 },
+        "egressBytes": { "type": "number", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "tools": {
+      "type": "object",
+      "required": ["mcpToolCalls", "paidApiCalls", "costUsd"],
+      "properties": {
+        "mcpToolCalls": { "type": "integer", "minimum": 0 },
+        "paidApiCalls": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "evaluation": {
+      "type": "object",
+      "required": ["judgeModelId", "judgeTokens", "tckComputeMs", "costUsd"],
+      "properties": {
+        "judgeModelId": { "type": "string" },
+        "judgeTokens": { "type": "integer", "minimum": 0 },
+        "tckComputeMs": { "type": "integer", "minimum": 0 },
+        "costUsd": { "type": "number", "minimum": 0 }
+      }
+    },
+    "totalGrossCostUsd": { "type": "number", "minimum": 0 },
+    "grantSubsidiesUsd": { "type": "number", "minimum": 0 },
+    "totalNetCostUsd": { "type": "number", "minimum": 0 },
+    "timestamp": { "type": "string" },
+    "ledgerSignatureHex": { "type": "string" }
+  }
+}

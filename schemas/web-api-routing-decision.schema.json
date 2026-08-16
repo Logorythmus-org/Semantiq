@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RoutingDecisionRecord",
+  "type": "object",
+  "required": [
+    "routingId",
+    "scenarioId",
+    "selectedProviderId",
+    "selectedEndpointUrl",
+    "policyApplied",
+    "candidatesEvaluated",
+    "routedAt",
+    "decisionSignatureHex"
+  ],
+  "properties": {
+    "routingId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "selectedProviderId": { "type": "string" },
+    "selectedEndpointUrl": { "type": "string" },
+    "fallbackProviderId": { "type": "string" },
+    "fallbackEndpointUrl": { "type": "string" },
+    "policyApplied": { "type": "object" },
+    "candidatesEvaluated": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "providerId",
+          "capabilityMatch",
+          "policyCompliant",
+          "estimatedCostPerMinute",
+          "healthScore",
+          "compositeRank"
+        ],
+        "properties": {
+          "providerId": { "type": "string" },
+          "capabilityMatch": { "type": "boolean" },
+          "policyCompliant": { "type": "boolean" },
+          "estimatedCostPerMinute": { "type": "number", "minimum": 0 },
+          "healthScore": { "type": "number", "minimum": 0, "maximum": 1 },
+          "compositeRank": { "type": "number" },
+          "rejectionReason": { "type": "string" }
+        }
+      }
+    },
+    "routedAt": { "type": "string" },
+    "decisionSignatureHex": { "type": "string" }
+  }
+}

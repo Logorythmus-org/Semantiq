@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReplicationRecord",
+  "type": "object",
+  "required": [
+    "replicationId",
+    "replicatorName",
+    "targetBenchmarkVersion",
+    "isSuccessful",
+    "executionTimestamp"
+  ],
+  "properties": {
+    "replicationId": { "type": "string" },
+    "replicatorName": { "type": "string" },
+    "targetBenchmarkVersion": { "type": "string" },
+    "isSuccessful": { "type": "boolean" },
+    "executionTimestamp": { "type": "string" },
+    "discrepancyNotes": { "type": "string" }
+  }
+}

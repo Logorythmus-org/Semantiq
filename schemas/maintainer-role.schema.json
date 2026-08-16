@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MaintainerRoleRecord",
+  "type": "object",
+  "required": [
+    "maintainerId",
+    "name",
+    "roleScope",
+    "appointedAt",
+    "termReviewDate",
+    "isSuspended"
+  ],
+  "properties": {
+    "maintainerId": { "type": "string" },
+    "name": { "type": "string" },
+    "roleScope": { "type": "string" },
+    "appointedAt": { "type": "string" },
+    "termReviewDate": { "type": "string" },
+    "isSuspended": { "type": "boolean" }
+  }
+}

@@ -1,0 +1,98 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComprehensiveEvidenceProvenanceGraph",
+  "type": "object",
+  "required": [
+    "graphId",
+    "scenarioId",
+    "runId",
+    "benchmark",
+    "model",
+    "environment",
+    "transformations",
+    "artifacts",
+    "evaluator",
+    "graphMerkleRoot",
+    "sealedAt",
+    "lineageSignatureHex"
+  ],
+  "properties": {
+    "graphId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "benchmark": {
+      "type": "object",
+      "required": ["scenarioId", "manifestDigest", "dslVersion"],
+      "properties": {
+        "scenarioId": { "type": "string" },
+        "manifestDigest": { "type": "string" },
+        "dslVersion": { "type": "string" },
+        "gitCommitSha": { "type": "string" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["modelId", "modelVersion", "agentArchitecture", "promptDigest", "temperature"],
+      "properties": {
+        "modelId": { "type": "string" },
+        "modelVersion": { "type": "string" },
+        "agentArchitecture": { "type": "string" },
+        "promptDigest": { "type": "string" },
+        "temperature": { "type": "number" }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["providerId", "providerVersion", "imageDigest", "hostPlatform", "kernelVersion"],
+      "properties": {
+        "providerId": { "type": "string" },
+        "providerVersion": { "type": "string" },
+        "imageDigest": { "type": "string" },
+        "hostPlatform": { "type": "string" },
+        "kernelVersion": { "type": "string" }
+      }
+    },
+    "transformations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["transformationId", "operation", "inputDigest", "outputDigest", "appliedAt"],
+        "properties": {
+          "transformationId": { "type": "string" },
+          "operation": { "type": "string" },
+          "inputDigest": { "type": "string" },
+          "outputDigest": { "type": "string" },
+          "appliedAt": { "type": "string" }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["artifactId", "path", "sha256", "sizeBytes", "sourceStep", "generatedBy"],
+        "properties": {
+          "artifactId": { "type": "string" },
+          "path": { "type": "string" },
+          "sha256": { "type": "string" },
+          "sizeBytes": { "type": "integer", "minimum": 0 },
+          "sourceStep": { "type": "integer", "minimum": 1 },
+          "generatedBy": { "type": "string" }
+        }
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "required": ["evaluatorId", "evaluatorVersion", "rubricDigest", "evaluatedAt"],
+      "properties": {
+        "evaluatorId": { "type": "string" },
+        "evaluatorVersion": { "type": "string" },
+        "rubricDigest": { "type": "string" },
+        "evaluatedAt": { "type": "string" }
+      }
+    },
+    "graphMerkleRoot": { "type": "string" },
+    "sealedAt": { "type": "string" },
+    "lineageSignatureHex": { "type": "string" }
+  }
+}

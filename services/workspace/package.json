@@ -1,0 +1,14 @@
+{
+  "name": "@tech-club/service-workspace",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo \"workspace service build scaffold\"",
+    "dev": "echo \"workspace service dev scaffold\"",
+    "test": "echo \"workspace service tests scaffold\""
+  }
+}

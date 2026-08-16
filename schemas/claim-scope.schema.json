@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ScopeOfClaimBlock",
+  "type": "object",
+  "required": [
+    "modelId",
+    "modelVersion",
+    "provider",
+    "executionTimestamp",
+    "benchmarkVersion",
+    "scenarioVersion",
+    "evaluatorVersion",
+    "repetitionCount",
+    "variance",
+    "scope",
+    "uncertaintyStatement"
+  ],
+  "properties": {
+    "modelId": { "type": "string" },
+    "modelVersion": { "type": "string" },
+    "provider": { "type": "string" },
+    "executionTimestamp": { "type": "string" },
+    "benchmarkVersion": { "type": "string" },
+    "scenarioVersion": { "type": "string" },
+    "evaluatorVersion": { "type": "string" },
+    "configuration": { "type": "object" },
+    "enabledTools": { "type": "array", "items": { "type": "string" } },
+    "language": { "type": "string" },
+    "repetitionCount": { "type": "integer" },
+    "variance": { "type": "number" },
+    "knownExclusions": { "type": "array", "items": { "type": "string" } },
+    "scope": { "type": "string" },
+    "prohibitedInterpretations": { "type": "array", "items": { "type": "string" } },
+    "uncertaintyStatement": { "type": "string" }
+  }
+}

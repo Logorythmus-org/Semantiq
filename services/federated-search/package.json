@@ -1,0 +1,1 @@
+{"name":"@tech-club/service-federated-search","version":"0.0.0","type":"module","private":true,"exports":{".":"./src/index.ts"},"scripts":{"build":"echo \"federated search build scaffold\"","dev":"echo \"federated search dev scaffold\"","test":"echo \"federated search tests scaffold\""}}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "FailureInjectionReport",
+  "type": "object",
+  "required": [
+    "planId",
+    "scenarioId",
+    "totalInjectedFaults",
+    "recoveredFaultsCount",
+    "meanTimeToRecoverySteps",
+    "faultResilienceScore",
+    "injectedEvents",
+    "assessments",
+    "analyzedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "planId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "totalInjectedFaults": { "type": "integer", "minimum": 0 },
+    "recoveredFaultsCount": { "type": "integer", "minimum": 0 },
+    "meanTimeToRecoverySteps": { "type": "number", "minimum": 0 },
+    "faultResilienceScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "injectedEvents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["faultEventId", "ruleId", "stepIndex", "faultType", "targetAction", "injectedOutcome", "timestamp"],
+        "properties": {
+          "faultEventId": { "type": "string" },
+          "ruleId": { "type": "string" },
+          "stepIndex": { "type": "integer", "minimum": 0 },
+          "faultType": {
+            "type": "string",
+            "enum": [
+              "CONTEXT_LOSS_TRUNCATION",
+              "TOOL_RPC_ERROR",
+              "NETWORK_PARTITION_LATENCY",
+              "STALE_STATE_DRIFT",
+              "CONTRADICTION_MUTATION",
+              "PERMISSION_REVOCATION",
+              "PARTIAL_RESULT_CORRUPTION"
+            ]
+          },
+          "targetAction": { "type": "string" },
+          "injectedOutcome": { "type": "object" },
+          "timestamp": { "type": "string" }
+        }
+      }
+    },
+    "assessments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["faultEventId", "faultType", "recovered", "recoveryLatencySteps", "pathologicalLoopDetected"],
+        "properties": {
+          "faultEventId": { "type": "string" },
+          "faultType": {
+            "type": "string",
+            "enum": [
+              "CONTEXT_LOSS_TRUNCATION",
+              "TOOL_RPC_ERROR",
+              "NETWORK_PARTITION_LATENCY",
+              "STALE_STATE_DRIFT",
+              "CONTRADICTION_MUTATION",
+              "PERMISSION_REVOCATION",
+              "PARTIAL_RESULT_CORRUPTION"
+            ]
+          },
+          "recovered": { "type": "boolean" },
+          "recoveryLatencySteps": { "type": "integer", "minimum": 0 },
+          "recoveryActionType": { "type": "string" },
+          "pathologicalLoopDetected": { "type": "boolean" }
+        }
+      }
+    },
+    "analyzedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

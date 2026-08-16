@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SponsorDisclosureRecord",
+  "type": "object",
+  "required": [
+    "sponsorId",
+    "organizationName",
+    "fundingTier",
+    "hasVetoPower",
+    "hasPrivilegedAccess",
+    "hasRankingGuarantee"
+  ],
+  "properties": {
+    "sponsorId": { "type": "string" },
+    "organizationName": { "type": "string" },
+    "fundingTier": { "type": "string" },
+    "hasVetoPower": { "type": "boolean" },
+    "hasPrivilegedAccess": { "type": "boolean" },
+    "hasRankingGuarantee": { "type": "boolean" }
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderConformanceCertificate",
+  "type": "object",
+  "required": [
+    "providerId",
+    "adapterVersion",
+    "passedChecks",
+    "failedChecks",
+    "isCertified",
+    "certifiedAt",
+    "certificateSignatureHex"
+  ],
+  "properties": {
+    "providerId": { "type": "string" },
+    "adapterVersion": { "type": "string" },
+    "passedChecks": { "type": "array", "items": { "type": "string" } },
+    "failedChecks": { "type": "array", "items": { "type": "string" } },
+    "isCertified": { "type": "boolean" },
+    "certifiedAt": { "type": "string" },
+    "certificateSignatureHex": { "type": "string" }
+  }
+}

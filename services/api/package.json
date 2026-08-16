@@ -1,0 +1,15 @@
+{
+  "name": "@tech-club/service-api",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc -p ../../tsconfig.base.json --noEmit",
+    "dev": "tsx src/local-server.ts",
+    "start": "tsx src/local-server.ts",
+    "test": "vitest run ../../tests/api"
+  }
+}

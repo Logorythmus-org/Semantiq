@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://tech-club.local/schemas/plugin-manifest.schema.json",
+  "title": "Tech Club Plugin Manifest",
+  "type": "object",
+  "required": ["id", "version", "entrypoint", "capabilities", "permissions", "healthCheck", "licenseId", "publisherId", "sandbox"],
+  "properties": {
+    "id": { "type": "string" },
+    "version": { "type": "string" },
+    "entrypoint": { "type": "string" },
+    "capabilities": { "type": "array", "items": { "type": "string" } },
+    "permissions": { "type": "array", "items": { "type": "string" } },
+    "healthCheck": { "type": "string" },
+    "licenseId": { "type": "string" },
+    "publisherId": { "type": "string" },
+    "sandbox": { "type": "object" }
+  }
+}

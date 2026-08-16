@@ -1,0 +1,183 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxBenchmarkDSL",
+  "type": "object",
+  "required": [
+    "dslVersion",
+    "metadata",
+    "environment",
+    "actors",
+    "tools",
+    "assertions",
+    "lifecycle"
+  ],
+  "properties": {
+    "dslVersion": { "type": "string", "const": "1.0.0" },
+    "metadata": {
+      "type": "object",
+      "required": ["benchmarkId", "scenarioId", "version", "title", "description", "tags", "license", "author"],
+      "properties": {
+        "benchmarkId": { "type": "string" },
+        "scenarioId": { "type": "string" },
+        "version": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "tags": { "type": "array", "items": { "type": "string" } },
+        "license": {
+          "type": "string",
+          "enum": ["MIT", "Apache-2.0", "BSD-3-Clause", "CC-BY-4.0", "Proprietary"]
+        },
+        "author": { "type": "string" }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["runtimeType", "baseImage", "resources", "networkPolicy"],
+      "properties": {
+        "runtimeType": { "type": "string", "enum": ["container", "microvm", "local_process"] },
+        "baseImage": { "type": "string" },
+        "resources": {
+          "type": "object",
+          "required": ["cpuCores", "memoryMb", "diskGb"],
+          "properties": {
+            "cpuCores": { "type": "number", "minimum": 0.5 },
+            "memoryMb": { "type": "integer", "minimum": 256 },
+            "diskGb": { "type": "integer", "minimum": 1 },
+            "gpuCount": { "type": "integer", "minimum": 0 }
+          }
+        },
+        "networkPolicy": { "type": "string", "enum": ["ISOLATED", "EGRESS_ALLOWLIST", "FULL_ACCESS"] },
+        "egressAllowlist": { "type": "array", "items": { "type": "string" } },
+        "envVars": { "type": "object", "additionalProperties": { "type": "string" } },
+        "preinstalledPackages": { "type": "array", "items": { "type": "string" } },
+        "volumeMounts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["sourcePath", "targetMountPath", "readOnly"],
+            "properties": {
+              "sourcePath": { "type": "string" },
+              "targetMountPath": { "type": "string" },
+              "readOnly": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    },
+    "actors": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["actorId", "role", "allowedTools", "permissionLevel"],
+        "properties": {
+          "actorId": { "type": "string" },
+          "role": { "type": "string", "enum": ["PRIMARY_AGENT", "EVALUATOR", "MOCK_PEER", "USER_PROXY"] },
+          "allowedTools": { "type": "array", "items": { "type": "string" } },
+          "permissionLevel": { "type": "string", "enum": ["SANDBOX_USER", "SUDO_ROOT", "RESTRICTED_READONLY"] }
+        }
+      }
+    },
+    "tools": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type", "description", "timeoutMs"],
+        "properties": {
+          "name": { "type": "string" },
+          "type": { "type": "string", "enum": ["BASH", "FILE_SYSTEM", "HTTP_API", "BROWSER", "MCP_SERVER"] },
+          "description": { "type": "string" },
+          "timeoutMs": { "type": "integer", "minimum": 100 },
+          "config": { "type": "object" }
+        }
+      }
+    },
+    "perturbations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["perturbationId", "mode", "triggerStep", "parameters"],
+        "properties": {
+          "perturbationId": { "type": "string" },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "CONTEXT_LOSS_TRUNCATION",
+              "TOOL_RPC_ERROR",
+              "NETWORK_PARTITION_LATENCY",
+              "STALE_STATE_DRIFT",
+              "CONTRADICTION_MUTATION",
+              "PERMISSION_REVOCATION",
+              "PARTIAL_RESULT_CORRUPTION"
+            ]
+          },
+          "triggerStep": { "type": "integer", "minimum": 0 },
+          "parameters": { "type": "object" }
+        }
+      }
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["milestoneId", "phase", "description", "stepBudget", "requiredArtifacts"],
+        "properties": {
+          "milestoneId": { "type": "string" },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "DISCOVERY_AND_RECON",
+              "ARCHITECTURAL_PLANNING",
+              "SCAFFOLD_AND_BOOTSTRAP",
+              "INCREMENTAL_IMPLEMENTATION",
+              "INTEGRATION_AND_TESTING",
+              "VERIFICATION_AND_FINALIZE"
+            ]
+          },
+          "description": { "type": "string" },
+          "stepBudget": { "type": "integer", "minimum": 1 },
+          "requiredArtifacts": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "assertions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["assertionId", "type", "params", "weight"],
+        "properties": {
+          "assertionId": { "type": "string" },
+          "targetStep": { "type": "integer", "minimum": 0 },
+          "type": {
+            "type": "string",
+            "enum": [
+              "EXIT_CODE_EQUALS",
+              "FILE_EXISTS",
+              "FILE_CONTAINS_REGEX",
+              "COMMAND_OUTPUT_MATCHES",
+              "TEST_SUITE_PASSES",
+              "RRI_THRESHOLD",
+              "CAI_THRESHOLD"
+            ]
+          },
+          "params": { "type": "object" },
+          "weight": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    },
+    "lifecycle": {
+      "type": "object",
+      "required": ["setupCommands", "maxDurationSeconds", "totalStepBudget", "retryBudget", "teardownCommands"],
+      "properties": {
+        "setupCommands": { "type": "array", "items": { "type": "string" } },
+        "maxDurationSeconds": { "type": "integer", "minimum": 1 },
+        "totalStepBudget": { "type": "integer", "minimum": 1 },
+        "retryBudget": { "type": "integer", "minimum": 0 },
+        "teardownCommands": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "extensions": {
+      "type": "object",
+      "additionalProperties": { "type": "object" }
+    }
+  }
+}

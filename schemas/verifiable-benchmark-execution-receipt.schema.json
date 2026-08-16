@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "VerifiableBenchmarkExecutionReceipt",
+  "type": "object",
+  "required": [
+    "identity",
+    "provenance",
+    "model",
+    "artifacts",
+    "observation",
+    "financial",
+    "compliance",
+    "issuedAt",
+    "issuerPublicKeyHex",
+    "receiptDigestSha256",
+    "signatureHex"
+  ],
+  "properties": {
+    "identity": {
+      "type": "object",
+      "required": ["receiptId", "receiptVersion", "evaluationRunId", "benchmarkId", "scenarioId"],
+      "properties": {
+        "receiptId": { "type": "string" },
+        "receiptVersion": { "type": "string", "enum": ["1.0.0"] },
+        "evaluationRunId": { "type": "string" },
+        "benchmarkId": { "type": "string" },
+        "scenarioId": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["providerId", "providerVersion", "runtimeType", "environmentSpecHash", "imageDigest", "isolationMechanism", "reproducibilityTier"],
+      "properties": {
+        "providerId": { "type": "string" },
+        "providerVersion": { "type": "string" },
+        "runtimeType": { "type": "string" },
+        "environmentSpecHash": { "type": "string" },
+        "imageDigest": { "type": "string" },
+        "isolationMechanism": { "type": "string" },
+        "reproducibilityTier": {
+          "type": "string",
+          "enum": ["HERMETIC_DETERMINISTIC", "PINNED_ENVIRONMENT", "BEST_EFFORT_REPRODUCIBLE", "NON_REPRODUCIBLE"]
+        },
+        "deterministicSeed": { "type": "string" }
+      }
+    },
+    "model": {
+      "type": "object",
+      "required": ["modelId", "modelProvider"],
+      "properties": {
+        "modelId": { "type": "string" },
+        "modelProvider": { "type": "string" },
+        "agentFrameworkVersion": { "type": "string" },
+        "temperature": { "type": "number" },
+        "topP": { "type": "number" }
+      }
+    },
+    "artifacts": {
+      "type": "object",
+      "required": ["filesMerkleRoot", "evidenceBundleDigest", "artifacts"],
+      "properties": {
+        "filesMerkleRoot": { "type": "string" },
+        "evidenceBundleDigest": { "type": "string" },
+        "artifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["name", "path", "sha256", "sizeBytes", "mimeType"],
+            "properties": {
+              "name": { "type": "string" },
+              "path": { "type": "string" },
+              "sha256": { "type": "string" },
+              "sizeBytes": { "type": "integer", "minimum": 0 },
+              "mimeType": { "type": "string" }
+            }
+          }
+        }
+      }
+    },
+    "observation": {
+      "type": "object",
+      "required": ["behavioralChainHash", "eventCount", "outcome", "score", "metrics"],
+      "properties": {
+        "behavioralChainHash": { "type": "string" },
+        "eventCount": { "type": "integer", "minimum": 0 },
+        "outcome": {
+          "type": "string",
+          "enum": ["PASSED", "FAILED", "PARTIAL", "TIMEOUT", "ERROR", "BUDGET_EXCEEDED"]
+        },
+        "score": { "type": "number" },
+        "metrics": { "type": "object" }
+      }
+    },
+    "financial": {
+      "type": "object",
+      "required": ["costLedgerDigest", "totalGrossCostUsd", "totalNetCostUsd", "currency"],
+      "properties": {
+        "costLedgerDigest": { "type": "string" },
+        "totalGrossCostUsd": { "type": "number", "minimum": 0 },
+        "totalNetCostUsd": { "type": "number", "minimum": 0 },
+        "currency": { "type": "string", "enum": ["USD"] },
+        "sponsorAttribution": { "type": "string" }
+      }
+    },
+    "compliance": {
+      "type": "object",
+      "required": ["compliancePackageDigest", "complianceGrade"],
+      "properties": {
+        "compliancePackageDigest": { "type": "string" },
+        "complianceGrade": {
+          "type": "string",
+          "enum": [
+            "FULLY_COMPLIANT",
+            "COMPLIANT_WITH_NOTICES",
+            "NON_COMMERCIAL_RESTRICTED",
+            "NON_COMPLIANT_BLOCKED"
+          ]
+        }
+      }
+    },
+    "issuedAt": { "type": "string" },
+    "issuerPublicKeyHex": { "type": "string" },
+    "receiptDigestSha256": { "type": "string" },
+    "signatureHex": { "type": "string" }
+  }
+}

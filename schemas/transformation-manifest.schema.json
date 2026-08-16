@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TransformationManifest",
+  "type": "object",
+  "required": [
+    "transformationId",
+    "sourceScenarioId",
+    "family",
+    "isSemanticallyValidated",
+    "provenanceNotes"
+  ],
+  "properties": {
+    "transformationId": { "type": "string" },
+    "sourceScenarioId": { "type": "string" },
+    "family": {
+      "type": "string",
+      "enum": [
+        "paraphrase",
+        "language_shift",
+        "role_shift",
+        "order_change",
+        "irrelevant_distraction",
+        "delayed_contradiction",
+        "equivalent_scenario",
+        "altered_surface_vocabulary",
+        "benchmark_name_hidden",
+        "rubric_terminology_removed",
+        "adversarial_evaluator_directed_text"
+      ]
+    },
+    "isSemanticallyValidated": { "type": "boolean" },
+    "provenanceNotes": { "type": "string" }
+  }
+}

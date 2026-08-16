@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxPhaseSecurityAuditReport",
+  "type": "object",
+  "required": [
+    "auditId",
+    "phase",
+    "auditedVersion",
+    "overallStatus",
+    "threatVectorsTested",
+    "threatsBlocked",
+    "zeroDaysFound",
+    "threatResults",
+    "ecosystemHardeningScore",
+    "auditedAt",
+    "securityAuditorSignatureHex"
+  ],
+  "properties": {
+    "auditId": { "type": "string" },
+    "phase": {
+      "type": "string",
+      "enum": ["SANDBOX_PHASE"]
+    },
+    "auditedVersion": { "type": "string" },
+    "overallStatus": {
+      "type": "string",
+      "enum": [
+        "AUDIT_PASSED_HARDENED",
+        "CONDITIONAL_PASS",
+        "SECURITY_DEFECTS_FOUND"
+      ]
+    },
+    "threatVectorsTested": { "type": "integer", "minimum": 1 },
+    "threatsBlocked": { "type": "integer", "minimum": 0 },
+    "zeroDaysFound": { "type": "integer", "minimum": 0 },
+    "threatResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "threatId",
+          "threatCategory",
+          "attackVector",
+          "redTeamPayload",
+          "defenseMechanism",
+          "status",
+          "verificationDigest"
+        ],
+        "properties": {
+          "threatId": { "type": "string" },
+          "threatCategory": { "type": "string" },
+          "attackVector": { "type": "string" },
+          "redTeamPayload": { "type": "string" },
+          "defenseMechanism": { "type": "string" },
+          "status": {
+            "type": "string",
+            "enum": ["MITIGATED", "BLOCKED", "FLAGGED_AND_DISQUALIFIED"]
+          },
+          "verificationDigest": { "type": "string" }
+        }
+      }
+    },
+    "ecosystemHardeningScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "auditedAt": { "type": "string" },
+    "securityAuditorSignatureHex": { "type": "string" }
+  }
+}

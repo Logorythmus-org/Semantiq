@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderLicensingManifest",
+  "type": "object",
+  "required": [
+    "providerId",
+    "runtimeName",
+    "runtimeLicenseSpdx",
+    "runtimeClassification",
+    "adapterLicenseSpdx",
+    "isolationMechanism",
+    "isCleanRoomImplementation",
+    "allowsRedistribution",
+    "requiresAttributionNotice",
+    "thirdPartyNotices",
+    "registeredAt"
+  ],
+  "properties": {
+    "providerId": { "type": "string" },
+    "runtimeName": { "type": "string" },
+    "runtimeLicenseSpdx": { "type": "string" },
+    "runtimeClassification": {
+      "type": "string",
+      "enum": [
+        "PERMISSIVE",
+        "WEAK_COPYLEFT",
+        "STRONG_COPYLEFT",
+        "NETWORK_COPYLEFT",
+        "COMMERCIAL_PROPRIETARY",
+        "SOURCE_AVAILABLE"
+      ]
+    },
+    "adapterLicenseSpdx": { "type": "string" },
+    "isolationMechanism": {
+      "type": "string",
+      "enum": [
+        "NETWORK_RPC_REST",
+        "NETWORK_RPC_GRPC",
+        "PROCESS_CLI_SUBPROCESS",
+        "SOCKET_IPC",
+        "OCI_STANDARD_API"
+      ]
+    },
+    "isCleanRoomImplementation": { "type": "boolean" },
+    "allowsRedistribution": { "type": "boolean" },
+    "requiresAttributionNotice": { "type": "boolean" },
+    "trademarkGuidelinesUrl": { "type": "string" },
+    "thirdPartyNotices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["componentName", "spdxId", "copyrightHolder"],
+        "properties": {
+          "componentName": { "type": "string" },
+          "spdxId": { "type": "string" },
+          "copyrightHolder": { "type": "string" },
+          "sourceUrl": { "type": "string" }
+        }
+      }
+    },
+    "registeredAt": { "type": "string" }
+  }
+}

@@ -1,0 +1,30 @@
+name: Benchmark Pack Proposal
+description: Propose a new evaluation benchmark pack for SemantIQ Benchmarks
+title: "[Benchmark Proposal]: "
+labels: ["benchmark-pack", "proposal"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for proposing a new evaluation benchmark pack!
+  - type: input
+    id: benchmark_name
+    attributes:
+      label: Benchmark Pack Name
+      placeholder: e.g. Scientific Reasoning Benchmark Pack
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description & Objectives
+      placeholder: Describe the domain, evaluation criteria, and target model capabilities.
+    validations:
+      required: true
+  - type: input
+    id: license
+    attributes:
+      label: Open License
+      placeholder: e.g. CC0-1.0 Universal / MIT
+    validations:
+      required: true

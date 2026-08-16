@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "GovernanceMetrics",
+  "type": "object",
+  "required": [
+    "maintainerConcentrationPercentage",
+    "contributorCount",
+    "benchmarkAuthorConcentrationPercentage",
+    "unresolvedDisputesCount",
+    "correctionCount",
+    "withdrawalCount",
+    "incidentCount",
+    "sponsorInfluenceDisclosed"
+  ],
+  "properties": {
+    "maintainerConcentrationPercentage": { "type": "number" },
+    "contributorCount": { "type": "integer" },
+    "benchmarkAuthorConcentrationPercentage": { "type": "number" },
+    "unresolvedDisputesCount": { "type": "integer" },
+    "correctionCount": { "type": "integer" },
+    "withdrawalCount": { "type": "integer" },
+    "incidentCount": { "type": "integer" },
+    "sponsorInfluenceDisclosed": { "type": "boolean" }
+  }
+}

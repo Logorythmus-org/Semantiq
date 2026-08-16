@@ -1,0 +1,11 @@
+{
+  "name": "@tech-club/app-playground",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "echo \"playground app build scaffold\"",
+    "dev": "echo \"playground app dev scaffold\"",
+    "test": "echo \"playground app tests scaffold\""
+  }
+}

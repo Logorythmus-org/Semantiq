@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "EconomicExecutionReceipt",
+  "type": "object",
+  "required": [
+    "receiptId",
+    "benchmarkId",
+    "scenarioId",
+    "providerId",
+    "economicTier",
+    "billedDurationMs",
+    "computeCost",
+    "egressCost",
+    "coldBootCost",
+    "totalGrossCost",
+    "grantSubsidyApplied",
+    "netBilledCost",
+    "currency",
+    "timestamp",
+    "receiptSignatureHex"
+  ],
+  "properties": {
+    "receiptId": { "type": "string" },
+    "benchmarkId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "economicTier": {
+      "type": "string",
+      "enum": [
+        "COMMUNITY_FREE",
+        "SPONSORED_GRANT",
+        "COMMERCIAL_PAYG",
+        "ENTERPRISE_RESERVED",
+        "REPLAY_TRACE"
+      ]
+    },
+    "billedDurationMs": { "type": "integer" },
+    "computeCost": { "type": "number" },
+    "egressCost": { "type": "number" },
+    "coldBootCost": { "type": "number" },
+    "totalGrossCost": { "type": "number" },
+    "grantSubsidyApplied": { "type": "number" },
+    "netBilledCost": { "type": "number" },
+    "currency": { "type": "string" },
+    "sponsorAttribution": { "type": "string" },
+    "costCenter": { "type": "string" },
+    "timestamp": { "type": "string" },
+    "receiptSignatureHex": { "type": "string" }
+  }
+}

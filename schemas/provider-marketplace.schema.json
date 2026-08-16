@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderMarketplaceListing",
+  "type": "object",
+  "required": [
+    "listingId",
+    "providerId",
+    "displayName",
+    "description",
+    "version",
+    "publisher",
+    "hostingCategory",
+    "deploymentMode",
+    "license",
+    "costStructure",
+    "privacyProfile",
+    "trustTier",
+    "securityGrade",
+    "capabilities",
+    "extensionMatrix",
+    "slaMetrics",
+    "tags",
+    "publishedAt",
+    "signatureHex"
+  ],
+  "properties": {
+    "listingId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "displayName": { "type": "string" },
+    "description": { "type": "string" },
+    "version": { "type": "string" },
+    "publisher": {
+      "type": "object",
+      "required": ["providerId", "organization", "publicKeyHex", "registeredAt"],
+      "properties": {
+        "providerId": { "type": "string" },
+        "organization": { "type": "string" },
+        "publicKeyHex": { "type": "string" },
+        "endpointUrl": { "type": "string" },
+        "registeredAt": { "type": "string" }
+      }
+    },
+    "hostingCategory": {
+      "type": "string",
+      "enum": [
+        "LOCAL_OPEN_SOURCE",
+        "SELF_HOSTED_DEDICATED",
+        "COMMERCIAL_MANAGED_CLOUD",
+        "ENTERPRISE_PRIVATE_AIRGAPPED",
+        "DETERMINISTIC_REPLAY"
+      ]
+    },
+    "deploymentMode": {
+      "type": "string",
+      "enum": [
+        "LOCAL_DAEMON",
+        "DEDICATED_CLUSTER",
+        "SERVERLESS_MICROVM",
+        "MANAGED_MULTI_TENANT",
+        "AIRGAPPED_ON_PREM",
+        "MOCK_REPLAY"
+      ]
+    },
+    "license": { "type": "object" },
+    "costStructure": { "type": "object" },
+    "privacyProfile": { "type": "object" },
+    "trustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
+    "capabilities": { "type": "object" },
+    "extensionMatrix": { "type": "object" },
+    "slaMetrics": {
+      "type": "object",
+      "required": ["uptimePercentage", "p50ColdBootLatencyMs", "p95ColdBootLatencyMs", "maxConcurrentSandboxes"],
+      "properties": {
+        "uptimePercentage": { "type": "number", "minimum": 0, "maximum": 100 },
+        "p50ColdBootLatencyMs": { "type": "number", "minimum": 0 },
+        "p95ColdBootLatencyMs": { "type": "number", "minimum": 0 },
+        "maxConcurrentSandboxes": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "tags": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "publishedAt": { "type": "string" },
+    "signatureHex": { "type": "string" }
+  }
+}

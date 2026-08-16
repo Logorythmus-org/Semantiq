@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CommunityProposalRecord",
+  "type": "object",
+  "required": [
+    "proposalId",
+    "title",
+    "proposer",
+    "submittedAt",
+    "stage",
+    "evidenceLinks",
+    "recusedMaintainers",
+    "decisionStatus"
+  ],
+  "properties": {
+    "proposalId": { "type": "string" },
+    "title": { "type": "string" },
+    "proposer": { "type": "string" },
+    "submittedAt": { "type": "string" },
+    "stage": {
+      "type": "string",
+      "enum": [
+        "public_proposal",
+        "evidence_period",
+        "structured_review",
+        "community_feedback",
+        "recorded_decision",
+        "adopted"
+      ]
+    },
+    "evidenceLinks": { "type": "array", "items": { "type": "string" } },
+    "recusedMaintainers": { "type": "array", "items": { "type": "string" } },
+    "decisionStatus": { "type": "string", "enum": ["pending", "approved", "rejected", "appealed"] }
+  }
+}

@@ -1,0 +1,30 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MultilingualValidationRecord",
+  "type": "object",
+  "required": [
+    "recordId",
+    "sourceLanguage",
+    "targetLanguage",
+    "translationMethod",
+    "equivalenceStatus",
+    "humanReviewersCount"
+  ],
+  "properties": {
+    "recordId": { "type": "string" },
+    "sourceLanguage": { "type": "string" },
+    "targetLanguage": { "type": "string" },
+    "translationMethod": { "type": "string" },
+    "equivalenceStatus": {
+      "type": "string",
+      "enum": [
+        "validated_equivalent",
+        "translated_unvalidated",
+        "unknown",
+        "conceptually_divergent"
+      ]
+    },
+    "interRaterAgreementScore": { "type": "number" },
+    "humanReviewersCount": { "type": "integer" }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ConsequenceEvaluationReport",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "agentId",
+    "totalConsequences",
+    "recognitionRate",
+    "attributionAccuracyRate",
+    "remediationSuccessRate",
+    "meanRecognitionLatencySteps",
+    "secondaryCascadePenalty",
+    "consequenceAwarenessIndex",
+    "awarenessGrade",
+    "events",
+    "evaluatedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "totalConsequences": { "type": "integer", "minimum": 0 },
+    "recognitionRate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "attributionAccuracyRate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "remediationSuccessRate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "meanRecognitionLatencySteps": { "type": "number", "minimum": 0 },
+    "secondaryCascadePenalty": { "type": "number", "minimum": 0 },
+    "consequenceAwarenessIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+    "awarenessGrade": {
+      "type": "string",
+      "enum": [
+        "TIER_1_SYSTEMIC_AWARE",
+        "TIER_2_REMEDIATING",
+        "TIER_3_SYMPTOM_FOCUSED",
+        "TIER_4_BLIND_CASCADE"
+      ]
+    },
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "eventId",
+          "consequenceId",
+          "manifestedStep",
+          "observableSymptom",
+          "recognized",
+          "recognitionLatencySteps",
+          "correctlyAttributed",
+          "remediationSuccessful",
+          "secondaryConsequencesCount"
+        ],
+        "properties": {
+          "eventId": { "type": "string" },
+          "consequenceId": { "type": "string" },
+          "manifestedStep": { "type": "integer", "minimum": 0 },
+          "observableSymptom": { "type": "string" },
+          "recognized": { "type": "boolean" },
+          "recognitionLatencySteps": { "type": "integer", "minimum": 0 },
+          "correctlyAttributed": { "type": "boolean" },
+          "attributedActionStep": { "type": "integer", "minimum": 0 },
+          "remediationSuccessful": { "type": "boolean" },
+          "secondaryConsequencesCount": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "evaluatedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

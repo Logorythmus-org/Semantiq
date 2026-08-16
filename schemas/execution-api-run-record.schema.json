@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RunRecord",
+  "type": "object",
+  "required": [
+    "runId",
+    "scenarioId",
+    "agentId",
+    "providerId",
+    "status",
+    "createdAt",
+    "provenanceHash",
+    "isReplay"
+  ],
+  "properties": {
+    "runId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "status": {
+      "type": "string",
+      "enum": [
+        "PENDING",
+        "VALIDATING",
+        "PROVISIONING",
+        "RUNNING",
+        "PAUSED",
+        "COMPLETED",
+        "FAILED",
+        "CANCELLED",
+        "CLEANED_UP"
+      ]
+    },
+    "createdAt": { "type": "string" },
+    "startedAt": { "type": "string" },
+    "completedAt": { "type": "string" },
+    "cancellationReason": { "type": "string" },
+    "errorDetails": { "type": "string" },
+    "costEstimateUsd": { "type": "number", "minimum": 0 },
+    "provenanceHash": { "type": "string" },
+    "isReplay": { "type": "boolean" },
+    "sourceRunId": { "type": "string" }
+  }
+}

@@ -1,0 +1,21 @@
+export {
+  MemoryEventRepository,
+  MemoryGraphRepository,
+  MemoryIdentityRepository,
+  MemoryKnowledgeRepository,
+  MemoryPermissionRepository,
+  MemoryQuestionRepository,
+  MemoryWorkspaceRepository,
+  createMemoryUnitOfWork,
+  memoryStorageAdapter,
+  type CoreUnitOfWork,
+  type EventRepository,
+  type GraphRepository,
+  type IdentityRepository,
+  type KnowledgeRepository,
+  type PermissionRepository,
+  type QuestionRepository,
+  type StorageAdapterDescriptor,
+  type StorageAdapterKind,
+  type WorkspaceRepository
+} from "../../core/src/index.js";

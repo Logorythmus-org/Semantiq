@@ -1,0 +1,1 @@
+{"name":"@tech-club/service-remote-execution","version":"0.0.0","type":"module","private":true,"exports":{".":"./src/index.ts"},"scripts":{"build":"echo \"remote execution build scaffold\"","dev":"echo \"remote execution dev scaffold\"","test":"echo \"remote execution tests scaffold\""}}

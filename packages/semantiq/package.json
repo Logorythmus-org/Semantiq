@@ -1,0 +1,9 @@
+{
+  "name": "@tech-club/semantiq",
+  "version": "0.1.0-alpha.1",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderSecurityAuditReport",
+  "type": "object",
+  "required": [
+    "auditId",
+    "providerId",
+    "providerVersion",
+    "securityPostureGrade",
+    "totalProbes",
+    "passedProbes",
+    "criticalVulnerabilitiesCount",
+    "probes",
+    "auditedAt",
+    "auditSignatureHex"
+  ],
+  "properties": {
+    "auditId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "providerVersion": { "type": "string" },
+    "securityPostureGrade": {
+      "type": "string",
+      "enum": [
+        "GRADE_A_HARDENED_ISOLATED",
+        "GRADE_B_CONTAINED",
+        "GRADE_C_PERMISSIVE",
+        "GRADE_F_VULNERABLE"
+      ]
+    },
+    "totalProbes": { "type": "integer", "minimum": 0 },
+    "passedProbes": { "type": "integer", "minimum": 0 },
+    "criticalVulnerabilitiesCount": { "type": "integer", "minimum": 0 },
+    "probes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "probeId",
+          "category",
+          "severity",
+          "passed",
+          "attackPayload",
+          "observedResponse",
+          "mitigationVerified",
+          "evidenceHash"
+        ],
+        "properties": {
+          "probeId": { "type": "string" },
+          "category": {
+            "type": "string",
+            "enum": [
+              "FILESYSTEM_CONTAINMENT",
+              "NETWORK_EGRESS_POLICY",
+              "CREDENTIAL_ISOLATION",
+              "RESOURCE_GOVERNANCE",
+              "PROCESS_PRIVILEGE_CONTAINMENT",
+              "CLEANUP_EPHEMERALITY",
+              "EVIDENCE_TAMPER_RESISTANCE"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW", "INFORMATIONAL"]
+          },
+          "passed": { "type": "boolean" },
+          "attackPayload": { "type": "string" },
+          "observedResponse": { "type": "string" },
+          "mitigationVerified": { "type": "boolean" },
+          "evidenceHash": { "type": "string" }
+        }
+      }
+    },
+    "auditedAt": { "type": "string" },
+    "auditSignatureHex": { "type": "string" }
+  }
+}

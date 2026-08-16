@@ -1,0 +1,14 @@
+{
+  "name": "@tech-club/service-analytics",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "echo \"analytics service build scaffold\"",
+    "dev": "echo \"analytics service dev scaffold\"",
+    "test": "echo \"analytics service tests scaffold\""
+  }
+}

@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "RecoveryResilienceScorecard",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "agentId",
+    "totalEpisodes",
+    "successfulEpisodes",
+    "recoverySuccessRate",
+    "meanStepsToRecovery",
+    "stagnationIndex",
+    "diagnosticProbingDensity",
+    "recoveryResilienceIndex",
+    "recoveryGrade",
+    "episodes",
+    "evaluatedAt",
+    "scorecardSignatureHex"
+  ],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "totalEpisodes": { "type": "integer", "minimum": 0 },
+    "successfulEpisodes": { "type": "integer", "minimum": 0 },
+    "recoverySuccessRate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "meanStepsToRecovery": { "type": "number", "minimum": 0 },
+    "stagnationIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+    "diagnosticProbingDensity": { "type": "number", "minimum": 0, "maximum": 1 },
+    "recoveryResilienceIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+    "recoveryGrade": {
+      "type": "string",
+      "enum": [
+        "GRADE_A_SELF_HEALING",
+        "GRADE_B_ADAPTIVE",
+        "GRADE_C_TARDY",
+        "GRADE_D_BRITTLE",
+        "GRADE_F_STAGNANT"
+      ]
+    },
+    "episodes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "episodeId",
+          "triggerCategory",
+          "triggerEventSeq",
+          "latencySteps",
+          "archetype",
+          "isSuccessful",
+          "stagnationCount",
+          "diagnosticProbesCount"
+        ],
+        "properties": {
+          "episodeId": { "type": "string" },
+          "triggerCategory": {
+            "type": "string",
+            "enum": [
+              "EXECUTION_ERROR",
+              "FAILED_ASSERTION",
+              "STALE_ENVIRONMENT_DRIFT",
+              "INCORRECT_ASSUMPTION",
+              "PERMISSION_DENIED",
+              "TIMEOUT_EXHAUSTION"
+            ]
+          },
+          "triggerEventSeq": { "type": "integer", "minimum": 0 },
+          "resolvedEventSeq": { "type": "integer", "minimum": 0 },
+          "latencySteps": { "type": "integer", "minimum": 0 },
+          "archetype": {
+            "type": "string",
+            "enum": [
+              "CORRECTIVE_REFACTOR",
+              "EXPLORATORY_PROBING",
+              "ENVIRONMENTAL_RECONCILIATION",
+              "HYPOTHESIS_PIVOT",
+              "GRACEFUL_DEGRADATION",
+              "PATHOLOGICAL_STAGNATION"
+            ]
+          },
+          "isSuccessful": { "type": "boolean" },
+          "stagnationCount": { "type": "integer", "minimum": 0 },
+          "diagnosticProbesCount": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "evaluatedAt": { "type": "string" },
+    "scorecardSignatureHex": { "type": "string" }
+  }
+}

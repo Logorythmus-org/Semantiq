@@ -1,0 +1,63 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "MultiAgentTopologySpec",
+  "type": "object",
+  "required": [
+    "topologyId",
+    "participants",
+    "sharedResources",
+    "communicationPolicies",
+    "maxExecutionDurationSeconds"
+  ],
+  "properties": {
+    "topologyId": { "type": "string" },
+    "participants": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["agentId", "role", "isolationLevel", "permissions"],
+        "properties": {
+          "agentId": { "type": "string" },
+          "role": { "type": "string" },
+          "isolationLevel": {
+            "type": "string",
+            "enum": ["shared_process", "isolated_container", "isolated_microvm"]
+          },
+          "permissions": { "type": "array", "items": { "type": "string" } },
+          "environmentOverrides": { "type": "object", "additionalProperties": { "type": "string" } }
+        }
+      }
+    },
+    "sharedResources": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["resourceId", "resourceType", "accessMode", "accessibleByAgentIds"],
+        "properties": {
+          "resourceId": { "type": "string" },
+          "resourceType": {
+            "type": "string",
+            "enum": ["shared_filesystem", "message_bus", "shared_memory", "database"]
+          },
+          "mountPath": { "type": "string" },
+          "accessMode": { "type": "string", "enum": ["read_write", "read_only"] },
+          "accessibleByAgentIds": { "type": "array", "items": { "type": "string" } }
+        }
+      }
+    },
+    "communicationPolicies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["fromAgentId", "toAgentId", "isAllowed", "isMonitored"],
+        "properties": {
+          "fromAgentId": { "type": "string" },
+          "toAgentId": { "type": "string" },
+          "isAllowed": { "type": "boolean" },
+          "isMonitored": { "type": "boolean" }
+        }
+      }
+    },
+    "maxExecutionDurationSeconds": { "type": "integer" }
+  }
+}

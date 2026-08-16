@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SpisProviderInteroperabilityManifest",
+  "type": "object",
+  "required": [
+    "spisVersion",
+    "providerId",
+    "conformanceLevel",
+    "supportedRuntimes",
+    "supportedSecurityProfiles",
+    "supportedExtensions",
+    "evidenceHashAlgorithm",
+    "lifecycleEndpoint",
+    "manifestDigest",
+    "certificationSignatureHex"
+  ],
+  "properties": {
+    "spisVersion": { "type": "string" },
+    "providerId": { "type": "string" },
+    "conformanceLevel": {
+      "type": "string",
+      "enum": ["SPIS_CORE_L1", "SPIS_HERMETIC_L2", "SPIS_FULL_OBSERVABLE_L3"]
+    },
+    "supportedRuntimes": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "supportedSecurityProfiles": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "supportedExtensions": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "evidenceHashAlgorithm": {
+      "type": "string",
+      "enum": ["sha256", "sha512"]
+    },
+    "lifecycleEndpoint": { "type": "string" },
+    "manifestDigest": { "type": "string" },
+    "certificationSignatureHex": { "type": "string" }
+  }
+}

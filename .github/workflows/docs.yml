@@ -1,0 +1,15 @@
+name: Docs
+
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+jobs:
+  docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: test -f README.md
+      - run: test -f Docs/PRODUCTION_ENGINEERING_GUIDE.md

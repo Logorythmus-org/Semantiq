@@ -1,0 +1,11 @@
+{
+  "name": "@tech-club/app-documentation",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "build": "echo \"documentation app build scaffold\"",
+    "dev": "echo \"documentation app dev scaffold\"",
+    "test": "echo \"documentation app tests scaffold\""
+  }
+}

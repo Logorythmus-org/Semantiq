@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "LongHorizonEvaluationReport",
+  "type": "object",
+  "required": [
+    "scenarioId",
+    "agentId",
+    "totalExecutedSteps",
+    "completedMilestonesCount",
+    "totalMilestonesCount",
+    "milestoneCompletionRate",
+    "goalConvergenceScore",
+    "memoryCoherenceScore",
+    "budgetEfficiencyScore",
+    "longHorizonResilienceIndex",
+    "horizonGrade",
+    "milestones",
+    "evaluatedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "scenarioId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "totalExecutedSteps": { "type": "integer", "minimum": 0 },
+    "completedMilestonesCount": { "type": "integer", "minimum": 0 },
+    "totalMilestonesCount": { "type": "integer", "minimum": 0 },
+    "milestoneCompletionRate": { "type": "number", "minimum": 0, "maximum": 1 },
+    "goalConvergenceScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "memoryCoherenceScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "budgetEfficiencyScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "longHorizonResilienceIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+    "horizonGrade": {
+      "type": "string",
+      "enum": [
+        "GRADE_LH1_AUTONOMOUS_SCALE",
+        "GRADE_LH2_MILESTONE_COMPLETING",
+        "GRADE_LH3_TARDY_DEGRADED",
+        "GRADE_LH4_HORIZON_COLLAPSED"
+      ]
+    },
+    "milestones": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["milestoneId", "phase", "startStep", "durationSteps", "achieved", "tokensUsed", "errorsEncountered", "recoveryCount"],
+        "properties": {
+          "milestoneId": { "type": "string" },
+          "phase": {
+            "type": "string",
+            "enum": [
+              "DISCOVERY_AND_RECON",
+              "ARCHITECTURAL_PLANNING",
+              "SCAFFOLD_AND_BOOTSTRAP",
+              "INCREMENTAL_IMPLEMENTATION",
+              "INTEGRATION_AND_TESTING",
+              "VERIFICATION_AND_FINALIZE"
+            ]
+          },
+          "startStep": { "type": "integer", "minimum": 0 },
+          "completedStep": { "type": "integer", "minimum": 0 },
+          "durationSteps": { "type": "integer", "minimum": 0 },
+          "achieved": { "type": "boolean" },
+          "tokensUsed": { "type": "integer", "minimum": 0 },
+          "errorsEncountered": { "type": "integer", "minimum": 0 },
+          "recoveryCount": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "evaluatedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

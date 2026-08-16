@@ -1,0 +1,75 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TransitionAnalysisReport",
+  "type": "object",
+  "required": [
+    "experimentId",
+    "phenomenonType",
+    "totalTrials",
+    "observedRegimes",
+    "dataPoints",
+    "conclusions",
+    "analyzedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "experimentId": { "type": "string" },
+    "phenomenonType": {
+      "type": "string",
+      "enum": [
+        "ERROR_RECOVERY_PHASE_SHIFT",
+        "CONTEXT_SATURATION_BREAKPOINT",
+        "TOOL_COMPOSITION_THRESHOLD",
+        "PERTURBATION_CLIFF",
+        "RESOURCE_THROTTLING_REGIME"
+      ]
+    },
+    "totalTrials": { "type": "integer", "minimum": 1 },
+    "criticalThreshold": {
+      "type": "object",
+      "required": ["parameter", "thresholdValue", "confidence", "description"],
+      "properties": {
+        "parameter": { "type": "string" },
+        "thresholdValue": { "type": "string" },
+        "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "description": { "type": "string" }
+      }
+    },
+    "observedRegimes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["regimeName", "parameterRange", "characteristicBehavior", "successRatePercentage"],
+        "properties": {
+          "regimeName": { "type": "string" },
+          "parameterRange": { "type": "string" },
+          "characteristicBehavior": { "type": "string" },
+          "successRatePercentage": { "type": "number", "minimum": 0, "maximum": 100 }
+        }
+      }
+    },
+    "dataPoints": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["paramValue", "trialIndex", "outcome", "actionCount", "recoveryEventsCount", "recoverySuccessRate", "loopCycleDetected", "wallClockDurationMs"],
+        "properties": {
+          "paramValue": {},
+          "trialIndex": { "type": "integer", "minimum": 0 },
+          "outcome": {
+            "type": "string",
+            "enum": ["PASSED", "FAILED", "TIMEOUT", "ERROR"]
+          },
+          "actionCount": { "type": "integer", "minimum": 0 },
+          "recoveryEventsCount": { "type": "integer", "minimum": 0 },
+          "recoverySuccessRate": { "type": "number" },
+          "loopCycleDetected": { "type": "boolean" },
+          "wallClockDurationMs": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "conclusions": { "type": "array", "items": { "type": "string" } },
+    "analyzedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

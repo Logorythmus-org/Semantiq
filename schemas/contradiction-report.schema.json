@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ContradictionReport",
+  "type": "object",
+  "required": [
+    "reportId",
+    "affectedResultId",
+    "realWorldIncidentEvidence",
+    "deploymentDifferences",
+    "benchmarkBlindSpotDescription",
+    "requiresBenchmarkRevision"
+  ],
+  "properties": {
+    "reportId": { "type": "string" },
+    "affectedResultId": { "type": "string" },
+    "realWorldIncidentEvidence": { "type": "string" },
+    "deploymentDifferences": { "type": "string" },
+    "benchmarkBlindSpotDescription": { "type": "string" },
+    "requiresBenchmarkRevision": { "type": "boolean" }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IndependentObservationBundle",
+  "type": "object",
+  "required": [
+    "bundleId",
+    "scenarioId",
+    "runId",
+    "totalObservations",
+    "groundTruthCount",
+    "discrepancyCount",
+    "overallObservationTrustScore",
+    "observations",
+    "auditedAt",
+    "observerSignatureHex"
+  ],
+  "properties": {
+    "bundleId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "totalObservations": { "type": "integer", "minimum": 0 },
+    "groundTruthCount": { "type": "integer", "minimum": 0 },
+    "discrepancyCount": { "type": "integer", "minimum": 0 },
+    "overallObservationTrustScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "observations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "observationId",
+          "stepIndex",
+          "stage",
+          "sourceType",
+          "trustConfidence",
+          "crossVerificationStatus",
+          "rawObservedData",
+          "timestamp",
+          "observationDigest"
+        ],
+        "properties": {
+          "observationId": { "type": "string" },
+          "stepIndex": { "type": "integer", "minimum": 1 },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "Context",
+              "Interpretation",
+              "Decision",
+              "Action",
+              "Result",
+              "Consequence",
+              "Recovery"
+            ]
+          },
+          "sourceType": {
+            "type": "string",
+            "enum": [
+              "HOST_KERNEL_EBPF",
+              "SOCKET_PTY_MIRROR",
+              "NETWORK_BRIDGE_TAP",
+              "FILESYSTEM_SNAPSHOT_DIFF",
+              "PROVIDER_ADAPTER_API",
+              "AGENT_SELF_REPORT"
+            ]
+          },
+          "trustConfidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "crossVerificationStatus": {
+            "type": "string",
+            "enum": ["VERIFIED_BY_HOST", "DISCREPANCY_DETECTED", "UNVERIFIABLE_CLAIM"]
+          },
+          "rawObservedData": { "type": "object" },
+          "providerClaimDiscrepancy": { "type": "string" },
+          "timestamp": { "type": "string" },
+          "observationDigest": { "type": "string" }
+        }
+      }
+    },
+    "auditedAt": { "type": "string" },
+    "observerSignatureHex": { "type": "string" }
+  }
+}

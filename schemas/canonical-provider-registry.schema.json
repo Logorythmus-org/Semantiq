@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CanonicalProviderRegistryEntry",
+  "type": "object",
+  "required": [
+    "providerId",
+    "displayName",
+    "organization",
+    "version",
+    "releaseChannel",
+    "deploymentMode",
+    "endpoints",
+    "capabilities",
+    "licensing",
+    "trustTier",
+    "securityGrade",
+    "pricing",
+    "sla",
+    "status",
+    "consecutiveFailures",
+    "tags",
+    "registeredAt",
+    "lastHeartbeatAt",
+    "signatureHex"
+  ],
+  "properties": {
+    "providerId": { "type": "string" },
+    "displayName": { "type": "string" },
+    "organization": { "type": "string" },
+    "version": { "type": "string" },
+    "releaseChannel": {
+      "type": "string",
+      "enum": ["STABLE", "BETA", "EXPERIMENTAL", "DEPRECATED"]
+    },
+    "deploymentMode": {
+      "type": "string",
+      "enum": [
+        "LOCAL_DAEMON",
+        "DEDICATED_CLUSTER",
+        "SERVERLESS_MICROVM",
+        "MANAGED_MULTI_TENANT",
+        "AIRGAPPED_ON_PREM",
+        "MOCK_REPLAY"
+      ]
+    },
+    "endpoints": {
+      "type": "object",
+      "required": ["primaryUrl", "transport", "timeoutMs"],
+      "properties": {
+        "primaryUrl": { "type": "string" },
+        "backupUrls": { "type": "array", "items": { "type": "string" } },
+        "transport": {
+          "type": "string",
+          "enum": ["LOCAL_SOCKET", "HTTP_REST", "GRPC", "STDIO_SUBPROCESS"]
+        },
+        "healthCheckUrl": { "type": "string" },
+        "timeoutMs": { "type": "integer", "minimum": 100 }
+      }
+    },
+    "capabilities": { "type": "object" },
+    "licensing": { "type": "object" },
+    "trustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
+    "pricing": { "type": "object" },
+    "sla": { "type": "object" },
+    "status": {
+      "type": "string",
+      "enum": ["ONLINE", "DEGRADED", "MAINTENANCE", "OFFLINE", "QUARANTINED"]
+    },
+    "consecutiveFailures": { "type": "integer", "minimum": 0 },
+    "tags": { "type": "array", "items": { "type": "string" } },
+    "registeredAt": { "type": "string" },
+    "lastHeartbeatAt": { "type": "string" },
+    "signatureHex": { "type": "string" }
+  }
+}

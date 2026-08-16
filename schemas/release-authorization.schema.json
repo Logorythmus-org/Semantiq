@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ReleaseAuthorizationDecision",
+  "type": "object",
+  "required": [
+    "decisionId",
+    "approvedReleaseLevel",
+    "approvedComponents",
+    "excludedComponents",
+    "conditions",
+    "expirationDate",
+    "unresolvedRisks",
+    "rollbackTrigger",
+    "responsibleMaintainers",
+    "evidenceManifestLinks",
+    "isPhase12Approved",
+    "timestamp"
+  ],
+  "properties": {
+    "decisionId": { "type": "string" },
+    "approvedReleaseLevel": {
+      "type": "string",
+      "enum": [
+        "level_0_no_release",
+        "level_1_research_preview",
+        "level_2_public_alpha",
+        "level_3_public_benchmark_release"
+      ]
+    },
+    "approvedComponents": { "type": "array", "items": { "type": "string" } },
+    "excludedComponents": { "type": "array", "items": { "type": "string" } },
+    "conditions": { "type": "array", "items": { "type": "string" } },
+    "expirationDate": { "type": "string" },
+    "unresolvedRisks": { "type": "array", "items": { "type": "string" } },
+    "rollbackTrigger": { "type": "string" },
+    "responsibleMaintainers": { "type": "array", "items": { "type": "string" } },
+    "evidenceManifestLinks": { "type": "array", "items": { "type": "string" } },
+    "dissentingOpinions": { "type": "array", "items": { "type": "string" } },
+    "isPhase12Approved": { "type": "boolean" },
+    "timestamp": { "type": "string" }
+  }
+}

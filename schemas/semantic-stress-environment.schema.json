@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SemanticStressEvaluationReport",
+  "type": "object",
+  "required": [
+    "stressProfileId",
+    "scenarioId",
+    "agentId",
+    "robustnessScore",
+    "metrics",
+    "resilienceGrade",
+    "observedAnomalies",
+    "analyzedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "stressProfileId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "agentId": { "type": "string" },
+    "robustnessScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "metrics": {
+      "type": "object",
+      "required": [
+        "clarificationAttempts",
+        "safetyChecksTriggered",
+        "destructiveActionsAttempted",
+        "destructiveActionsBlocked",
+        "toolRetriesOnFault",
+        "stateReconciliations",
+        "finalTaskOutcome"
+      ],
+      "properties": {
+        "clarificationAttempts": { "type": "integer", "minimum": 0 },
+        "safetyChecksTriggered": { "type": "integer", "minimum": 0 },
+        "destructiveActionsAttempted": { "type": "integer", "minimum": 0 },
+        "destructiveActionsBlocked": { "type": "integer", "minimum": 0 },
+        "toolRetriesOnFault": { "type": "integer", "minimum": 0 },
+        "stateReconciliations": { "type": "integer", "minimum": 0 },
+        "finalTaskOutcome": {
+          "type": "string",
+          "enum": ["PASSED", "FAILED", "HALTED_SAFETY_TRIPWIRE", "TIMEOUT"]
+        }
+      }
+    },
+    "resilienceGrade": {
+      "type": "string",
+      "enum": [
+        "TIER_1_HIGHLY_RESILIENT",
+        "TIER_2_ADAPTIVE",
+        "TIER_3_FRAGILE",
+        "TIER_4_COLLAPSED"
+      ]
+    },
+    "observedAnomalies": { "type": "array", "items": { "type": "string" } },
+    "analyzedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CrossModelProviderComparisonReport",
+  "type": "object",
+  "required": [
+    "comparisonId",
+    "benchmarkId",
+    "scenarioId",
+    "totalRuns",
+    "runs",
+    "providerEffects",
+    "rankings",
+    "auditedAt",
+    "comparisonSignatureHex"
+  ],
+  "properties": {
+    "comparisonId": { "type": "string" },
+    "benchmarkId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "totalRuns": { "type": "integer", "minimum": 0 },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "runId",
+          "modelId",
+          "providerId",
+          "rawScore",
+          "stepCount",
+          "durationMs",
+          "toolErrorCount"
+        ],
+        "properties": {
+          "runId": { "type": "string" },
+          "modelId": { "type": "string" },
+          "providerId": { "type": "string" },
+          "rawScore": { "type": "number", "minimum": 0, "maximum": 1 },
+          "stepCount": { "type": "integer", "minimum": 0 },
+          "durationMs": { "type": "integer", "minimum": 0 },
+          "toolErrorCount": { "type": "integer", "minimum": 0 }
+        }
+      }
+    },
+    "providerEffects": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "providerId",
+          "meanLatencyMs",
+          "environmentPenaltyFactor",
+          "varianceScore"
+        ],
+        "properties": {
+          "providerId": { "type": "string" },
+          "meanLatencyMs": { "type": "integer", "minimum": 0 },
+          "environmentPenaltyFactor": { "type": "number" },
+          "varianceScore": { "type": "number" }
+        }
+      }
+    },
+    "rankings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "rank",
+          "modelId",
+          "rawMeanScore",
+          "normalizedScore",
+          "providerVarianceSensitivity",
+          "confidenceInterval",
+          "distinctionSignificance"
+        ],
+        "properties": {
+          "rank": { "type": "integer", "minimum": 1 },
+          "modelId": { "type": "string" },
+          "rawMeanScore": { "type": "number", "minimum": 0, "maximum": 1 },
+          "normalizedScore": { "type": "number", "minimum": 0, "maximum": 1 },
+          "providerVarianceSensitivity": { "type": "number", "minimum": 0, "maximum": 1 },
+          "confidenceInterval": {
+            "type": "object",
+            "required": ["low", "high"],
+            "properties": {
+              "low": { "type": "number", "minimum": 0, "maximum": 1 },
+              "high": { "type": "number", "minimum": 0, "maximum": 1 }
+            }
+          },
+          "distinctionSignificance": {
+            "type": "string",
+            "enum": ["STATISTICALLY_SIGNIFICANT", "WITHIN_VARIANCE_MARGIN"]
+          }
+        }
+      }
+    },
+    "auditedAt": { "type": "string" },
+    "comparisonSignatureHex": { "type": "string" }
+  }
+}

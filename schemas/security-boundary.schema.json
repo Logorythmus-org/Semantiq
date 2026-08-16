@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SecurityBoundaryPolicy",
+  "type": "object",
+  "required": [
+    "networkMode",
+    "blockedCidrRanges",
+    "whitelistedHosts",
+    "readOnlyRootFilesystem",
+    "dropCapabilities",
+    "allowHostBindMounts",
+    "maxProcesses",
+    "blockCloudMetadata"
+  ],
+  "properties": {
+    "networkMode": {
+      "type": "string",
+      "enum": ["none", "isolated_bridge", "whitelisted_egress", "full"]
+    },
+    "blockedCidrRanges": { "type": "array", "items": { "type": "string" } },
+    "whitelistedHosts": { "type": "array", "items": { "type": "string" } },
+    "readOnlyRootFilesystem": { "type": "boolean" },
+    "dropCapabilities": { "type": "array", "items": { "type": "string" } },
+    "allowHostBindMounts": { "type": "boolean" },
+    "maxProcesses": { "type": "integer" },
+    "blockCloudMetadata": { "type": "boolean" }
+  }
+}

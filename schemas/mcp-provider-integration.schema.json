@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "McpServerSpec",
+  "type": "object",
+  "required": ["serverName", "transport", "isSandboxed"],
+  "properties": {
+    "serverName": { "type": "string" },
+    "transport": {
+      "type": "string",
+      "enum": ["stdio", "sse", "http_jsonrpc", "synthetic_mock"]
+    },
+    "command": { "type": "string" },
+    "args": { "type": "array", "items": { "type": "string" } },
+    "url": { "type": "string" },
+    "environment": { "type": "object", "additionalProperties": { "type": "string" } },
+    "isSandboxed": { "type": "boolean" }
+  }
+}
