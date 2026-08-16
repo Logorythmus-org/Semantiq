@@ -4,11 +4,11 @@
   "publicationPhase": "P02_FINAL_RELEASE_CLAIM_AND_PUBLIC_SURFACE_SANITY_CHECK",
   "stagingDirectory": "C:/Users/Kaveh/Desktop/semantiq-clean-staging",
   "gitOriginRemote": "https://github.com/Logorythmus-org/Semantiq.git",
-  "generatedAt": "2026-08-16T08:02:38.606Z",
+  "generatedAt": "2026-08-16T08:15:06.626Z",
   "auditStatus": "PASS",
   "fileCount": 2904,
-  "totalByteSize": 276525425,
-  "finalTreeIdentity": "b9f3d8979a80092de824eb8387f05f24e4915e2810be8e9b2d5b4c34b6a0d28c",
+  "totalByteSize": 276526156,
+  "finalTreeIdentity": "a6a2241209826ebfbe692c0819b7965cab1e8320a49cb58d7f5a9cb30b760530",
   "files": [
     {
       "path": ".dockerignore",
@@ -8062,8 +8062,8 @@
     },
     {
       "path": "eslint.config.mjs",
-      "sizeBytes": 1203,
-      "sha256": "a5d1508a5a4fbd2c5f73c21b6483ea89814989d175ad083cac2f9dd62c0b30ab"
+      "sizeBytes": 1934,
+      "sha256": "9f7d1a963653240373422cc8c585d978d62eb1424430364f244a1a62f1fd380b"
     },
     {
       "path": "examples/citation/datacite.json",
