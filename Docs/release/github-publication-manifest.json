@@ -4,11 +4,11 @@
   "publicationPhase": "P02_FINAL_RELEASE_CLAIM_AND_PUBLIC_SURFACE_SANITY_CHECK",
   "stagingDirectory": "C:/Users/Kaveh/Desktop/semantiq-clean-staging",
   "gitOriginRemote": "https://github.com/Logorythmus-org/Semantiq.git",
-  "generatedAt": "2026-08-16T07:41:34.606Z",
+  "generatedAt": "2026-08-16T08:02:38.606Z",
   "auditStatus": "PASS",
   "fileCount": 2904,
-  "totalByteSize": 276525419,
-  "finalTreeIdentity": "d22ba5be599e4ea404460f9b1fd4e7fe6d72f9a1d17146a1a85a45151407f79b",
+  "totalByteSize": 276525425,
+  "finalTreeIdentity": "b9f3d8979a80092de824eb8387f05f24e4915e2810be8e9b2d5b4c34b6a0d28c",
   "files": [
     {
       "path": ".dockerignore",
@@ -72,8 +72,8 @@
     },
     {
       "path": ".github/workflows/ci.yml",
-      "sizeBytes": 479,
-      "sha256": "5a27faf15b9d83f7f120525c4033d7f59f9e90be2bb8ed2d4744e4322a20ae08"
+      "sizeBytes": 487,
+      "sha256": "1582bc8d10b87654bbc6edbcf4df4e918b47f827a3f268a60cbc886feb045f10"
     },
     {
       "path": ".github/workflows/docs.yml",
@@ -97,8 +97,8 @@
     },
     {
       "path": ".prettierrc.json",
-      "sizeBytes": 97,
-      "sha256": "069696a70b3816f46a17591641f941846386c0884283fae1d8cfc9d9292361f6"
+      "sizeBytes": 95,
+      "sha256": "01a0d51992801cbcad006751067dcf17df443f23ec42dde5f99bb60fd6315998"
     },
     {
       "path": ".zenodo.json",
