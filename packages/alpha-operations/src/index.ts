@@ -18,7 +18,11 @@ export type TesterRole =
   | "AI-experienced user"
   | "AI-inexperienced user";
 export type FeatureProfile =
-  "local-only" | "federation-test" | "developer" | "research-observer" | "safe-mode";
+  | "local-only"
+  | "federation-test"
+  | "developer"
+  | "research-observer"
+  | "safe-mode";
 export type ConsentLevel =
   | "No Research Data"
   | "Basic Anonymous Metrics"
@@ -107,9 +111,20 @@ export type FeedbackTaxonomyCategory =
   | "Concept confusion"
   | "Positive outcome";
 export type TriageSeverity =
-  "Blocker" | "Critical" | "High" | "Medium" | "Low" | "Suggestion" | "Observation";
+  | "Blocker"
+  | "Critical"
+  | "High"
+  | "Medium"
+  | "Low"
+  | "Suggestion"
+  | "Observation";
 export type ConceptStatus =
-  "Understood" | "Partially Understood" | "Misunderstood" | "Not Noticed" | "Rejected" | "Valued";
+  | "Understood"
+  | "Partially Understood"
+  | "Misunderstood"
+  | "Not Noticed"
+  | "Rejected"
+  | "Valued";
 export type AISuggestionRating =
   | "Useful"
   | "Partially Useful"
@@ -120,7 +135,11 @@ export type AISuggestionRating =
   | "Too Generic"
   | "Too Complex";
 export type BetaReadinessStatus =
-  "Ready" | "Ready with Conditions" | "Not Ready" | "Blocked" | "Deferred";
+  | "Ready"
+  | "Ready with Conditions"
+  | "Not Ready"
+  | "Blocked"
+  | "Deferred";
 
 export interface AlphaCohort {
   readonly id: string;

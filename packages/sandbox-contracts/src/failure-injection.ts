@@ -16,7 +16,11 @@ export type InjectedFaultType =
   | "PARTIAL_RESULT_CORRUPTION";
 
 export type FaultTriggerType =
-  "ON_STEP_INDEX" | "ON_COMMAND_REGEX" | "ON_TOOL_NAME" | "ON_FILE_PATH" | "PROBABILISTIC";
+  | "ON_STEP_INDEX"
+  | "ON_COMMAND_REGEX"
+  | "ON_TOOL_NAME"
+  | "ON_FILE_PATH"
+  | "PROBABILISTIC";
 
 export interface FaultTriggerCondition {
   readonly triggerType: FaultTriggerType;

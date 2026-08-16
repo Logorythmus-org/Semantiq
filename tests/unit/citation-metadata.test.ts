@@ -16,19 +16,23 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
   });
 
   it("verifies cross-file version consistency", () => {
+    const pkg = JSON.parse(readFileSync("package.json", "utf-8")) as { version: string };
     const cffContent = readFileSync("CITATION.cff", "utf-8");
     const codemeta = JSON.parse(readFileSync("codemeta.json", "utf-8")) as { version: string };
+    const zenodo = JSON.parse(readFileSync(".zenodo.json", "utf-8")) as { version: string };
 
-    expect(cffContent).toContain('version: "0.1.0-alpha.1"');
-    expect(codemeta.version).toEqual("0.1.0-alpha.1");
+    expect(cffContent).toContain(`version: ${pkg.version}`);
+    expect(codemeta.version).toEqual(pkg.version);
+    expect(zenodo.version).toEqual(pkg.version);
+    expect(pkg.version).toEqual("0.1.0-alpha.2");
   });
 
   it("formats BibTeX and APA citations accurately", () => {
     const meta: CitationMetadata = {
       cffVersion: "1.2.0",
       title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
-      version: "0.1.0-alpha.1",
-      dateReleased: "2026-07-31",
+      version: "0.1.0-alpha.2",
+      dateReleased: "2026-08-16",
       repositoryCode: "https://github.com/Logorythmus-org/Semantiq",
       license: "MIT",
       authors: [{ name: "Logorythmus" }]
@@ -42,6 +46,6 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
 
     const apa = formatApaCitation(meta);
     expect(apa).toContain("(2026)");
-    expect(apa).toContain("Version 0.1.0-alpha.1");
+    expect(apa).toContain("Version 0.1.0-alpha.2");
   });
 });

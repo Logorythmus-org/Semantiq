@@ -6,8 +6,8 @@
   "license": "MIT",
   "creators": [
     {
-      "name": "SemantIQ Benchmarks Contributors",
-      "affiliation": "SemantIQ Benchmarks"
+      "name": "Logorythmus",
+      "affiliation": "Logorythmus"
     }
   ],
   "keywords": [
@@ -18,8 +18,8 @@
     "TypeScript",
     "open-source"
   ],
-  "notes": "This release is the Phase 11 independent extraction candidate. Not yet published. Treat as unpublished until Phase 12.",
-  "version": "0.1.0-alpha.1",
+  "notes": "SemantIQ v0.1.0-alpha.2 Public Alpha Consolidation release.",
+  "version": "0.1.0-alpha.2",
   "language": "eng",
   "related_identifiers": []
 }

@@ -1,7 +1,7 @@
 # SemantIQ Benchmarks
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 0.1.0-alpha.1](https://img.shields.io/badge/Version-0.1.0--alpha.2-green.svg)](CHANGELOG.md)
+[![Version: 0.1.0-alpha.2](https://img.shields.io/badge/Version-0.1.0--alpha.2-green.svg)](CHANGELOG.md)
 [![Product Status: Public Alpha](https://img.shields.io/badge/Product%20Status-Public%20Alpha-brightgreen.svg)](docs/project/release-notes.md)
 [![Documentation](https://img.shields.io/badge/Docs-Passing-brightgreen.svg)](docs/README.md)
 
@@ -22,13 +22,13 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ---
 
-## Feature Readiness Classification (v0.1.0-alpha.1)
+## Feature Readiness Classification (v0.1.0-alpha.2)
 
 | Readiness Tier      | Scope & Capabilities                                                                                                                                                                                                                                                                                                                                                                                  |        Stability Guarantee         |
 | :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------: |
 | **WORKS TODAY**     | • CLI Runner (`run`, `replay`, `validate`, `report`)<br>• Local offline deterministic execution (Mock & OCI)<br>• Canonical evidence normalization & Merkle trace sealing<br>• 7-stage behavioral evaluation (`Context → Recovery`)<br>• Anti-gaming heuristics & independent observer mirroring<br>• Draft 2020-12 schema validation suite (37 schemas)<br>• Credential redaction & secret scrubbing |    **FROZEN (Alpha Baseline)**     |
 | **EXPERIMENTAL**    | • Long-horizon multi-step trajectory evaluation<br>• Multi-agent sandbox coordination & arbitration<br>• Transition state recovery laboratory (`TransitionLab`)<br>• Provider Variance Sensitivity ($PVS$) scoring                                                                                                                                                                                    |    **PREVIEW (API may evolve)**    |
-| **OPTIONAL**        | • OpenSandbox daemon adapter (`@semantiq/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI)                                                                                                                                                                                                                        | **MODULAR (Zero core dependency)** |
+| **OPTIONAL**        | • OpenSandbox daemon adapter (`@semantiq/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI)                                                                                                                                                                                                                         | **MODULAR (Zero core dependency)** |
 | **NOT IMPLEMENTED** | • Autonomous live web browsing proxy runtime<br>• Native GUI pixel-interaction executor<br>• Zero-knowledge cryptographic proof generation                                                                                                                                                                                                                                                            | **DEFERRED (Out of Alpha Scope)**  |
 | **ROADMAP**         | • Distributed multi-node benchmark orchestration (v0.2.0)<br>• Real-time web visualization dashboard (v0.2.0)<br>• Multi-tenant enterprise SaaS gateway (v1.0.0)                                                                                                                                                                                                                                      |         **FUTURE ROADMAP**         |
 
@@ -36,8 +36,8 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ## Key Principles (Evidence-Bounded)
 
-- **Local-First & Private**: Evaluates models on local hardware without mandatory cloud accounts or tracking telemetry.
-- **Explainable Rubrics**: Evaluates multi-dimensional criteria (reasoning trajectory, semantic consistency, evidence grounding, recovery capability) with transparent score explanations.
+- **Local-First Architecture**: Evaluates models on local hardware without mandatory cloud accounts or tracking telemetry.
+- **Explainable Rubrics**: Evaluates multi-dimensional criteria (observable decision trace, semantic consistency, evidence grounding, recovery capability) with transparent score explanations.
 - **Verifiable Evidence Provenance**: Cryptographic Merkle trace hash chaining, canonical JSON digests, and verifiable execution receipts.
 - **Provider Neutral**: Connects to local Ollama endpoints or optional remote LLM APIs (OpenAI, Anthropic, Google GenAI) with pre-transmission consent warnings.
 - **No Mandatory Infrastructure**: SemantIQ Core requires no mandatory SemantIQ-operated hosting infrastructure.
@@ -56,7 +56,7 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 - 📖 **[Documentation Index](docs/README.md)**: Full navigation for getting started, concepts, benchmarks, and API reference.
 - 🚀 **[Quick Start Guide](docs/getting-started/index.md)**: 3-step verification flow (\`install → doctor → smoke\`).
 - 💻 **[Installation Guide](docs/getting-started/installation.md)**: Platform dependencies, Node.js setup, and local environment.
-- 🔒 **[Privacy & Offline Guide](docs/security/privacy.md)**: Zero network data egress posture and local-first execution.
+- 🔒 **[Privacy & Offline Guide](docs/security/privacy.md)**: Local evaluation architecture and offline execution mode.
 - 🌐 **[Model Connectors](docs/integrations/connectors.md)**: Setup for Ollama, OpenAI, Anthropic, and Google GenAI.
 - 🔬 **[Reproducibility Walkthrough](docs/evidence/reproducibility.md)**: Step-by-step score reproduction and raw evidence verification.
 - 📋 **[Limitations Register](docs/project/limitations.md)**: Transparent listing of known alpha boundaries and non-goals.
@@ -92,4 +92,3 @@ pnpm export
 - **Baseline Data**: [CC0-1.0 Universal Public Domain](examples/identifiers/benchmark-pack.json)
 
 For citation metadata, see [CITATION.cff](CITATION.cff) or [docs/project/licensing.md](docs/project/licensing.md).
-

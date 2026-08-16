@@ -6,7 +6,9 @@
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type PhaseCompletionVerdict =
-  "PHASE_COMPLETED_AND_SEALED" | "CONDITIONALLY_COMPLETED" | "PHASE_INCOMPLETE";
+  | "PHASE_COMPLETED_AND_SEALED"
+  | "CONDITIONALLY_COMPLETED"
+  | "PHASE_INCOMPLETE";
 
 export interface PhaseCompletionSummary {
   readonly phase: "SANDBOX_PHASE";

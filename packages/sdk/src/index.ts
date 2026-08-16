@@ -1,4 +1,4 @@
-export type { Command, DomainEvent, Query, TechClubModule } from "@semantiq/core";
+export type { Command, DomainEvent, Query, TechClubModule, SemantiqModule } from "@semantiq/core";
 
 export const sdkFoundation = {
   languages: ["typescript", "python"],

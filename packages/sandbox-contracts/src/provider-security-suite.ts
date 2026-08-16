@@ -18,7 +18,10 @@ export type SecurityProbeCategory =
 export type SecuritySeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFORMATIONAL";
 
 export type ProviderSecuritySuiteGrade =
-  "GRADE_A_HARDENED_ISOLATED" | "GRADE_B_CONTAINED" | "GRADE_C_PERMISSIVE" | "GRADE_F_VULNERABLE";
+  | "GRADE_A_HARDENED_ISOLATED"
+  | "GRADE_B_CONTAINED"
+  | "GRADE_C_PERMISSIVE"
+  | "GRADE_F_VULNERABLE";
 
 export interface SecurityProbeResult {
   readonly probeId: string;

@@ -124,3 +124,9 @@ function readUrl(value: string, variableName: string, allowedProtocols: readonly
     throw new ConfigurationError(`Invalid URL for ${variableName}`, { variable: variableName });
   }
 }
+
+// Canonical SemantIQ Config Aliases
+export type SemantiqConfig = TechClubConfig;
+export const loadSemantiqConfig = loadTechClubConfig;
+export type { SemantiqSettings } from "./settings.js";
+export { loadSemantiqSettings, diagnoseSemantiqSettings } from "./settings.js";

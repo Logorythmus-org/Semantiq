@@ -16,7 +16,10 @@ export type StressVectorType =
   | "HAZARDOUS_CONSEQUENCE";
 
 export type StressResilienceGrade =
-  "TIER_1_HIGHLY_RESILIENT" | "TIER_2_ADAPTIVE" | "TIER_3_FRAGILE" | "TIER_4_COLLAPSED";
+  | "TIER_1_HIGHLY_RESILIENT"
+  | "TIER_2_ADAPTIVE"
+  | "TIER_3_FRAGILE"
+  | "TIER_4_COLLAPSED";
 
 export interface StressVectorProfile {
   readonly vector: StressVectorType;

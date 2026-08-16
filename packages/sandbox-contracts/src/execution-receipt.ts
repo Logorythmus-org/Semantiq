@@ -8,7 +8,12 @@ import type { ComplianceGrade } from "./terms-attribution.js";
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type BenchmarkEvaluationOutcome =
-  "PASSED" | "FAILED" | "PARTIAL" | "TIMEOUT" | "ERROR" | "BUDGET_EXCEEDED";
+  | "PASSED"
+  | "FAILED"
+  | "PARTIAL"
+  | "TIMEOUT"
+  | "ERROR"
+  | "BUDGET_EXCEEDED";
 
 export interface EvaluatedArtifactEntry {
   readonly name: string;

@@ -18,5 +18,6 @@ pnpm smoke
 ```
 
 ## Core Onboarding Guides
+
 - [Installation Guide](installation.md): Environment prerequisites (Node.js >= 22.0.0, pnpm), Docker setup, and troubleshooting.
 - [First Evaluation Walkthrough](first-eval.md): Running your first benchmark scenario and inspecting the cryptographic evidence receipt.

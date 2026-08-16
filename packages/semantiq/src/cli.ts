@@ -1,5 +1,12 @@
 export type SemantIQCliCommand =
-  "doctor" | "smoke" | "benchmark" | "inspect" | "replay" | "validate" | "version" | "help";
+  | "doctor"
+  | "smoke"
+  | "benchmark"
+  | "inspect"
+  | "replay"
+  | "validate"
+  | "version"
+  | "help";
 
 export interface SemantIQConfig {
   readonly version: string;

@@ -487,3 +487,8 @@ function maskDatabaseUrl(value: string): string {
   if (url.password) url.password = "[redacted]";
   return url.toString();
 }
+
+// Canonical SemantIQ Type and Function Aliases
+export type SemantiqSettings = TechClubSettings;
+export const loadSemantiqSettings = loadTechClubSettings;
+export const diagnoseSemantiqSettings = diagnoseSettings;

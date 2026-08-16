@@ -6,7 +6,11 @@
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type LineageRelationType =
-  "DERIVED_FROM" | "GENERATED_BY" | "EVALUATED_BY" | "TRANSFORMED_BY" | "EXECUTED_IN";
+  | "DERIVED_FROM"
+  | "GENERATED_BY"
+  | "EVALUATED_BY"
+  | "TRANSFORMED_BY"
+  | "EXECUTED_IN";
 
 export interface BenchmarkManifestLineage {
   readonly scenarioId: string;

@@ -5,7 +5,11 @@ export interface GovernanceScenario {
   readonly actors: readonly string[];
   readonly policies: readonly string[];
   readonly expectedDecision:
-    "approved" | "rejected" | "exception_granted" | "incident_raised" | "ambiguous";
+    | "approved"
+    | "rejected"
+    | "exception_granted"
+    | "incident_raised"
+    | "ambiguous";
   readonly deterministicSeed: number;
   readonly isLocalOnly: boolean;
 }

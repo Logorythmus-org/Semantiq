@@ -33,5 +33,8 @@ if (command === "help" || command === "--help" || command === "-h" || !commands[
 }
 
 const [bin, binArgs] = commands[command];
-const result = spawnSync(bin, [...binArgs, ...args], { stdio: "inherit", shell: process.platform === "win32" });
+const result = spawnSync(bin, [...binArgs, ...args], {
+  stdio: "inherit",
+  shell: process.platform === "win32"
+});
 process.exit(result.status ?? 1);

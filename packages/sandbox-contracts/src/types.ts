@@ -7,7 +7,13 @@ export type RuntimeType = "container" | "microvm" | "remote_managed" | "replay";
 export type NetworkMode = "none" | "isolated_bridge" | "whitelisted_egress" | "full";
 
 export type BehavioralStage =
-  "CONTEXT" | "INTERPRETATION" | "DECISION" | "ACTION" | "RESULT" | "CONSEQUENCE" | "RECOVERY";
+  | "CONTEXT"
+  | "INTERPRETATION"
+  | "DECISION"
+  | "ACTION"
+  | "RESULT"
+  | "CONSEQUENCE"
+  | "RECOVERY";
 
 export interface ImageSpec {
   readonly name: string;
@@ -120,7 +126,9 @@ export interface CheckpointMetadata {
 }
 
 export type ReproducibilityTier =
-  "HERMETIC_DETERMINISTIC" | "ISOLATED_REPRODUCIBLE" | "BEST_EFFORT_TRANSIENT";
+  | "HERMETIC_DETERMINISTIC"
+  | "ISOLATED_REPRODUCIBLE"
+  | "BEST_EFFORT_TRANSIENT";
 
 export interface SandboxProvenance {
   readonly provenanceId: string;

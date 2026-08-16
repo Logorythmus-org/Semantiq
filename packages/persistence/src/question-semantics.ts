@@ -39,7 +39,9 @@ type QuestionSemanticRevisionRow = {
   correlation_id: string;
 };
 
-export class PostgresQuestionSemanticStructureRepository implements QuestionSemanticStructureRepository {
+export class PostgresQuestionSemanticStructureRepository
+  implements QuestionSemanticStructureRepository
+{
   private readonly client: SqlClient;
 
   constructor(client: SqlClient) {
@@ -116,7 +118,9 @@ export class PostgresQuestionSemanticStructureRepository implements QuestionSema
   }
 }
 
-export class PostgresQuestionSemanticRevisionRepository implements QuestionSemanticRevisionRepository {
+export class PostgresQuestionSemanticRevisionRepository
+  implements QuestionSemanticRevisionRepository
+{
   private readonly client: SqlClient;
 
   constructor(client: SqlClient) {

@@ -15,7 +15,10 @@ import { canonicalJson, computeSha256, computeMerkleRoot } from "./crypto-utils.
 export type { BehavioralStage };
 
 export type EvaluatorType =
-  "DETERMINISTIC_ASSERTION" | "LLM_JUDGE" | "TCK_VERIFIER" | "HUMAN_EXPERT";
+  | "DETERMINISTIC_ASSERTION"
+  | "LLM_JUDGE"
+  | "TCK_VERIFIER"
+  | "HUMAN_EXPERT";
 
 export interface BehavioralTraceEvent {
   readonly eventId: string;

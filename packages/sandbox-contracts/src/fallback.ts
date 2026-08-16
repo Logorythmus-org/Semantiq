@@ -11,7 +11,10 @@ export type FailureCategory =
   | "TIMEOUT_EXCEEDED";
 
 export type FallbackStrategy =
-  "RETRY_SAME_PROVIDER" | "FALLBACK_NEXT_PROVIDER" | "HALT_WITH_PARTIAL_EVIDENCE" | "QUARANTINE";
+  | "RETRY_SAME_PROVIDER"
+  | "FALLBACK_NEXT_PROVIDER"
+  | "HALT_WITH_PARTIAL_EVIDENCE"
+  | "QUARANTINE";
 
 export interface FallbackPolicy {
   readonly primaryProviderId: string;

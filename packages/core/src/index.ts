@@ -1,6 +1,7 @@
 export type ModuleId = string;
 export type ModuleVersion = string;
 
+export type SemantiqModule<TConfig = unknown> = TechClubModule<TConfig>;
 export interface TechClubModule<TConfig = unknown> {
   readonly id: ModuleId;
   readonly version: ModuleVersion;

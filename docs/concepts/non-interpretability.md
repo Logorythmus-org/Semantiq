@@ -1,7 +1,7 @@
 # Non-Interpretability & Behavioral Evidence Boundary
 
 > **Mandatory Canonical Disclaimer**:  
-> *"This result describes observed behavior in the specified evaluation environment. It does not certify the system as safe, reliable, legally compliant, intelligent, or suitable for a specific deployment."*
+> _"This result describes observed behavior in the specified evaluation environment. It does not certify the system as safe, reliable, legally compliant, intelligent, or suitable for a specific deployment."_
 
 ## Evidence Boundary Principles
 

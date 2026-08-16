@@ -34,7 +34,11 @@ export type AssetState =
   | "Rejected";
 
 export type ValidationStatus =
-  "Passed" | "Passed with Warnings" | "Failed" | "Skipped" | "Requires Human Review";
+  | "Passed"
+  | "Passed with Warnings"
+  | "Failed"
+  | "Skipped"
+  | "Requires Human Review";
 export type InstallationState =
   | "Not Installed"
   | "Resolving"

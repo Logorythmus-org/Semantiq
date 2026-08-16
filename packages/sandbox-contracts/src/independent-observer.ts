@@ -15,7 +15,9 @@ export type ObservationSourceType =
   | "AGENT_SELF_REPORT";
 
 export type CrossVerificationStatus =
-  "VERIFIED_BY_HOST" | "DISCREPANCY_DETECTED" | "UNVERIFIABLE_CLAIM";
+  | "VERIFIED_BY_HOST"
+  | "DISCREPANCY_DETECTED"
+  | "UNVERIFIABLE_CLAIM";
 
 export interface IndependentObservationRecord {
   readonly observationId: string;
