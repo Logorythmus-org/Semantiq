@@ -1,11 +1,13 @@
 ## Summary
 
 ## Spec-Kit
+
 - Backlog ID:
 - Specification:
 - Acceptance tests:
 
 ## Validation
+
 - [ ] Format
 - [ ] Lint
 - [ ] Typecheck

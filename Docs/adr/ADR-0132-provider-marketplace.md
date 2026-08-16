@@ -1,7 +1,7 @@
 # ADR-0132: Provider Marketplace and Decentralized Discovery Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

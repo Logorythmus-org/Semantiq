@@ -3,6 +3,7 @@
 Every Tech Club module must be small, explicit, testable, and replaceable.
 
 ## Required Contract
+
 - Public API: exported types and functions for consumers.
 - Internal API: private implementation details that are not exported.
 - Events: facts emitted after state changes.
@@ -14,6 +15,7 @@ Every Tech Club module must be small, explicit, testable, and replaceable.
 - Extension points: versioned plugin or adapter hooks.
 
 ## Package Rules
+
 - Export only from `src/index.ts`.
 - Keep infrastructure dependencies behind interfaces.
 - Do not import from apps.
@@ -21,4 +23,5 @@ Every Tech Club module must be small, explicit, testable, and replaceable.
 - Add contract tests for externally visible behavior.
 
 ## Naming
+
 Packages use `@tech-club/<name>`. Commands use imperative names. Events use past-tense names. Queries use read-oriented names.

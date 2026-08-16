@@ -3,4 +3,4 @@
  * Entry Point
  */
 
-export * from './tck-suite.js';
+export * from "./tck-suite.js";

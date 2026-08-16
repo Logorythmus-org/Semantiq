@@ -1,7 +1,7 @@
 # ADR-0155: SemantIQ Independent Observer Architecture and Evidence-Source Calibration
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

@@ -18,14 +18,14 @@ import {
   type FileEntry,
   type WriteOptions,
   generateProvenance
-} from '../../sandbox-contracts/src/index.js';
-import { CloudAuthenticationManager } from './auth-manager.js';
-import { CostQuotaGovernor } from './cost-governor.js';
-import type { CloudAuthConfig, CloudBudgetPolicy, CloudBillingMetadata } from './types.js';
+} from "../../sandbox-contracts/src/index.js";
+import { CloudAuthenticationManager } from "./auth-manager.js";
+import { CostQuotaGovernor } from "./cost-governor.js";
+import type { CloudAuthConfig, CloudBudgetPolicy, CloudBillingMetadata } from "./types.js";
 
 export class E2BCloudInstance extends BaseSandboxInstance {
   readonly instanceId: string;
-  readonly providerId = 'e2b';
+  readonly providerId = "e2b";
   readonly spec: EnvironmentSpec;
   readonly createdAt: string = new Date().toISOString();
   private readonly adapterVersion: string;
@@ -50,11 +50,11 @@ export class E2BCloudInstance extends BaseSandboxInstance {
   }
 
   async executeCommand(request: ExecutionRequest): Promise<ExecutionResult> {
-    if (this.isTerminated) throw new Error('Cannot execute on terminated cloud instance.');
+    if (this.isTerminated) throw new Error("Cannot execute on terminated cloud instance.");
 
     // Simulated remote microVM execution with secret scrubbing
     const start = Date.now();
-    const stdoutRaw = `[E2B MicroVM] Executed: ${request.command.join(' ')}\n`;
+    const stdoutRaw = `[E2B MicroVM] Executed: ${request.command.join(" ")}\n`;
     const stdout = this.authManager.scrubSecrets(stdoutRaw);
 
     this.notifyStdout(stdout);
@@ -63,7 +63,7 @@ export class E2BCloudInstance extends BaseSandboxInstance {
       requestId: request.requestId,
       exitCode: 0,
       stdout,
-      stderr: '',
+      stderr: "",
       stdoutTruncated: false,
       stderrTruncated: false,
       durationMs: Date.now() - start,
@@ -73,16 +73,24 @@ export class E2BCloudInstance extends BaseSandboxInstance {
     };
   }
 
-  async writeFile(_path: string, _content: Uint8Array | string, _options?: WriteOptions): Promise<void> {}
-  async readFile(_path: string): Promise<Uint8Array> { return new Uint8Array(); }
+  async writeFile(
+    _path: string,
+    _content: Uint8Array | string,
+    _options?: WriteOptions
+  ): Promise<void> {}
+  async readFile(_path: string): Promise<Uint8Array> {
+    return new Uint8Array();
+  }
   async deleteFile(_path: string): Promise<void> {}
-  async listFiles(_path: string, _recursive?: boolean): Promise<readonly FileEntry[]> { return []; }
+  async listFiles(_path: string, _recursive?: boolean): Promise<readonly FileEntry[]> {
+    return [];
+  }
 
   async captureStateDelta(sinceCheckpointId?: string): Promise<StateDelta> {
     return {
       deltaId: crypto.randomUUID(),
-      fromCheckpoint: sinceCheckpointId || 'baseline',
-      toCheckpoint: 'current',
+      fromCheckpoint: sinceCheckpointId || "baseline",
+      toCheckpoint: "current",
       timestamp: new Date().toISOString(),
       mutations: { createdFiles: [], modifiedFiles: [], deletedFiles: [], spawnedProcesses: [] }
     };
@@ -92,9 +100,9 @@ export class E2BCloudInstance extends BaseSandboxInstance {
     return {
       checkpointId: crypto.randomUUID(),
       instanceId: this.instanceId,
-      name: name || 'cloud-checkpoint',
+      name: name || "cloud-checkpoint",
       createdAt: new Date().toISOString(),
-      rootMerkleHash: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
+      rootMerkleHash: "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       processStateCount: 0,
       parentCheckpointId: null
     };
@@ -105,18 +113,18 @@ export class E2BCloudInstance extends BaseSandboxInstance {
   async getBillingMetadata(): Promise<CloudBillingMetadata> {
     const wallClockMs = Date.now() - this.startTime;
     return {
-      providerName: 'e2b',
-      instanceTier: '2vCPU-4GB',
+      providerName: "e2b",
+      instanceTier: "2vCPU-4GB",
       billedExecutionDurationMs: wallClockMs,
       wallClockDurationMs: wallClockMs,
       estimatedCostUsd: (wallClockMs / 60000) * 0.03,
-      currency: 'USD',
+      currency: "USD",
       zeroDataRetentionConfirmed: true
     };
   }
 
   async terminate(): Promise<SandboxTerminationSummary> {
-    if (this.isTerminated) throw new Error('Cloud instance already terminated.');
+    if (this.isTerminated) throw new Error("Cloud instance already terminated.");
     this.isTerminated = true;
 
     const billedMs = Date.now() - this.startTime;
@@ -134,18 +142,18 @@ export class E2BCloudInstance extends BaseSandboxInstance {
       provenance: generateProvenance(
         this.spec,
         this.providerId,
-        '1.0.0',
+        "1.0.0",
         this.adapterVersion,
-        '42',
-        'ISOLATED_REPRODUCIBLE'
+        "42",
+        "ISOLATED_REPRODUCIBLE"
       )
     };
   }
 }
 
 export class E2BCloudAdapter extends BaseSandboxAdapter {
-  readonly providerId = 'e2b';
-  readonly providerVersion = '1.0.0';
+  readonly providerId = "e2b";
+  readonly providerVersion = "1.0.0";
 
   private readonly authManager = new CloudAuthenticationManager();
   private readonly costGovernor = new CostQuotaGovernor();
@@ -165,7 +173,7 @@ export class E2BCloudAdapter extends BaseSandboxAdapter {
       supportsNetworkPolicy: true,
       supportsResourceHardening: true,
       maxExecutionTimeoutSeconds: 3600,
-      supportedArchitectures: ['x86_64']
+      supportedArchitectures: ["x86_64"]
     };
   }
 
@@ -174,20 +182,26 @@ export class E2BCloudAdapter extends BaseSandboxAdapter {
       providerId: this.providerId,
       isHealthy: true,
       latencyMs: 15,
-      details: { tier: 'serverless-microvm', region: 'us-east-1' }
+      details: { tier: "serverless-microvm", region: "us-east-1" }
     };
   }
 
   async createSandbox(spec: EnvironmentSpec): Promise<ISandboxInstance> {
     const validation = await this.validateEnvironmentSpec(spec);
     if (!validation.isValid) {
-      throw new Error(`EnvironmentSpec validation failed: ${validation.errors.join(', ')}`);
+      throw new Error(`EnvironmentSpec validation failed: ${validation.errors.join(", ")}`);
     }
 
     this.costGovernor.checkPreflight();
     this.costGovernor.onSandboxCreated();
 
     const instanceId = `e2b-${crypto.randomUUID()}`;
-    return new E2BCloudInstance(instanceId, spec, this.providerVersion, this.authManager, this.costGovernor);
+    return new E2BCloudInstance(
+      instanceId,
+      spec,
+      this.providerVersion,
+      this.authManager,
+      this.costGovernor
+    );
   }
 }

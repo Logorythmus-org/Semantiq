@@ -3,8 +3,8 @@
  * Lightweight Provider SDK and Conformance Harness Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { EnvironmentSpec, ExecutionRequest, ExecutionResult } from './types.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { EnvironmentSpec, ExecutionRequest, ExecutionResult } from "./types.js";
 
 export interface ProviderConfig {
   readonly providerId: string;
@@ -41,7 +41,8 @@ export interface CommandResult {
 
 export interface ProviderTelemetryEvent {
   readonly timestamp: string;
-  readonly type: 'STDOUT' | 'STDERR' | 'PROCESS_SPAWN' | 'PROCESS_EXIT' | 'NETWORK_EGRESS' | 'FILE_MUTATION';
+  readonly type:
+    "STDOUT" | "STDERR" | "PROCESS_SPAWN" | "PROCESS_EXIT" | "NETWORK_EGRESS" | "FILE_MUTATION";
   readonly payload: Record<string, unknown>;
 }
 
@@ -74,8 +75,8 @@ export abstract class SemantiqProviderAdapter {
  * Mock reference adapter for testing and local integration.
  */
 export class MockReferenceProviderAdapter extends SemantiqProviderAdapter {
-  readonly providerId = 'provider-reference-mock';
-  readonly version = '1.0.0';
+  readonly providerId = "provider-reference-mock";
+  readonly version = "1.0.0";
 
   private active = false;
 
@@ -85,7 +86,7 @@ export class MockReferenceProviderAdapter extends SemantiqProviderAdapter {
 
   async provisionEnvironment(spec: EnvironmentSpec): Promise<EnvironmentHandle> {
     if (!this.active) {
-      throw new Error('Adapter not initialized');
+      throw new Error("Adapter not initialized");
     }
     return {
       handleId: `h-${computeSha256(spec.image.name).substring(0, 12)}`,
@@ -96,23 +97,44 @@ export class MockReferenceProviderAdapter extends SemantiqProviderAdapter {
   }
 
   async executeCommand(_handle: EnvironmentHandle, command: CommandSpec): Promise<CommandResult> {
-    if (command.command.includes('cat /etc/shadow')) {
-      return { exitCode: 1, stdout: '', stderr: 'cat: /etc/shadow: Permission denied', durationMs: 5, peakMemoryMb: 32, cpuTimeMs: 2 };
+    if (command.command.includes("cat /etc/shadow")) {
+      return {
+        exitCode: 1,
+        stdout: "",
+        stderr: "cat: /etc/shadow: Permission denied",
+        durationMs: 5,
+        peakMemoryMb: 32,
+        cpuTimeMs: 2
+      };
     }
-    if (command.command.includes('curl') || command.command.includes('ping')) {
-      return { exitCode: 1, stdout: 'Network is unreachable (connect failed)', stderr: '', durationMs: 10, peakMemoryMb: 32, cpuTimeMs: 4 };
+    if (command.command.includes("curl") || command.command.includes("ping")) {
+      return {
+        exitCode: 1,
+        stdout: "Network is unreachable (connect failed)",
+        stderr: "",
+        durationMs: 10,
+        peakMemoryMb: 32,
+        cpuTimeMs: 4
+      };
     }
-    if (command.command.includes('grep')) {
-      return { exitCode: 1, stdout: '', stderr: '', durationMs: 5, peakMemoryMb: 32, cpuTimeMs: 2 };
+    if (command.command.includes("grep")) {
+      return { exitCode: 1, stdout: "", stderr: "", durationMs: 5, peakMemoryMb: 32, cpuTimeMs: 2 };
     }
-    if (command.command.includes('id -u')) {
-      return { exitCode: 0, stdout: '1000\n', stderr: '', durationMs: 5, peakMemoryMb: 32, cpuTimeMs: 2 };
+    if (command.command.includes("id -u")) {
+      return {
+        exitCode: 0,
+        stdout: "1000\n",
+        stderr: "",
+        durationMs: 5,
+        peakMemoryMb: 32,
+        cpuTimeMs: 2
+      };
     }
 
     return {
       exitCode: 0,
       stdout: `Mock executed: ${command.command}`,
-      stderr: '',
+      stderr: "",
       durationMs: 15,
       peakMemoryMb: 64,
       cpuTimeMs: 10
@@ -138,9 +160,9 @@ export class ProviderConformanceHarness {
       await adapter.initialize({
         providerId: adapter.providerId,
         version: adapter.version,
-        endpoint: 'http://localhost/test'
+        endpoint: "http://localhost/test"
       });
-      passedChecks.push('INITIALIZE_HOOK_COMPLIANT');
+      passedChecks.push("INITIALIZE_HOOK_COMPLIANT");
     } catch (e) {
       failedChecks.push(`INITIALIZE_FAILED: ${e instanceof Error ? e.message : String(e)}`);
     }
@@ -149,13 +171,13 @@ export class ProviderConformanceHarness {
     let handle: EnvironmentHandle | undefined;
     try {
       handle = await adapter.provisionEnvironment({
-        specVersion: '1.0.0',
-        runtimeType: 'container',
+        specVersion: "1.0.0",
+        runtimeType: "container",
         image: {
-          name: 'alpine:latest',
-          digest: 'sha256:ba822f60cf6ae44304d8f1618793ed09ac3cb6bc8b5368d653c0b8dc7c2f0ad0'
+          name: "alpine:latest",
+          digest: "sha256:ba822f60cf6ae44304d8f1618793ed09ac3cb6bc8b5368d653c0b8dc7c2f0ad0"
         },
-        workingDirectory: '/workspace',
+        workingDirectory: "/workspace",
         resources: {
           cpuLimitCores: 1,
           memoryLimitMebibytes: 512,
@@ -163,15 +185,15 @@ export class ProviderConformanceHarness {
           maxExecutionTimeoutSeconds: 60
         },
         security: {
-          networkMode: 'none',
+          networkMode: "none",
           readOnlyRootFilesystem: true
         }
       });
 
       if (handle && handle.handleId && handle.providerId === adapter.providerId) {
-        passedChecks.push('PROVISION_ENVIRONMENT_COMPLIANT');
+        passedChecks.push("PROVISION_ENVIRONMENT_COMPLIANT");
       } else {
-        failedChecks.push('PROVISION_RETURNED_INVALID_HANDLE');
+        failedChecks.push("PROVISION_RETURNED_INVALID_HANDLE");
       }
     } catch (e) {
       failedChecks.push(`PROVISION_FAILED: ${e instanceof Error ? e.message : String(e)}`);
@@ -186,9 +208,9 @@ export class ProviderConformanceHarness {
         });
 
         if (result.exitCode === 0 && result.durationMs >= 0) {
-          passedChecks.push('EXECUTE_COMMAND_COMPLIANT');
+          passedChecks.push("EXECUTE_COMMAND_COMPLIANT");
         } else {
-          failedChecks.push('EXECUTE_COMMAND_RETURNED_INVALID_RESULT');
+          failedChecks.push("EXECUTE_COMMAND_RETURNED_INVALID_RESULT");
         }
       } catch (e) {
         failedChecks.push(`EXECUTE_COMMAND_FAILED: ${e instanceof Error ? e.message : String(e)}`);
@@ -197,9 +219,11 @@ export class ProviderConformanceHarness {
       // Check 4: Teardown Hook
       try {
         await adapter.destroyEnvironment(handle);
-        passedChecks.push('DESTROY_ENVIRONMENT_COMPLIANT');
+        passedChecks.push("DESTROY_ENVIRONMENT_COMPLIANT");
       } catch (e) {
-        failedChecks.push(`DESTROY_ENVIRONMENT_FAILED: ${e instanceof Error ? e.message : String(e)}`);
+        failedChecks.push(
+          `DESTROY_ENVIRONMENT_FAILED: ${e instanceof Error ? e.message : String(e)}`
+        );
       }
     }
 

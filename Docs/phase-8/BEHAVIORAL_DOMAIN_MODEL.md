@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.2 — Behavioral Domain Contracts  
 **Date**: 2026-08-01  
-**Status Verdict**: `BEHAVIORAL CONTRACTS FROZEN`  
+**Status Verdict**: `BEHAVIORAL CONTRACTS FROZEN`
 
 ---
 

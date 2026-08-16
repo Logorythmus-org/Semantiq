@@ -131,17 +131,29 @@ export interface KnowledgeGraphRuntimeApi {
   createEdge(edge: KnowledgeEdge): Promise<void>;
   neighborhood(nodeId: string, depth?: number): Promise<readonly KnowledgeNode[]>;
   shortestPath(from: string, to: string): Promise<readonly string[]>;
-  subgraph(query: GraphQuery): Promise<{ readonly nodes: readonly KnowledgeNode[]; readonly edges: readonly KnowledgeEdge[] }>;
+  subgraph(
+    query: GraphQuery
+  ): Promise<{
+    readonly nodes: readonly KnowledgeNode[];
+    readonly edges: readonly KnowledgeEdge[];
+  }>;
   searchKnowledge(query: string, limit?: number): Promise<readonly SearchResult[]>;
   recommendKnowledge(nodeId: string, limit?: number): Promise<readonly RecommendationResult[]>;
-  findRelations(nodeId: string, relationTypes?: readonly SemanticRelationType[]): Promise<readonly KnowledgeEdge[]>;
+  findRelations(
+    nodeId: string,
+    relationTypes?: readonly SemanticRelationType[]
+  ): Promise<readonly KnowledgeEdge[]>;
   getTimeline(objectId: string): Promise<readonly TimelineEntry[]>;
-  compareKnowledge(leftId: string, rightId: string): Promise<{ readonly overlap: number; readonly explanation: string }>;
+  compareKnowledge(
+    leftId: string,
+    rightId: string
+  ): Promise<{ readonly overlap: number; readonly explanation: string }>;
   explainScore(nodeId: string): Promise<string>;
   events(): readonly KnowledgeIntelligenceEvent[];
 }
 
-const createId = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 
 export const createKnowledgeEdge = (
   id: string,
@@ -190,7 +202,12 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     this.edges.set(edge.id, edge);
     this.searchCache.clear();
     this.recommendationCache.clear();
-    this.record("EdgeCreated", edge.sourceId, { edgeId: edge.id, relation: edge.relation }, edge.id);
+    this.record(
+      "EdgeCreated",
+      edge.sourceId,
+      { edgeId: edge.id, relation: edge.relation },
+      edge.id
+    );
     this.record("GraphUpdated", edge.sourceId, { edgeId: edge.id }, edge.id);
     this.timeline(edge.sourceId, "EdgeCreated", `${edge.relation} relation to ${edge.targetId}`);
   }
@@ -214,7 +231,9 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
       }
       frontier = next;
     }
-    return [...ids].map((id) => this.nodes.get(id)).filter((node): node is KnowledgeNode => Boolean(node));
+    return [...ids]
+      .map((id) => this.nodes.get(id))
+      .filter((node): node is KnowledgeNode => Boolean(node));
   }
 
   async shortestPath(from: string, to: string): Promise<readonly string[]> {
@@ -244,17 +263,28 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     return [];
   }
 
-  async subgraph(query: GraphQuery): Promise<{ readonly nodes: readonly KnowledgeNode[]; readonly edges: readonly KnowledgeEdge[] }> {
+  async subgraph(
+    query: GraphQuery
+  ): Promise<{
+    readonly nodes: readonly KnowledgeNode[];
+    readonly edges: readonly KnowledgeEdge[];
+  }> {
     const maxDepth = query.maxDepth ?? 1;
-    const baseNodes = query.startNodeId ? await this.neighborhood(query.startNodeId, maxDepth) : [...this.nodes.values()];
+    const baseNodes = query.startNodeId
+      ? await this.neighborhood(query.startNodeId, maxDepth)
+      : [...this.nodes.values()];
     const nodes = baseNodes.filter((node) => {
-      const labelsMatch = query.labels ? query.labels.some((label) => node.labels.includes(label)) : true;
+      const labelsMatch = query.labels
+        ? query.labels.some((label) => node.labels.includes(label))
+        : true;
       const textMatch = query.text ? this.nodeText(node).includes(query.text.toLowerCase()) : true;
       return labelsMatch && textMatch;
     });
     const nodeIds = new Set(nodes.map((node) => node.id));
     const edges = [...this.edges.values()].filter((edge) => {
-      const relationMatch = query.relationTypes ? query.relationTypes.includes(edge.relation) : true;
+      const relationMatch = query.relationTypes
+        ? query.relationTypes.includes(edge.relation)
+        : true;
       return relationMatch && nodeIds.has(edge.sourceId) && nodeIds.has(edge.targetId);
     });
     return { nodes, edges };
@@ -311,7 +341,10 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     return recommendations.slice(0, limit);
   }
 
-  async findRelations(nodeId: string, relationTypes?: readonly SemanticRelationType[]): Promise<readonly KnowledgeEdge[]> {
+  async findRelations(
+    nodeId: string,
+    relationTypes?: readonly SemanticRelationType[]
+  ): Promise<readonly KnowledgeEdge[]> {
     return [...this.edges.values()].filter((edge) => {
       const touchesNode = edge.sourceId === nodeId || edge.targetId === nodeId;
       const relationMatches = relationTypes ? relationTypes.includes(edge.relation) : true;
@@ -324,7 +357,10 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     return this.timelineEntries.filter((entry) => entry.objectId === objectId);
   }
 
-  async compareKnowledge(leftId: string, rightId: string): Promise<{ readonly overlap: number; readonly explanation: string }> {
+  async compareKnowledge(
+    leftId: string,
+    rightId: string
+  ): Promise<{ readonly overlap: number; readonly explanation: string }> {
     const left = this.nodes.get(leftId);
     const right = this.nodes.get(rightId);
     if (!left || !right) {
@@ -368,7 +404,12 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     return "research";
   }
 
-  private record(type: KnowledgeIntelligenceEventType, objectId: string | undefined, payload: unknown, edgeId?: string): void {
+  private record(
+    type: KnowledgeIntelligenceEventType,
+    objectId: string | undefined,
+    payload: unknown,
+    edgeId?: string
+  ): void {
     const base: KnowledgeIntelligenceEvent = {
       type,
       version: 1,

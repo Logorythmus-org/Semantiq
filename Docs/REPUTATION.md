@@ -3,9 +3,11 @@
 Reputation is transparent evidence of contribution over time.
 
 ## Sources
+
 Contributions, reviews, research, projects, questions, collaboration, benchmark quality, teaching, mentoring, and community activity.
 
 ## Rules
+
 - No opaque scoring.
 - Reputation entries are explainable.
 - Negative signals require provenance and appeal paths.

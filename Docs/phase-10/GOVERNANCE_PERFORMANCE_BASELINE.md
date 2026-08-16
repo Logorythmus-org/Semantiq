@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.12 — Governance Evidence Performance Baseline  
 **Date**: 2026-08-02  
-**Baseline Verdict**: `GOVERNANCE PERFORMANCE BASELINE FROZEN`  
+**Baseline Verdict**: `GOVERNANCE PERFORMANCE BASELINE FROZEN`
 
 ---
 

@@ -1,7 +1,7 @@
 # Phase 12 Rollback Triggers and Immediate Freezing Policy
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-07  
+**Date**: 2026-08-07
 
 ---
 

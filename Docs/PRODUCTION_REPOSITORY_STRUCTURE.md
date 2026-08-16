@@ -3,6 +3,7 @@
 The production repository keeps the completed architecture buildable, testable, and deployable through clear ownership boundaries.
 
 ## Map
+
 - `packages/`: domain, platform, runtime, SDK, UI, and contract packages.
 - `apps/`: user-facing web, desktop, and mobile applications.
 - `services/`: backend and worker services.
@@ -19,7 +20,9 @@ The production repository keeps the completed architecture buildable, testable, 
 - `.github/`: future CI/CD, issue templates, and release automation.
 
 ## Repository Area Template
+
 Each area defines:
+
 - Purpose.
 - Owner.
 - Dependencies.
@@ -30,7 +33,9 @@ Each area defines:
 - Release status.
 
 ## Ownership
+
 Domain packages own business behavior. Apps compose packages. Services expose runtime entry points. Tooling validates architecture. Documentation remains source-of-truth for engineering decisions.
 
 ## Versioning
+
 All public packages and APIs follow semantic versioning. Internal scaffolds remain `0.0.0` until production contracts are frozen.

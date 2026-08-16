@@ -34,12 +34,16 @@ const dimensions: readonly EvaluationDimensionId[] = [
   "reflection"
 ];
 
-const createId = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 
 export class ExplainableSemantiqRuntime {
   private readonly reports = new Map<string, BenchmarkReport>();
 
-  async runSemantiq(subject: BenchmarkSubject, profile: ScoringProfile): Promise<SemantiqRuntimeResult> {
+  async runSemantiq(
+    subject: BenchmarkSubject,
+    profile: ScoringProfile
+  ): Promise<SemantiqRuntimeResult> {
     const analyzer = this.analyze(subject);
     const scores = dimensions.map((dimensionId) => this.score(dimensionId, subject, analyzer));
     const weightedScore = this.weight(scores, profile);
@@ -93,7 +97,9 @@ export class ExplainableSemantiqRuntime {
     if (!report) {
       throw new Error(`Semantiq report not found: ${reportId}`);
     }
-    return report.scores.map((score) => `${score.dimensionId}: ${score.score.toFixed(2)} - ${score.explanation}`).join("\n");
+    return report.scores
+      .map((score) => `${score.dimensionId}: ${score.score.toFixed(2)} - ${score.explanation}`)
+      .join("\n");
   }
 
   private analyze(subject: BenchmarkSubject): SemanticAnalyzerResult {
@@ -106,11 +112,16 @@ export class ExplainableSemantiqRuntime {
     };
   }
 
-  private score(dimensionId: EvaluationDimensionId, subject: BenchmarkSubject, analyzer: SemanticAnalyzerResult): DimensionScore {
+  private score(
+    dimensionId: EvaluationDimensionId,
+    subject: BenchmarkSubject,
+    analyzer: SemanticAnalyzerResult
+  ): DimensionScore {
     const contentLength = JSON.stringify(subject.content).length;
     const evidenceBonus = analyzer.missingEvidence ? 0 : 0.2;
     const base = Math.min(1, Math.max(0.15, contentLength / 1200 + evidenceBonus));
-    const score = dimensionId === "evidence" && analyzer.missingEvidence ? Math.min(base, 0.45) : base;
+    const score =
+      dimensionId === "evidence" && analyzer.missingEvidence ? Math.min(base, 0.45) : base;
     return {
       dimensionId,
       score,
@@ -119,7 +130,9 @@ export class ExplainableSemantiqRuntime {
       evidenceUsed: subject.evidenceIds,
       strengths: analyzer.concepts.length > 3 ? ["Multiple semantic concepts detected."] : [],
       weaknesses: analyzer.missingEvidence ? ["No evidence references were attached."] : [],
-      improvementSuggestions: [`Improve ${dimensionId} with explicit evidence, context, and examples.`]
+      improvementSuggestions: [
+        `Improve ${dimensionId} with explicit evidence, context, and examples.`
+      ]
     };
   }
 

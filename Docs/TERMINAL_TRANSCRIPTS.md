@@ -10,7 +10,7 @@ This document records sanitized terminal output transcripts from actual CLI exec
 $ pnpm doctor
 
 =========================================
- SemantIQ Benchmarks — First-Run Doctor 
+ SemantIQ Benchmarks — First-Run Doctor
 =========================================
 Timestamp:    2026-07-31T12:20:00.000Z
 Node Version: v22.10.0
@@ -34,7 +34,7 @@ Status:       HEALTHY
 $ node tools/automation/cli.mjs connector
 
 =========================================
- SemantIQ Model Connectors Registry     
+ SemantIQ Model Connectors Registry
 =========================================
 - [mock] Deterministic Mock Provider (local)
   Status: ready

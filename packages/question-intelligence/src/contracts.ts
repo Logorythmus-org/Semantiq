@@ -56,7 +56,17 @@ export interface IntentAnalysis {
 
 export interface AmbiguityReport {
   readonly ambiguities: readonly {
-    readonly area: "terms" | "scope" | "context" | "assumptions" | "time" | "domain" | "audience" | "goal" | "evidence" | "definitions";
+    readonly area:
+      | "terms"
+      | "scope"
+      | "context"
+      | "assumptions"
+      | "time"
+      | "domain"
+      | "audience"
+      | "goal"
+      | "evidence"
+      | "definitions";
     readonly explanation: string;
     readonly clarificationQuestion: string;
     readonly confidence: number;
@@ -65,7 +75,15 @@ export interface AmbiguityReport {
 
 export interface AssumptionReport {
   readonly assumptions: readonly {
-    readonly type: "definition" | "causal" | "cultural" | "scientific" | "historical" | "technical" | "ethical" | "personal";
+    readonly type:
+      | "definition"
+      | "causal"
+      | "cultural"
+      | "scientific"
+      | "historical"
+      | "technical"
+      | "ethical"
+      | "personal";
     readonly statement: string;
     readonly explanation: string;
     readonly confidence: number;
@@ -74,7 +92,17 @@ export interface AssumptionReport {
 
 export interface SemanticTagSuggestion {
   readonly tag: string;
-  readonly layer: "domain" | "intent" | "difficulty" | "method" | "scientific" | "educational" | "risk" | "project" | "game" | "language";
+  readonly layer:
+    | "domain"
+    | "intent"
+    | "difficulty"
+    | "method"
+    | "scientific"
+    | "educational"
+    | "risk"
+    | "project"
+    | "game"
+    | "language";
   readonly confidence: number;
   readonly explanation: string;
 }
@@ -131,7 +159,17 @@ export interface HypothesisSuggestion {
 }
 
 export interface ExperimentSuggestion {
-  readonly design: "observation" | "comparison" | "simulation" | "prototype" | "survey" | "dataset-analysis" | "literature-review" | "user-study" | "benchmark-test" | "reproducibility-check";
+  readonly design:
+    | "observation"
+    | "comparison"
+    | "simulation"
+    | "prototype"
+    | "survey"
+    | "dataset-analysis"
+    | "literature-review"
+    | "user-study"
+    | "benchmark-test"
+    | "reproducibility-check";
   readonly description: string;
   readonly feasibilityNotes: readonly string[];
 }
@@ -181,7 +219,10 @@ export interface QuestionRefinementResult {
   readonly detectedLanguage: string;
   readonly detectedIntent: IntentAnalysis;
   readonly improvedVersion: IntelligenceSuggestion<{ question: string }>;
-  readonly alternativeVersions: readonly IntelligenceSuggestion<{ label: string; question: string }>[];
+  readonly alternativeVersions: readonly IntelligenceSuggestion<{
+    label: string;
+    question: string;
+  }>[];
   readonly ambiguityReport: AmbiguityReport;
   readonly assumptionReport: AssumptionReport;
   readonly suggestedTags: readonly IntelligenceSuggestion<SemanticTagSuggestion>[];
@@ -238,7 +279,10 @@ export interface QuestionIntelligenceEngine {
   suggestTags(question: string): Promise<readonly SemanticTagSuggestion[]>;
   analyzeQuestion(question: string): Promise<QuestionRefinementResult>;
   improveQuestion(question: string): Promise<IntelligenceSuggestion<{ question: string }>>;
-  detectDuplicates(question: string, candidates: readonly { readonly id: string; readonly text: string }[]): Promise<readonly DuplicateCandidate[]>;
+  detectDuplicates(
+    question: string,
+    candidates: readonly { readonly id: string; readonly text: string }[]
+  ): Promise<readonly DuplicateCandidate[]>;
   findKnowledgeGaps(question: string): Promise<readonly string[]>;
   suggestResearch(question: string): Promise<readonly string[]>;
   suggestProjects(question: string): Promise<readonly QuestionToProjectPlan[]>;
@@ -246,5 +290,9 @@ export interface QuestionIntelligenceEngine {
   suggestCommunities(question: string): Promise<readonly string[]>;
   generateSemantiqPreview(question: string): Promise<SemantiqPreview>;
   approveSuggestion(suggestionId: string, actorId: string): Promise<IntelligenceSuggestion>;
-  rejectSuggestion(suggestionId: string, actorId: string, reason: string): Promise<IntelligenceSuggestion>;
+  rejectSuggestion(
+    suggestionId: string,
+    actorId: string,
+    reason: string
+  ): Promise<IntelligenceSuggestion>;
 }

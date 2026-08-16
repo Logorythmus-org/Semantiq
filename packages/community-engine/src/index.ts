@@ -59,16 +59,22 @@ export class LocalCommunityEngineRepository implements CommunityEngineRepository
   }
 
   listReputation(communityId: string, subjectId: string): readonly ReputationRecord[] {
-    return this.reputation.filter((record) => record.communityId === communityId && record.subjectId === subjectId);
+    return this.reputation.filter(
+      (record) => record.communityId === communityId && record.subjectId === subjectId
+    );
   }
 
   listTrust(communityId: string, subjectId: string): readonly TrustRecord[] {
-    return this.trust.filter((record) => record.communityId === communityId && record.subjectId === subjectId);
+    return this.trust.filter(
+      (record) => record.communityId === communityId && record.subjectId === subjectId
+    );
   }
 }
 
 export class LocalCommunityEngineService implements CommunityEngineService {
-  constructor(private readonly repository: LocalCommunityEngineRepository = new LocalCommunityEngineRepository()) {}
+  constructor(
+    private readonly repository: LocalCommunityEngineRepository = new LocalCommunityEngineRepository()
+  ) {}
 
   async createCommunity(community: Community): Promise<void> {
     if (community.questionIds.length === 0) {
@@ -92,7 +98,10 @@ export class LocalCommunityEngineService implements CommunityEngineService {
     await this.repository.addContribution(contribution);
   }
 
-  async calculateReputation(communityId: string, subjectId: string): Promise<readonly ReputationRecord[]> {
+  async calculateReputation(
+    communityId: string,
+    subjectId: string
+  ): Promise<readonly ReputationRecord[]> {
     const records = this.repository.listReputation(communityId, subjectId);
     for (const record of records) {
       if (forbiddenReputationSources.has(record.source)) {
@@ -122,9 +131,11 @@ export class LocalCommunityEngineService implements CommunityEngineService {
       innovation: 0,
       teaching: contributions.filter((contribution) => contribution.type === "teaching").length,
       learning: community.learningPathIds.length,
-      communityHealth: community.memberIds.length && community.questionIds.length ? "healthy" : "unknown",
+      communityHealth:
+        community.memberIds.length && community.questionIds.length ? "healthy" : "unknown",
       researchVelocity: community.researchIds.length,
-      evidenceDensity: contributions.filter((contribution) => contribution.type === "evidence").length,
+      evidenceDensity: contributions.filter((contribution) => contribution.type === "evidence")
+        .length,
       semantiqEvolution: community.benchmarkHistoryIds.length
     };
   }

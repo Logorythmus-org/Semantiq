@@ -6,14 +6,14 @@ This document records license compatibility across code, documentation, baseline
 
 ## 1. Core Component License Matrix
 
-| Component | License | Compatibility Status | Commercial Reuse Allowed? |
-|---|---|---|---|
-| **SemantIQ Source Code** | MIT License | Fully Compatible | Yes |
-| **Documentation** | CC-BY-4.0 | Fully Compatible | Yes (with attribution) |
-| **Baseline Benchmarks** | CC0-1.0 Universal | Fully Compatible | Yes |
-| **Vitest** | MIT | Fully Compatible | Yes |
-| **TypeScript** | Apache-2.0 | Fully Compatible | Yes |
-| **Prettier / ESLint** | MIT | Fully Compatible | Yes |
+| Component                | License           | Compatibility Status | Commercial Reuse Allowed? |
+| ------------------------ | ----------------- | -------------------- | ------------------------- |
+| **SemantIQ Source Code** | MIT License       | Fully Compatible     | Yes                       |
+| **Documentation**        | CC-BY-4.0         | Fully Compatible     | Yes (with attribution)    |
+| **Baseline Benchmarks**  | CC0-1.0 Universal | Fully Compatible     | Yes                       |
+| **Vitest**               | MIT               | Fully Compatible     | Yes                       |
+| **TypeScript**           | Apache-2.0        | Fully Compatible     | Yes                       |
+| **Prettier / ESLint**    | MIT               | Fully Compatible     | Yes                       |
 
 ---
 

@@ -1,6 +1,7 @@
 # Sprint 4 Repository Audit
 
 ## Component Classification
+
 - Current identity implementation: Extend. Sprint 1 identity works locally and can identify creators, owners, publishers, reviewers, and installers.
 - Semantic Wallet status: Extend. `packages/wallet` contains ownership claims only; Sprint 4 needs local asset, license, receipt, signature, and publication records.
 - Agent package structure: Reuse through adapter. Sprint 3 provides agent roles and registries; Sprint 4 adds package manifests.
@@ -20,4 +21,5 @@
 - Current security controls: Extend. Human approval and sandbox descriptors exist; Sprint 4 adds integrity, validation, package sandbox, and supply-chain reports.
 
 ## External Reuse Notes
+
 Semantic Wallet, SemantIQ, Qikio, Menog OS, and Sunlionet are not present as concrete local packages in this repository. Their concepts are deferred or represented through local adapter-ready contracts.

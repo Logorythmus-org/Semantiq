@@ -1,7 +1,7 @@
 # ADR-0131: Open and Commercial Provider Model
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

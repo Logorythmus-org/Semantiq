@@ -9,13 +9,13 @@
 
 ## Simulation Persona Results
 
-| Persona | Purpose / Angle | Time to First Success | Blockers | Status |
-|---------|-----------------|----------------------|----------|--------|
-| **Node.js Developer** | Basic integration & CLI usage | 45s | 0 | ✅ PASSED |
-| **AI Evaluation Researcher** | Benchmark execution & raw evidence inspection | 60s | 0 | ✅ PASSED |
-| **Local-Model User** | Local runner & zero-cloud execution | 50s | 0 | ✅ PASSED |
-| **Offline Security User** | No egress & zero-telemetry validation | 40s | 0 | ✅ PASSED |
-| **Contributor** | Development environment & test harness setup | 90s | 0 | ✅ PASSED |
+| Persona                      | Purpose / Angle                               | Time to First Success | Blockers | Status    |
+| ---------------------------- | --------------------------------------------- | --------------------- | -------- | --------- |
+| **Node.js Developer**        | Basic integration & CLI usage                 | 45s                   | 0        | ✅ PASSED |
+| **AI Evaluation Researcher** | Benchmark execution & raw evidence inspection | 60s                   | 0        | ✅ PASSED |
+| **Local-Model User**         | Local runner & zero-cloud execution           | 50s                   | 0        | ✅ PASSED |
+| **Offline Security User**    | No egress & zero-telemetry validation         | 40s                   | 0        | ✅ PASSED |
+| **Contributor**              | Development environment & test harness setup  | 90s                   | 0        | ✅ PASSED |
 
 ---
 

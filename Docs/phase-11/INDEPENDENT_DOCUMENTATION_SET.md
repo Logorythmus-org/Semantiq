@@ -9,29 +9,29 @@
 
 ## Required Documentation Sections (21 Total)
 
-| # | Section | Status |
-|---|---------|--------|
-| 1 | README | ✅ Required |
-| 2 | Quick Start | ✅ Required |
-| 3 | Installation | ✅ Required |
-| 4 | Architecture | ✅ Required |
-| 5 | CLI Reference | ✅ Required |
-| 6 | Configuration | ✅ Required |
-| 7 | Offline Mode | ✅ Required |
-| 8 | Adapters | ✅ Required |
-| 9 | Benchmarks | ✅ Required |
-| 10 | Single-Agent Scenarios | ✅ Required |
-| 11 | Multi-Agent Scenarios | ✅ Required |
-| 12 | Governance Evidence | ✅ Required |
-| 13 | Replay | ✅ Required |
-| 14 | Scenarios | ✅ Required |
-| 15 | Contribution Guide | ✅ Required |
-| 16 | Security | ✅ Required |
-| 17 | Privacy | ✅ Required |
-| 18 | Limitations | ✅ Required |
-| 19 | Roadmap | ✅ Required |
-| 20 | Changelog | ✅ Required |
-| 21 | Citation | ✅ Required |
+| #   | Section                | Status      |
+| --- | ---------------------- | ----------- |
+| 1   | README                 | ✅ Required |
+| 2   | Quick Start            | ✅ Required |
+| 3   | Installation           | ✅ Required |
+| 4   | Architecture           | ✅ Required |
+| 5   | CLI Reference          | ✅ Required |
+| 6   | Configuration          | ✅ Required |
+| 7   | Offline Mode           | ✅ Required |
+| 8   | Adapters               | ✅ Required |
+| 9   | Benchmarks             | ✅ Required |
+| 10  | Single-Agent Scenarios | ✅ Required |
+| 11  | Multi-Agent Scenarios  | ✅ Required |
+| 12  | Governance Evidence    | ✅ Required |
+| 13  | Replay                 | ✅ Required |
+| 14  | Scenarios              | ✅ Required |
+| 15  | Contribution Guide     | ✅ Required |
+| 16  | Security               | ✅ Required |
+| 17  | Privacy                | ✅ Required |
+| 18  | Limitations            | ✅ Required |
+| 19  | Roadmap                | ✅ Required |
+| 20  | Changelog              | ✅ Required |
+| 21  | Citation               | ✅ Required |
 
 ## Truth Rules Applied
 

@@ -11,7 +11,8 @@ export type ArchiveObjectType =
   | "agent"
   | "asset";
 
-export type GovernanceScope = "community" | "scientific" | "educational" | "institutional" | "policy" | "ethics" | "version";
+export type GovernanceScope =
+  "community" | "scientific" | "educational" | "institutional" | "policy" | "ethics" | "version";
 
 export interface CivilizationMemoryRecord {
   readonly id: string;
@@ -138,7 +139,16 @@ export interface KnowledgeConstitution {
 export interface PersistentIdentifier {
   readonly id: string;
   readonly objectId: string;
-  readonly objectType: "question" | "project" | "research" | "community" | "repository" | "dataset" | "asset" | "workflow" | "agent";
+  readonly objectType:
+    | "question"
+    | "project"
+    | "research"
+    | "community"
+    | "repository"
+    | "dataset"
+    | "asset"
+    | "workflow"
+    | "agent";
   readonly permanentUri: string;
   readonly resolverIds: readonly string[];
   readonly migrationHistoryIds: readonly string[];
@@ -147,7 +157,16 @@ export interface PersistentIdentifier {
 
 export interface KnowledgeMigrationPlan {
   readonly id: string;
-  readonly type: "schema" | "semantic" | "data" | "knowledge" | "version" | "api" | "plugin" | "format" | "storage";
+  readonly type:
+    | "schema"
+    | "semantic"
+    | "data"
+    | "knowledge"
+    | "version"
+    | "api"
+    | "plugin"
+    | "format"
+    | "storage";
   readonly sourceVersion: string;
   readonly targetVersion: string;
   readonly objectIds: readonly string[];
@@ -201,7 +220,15 @@ export interface KnowledgeQualitySnapshot {
 export interface GlobalEducationArtifact {
   readonly id: string;
   readonly sourceObjectIds: readonly string[];
-  readonly type: "course" | "book" | "lesson" | "game" | "workshop" | "research-guide" | "learning-path" | "curriculum";
+  readonly type:
+    | "course"
+    | "book"
+    | "lesson"
+    | "game"
+    | "workshop"
+    | "research-guide"
+    | "learning-path"
+    | "curriculum";
   readonly title: string;
   readonly lineageIds: readonly string[];
   readonly provenanceIds: readonly string[];

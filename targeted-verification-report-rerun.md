@@ -2,18 +2,18 @@
 
 ## 1. Verification Metadata — PASS
 
-| Field | Evidence |
-|---|---|
-| Audit | Prompt 4.5-R independent targeted verification |
-| Canonical repository | `C:\Users\Kaveh\Desktop\SemantIQ-canonical` |
-| Branch | `foundation/canonicalize-semantiq` |
-| Sealed commit | `ead68154f29e9521da44386b807fea37a34af327` |
-| Parent | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Audit date | 2026-07-27 |
-| Audit mode | Read-only against canonical repository |
-| Generated validation location | `C:\Users\Kaveh\AppData\Local\Temp\semantiq-45r-48dd0e69bb604471a9afad8f76e8a2fa` |
-| Validation log | `C:\Users\Kaveh\AppData\Local\Temp\semantiq-45r-48dd0e69bb604471a9afad8f76e8a2fa\validation.log` |
-| Report location | Outside canonical repository |
+| Field                         | Evidence                                                                                         |
+| ----------------------------- | ------------------------------------------------------------------------------------------------ |
+| Audit                         | Prompt 4.5-R independent targeted verification                                                   |
+| Canonical repository          | `C:\Users\Kaveh\Desktop\SemantIQ-canonical`                                                      |
+| Branch                        | `foundation/canonicalize-semantiq`                                                               |
+| Sealed commit                 | `ead68154f29e9521da44386b807fea37a34af327`                                                       |
+| Parent                        | `26372470a709d23686ef7c82c77911c6207f207b`                                                       |
+| Audit date                    | 2026-07-27                                                                                       |
+| Audit mode                    | Read-only against canonical repository                                                           |
+| Generated validation location | `C:\Users\Kaveh\AppData\Local\Temp\semantiq-45r-48dd0e69bb604471a9afad8f76e8a2fa`                |
+| Validation log                | `C:\Users\Kaveh\AppData\Local\Temp\semantiq-45r-48dd0e69bb604471a9afad8f76e8a2fa\validation.log` |
+| Report location               | Outside canonical repository                                                                     |
 
 The sealed tree was exported with `git archive HEAD` to a disposable directory. Tests, fixture creation, execution, evaluation, and dataset generation occurred there, not in the canonical repository.
 
@@ -21,19 +21,19 @@ The sealed tree was exported with `git archive HEAD` to a disposable directory. 
 
 The mandatory gate was evaluated before functional verification.
 
-| Requirement | Result | Evidence |
-|---|---|---|
-| Repository path | PASS | `C:\Users\Kaveh\Desktop\SemantIQ-canonical` |
-| Current branch | PASS | `foundation/canonicalize-semantiq` |
-| Exact HEAD | PASS | `ead68154f29e9521da44386b807fea37a34af327` |
-| Exact parent | PASS | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Working tree | PASS | `git status --porcelain=v1 --untracked-files=all` returned no entries |
-| Index | PASS | `git diff --cached --name-only` returned no entries |
-| Ordinary untracked files | PASS | none |
-| Merge conflicts | PASS | `git diff --name-only --diff-filter=U` returned no entries |
-| Release tags | PASS | `git tag --list` returned no entries |
-| Tracked ignored content | PASS | `git ls-files -ci --exclude-standard` returned no entries |
-| Push/publication evidence | PASS | Push URL is `DISABLED`; no tag or publication action was performed |
+| Requirement               | Result | Evidence                                                              |
+| ------------------------- | ------ | --------------------------------------------------------------------- |
+| Repository path           | PASS   | `C:\Users\Kaveh\Desktop\SemantIQ-canonical`                           |
+| Current branch            | PASS   | `foundation/canonicalize-semantiq`                                    |
+| Exact HEAD                | PASS   | `ead68154f29e9521da44386b807fea37a34af327`                            |
+| Exact parent              | PASS   | `26372470a709d23686ef7c82c77911c6207f207b`                            |
+| Working tree              | PASS   | `git status --porcelain=v1 --untracked-files=all` returned no entries |
+| Index                     | PASS   | `git diff --cached --name-only` returned no entries                   |
+| Ordinary untracked files  | PASS   | none                                                                  |
+| Merge conflicts           | PASS   | `git diff --name-only --diff-filter=U` returned no entries            |
+| Release tags              | PASS   | `git tag --list` returned no entries                                  |
+| Tracked ignored content   | PASS   | `git ls-files -ci --exclude-standard` returned no entries             |
+| Push/publication evidence | PASS   | Push URL is `DISABLED`; no tag or publication action was performed    |
 
 Ignored local directories physically exist, including `.venv`, caches, `artifacts`, `dist`, and `frontend`. This is permitted by the gate. None is tracked, staged, untracked in ordinary Git status, or present in Git-derived release contents.
 
@@ -131,19 +131,19 @@ The distinct meanings are implemented consistently:
 
 Generated-output assertions all passed:
 
-| Assertion | Approved fixture | Mixed fixture |
-|---|---:|---:|
-| Schema version `2.0` | PASS | PASS |
-| Overall `NOASSERTION` | PASS | PASS |
-| Input rights verified = false | PASS | PASS |
-| Benchmark source/license/version represented | PASS | PASS |
-| Generated-response status represented | PASS | PASS |
-| AI-evaluation status represented | PASS | PASS |
-| Human-rating status represented | PASS | PASS |
-| Provider involvement/terms represented | PASS | PASS |
-| Machine-generated flag represented | PASS | PASS |
-| Human-contribution flag represented | PASS | PASS |
-| Every component visible in card | PASS | PASS |
+| Assertion                                    | Approved fixture | Mixed fixture |
+| -------------------------------------------- | ---------------: | ------------: |
+| Schema version `2.0`                         |             PASS |          PASS |
+| Overall `NOASSERTION`                        |             PASS |          PASS |
+| Input rights verified = false                |             PASS |          PASS |
+| Benchmark source/license/version represented |             PASS |          PASS |
+| Generated-response status represented        |             PASS |          PASS |
+| AI-evaluation status represented             |             PASS |          PASS |
+| Human-rating status represented              |             PASS |          PASS |
+| Provider involvement/terms represented       |             PASS |          PASS |
+| Machine-generated flag represented           |             PASS |          PASS |
+| Human-contribution flag represented          |             PASS |          PASS |
+| Every component visible in card              |             PASS |          PASS |
 
 For the mixed export, `human_contribution` was `true` and `machine_generated_content` was `false`, matching the included and absent components.
 
@@ -193,20 +193,20 @@ The required current documents were read and searched:
 
 Results:
 
-| Topic | Result | Evidence |
-|---|---|---|
-| CC BY 4.0 | PASS | No operative current claim found |
-| Blanket dataset licensing | PASS | README, release policy/checklist, formats, limitations, and generated card agree that none is granted |
-| MIT coverage | PASS | Scoped to approved repository source and original documentation/exporter metadata where stated |
-| Benchmark licensing | PASS | Preserved per item; missing license becomes `NOASSERTION` |
-| Generated content | PASS | Responses/evaluations receive component status, not repository license |
-| Human ratings | PASS | Separate status; documentation requires anonymization/review rather than claiming it is automatic |
-| Provider terms | PASS | Explicitly unverified and separately reported |
-| Response sanitization | PASS | Metadata sanitization is distinguished from unchanged answer text |
-| Automatic PII removal | PASS | Explicitly disclaimed |
-| Rater anonymization | PASS | Explicitly caller-controlled, not automatic |
-| Metadata schema | PASS | Current documentation and generated output agree on `2.0` |
-| Export file formats | PASS | Generated JSONL files, metadata, card, and optional-component behavior match the current reference |
+| Topic                     | Result | Evidence                                                                                              |
+| ------------------------- | ------ | ----------------------------------------------------------------------------------------------------- |
+| CC BY 4.0                 | PASS   | No operative current claim found                                                                      |
+| Blanket dataset licensing | PASS   | README, release policy/checklist, formats, limitations, and generated card agree that none is granted |
+| MIT coverage              | PASS   | Scoped to approved repository source and original documentation/exporter metadata where stated        |
+| Benchmark licensing       | PASS   | Preserved per item; missing license becomes `NOASSERTION`                                             |
+| Generated content         | PASS   | Responses/evaluations receive component status, not repository license                                |
+| Human ratings             | PASS   | Separate status; documentation requires anonymization/review rather than claiming it is automatic     |
+| Provider terms            | PASS   | Explicitly unverified and separately reported                                                         |
+| Response sanitization     | PASS   | Metadata sanitization is distinguished from unchanged answer text                                     |
+| Automatic PII removal     | PASS   | Explicitly disclaimed                                                                                 |
+| Rater anonymization       | PASS   | Explicitly caller-controlled, not automatic                                                           |
+| Metadata schema           | PASS   | Current documentation and generated output agree on `2.0`                                             |
+| Export file formats       | PASS   | Generated JSONL files, metadata, card, and optional-component behavior match the current reference    |
 
 The targeted stale-claim scan returned no matches for blanket `CC BY 4.0`, “responses sanitized before storage,” or automatic anonymization claims. Historical documentation was not treated as operative current policy.
 
@@ -214,17 +214,17 @@ The targeted stale-claim scan returned no matches for blanket `CC BY 4.0`, “re
 
 All commands operated on a `git archive HEAD` copy or disposable outputs.
 
-| Verification | Command summary | Exit/result |
-|---|---|---|
-| Targeted exporter tests | `python -m pytest -q -p no:cacheprovider tests/test_dataset_exporter.py` | `0`; 2 passed, 1 expected warning |
-| Offline mock run | `semantiq run benchmarks/synthetic-smoke.json mock config/config.yaml <answers>` | `0`; 1 answer |
-| Offline mock evaluation | `semantiq evaluate <answers> <evaluations> --provider mock --config config/config.yaml --benchmarks benchmarks/synthetic-smoke.json` | `0`; 1 evaluation |
-| Approved JSONL export | `semantiq export-dataset ...` | `0` |
-| Mixed-component export | `semantiq export-dataset --benchmarks <mixed> --human-ratings <ratings> ...` | `0` |
-| Metadata assertions | Programmatic checks of both `metadata.json` files | PASS |
-| Dataset-card assertions | Programmatic checks of both generated cards | PASS |
-| Current-document stale scan | `Select-String` over the required current documents | PASS |
-| Git whitespace validation | `git diff-tree --check HEAD^ HEAD` | `0` |
+| Verification                | Command summary                                                                                                                      | Exit/result                       |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | --------------------------------- |
+| Targeted exporter tests     | `python -m pytest -q -p no:cacheprovider tests/test_dataset_exporter.py`                                                             | `0`; 2 passed, 1 expected warning |
+| Offline mock run            | `semantiq run benchmarks/synthetic-smoke.json mock config/config.yaml <answers>`                                                     | `0`; 1 answer                     |
+| Offline mock evaluation     | `semantiq evaluate <answers> <evaluations> --provider mock --config config/config.yaml --benchmarks benchmarks/synthetic-smoke.json` | `0`; 1 evaluation                 |
+| Approved JSONL export       | `semantiq export-dataset ...`                                                                                                        | `0`                               |
+| Mixed-component export      | `semantiq export-dataset --benchmarks <mixed> --human-ratings <ratings> ...`                                                         | `0`                               |
+| Metadata assertions         | Programmatic checks of both `metadata.json` files                                                                                    | PASS                              |
+| Dataset-card assertions     | Programmatic checks of both generated cards                                                                                          | PASS                              |
+| Current-document stale scan | `Select-String` over the required current documents                                                                                  | PASS                              |
+| Git whitespace validation   | `git diff-tree --check HEAD^ HEAD`                                                                                                   | `0`                               |
 
 The one test warning reports that a unit fixture has no evaluation scores for one answer. It is expected by the targeted exporter test and is not a release-gate failure.
 
@@ -232,35 +232,35 @@ The one test warning reports that a unit fixture has no evaluation scores for on
 
 Final state was compared with the recorded initial state.
 
-| Requirement | Final evidence |
-|---|---|
-| HEAD unchanged | `ead68154f29e9521da44386b807fea37a34af327` |
-| Parent unchanged | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Branch unchanged | `foundation/canonicalize-semantiq` |
-| Working tree clean | zero porcelain entries |
-| Index clean | zero staged paths |
-| Ordinary untracked files | none |
-| Merge conflicts | none |
-| Tracked ignored files | none |
-| Generated repository artifacts | none |
-| Tags | none |
-| Remotes | unchanged |
-| Remote configuration hash | unchanged: `8DC250254C5BEEDC85E4565FB95EBA4E3B5C31B443643D82767E489D1199C305` |
-| Push | not performed; push URL remains `DISABLED` |
-| GitHub/publication action | none performed |
+| Requirement                    | Final evidence                                                                |
+| ------------------------------ | ----------------------------------------------------------------------------- |
+| HEAD unchanged                 | `ead68154f29e9521da44386b807fea37a34af327`                                    |
+| Parent unchanged               | `26372470a709d23686ef7c82c77911c6207f207b`                                    |
+| Branch unchanged               | `foundation/canonicalize-semantiq`                                            |
+| Working tree clean             | zero porcelain entries                                                        |
+| Index clean                    | zero staged paths                                                             |
+| Ordinary untracked files       | none                                                                          |
+| Merge conflicts                | none                                                                          |
+| Tracked ignored files          | none                                                                          |
+| Generated repository artifacts | none                                                                          |
+| Tags                           | none                                                                          |
+| Remotes                        | unchanged                                                                     |
+| Remote configuration hash      | unchanged: `8DC250254C5BEEDC85E4565FB95EBA4E3B5C31B443643D82767E489D1199C305` |
+| Push                           | not performed; push URL remains `DISABLED`                                    |
+| GitHub/publication action      | none performed                                                                |
 
 The report is outside the canonical repository and does not affect its Git state.
 
 ## 10. Evidence Matrix
 
-| Gate question | Status | Principal evidence |
-|---|---|---|
-| 1. Export Licensing | PASS | Exporter source plus approved and mixed generated outputs |
-| 2. Component Metadata | PASS | Schema `2.0`, both metadata files, both generated cards |
-| 3. Security and Privacy Truth | PASS | Logging/provider/rating implementations compared with current docs |
-| 4. Documentation Consistency | PASS | Full required-document review and stale-claim scan |
-| 5. Regression Verification | PASS | All targeted commands exited `0`; assertions passed |
-| 6. Repository Integrity | PASS | Initial/final Git-state and remote-config comparison |
+| Gate question                 | Status | Principal evidence                                                 |
+| ----------------------------- | ------ | ------------------------------------------------------------------ |
+| 1. Export Licensing           | PASS   | Exporter source plus approved and mixed generated outputs          |
+| 2. Component Metadata         | PASS   | Schema `2.0`, both metadata files, both generated cards            |
+| 3. Security and Privacy Truth | PASS   | Logging/provider/rating implementations compared with current docs |
+| 4. Documentation Consistency  | PASS   | Full required-document review and stale-claim scan                 |
+| 5. Regression Verification    | PASS   | All targeted commands exited `0`; assertions passed                |
+| 6. Repository Integrity       | PASS   | Initial/final Git-state and remote-config comparison               |
 
 No technical blocker or release-gate contradiction remains within this audit scope.
 

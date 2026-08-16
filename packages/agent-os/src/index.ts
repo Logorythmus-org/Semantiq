@@ -138,12 +138,36 @@ export class LocalAgentOsRuntime implements AgentOsRuntime {
       tasks,
       assignments: [],
       validationPlan: goal.completionCriteria,
-      reflectionPlan: ["completion", "errors", "missed-opportunities", "efficiency", "knowledge-learned"],
-      approvalGateIds: tasks.filter((task) => task.approvalRequired).map((task) => `${task.id}:approval`),
+      reflectionPlan: [
+        "completion",
+        "errors",
+        "missed-opportunities",
+        "efficiency",
+        "knowledge-learned"
+      ],
+      approvalGateIds: tasks
+        .filter((task) => task.approvalRequired)
+        .map((task) => `${task.id}:approval`),
       checkpointIds: [],
       rollbackPlan: ["restore-latest-checkpoint", "escalate-to-human"],
-      semantiqCriteria: ["reasoning", "evidence", "quality", "completeness", "clarity", "reflection", "learning"],
-      graphWriteTargets: ["goals", "plans", "tasks", "results", "agents", "benchmarks", "reflections"]
+      semantiqCriteria: [
+        "reasoning",
+        "evidence",
+        "quality",
+        "completeness",
+        "clarity",
+        "reflection",
+        "learning"
+      ],
+      graphWriteTargets: [
+        "goals",
+        "plans",
+        "tasks",
+        "results",
+        "agents",
+        "benchmarks",
+        "reflections"
+      ]
     };
     await this.repository.savePlan(plan);
     await this.emit("GoalPlanned", { taskCount: plan.tasks.length }, goal.id);
@@ -207,7 +231,12 @@ export class LocalAgentOsRuntime implements AgentOsRuntime {
 
   async reflect(record: ReflectionRecord): Promise<void> {
     await this.repository.saveReflection(record);
-    await this.emit("ReflectionCompleted", { reflectionId: record.id }, record.goalId, record.agentId);
+    await this.emit(
+      "ReflectionCompleted",
+      { reflectionId: record.id },
+      record.goalId,
+      record.agentId
+    );
   }
 
   async learn(record: LearningRecord): Promise<void> {
@@ -269,7 +298,12 @@ export class LocalAgentOsRuntime implements AgentOsRuntime {
     return plan;
   }
 
-  private async emit(type: AgentOsEvent["type"], payload: unknown, goalId?: string, agentId?: string): Promise<void> {
+  private async emit(
+    type: AgentOsEvent["type"],
+    payload: unknown,
+    goalId?: string,
+    agentId?: string
+  ): Promise<void> {
     const event: AgentOsEvent = {
       type,
       version: 1,

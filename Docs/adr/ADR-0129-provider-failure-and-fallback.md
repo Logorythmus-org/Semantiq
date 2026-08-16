@@ -1,7 +1,7 @@
 # ADR-0129: Provider Failure, Fallback Routing, and Partial-Run Semantics
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

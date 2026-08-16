@@ -1,7 +1,7 @@
 # ADR-0130: Provider Trust, Verification, and Certification
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

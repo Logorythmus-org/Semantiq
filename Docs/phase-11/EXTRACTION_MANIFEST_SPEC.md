@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 11.2 — Extraction Manifest Finalization  
 **Date**: 2026-08-03  
-**Manifest Verdict**: `EXTRACTION MANIFEST FINALIZED`  
+**Manifest Verdict**: `EXTRACTION MANIFEST FINALIZED`
 
 ---
 

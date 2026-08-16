@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **Phase**: Phase 11.5 — Independent Configuration and CLI  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 

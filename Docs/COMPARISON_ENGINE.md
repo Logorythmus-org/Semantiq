@@ -3,6 +3,7 @@
 The Comparison Engine compares benchmark subjects without reducing them to popularity.
 
 ## Comparisons
+
 - question vs question
 - project vs project
 - repository vs repository
@@ -14,4 +15,5 @@ The Comparison Engine compares benchmark subjects without reducing them to popul
 - benchmark history
 
 ## Reproducibility
+
 Comparisons record subject versions, profile versions, dimension versions, and evaluation timestamps.

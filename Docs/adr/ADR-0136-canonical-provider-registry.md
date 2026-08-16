@@ -1,7 +1,7 @@
 # ADR-0136: Canonical Machine-Readable Provider Registry Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

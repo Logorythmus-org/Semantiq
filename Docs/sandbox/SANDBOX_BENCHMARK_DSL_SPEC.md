@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 46)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **Sandbox Benchmark DSL Architecture**:
+
 1. **Declarative DSL Grammar**: Defines [`SandboxBenchmarkDSL`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-dsl.ts#L86-L98) in JSON/YAML spanning 9 comprehensive blocks: `metadata`, `environment`, `actors`, `tools`, `perturbations`, `milestones`, `assertions`, `lifecycle`, and `extensions`.
 2. **Provider Neutrality & Namespaced Extensions**: Isolates provider-specific configurations within `extensions.<provider_id>`, preventing provider lock-in and keeping canonical benchmark semantics portable.
 3. **Compiler & Semantic Validator**: Implements [`SandboxBenchmarkCompiler`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-dsl.ts#L107-L188) to validate structural and semantic consistency (tool bindings, step budget constraints, assertion weights) and compile declarative documents into canonical [`EnvironmentSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/types.ts#L8-L23) and [`ExecutionRequest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/types.ts#L25-L33) execution contracts.
@@ -51,6 +52,7 @@ This specification establishes the **Sandbox Benchmark DSL Architecture**:
 ## 2. Inputs & Prior Decisions
 
 This specification synthesizes and standardizes the capabilities established in prior Sandbox-phase modules:
+
 - **Prompt 31–36**: Provider ecosystem model, canonical provider registry, trust tiers, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and 7-stage behavioral chain observation.
@@ -62,12 +64,14 @@ This specification synthesizes and standardizes the capabilities established in 
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Declarative DSL Definition**: Complete specification of [`SandboxBenchmarkDSL`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-dsl.ts#L86-L98) and schema [`sandbox-benchmark-dsl.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/sandbox-benchmark-dsl.schema.json).
 - **Semantic Compiler Engine**: Validating cross-field references, budgets, and synthesizing executable contracts.
 - **Provider Extension Namespacing**: Standardizing the `extensions` block for optional provider-specific optimizations.
 - **Observable Assertion Engine**: Defining deterministic and statistical evaluation criteria.
 
 ### 3.2 Non-Goals
+
 - **No Proprietary Runtime Bundling**: SemantIQ compiles the DSL into contracts; runtime provisioning remains the provider's responsibility.
 - **No Claims on Hidden Cognition**: Assertions evaluate observable shell commands, file diffs, and test reports.
 
@@ -100,7 +104,7 @@ This specification synthesizes and standardizes the capabilities established in 
 
 ```typescript
 export interface SandboxBenchmarkDSL {
-  readonly dslVersion: '1.0.0';
+  readonly dslVersion: "1.0.0";
   readonly metadata: DSLMetadata;
   readonly environment: DSLEnvironment;
   readonly actors: readonly DSLActor[];
@@ -257,29 +261,30 @@ extensions:
 
 ## 9. Provider Compatibility
 
-| Execution Provider | EnvironmentSpec Compatibility | Extensions Support | Deployment Mode |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Native Container Image & Mounts | `extensions.docker` | Local Open-Source |
-| **Podman / Rootless** | Rootless Container Isolation | `extensions.podman` | Local / Community |
-| **Firecracker / MicroVM** | Hardware-Isolated MicroVM | `extensions.firecracker` | Self-Hosted High Security |
-| **Fly.io / Modal / E2B** | Managed Ephemeral MicroVM | `extensions.e2b` / `extensions.fly` | Managed Commercial |
+| Execution Provider        | EnvironmentSpec Compatibility   | Extensions Support                  | Deployment Mode           |
+| :------------------------ | :------------------------------ | :---------------------------------- | :------------------------ |
+| **Docker (Local)**        | Native Container Image & Mounts | `extensions.docker`                 | Local Open-Source         |
+| **Podman / Rootless**     | Rootless Container Isolation    | `extensions.podman`                 | Local / Community         |
+| **Firecracker / MicroVM** | Hardware-Isolated MicroVM       | `extensions.firecracker`            | Self-Hosted High Security |
+| **Fly.io / Modal / E2B**  | Managed Ephemeral MicroVM       | `extensions.e2b` / `extensions.fly` | Managed Commercial        |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Undeclared Tool Call** | Actor invokes tool not in manifest | Tool RPC Error | Compiler blocks compilation at validation phase |
-| **Step Budget Overflow** | Sum of milestones > totalStepBudget | Premature Timeout | Compiler flags validation error; rejects manifest |
-| **Assertion Weight Drift**| Weights sum to > 1.0 | Score distortion | Compiler enforces $\sum \text{weight}_i \le 1.0$ |
-| **Extension Misconfiguration**| Provider ignores invalid extension | Local crash | Providers ignore unparseable namespaced extension keys safely |
+| Failure Mode                   | Root Cause                          | Impact            | Automated Recovery Action                                     |
+| :----------------------------- | :---------------------------------- | :---------------- | :------------------------------------------------------------ |
+| **Undeclared Tool Call**       | Actor invokes tool not in manifest  | Tool RPC Error    | Compiler blocks compilation at validation phase               |
+| **Step Budget Overflow**       | Sum of milestones > totalStepBudget | Premature Timeout | Compiler flags validation error; rejects manifest             |
+| **Assertion Weight Drift**     | Weights sum to > 1.0                | Score distortion  | Compiler enforces $\sum \text{weight}_i \le 1.0$              |
+| **Extension Misconfiguration** | Provider ignores invalid extension  | Local crash       | Providers ignore unparseable namespaced extension keys safely |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Sandbox Benchmark DSL architecture is validated through automated test suites:
+
 1. **DSL Compiler & Validation Unit Tests ([`tests/unit/benchmark-dsl.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/benchmark-dsl.test.ts))**:
    - Validates well-formed declarative scenario DSL documents.
    - Compiles DSL into executable `EnvironmentSpec` and `ExecutionRequest` contracts.
@@ -304,7 +309,7 @@ The Sandbox Benchmark DSL architecture is validated through automated test suite
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Strict Tool Declarations vs. Dynamic Discovery**: Requiring all tools to be declared in DSL prevents dynamic ad-hoc tool creation.  
-  *Mitigation*: Support dynamic tool spawning under an explicitly declared `meta_tool_spawner` capability.
+  _Mitigation_: Support dynamic tool spawning under an explicitly declared `meta_tool_spawner` capability.
 - **Open Question**: Cross-compiling Sandbox Benchmark DSL into standard OCI compose and Kubernetes manifests.
 
 ---

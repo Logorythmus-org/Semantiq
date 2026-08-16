@@ -1,37 +1,37 @@
 export type DocSection =
-  | 'readme'
-  | 'quickstart'
-  | 'installation'
-  | 'architecture'
-  | 'cli'
-  | 'configuration'
-  | 'offline'
-  | 'adapters'
-  | 'benchmarks'
-  | 'single-agent'
-  | 'multi-agent'
-  | 'governance-evidence'
-  | 'replay'
-  | 'scenarios'
-  | 'contribution'
-  | 'security'
-  | 'privacy'
-  | 'limitations'
-  | 'roadmap'
-  | 'changelog'
-  | 'citation';
+  | "readme"
+  | "quickstart"
+  | "installation"
+  | "architecture"
+  | "cli"
+  | "configuration"
+  | "offline"
+  | "adapters"
+  | "benchmarks"
+  | "single-agent"
+  | "multi-agent"
+  | "governance-evidence"
+  | "replay"
+  | "scenarios"
+  | "contribution"
+  | "security"
+  | "privacy"
+  | "limitations"
+  | "roadmap"
+  | "changelog"
+  | "citation";
 
 export type ForbiddenDocTopic =
-  | 'tech-club-identity'
-  | 'workspace-os'
-  | 'civilization-os'
-  | 'wallet'
-  | 'marketplace'
-  | 'parent-architecture'
-  | 'internal-research'
-  | 'private-plans'
-  | 'obsolete-publication-reports'
-  | 'premature-release-claims';
+  | "tech-club-identity"
+  | "workspace-os"
+  | "civilization-os"
+  | "wallet"
+  | "marketplace"
+  | "parent-architecture"
+  | "internal-research"
+  | "private-plans"
+  | "obsolete-publication-reports"
+  | "premature-release-claims";
 
 export interface DocExtractionResult {
   readonly section: DocSection;
@@ -49,24 +49,40 @@ export interface DocTruthAuditReport {
 }
 
 const REQUIRED_SECTIONS: DocSection[] = [
-  'readme', 'quickstart', 'installation', 'architecture', 'cli',
-  'configuration', 'offline', 'adapters', 'benchmarks', 'single-agent',
-  'multi-agent', 'governance-evidence', 'replay', 'scenarios',
-  'contribution', 'security', 'privacy', 'limitations', 'roadmap',
-  'changelog', 'citation'
+  "readme",
+  "quickstart",
+  "installation",
+  "architecture",
+  "cli",
+  "configuration",
+  "offline",
+  "adapters",
+  "benchmarks",
+  "single-agent",
+  "multi-agent",
+  "governance-evidence",
+  "replay",
+  "scenarios",
+  "contribution",
+  "security",
+  "privacy",
+  "limitations",
+  "roadmap",
+  "changelog",
+  "citation"
 ];
 
 const FORBIDDEN_KEYWORDS: Record<ForbiddenDocTopic, string[]> = {
-  'tech-club-identity': ['Tech Club organization', 'Tech Club member'],
-  'workspace-os': ['Workspace OS', 'WorkspaceOS'],
-  'civilization-os': ['Civilization OS', 'CivilizationOS'],
-  'wallet': ['wallet integration', 'crypto wallet'],
-  'marketplace': ['marketplace listing', 'marketplace integration'],
-  'parent-architecture': ['monorepo architecture', 'parent workspace'],
-  'internal-research': ['internal research report', 'private research'],
-  'private-plans': ['private roadmap', 'internal plan'],
-  'obsolete-publication-reports': ['Phase 7 publication freeze', 'publication freeze report'],
-  'premature-release-claims': ['Phase 12 published', 'now available on npm', 'released to public']
+  "tech-club-identity": ["Tech Club organization", "Tech Club member"],
+  "workspace-os": ["Workspace OS", "WorkspaceOS"],
+  "civilization-os": ["Civilization OS", "CivilizationOS"],
+  wallet: ["wallet integration", "crypto wallet"],
+  marketplace: ["marketplace listing", "marketplace integration"],
+  "parent-architecture": ["monorepo architecture", "parent workspace"],
+  "internal-research": ["internal research report", "private research"],
+  "private-plans": ["private roadmap", "internal plan"],
+  "obsolete-publication-reports": ["Phase 7 publication freeze", "publication freeze report"],
+  "premature-release-claims": ["Phase 12 published", "now available on npm", "released to public"]
 };
 
 /**
@@ -81,8 +97,11 @@ export class DocumentationExtractorEngine {
 
   auditDocContent(content: string): readonly ForbiddenDocTopic[] {
     const found: ForbiddenDocTopic[] = [];
-    for (const [topic, keywords] of Object.entries(FORBIDDEN_KEYWORDS) as [ForbiddenDocTopic, string[]][]) {
-      if (keywords.some(kw => content.toLowerCase().includes(kw.toLowerCase()))) {
+    for (const [topic, keywords] of Object.entries(FORBIDDEN_KEYWORDS) as [
+      ForbiddenDocTopic,
+      string[]
+    ][]) {
+      if (keywords.some((kw) => content.toLowerCase().includes(kw.toLowerCase()))) {
         found.push(topic);
       }
     }
@@ -92,7 +111,7 @@ export class DocumentationExtractorEngine {
   validateSection(section: DocSection, content: string): DocExtractionResult {
     const forbidden = this.auditDocContent(content);
     const hasForbiddenContent = forbidden.length > 0;
-    const claimsAreVerifiable = !content.includes('[TODO]') && !content.includes('[PLACEHOLDER]');
+    const claimsAreVerifiable = !content.includes("[TODO]") && !content.includes("[PLACEHOLDER]");
 
     return {
       section,
@@ -102,7 +121,9 @@ export class DocumentationExtractorEngine {
     };
   }
 
-  runTruthAudit(sections: readonly { section: DocSection; content: string }[]): DocTruthAuditReport {
+  runTruthAudit(
+    sections: readonly { section: DocSection; content: string }[]
+  ): DocTruthAuditReport {
     let passedSections = 0;
     const allForbidden = new Set<ForbiddenDocTopic>();
 
@@ -112,7 +133,7 @@ export class DocumentationExtractorEngine {
         passedSections++;
       }
       const forbidden = this.auditDocContent(content);
-      forbidden.forEach(f => allForbidden.add(f));
+      forbidden.forEach((f) => allForbidden.add(f));
     }
 
     return {

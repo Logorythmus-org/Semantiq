@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **Date**: 2026-08-02  
-**Status**: Frozen (`v1.0.0`)  
+**Status**: Frozen (`v1.0.0`)
 
 ---
 

@@ -3,6 +3,7 @@
 Question Intelligence analyzes and improves questions while preserving user intent.
 
 ## Capabilities
+
 - Question analysis.
 - Question improvement.
 - Similarity and duplicate detection.

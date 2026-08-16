@@ -3,10 +3,10 @@
  * Live and Post-Run Observability Dashboard Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { BehavioralStage } from './types.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { BehavioralStage } from "./types.js";
 
-export type DashboardViewMode = 'LIVE_STREAMING' | 'POST_RUN_FORENSIC_REPLAY';
+export type DashboardViewMode = "LIVE_STREAMING" | "POST_RUN_FORENSIC_REPLAY";
 
 export interface DashboardStateSnapshot {
   readonly dashboardId: string;
@@ -85,20 +85,23 @@ export class ObservabilityDashboardEngine {
 
   renderDashboardTerminalText(snapshot: DashboardStateSnapshot): string {
     const lines: string[] = [
-      '╔══════════════════════════════════════════════════════════════════════════════╗',
+      "╔══════════════════════════════════════════════════════════════════════════════╗",
       `║ SemantIQ Sandbox Observability Dashboard [${snapshot.viewMode.padEnd(26)}] ║`,
-      '╠══════════════════════════════════════════════════════════════════════════════╣',
+      "╠══════════════════════════════════════════════════════════════════════════════╣",
       `║ Scenario: ${snapshot.scenarioId.padEnd(30)} | Run ID: ${snapshot.runId.padEnd(20)} ║`,
       `║ Status:   ${snapshot.lifecycleStatus.padEnd(30)} | Stage:  ${snapshot.activeStage.padEnd(20)} ║`,
       `║ Progress: Step ${String(snapshot.currentStep).padStart(2)}/${String(snapshot.totalSteps).padEnd(2)} (${(snapshot.elapsedMs / 1000).toFixed(1)}s)       | Cost:   $${snapshot.totalCostUsd.toFixed(4).padEnd(19)} ║`,
       `║ Trust:    ${snapshot.authenticityClassification.padEnd(30)} | Seal:   ${snapshot.integrityGrade.padEnd(20)} ║`,
-      `║ CPU:      ${(snapshot.resourceUtilization.cpuPercent + '%').padEnd(30)} | Memory: ${(snapshot.resourceUtilization.memoryMbUsed + ' MB').padEnd(20)} ║`,
-      '╠══════════════════════════════════════════════════════════════════════════════╣',
-      '║ Terminal PTY Output Preview:                                                 ║',
-      ...snapshot.terminalBufferPreview.split('\n').slice(-4).map(l => `║ > ${l.substring(0, 72).padEnd(72)} ║`),
-      '╚══════════════════════════════════════════════════════════════════════════════╝'
+      `║ CPU:      ${(snapshot.resourceUtilization.cpuPercent + "%").padEnd(30)} | Memory: ${(snapshot.resourceUtilization.memoryMbUsed + " MB").padEnd(20)} ║`,
+      "╠══════════════════════════════════════════════════════════════════════════════╣",
+      "║ Terminal PTY Output Preview:                                                 ║",
+      ...snapshot.terminalBufferPreview
+        .split("\n")
+        .slice(-4)
+        .map((l) => `║ > ${l.substring(0, 72).padEnd(72)} ║`),
+      "╚══════════════════════════════════════════════════════════════════════════════╝"
     ];
-    return lines.join('\n');
+    return lines.join("\n");
   }
 
   renderDashboardHtml(snapshot: DashboardStateSnapshot): string {

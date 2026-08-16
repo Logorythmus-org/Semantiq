@@ -1,4 +1,5 @@
-export type SDKLanguage = "typescript" | "python" | "rust" | "go" | "csharp" | "java" | "kotlin" | "swift" | "future";
+export type SDKLanguage =
+  "typescript" | "python" | "rust" | "go" | "csharp" | "java" | "kotlin" | "swift" | "future";
 
 export type SDKModuleName =
   | "workspace"
@@ -50,7 +51,8 @@ export type PluginLifecycleState =
   | "uninstalled"
   | "archived";
 
-export type PublicApiKind = "rest" | "graphql" | "websocket" | "event-stream" | "cli" | "mcp" | "sdk" | "batch" | "streaming";
+export type PublicApiKind =
+  "rest" | "graphql" | "websocket" | "event-stream" | "cli" | "mcp" | "sdk" | "batch" | "streaming";
 
 export interface DeveloperApplication {
   readonly id: string;
@@ -182,7 +184,16 @@ export interface ComponentDescriptor {
 export interface MarketplacePublishRequest {
   readonly id: string;
   readonly publisherId: string;
-  readonly targetType: "plugin" | "agent" | "workflow" | "template" | "ui-component" | "knowledge-pack" | "game" | "education-content" | "research-tool";
+  readonly targetType:
+    | "plugin"
+    | "agent"
+    | "workflow"
+    | "template"
+    | "ui-component"
+    | "knowledge-pack"
+    | "game"
+    | "education-content"
+    | "research-tool";
   readonly targetId: string;
   readonly semantiqReviewId?: string;
   readonly securityReviewId?: string;

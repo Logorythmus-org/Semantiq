@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 58)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Sandbox Observability Dashboard Architecture**:
+
 1. **Unified State Snapshot Model**: Implements [`generateSnapshot`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L43-L81) in [`ObservabilityDashboardEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L42-L141) creating verifiable [`DashboardStateSnapshot`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L10-L33) records (`snapshotDigest`).
 2. **Dual-Modal Rendering**:
    - [`renderDashboardTerminalText`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L83-L98): Emits rich ASCII dashboard frames for CLI terminal runners.
@@ -51,6 +52,7 @@ This specification establishes the **SemantIQ Sandbox Observability Dashboard Ar
 ## 2. Inputs & Prior Decisions
 
 This specification integrates dashboard and observability requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, trust verification, and terms attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -62,11 +64,13 @@ This specification integrates dashboard and observability requirements across th
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Dashboard Specification**: Defining [`DashboardViewMode`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L8-L8), [`DashboardStateSnapshot`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts#L10-L33), and JSON Schema [`observability-dashboard-snapshot.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/observability-dashboard-snapshot.schema.json).
 - **Dual-Modal Rendering Engine**: Terminal ASCII frames and standalone HTML dashboards.
 - **Live State & Post-Run Forensic Replay Support**.
 
 ### 3.2 Non-Goals
+
 - **No Heavyweight Frontend Dependencies**: HTML dashboards require zero npm runtime dependencies (React, Vue, Webpack) and render natively in vanilla browser environments.
 - **No SaaS Telemetry Vendor Lock-In**: Runs entirely on local file exports.
 
@@ -96,7 +100,7 @@ This specification integrates dashboard and observability requirements across th
 ### 5.1 TypeScript Dashboard Definitions ([`packages/sandbox-contracts/src/observability-dashboard.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/observability-dashboard.ts))
 
 ```typescript
-export type DashboardViewMode = 'LIVE_STREAMING' | 'POST_RUN_FORENSIC_REPLAY';
+export type DashboardViewMode = "LIVE_STREAMING" | "POST_RUN_FORENSIC_REPLAY";
 
 export interface DashboardStateSnapshot {
   readonly dashboardId: string;
@@ -159,28 +163,29 @@ export interface DashboardStateSnapshot {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Terminal Output Capture | Resource Metering Fidelity | Dashboard Status |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Unix socket PTY stream | Host cgroup v2 stats | `REAL_TIME` |
-| **Podman (Rootless)** | Native PTY master | User namespace procfs | `REAL_TIME` |
-| **Firecracker MicroVM**| Serial console VSOCK stream | Host KVM process RSS | `REAL_TIME` |
-| **Modal / Cloud MicroVM**| Cloud SSE stream | Provider API telemetry | `REAL_TIME` |
+| Execution Provider        | Terminal Output Capture     | Resource Metering Fidelity | Dashboard Status |
+| :------------------------ | :-------------------------- | :------------------------- | :--------------- |
+| **Docker (Local)**        | Unix socket PTY stream      | Host cgroup v2 stats       | `REAL_TIME`      |
+| **Podman (Rootless)**     | Native PTY master           | User namespace procfs      | `REAL_TIME`      |
+| **Firecracker MicroVM**   | Serial console VSOCK stream | Host KVM process RSS       | `REAL_TIME`      |
+| **Modal / Cloud MicroVM** | Cloud SSE stream            | Provider API telemetry     | `REAL_TIME`      |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Terminal Spam Hang** | Agent looped `cat /dev/urandom` | Memory pressure | Buffer tailing retains only most recent 100 lines |
-| **Missing Resource Stats**| Provider does not expose CPU gauge | Zeroed metrics | Defaults to `{ cpuPercent: 0, memoryMbUsed: 0 }` with warning |
-| **Corrupted HTML Render** | Unescaped HTML tags in PTY output | Broken layout | Escapes all terminal text strings before HTML injection |
+| Failure Mode               | Root Cause                         | Impact          | Automated Recovery Action                                     |
+| :------------------------- | :--------------------------------- | :-------------- | :------------------------------------------------------------ |
+| **Terminal Spam Hang**     | Agent looped `cat /dev/urandom`    | Memory pressure | Buffer tailing retains only most recent 100 lines             |
+| **Missing Resource Stats** | Provider does not expose CPU gauge | Zeroed metrics  | Defaults to `{ cpuPercent: 0, memoryMbUsed: 0 }` with warning |
+| **Corrupted HTML Render**  | Unescaped HTML tags in PTY output  | Broken layout   | Escapes all terminal text strings before HTML injection       |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Observability Dashboard architecture is validated through automated test suites:
+
 1. **Observability Dashboard Unit Tests ([`tests/unit/observability-dashboard.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/observability-dashboard.test.ts))**:
    - Tests generating unified dashboard snapshot with digest and resource metrics.
    - Tests rendering rich ASCII terminal dashboard for CLI runner.
@@ -203,7 +208,7 @@ The Observability Dashboard architecture is validated through automated test sui
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: ASCII Box Refresh Rate vs. Terminal Flicker**: Rapid 60Hz terminal redrawing can cause flicker on Windows PowerShell.  
-  *Mitigation*: Debounce terminal redraws to 10Hz maximum in CLI runner loops.
+  _Mitigation_: Debounce terminal redraws to 10Hz maximum in CLI runner loops.
 - **Open Question**: WebGL / Canvas rendering for 100,000-node long-horizon behavioral DAG exploration.
 
 ---

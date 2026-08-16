@@ -1,7 +1,7 @@
 # ADR-0149: SemantIQ Web and API Provider Router Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

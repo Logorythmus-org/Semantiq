@@ -3,11 +3,11 @@
  * Local-First CLI Runner and Provider Dispatch Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import { SandboxBenchmarkCompiler, type SandboxBenchmarkDSL } from './benchmark-dsl.js';
-import { ExecutionAPIService, type RunRecord } from './execution-api.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import { SandboxBenchmarkCompiler, type SandboxBenchmarkDSL } from "./benchmark-dsl.js";
+import { ExecutionAPIService, type RunRecord } from "./execution-api.js";
 
-export type LocalProviderType = 'docker' | 'podman' | 'firecracker' | 'local_process' | 'auto';
+export type LocalProviderType = "docker" | "podman" | "firecracker" | "local_process" | "auto";
 
 export interface CLIRunnerOptions {
   readonly manifestPath: string;
@@ -55,17 +55,17 @@ export class CLIRunnerEngine {
 
   detectLocalProviders(): readonly DetectedProviderEnvironment[] {
     return [
-      { providerType: 'docker', available: true, version: '24.0.7', isRootless: false },
-      { providerType: 'podman', available: true, version: '4.8.0', isRootless: true },
-      { providerType: 'local_process', available: true, version: '1.0.0', isRootless: true },
-      { providerType: 'firecracker', available: false }
+      { providerType: "docker", available: true, version: "24.0.7", isRootless: false },
+      { providerType: "podman", available: true, version: "4.8.0", isRootless: true },
+      { providerType: "local_process", available: true, version: "1.0.0", isRootless: true },
+      { providerType: "firecracker", available: false }
     ];
   }
 
   resolveProvider(preference: LocalProviderType): string {
-    if (preference === 'auto') {
-      const detected = this.detectLocalProviders().find(p => p.available);
-      return detected ? `provider-${detected.providerType}-local` : 'provider-local_process-local';
+    if (preference === "auto") {
+      const detected = this.detectLocalProviders().find((p) => p.available);
+      return detected ? `provider-${detected.providerType}-local` : "provider-local_process-local";
     }
     return `provider-${preference}-local`;
   }
@@ -91,8 +91,8 @@ export class CLIRunnerEngine {
         totalExecutionTimeMs: Date.now() - startTime,
         scorecardSummary: {
           milestoneRate: 1.0,
-          resilienceGrade: 'DRY_RUN_VALIDATED',
-          awarenessGrade: 'DRY_RUN_VALIDATED'
+          resilienceGrade: "DRY_RUN_VALIDATED",
+          awarenessGrade: "DRY_RUN_VALIDATED"
         },
         manifestDigest: compiledContract.canonicalDigest,
         executedAt: new Date().toISOString()
@@ -102,9 +102,9 @@ export class CLIRunnerEngine {
     // 2. Dispatch via Execution API
     const runRecord: RunRecord = await this.apiService.createRun({
       scenarioId: compiledContract.scenarioId,
-      agentId: options.dslDocument.actors[0]?.actorId ?? 'primary-agent',
+      agentId: options.dslDocument.actors[0]?.actorId ?? "primary-agent",
       targetProviderId: providerUsed,
-      deterministicSeed: options.seed ?? 'seed-default-42'
+      deterministicSeed: options.seed ?? "seed-default-42"
     });
 
     await this.apiService.startRun(runRecord.runId);
@@ -129,8 +129,8 @@ export class CLIRunnerEngine {
       totalExecutionTimeMs: Date.now() - startTime,
       scorecardSummary: {
         milestoneRate: 1.0,
-        resilienceGrade: 'GRADE_A_SELF_HEALING',
-        awarenessGrade: 'TIER_1_SYSTEMIC_AWARE'
+        resilienceGrade: "GRADE_A_SELF_HEALING",
+        awarenessGrade: "TIER_1_SYSTEMIC_AWARE"
       },
       manifestDigest,
       executedAt: new Date().toISOString()
@@ -139,24 +139,24 @@ export class CLIRunnerEngine {
 
   formatTerminalOutput(result: CLIRunResult): string {
     return [
-      '================================================================================',
-      ' SemantIQ Benchmark Local Runner — Execution Summary',
-      '================================================================================',
+      "================================================================================",
+      " SemantIQ Benchmark Local Runner — Execution Summary",
+      "================================================================================",
       ` Scenario ID:          ${result.scenarioId}`,
       ` Run ID:                ${result.runId}`,
       ` Provider Used:         ${result.providerUsed}`,
-      ` Exit Code:             ${result.exitCode === 0 ? '0 (PASSED ✅)' : `${result.exitCode} (FAILED ❌)`}`,
+      ` Exit Code:             ${result.exitCode === 0 ? "0 (PASSED ✅)" : `${result.exitCode} (FAILED ❌)`}`,
       ` Execution Time:        ${result.totalExecutionTimeMs}ms`,
       ` Manifest SHA-256:      ${result.manifestDigest}`,
-      '--------------------------------------------------------------------------------',
-      ' Evaluation Scorecards:',
+      "--------------------------------------------------------------------------------",
+      " Evaluation Scorecards:",
       `   • Milestone Success:  ${(result.scorecardSummary.milestoneRate * 100).toFixed(1)}%`,
       `   • Recovery Resilience: ${result.scorecardSummary.resilienceGrade}`,
       `   • Consequence Awareness: ${result.scorecardSummary.awarenessGrade}`,
-      '--------------------------------------------------------------------------------',
-      ' Generated Output Artifacts:',
-      ...result.artifactsGenerated.map(a => `   📄 ${a}`),
-      '================================================================================'
-    ].join('\n');
+      "--------------------------------------------------------------------------------",
+      " Generated Output Artifacts:",
+      ...result.artifactsGenerated.map((a) => `   📄 ${a}`),
+      "================================================================================"
+    ].join("\n");
   }
 }

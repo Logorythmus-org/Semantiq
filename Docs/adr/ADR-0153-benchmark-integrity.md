@@ -1,7 +1,7 @@
 # ADR-0153: SemantIQ Benchmark Integrity and Anti-Tamper Verification Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

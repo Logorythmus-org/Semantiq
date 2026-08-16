@@ -13,7 +13,10 @@ describe("Prompt 7.6 — Community Launch Verification", () => {
   });
 
   it("formats community release announcement", () => {
-    const announcement = formatReleaseAnnouncement("v0.1.0-alpha.1", "https://github.com/Semant-iq/Semantiq.git");
+    const announcement = formatReleaseAnnouncement(
+      "v0.1.0-alpha.1",
+      "https://github.com/Semant-iq/Semantiq.git"
+    );
     expect(announcement).toContain("SemantIQ Benchmarks v0.1.0-alpha.1 Public Alpha Released!");
     expect(announcement).toContain("https://github.com/Semant-iq/Semantiq.git");
   });

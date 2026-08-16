@@ -1,6 +1,7 @@
 # Roadmap Next
 
 ## Next MVP Hardening
+
 - Replace web screen descriptors with functional Next.js screens.
 - Add API gateway HTTP handlers.
 - Implement SQLite local persistence.

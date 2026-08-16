@@ -1,7 +1,7 @@
 # ADR-0162: SemantIQ Sandbox Phase Final Architecture Audit & Release Sign-Off
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

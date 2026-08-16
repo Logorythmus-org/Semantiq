@@ -54,16 +54,16 @@
 
 ## 2. Gate Evaluation Matrix (Gates A–H)
 
-| Gate | Name | Status | Evidence Reference |
-| :--- | :--- | :--- | :--- |
-| **Gate A** | Scientific Honesty | **PASSED** | `PHASE_11_5_2_COMPLETION_REPORT.md` |
-| **Gate B** | Reproducibility | **PASSED** | `PHASE_11_14_COMPLETION_REPORT.md` |
-| **Gate C** | Contestability | **PASSED** | `PHASE_11_5_6_COMPLETION_REPORT.md` |
-| **Gate D** | Human Responsibility | **PASSED** | `PHASE_11_5_3_COMPLETION_REPORT.md` |
-| **Gate E** | Anti-Gaming | **PASSED** | `PHASE_11_5_4_COMPLETION_REPORT.md` |
-| **Gate F** | Community Legitimacy | **PASSED** | `PHASE_11_5_7_COMPLETION_REPORT.md` |
+| Gate       | Name                  | Status     | Evidence Reference                  |
+| :--------- | :-------------------- | :--------- | :---------------------------------- |
+| **Gate A** | Scientific Honesty    | **PASSED** | `PHASE_11_5_2_COMPLETION_REPORT.md` |
+| **Gate B** | Reproducibility       | **PASSED** | `PHASE_11_14_COMPLETION_REPORT.md`  |
+| **Gate C** | Contestability        | **PASSED** | `PHASE_11_5_6_COMPLETION_REPORT.md` |
+| **Gate D** | Human Responsibility  | **PASSED** | `PHASE_11_5_3_COMPLETION_REPORT.md` |
+| **Gate E** | Anti-Gaming           | **PASSED** | `PHASE_11_5_4_COMPLETION_REPORT.md` |
+| **Gate F** | Community Legitimacy  | **PASSED** | `PHASE_11_5_7_COMPLETION_REPORT.md` |
 | **Gate G** | Correction Capability | **PASSED** | `PHASE_11_5_6_COMPLETION_REPORT.md` |
-| **Gate H** | Self-Observation | **PASSED** | `PHASE_11_5_8_COMPLETION_REPORT.md` |
+| **Gate H** | Self-Observation      | **PASSED** | `PHASE_11_5_8_COMPLETION_REPORT.md` |
 
 ---
 

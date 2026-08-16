@@ -3,6 +3,7 @@
 Storage engines are interchangeable adapters behind stable interfaces.
 
 ## Supported Engines
+
 - Primary Local Storage: default local metadata and records.
 - SQLite: local-first transactional storage.
 - DuckDB: analytics, benchmarks, and local columnar workloads.
@@ -15,7 +16,9 @@ Storage engines are interchangeable adapters behind stable interfaces.
 - Future Cloud Storage: optional remote replication.
 
 ## Engine Contract
+
 Engines expose capabilities, health, read, write, delete, transaction, backup, restore, and diagnostics operations as applicable.
 
 ## Independence Rule
+
 Storage-specific records never become domain objects. Mappers translate between persistence and domain-safe models.

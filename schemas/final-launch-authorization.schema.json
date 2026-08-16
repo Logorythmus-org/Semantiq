@@ -19,11 +19,7 @@
     "authorizationId": { "type": "string" },
     "decision": {
       "type": "string",
-      "enum": [
-        "AUTHORIZED — LEVEL 2 PUBLIC ALPHA",
-        "AUTHORIZED WITH CONDITIONS",
-        "BLOCKED"
-      ]
+      "enum": ["AUTHORIZED — LEVEL 2 PUBLIC ALPHA", "AUTHORIZED WITH CONDITIONS", "BLOCKED"]
     },
     "releaseLevel": { "type": "string", "const": "2-public-alpha" },
     "targetCommit": { "type": "string" },

@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 39)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Portable Evidence Package and Observable Behavioral Chain Architecture**:
+
 1. **Consolidated Portable Evidence Archive**: Standardizes [`PortableEvidencePackage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L48-L62) capturing 8 fundamental layers: package manifest, environment specification, behavioral event trace, workspace artifacts, quantitative evaluation assessments, 8-vector financial cost ledger, compliance attribution package, and verifiable execution receipt.
 2. **7-Stage Observable Behavioral Chain**: Models execution trajectories strictly as observable, verifiable transitions across:
    $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
@@ -48,6 +49,7 @@ This specification defines the **Portable Evidence Package and Observable Behavi
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Portable Evidence Package Specification**: Defining [`PortableEvidencePackage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L48-L62) and JSON Schema [`portable-evidence-package.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/portable-evidence-package.schema.json).
 - **7-Stage Observable Behavioral Modeling**: Capturing structured trace events ([`BehavioralTraceEvent`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L22-L31)) spanning Context, Interpretation, Decision, Action, Result, Consequence, and Recovery.
 - **Hierarchical Merkle Verification**: Binding artifact files and trace events into a unified root ([`packageMerkleRoot`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L58)).
@@ -55,6 +57,7 @@ This specification defines the **Portable Evidence Package and Observable Behavi
 - **Behavioral Evaluation Preservation**: Ensuring evidence packaging strictly documents observable behavior without modifying execution dynamics.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: Traces record observable prompts, tool inputs, command strings, return codes, and error recoveries—not internal model activations.
 - **No Proprietary Archive Formats**: Packages use standard JSON manifests and standard compression (ZIP/tar.gz).
 
@@ -87,19 +90,10 @@ This specification defines the **Portable Evidence Package and Observable Behavi
 
 ```typescript
 export type BehavioralStage =
-  | 'CONTEXT'
-  | 'INTERPRETATION'
-  | 'DECISION'
-  | 'ACTION'
-  | 'RESULT'
-  | 'CONSEQUENCE'
-  | 'RECOVERY';
+  "CONTEXT" | "INTERPRETATION" | "DECISION" | "ACTION" | "RESULT" | "CONSEQUENCE" | "RECOVERY";
 
 export type EvaluatorType =
-  | 'DETERMINISTIC_ASSERTION'
-  | 'LLM_JUDGE'
-  | 'TCK_VERIFIER'
-  | 'HUMAN_EXPERT';
+  "DETERMINISTIC_ASSERTION" | "LLM_JUDGE" | "TCK_VERIFIER" | "HUMAN_EXPERT";
 
 export interface BehavioralTraceEvent {
   readonly eventId: string;
@@ -124,7 +118,7 @@ export interface EvaluationAssessmentEntry {
 
 export interface EvidencePackageManifest {
   readonly packageId: string;
-  readonly packageVersion: '1.0.0';
+  readonly packageVersion: "1.0.0";
   readonly evaluationRunId: string;
   readonly benchmarkId: string;
   readonly scenarioId: string;
@@ -149,6 +143,7 @@ export interface PortableEvidencePackage {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/portable-evidence-package.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/portable-evidence-package.schema.json)**: Validates portable evidence packages, behavioral trace arrays, evaluation entries, and Merkle roots.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `portableEvidencePackageSchema`.
 
@@ -187,29 +182,30 @@ export interface PortableEvidencePackage {
 
 ## 7. Open-Source vs. Commercial & Enterprise Evidence Profiles
 
-| Evidence Dimension | Open-Source (`COMMUNITY_FREE`) | Academic Research (`RESEARCH_GRANT`) | Enterprise / Regulatory (`ENTERPRISE`) |
-| :--- | :--- | :--- | :--- |
-| **Artifact Retention** | Git Patches, Logs, Summary | Full Workspace Merkle Root | Complete Raw I/O & PCAP Capture |
-| **Behavioral Trace** | Standard 7-stage events | Standard 7-stage events + Prompts | Complete Tool Call Traces & Timestamps |
-| **Financial Ledger** | Zero Compute ($0.00) | Grant Subsidies Disclosed | Cost Center & Departmental Showback |
-| **Compliance Grade** | `COMPLIANT_WITH_NOTICES` | `NON_COMMERCIAL_RESTRICTED` | `FULLY_COMPLIANT` |
+| Evidence Dimension     | Open-Source (`COMMUNITY_FREE`) | Academic Research (`RESEARCH_GRANT`) | Enterprise / Regulatory (`ENTERPRISE`) |
+| :--------------------- | :----------------------------- | :----------------------------------- | :------------------------------------- |
+| **Artifact Retention** | Git Patches, Logs, Summary     | Full Workspace Merkle Root           | Complete Raw I/O & PCAP Capture        |
+| **Behavioral Trace**   | Standard 7-stage events        | Standard 7-stage events + Prompts    | Complete Tool Call Traces & Timestamps |
+| **Financial Ledger**   | Zero Compute ($0.00)           | Grant Subsidies Disclosed            | Cost Center & Departmental Showback    |
+| **Compliance Grade**   | `COMPLIANT_WITH_NOTICES`       | `NON_COMMERCIAL_RESTRICTED`          | `FULLY_COMPLIANT`                      |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Broken Sequence** | Dropped trace event or concurrency bug | Sequence discontinuity | [`validatePackage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L106-L157) flags invalid sequence order |
-| **Payload Digest Mismatch**| Event payload altered post-flight | Integrity violation | Validator rejects event as tampered |
-| **Merkle Root Discrepancy**| Artifact file modified in archive | Corrupted evidence bundle | Validator flags root mismatch (`isMerkleValid: false`) |
-| **Agent Recovery Events** | Execution failure followed by retry | Normal recovery path | Validator logs informational warning; does not fail package |
+| Failure Mode                | Root Cause                             | Impact                    | Automated Recovery Action                                                                                                                               |
+| :-------------------------- | :------------------------------------- | :------------------------ | :------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| **Broken Sequence**         | Dropped trace event or concurrency bug | Sequence discontinuity    | [`validatePackage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L106-L157) flags invalid sequence order |
+| **Payload Digest Mismatch** | Event payload altered post-flight      | Integrity violation       | Validator rejects event as tampered                                                                                                                     |
+| **Merkle Root Discrepancy** | Artifact file modified in archive      | Corrupted evidence bundle | Validator flags root mismatch (`isMerkleValid: false`)                                                                                                  |
+| **Agent Recovery Events**   | Execution failure followed by retry    | Normal recovery path      | Validator logs informational warning; does not fail package                                                                                             |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The portable evidence package architecture is validated through automated test suites:
+
 1. **Packaging & Validation Unit Tests ([`tests/unit/evidence-package.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/evidence-package.test.ts))**:
    - Validates building complete evidence packages with Merkle roots and signatures.
    - Validates pristine package verification with recovery warning detection.
@@ -234,7 +230,7 @@ The portable evidence package architecture is validated through automated test s
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: High-Resolution Event Tracing vs. Archive Size**: Capturing every intermediate tool call payload can produce 50MB+ packages on large benchmarks.  
-  *Mitigation*: Use streaming gzip compression and optional artifact chunking for large binary outputs.
+  _Mitigation_: Use streaming gzip compression and optional artifact chunking for large binary outputs.
 - **Open Question**: Cryptographic zero-knowledge proofs (ZKP) for verifying evaluation outcomes without disclosing proprietary test dataset contents.
 
 ---

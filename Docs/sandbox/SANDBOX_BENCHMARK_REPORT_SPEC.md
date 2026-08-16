@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 59)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Canonical Benchmark Report Architecture**:
+
 1. **Holistic Seven-Pillar Synthesis**:
    - Verdict & Score ([`PASSED`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L8-L8) / [`FAILED`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L8-L8) / [`PARTIAL`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L8-L8) / [`ERROR`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L8-L8), composite score).
    - Execution Methodology ([`BenchmarkMethodologySummary`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L10-L17)).
@@ -57,6 +58,7 @@ This specification establishes the **SemantIQ Canonical Benchmark Report Archite
 ## 2. Inputs & Prior Decisions
 
 This specification integrates all reporting requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, trust verification, and terms attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -68,11 +70,13 @@ This specification integrates all reporting requirements across the Sandbox Phas
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Benchmark Report Specification**: Defining [`BenchmarkVerdict`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L8-L8), [`CanonicalBenchmarkReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts#L42-L55), and JSON Schema [`canonical-benchmark-report.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/canonical-benchmark-report.schema.json).
 - **Dual-Modal Rendering**: GitHub Flavored Markdown and machine-readable JSON.
 - **Cryptographic Audit Signing**: Sealing report objects with ECDSA signatures.
 
 ### 3.2 Non-Goals
+
 - **No Vague Qualitative Scores**: Every reported metric is grounded in explicit mathematical indices ($LHRI$, $CAI$, $RRI$, $GAI$).
 - **No Proprietary Vendor Headers**: Report format is open-source and provider-agnostic.
 
@@ -102,7 +106,7 @@ This specification integrates all reporting requirements across the Sandbox Phas
 ### 5.1 TypeScript Report Definitions ([`packages/sandbox-contracts/src/benchmark-report.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-report.ts))
 
 ```typescript
-export type BenchmarkVerdict = 'PASSED' | 'FAILED' | 'PARTIAL' | 'ERROR';
+export type BenchmarkVerdict = "PASSED" | "FAILED" | "PARTIAL" | "ERROR";
 
 export interface BenchmarkMethodologySummary {
   readonly benchmarkId: string;
@@ -190,28 +194,29 @@ export interface CanonicalBenchmarkReport {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Verdict Determination | Provenance Root Generation | Report Generation Status |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Local assertion runner | Host SHA-256 Merkle root | `FULL_NATIVE` |
-| **Podman (Rootless)** | Local assertion runner | Host SHA-256 Merkle root | `FULL_NATIVE` |
-| **Firecracker MicroVM**| Serial console exit code | MicroVM block root | `FULL_NATIVE` |
-| **Modal / Cloud MicroVM**| Remote exit code | Provider SSE Merkle stream | `FULL_NATIVE` |
+| Execution Provider        | Verdict Determination    | Provenance Root Generation | Report Generation Status |
+| :------------------------ | :----------------------- | :------------------------- | :----------------------- |
+| **Docker (Local)**        | Local assertion runner   | Host SHA-256 Merkle root   | `FULL_NATIVE`            |
+| **Podman (Rootless)**     | Local assertion runner   | Host SHA-256 Merkle root   | `FULL_NATIVE`            |
+| **Firecracker MicroVM**   | Serial console exit code | MicroVM block root         | `FULL_NATIVE`            |
+| **Modal / Cloud MicroVM** | Remote exit code         | Provider SSE Merkle stream | `FULL_NATIVE`            |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Assertion Exception** | Uncaught test runner script bug | Incomplete verdict | Sets verdict to `ERROR`; records stack trace in findings |
-| **Missing Metric Subsystem**| Anti-gaming or Cost engine omitted | Partial report | Defaults missing summary to neutral baseline with warning |
-| **Schema Validation Error** | Non-compliant JSON payload | Rejection by API | Validates against Draft 2020-12 schema before emission |
+| Failure Mode                 | Root Cause                         | Impact             | Automated Recovery Action                                 |
+| :--------------------------- | :--------------------------------- | :----------------- | :-------------------------------------------------------- |
+| **Assertion Exception**      | Uncaught test runner script bug    | Incomplete verdict | Sets verdict to `ERROR`; records stack trace in findings  |
+| **Missing Metric Subsystem** | Anti-gaming or Cost engine omitted | Partial report     | Defaults missing summary to neutral baseline with warning |
+| **Schema Validation Error**  | Non-compliant JSON payload         | Rejection by API   | Validates against Draft 2020-12 schema before emission    |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Canonical Benchmark Report architecture is validated through automated test suites:
+
 1. **Benchmark Report Unit Tests ([`tests/unit/benchmark-report.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/benchmark-report.test.ts))**:
    - Tests assembling canonical benchmark report with composite score and cryptographic signature.
    - Tests rendering comprehensive GFM Markdown reports.
@@ -235,7 +240,7 @@ The Canonical Benchmark Report architecture is validated through automated test 
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Report Length vs. Concise Summary**: Presenting all sub-metrics in full detail can produce large Markdown documents.  
-  *Mitigation*: Structure Markdown with prominent executive summaries and collapsible detail sections.
+  _Mitigation_: Structure Markdown with prominent executive summaries and collapsible detail sections.
 - **Open Question**: PDF report compilation via headless Chromium for enterprise auditing.
 
 ---

@@ -3,7 +3,7 @@
 **Status**: Accepted  
 **Date**: 2026-08-15  
 **Subsystem Status**: `INTERNAL GATE PASSED`  
-**Product Release Status**: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`  
+**Product Release Status**: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`
 
 ---
 

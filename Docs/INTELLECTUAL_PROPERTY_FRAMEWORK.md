@@ -13,12 +13,12 @@ This document defines the open-source-compatible intellectual property, authorsh
 
 ## 2. IP & Licensing Structure
 
-| Asset Category | Applicable License / Standard | Purpose |
-|---|---|---|
-| **Source Code** | MIT License | Permissive reuse, modification, and distribution. |
-| **Documentation** | Creative Commons Attribution 4.0 (CC-BY-4.0) | Permissive sharing with explicit attribution. |
-| **Baseline Benchmarks** | CC0-1.0 Universal (Public Domain Dedication) | Unrestricted open reuse for evaluation research. |
-| **Contributor Inventions** | Developer Certificate of Origin (DCO 1.1) | Clean copyright provenance for all pull requests. |
+| Asset Category             | Applicable License / Standard                | Purpose                                           |
+| -------------------------- | -------------------------------------------- | ------------------------------------------------- |
+| **Source Code**            | MIT License                                  | Permissive reuse, modification, and distribution. |
+| **Documentation**          | Creative Commons Attribution 4.0 (CC-BY-4.0) | Permissive sharing with explicit attribution.     |
+| **Baseline Benchmarks**    | CC0-1.0 Universal (Public Domain Dedication) | Unrestricted open reuse for evaluation research.  |
+| **Contributor Inventions** | Developer Certificate of Origin (DCO 1.1)    | Clean copyright provenance for all pull requests. |
 
 ---
 

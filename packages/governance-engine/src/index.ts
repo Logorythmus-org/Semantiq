@@ -67,14 +67,20 @@ export class LocalGovernanceEngineRepository implements GovernanceEngineReposito
 }
 
 export class LocalGovernanceEngineService implements GovernanceEngineService {
-  constructor(private readonly repository: LocalGovernanceEngineRepository = new LocalGovernanceEngineRepository()) {}
+  constructor(
+    private readonly repository: LocalGovernanceEngineRepository = new LocalGovernanceEngineRepository()
+  ) {}
 
   async createGovernanceProcess(process: GovernanceProcess): Promise<void> {
     if (!process.questionId) {
       throw new Error("Governance must begin with a question");
     }
     await this.repository.saveProcess(process);
-    await this.emit("GovernanceStarted", { type: process.type, purpose: process.purpose }, process.id);
+    await this.emit(
+      "GovernanceStarted",
+      { type: process.type, purpose: process.purpose },
+      process.id
+    );
   }
 
   async createPolicy(policy: PolicyObject): Promise<void> {
@@ -128,7 +134,11 @@ export class LocalGovernanceEngineService implements GovernanceEngineService {
   async measureConsensus(consensus: ConsensusState): Promise<void> {
     await this.requireProcess(consensus.processId);
     await this.repository.saveConsensus(consensus);
-    await this.emit("ConsensusUpdated", { level: consensus.level, uncertaintyLevel: consensus.uncertaintyLevel }, consensus.processId);
+    await this.emit(
+      "ConsensusUpdated",
+      { level: consensus.level, uncertaintyLevel: consensus.uncertaintyLevel },
+      consensus.processId
+    );
   }
 
   async publishDecision(processId: string, transparency: TransparencyRecord): Promise<void> {
@@ -159,7 +169,12 @@ export class LocalGovernanceEngineService implements GovernanceEngineService {
     return process;
   }
 
-  private async emit(type: GovernanceEngineEvent["type"], payload: unknown, processId?: string, policyId?: string): Promise<void> {
+  private async emit(
+    type: GovernanceEngineEvent["type"],
+    payload: unknown,
+    processId?: string,
+    policyId?: string
+  ): Promise<void> {
     const event: GovernanceEngineEvent = {
       type,
       version: 1,

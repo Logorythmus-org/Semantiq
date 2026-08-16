@@ -1,7 +1,7 @@
 # ADR-0134: Provider Licensing Boundary and Clean-Room Isolation Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

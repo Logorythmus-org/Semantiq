@@ -75,7 +75,9 @@ export class LocalCollectiveIntelligenceRepository implements CollectiveIntellig
 }
 
 export class LocalCollectiveIntelligenceService implements CollectiveIntelligenceService {
-  constructor(private readonly repository: LocalCollectiveIntelligenceRepository = new LocalCollectiveIntelligenceRepository()) {}
+  constructor(
+    private readonly repository: LocalCollectiveIntelligenceRepository = new LocalCollectiveIntelligenceRepository()
+  ) {}
 
   async discoverKnowledgeGaps(): Promise<readonly KnowledgeGap[]> {
     const signals = await this.repository.listSignals();
@@ -174,7 +176,9 @@ export class LocalCollectiveIntelligenceService implements CollectiveIntelligenc
       repositoryIds: [],
       experimentIds: [],
       innovationClusterIds: [],
-      fundingOpportunityIds: opportunities.flatMap((opportunity) => opportunity.fundingOpportunityIds)
+      fundingOpportunityIds: opportunities.flatMap(
+        (opportunity) => opportunity.fundingOpportunityIds
+      )
     };
   }
 
@@ -191,7 +195,10 @@ export class LocalCollectiveIntelligenceService implements CollectiveIntelligenc
       communityHealth: unique(signals.flatMap((signal) => signal.communityIds)).length,
       innovationRate: opportunities.length,
       educationImpact: 0,
-      collaborationDensity: opportunities.reduce((total, opportunity) => total + opportunity.recommendedCommunityIds.length, 0),
+      collaborationDensity: opportunities.reduce(
+        (total, opportunity) => total + opportunity.recommendedCommunityIds.length,
+        0
+      ),
       knowledgeAccessibility: signals.length,
       scientificProgress: opportunities.length + gaps.length
     };
@@ -227,7 +234,12 @@ export class LocalCollectiveIntelligenceService implements CollectiveIntelligenc
 
   async recordOpportunity(opportunity: ResearchOpportunity): Promise<void> {
     await this.repository.saveOpportunity(opportunity);
-    await this.emit("ResearchOpportunityFound", { title: opportunity.title }, undefined, opportunity.id);
+    await this.emit(
+      "ResearchOpportunityFound",
+      { title: opportunity.title },
+      undefined,
+      opportunity.id
+    );
   }
 
   private async requireGap(gapId: string): Promise<KnowledgeGap> {

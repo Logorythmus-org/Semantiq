@@ -4,7 +4,7 @@
 **Date**: 2026-08-15  
 **Version Baseline**: `v0.1.0-alpha.1` (Pre-Release Baseline)  
 **Sandbox Subsystem Status**: `INTERNAL GATE PASSED`  
-**SemantIQ Product Release Status**: `PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`  
+**SemantIQ Product Release Status**: `PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`
 
 ---
 
@@ -13,10 +13,11 @@
 This document executes the **R02 Project-Wide Alignment and Documentation Rewrite** across the SemantIQ repository. It systematically remediates all documentation, specifications, architecture definitions, limitation registers, roadmaps, and metadata to establish rigorous alignment with empirical evidence and canonical status definitions.
 
 ### Key Architectural Invariants Enforced:
+
 1. **Canonical Status Separation**:
    - Subsystem Status: `INTERNAL GATE PASSED` (Sandbox contracts, SPIS specification, router, observer, anti-gaming verifier, and 37 test suites verified).
    - Product Release Status: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED` (Product authorization is deferred to Phase 11 clean-room distribution package verification and Phase 12 release freeze procedures).
-   - *Normative Invariant*: A subsystem PASS never authorizes product release.
+   - _Normative Invariant_: A subsystem PASS never authorizes product release.
 2. **Canonical Epistemological & Pipeline Flow**:
    $$\text{Observation before judgment} \longrightarrow \text{Evidence before score} \longrightarrow \text{Evidence before release claim}$$
    $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
@@ -30,6 +31,7 @@ This document executes the **R02 Project-Wide Alignment and Documentation Rewrit
 ## 2. Evidence Reviewed
 
 The rewrite audited and reconciled the following documentation and codebase surfaces:
+
 - **Root Documentation**: [`README.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/README.md), [`ARCHITECTURE.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/ARCHITECTURE.md), [`Docs/ARCHITECTURE.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/ARCHITECTURE.md).
 - **Limitation Registers**: [`Docs/ACCEPTED_LIMITATIONS_REGISTER.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/ACCEPTED_LIMITATIONS_REGISTER.md), [`Docs/KNOWN_LIMITATIONS.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/KNOWN_LIMITATIONS.md).
 - **Roadmap & Release Documents**: [`Docs/ROADMAP.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/ROADMAP.md), [`Docs/audit/PRE_PHASE_12_R01_CLAIM_EVIDENCE_AUDIT.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/audit/PRE_PHASE_12_R01_CLAIM_EVIDENCE_AUDIT.md).
@@ -41,10 +43,10 @@ The rewrite audited and reconciled the following documentation and codebase surf
 
 ## 3. Canonical Status Decisions
 
-| Level / Layer | Official Status | Scope & Boundary |
-|:---|:---:|:---|
-| **Sandbox Subsystem** | **`INTERNAL GATE PASSED`** | Certified across 37 automated test suites (133 tests passed, 0 failures), 30 / 30 mandatory architecture checks passed, zero core runtime leakage. |
-| **SemantIQ Product** | **`PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`** | Governed by Phase 11 clean-room distribution package verification and Phase 12 release freeze authorization. |
+| Level / Layer         |                    Official Status                    | Scope & Boundary                                                                                                                                   |
+| :-------------------- | :---------------------------------------------------: | :------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Sandbox Subsystem** |              **`INTERNAL GATE PASSED`**               | Certified across 37 automated test suites (133 tests passed, 0 failures), 30 / 30 mandatory architecture checks passed, zero core runtime leakage. |
+| **SemantIQ Product**  | **`PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`** | Governed by Phase 11 clean-room distribution package verification and Phase 12 release freeze authorization.                                       |
 
 ---
 
@@ -52,14 +54,14 @@ The rewrite audited and reconciled the following documentation and codebase surf
 
 All claims across repository documentation are categorized by their strongest empirical evidence class:
 
-| Claim Area | Unbounded / Raw Phrase | Strongest Evidence Class | Remediation & Bounded Language |
-|:---|:---|:---:|:---|
-| **Security Posture** | "0 zero-day vulnerabilities", "100% secure" | **TESTED** | *"No known critical vulnerability was identified within the executed test scope (10 attack categories tested)."* |
-| **Vendor Dependency** | "Vendor Lock-In Risk: 0.0%", "Zero Lock-In" | **TESTED** & **IMPLEMENTED** | *"No mandatory provider dependency was identified; execution contracts connect to replaceable providers."* |
-| **Hosting Economics** | "universal $0.00 cost" | **IMPLEMENTED** & **DESIGN** | *"SemantIQ Core requires no mandatory SemantIQ-operated hosting infrastructure; compute costs belong to execution providers."* |
-| **Environment Bias** | "perfect isolation", "fully eliminates provider effects" | **IMPLEMENTED** & **TESTED** | *"Provider/environment variance is recorded in evidence metadata and normalized mathematically ($PVS$, $PEP$), but physical hardware variance may not be fully removable."* |
-| **Cognitive Evaluation** | "evaluates internal agent cognition" | **TESTED** & **IMPLEMENTED** | *"SemantIQ observes and evaluates external physical traces, exit codes, and environment diffs; it does not claim to measure unobservable internal model cognition."* |
-| **Production Readiness** | "production-ready" | **TESTED** | Bounded to tested unit/contract scope; overall product labeled `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`. |
+| Claim Area               | Unbounded / Raw Phrase                                   |   Strongest Evidence Class   | Remediation & Bounded Language                                                                                                                                              |
+| :----------------------- | :------------------------------------------------------- | :--------------------------: | :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Security Posture**     | "0 zero-day vulnerabilities", "100% secure"              |          **TESTED**          | _"No known critical vulnerability was identified within the executed test scope (10 attack categories tested)."_                                                            |
+| **Vendor Dependency**    | "Vendor Lock-In Risk: 0.0%", "Zero Lock-In"              | **TESTED** & **IMPLEMENTED** | _"No mandatory provider dependency was identified; execution contracts connect to replaceable providers."_                                                                  |
+| **Hosting Economics**    | "universal $0.00 cost"                                   | **IMPLEMENTED** & **DESIGN** | _"SemantIQ Core requires no mandatory SemantIQ-operated hosting infrastructure; compute costs belong to execution providers."_                                              |
+| **Environment Bias**     | "perfect isolation", "fully eliminates provider effects" | **IMPLEMENTED** & **TESTED** | _"Provider/environment variance is recorded in evidence metadata and normalized mathematically ($PVS$, $PEP$), but physical hardware variance may not be fully removable."_ |
+| **Cognitive Evaluation** | "evaluates internal agent cognition"                     | **TESTED** & **IMPLEMENTED** | _"SemantIQ observes and evaluates external physical traces, exit codes, and environment diffs; it does not claim to measure unobservable internal model cognition."_        |
+| **Production Readiness** | "production-ready"                                       |          **TESTED**          | Bounded to tested unit/contract scope; overall product labeled `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`.                                                             |
 
 ---
 
@@ -93,34 +95,34 @@ All claims across repository documentation are categorized by their strongest em
 
 ## 7. Mandatory 26-Point Master Checklist Verification
 
-| # | Master Checklist Item | Status | Verified Evidence Reference |
-|---|:---|:---:|:---|
-| 1 | Mission consistent | **PASS** | `README.md`, `Docs/ARCHITECTURE.md` |
-| 2 | README matches implementation | **PASS** | `README.md` reflects local workspace notice and quickstart |
-| 3 | Architecture docs match boundaries | **PASS** | `Docs/ARCHITECTURE.md` defines Sandbox layer & SPIS |
-| 4 | Sandbox status is subsystem status | **PASS** | Clearly designated `INTERNAL GATE PASSED` |
-| 5 | Public release version/status unambiguous | **PASS** | `v0.1.0-alpha.1` (`PRE-RELEASE`) |
-| 6 | Supported/experimental/deferred features explicit | **PASS** | `Docs/ACCEPTED_LIMITATIONS_REGISTER.md` |
-| 7 | No mandatory OpenSandbox dependency | **PASS** | Generic SPIS adapter interfaces (`packages/sandbox-contracts/src/base-adapter.ts`) |
-| 8 | No mandatory external provider | **PASS** | `packages/sandbox-contracts/src/cli-runner.ts` local execution |
-| 9 | Connector/provider responsibilities separated | **PASS** | `packages/sandbox-contracts/src/provider-sdk.ts` |
-| 10 | Events/evidence/provenance coherent | **PASS** | `packages/sandbox-contracts/src/evidence-provenance.ts` |
-| 11 | Evidence-source labels accurate | **PASS** | `packages/sandbox-contracts/src/independent-observer.ts` |
-| 12 | Claims remain within observable evidence | **PASS** | Bounded language across all reports and specs |
-| 13 | Contract/schema not mislabeled runtime verification | **PASS** | Distinct evidence classes maintained |
-| 14 | Local-first claims have actual evidence | **PASS** | `tests/unit/cli-runner.test.ts` |
-| 15 | Replay/reproducibility semantics explicit | **PASS** | `packages/sandbox-contracts/src/types.ts` |
-| 16 | Infrastructure failure cannot become model score | **PASS** | `packages/sandbox-contracts/src/fallback.ts` |
-| 17 | Security/trust boundaries documented | **PASS** | `Docs/sandbox/SANDBOX_PROVIDER_TRUST_SPEC.md` |
-| 18 | Security claims bounded by test scope | **PASS** | `Docs/sandbox/SANDBOX_PHASE_SECURITY_AUDIT_SPEC.md` |
-| 19 | Third-party license boundaries documented | **PASS** | `packages/sandbox-contracts/src/licensing-boundary.ts` |
-| 20 | No known release-critical secret leakage | **PASS** | `tests/security/configuration-security.test.ts` |
-| 21 | Schemas/interfaces/docs agree | **PASS** | `schemas/` and `packages/sandbox-contracts/src/schemas.ts` |
-| 22 | Required tests/typecheck/build pass | **PASS** | `tsc` (0 errors), Vitest (174 passing test files) |
-| 23 | Public limitations current | **PASS** | `Docs/ACCEPTED_LIMITATIONS_REGISTER.md`, `Docs/KNOWN_LIMITATIONS.md` |
-| 24 | Roadmap not presented as shipped | **PASS** | `Docs/ROADMAP.md` explicitly labels Phase 11/12 as planned |
-| 25 | Sandbox internal PASS != Public Alpha PASS | **PASS** | Invariant declared in all release gate records |
-| 26 | Phase 12 inputs ready | **PASS** | Baseline sealed for clean-room handoff |
+| #   | Master Checklist Item                               |  Status  | Verified Evidence Reference                                                        |
+| --- | :-------------------------------------------------- | :------: | :--------------------------------------------------------------------------------- |
+| 1   | Mission consistent                                  | **PASS** | `README.md`, `Docs/ARCHITECTURE.md`                                                |
+| 2   | README matches implementation                       | **PASS** | `README.md` reflects local workspace notice and quickstart                         |
+| 3   | Architecture docs match boundaries                  | **PASS** | `Docs/ARCHITECTURE.md` defines Sandbox layer & SPIS                                |
+| 4   | Sandbox status is subsystem status                  | **PASS** | Clearly designated `INTERNAL GATE PASSED`                                          |
+| 5   | Public release version/status unambiguous           | **PASS** | `v0.1.0-alpha.1` (`PRE-RELEASE`)                                                   |
+| 6   | Supported/experimental/deferred features explicit   | **PASS** | `Docs/ACCEPTED_LIMITATIONS_REGISTER.md`                                            |
+| 7   | No mandatory OpenSandbox dependency                 | **PASS** | Generic SPIS adapter interfaces (`packages/sandbox-contracts/src/base-adapter.ts`) |
+| 8   | No mandatory external provider                      | **PASS** | `packages/sandbox-contracts/src/cli-runner.ts` local execution                     |
+| 9   | Connector/provider responsibilities separated       | **PASS** | `packages/sandbox-contracts/src/provider-sdk.ts`                                   |
+| 10  | Events/evidence/provenance coherent                 | **PASS** | `packages/sandbox-contracts/src/evidence-provenance.ts`                            |
+| 11  | Evidence-source labels accurate                     | **PASS** | `packages/sandbox-contracts/src/independent-observer.ts`                           |
+| 12  | Claims remain within observable evidence            | **PASS** | Bounded language across all reports and specs                                      |
+| 13  | Contract/schema not mislabeled runtime verification | **PASS** | Distinct evidence classes maintained                                               |
+| 14  | Local-first claims have actual evidence             | **PASS** | `tests/unit/cli-runner.test.ts`                                                    |
+| 15  | Replay/reproducibility semantics explicit           | **PASS** | `packages/sandbox-contracts/src/types.ts`                                          |
+| 16  | Infrastructure failure cannot become model score    | **PASS** | `packages/sandbox-contracts/src/fallback.ts`                                       |
+| 17  | Security/trust boundaries documented                | **PASS** | `Docs/sandbox/SANDBOX_PROVIDER_TRUST_SPEC.md`                                      |
+| 18  | Security claims bounded by test scope               | **PASS** | `Docs/sandbox/SANDBOX_PHASE_SECURITY_AUDIT_SPEC.md`                                |
+| 19  | Third-party license boundaries documented           | **PASS** | `packages/sandbox-contracts/src/licensing-boundary.ts`                             |
+| 20  | No known release-critical secret leakage            | **PASS** | `tests/security/configuration-security.test.ts`                                    |
+| 21  | Schemas/interfaces/docs agree                       | **PASS** | `schemas/` and `packages/sandbox-contracts/src/schemas.ts`                         |
+| 22  | Required tests/typecheck/build pass                 | **PASS** | `tsc` (0 errors), Vitest (174 passing test files)                                  |
+| 23  | Public limitations current                          | **PASS** | `Docs/ACCEPTED_LIMITATIONS_REGISTER.md`, `Docs/KNOWN_LIMITATIONS.md`               |
+| 24  | Roadmap not presented as shipped                    | **PASS** | `Docs/ROADMAP.md` explicitly labels Phase 11/12 as planned                         |
+| 25  | Sandbox internal PASS != Public Alpha PASS          | **PASS** | Invariant declared in all release gate records                                     |
+| 26  | Phase 12 inputs ready                               | **PASS** | Baseline sealed for clean-room handoff                                             |
 
 ---
 

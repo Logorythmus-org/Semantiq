@@ -1,6 +1,7 @@
 # Roadmap
 
 ## Phase 1: Foundation
+
 - Specification structure.
 - Architecture documentation.
 - Monorepo package boundaries.
@@ -22,6 +23,7 @@
 - Community Intelligence Engine, community model, membership, roles, traceable contributions, reputation, trust, consensus, collective intelligence, analytics, and AI community agents.
 
 ## Phase 2: Core Runtime
+
 - Module registry.
 - Configuration loading.
 - Observability runtime.
@@ -49,6 +51,7 @@
 - MVP System Integration architecture, system validation, health monitoring, performance/security/offline/documentation reports, deployment guide, release process, release notes, changelog, MVP definition, observability, analytics, and adaptive roadmap.
 
 ## Phase 3: Question and Workspace Foundations
+
 - Question object model.
 - Workspace shell.
 - Local persistence.
@@ -70,11 +73,13 @@
 - System integration contracts for system maps, validation reports, health reports, security/performance reports, deployment profiles, release candidates, MVP readiness, observability, analytics, and roadmap plans.
 
 ## MVP Release Roadmap
+
 - Version 1.0: public MVP with integrated workspace, questions, Semantiq, research, narratives, communities, Agent OS, workflows, compute runtime, marketplace, developer SDK, graph, wallet, search, and offline runtime.
 - Version 1.1: hardening, richer UI, production adapters, expanded documentation, and user journey coverage.
 - Version 2: enterprise, scientific cloud, global knowledge network, educational network, and distributed intelligence.
 
 ## Phase 4: Global Knowledge Mesh
+
 - Federation architecture, node model, open protocol, distributed search, distributed graph references, knowledge replication, federated identity, trust network, policy engine, offline federation, global marketplace, and federation APIs.
 - Local-first autonomous Knowledge Nodes with optional federation.
 - Cross-node question, project, agent, workflow, benchmark, research, and marketplace exchange.
@@ -87,17 +92,20 @@
 - Civilization Coordination Kernel, meta knowledge model, meta relation engine, Civilization Health Engine, global coordination runtime, digital twin, evolution engine, long-term sustainability, Open Civilization Protocol, human values layer, future technology adaptation, and Vision 2050 architecture.
 
 ## Phase 4: Semantic and Knowledge Systems
+
 - Semantiq adapter.
 - Knowledge graph contracts.
 - Scientific Question Atlas primitives.
 
 ## Phase 5: Collaboration, Identity, and Economy
+
 - Permission model implementation.
 - Semantic wallet adapter.
 - Collaboration protocols.
 - Marketplace contracts.
 
 ## Phase 5: Production Implementation Program
+
 - Repository audit and reuse plan for Tech Club, Qikio, SemantIQ, Sunlionet, Menog OS, Semantic Wallet, existing GitHub repositories, and internal packages.
 - Production repository structure with package, app, service, agent, SDK, plugin, documentation, testing, infrastructure, and deployment ownership.
 - Implementation roadmap from core runtime through identity, knowledge graph, workspace, questions, Semantiq, research, communities, agents, workflows, marketplace, federation, civilization systems, apps, services, and release operations.
@@ -112,9 +120,11 @@
 - Production MVP Integration with local identity, workspace, question, question intelligence, Semantiq, Knowledge Graph, research, evidence, agent workflow, community, dashboard, export, Docker topology, MVP tests, alpha docs, and known limitations.
 
 ## Phase 6: Autonomous Engineering Pipeline
+
 - Sprint 0 automation engine for Spec-Kit generation, task planning, repository analysis, review findings, test plans, documentation plans, release plans, migration notes, dashboard snapshots, CLI commands, engineering agents, and Sprint 1 readiness.
 
 ## Sandbox Subsystem Phase (Prompts 01–65) — `INTERNAL GATE PASSED`
+
 - Universal provider-neutral execution contracts and Draft 2020-12 schemas (`packages/sandbox-contracts/`).
 - SemantIQ Provider Interoperability Standard (SPIS) with L1/L2/L3 conformance tiers.
 - 7-stage behavioral observation sequence (`Context → Interpretation → Decision → Action → Result → Consequence → Recovery`).
@@ -124,11 +134,13 @@
 - Subsystem Internal Gate: `INTERNAL GATE PASSED` (ADR-0165).
 
 ## Phase 11: Clean-Room Extraction (Planned Pre-Release Milestone)
+
 - Isolated package packaging and distribution verification without monorepo dependencies.
 - Hermetic container and clean-room reproducibility testing.
 - Dependency license verification and asset hashing.
 
 ## Phase 12: Public Alpha Release Authorization (Planned Release Gate)
+
 - Execution of the authoritative product release checklist under `config/release-freeze.json`.
 - Pre-Release status promotion from `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED` to `PUBLIC ALPHA AUTHORIZED`.
 - Release artifact signing and publishing.

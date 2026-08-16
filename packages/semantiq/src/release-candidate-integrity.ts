@@ -1,14 +1,14 @@
 export interface PublicAlphaEvidenceManifest {
-  readonly releaseLevel: '2-public-alpha';
-  readonly status: 'experimental';
+  readonly releaseLevel: "2-public-alpha";
+  readonly status: "experimental";
   readonly commit: string;
   readonly tag: string;
   readonly testFiles: number;
   readonly tests: number;
   readonly typecheckErrors: number;
   readonly criticalInternalBlockers: number;
-  readonly externalReplication: 'not-yet-established';
-  readonly independentAudit: 'not-yet-established';
+  readonly externalReplication: "not-yet-established";
+  readonly independentAudit: "not-yet-established";
   readonly certification: false;
   readonly productionSafetyGuarantee: false;
   readonly repository: string;
@@ -26,7 +26,7 @@ export interface GitHookBypassRecord {
   readonly commitMessage: string;
   readonly bypassedHooks: readonly string[];
   readonly executedChecks: readonly string[];
-  readonly verificationResult: 'PASSED' | 'FAILED';
+  readonly verificationResult: "PASSED" | "FAILED";
   readonly bypassRationale: string;
   readonly trustImplications: string;
 }
@@ -37,7 +37,7 @@ export interface IntegrityValidationReport {
 }
 
 export interface IntegrityEvaluationReport {
-  readonly overallStatus: 'PASS' | 'PARTIAL' | 'FAIL';
+  readonly overallStatus: "PASS" | "PARTIAL" | "FAIL";
   readonly manifestValidation: IntegrityValidationReport;
   readonly authorizationConsistency: IntegrityValidationReport;
   readonly gitHookBypassValidation: IntegrityValidationReport;
@@ -54,16 +54,16 @@ export class ReleaseCandidateIntegrityEngine {
   validateEvidenceManifest(manifest: PublicAlphaEvidenceManifest): IntegrityValidationReport {
     const violations: string[] = [];
 
-    if (manifest.releaseLevel !== '2-public-alpha') {
+    if (manifest.releaseLevel !== "2-public-alpha") {
       violations.push('Release level must be strictly "2-public-alpha".');
     }
 
-    if (manifest.status !== 'experimental') {
+    if (manifest.status !== "experimental") {
       violations.push('Release candidate status must be strictly "experimental".');
     }
 
-    if (!manifest.commit || manifest.commit.trim() === '') {
-      violations.push('Evidence manifest must include actual HEAD commit SHA.');
+    if (!manifest.commit || manifest.commit.trim() === "") {
+      violations.push("Evidence manifest must include actual HEAD commit SHA.");
     }
 
     if (manifest.typecheckErrors > 0) {
@@ -71,22 +71,24 @@ export class ReleaseCandidateIntegrityEngine {
     }
 
     if (manifest.criticalInternalBlockers > 0) {
-      violations.push(`Critical internal blockers must be 0, found ${manifest.criticalInternalBlockers}.`);
+      violations.push(
+        `Critical internal blockers must be 0, found ${manifest.criticalInternalBlockers}.`
+      );
     }
 
     if (manifest.certification !== false) {
-      violations.push('Certification claim must be explicitly false.');
+      violations.push("Certification claim must be explicitly false.");
     }
 
     if (manifest.productionSafetyGuarantee !== false) {
-      violations.push('Production safety guarantee must be explicitly false.');
+      violations.push("Production safety guarantee must be explicitly false.");
     }
 
-    if (manifest.externalReplication !== 'not-yet-established') {
+    if (manifest.externalReplication !== "not-yet-established") {
       violations.push('External replication status must be "not-yet-established".');
     }
 
-    if (manifest.independentAudit !== 'not-yet-established') {
+    if (manifest.independentAudit !== "not-yet-established") {
       violations.push('Independent audit status must be "not-yet-established".');
     }
 
@@ -103,16 +105,24 @@ export class ReleaseCandidateIntegrityEngine {
   ): IntegrityValidationReport {
     const violations: string[] = [];
 
-    if (!authorizationDoc.includes('Level 2 — Public Alpha') && !authorizationDoc.includes('level_2_public_alpha')) {
-      violations.push('Authorization document does not confirm Level 2 Public Alpha level.');
+    if (
+      !authorizationDoc.includes("Level 2 — Public Alpha") &&
+      !authorizationDoc.includes("level_2_public_alpha")
+    ) {
+      violations.push("Authorization document does not confirm Level 2 Public Alpha level.");
     }
 
-    if (!readinessReportDoc.includes('LEVEL 2 PUBLIC ALPHA AUTHORIZED')) {
-      violations.push('Final readiness report does not confirm Level 2 Public Alpha authorization.');
+    if (!readinessReportDoc.includes("LEVEL 2 PUBLIC ALPHA AUTHORIZED")) {
+      violations.push(
+        "Final readiness report does not confirm Level 2 Public Alpha authorization."
+      );
     }
 
-    if (!gateBReference.includes('REPRODUCIBILITY_REPORT.md') && !gateBReference.includes('PHASE_11_14_COMPLETION_REPORT.md')) {
-      violations.push('Gate B reproducibility evidence reference is missing or invalid.');
+    if (
+      !gateBReference.includes("REPRODUCIBILITY_REPORT.md") &&
+      !gateBReference.includes("PHASE_11_14_COMPLETION_REPORT.md")
+    ) {
+      violations.push("Gate B reproducibility evidence reference is missing or invalid.");
     }
 
     return {
@@ -125,9 +135,9 @@ export class ReleaseCandidateIntegrityEngine {
     const violations: string[] = [];
 
     const mandatoryExclusions = [
-      'tier_d_protected_challenge_fixtures',
-      'authoritative_global_rankings',
-      'safety_certification_claims'
+      "tier_d_protected_challenge_fixtures",
+      "authoritative_global_rankings",
+      "safety_certification_claims"
     ];
 
     for (const item of mandatoryExclusions) {
@@ -149,14 +159,14 @@ export class ReleaseCandidateIntegrityEngine {
   ): IntegrityEvaluationReport {
     const manifestVal = this.validateEvidenceManifest(manifest);
     const authVal = this.validateAuthorizationConsistency(
-      'Level 2 — Public Alpha',
-      'LEVEL 2 PUBLIC ALPHA AUTHORIZED',
+      "Level 2 — Public Alpha",
+      "LEVEL 2 PUBLIC ALPHA AUTHORIZED",
       gateBRef
     );
     const boundaryVal = this.validateReleaseBoundaries(excludedComponents);
 
     const isValid = manifestVal.isValid && authVal.isValid && boundaryVal.isValid;
-    const overallStatus: 'PASS' | 'PARTIAL' | 'FAIL' = isValid ? 'PASS' : 'FAIL';
+    const overallStatus: "PASS" | "PARTIAL" | "FAIL" = isValid ? "PASS" : "FAIL";
 
     return {
       overallStatus,

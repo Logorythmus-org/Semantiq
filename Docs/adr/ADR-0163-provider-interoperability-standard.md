@@ -1,7 +1,7 @@
 # ADR-0163: SemantIQ Provider Interoperability Standard (SPIS)
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

@@ -1,7 +1,7 @@
 # Contradiction Detection Specification (8 Conflict States)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

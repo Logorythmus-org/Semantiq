@@ -39,7 +39,12 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["regimeName", "parameterRange", "characteristicBehavior", "successRatePercentage"],
+        "required": [
+          "regimeName",
+          "parameterRange",
+          "characteristicBehavior",
+          "successRatePercentage"
+        ],
         "properties": {
           "regimeName": { "type": "string" },
           "parameterRange": { "type": "string" },
@@ -52,7 +57,16 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["paramValue", "trialIndex", "outcome", "actionCount", "recoveryEventsCount", "recoverySuccessRate", "loopCycleDetected", "wallClockDurationMs"],
+        "required": [
+          "paramValue",
+          "trialIndex",
+          "outcome",
+          "actionCount",
+          "recoveryEventsCount",
+          "recoverySuccessRate",
+          "loopCycleDetected",
+          "wallClockDurationMs"
+        ],
         "properties": {
           "paramValue": {},
           "trialIndex": { "type": "integer", "minimum": 0 },

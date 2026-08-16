@@ -34,7 +34,8 @@ export class LocalPermissionEngine implements PermissionEngine {
 
   async list(subjectId: string, resourceId?: string): Promise<readonly PermissionGrant[]> {
     return [...this.permissions.values()].filter(
-      (permission) => permission.subjectId === subjectId && (!resourceId || permission.resourceId === resourceId)
+      (permission) =>
+        permission.subjectId === subjectId && (!resourceId || permission.resourceId === resourceId)
     );
   }
 }
@@ -84,7 +85,9 @@ export class LocalAuthorizationEngine implements AuthorizationEngine {
     }
 
     const grants = await this.permissions.list(request.subjectId, request.resourceId);
-    const grant = grants.find((permission) => permission.action === request.action || permission.action === "admin");
+    const grant = grants.find(
+      (permission) => permission.action === request.action || permission.action === "admin"
+    );
     return {
       allowed: Boolean(grant),
       reason: grant ? `Allowed by permission ${grant.id}` : "No matching permission grant",

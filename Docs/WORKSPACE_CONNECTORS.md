@@ -3,6 +3,7 @@
 Workspace connectors integrate document and productivity systems while preserving local-first operation.
 
 ## Providers
+
 - Google Drive
 - Google Docs
 - Google Sheets
@@ -13,4 +14,5 @@ Workspace connectors integrate document and productivity systems while preservin
 - Local Workspace
 
 ## Synchronization
+
 Connectors use selective sync, local cache, provider cursors, conflict detection, encrypted credentials, and audit records. Local workspace state remains usable offline.

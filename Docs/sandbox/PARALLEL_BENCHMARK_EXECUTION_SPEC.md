@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 27)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 Evaluating AI models across large benchmark suites, parameter permutations, and multiple repetitions (e.g. 5x - 10x runs for variance analysis) requires concurrent execution across distributed sandbox worker pools.
 
 This specification establishes **Provider-Neutral Parallel Benchmark Execution**:
+
 1. **SemantIQ Core** decomposes evaluation suites into discrete, hermetic shards (`ParallelShardSpec`) governed by explicit concurrency policies (`ConcurrencyPolicy`).
 2. **Execution Scheduler** manages worker acquisition, queues pending shards, enforces host memory/CPU budgets, and prevents cross-sandbox resource contention.
 3. **Evidence Aggregation Subsystem** ensures each parallel shard produces an independent cryptographic evidence record (`ShardExecutionResult`) that is aggregated into multi-run variance matrices without risk of provenance cross-talk.
@@ -88,6 +89,7 @@ Benchmark Suite → Parallel Execution Plan → Scheduler → Parallel Workers (
 ## 5. Data & Event Schemas
 
 ### 5.1 Parallel Execution Plan Schema
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -101,7 +103,14 @@ Benchmark Suite → Parallel Execution Plan → Scheduler → Parallel Workers (
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["shardId", "scenarioId", "modelId", "repetitionIndex", "deterministicSeed", "spec"],
+        "required": [
+          "shardId",
+          "scenarioId",
+          "modelId",
+          "repetitionIndex",
+          "deterministicSeed",
+          "spec"
+        ],
         "properties": {
           "shardId": { "type": "string" },
           "scenarioId": { "type": "string" },
@@ -114,7 +123,12 @@ Benchmark Suite → Parallel Execution Plan → Scheduler → Parallel Workers (
     },
     "policy": {
       "type": "object",
-      "required": ["maxConcurrentSandboxes", "maxMemoryMebibytesTotal", "maxCpuCoresTotal", "retryAttemptsOnTransientError"],
+      "required": [
+        "maxConcurrentSandboxes",
+        "maxMemoryMebibytesTotal",
+        "maxCpuCoresTotal",
+        "retryAttemptsOnTransientError"
+      ],
       "properties": {
         "maxConcurrentSandboxes": { "type": "integer" },
         "maxMemoryMebibytesTotal": { "type": "integer" },
@@ -171,15 +185,15 @@ Benchmark Suite → Parallel Execution Plan → Scheduler → Parallel Workers (
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Parallel Benchmark Role |
-| :--- | :--- |
-| **Context** | Independent scenario context and seed assigned to shard. |
-| **Interpretation** | Worker evaluates task constraints in isolated container. |
-| **Decision** | Concurrency scheduler manages execution slot. |
-| **Action** | Shards execute in parallel without cross-talk. |
-| **Result** | Each shard returns individual exit codes and state diffs. |
-| **Consequence** | `ParallelExecutionScheduler` aggregates score variance and latency distributions. |
-| **Recovery** | Transient rate limits or host OOM triggers automatic retry with exponential backoff. |
+| Behavioral Chain Stage | Parallel Benchmark Role                                                              |
+| :--------------------- | :----------------------------------------------------------------------------------- |
+| **Context**            | Independent scenario context and seed assigned to shard.                             |
+| **Interpretation**     | Worker evaluates task constraints in isolated container.                             |
+| **Decision**           | Concurrency scheduler manages execution slot.                                        |
+| **Action**             | Shards execute in parallel without cross-talk.                                       |
+| **Result**             | Each shard returns individual exit codes and state diffs.                            |
+| **Consequence**        | `ParallelExecutionScheduler` aggregates score variance and latency distributions.    |
+| **Recovery**           | Transient rate limits or host OOM triggers automatic retry with exponential backoff. |
 
 ---
 

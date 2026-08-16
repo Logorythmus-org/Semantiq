@@ -4,19 +4,19 @@
  */
 
 export type LicenseClassification =
-  | 'PERMISSIVE'
-  | 'WEAK_COPYLEFT'
-  | 'STRONG_COPYLEFT'
-  | 'NETWORK_COPYLEFT'
-  | 'COMMERCIAL_PROPRIETARY'
-  | 'SOURCE_AVAILABLE';
+  | "PERMISSIVE"
+  | "WEAK_COPYLEFT"
+  | "STRONG_COPYLEFT"
+  | "NETWORK_COPYLEFT"
+  | "COMMERCIAL_PROPRIETARY"
+  | "SOURCE_AVAILABLE";
 
 export type BoundaryIsolationMechanism =
-  | 'NETWORK_RPC_REST'
-  | 'NETWORK_RPC_GRPC'
-  | 'PROCESS_CLI_SUBPROCESS'
-  | 'SOCKET_IPC'
-  | 'OCI_STANDARD_API';
+  | "NETWORK_RPC_REST"
+  | "NETWORK_RPC_GRPC"
+  | "PROCESS_CLI_SUBPROCESS"
+  | "SOCKET_IPC"
+  | "OCI_STANDARD_API";
 
 export interface ThirdPartyNoticeEntry {
   readonly componentName: string;
@@ -62,21 +62,24 @@ export class LicensingBoundaryAuditor {
 
     // 1. Mandatory SPDX identifier
     if (!manifest.runtimeLicenseSpdx || manifest.runtimeLicenseSpdx.trim().length === 0) {
-      violations.push('Runtime license SPDX identifier is missing.');
+      violations.push("Runtime license SPDX identifier is missing.");
     }
 
     // 2. Clean-room verification
     if (!manifest.isCleanRoomImplementation) {
-      violations.push('Runtime adapter is not declared as a clean-room implementation.');
+      violations.push("Runtime adapter is not declared as a clean-room implementation.");
     }
 
     // 3. Network / Strong Copyleft Isolation Rules
-    if (manifest.runtimeClassification === 'NETWORK_COPYLEFT' || manifest.runtimeClassification === 'STRONG_COPYLEFT') {
+    if (
+      manifest.runtimeClassification === "NETWORK_COPYLEFT" ||
+      manifest.runtimeClassification === "STRONG_COPYLEFT"
+    ) {
       const isIsolated =
-        manifest.isolationMechanism === 'NETWORK_RPC_REST' ||
-        manifest.isolationMechanism === 'NETWORK_RPC_GRPC' ||
-        manifest.isolationMechanism === 'PROCESS_CLI_SUBPROCESS' ||
-        manifest.isolationMechanism === 'OCI_STANDARD_API';
+        manifest.isolationMechanism === "NETWORK_RPC_REST" ||
+        manifest.isolationMechanism === "NETWORK_RPC_GRPC" ||
+        manifest.isolationMechanism === "PROCESS_CLI_SUBPROCESS" ||
+        manifest.isolationMechanism === "OCI_STANDARD_API";
 
       if (!isIsolated) {
         violations.push(
@@ -90,18 +93,22 @@ export class LicensingBoundaryAuditor {
     }
 
     // 4. Commercial Proprietary Terms Check
-    if (manifest.runtimeClassification === 'COMMERCIAL_PROPRIETARY') {
+    if (manifest.runtimeClassification === "COMMERCIAL_PROPRIETARY") {
       if (manifest.allowsRedistribution) {
-        violations.push('Commercial proprietary runtime cannot claim unrestricted redistribution rights without license agreement.');
+        violations.push(
+          "Commercial proprietary runtime cannot claim unrestricted redistribution rights without license agreement."
+        );
       }
       if (!manifest.trademarkGuidelinesUrl) {
-        warnings.push('Commercial provider has not specified trademark usage guidelines.');
+        warnings.push("Commercial provider has not specified trademark usage guidelines.");
       }
     }
 
     // 5. Attribution Notice Completeness
     if (manifest.requiresAttributionNotice && manifest.thirdPartyNotices.length === 0) {
-      violations.push('Attribution notice is required by license but no third-party notice entries were provided.');
+      violations.push(
+        "Attribution notice is required by license but no third-party notice entries were provided."
+      );
     }
 
     const isCompliant = violations.length === 0;
@@ -121,11 +128,11 @@ export class LicensingBoundaryAuditor {
 
   generateAttributionNoticeBundle(manifests: readonly ProviderLicensingManifest[]): string {
     const lines: string[] = [
-      '# SemantIQ Third-Party Runtime & Provider Attribution Notices',
+      "# SemantIQ Third-Party Runtime & Provider Attribution Notices",
       `Generated: ${new Date().toISOString()}`,
-      '',
-      'SemantIQ Core is licensed under Apache-2.0 / MIT. The following execution providers and runtime components operate across standardized clean-room boundaries:',
-      ''
+      "",
+      "SemantIQ Core is licensed under Apache-2.0 / MIT. The following execution providers and runtime components operate across standardized clean-room boundaries:",
+      ""
     ];
 
     for (const m of manifests) {
@@ -133,17 +140,19 @@ export class LicensingBoundaryAuditor {
       lines.push(`- **Runtime License**: ${m.runtimeLicenseSpdx} (${m.runtimeClassification})`);
       lines.push(`- **Adapter License**: ${m.adapterLicenseSpdx}`);
       lines.push(`- **Isolation Mechanism**: ${m.isolationMechanism}`);
-      lines.push(`- **Clean-Room Verified**: ${m.isCleanRoomImplementation ? 'Yes' : 'No'}`);
+      lines.push(`- **Clean-Room Verified**: ${m.isCleanRoomImplementation ? "Yes" : "No"}`);
 
       if (m.thirdPartyNotices.length > 0) {
-        lines.push('- **Notices**:');
+        lines.push("- **Notices**:");
         for (const n of m.thirdPartyNotices) {
-          lines.push(`  - ${n.componentName} [${n.spdxId}] © ${n.copyrightHolder}${n.sourceUrl ? ` (${n.sourceUrl})` : ''}`);
+          lines.push(
+            `  - ${n.componentName} [${n.spdxId}] © ${n.copyrightHolder}${n.sourceUrl ? ` (${n.sourceUrl})` : ""}`
+          );
         }
       }
-      lines.push('');
+      lines.push("");
     }
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

@@ -76,7 +76,9 @@ export class LocalCivilizationOsRepository implements CivilizationOsRepository {
 }
 
 export class LocalCivilizationOsService implements CivilizationOsService {
-  constructor(private readonly repository: LocalCivilizationOsRepository = new LocalCivilizationOsRepository()) {}
+  constructor(
+    private readonly repository: LocalCivilizationOsRepository = new LocalCivilizationOsRepository()
+  ) {}
 
   async archiveKnowledge(archive: SemanticArchive): Promise<void> {
     if (!archive.searchable) {
@@ -84,7 +86,12 @@ export class LocalCivilizationOsService implements CivilizationOsService {
     }
     await this.repository.saveArchive(archive);
     await this.emit("KnowledgeArchived", { objectType: archive.objectType }, undefined, archive.id);
-    await this.emit("HistoricalSnapshotCreated", { snapshotIds: archive.immutableSnapshotIds }, undefined, archive.id);
+    await this.emit(
+      "HistoricalSnapshotCreated",
+      { snapshotIds: archive.immutableSnapshotIds },
+      undefined,
+      archive.id
+    );
   }
 
   async restoreKnowledge(archiveId: string): Promise<SemanticArchive> {
@@ -117,7 +124,9 @@ export class LocalCivilizationOsService implements CivilizationOsService {
 
   async migrateKnowledge(plan: KnowledgeMigrationPlan): Promise<void> {
     if (!plan.preserveLineage || !plan.preserveProvenance || !plan.zeroKnowledgeLossGoal) {
-      throw new Error("Knowledge migration must preserve lineage, provenance, and zero-loss intent");
+      throw new Error(
+        "Knowledge migration must preserve lineage, provenance, and zero-loss intent"
+      );
     }
     await this.repository.saveMigration(plan);
     await this.emit("MigrationCompleted", { type: plan.type, targetVersion: plan.targetVersion });
@@ -125,7 +134,10 @@ export class LocalCivilizationOsService implements CivilizationOsService {
 
   async publishStandard(standard: OpenKnowledgeStandard): Promise<void> {
     await this.repository.saveStandard(standard);
-    await this.emit("KnowledgeStandardPublished", { area: standard.area, version: standard.version });
+    await this.emit("KnowledgeStandardPublished", {
+      area: standard.area,
+      version: standard.version
+    });
   }
 
   async registerPersistentID(identifier: PersistentIdentifier): Promise<void> {
@@ -145,7 +157,9 @@ export class LocalCivilizationOsService implements CivilizationOsService {
       innovationGrowth: timeline.filter((entry) => entry.type === "innovation").length,
       educationalImpact: timeline.filter((entry) => entry.type === "education").length,
       communityHealth: timeline.filter((entry) => entry.type === "community").length,
-      scientificProgress: timeline.filter((entry) => entry.type === "discovery" || entry.type === "experiment").length,
+      scientificProgress: timeline.filter(
+        (entry) => entry.type === "discovery" || entry.type === "experiment"
+      ).length,
       knowledgeAccessibility: timeline.length,
       preservationStatus: timeline.length,
       civilizationMemoryHealth: timeline.length
@@ -163,7 +177,12 @@ export class LocalCivilizationOsService implements CivilizationOsService {
     return archive;
   }
 
-  private async emit(type: CivilizationOsEvent["type"], payload: unknown, objectId?: string, archiveId?: string): Promise<void> {
+  private async emit(
+    type: CivilizationOsEvent["type"],
+    payload: unknown,
+    objectId?: string,
+    archiveId?: string
+  ): Promise<void> {
     const event: CivilizationOsEvent = {
       type,
       version: 1,

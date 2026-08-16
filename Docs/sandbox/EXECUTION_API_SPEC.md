@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 47)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **Public SemantIQ Execution API Architecture**:
+
 1. **Canonical Lifecycle & State Machine**: Standardizes 9 lifecycle states ([`RunStatus`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L10-L19)): `PENDING`, `VALIDATING`, `PROVISIONING`, `RUNNING`, `PAUSED`, `COMPLETED`, `FAILED`, `CANCELLED`, and `CLEANED_UP`.
 2. **Standardized API Service**: Implements [`ExecutionAPIService`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L55-L175) providing high-level operations for run creation ([`createRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L59-L81)), pre-flight validation ([`validateRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L83-L94)), lifecycle initiation ([`startRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L96-L109)), live telemetry streaming ([`observeRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L118-L124)), graceful cancellation ([`cancelRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L126-L140)), and deterministic replay ([`replayRun`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L142-L170)).
 3. **Immutable Provenance Sealing**: Every [`RunRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L35-L48) computes a deterministic SHA-256 `provenanceHash` over canonical JSON.
@@ -51,6 +52,7 @@ This specification establishes the **Public SemantIQ Execution API Architecture*
 ## 2. Inputs & Prior Decisions
 
 This specification synthesizes and exposes the capabilities established across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, canonical registry, marketplace discovery, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle sequence continuity.
@@ -63,12 +65,14 @@ This specification synthesizes and exposes the capabilities established across t
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Public API Interfaces & Types**: Defining [`CreateRunRequest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L21-L28), [`ReplayRunRequest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L30-L35), [`RunRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L37-L50), and JSON Schema [`execution-api-run-record.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/execution-api-run-record.schema.json).
 - **Execution Lifecycle Service**: Implementation of [`ExecutionAPIService`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-api.ts#L55-L175).
 - **Live Stream Observation & Event Ingestion**: Ingesting [`BehavioralTraceEvent`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L22-L31) records.
 - **Deterministic Replay Orchestration**: Re-running executions with identical seeds and source linkage.
 
 ### 3.2 Non-Goals
+
 - **No Proprietary Runtime Hosting**: SemantIQ executes via external pluggable providers.
 - **No Claims on Hidden Cognition**: API telemetry exposes observable events without assuming internal model thought tokens.
 
@@ -101,15 +105,15 @@ This specification synthesizes and exposes the capabilities established across t
 
 ```typescript
 export type RunStatus =
-  | 'PENDING'
-  | 'VALIDATING'
-  | 'PROVISIONING'
-  | 'RUNNING'
-  | 'PAUSED'
-  | 'COMPLETED'
-  | 'FAILED'
-  | 'CANCELLED'
-  | 'CLEANED_UP';
+  | "PENDING"
+  | "VALIDATING"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "PAUSED"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED"
+  | "CLEANED_UP";
 
 export interface CreateRunRequest {
   readonly scenarioId: string;
@@ -147,15 +151,15 @@ export interface RunRecord {
 
 ### 5.2 Core API Endpoints
 
-| HTTP Method | Route | Description |
-| :--- | :--- | :--- |
-| `POST` | `/api/v1/runs` | Creates a new benchmark run (`createRun`) |
-| `POST` | `/api/v1/runs/:runId/validate` | Validates run prerequisites and quotas (`validateRun`) |
-| `POST` | `/api/v1/runs/:runId/start` | Initiates execution in sandbox environment (`startRun`) |
-| `GET` | `/api/v1/runs/:runId/events` | Live Server-Sent Events (SSE) telemetry stream (`observeRun`) |
-| `POST` | `/api/v1/runs/:runId/cancel` | Gracefully terminates active execution (`cancelRun`) |
-| `POST` | `/api/v1/runs/:runId/replay` | Triggers deterministic replay linked to source (`replayRun`) |
-| `GET` | `/api/v1/runs/:runId` | Retrieves complete run record, receipts, and scorecards |
+| HTTP Method | Route                          | Description                                                   |
+| :---------- | :----------------------------- | :------------------------------------------------------------ |
+| `POST`      | `/api/v1/runs`                 | Creates a new benchmark run (`createRun`)                     |
+| `POST`      | `/api/v1/runs/:runId/validate` | Validates run prerequisites and quotas (`validateRun`)        |
+| `POST`      | `/api/v1/runs/:runId/start`    | Initiates execution in sandbox environment (`startRun`)       |
+| `GET`       | `/api/v1/runs/:runId/events`   | Live Server-Sent Events (SSE) telemetry stream (`observeRun`) |
+| `POST`      | `/api/v1/runs/:runId/cancel`   | Gracefully terminates active execution (`cancelRun`)          |
+| `POST`      | `/api/v1/runs/:runId/replay`   | Triggers deterministic replay linked to source (`replayRun`)  |
+| `GET`       | `/api/v1/runs/:runId`          | Retrieves complete run record, receipts, and scorecards       |
 
 ---
 
@@ -215,29 +219,30 @@ export interface RunRecord {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | API Provisioning Latency | Live Stream Support | Replay Support |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | < 500ms | Stdout / Stderr Pipe | Native Local Volumes |
-| **Podman / Rootless** | < 800ms | Rootless IPC Streaming | Rootless Volume Snapshots |
-| **Firecracker / MicroVM** | < 1200ms | VSOCK Serial Streaming | Snapshot Rootfs Image |
-| **Fly.io / Modal / E2B** | 1000 - 3000ms | WebSockets / SSE | Ephemeral Remote Volume |
+| Execution Provider        | API Provisioning Latency | Live Stream Support    | Replay Support            |
+| :------------------------ | :----------------------- | :--------------------- | :------------------------ |
+| **Docker (Local)**        | < 500ms                  | Stdout / Stderr Pipe   | Native Local Volumes      |
+| **Podman / Rootless**     | < 800ms                  | Rootless IPC Streaming | Rootless Volume Snapshots |
+| **Firecracker / MicroVM** | < 1200ms                 | VSOCK Serial Streaming | Snapshot Rootfs Image     |
+| **Fly.io / Modal / E2B**  | 1000 - 3000ms            | WebSockets / SSE       | Ephemeral Remote Volume   |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Sandbox Hang** | Agent enters infinite blocking loop | Wall-clock timeout | API issues `cancelRun` after timeout; captures partial trace |
-| **Provider Crash** | Host daemon OOM during execution | Abrupt disconnect | Marks run as `FAILED`; attempts fallback provider if allowed |
-| **Telemetry Drop** | Event buffer overflow during high load | Missing events | Sequence numbers detect gap; flags trace discontinuity |
-| **Replay Drift** | Unseeded nondeterministic network read | Divergent trace | Engine tags run as `VARIANCE_DETECTED` in report |
+| Failure Mode       | Root Cause                             | Impact             | Automated Recovery Action                                    |
+| :----------------- | :------------------------------------- | :----------------- | :----------------------------------------------------------- |
+| **Sandbox Hang**   | Agent enters infinite blocking loop    | Wall-clock timeout | API issues `cancelRun` after timeout; captures partial trace |
+| **Provider Crash** | Host daemon OOM during execution       | Abrupt disconnect  | Marks run as `FAILED`; attempts fallback provider if allowed |
+| **Telemetry Drop** | Event buffer overflow during high load | Missing events     | Sequence numbers detect gap; flags trace discontinuity       |
+| **Replay Drift**   | Unseeded nondeterministic network read | Divergent trace    | Engine tags run as `VARIANCE_DETECTED` in report             |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Execution API architecture is validated through automated test suites:
+
 1. **API Lifecycle & Service Unit Tests ([`tests/unit/execution-api.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/execution-api.test.ts))**:
    - Validates run creation, provenance hash computation, validation, and transition to `RUNNING`.
    - Tests event recording and live observation streaming.
@@ -263,7 +268,7 @@ The Execution API architecture is validated through automated test suites:
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Synchronous Execution vs. Async Event Polling**: Streaming large trace logs can saturate network bandwidth.  
-  *Mitigation*: Support Chunked Merkle batch transfers alongside SSE for low-latency observation.
+  _Mitigation_: Support Chunked Merkle batch transfers alongside SSE for low-latency observation.
 - **Open Question**: Multi-region run federation where benchmark execution is dynamically migrated across cloud zones.
 
 ---

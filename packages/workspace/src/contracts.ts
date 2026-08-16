@@ -130,7 +130,19 @@ export interface WorkspaceTask {
 export interface WorkspaceDocument {
   readonly id: string;
   readonly workspaceId: string;
-  readonly type: "markdown" | "rich-text" | "notebook" | "diagram" | "mind-map" | "flowchart" | "canvas" | "presentation" | "scientific-paper" | "book" | "code" | "dataset";
+  readonly type:
+    | "markdown"
+    | "rich-text"
+    | "notebook"
+    | "diagram"
+    | "mind-map"
+    | "flowchart"
+    | "canvas"
+    | "presentation"
+    | "scientific-paper"
+    | "book"
+    | "code"
+    | "dataset";
   readonly knowledgeObjectId: string;
   readonly version: string;
   readonly exportFormats: readonly string[];
@@ -160,7 +172,17 @@ export interface AgentCollaborationSession {
   readonly id: string;
   readonly workspaceId: string;
   readonly agentIds: readonly string[];
-  readonly mode: "pair-programming" | "research" | "writing" | "planning" | "reviewing" | "benchmarking" | "translation" | "presentation" | "education" | "scientific-analysis";
+  readonly mode:
+    | "pair-programming"
+    | "research"
+    | "writing"
+    | "planning"
+    | "reviewing"
+    | "benchmarking"
+    | "translation"
+    | "presentation"
+    | "education"
+    | "scientific-analysis";
   readonly approvalRequired: boolean;
   readonly timelineEventIds: readonly string[];
 }

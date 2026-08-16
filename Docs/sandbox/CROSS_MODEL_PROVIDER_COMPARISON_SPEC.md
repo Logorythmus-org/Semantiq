@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 57)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Cross-Model and Cross-Provider Comparison Architecture**:
+
 1. **Variance Decomposition**: Standardizes [`ProviderEffectDecomposition`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L18-L23) calculating mean latency baselines, environment penalty factors ($PEP$), and tool variance scores.
 2. **Normalized Model Capability Scoring**: Standardizes [`ComparativeRanking`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L25-L35) providing normalized scores, provider sensitivity indices ($PVS$), and 95% confidence intervals.
 3. **Cross-Comparison Engine**: Implements [`CrossComparisonEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L52-L177) evaluating $M \times P$ execution matrices and issuing signed [`CrossModelProviderComparisonReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L37-L47) records (`comparisonSignatureHex`).
@@ -49,6 +50,7 @@ This specification establishes the **SemantIQ Cross-Model and Cross-Provider Com
 ## 2. Inputs & Prior Decisions
 
 This specification integrates cross-comparison requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, trust verification, and terms attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -60,11 +62,13 @@ This specification integrates cross-comparison requirements across the Sandbox P
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Cross-Comparison Specification**: Defining [`ModelRunSummary`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L8-L16), [`ProviderEffectDecomposition`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L18-L23), [`ComparativeRanking`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L25-L35), [`CrossModelProviderComparisonReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cross-comparison.ts#L37-L47), and JSON Schema [`cross-comparison-report.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/cross-comparison-report.schema.json).
 - **Variance Normalization Algorithm**: Separating provider latency and error penalties from pure model reasoning capabilities.
 - **Statistical Significance & Confidence Bounds**: Assigning 95% confidence intervals to rankings.
 
 ### 3.2 Non-Goals
+
 - **No Artificially Flattering Normalizations**: Normalization bounds are capped strictly between $[0.9, 1.1]\times$ to avoid distorting real model failures.
 - **No Provider Lock-In**: Works across any arbitrary combination of local and remote execution providers.
 
@@ -121,7 +125,7 @@ export interface ComparativeRanking {
     readonly low: number;
     readonly high: number;
   };
-  readonly distinctionSignificance: 'STATISTICALLY_SIGNIFICANT' | 'WITHIN_VARIANCE_MARGIN';
+  readonly distinctionSignificance: "STATISTICALLY_SIGNIFICANT" | "WITHIN_VARIANCE_MARGIN";
 }
 
 export interface CrossModelProviderComparisonReport {
@@ -177,28 +181,29 @@ export interface CrossModelProviderComparisonReport {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Latency Profile | Baseline Normalization Factor |
-| :--- | :--- | :--- |
-| **Docker (Local)** | Near-zero host socket latency (~5ms) | $1.000\times$ (Reference) |
-| **Podman (Rootless)** | Low user namespace latency (~10ms) | $1.000\times$ (Reference) |
-| **Firecracker MicroVM**| Minimal guest kernel boot (~120ms) | $1.020\times$ |
-| **Modal / Cloud MicroVM**| Cloud cold-start + network TLS (~800ms) | $1.080\times$ |
+| Execution Provider        | Latency Profile                         | Baseline Normalization Factor |
+| :------------------------ | :-------------------------------------- | :---------------------------- |
+| **Docker (Local)**        | Near-zero host socket latency (~5ms)    | $1.000\times$ (Reference)     |
+| **Podman (Rootless)**     | Low user namespace latency (~10ms)      | $1.000\times$ (Reference)     |
+| **Firecracker MicroVM**   | Minimal guest kernel boot (~120ms)      | $1.020\times$                 |
+| **Modal / Cloud MicroVM** | Cloud cold-start + network TLS (~800ms) | $1.080\times$                 |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Single-Provider Outlier**| Provider experienced network partition | Distorted model score | Flagged via `varianceScore`; bounded by $1.1\times$ cap |
-| **Uneven Run Counts**| Model A evaluated 10x, Model B 1x | Wide error margins | Confidence interval reflects sample size disparity |
-| **Extreme Latency Drift**| Cold start timeout on cloud host | Artificially low score | Cross-validation across local reference provider verifies capability |
+| Failure Mode                | Root Cause                             | Impact                 | Automated Recovery Action                                            |
+| :-------------------------- | :------------------------------------- | :--------------------- | :------------------------------------------------------------------- |
+| **Single-Provider Outlier** | Provider experienced network partition | Distorted model score  | Flagged via `varianceScore`; bounded by $1.1\times$ cap              |
+| **Uneven Run Counts**       | Model A evaluated 10x, Model B 1x      | Wide error margins     | Confidence interval reflects sample size disparity                   |
+| **Extreme Latency Drift**   | Cold start timeout on cloud host       | Artificially low score | Cross-validation across local reference provider verifies capability |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Cross-Model and Cross-Provider Comparison architecture is validated through automated test suites:
+
 1. **Cross-Comparison Unit Tests ([`tests/unit/cross-comparison.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/cross-comparison.test.ts))**:
    - Tests evaluating cross-model cross-provider matrix, decomposing provider effects, and ranking models.
    - Tests computing normalized scores, provider variance sensitivity, and 95% confidence intervals.
@@ -222,7 +227,7 @@ The Cross-Model and Cross-Provider Comparison architecture is validated through 
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Linear vs. Non-Linear Normalization**: Latency impact might vary non-linearly depending on tool call count.  
-  *Mitigation*: Future iterations will incorporate per-tool latency weighting into `ProviderEffectDecomposition`.
+  _Mitigation_: Future iterations will incorporate per-tool latency weighting into `ProviderEffectDecomposition`.
 - **Open Question**: Bayesian Bradley-Terry Elo rating integration for multi-turn agent tournaments.
 
 ---

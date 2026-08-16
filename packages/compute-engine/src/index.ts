@@ -63,11 +63,17 @@ export class LocalComputeEngineRepository implements ComputeEngineRepository {
 }
 
 export class LocalComputeEngineService implements ComputeEngineService {
-  constructor(private readonly repository: LocalComputeEngineRepository = new LocalComputeEngineRepository()) {}
+  constructor(
+    private readonly repository: LocalComputeEngineRepository = new LocalComputeEngineRepository()
+  ) {}
 
   async registerResource(resource: ComputeResource): Promise<void> {
     await this.repository.saveResource(resource);
-    await this.emit("ResourceRegistered", { type: resource.type, capabilities: resource.capabilities.length }, resource.id);
+    await this.emit(
+      "ResourceRegistered",
+      { type: resource.type, capabilities: resource.capabilities.length },
+      resource.id
+    );
     if (resource.availability === "available") {
       await this.emit("ResourceAvailable", { health: resource.health }, resource.id);
     }
@@ -90,7 +96,9 @@ export class LocalComputeEngineService implements ComputeEngineService {
       taskId: task.id,
       selectedResourceId: selected.id,
       candidateResourceIds: candidates.map((resource) => resource.id),
-      rejectedResourceIds: resources.filter((resource) => !candidates.includes(resource)).map((resource) => resource.id),
+      rejectedResourceIds: resources
+        .filter((resource) => !candidates.includes(resource))
+        .map((resource) => resource.id),
       explanation: explainDecision(task, selected),
       estimatedCost: selected.estimatedCost + task.estimatedCost,
       confidence: selected.reliability,
@@ -104,7 +112,12 @@ export class LocalComputeEngineService implements ComputeEngineService {
   async executeTask(taskId: string): Promise<void> {
     const task = await this.requireTask(taskId);
     await this.emit("TaskStarted", { state: task.state }, undefined, task.id);
-    await this.emit("TaskCompleted", { knowledgeLinkIds: task.knowledgeLinkIds }, undefined, task.id);
+    await this.emit(
+      "TaskCompleted",
+      { knowledgeLinkIds: task.knowledgeLinkIds },
+      undefined,
+      task.id
+    );
   }
 
   async pauseTask(taskId: string): Promise<void> {
@@ -136,7 +149,11 @@ export class LocalComputeEngineService implements ComputeEngineService {
       benchmarkIds: task.benchmarkIds,
       memoryMb: task.requirements.minMemoryMb,
       retryCount: 0,
-      restoreInstructions: ["reload-inputs", "restore-partial-results", "reschedule-compatible-resource"],
+      restoreInstructions: [
+        "reload-inputs",
+        "restore-partial-results",
+        "reschedule-compatible-resource"
+      ],
       version: 1
     };
     await this.repository.saveCheckpoint(checkpoint);
@@ -149,7 +166,12 @@ export class LocalComputeEngineService implements ComputeEngineService {
     if (!checkpoint) {
       throw new Error(`Checkpoint not found: ${checkpointId}`);
     }
-    await this.emit("CheckpointRestored", { checkpointId }, checkpoint.resourceId, checkpoint.taskId);
+    await this.emit(
+      "CheckpointRestored",
+      { checkpointId },
+      checkpoint.resourceId,
+      checkpoint.taskId
+    );
   }
 
   async routeModel(taskId: string): Promise<ModelRoutingDecision> {
@@ -161,7 +183,10 @@ export class LocalComputeEngineService implements ComputeEngineService {
       selectedTarget,
       selectedModelId: `${selectedTarget}:default`,
       alternativeModelIds: ["local:small", "edge:balanced", "cloud:capable"],
-      explanation: selectedTarget === "local" ? "Offline policy requires local execution" : "Edge model balances latency, privacy, and availability",
+      explanation:
+        selectedTarget === "local"
+          ? "Offline policy requires local execution"
+          : "Edge model balances latency, privacy, and availability",
       latencyMs: task.requirements.maxLatencyMs ?? 1000,
       privacyImpact: selectedTarget === "local" ? "local-only" : "redacted-remote",
       estimatedCost: selectedTarget === "local" ? 0 : task.estimatedCost,
@@ -172,11 +197,18 @@ export class LocalComputeEngineService implements ComputeEngineService {
 
   async runWebGPU(request: WebGPUExecutionRequest): Promise<void> {
     const resources = await this.repository.listResources();
-    const webgpu = resources.find((resource) => resource.type === "webgpu" && resource.availability === "available");
+    const webgpu = resources.find(
+      (resource) => resource.type === "webgpu" && resource.availability === "available"
+    );
     if (!webgpu && request.fallbackResourceTypes.length === 0) {
       throw new Error(`WebGPU unavailable and no fallback declared: ${request.id}`);
     }
-    await this.emit("TaskStarted", { requestId: request.id, fallback: !webgpu }, webgpu?.id, request.taskId);
+    await this.emit(
+      "TaskStarted",
+      { requestId: request.id, fallback: !webgpu },
+      webgpu?.id,
+      request.taskId
+    );
     await this.emit("TaskCompleted", { workload: request.workload }, webgpu?.id, request.taskId);
   }
 
@@ -207,7 +239,8 @@ export class LocalComputeEngineService implements ComputeEngineService {
     const resources = await this.repository.listResources();
     return {
       resourceCount: resources.length,
-      availableResourceCount: resources.filter((resource) => resource.availability === "available").length,
+      availableResourceCount: resources.filter((resource) => resource.availability === "available")
+        .length,
       runningTaskCount: 0,
       queuedTaskCount: 0,
       failedTaskCount: 0,
@@ -258,16 +291,25 @@ function matches(task: ComputeTask, resource: ComputeResource): boolean {
   if (resource.availability !== "available") {
     return false;
   }
-  if (task.requirements.resourceTypes.length > 0 && !task.requirements.resourceTypes.includes(resource.type)) {
+  if (
+    task.requirements.resourceTypes.length > 0 &&
+    !task.requirements.resourceTypes.includes(resource.type)
+  ) {
     return false;
   }
   if (task.requirements.minMemoryMb > resource.memoryMb) {
     return false;
   }
-  if (task.requirements.maxLatencyMs !== undefined && resource.latencyMs > task.requirements.maxLatencyMs) {
+  if (
+    task.requirements.maxLatencyMs !== undefined &&
+    resource.latencyMs > task.requirements.maxLatencyMs
+  ) {
     return false;
   }
-  if (task.requirements.offlineRequired && !resource.capabilities.some((capability) => capability.supportsOffline)) {
+  if (
+    task.requirements.offlineRequired &&
+    !resource.capabilities.some((capability) => capability.supportsOffline)
+  ) {
     return false;
   }
   return task.requirements.capabilityNames.every((name) =>
@@ -277,8 +319,10 @@ function matches(task: ComputeTask, resource: ComputeResource): boolean {
 
 function chooseResource(resources: readonly ComputeResource[]): ComputeResource | undefined {
   return [...resources].sort((left, right) => {
-    const leftScore = left.performanceScore * left.reliability - left.latencyMs / 1000 - left.estimatedCost;
-    const rightScore = right.performanceScore * right.reliability - right.latencyMs / 1000 - right.estimatedCost;
+    const leftScore =
+      left.performanceScore * left.reliability - left.latencyMs / 1000 - left.estimatedCost;
+    const rightScore =
+      right.performanceScore * right.reliability - right.latencyMs / 1000 - right.estimatedCost;
     return rightScore - leftScore;
   })[0];
 }

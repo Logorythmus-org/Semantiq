@@ -3,6 +3,7 @@
 Phase 5 starts with audit before implementation. The goal is to reuse mature code, identify adapter opportunities, and prevent duplicate systems.
 
 ## Local Baseline
+
 - Internal packages: 36.
 - Apps: `web`, `desktop`, `mobile`.
 - Services: `gateway`, `workers`.
@@ -10,6 +11,7 @@ Phase 5 starts with audit before implementation. The goal is to reuse mature cod
 - Current validation scripts: `build`, `lint`, `format`, `format:check`, `typecheck`, `test`, `test:e2e`.
 
 ## Audit Scope
+
 - Tech Club current repository.
 - Qikio.
 - SemantIQ.
@@ -20,6 +22,7 @@ Phase 5 starts with audit before implementation. The goal is to reuse mature cod
 - Internal packages, apps, services, examples, scripts, tests, docs, and tooling.
 
 ## Audit Questions
+
 - What functionality already exists?
 - Which components are mature enough to adapt instead of rewrite?
 - Which packages duplicate behavior?
@@ -31,6 +34,7 @@ Phase 5 starts with audit before implementation. The goal is to reuse mature cod
 - Which migrations are required?
 
 ## Audit Outputs
+
 - Repository inventory.
 - Capability matrix.
 - Reuse map.
@@ -43,6 +47,7 @@ Phase 5 starts with audit before implementation. The goal is to reuse mature cod
 - Production readiness score.
 
 ## Audit Rules
+
 - Never rewrite mature code without a documented reason.
 - Prefer adapter boundaries over replacement.
 - Preserve package ownership and dependency direction.

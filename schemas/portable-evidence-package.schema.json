@@ -17,7 +17,14 @@
   "properties": {
     "manifest": {
       "type": "object",
-      "required": ["packageId", "packageVersion", "evaluationRunId", "benchmarkId", "scenarioId", "createdAt"],
+      "required": [
+        "packageId",
+        "packageVersion",
+        "evaluationRunId",
+        "benchmarkId",
+        "scenarioId",
+        "createdAt"
+      ],
       "properties": {
         "packageId": { "type": "string" },
         "packageVersion": { "type": "string", "enum": ["1.0.0"] },
@@ -81,7 +88,15 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["evaluatorId", "evaluatorType", "metricName", "score", "maxScore", "rationale", "passed"],
+        "required": [
+          "evaluatorId",
+          "evaluatorType",
+          "metricName",
+          "score",
+          "maxScore",
+          "rationale",
+          "passed"
+        ],
         "properties": {
           "evaluatorId": { "type": "string" },
           "evaluatorType": {

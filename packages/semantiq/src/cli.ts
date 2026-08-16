@@ -1,18 +1,11 @@
 export type SemantIQCliCommand =
-  | 'doctor'
-  | 'smoke'
-  | 'benchmark'
-  | 'inspect'
-  | 'replay'
-  | 'validate'
-  | 'version'
-  | 'help';
+  "doctor" | "smoke" | "benchmark" | "inspect" | "replay" | "validate" | "version" | "help";
 
 export interface SemantIQConfig {
   readonly version: string;
   readonly isOfflineMode: boolean;
-  readonly environment: 'local' | 'test' | 'production';
-  readonly logLevel: 'debug' | 'info' | 'warn' | 'error';
+  readonly environment: "local" | "test" | "production";
+  readonly logLevel: "debug" | "info" | "warn" | "error";
   readonly outputDir: string;
 }
 
@@ -29,11 +22,11 @@ export interface CliCommandResult {
  */
 export class SemantIQCliEngine {
   private config: SemantIQConfig = {
-    version: '1.0.0',
+    version: "1.0.0",
     isOfflineMode: true,
-    environment: 'local',
-    logLevel: 'info',
-    outputDir: './reports'
+    environment: "local",
+    logLevel: "info",
+    outputDir: "./reports"
   };
 
   getConfig(): SemantIQConfig {
@@ -42,31 +35,31 @@ export class SemantIQCliEngine {
 
   executeCommand(command: SemantIQCliCommand, args: readonly string[] = []): CliCommandResult {
     let success = true;
-    let output = '';
+    let output = "";
 
     switch (command) {
-      case 'version':
+      case "version":
         output = `SemantIQ Benchmarks v${this.config.version}`;
         break;
-      case 'help':
+      case "help":
         output = `SemantIQ CLI Commands: doctor, smoke, benchmark, inspect, replay, validate, version, help`;
         break;
-      case 'doctor':
+      case "doctor":
         output = `[DOCTOR PASSED]: SemantIQ environment, Node.js runtime, and config are valid.`;
         break;
-      case 'smoke':
+      case "smoke":
         output = `[SMOKE PASSED]: All core evaluation primitives verified in local offline mode.`;
         break;
-      case 'benchmark':
+      case "benchmark":
         output = `[BENCHMARK EXECUTED]: Evaluated local synthetic benchmark fixtures.`;
         break;
-      case 'inspect':
+      case "inspect":
         output = `[INSPECT COMPLETED]: Output evidence checksums and evaluation logs audited.`;
         break;
-      case 'replay':
+      case "replay":
         output = `[REPLAY VALIDATED]: Deterministic replay verified for session target.`;
         break;
-      case 'validate':
+      case "validate":
         output = `[VALIDATION CLEAN]: Boundary validator and manifest checks passed.`;
         break;
       default:

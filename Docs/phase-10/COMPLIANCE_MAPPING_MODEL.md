@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.7 — Compliance Mapping Framework  
 **Date**: 2026-08-02  
-**Mapping Verdict**: `COMPLIANCE MAPPING FRAMEWORK IMPLEMENTED`  
+**Mapping Verdict**: `COMPLIANCE MAPPING FRAMEWORK IMPLEMENTED`
 
 ---
 

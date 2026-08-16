@@ -24,13 +24,13 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ## Feature Readiness Classification (v0.1.0-alpha.1)
 
-| Readiness Tier | Scope & Capabilities | Stability Guarantee |
-|:---|:---|:---:|
-| **WORKS TODAY** | • CLI Runner (`run`, `replay`, `validate`, `report`)<br>• Local offline deterministic execution (Mock & OCI)<br>• Canonical evidence normalization & Merkle trace sealing<br>• 7-stage behavioral evaluation (`Context → Recovery`)<br>• Anti-gaming heuristics & independent observer mirroring<br>• Draft 2020-12 schema validation suite (37 schemas)<br>• Credential redaction & secret scrubbing | **FROZEN (Alpha Baseline)** |
-| **EXPERIMENTAL** | • Long-horizon multi-step trajectory evaluation<br>• Multi-agent sandbox coordination & arbitration<br>• Transition state recovery laboratory (`TransitionLab`)<br>• Provider Variance Sensitivity ($PVS$) scoring | **PREVIEW (API may evolve)** |
-| **OPTIONAL** | • OpenSandbox daemon adapter (`@tech-club/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI) | **MODULAR (Zero core dependency)** |
-| **NOT IMPLEMENTED** | • Autonomous live web browsing proxy runtime<br>• Native GUI pixel-interaction executor<br>• Zero-knowledge cryptographic proof generation | **DEFERRED (Out of Alpha Scope)** |
-| **ROADMAP** | • Distributed multi-node benchmark orchestration (v0.2.0)<br>• Real-time web visualization dashboard (v0.2.0)<br>• Multi-tenant enterprise SaaS gateway (v1.0.0) | **FUTURE ROADMAP** |
+| Readiness Tier      | Scope & Capabilities                                                                                                                                                                                                                                                                                                                                                                                  |        Stability Guarantee         |
+| :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------: |
+| **WORKS TODAY**     | • CLI Runner (`run`, `replay`, `validate`, `report`)<br>• Local offline deterministic execution (Mock & OCI)<br>• Canonical evidence normalization & Merkle trace sealing<br>• 7-stage behavioral evaluation (`Context → Recovery`)<br>• Anti-gaming heuristics & independent observer mirroring<br>• Draft 2020-12 schema validation suite (37 schemas)<br>• Credential redaction & secret scrubbing |    **FROZEN (Alpha Baseline)**     |
+| **EXPERIMENTAL**    | • Long-horizon multi-step trajectory evaluation<br>• Multi-agent sandbox coordination & arbitration<br>• Transition state recovery laboratory (`TransitionLab`)<br>• Provider Variance Sensitivity ($PVS$) scoring                                                                                                                                                                                    |    **PREVIEW (API may evolve)**    |
+| **OPTIONAL**        | • OpenSandbox daemon adapter (`@tech-club/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI)                                                                                                                                                                                                                        | **MODULAR (Zero core dependency)** |
+| **NOT IMPLEMENTED** | • Autonomous live web browsing proxy runtime<br>• Native GUI pixel-interaction executor<br>• Zero-knowledge cryptographic proof generation                                                                                                                                                                                                                                                            | **DEFERRED (Out of Alpha Scope)**  |
+| **ROADMAP**         | • Distributed multi-node benchmark orchestration (v0.2.0)<br>• Real-time web visualization dashboard (v0.2.0)<br>• Multi-tenant enterprise SaaS gateway (v1.0.0)                                                                                                                                                                                                                                      |         **FUTURE ROADMAP**         |
 
 ---
 
@@ -47,7 +47,7 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ## Mandatory Canonical Disclaimer
 
-> *"This result describes observed behavior in the specified evaluation environment. It does not certify the system as safe, reliable, legally compliant, intelligent, or suitable for a specific deployment."*
+> _"This result describes observed behavior in the specified evaluation environment. It does not certify the system as safe, reliable, legally compliant, intelligent, or suitable for a specific deployment."_
 
 ---
 

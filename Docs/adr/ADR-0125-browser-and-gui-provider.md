@@ -1,7 +1,7 @@
 # ADR-0125: Provider-Neutral Browser and GUI Execution Provider
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

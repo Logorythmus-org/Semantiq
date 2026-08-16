@@ -1,7 +1,7 @@
 # ADR-0158: SemantIQ Live and Post-Run Observability Dashboard Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

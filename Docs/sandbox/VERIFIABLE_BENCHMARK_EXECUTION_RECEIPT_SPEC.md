@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 38)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Verifiable Benchmark Execution Receipt Architecture**:
+
 1. **Consolidated Verifiable Receipt Schema**: Standardizes [`VerifiableBenchmarkExecutionReceipt`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L88-L101) capturing 7 comprehensive sub-manifests: execution identity, provider runtime provenance, model hyperparameters, artifact Merkle trees, observable behavioral chain digests, 8-vector financial cost summaries, and compliance attribution grades.
 2. **Cryptographic Sealing & Verification Engine**: Implements [`BenchmarkExecutionReceiptIssuer`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L113-L225) to generate tamper-evident SHA-256 canonical JSON digests, issue ECDSA digital signatures, mathematically verify receipt integrity offline, and export human-readable Markdown certificates.
 3. **Decoupled Verification Invariant**: Zero dependency on central servers or proprietary verification SaaS. Verification is 100% deterministic, open-source, and offline-compatible.
@@ -47,6 +48,7 @@ This specification defines the **Verifiable Benchmark Execution Receipt Architec
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Verifiable Receipt Specification**: Defining [`VerifiableBenchmarkExecutionReceipt`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L88-L101) and JSON Schema [`verifiable-benchmark-execution-receipt.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/verifiable-benchmark-execution-receipt.schema.json).
 - **Sub-Manifest Cryptographic Linkage**: Linking `filesMerkleRoot`, `evidenceBundleDigest`, `behavioralChainHash`, `costLedgerDigest`, and `compliancePackageDigest`.
 - **Receipt Issuer & Verifier Engine**: Providing mathematical verification methods ([`verifyReceipt`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L143-L180)) and Markdown export ([`exportReceiptMarkdown`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L182-L224)).
@@ -54,6 +56,7 @@ This specification defines the **Verifiable Benchmark Execution Receipt Architec
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No In-Process Agent Intrusions**: Receipts do not inspect or modify agent reasoning loops; they bind external observable behavior and environment telemetry.
 - **No Central Authority Requirement**: Verification does not rely on a centralized API or certificate authority.
 
@@ -86,12 +89,7 @@ This specification defines the **Verifiable Benchmark Execution Receipt Architec
 
 ```typescript
 export type BenchmarkEvaluationOutcome =
-  | 'PASSED'
-  | 'FAILED'
-  | 'PARTIAL'
-  | 'TIMEOUT'
-  | 'ERROR'
-  | 'BUDGET_EXCEEDED';
+  "PASSED" | "FAILED" | "PARTIAL" | "TIMEOUT" | "ERROR" | "BUDGET_EXCEEDED";
 
 export interface EvaluatedArtifactEntry {
   readonly name: string;
@@ -103,7 +101,7 @@ export interface EvaluatedArtifactEntry {
 
 export interface ReceiptExecutionIdentity {
   readonly receiptId: string;
-  readonly receiptVersion: '1.0.0';
+  readonly receiptVersion: "1.0.0";
   readonly evaluationRunId: string;
   readonly benchmarkId: string;
   readonly scenarioId: string;
@@ -146,7 +144,7 @@ export interface ReceiptFinancialSummary {
   readonly costLedgerDigest: string;
   readonly totalGrossCostUsd: number;
   readonly totalNetCostUsd: number;
-  readonly currency: 'USD';
+  readonly currency: "USD";
   readonly sponsorAttribution?: string;
 }
 
@@ -171,6 +169,7 @@ export interface VerifiableBenchmarkExecutionReceipt {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/verifiable-benchmark-execution-receipt.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/verifiable-benchmark-execution-receipt.schema.json)**: Validates execution receipts, sub-manifest structures, digests, and signatures.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `verifiableBenchmarkExecutionReceiptSchema`.
 
@@ -209,29 +208,30 @@ export interface VerifiableBenchmarkExecutionReceipt {
 
 ## 7. Open-Source vs. Commercial & Enterprise Receipt Profiles
 
-| Receipt Dimension | Open-Source (`COMMUNITY_FREE`) | Academic Research (`GRANT_SUBSIDIZED`) | Enterprise / Commercial (`ENTERPRISE`) |
-| :--- | :--- | :--- | :--- |
-| **Issuer Key** | Local Developer / CI Key | Academic Consortium Key | Enterprise Audit Signing Authority |
-| **Reproducibility Tier** | `HERMETIC_DETERMINISTIC` | `PINNED_ENVIRONMENT` | `HERMETIC_DETERMINISTIC` |
-| **Sponsor Disclosure** | "Open Source Community" | e.g. "NSF AI Institute" | Corporate Enterprise Division |
-| **Artifact Merkle Tree** | Full Workspace Hash | Full Workspace Hash | Full Workspace Hash + Audit Archive |
+| Receipt Dimension        | Open-Source (`COMMUNITY_FREE`) | Academic Research (`GRANT_SUBSIDIZED`) | Enterprise / Commercial (`ENTERPRISE`) |
+| :----------------------- | :----------------------------- | :------------------------------------- | :------------------------------------- |
+| **Issuer Key**           | Local Developer / CI Key       | Academic Consortium Key                | Enterprise Audit Signing Authority     |
+| **Reproducibility Tier** | `HERMETIC_DETERMINISTIC`       | `PINNED_ENVIRONMENT`                   | `HERMETIC_DETERMINISTIC`               |
+| **Sponsor Disclosure**   | "Open Source Community"        | e.g. "NSF AI Institute"                | Corporate Enterprise Division          |
+| **Artifact Merkle Tree** | Full Workspace Hash            | Full Workspace Hash                    | Full Workspace Hash + Audit Archive    |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Digest Mismatch** | Record edited manually after issuance | Cryptographic invalidation | [`verifyReceipt`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L143-L180) rejects receipt (`isDigestValid: false`) |
-| **Malformed Signature** | Truncated or corrupted signature string | Verification failure | Engine flags invalid signature format |
-| **Missing Merkle Root** | File hashing skipped | Incomplete provenance | Engine logs validation error requiring sha256 prefix |
-| **Non-Zero Net on Free Run**| Misconfigured billing tier | Financial inconsistency | Audit comparison between receipt and cost ledger flags error |
+| Failure Mode                 | Root Cause                              | Impact                     | Automated Recovery Action                                                                                                                                          |
+| :--------------------------- | :-------------------------------------- | :------------------------- | :----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Digest Mismatch**          | Record edited manually after issuance   | Cryptographic invalidation | [`verifyReceipt`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-receipt.ts#L143-L180) rejects receipt (`isDigestValid: false`) |
+| **Malformed Signature**      | Truncated or corrupted signature string | Verification failure       | Engine flags invalid signature format                                                                                                                              |
+| **Missing Merkle Root**      | File hashing skipped                    | Incomplete provenance      | Engine logs validation error requiring sha256 prefix                                                                                                               |
+| **Non-Zero Net on Free Run** | Misconfigured billing tier              | Financial inconsistency    | Audit comparison between receipt and cost ledger flags error                                                                                                       |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The verifiable receipt architecture is validated through automated test suites:
+
 1. **Issuance & Verification Unit Tests ([`tests/unit/execution-receipt.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/execution-receipt.test.ts))**:
    - Validates issuance of cryptographically sealed receipts.
    - Tests successful verification of pristine receipts.
@@ -256,7 +256,7 @@ The verifiable receipt architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Granular Artifact Hashing vs. I/O Latency**: Computing Merkle roots for tens of thousands of workspace files adds I/O overhead.  
-  *Mitigation*: Merkle tree calculation utilizes parallel stream hashing with smart ignore filters for build caches (`node_modules`, `.git`).
+  _Mitigation_: Merkle tree calculation utilizes parallel stream hashing with smart ignore filters for build caches (`node_modules`, `.git`).
 - **Open Question**: Hardware Enclave (AMD SEV / Intel TDX / AWS Nitro Enclaves) hardware attestation receipt binding.
 
 ---

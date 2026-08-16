@@ -3,6 +3,7 @@
 Question analytics measure knowledge growth, not attention extraction.
 
 ## Signals
+
 - question quality
 - research potential
 - scientific potential
@@ -16,4 +17,5 @@ Question analytics measure knowledge growth, not attention extraction.
 - project conversion
 
 ## Rule
+
 Analytics must be explainable, privacy-aware, and never used to reward engagement farming.

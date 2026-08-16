@@ -1,28 +1,28 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type ConflictDomain =
-  | 'goal'
-  | 'role'
-  | 'authority'
-  | 'permission'
-  | 'resource'
-  | 'timing'
-  | 'context'
-  | 'evidence'
-  | 'decision'
-  | 'execution'
-  | 'recovery'
-  | 'policy';
+  | "goal"
+  | "role"
+  | "authority"
+  | "permission"
+  | "resource"
+  | "timing"
+  | "context"
+  | "evidence"
+  | "decision"
+  | "execution"
+  | "recovery"
+  | "policy";
 
 export type ConflictDetectionState =
-  | 'explicit'
-  | 'implicit'
-  | 'resolved'
-  | 'suppressed'
-  | 'ignored'
-  | 'recurring'
-  | 'cascading'
-  | 'unresolved_without_accountable_resolver';
+  | "explicit"
+  | "implicit"
+  | "resolved"
+  | "suppressed"
+  | "ignored"
+  | "recurring"
+  | "cascading"
+  | "unresolved_without_accountable_resolver";
 
 export interface ConflictRecord {
   readonly conflictId: string;
@@ -41,7 +41,11 @@ export interface ConflictRecord {
 export interface ConflictViolationReport {
   readonly violationId: string;
   readonly conflictId: string;
-  readonly issueType: 'unresolved_without_resolver' | 'suppressed_dissent' | 'cascading_conflict' | 'recurring_conflict';
+  readonly issueType:
+    | "unresolved_without_resolver"
+    | "suppressed_dissent"
+    | "cascading_conflict"
+    | "recurring_conflict";
   readonly description: string;
   readonly timestamp: string;
 }
@@ -55,11 +59,11 @@ export class ConflictDetectionEngine {
 
   registerConflict(conflict: ConflictRecord): ConflictViolationReport | undefined {
     // 1. Unresolved Conflict without Accountable Resolver
-    if (conflict.state === 'unresolved_without_accountable_resolver' && !conflict.resolverAgentId) {
+    if (conflict.state === "unresolved_without_accountable_resolver" && !conflict.resolverAgentId) {
       return {
         violationId: `viol_unres_${conflict.conflictId}`,
         conflictId: conflict.conflictId,
-        issueType: 'unresolved_without_resolver',
+        issueType: "unresolved_without_resolver",
         description: `Conflict '${conflict.conflictId}' in domain '${conflict.domain}' is unresolved without assigned resolver agent.`,
         timestamp: conflict.timestamp
       };
@@ -70,7 +74,7 @@ export class ConflictDetectionEngine {
       return {
         violationId: `viol_casc_${conflict.conflictId}`,
         conflictId: conflict.conflictId,
-        issueType: 'cascading_conflict',
+        issueType: "cascading_conflict",
         description: `Cascading conflict detected: Conflict '${conflict.conflictId}' stems from parent conflict '${conflict.parentConflictId}'.`,
         timestamp: conflict.timestamp
       };
@@ -81,7 +85,7 @@ export class ConflictDetectionEngine {
       return {
         violationId: `viol_recur_${conflict.conflictId}`,
         conflictId: conflict.conflictId,
-        issueType: 'recurring_conflict',
+        issueType: "recurring_conflict",
         description: `Recurring conflict detected: Conflict '${conflict.conflictId}' has recurred ${conflict.recurrenceCount} times.`,
         timestamp: conflict.timestamp
       };

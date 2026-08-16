@@ -1,7 +1,7 @@
 # SemantIQ Product Boundary Sign-Off
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 
@@ -10,6 +10,7 @@
 The product boundary for SemantIQ is strictly defined in `products/semantiq/extraction-manifest.json`.
 
 All `SEMANTIQ_CORE` assets are contained within:
+
 - `packages/semantiq`
 - `examples/citation`, `examples/ecosystem`, `examples/kaggle`
 - `CITATION.cff`, `codemeta.json`, `LICENSE`

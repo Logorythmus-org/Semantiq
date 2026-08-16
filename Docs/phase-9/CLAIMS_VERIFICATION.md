@@ -1,7 +1,7 @@
 # Phase 9 Claims Verification Register
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

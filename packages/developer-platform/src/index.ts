@@ -75,14 +75,20 @@ export class LocalDeveloperPlatformRepository implements DeveloperPlatformReposi
 }
 
 export class LocalDeveloperPlatformService implements DeveloperPlatformService {
-  constructor(private readonly repository: LocalDeveloperPlatformRepository = new LocalDeveloperPlatformRepository()) {}
+  constructor(
+    private readonly repository: LocalDeveloperPlatformRepository = new LocalDeveloperPlatformRepository()
+  ) {}
 
   async registerSdk(manifest: SDKManifest): Promise<void> {
     if (manifest.modules.length === 0) {
       throw new Error("SDK manifests require at least one module");
     }
     await this.repository.saveSdk(manifest);
-    await this.emit("SdkRegistered", { language: manifest.language, version: manifest.version }, manifest.id);
+    await this.emit(
+      "SdkRegistered",
+      { language: manifest.language, version: manifest.version },
+      manifest.id
+    );
   }
 
   async installPlugin(manifest: PluginManifest): Promise<void> {
@@ -100,7 +106,12 @@ export class LocalDeveloperPlatformService implements DeveloperPlatformService {
       throw new Error(`Plugin verification requires code signature: ${pluginId}`);
     }
     const record = await this.saveLifecycle(plugin.id, plugin.version, "verified");
-    await this.emit("PluginVerified", { codeSignatureId: plugin.codeSignatureId }, undefined, plugin.id);
+    await this.emit(
+      "PluginVerified",
+      { codeSignatureId: plugin.codeSignatureId },
+      undefined,
+      plugin.id
+    );
     return record;
   }
 
@@ -109,12 +120,21 @@ export class LocalDeveloperPlatformService implements DeveloperPlatformService {
       throw new Error(`Public API must be documented: ${api.id}`);
     }
     await this.repository.saveApi(api);
-    await this.emit("PublicApiRegistered", { kind: api.kind, version: api.version }, undefined, undefined, api.id);
+    await this.emit(
+      "PublicApiRegistered",
+      { kind: api.kind, version: api.version },
+      undefined,
+      undefined,
+      api.id
+    );
   }
 
   async registerCliCommand(command: CliCommandDescriptor): Promise<void> {
     await this.repository.saveCliCommand(command);
-    await this.emit("CliCommandRegistered", { command: command.command, automationSafe: command.automationSafe });
+    await this.emit("CliCommandRegistered", {
+      command: command.command,
+      automationSafe: command.automationSafe
+    });
   }
 
   async registerComponent(component: ComponentDescriptor): Promise<void> {
@@ -133,10 +153,15 @@ export class LocalDeveloperPlatformService implements DeveloperPlatformService {
       request.permissionReviewId
     ].filter((value) => !value);
     if (missingReviews.length > 0 || !request.approved) {
-      throw new Error(`Marketplace publishing requires Semantiq, security, compatibility, permission review, and approval: ${request.id}`);
+      throw new Error(
+        `Marketplace publishing requires Semantiq, security, compatibility, permission review, and approval: ${request.id}`
+      );
     }
     await this.repository.savePublishRequest(request);
-    await this.emit("MarketplacePublishValidated", { targetType: request.targetType, targetId: request.targetId });
+    await this.emit("MarketplacePublishValidated", {
+      targetType: request.targetType,
+      targetId: request.targetId
+    });
   }
 
   async addPortalResource(resource: DeveloperPortalResource): Promise<void> {

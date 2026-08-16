@@ -1,9 +1,11 @@
 # Sprint 5 Specification
 
 ## Purpose
+
 Implement invitation-only, policy-controlled federation between autonomous Tech Club nodes.
 
 ## Spec IDs
+
 - S5-AUDIT: Repository audit.
 - S5-THREAT: Threat model.
 - S5-NODE: Node identity.

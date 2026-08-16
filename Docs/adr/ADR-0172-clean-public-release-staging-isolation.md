@@ -1,12 +1,15 @@
 # ADR-0172: Clean Public Release Staging and Repository Isolation (R07)
 
 ## Status
+
 Accepted
 
 ## Context
+
 Publishing directly from a dirty local workspace is prohibited. Prior to release publication or push dry-runs, an isolated clean staging directory must be instantiated using only the R06 positive allowlist, verifying 100% path containment, zero secret leaks, zero private repository leakage, and exact Merkle root hash parity.
 
 ## Decision
+
 1. **Isolated Clean Staging Tree Created**:
    - Staging directory created at `C:/Users/Kaveh/Desktop/semantiq-clean-staging`.
    - Populated with exactly 2,901 approved files (276,248,198 bytes) from `Docs/release/github-publication-manifest.json`.
@@ -20,6 +23,7 @@ Publishing directly from a dirty local workspace is prohibited. Prior to release
    - Configured remote `origin -> git@github.com:Semant-iq/Semantiq.git`.
 
 ## Consequences
+
 - The publication tree is completely decoupled from the local workspace.
 - The release candidate is mathematically verified, reproducible, and clean.
 - R07 status: `PASS`.

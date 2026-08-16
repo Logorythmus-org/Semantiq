@@ -1,6 +1,7 @@
 # Engineering Agents
 
 Sprint 0 defines these engineering agents:
+
 - Spec Agent
 - Planning Agent
 - Repository Agent

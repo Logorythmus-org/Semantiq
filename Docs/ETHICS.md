@@ -3,6 +3,7 @@
 Ethical Analysis evaluates human and social responsibility.
 
 ## Rubric
+
 - transparency
 - fairness
 - bias awareness
@@ -13,4 +14,5 @@ Ethical Analysis evaluates human and social responsibility.
 - human oversight
 
 ## Rule
+
 Ethical risks must be explained and paired with mitigation suggestions.

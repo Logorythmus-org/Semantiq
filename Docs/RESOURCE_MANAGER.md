@@ -3,6 +3,7 @@
 The Resource Manager tracks and coordinates runtime resources.
 
 ## Resource Types
+
 - memory
 - CPU
 - GPU
@@ -17,4 +18,5 @@ The Resource Manager tracks and coordinates runtime resources.
 - future distributed resources
 
 ## Responsibilities
+
 The manager registers resources, records ownership, tracks status, exposes health, and supports future quotas, reservations, cancellation, and cleanup.

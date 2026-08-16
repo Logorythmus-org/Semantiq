@@ -3,6 +3,7 @@
 Aggregates enforce consistency boundaries. Repositories load and save aggregate roots only.
 
 ## Question Engine
+
 - Aggregate root: Question.
 - Entities: Answer, Observation, Discussion, Question Version, Benchmark Reference.
 - Value objects: Question Text, Question Metadata, Question State, Confidence, Provenance.
@@ -14,6 +15,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: QuestionCreated, QuestionUpdated, QuestionLinked, AnswerProposed, ObservationAdded.
 
 ## Knowledge Graph
+
 - Aggregate root: Knowledge Object.
 - Entities: Relationship, Tag, Semantic Annotation.
 - Value objects: Relationship Type, Semantic Weight, Directionality, Provenance.
@@ -25,6 +27,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: KnowledgeObjectCreated, RelationshipCreated, RelationshipReclassified, KnowledgeValidated.
 
 ## Semantiq Benchmark
+
 - Aggregate root: Benchmark.
 - Entities: Benchmark Case, Benchmark Run, Evaluation Result.
 - Value objects: Score, Dimension, Rubric, Explanation.
@@ -36,6 +39,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: BenchmarkCreated, BenchmarkCompleted, BenchmarkResultExplained.
 
 ## Agent OS
+
 - Aggregate root: Agent.
 - Entities: Workflow, Tool Session, Agent Assignment.
 - Value objects: Capability, Approval Requirement, Agent Memory Reference.
@@ -47,6 +51,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: AgentAssigned, WorkflowExecuted, ToolInvoked, HumanApprovalRequested.
 
 ## Workspace
+
 - Aggregate root: Workspace.
 - Entities: Panel, Resource Mount, Workspace Session.
 - Value objects: Workspace Mode, Local Path, Sync State.
@@ -58,6 +63,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: WorkspaceCreated, WorkspaceOpened, WorkspaceResourceMounted.
 
 ## Project System
+
 - Aggregate root: Project.
 - Entities: Task, Milestone, Project Member, Deliverable.
 - Value objects: Project State, Priority, Due Window.
@@ -69,6 +75,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: ProjectStarted, ProjectUpdated, ProjectCompleted.
 
 ## Scientific Atlas
+
 - Aggregate root: Research Thread.
 - Entities: Evidence, Hypothesis, Experiment, Research Paper.
 - Value objects: Citation, Evidence Strength, Method, Result.
@@ -80,6 +87,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: EvidenceAdded, HypothesisProposed, ExperimentStarted, ResearchPublished.
 
 ## Narrative And Game
+
 - Aggregate roots: Narrative, Game.
 - Entities: Scene, Character, Plot Arc, Rule Set, Simulation, Play Session.
 - Value objects: Narrative Structure, Game Mechanic, Learning Goal.
@@ -91,6 +99,7 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: NarrativeGenerated, GameCreated, GameSessionCompleted.
 
 ## Identity And Wallet
+
 - Aggregate roots: Semantic Identity, Wallet Asset.
 - Entities: Role, Permission Grant, Credential, Ownership Claim.
 - Value objects: Capability, Identity Handle, Asset Type, Claim Proof.
@@ -102,4 +111,5 @@ Aggregates enforce consistency boundaries. Repositories load and save aggregate 
 - Events: IdentityCreated, PermissionGranted, WalletAssetCreated, OwnershipTransferred.
 
 ## Supporting Contexts
+
 Marketplace owns Listing. Education owns Learning Path. Repositories own Repository. Search owns Search Index. Notifications own Notification. Analytics owns Metric. Settings owns Setting. Administration owns Community and Policy.

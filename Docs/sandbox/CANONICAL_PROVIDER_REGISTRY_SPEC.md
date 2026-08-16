@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 36)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Canonical Machine-Readable Provider Registry**:
+
 1. **Consolidated Registry Schema**: Standardizes [`CanonicalProviderRegistryEntry`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts#L36-L56) capturing 19 core architectural dimensions: identity, semver, release channels, multi-protocol endpoints, sandbox capabilities, licensing metadata, trust tiers, security grades, pricing models, SLA performance metrics, and operational health states.
 2. **Canonical Provider Registry Engine**: Implements [`CanonicalProviderRegistry`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts#L86-L255) managing registration validation, cryptographic digest verification, real-time health transitions, structured lifecycle event emission ([`ProviderRegistryEvent`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts#L74-L83)), and multi-dimensional query filtering.
 3. **Decoupled Provider Invariant**: Preserves the strict policy of no runtime code in SemantIQ Core, zero mandatory external dependencies, and first-class local execution.
@@ -45,6 +46,7 @@ This specification defines the **Canonical Machine-Readable Provider Registry**:
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Canonical Registry Manifest**: Defining [`CanonicalProviderRegistryEntry`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts#L36-L56) and JSON Schema [`canonical-provider-registry.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/canonical-provider-registry.schema.json).
 - **Multi-Transport Endpoint Configuration**: Modeling Unix domain sockets, HTTP REST, gRPC, and stdio subprocess invocation paths.
 - **Operational Lifecycle State Machine**: Tracking `ONLINE`, `DEGRADED`, `MAINTENANCE`, `OFFLINE`, and `QUARANTINED` states with consecutive failure accounting.
@@ -53,6 +55,7 @@ This specification defines the **Canonical Machine-Readable Provider Registry**:
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Centralized Registry Dependency**: SemantIQ Core can operate entirely offline against local configuration files without querying an external registry service.
 - **No OpenSandbox Fork or Clone**: Runtimes remain independent external binaries; SemantIQ Core never duplicates vendor codebase files.
 - **No Mandatory Execution Provider**: Local OCI containers and mock trace replays remain first-class defaults.
@@ -85,24 +88,12 @@ This specification defines the **Canonical Machine-Readable Provider Registry**:
 ### 4.1 TypeScript Registry Interfaces ([`packages/sandbox-contracts/src/canonical-registry.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts))
 
 ```typescript
-export type ProviderReleaseChannel =
-  | 'STABLE'
-  | 'BETA'
-  | 'EXPERIMENTAL'
-  | 'DEPRECATED';
+export type ProviderReleaseChannel = "STABLE" | "BETA" | "EXPERIMENTAL" | "DEPRECATED";
 
 export type ProviderOperationalStatus =
-  | 'ONLINE'
-  | 'DEGRADED'
-  | 'MAINTENANCE'
-  | 'OFFLINE'
-  | 'QUARANTINED';
+  "ONLINE" | "DEGRADED" | "MAINTENANCE" | "OFFLINE" | "QUARANTINED";
 
-export type TransportProtocol =
-  | 'LOCAL_SOCKET'
-  | 'HTTP_REST'
-  | 'GRPC'
-  | 'STDIO_SUBPROCESS';
+export type TransportProtocol = "LOCAL_SOCKET" | "HTTP_REST" | "GRPC" | "STDIO_SUBPROCESS";
 
 export interface ProviderEndpointConfig {
   readonly primaryUrl: string;
@@ -149,6 +140,7 @@ export interface CanonicalRegistryQuery {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/canonical-provider-registry.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/canonical-provider-registry.schema.json)**: Validates canonical registry entries, endpoint definitions, SLA metrics, and signatures.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `canonicalProviderRegistryEntrySchema`.
 
@@ -193,30 +185,31 @@ export interface CanonicalRegistryQuery {
 
 ## 7. Open-Source vs. Commercial & Enterprise Registry Profiles
 
-| Dimension | Open-Source (`LOCAL_DAEMON`) | Commercial (`MANAGED_MULTI_TENANT`) | Enterprise (`AIRGAPPED_ON_PREM`) |
-| :--- | :--- | :--- | :--- |
-| **Transport** | `LOCAL_SOCKET` / `STDIO_SUBPROCESS` | `HTTP_REST` (TLS) / `GRPC` | `GRPC` / Internal Private VIP |
-| **Release Channel** | `STABLE` / `BETA` | `STABLE` | `STABLE` (Audited) |
-| **Trust Tier** | `TCK_VERIFIED` | `CRYPTOGRAPHICALLY_CERTIFIED` | `CRYPTOGRAPHICALLY_CERTIFIED` |
-| **Security Grade** | `B_ISOLATED_CONTAINER` | `A_HARDENED_MICROVM` | `A_HARDENED_MICROVM` |
-| **Pricing** | `COMMUNITY_FREE` ($0.00) | `COMMERCIAL_PAYG` | `ENTERPRISE_RESERVED` |
+| Dimension           | Open-Source (`LOCAL_DAEMON`)        | Commercial (`MANAGED_MULTI_TENANT`) | Enterprise (`AIRGAPPED_ON_PREM`) |
+| :------------------ | :---------------------------------- | :---------------------------------- | :------------------------------- |
+| **Transport**       | `LOCAL_SOCKET` / `STDIO_SUBPROCESS` | `HTTP_REST` (TLS) / `GRPC`          | `GRPC` / Internal Private VIP    |
+| **Release Channel** | `STABLE` / `BETA`                   | `STABLE`                            | `STABLE` (Audited)               |
+| **Trust Tier**      | `TCK_VERIFIED`                      | `CRYPTOGRAPHICALLY_CERTIFIED`       | `CRYPTOGRAPHICALLY_CERTIFIED`    |
+| **Security Grade**  | `B_ISOLATED_CONTAINER`              | `A_HARDENED_MICROVM`                | `A_HARDENED_MICROVM`             |
+| **Pricing**         | `COMMUNITY_FREE` ($0.00)            | `COMMERCIAL_PAYG`                   | `ENTERPRISE_RESERVED`            |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Heartbeat Timeout** | Provider daemon unresponsive | Stale routing | Registry marks status `OFFLINE`; router fails over |
-| **Signature Mismatch** | Tampered manifest in cache | Security violation | Registry rejects entry registration |
-| **Non-Clean-Room Flag** | Provider bundles unverified adapter code | Legal risk | Registry blocks registration (`violations` returned) |
-| **Degraded Performance** | High network congestion | Latency SLA breach | Status changes to `DEGRADED`; deprioritized in MCDM scoring |
+| Failure Mode             | Root Cause                               | Impact             | Automated Recovery Action                                   |
+| :----------------------- | :--------------------------------------- | :----------------- | :---------------------------------------------------------- |
+| **Heartbeat Timeout**    | Provider daemon unresponsive             | Stale routing      | Registry marks status `OFFLINE`; router fails over          |
+| **Signature Mismatch**   | Tampered manifest in cache               | Security violation | Registry rejects entry registration                         |
+| **Non-Clean-Room Flag**  | Provider bundles unverified adapter code | Legal risk         | Registry blocks registration (`violations` returned)        |
+| **Degraded Performance** | High network congestion                  | Latency SLA breach | Status changes to `DEGRADED`; deprioritized in MCDM scoring |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The canonical registry architecture is validated through automated test suites:
+
 1. **Registry Operations Unit Tests ([`tests/unit/canonical-provider-registry.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/canonical-provider-registry.test.ts))**:
    - Validates registration of local Docker and commercial cloud provider entries.
    - Tests rejection of malformed entries or invalid signatures.
@@ -242,7 +235,7 @@ The canonical registry architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Dynamic Polling Frequency vs. System Overhead**: High-frequency health probes consume network resources.  
-  *Mitigation*: Heartbeat probes default to 30-second intervals with exponential backoff on degradation.
+  _Mitigation_: Heartbeat probes default to 30-second intervals with exponential backoff on degradation.
 - **Open Question**: Peer-to-peer registry federation across distributed enterprise clusters.
 
 ---

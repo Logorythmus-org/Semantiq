@@ -1,1 +1,9 @@
-{"name":"@tech-club/service-alpha-operations","version":"0.0.0","type":"module","private":true,"exports":{".":"./src/index.ts"}}
+{
+  "name": "@tech-club/service-alpha-operations",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
+  "exports": {
+    ".": "./src/index.ts"
+  }
+}

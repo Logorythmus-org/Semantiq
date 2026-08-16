@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.1 — Baseline & Capability Inventory  
 **Date**: 2026-08-01  
-**Baseline Verdict**: `PHASE 8 BASELINE ESTABLISHED`  
+**Baseline Verdict**: `PHASE 8 BASELINE ESTABLISHED`
 
 ---
 

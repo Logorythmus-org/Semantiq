@@ -3,17 +3,12 @@
  * Verifiable Benchmark Execution Receipt Architecture
  */
 
-import type { ReproducibilityTier } from './types.js';
-import type { ComplianceGrade } from './terms-attribution.js';
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import type { ReproducibilityTier } from "./types.js";
+import type { ComplianceGrade } from "./terms-attribution.js";
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type BenchmarkEvaluationOutcome =
-  | 'PASSED'
-  | 'FAILED'
-  | 'PARTIAL'
-  | 'TIMEOUT'
-  | 'ERROR'
-  | 'BUDGET_EXCEEDED';
+  "PASSED" | "FAILED" | "PARTIAL" | "TIMEOUT" | "ERROR" | "BUDGET_EXCEEDED";
 
 export interface EvaluatedArtifactEntry {
   readonly name: string;
@@ -25,7 +20,7 @@ export interface EvaluatedArtifactEntry {
 
 export interface ReceiptExecutionIdentity {
   readonly receiptId: string;
-  readonly receiptVersion: '1.0.0';
+  readonly receiptVersion: "1.0.0";
   readonly evaluationRunId: string;
   readonly benchmarkId: string;
   readonly scenarioId: string;
@@ -68,7 +63,7 @@ export interface ReceiptFinancialSummary {
   readonly costLedgerDigest: string;
   readonly totalGrossCostUsd: number;
   readonly totalNetCostUsd: number;
-  readonly currency: 'USD';
+  readonly currency: "USD";
   readonly sponsorAttribution?: string | undefined;
 }
 
@@ -163,26 +158,31 @@ export class BenchmarkExecutionReceiptIssuer {
     const expectedDigest = computeSha256(canonicalJson(unsignedBody));
     const isDigestValid = expectedDigest === receipt.receiptDigestSha256;
     if (!isDigestValid) {
-      errors.push(`Receipt digest mismatch: expected ${expectedDigest}, received ${receipt.receiptDigestSha256}`);
+      errors.push(
+        `Receipt digest mismatch: expected ${expectedDigest}, received ${receipt.receiptDigestSha256}`
+      );
     }
 
     // 3. Validate Signature Format
-    const isSignatureValid = receipt.signatureHex.startsWith('3045022100') && receipt.signatureHex.length >= 70;
+    const isSignatureValid =
+      receipt.signatureHex.startsWith("3045022100") && receipt.signatureHex.length >= 70;
     if (!isSignatureValid) {
-      errors.push('Cryptographic signature format is malformed or invalid.');
+      errors.push("Cryptographic signature format is malformed or invalid.");
     }
 
     // 4. Validate Merkle Root and Image Digest formats
-    if (!receipt.artifacts.filesMerkleRoot.startsWith('sha256:')) {
-      errors.push('Files Merkle Root is not in valid sha256:... format.');
+    if (!receipt.artifacts.filesMerkleRoot.startsWith("sha256:")) {
+      errors.push("Files Merkle Root is not in valid sha256:... format.");
     }
-    if (!receipt.provenance.environmentSpecHash.startsWith('sha256:')) {
-      errors.push('Environment Spec Hash is not in valid sha256:... format.');
+    if (!receipt.provenance.environmentSpecHash.startsWith("sha256:")) {
+      errors.push("Environment Spec Hash is not in valid sha256:... format.");
     }
 
     // 5. Check outcome & warnings
-    if (receipt.observation.outcome !== 'PASSED') {
-      warnings.push(`Evaluation outcome recorded as ${receipt.observation.outcome} with score ${receipt.observation.score}.`);
+    if (receipt.observation.outcome !== "PASSED") {
+      warnings.push(
+        `Evaluation outcome recorded as ${receipt.observation.outcome} with score ${receipt.observation.score}.`
+      );
     }
 
     const isValid = isDigestValid && isSignatureValid && errors.length === 0;
@@ -205,39 +205,45 @@ export class BenchmarkExecutionReceiptIssuer {
       `**Run ID**: \`${receipt.identity.evaluationRunId}\``,
       `**Issued At**: ${receipt.issuedAt}`,
       `**Evaluation Outcome**: **${receipt.observation.outcome}** (Score: ${receipt.observation.score})`,
-      '',
-      '## 1. Provenance & Execution Environment',
+      "",
+      "## 1. Provenance & Execution Environment",
       `- **Provider**: \`${receipt.provenance.providerId}\` (v${receipt.provenance.providerVersion})`,
       `- **Runtime Type**: \`${receipt.provenance.runtimeType}\``,
       `- **Isolation Mechanism**: \`${receipt.provenance.isolationMechanism}\``,
       `- **Reproducibility Tier**: \`${receipt.provenance.reproducibilityTier}\``,
       `- **Environment Spec Hash**: \`${receipt.provenance.environmentSpecHash}\``,
       `- **Image Digest**: \`${receipt.provenance.imageDigest}\``,
-      receipt.provenance.deterministicSeed ? `- **Deterministic Seed**: \`${receipt.provenance.deterministicSeed}\`` : '',
-      '',
-      '## 2. Model & Agent Configuration',
+      receipt.provenance.deterministicSeed
+        ? `- **Deterministic Seed**: \`${receipt.provenance.deterministicSeed}\``
+        : "",
+      "",
+      "## 2. Model & Agent Configuration",
       `- **Model ID**: \`${receipt.model.modelId}\` (${receipt.model.modelProvider})`,
-      receipt.model.agentFrameworkVersion ? `- **Agent Framework**: \`${receipt.model.agentFrameworkVersion}\`` : '',
-      '',
-      '## 3. Artifact & Evidence Manifest',
+      receipt.model.agentFrameworkVersion
+        ? `- **Agent Framework**: \`${receipt.model.agentFrameworkVersion}\``
+        : "",
+      "",
+      "## 3. Artifact & Evidence Manifest",
       `- **Files Merkle Root**: \`${receipt.artifacts.filesMerkleRoot}\``,
       `- **Evidence Bundle Digest**: \`${receipt.artifacts.evidenceBundleDigest}\``,
       `- **Artifacts Count**: ${receipt.artifacts.artifacts.length} file(s)`,
-      '',
-      '## 4. Behavioral Observation & Economics',
+      "",
+      "## 4. Behavioral Observation & Economics",
       `- **Behavioral Chain Hash**: \`${receipt.observation.behavioralChainHash}\``,
       `- **Event Count**: ${receipt.observation.eventCount}`,
       `- **Total Gross Spend**: $${receipt.financial.totalGrossCostUsd.toFixed(4)} USD`,
       `- **Total Net Billed**: $${receipt.financial.totalNetCostUsd.toFixed(4)} USD`,
-      receipt.financial.sponsorAttribution ? `- **Sponsor**: ${receipt.financial.sponsorAttribution}` : '',
+      receipt.financial.sponsorAttribution
+        ? `- **Sponsor**: ${receipt.financial.sponsorAttribution}`
+        : "",
       `- **Compliance Grade**: \`${receipt.compliance.complianceGrade}\``,
-      '',
-      '## 5. Cryptographic Seal & Verification',
+      "",
+      "## 5. Cryptographic Seal & Verification",
       `- **Issuer Public Key**: \`${receipt.issuerPublicKeyHex}\``,
       `- **Receipt Digest SHA-256**: \`${receipt.receiptDigestSha256}\``,
       `- **Digital Signature**: \`${receipt.signatureHex}\``
     ];
 
-    return lines.filter(l => l !== undefined).join('\n');
+    return lines.filter((l) => l !== undefined).join("\n");
   }
 }

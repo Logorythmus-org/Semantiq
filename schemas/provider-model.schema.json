@@ -56,12 +56,7 @@
     },
     "costStructure": {
       "type": "object",
-      "required": [
-        "billingModel",
-        "baseRatePerUnit",
-        "currency",
-        "minBillingDurationSeconds"
-      ],
+      "required": ["billingModel", "baseRatePerUnit", "currency", "minBillingDurationSeconds"],
       "properties": {
         "billingModel": {
           "type": "string",
@@ -129,21 +124,11 @@
     },
     "trustTier": {
       "type": "string",
-      "enum": [
-        "UNVERIFIED",
-        "SELF_ATTESTED",
-        "TCK_VERIFIED",
-        "CRYPTOGRAPHICALLY_CERTIFIED"
-      ]
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
     },
     "securityGrade": {
       "type": "string",
-      "enum": [
-        "A_HARDENED_MICROVM",
-        "B_ISOLATED_CONTAINER",
-        "C_RESTRICTED_PROCESS",
-        "F_UNCONFINED"
-      ]
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
     },
     "capabilities": {
       "type": "object"

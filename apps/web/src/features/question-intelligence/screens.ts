@@ -9,4 +9,10 @@ export const questionIntelligenceFeatureScreens = [
   "Relation Suggestion Panel"
 ] as const;
 
-export const questionIntelligenceStates = ["loading", "empty", "error", "offline", "ready"] as const;
+export const questionIntelligenceStates = [
+  "loading",
+  "empty",
+  "error",
+  "offline",
+  "ready"
+] as const;

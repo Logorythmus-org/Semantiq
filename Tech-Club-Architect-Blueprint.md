@@ -9228,14 +9228,10 @@ Human curiosity remains the permanent foundation.
 ##Github Repos Code base, that you can use :
 https://github.com/kaveh8866/Qikio.git
 
-
 https://github.com/kaveh8866/Sunlionet.git
-
 
 https://github.com/kaveh8866/SemantIQ.git
 
-
 https://github.com/Menog-Os/Menog.os.git
-
 
 https://github.com/kaveh8866/Semantic-Wallet.git

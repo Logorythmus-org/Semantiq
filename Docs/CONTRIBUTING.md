@@ -3,6 +3,7 @@
 Tech Club uses specification-driven development.
 
 ## Workflow
+
 1. Goal
 2. Requirements
 3. Specification
@@ -17,6 +18,7 @@ Tech Club uses specification-driven development.
 No implementation should begin before the relevant specification exists.
 
 ## Standards
+
 - TypeScript strict mode.
 - pnpm.
 - ESLint and Prettier.
@@ -26,4 +28,5 @@ No implementation should begin before the relevant specification exists.
 - Changesets for versioning.
 
 ## Commits
+
 Use Conventional Commits, for example `feat(core): add module contract` or `docs(architecture): record storage boundary`.

@@ -1,7 +1,7 @@
 # ADR-0139: Portable Evidence Package and Behavioral Chain Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

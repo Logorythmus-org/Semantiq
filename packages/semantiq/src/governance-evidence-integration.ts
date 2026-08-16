@@ -1,10 +1,10 @@
 export type GovernanceIntegrationFailureClass =
-  | 'contract_drift'
-  | 'backward_incompatibility'
-  | 'boundary_violation'
-  | 'release_guard_weakening'
-  | 'unsupported_governance_claim'
-  | 'scenario_or_replay_failure';
+  | "contract_drift"
+  | "backward_incompatibility"
+  | "boundary_violation"
+  | "release_guard_weakening"
+  | "unsupported_governance_claim"
+  | "scenario_or_replay_failure";
 
 export interface GovernanceEvidenceSpecification {
   readonly specVersion: string;
@@ -21,7 +21,7 @@ export interface Phase10RiskRegister {
 export interface Phase10IntegrationReport {
   readonly reportId: string;
   readonly spec: GovernanceEvidenceSpecification;
-  readonly status: 'PASSED' | 'FAILED';
+  readonly status: "PASSED" | "FAILED";
   readonly verdict: string;
   readonly timestamp: string;
 }
@@ -49,14 +49,15 @@ export class GovernanceEvidenceIntegrationEngine {
         report: {
           reportId: `rep_fail_compat_${Date.now()}`,
           spec,
-          status: 'FAILED',
-          verdict: 'PHASE 10 FAILED — PHASE 10.5 BLOCKED',
+          status: "FAILED",
+          verdict: "PHASE 10 FAILED — PHASE 10.5 BLOCKED",
           timestamp: new Date().toISOString()
         },
         failure: {
           reportId: `fail_compat_${Date.now()}`,
-          failureClass: 'backward_incompatibility',
-          description: 'Phase 10 integration broke backward compatibility with Phase 8/9 contracts.',
+          failureClass: "backward_incompatibility",
+          description:
+            "Phase 10 integration broke backward compatibility with Phase 8/9 contracts.",
           timestamp: new Date().toISOString()
         }
       };
@@ -68,14 +69,14 @@ export class GovernanceEvidenceIntegrationEngine {
         report: {
           reportId: `rep_fail_bound_${Date.now()}`,
           spec,
-          status: 'FAILED',
-          verdict: 'PHASE 10 FAILED — PHASE 10.5 BLOCKED',
+          status: "FAILED",
+          verdict: "PHASE 10 FAILED — PHASE 10.5 BLOCKED",
           timestamp: new Date().toISOString()
         },
         failure: {
           reportId: `fail_bound_${Date.now()}`,
-          failureClass: 'boundary_violation',
-          description: 'Phase 10 integration violated SemantIQ product boundary rules.',
+          failureClass: "boundary_violation",
+          description: "Phase 10 integration violated SemantIQ product boundary rules.",
           timestamp: new Date().toISOString()
         }
       };
@@ -87,14 +88,14 @@ export class GovernanceEvidenceIntegrationEngine {
         report: {
           reportId: `rep_fail_drift_${Date.now()}`,
           spec,
-          status: 'FAILED',
-          verdict: 'PHASE 10 FAILED — PHASE 10.5 BLOCKED',
+          status: "FAILED",
+          verdict: "PHASE 10 FAILED — PHASE 10.5 BLOCKED",
           timestamp: new Date().toISOString()
         },
         failure: {
           reportId: `fail_drift_${Date.now()}`,
-          failureClass: 'contract_drift',
-          description: 'Governance evidence specification v1.0.0 is unfrozen.',
+          failureClass: "contract_drift",
+          description: "Governance evidence specification v1.0.0 is unfrozen.",
           timestamp: new Date().toISOString()
         }
       };
@@ -104,8 +105,8 @@ export class GovernanceEvidenceIntegrationEngine {
       report: {
         reportId: `rep_pass_${Date.now()}`,
         spec,
-        status: 'PASSED',
-        verdict: 'PHASE 10 PASSED — PHASE 10.5 AUTHORIZED',
+        status: "PASSED",
+        verdict: "PHASE 10 PASSED — PHASE 10.5 AUTHORIZED",
         timestamp: new Date().toISOString()
       }
     };

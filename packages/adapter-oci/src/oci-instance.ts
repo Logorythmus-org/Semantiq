@@ -15,13 +15,13 @@ import {
   type WriteOptions,
   generateProvenance,
   computeSha256
-} from '../../sandbox-contracts/src/index.js';
-import { DockerEngineHttpClient } from './docker-client.js';
-import { OciStreamDemuxer } from './stream-demuxer.js';
+} from "../../sandbox-contracts/src/index.js";
+import { DockerEngineHttpClient } from "./docker-client.js";
+import { OciStreamDemuxer } from "./stream-demuxer.js";
 
 export class LocalOciInstance extends BaseSandboxInstance {
   readonly instanceId: string;
-  readonly providerId = 'local-oci';
+  readonly providerId = "local-oci";
   readonly spec: EnvironmentSpec;
   readonly createdAt: string = new Date().toISOString();
 
@@ -46,7 +46,7 @@ export class LocalOciInstance extends BaseSandboxInstance {
   }
 
   async executeCommand(request: ExecutionRequest): Promise<ExecutionResult> {
-    if (this.isTerminated) throw new Error('Cannot execute on terminated container instance.');
+    if (this.isTerminated) throw new Error("Cannot execute on terminated container instance.");
 
     // 1. Create exec instance on container
     const execConfig = {
@@ -59,14 +59,21 @@ export class LocalOciInstance extends BaseSandboxInstance {
       Env: Object.entries(request.envOverrides || {}).map(([k, v]) => `${k}=${v}`)
     };
 
-    const execRes = await this.client.request<{ Id: string }>('POST', `/containers/${this.containerId}/exec`, execConfig);
+    const execRes = await this.client.request<{ Id: string }>(
+      "POST",
+      `/containers/${this.containerId}/exec`,
+      execConfig
+    );
     const execId = execRes.Id;
 
     // 2. Start exec stream over hijacked socket
-    const socket = await this.client.openHijackedStream(`/exec/${execId}/start`, { Detach: false, Tty: false });
+    const socket = await this.client.openHijackedStream(`/exec/${execId}/start`, {
+      Detach: false,
+      Tty: false
+    });
 
-    let stdoutBuffer = '';
-    let stderrBuffer = '';
+    let stdoutBuffer = "";
+    let stderrBuffer = "";
     const demuxer = new OciStreamDemuxer(5242880);
     const startTime = Date.now();
 
@@ -76,7 +83,7 @@ export class LocalOciInstance extends BaseSandboxInstance {
         resolve(); // Timed out gracefully
       }, request.timeoutMs);
 
-      socket.on('data', (chunk: Buffer) => {
+      socket.on("data", (chunk: Buffer) => {
         demuxer.processChunk(
           chunk,
           (out) => {
@@ -90,23 +97,26 @@ export class LocalOciInstance extends BaseSandboxInstance {
         );
       });
 
-      socket.on('end', () => {
+      socket.on("end", () => {
         clearTimeout(timer);
         resolve();
       });
-      socket.on('error', (err) => {
+      socket.on("error", (err) => {
         clearTimeout(timer);
         reject(err);
       });
 
       if (request.stdinBase64) {
-        socket.write(Buffer.from(request.stdinBase64, 'base64'));
+        socket.write(Buffer.from(request.stdinBase64, "base64"));
         socket.end();
       }
     });
 
     // 3. Inspect exec result
-    const inspectRes = await this.client.request<{ ExitCode: number | null }>('GET', `/exec/${execId}/json`);
+    const inspectRes = await this.client.request<{ ExitCode: number | null }>(
+      "GET",
+      `/exec/${execId}/json`
+    );
     const durationMs = Date.now() - startTime;
     const isTimedOut = durationMs >= request.timeoutMs;
 
@@ -124,12 +134,20 @@ export class LocalOciInstance extends BaseSandboxInstance {
     };
   }
 
-  async writeFile(path: string, content: Uint8Array | string, _options?: WriteOptions): Promise<void> {
-    const data = typeof content === 'string' ? Buffer.from(content) : Buffer.from(content);
-    const base64 = data.toString('base64');
+  async writeFile(
+    path: string,
+    content: Uint8Array | string,
+    _options?: WriteOptions
+  ): Promise<void> {
+    const data = typeof content === "string" ? Buffer.from(content) : Buffer.from(content);
+    const base64 = data.toString("base64");
     await this.executeCommand({
       requestId: crypto.randomUUID(),
-      command: ['sh', '-c', `mkdir -p "$(dirname "${path}")" && echo "${base64}" | base64 -d > "${path}"`],
+      command: [
+        "sh",
+        "-c",
+        `mkdir -p "$(dirname "${path}")" && echo "${base64}" | base64 -d > "${path}"`
+      ],
       timeoutMs: 5000
     });
   }
@@ -137,16 +155,16 @@ export class LocalOciInstance extends BaseSandboxInstance {
   async readFile(path: string): Promise<Uint8Array> {
     const res = await this.executeCommand({
       requestId: crypto.randomUUID(),
-      command: ['base64', path],
+      command: ["base64", path],
       timeoutMs: 5000
     });
-    return Buffer.from(res.stdout.trim(), 'base64');
+    return Buffer.from(res.stdout.trim(), "base64");
   }
 
   async deleteFile(path: string): Promise<void> {
     await this.executeCommand({
       requestId: crypto.randomUUID(),
-      command: ['rm', '-rf', path],
+      command: ["rm", "-rf", path],
       timeoutMs: 5000
     });
   }
@@ -156,8 +174,13 @@ export class LocalOciInstance extends BaseSandboxInstance {
   }
 
   async captureStateDelta(sinceCheckpointId?: string): Promise<StateDelta> {
-    const changes = await this.client.request<Array<{ Path: string; Kind: number }>>('GET', `/containers/${this.containerId}/changes`).catch(() => []);
-    
+    const changes = await this.client
+      .request<Array<{ Path: string; Kind: number }>>(
+        "GET",
+        `/containers/${this.containerId}/changes`
+      )
+      .catch(() => []);
+
     const createdFiles: any[] = [];
     const modifiedFiles: any[] = [];
     const deletedFiles: string[] = [];
@@ -166,7 +189,12 @@ export class LocalOciInstance extends BaseSandboxInstance {
       if (change.Kind === 1) {
         createdFiles.push({ path: change.Path, sha256: computeSha256(change.Path), sizeBytes: 0 });
       } else if (change.Kind === 0) {
-        modifiedFiles.push({ path: change.Path, preSha256: 'pre', postSha256: 'post', diffUnified: '' });
+        modifiedFiles.push({
+          path: change.Path,
+          preSha256: "pre",
+          postSha256: "post",
+          diffUnified: ""
+        });
       } else if (change.Kind === 2) {
         deletedFiles.push(change.Path);
       }
@@ -174,21 +202,23 @@ export class LocalOciInstance extends BaseSandboxInstance {
 
     return {
       deltaId: crypto.randomUUID(),
-      fromCheckpoint: sinceCheckpointId || 'baseline',
-      toCheckpoint: 'current',
+      fromCheckpoint: sinceCheckpointId || "baseline",
+      toCheckpoint: "current",
       timestamp: new Date().toISOString(),
       mutations: { createdFiles, modifiedFiles, deletedFiles, spawnedProcesses: [] }
     };
   }
 
   async createCheckpoint(name?: string): Promise<CheckpointMetadata> {
-    const tag = `semantiq-snap-${this.instanceId}:${name || 'snap'}`;
-    const commitRes = await this.client.request<{ Id: string }>('POST', `/commit?container=${this.containerId}&repo=${tag}`).catch(() => ({ Id: crypto.randomUUID() }));
+    const tag = `semantiq-snap-${this.instanceId}:${name || "snap"}`;
+    const commitRes = await this.client
+      .request<{ Id: string }>("POST", `/commit?container=${this.containerId}&repo=${tag}`)
+      .catch(() => ({ Id: crypto.randomUUID() }));
 
     const meta: CheckpointMetadata = {
       checkpointId: commitRes.Id,
       instanceId: this.instanceId,
-      name: name || 'snapshot',
+      name: name || "snapshot",
       createdAt: new Date().toISOString(),
       rootMerkleHash: `sha256:${commitRes.Id}`,
       processStateCount: 0,
@@ -199,17 +229,17 @@ export class LocalOciInstance extends BaseSandboxInstance {
   }
 
   async restoreCheckpoint(checkpointId: string): Promise<void> {
-    if (!this.checkpoints.has(checkpointId) && checkpointId !== 'baseline') {
+    if (!this.checkpoints.has(checkpointId) && checkpointId !== "baseline") {
       throw new Error(`Checkpoint '${checkpointId}' not found.`);
     }
   }
 
   async terminate(): Promise<SandboxTerminationSummary> {
-    if (this.isTerminated) throw new Error('Container is already terminated.');
+    if (this.isTerminated) throw new Error("Container is already terminated.");
 
     try {
-      await this.client.request('POST', `/containers/${this.containerId}/stop?t=1`);
-      await this.client.request('DELETE', `/containers/${this.containerId}?v=true&force=true`);
+      await this.client.request("POST", `/containers/${this.containerId}/stop?t=1`);
+      await this.client.request("DELETE", `/containers/${this.containerId}?v=true&force=true`);
     } catch {
       // Force kill fallback if already stopped
     }
@@ -227,10 +257,10 @@ export class LocalOciInstance extends BaseSandboxInstance {
       provenance: generateProvenance(
         this.spec,
         this.providerId,
-        '1.0.0',
+        "1.0.0",
         this.adapterVersion,
-        '42',
-        'HERMETIC_DETERMINISTIC'
+        "42",
+        "HERMETIC_DETERMINISTIC"
       )
     };
   }

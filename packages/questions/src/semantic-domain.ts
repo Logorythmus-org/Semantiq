@@ -69,8 +69,7 @@ export type QuestionSemanticStructureCreatedEvent =
 export type QuestionSemanticStructureUpdatedEvent =
   DomainEvent<QuestionSemanticStructureEventPayload>;
 export type QuestionSemanticStructureEvent =
-  | QuestionSemanticStructureCreatedEvent
-  | QuestionSemanticStructureUpdatedEvent;
+  QuestionSemanticStructureCreatedEvent | QuestionSemanticStructureUpdatedEvent;
 
 export interface QuestionSemanticStructureMutation {
   readonly revision: QuestionSemanticRevision;

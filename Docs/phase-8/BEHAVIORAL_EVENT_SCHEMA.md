@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.5 — Behavioral Event Schema & Evidence Integrity  
 **Date**: 2026-08-01  
-**Schema Verdict**: `BEHAVIORAL EVENT SCHEMA IMPLEMENTED`  
+**Schema Verdict**: `BEHAVIORAL EVENT SCHEMA IMPLEMENTED`
 
 ---
 

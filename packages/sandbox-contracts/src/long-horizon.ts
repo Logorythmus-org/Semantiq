@@ -3,22 +3,22 @@
  * Long-Horizon Agent Testing and Multi-Step Autonomous Evaluation Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { BehavioralTraceEvent } from './evidence-package.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { BehavioralTraceEvent } from "./evidence-package.js";
 
 export type LongHorizonPhaseType =
-  | 'DISCOVERY_AND_RECON'
-  | 'ARCHITECTURAL_PLANNING'
-  | 'SCAFFOLD_AND_BOOTSTRAP'
-  | 'INCREMENTAL_IMPLEMENTATION'
-  | 'INTEGRATION_AND_TESTING'
-  | 'VERIFICATION_AND_FINALIZE';
+  | "DISCOVERY_AND_RECON"
+  | "ARCHITECTURAL_PLANNING"
+  | "SCAFFOLD_AND_BOOTSTRAP"
+  | "INCREMENTAL_IMPLEMENTATION"
+  | "INTEGRATION_AND_TESTING"
+  | "VERIFICATION_AND_FINALIZE";
 
 export type LongHorizonCertificationGrade =
-  | 'GRADE_LH1_AUTONOMOUS_SCALE'
-  | 'GRADE_LH2_MILESTONE_COMPLETING'
-  | 'GRADE_LH3_TARDY_DEGRADED'
-  | 'GRADE_LH4_HORIZON_COLLAPSED';
+  | "GRADE_LH1_AUTONOMOUS_SCALE"
+  | "GRADE_LH2_MILESTONE_COMPLETING"
+  | "GRADE_LH3_TARDY_DEGRADED"
+  | "GRADE_LH4_HORIZON_COLLAPSED";
 
 export interface MilestoneCheckpointSpec {
   readonly milestoneId: string;
@@ -101,22 +101,23 @@ export class LongHorizonTestingEngine {
 
       // Extract events within this milestone's step range
       const milestoneEvents = traceEvents.filter(
-        e => e.seq >= startStep && e.seq < startStep + milestoneBudget
+        (e) => e.seq >= startStep && e.seq < startStep + milestoneBudget
       );
 
       const errors = milestoneEvents.filter(
-        e => e.stage === 'RESULT' && (e.payload['exitCode'] === 1 || e.payload['passed'] === false)
+        (e) =>
+          e.stage === "RESULT" && (e.payload["exitCode"] === 1 || e.payload["passed"] === false)
       ).length;
 
-      const recoveries = milestoneEvents.filter(e => e.stage === 'RECOVERY').length;
+      const recoveries = milestoneEvents.filter((e) => e.stage === "RECOVERY").length;
 
       // Check if target artifacts were created/modified or final result passed
-      const artifactHit = milestone.targetArtifacts.every(art =>
-        milestoneEvents.some(e => JSON.stringify(e.payload).includes(art))
+      const artifactHit = milestone.targetArtifacts.every((art) =>
+        milestoneEvents.some((e) => JSON.stringify(e.payload).includes(art))
       );
 
       const hasSuccessResult = milestoneEvents.some(
-        e => e.stage === 'RESULT' && (e.payload['exitCode'] === 0 || e.payload['passed'] === true)
+        (e) => e.stage === "RESULT" && (e.payload["exitCode"] === 0 || e.payload["passed"] === true)
       );
 
       const isAchieved = milestoneEvents.length > 0 && (artifactHit || hasSuccessResult);
@@ -143,9 +144,10 @@ export class LongHorizonTestingEngine {
     }
 
     const totalMilestonesCount = spec.milestones.length;
-    const milestoneCompletionRate = totalMilestonesCount > 0
-      ? Number((successfulMilestones / totalMilestonesCount).toFixed(4))
-      : 1.0;
+    const milestoneCompletionRate =
+      totalMilestonesCount > 0
+        ? Number((successfulMilestones / totalMilestonesCount).toFixed(4))
+        : 1.0;
 
     const totalExecutedSteps = traceEvents.length;
 
@@ -153,12 +155,19 @@ export class LongHorizonTestingEngine {
     const goalConvergenceScore = milestoneCompletionRate;
 
     // Memory Coherence Score: penalizes redundant duplicate file reads or re-discovery
-    const readActions = traceEvents.filter(e => e.stage === 'ACTION' && /cat|grep|find/i.test(String(e.payload['cmd'] ?? '')));
-    const memoryCoherenceScore = Number(Math.max(0.2, 1.0 - (readActions.length / Math.max(1, totalExecutedSteps))).toFixed(4));
+    const readActions = traceEvents.filter(
+      (e) => e.stage === "ACTION" && /cat|grep|find/i.test(String(e.payload["cmd"] ?? ""))
+    );
+    const memoryCoherenceScore = Number(
+      Math.max(0.2, 1.0 - readActions.length / Math.max(1, totalExecutedSteps)).toFixed(4)
+    );
 
     // Budget Efficiency: step consumption vs horizon limits
     const budgetEfficiencyScore = Number(
-      Math.max(0.0, Math.min(1.0, 1.0 - (totalExecutedSteps / Math.max(1, spec.totalHorizonSteps * 1.2)))).toFixed(4)
+      Math.max(
+        0.0,
+        Math.min(1.0, 1.0 - totalExecutedSteps / Math.max(1, spec.totalHorizonSteps * 1.2))
+      ).toFixed(4)
     );
 
     // Long-Horizon Resilience Index (LHRI) Composite Metric
@@ -172,13 +181,13 @@ export class LongHorizonTestingEngine {
 
     let horizonGrade: LongHorizonCertificationGrade;
     if (longHorizonResilienceIndex >= 0.85 && milestoneCompletionRate === 1.0) {
-      horizonGrade = 'GRADE_LH1_AUTONOMOUS_SCALE';
+      horizonGrade = "GRADE_LH1_AUTONOMOUS_SCALE";
     } else if (longHorizonResilienceIndex >= 0.65) {
-      horizonGrade = 'GRADE_LH2_MILESTONE_COMPLETING';
-    } else if (longHorizonResilienceIndex >= 0.40) {
-      horizonGrade = 'GRADE_LH3_TARDY_DEGRADED';
+      horizonGrade = "GRADE_LH2_MILESTONE_COMPLETING";
+    } else if (longHorizonResilienceIndex >= 0.4) {
+      horizonGrade = "GRADE_LH3_TARDY_DEGRADED";
     } else {
-      horizonGrade = 'GRADE_LH4_HORIZON_COLLAPSED';
+      horizonGrade = "GRADE_LH4_HORIZON_COLLAPSED";
     }
 
     const unsignedReport = {
@@ -215,21 +224,21 @@ export class LongHorizonTestingEngine {
       `**Goal Convergence**: ${(report.goalConvergenceScore * 100).toFixed(1)}% | **Memory Coherence**: ${(report.memoryCoherenceScore * 100).toFixed(1)}%`,
       `**Total Executed Steps**: ${report.totalExecutedSteps} step(s)`,
       `**Evaluated At**: ${report.evaluatedAt}`,
-      '',
-      '## 1. Multi-Phase Milestone Breakdown',
-      '| Milestone ID | Phase | Step Range | Achieved? | Errors | Recoveries | Tokens |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Multi-Phase Milestone Breakdown",
+      "| Milestone ID | Phase | Step Range | Achieved? | Errors | Recoveries | Tokens |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const m of report.milestones) {
       lines.push(
-        `| \`${m.milestoneId}\` | \`${m.phase}\` | ${m.startStep}..${m.completedStep ?? m.startStep + m.durationSteps} | ${m.achieved ? '✅ Yes' : '❌ No'} | ${m.errorsEncountered} | ${m.recoveryCount} | ${m.tokensUsed} |`
+        `| \`${m.milestoneId}\` | \`${m.phase}\` | ${m.startStep}..${m.completedStep ?? m.startStep + m.durationSteps} | ${m.achieved ? "✅ Yes" : "❌ No"} | ${m.errorsEncountered} | ${m.recoveryCount} | ${m.tokensUsed} |`
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Cryptographic Report Signature**: \`${report.reportSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

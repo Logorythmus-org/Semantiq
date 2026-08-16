@@ -1,10 +1,16 @@
 export interface DataciteMetadata {
   readonly identifier: { readonly identifier: string; readonly identifierType: "DOI" };
-  readonly creators: readonly { readonly name: string; readonly nameType?: "Organizational" | "Personal" }[];
+  readonly creators: readonly {
+    readonly name: string;
+    readonly nameType?: "Organizational" | "Personal";
+  }[];
   readonly titles: readonly { readonly title: string }[];
   readonly publisher: string;
   readonly publicationYear: number;
-  readonly resourceType: { readonly resourceType: string; readonly resourceTypeGeneral: "Software" | "Dataset" };
+  readonly resourceType: {
+    readonly resourceType: string;
+    readonly resourceTypeGeneral: "Software" | "Dataset";
+  };
   readonly schemaVersion: "http://datacite.org/schema/kernel-4";
 }
 

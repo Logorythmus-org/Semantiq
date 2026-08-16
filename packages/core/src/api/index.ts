@@ -1,5 +1,13 @@
 export const coreRestApi = {
-  resources: ["identities", "workspaces", "knowledge-objects", "questions", "graph", "permissions", "events"],
+  resources: [
+    "identities",
+    "workspaces",
+    "knowledge-objects",
+    "questions",
+    "graph",
+    "permissions",
+    "events"
+  ],
   version: "0.0.0"
 } as const;
 

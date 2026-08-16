@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 7 Corrective — Release Freeze  
 **Date**: 2026-08-01  
-**Freeze Verdict**: `UNSAFE PUBLICATION PATHS ELIMINATED`  
+**Freeze Verdict**: `UNSAFE PUBLICATION PATHS ELIMINATED`
 
 ---
 

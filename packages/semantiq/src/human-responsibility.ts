@@ -10,23 +10,23 @@ export interface ResponsibilityChainRecord {
   readonly incidentOwner: string;
   readonly affectedPopulation: string;
   readonly decisionScope: string;
-  readonly semantiqInfluenceLevel: 'none' | 'advisory' | 'prohibited_sole_decider';
+  readonly semantiqInfluenceLevel: "none" | "advisory" | "prohibited_sole_decider";
   readonly influenceExplanation: string;
   readonly alternativeNonAutomatedPath: string;
   readonly expirationReviewDate: string;
 }
 
 export type HighImpactDomain =
-  | 'employment'
-  | 'housing'
-  | 'education'
-  | 'immigration'
-  | 'criminal_justice'
-  | 'medical_treatment'
-  | 'credit_insurance_welfare'
-  | 'legal_guilt'
-  | 'voting_rights'
-  | 'social_ranking';
+  | "employment"
+  | "housing"
+  | "education"
+  | "immigration"
+  | "criminal_justice"
+  | "medical_treatment"
+  | "credit_insurance_welfare"
+  | "legal_guilt"
+  | "voting_rights"
+  | "social_ranking";
 
 export interface HighImpactUseDisclosure {
   readonly disclosureId: string;
@@ -57,20 +57,23 @@ export class HumanResponsibilityValidatorEngine {
     }
 
     if (!disclosure.hasHumanAppealPath) {
-      violations.push('High-impact use must provide a human review and appeal path.');
+      violations.push("High-impact use must provide a human review and appeal path.");
     }
 
     const r = disclosure.responsibilityRecord;
-    if (!r.accountableHumanRole || r.accountableHumanRole.trim() === '') {
-      violations.push('Responsibility record must identify an accountable human role.');
+    if (!r.accountableHumanRole || r.accountableHumanRole.trim() === "") {
+      violations.push("Responsibility record must identify an accountable human role.");
     }
 
-    if (!r.alternativeNonAutomatedPath || r.alternativeNonAutomatedPath.trim() === '') {
-      violations.push('Responsibility record must specify an alternative non-automated path.');
+    if (!r.alternativeNonAutomatedPath || r.alternativeNonAutomatedPath.trim() === "") {
+      violations.push("Responsibility record must specify an alternative non-automated path.");
     }
 
-    if (r.accountableHumanRole.toLowerCase().includes('ai') || r.accountableHumanRole.toLowerCase().includes('benchmark')) {
-      violations.push('Accountable role cannot be assigned to an AI model or benchmark.');
+    if (
+      r.accountableHumanRole.toLowerCase().includes("ai") ||
+      r.accountableHumanRole.toLowerCase().includes("benchmark")
+    ) {
+      violations.push("Accountable role cannot be assigned to an AI model or benchmark.");
     }
 
     return {
@@ -82,11 +85,11 @@ export class HumanResponsibilityValidatorEngine {
   detectUnauthorizedEndorsement(statement: string): boolean {
     const lower = statement.toLowerCase();
     const forbidden = [
-      'semantiq approved this decision',
-      'semantiq certified this model',
-      'semantiq requires this outcome',
-      'semantiq guarantees safety'
+      "semantiq approved this decision",
+      "semantiq certified this model",
+      "semantiq requires this outcome",
+      "semantiq guarantees safety"
     ];
-    return forbidden.some(kw => lower.includes(kw));
+    return forbidden.some((kw) => lower.includes(kw));
   }
 }

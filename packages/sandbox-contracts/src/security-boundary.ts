@@ -3,21 +3,17 @@
  * Security Boundary Specifications, Policies, and Containment Enforcement
  */
 
-import type { NetworkMode } from './types.js';
+import type { NetworkMode } from "./types.js";
 
 export type IsolationBoundaryType =
-  | 'agent_sandbox'
-  | 'sandbox_host'
-  | 'sandbox_network'
-  | 'agent_tools'
-  | 'sandbox_provider'
-  | 'provider_semantiq';
+  | "agent_sandbox"
+  | "sandbox_host"
+  | "sandbox_network"
+  | "agent_tools"
+  | "sandbox_provider"
+  | "provider_semantiq";
 
-export type SecurityViolationSeverity =
-  | 'LOW'
-  | 'MEDIUM'
-  | 'HIGH'
-  | 'CRITICAL_BREACH';
+export type SecurityViolationSeverity = "LOW" | "MEDIUM" | "HIGH" | "CRITICAL_BREACH";
 
 export interface SecurityBoundaryPolicy {
   readonly networkMode: NetworkMode;
@@ -55,28 +51,41 @@ export interface SecurityContainmentReport {
  * to ensure strict containment across all 6 architectural security boundaries.
  */
 export class SecurityBoundaryEnforcer {
-  private readonly defaultBlockedIps = ['169.254.169.254', '127.0.0.1/8', '10.0.0.0/8', '172.16.0.0/12', '192.168.0.0/16'];
+  private readonly defaultBlockedIps = [
+    "169.254.169.254",
+    "127.0.0.1/8",
+    "10.0.0.0/8",
+    "172.16.0.0/12",
+    "192.168.0.0/16"
+  ];
 
-  auditNetworkTarget(targetHost: string, policy: SecurityBoundaryPolicy, actorId = 'agent'): SecurityViolationEvent | null {
+  auditNetworkTarget(
+    targetHost: string,
+    policy: SecurityBoundaryPolicy,
+    actorId = "agent"
+  ): SecurityViolationEvent | null {
     // 1. Cloud metadata endpoint protection
-    if (policy.blockCloudMetadata && (targetHost.includes('169.254.169.254') || targetHost.includes('metadata.google.internal'))) {
+    if (
+      policy.blockCloudMetadata &&
+      (targetHost.includes("169.254.169.254") || targetHost.includes("metadata.google.internal"))
+    ) {
       return {
         violationId: `sec-viol-${Date.now()}`,
-        boundary: 'sandbox_network',
-        severity: 'CRITICAL_BREACH',
+        boundary: "sandbox_network",
+        severity: "CRITICAL_BREACH",
         targetResource: targetHost,
         actorId,
-        description: 'Attempted access to cloud metadata service endpoint.',
+        description: "Attempted access to cloud metadata service endpoint.",
         timestamp: new Date().toISOString()
       };
     }
 
     // 2. Strict network mode: none
-    if (policy.networkMode === 'none' && targetHost !== 'localhost' && targetHost !== '127.0.0.1') {
+    if (policy.networkMode === "none" && targetHost !== "localhost" && targetHost !== "127.0.0.1") {
       return {
         violationId: `sec-viol-${Date.now()}`,
-        boundary: 'sandbox_network',
-        severity: 'HIGH',
+        boundary: "sandbox_network",
+        severity: "HIGH",
         targetResource: targetHost,
         actorId,
         description: 'Outbound network access attempted when networkMode is set to "none".',
@@ -85,13 +94,15 @@ export class SecurityBoundaryEnforcer {
     }
 
     // 3. Whitelisted egress check
-    if (policy.networkMode === 'whitelisted_egress') {
-      const isAllowed = policy.whitelistedHosts.some(allowed => targetHost === allowed || targetHost.endsWith(`.${allowed}`));
+    if (policy.networkMode === "whitelisted_egress") {
+      const isAllowed = policy.whitelistedHosts.some(
+        (allowed) => targetHost === allowed || targetHost.endsWith(`.${allowed}`)
+      );
       if (!isAllowed) {
         return {
           violationId: `sec-viol-${Date.now()}`,
-          boundary: 'sandbox_network',
-          severity: 'HIGH',
+          boundary: "sandbox_network",
+          severity: "HIGH",
           targetResource: targetHost,
           actorId,
           description: `Host "${targetHost}" is not in the authorized egress whitelist.`,
@@ -103,15 +114,28 @@ export class SecurityBoundaryEnforcer {
     return null;
   }
 
-  auditFilesystemPath(requestedPath: string, isWrite: boolean, policy: SecurityBoundaryPolicy, actorId = 'agent'): SecurityViolationEvent | null {
-    const forbiddenHostPrefixes = ['/etc/shadow', '/etc/sudoers', '/proc/kcore', '/sys/firmware', '/var/run/docker.sock', '~/.ssh', '~/.aws'];
+  auditFilesystemPath(
+    requestedPath: string,
+    isWrite: boolean,
+    policy: SecurityBoundaryPolicy,
+    actorId = "agent"
+  ): SecurityViolationEvent | null {
+    const forbiddenHostPrefixes = [
+      "/etc/shadow",
+      "/etc/sudoers",
+      "/proc/kcore",
+      "/sys/firmware",
+      "/var/run/docker.sock",
+      "~/.ssh",
+      "~/.aws"
+    ];
 
     for (const forbidden of forbiddenHostPrefixes) {
       if (requestedPath.includes(forbidden)) {
         return {
           violationId: `sec-viol-${Date.now()}`,
-          boundary: 'sandbox_host',
-          severity: 'CRITICAL_BREACH',
+          boundary: "sandbox_host",
+          severity: "CRITICAL_BREACH",
           targetResource: requestedPath,
           actorId,
           description: `Attempted access to sensitive host filesystem resource: ${requestedPath}`,
@@ -120,11 +144,16 @@ export class SecurityBoundaryEnforcer {
       }
     }
 
-    if (isWrite && policy.readOnlyRootFilesystem && !requestedPath.startsWith('/tmp') && !requestedPath.startsWith('/workspace')) {
+    if (
+      isWrite &&
+      policy.readOnlyRootFilesystem &&
+      !requestedPath.startsWith("/tmp") &&
+      !requestedPath.startsWith("/workspace")
+    ) {
       return {
         violationId: `sec-viol-${Date.now()}`,
-        boundary: 'agent_sandbox',
-        severity: 'MEDIUM',
+        boundary: "agent_sandbox",
+        severity: "MEDIUM",
         targetResource: requestedPath,
         actorId,
         description: `Write operation attempted on read-only root filesystem path: ${requestedPath}`,
@@ -135,8 +164,14 @@ export class SecurityBoundaryEnforcer {
     return null;
   }
 
-  generateContainmentReport(instanceId: string, policy: SecurityBoundaryPolicy, violations: readonly SecurityViolationEvent[]): SecurityContainmentReport {
-    const hasCritical = violations.some(v => v.severity === 'CRITICAL_BREACH' || v.severity === 'HIGH');
+  generateContainmentReport(
+    instanceId: string,
+    policy: SecurityBoundaryPolicy,
+    violations: readonly SecurityViolationEvent[]
+  ): SecurityContainmentReport {
+    const hasCritical = violations.some(
+      (v) => v.severity === "CRITICAL_BREACH" || v.severity === "HIGH"
+    );
     return {
       instanceId,
       policyEnforced: policy,

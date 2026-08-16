@@ -1,12 +1,15 @@
 # ADR-0171: GitHub Publication Boundary and Allowlist Audit (R06)
 
 ## Status
+
 Accepted
 
 ## Context
+
 Publishing the SemantIQ repository to GitHub requires a strict, non-negotiable publication boundary. The local workstation workspace contains developer environment files (`.env.local` containing a real GitHub PAT), internal research archives (`semantiq-preservation-private`), IDE state (`.vscode/`), and local execution scratch (`tmp/`, `artifacts/`). The local workspace cannot be treated as the publication unit. A positive allowlist must define the exact set of approved files permitted on GitHub.
 
 ## Decision
+
 1. **Positive Allowlist Publication Model**:
    - Only files explicitly inventoried, classified, and hashed in [`Docs/release/github-publication-manifest.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/release/github-publication-manifest.json) are permitted for publication.
    - Enforce the pipeline: `Local Workspace → Inventory → Positive Allowlist → Clean Isolated Staging → Manifest/Hash Verification → Isolated Git Repository → Push Dry-Run → Phase 12`.
@@ -18,6 +21,7 @@ Publishing the SemantIQ repository to GitHub requires a strict, non-negotiable p
    - Audited Git history; confirmed zero secrets or private trees were ever committed.
 
 ## Consequences
+
 - Zero risk of accidental secret or private archive leakage to GitHub.
 - Complete auditability and reproducibility of the published tree.
 - Publication boundary certified as `PASS`.

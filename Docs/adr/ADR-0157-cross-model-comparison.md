@@ -1,7 +1,7 @@
 # ADR-0157: SemantIQ Cross-Model and Cross-Provider Fair Comparison Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

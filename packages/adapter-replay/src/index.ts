@@ -3,5 +3,5 @@
  * Entry Point
  */
 
-export * from './replay-instance.js';
-export * from './replay-adapter.js';
+export * from "./replay-instance.js";
+export * from "./replay-adapter.js";

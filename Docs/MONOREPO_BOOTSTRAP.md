@@ -3,6 +3,7 @@
 The Tech Club monorepo is the production engineering home for all future implementation work.
 
 ## Root Areas
+
 - `apps/`: web, desktop, mobile, admin, documentation, playground, benchmark, and demo apps.
 - `packages/`: domain, platform, runtime, SDK, API, event, config, shared, and UI packages.
 - `services/`: independently deployable runtime services.
@@ -15,6 +16,7 @@ The Tech Club monorepo is the production engineering home for all future impleme
 - `deployment/`: future deployment manifests and release artifacts.
 
 ## Toolchain
+
 - pnpm for package management.
 - TurboRepo for task graph and caching.
 - TypeScript for shared contracts.
@@ -23,4 +25,5 @@ The Tech Club monorepo is the production engineering home for all future impleme
 - DevContainer and VS Code settings for onboarding.
 
 ## Bootstrap Rule
+
 The repository is now ready for infrastructure work, not feature work. Every feature still begins with Spec-Kit.

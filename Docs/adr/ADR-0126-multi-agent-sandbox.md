@@ -1,7 +1,7 @@
 # ADR-0126: Multi-Agent Execution Topologies in SemantIQ Sandboxes
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

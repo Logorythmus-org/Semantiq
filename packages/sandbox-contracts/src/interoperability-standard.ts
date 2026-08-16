@@ -3,21 +3,21 @@
  * SemantIQ Provider Interoperability Standard (SPIS) Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type SpisConformanceLevel =
-  | 'SPIS_CORE_L1'             // Basic execution contract & exit codes
-  | 'SPIS_HERMETIC_L2'         // L1 + Resource limits & network isolation
-  | 'SPIS_FULL_OBSERVABLE_L3'; // L2 + Independent observer PTY mirror & Merkle provenance
+  | "SPIS_CORE_L1" // Basic execution contract & exit codes
+  | "SPIS_HERMETIC_L2" // L1 + Resource limits & network isolation
+  | "SPIS_FULL_OBSERVABLE_L3"; // L2 + Independent observer PTY mirror & Merkle provenance
 
 export type SpisErrorCategory =
-  | 'INVALID_SPEC'
-  | 'CAPABILITY_UNSUPPORTED'
-  | 'RESOURCE_EXHAUSTION'
-  | 'ISOLATION_VIOLATION'
-  | 'EGRESS_BLOCKED'
-  | 'EXECUTION_TIMEOUT'
-  | 'INTERNAL_PROVIDER_ERROR';
+  | "INVALID_SPEC"
+  | "CAPABILITY_UNSUPPORTED"
+  | "RESOURCE_EXHAUSTION"
+  | "ISOLATION_VIOLATION"
+  | "EGRESS_BLOCKED"
+  | "EXECUTION_TIMEOUT"
+  | "INTERNAL_PROVIDER_ERROR";
 
 export interface SpisVersionNegotiation {
   readonly requestedVersion: string;
@@ -33,7 +33,7 @@ export interface SpisProviderInteroperabilityManifest {
   readonly supportedRuntimes: readonly string[];
   readonly supportedSecurityProfiles: readonly string[];
   readonly supportedExtensions: readonly string[];
-  readonly evidenceHashAlgorithm: 'sha256' | 'sha512';
+  readonly evidenceHashAlgorithm: "sha256" | "sha512";
   readonly lifecycleEndpoint: string;
   readonly manifestDigest: string;
   readonly certificationSignatureHex: string;
@@ -52,7 +52,7 @@ export class SpisInteroperabilityEngine {
     const isCompatible = supportedVersions.includes(requestedVersion);
     const negotiatedVersion = isCompatible
       ? requestedVersion
-      : (supportedVersions[supportedVersions.length - 1] ?? '1.0.0');
+      : (supportedVersions[supportedVersions.length - 1] ?? "1.0.0");
 
     return {
       requestedVersion,
@@ -69,8 +69,8 @@ export class SpisInteroperabilityEngine {
     supportedRuntimes: readonly string[],
     supportedSecurityProfiles: readonly string[],
     supportedExtensions: readonly string[] = [],
-    evidenceHashAlgorithm: 'sha256' | 'sha512' = 'sha256',
-    lifecycleEndpoint = 'http://localhost/spis/v1'
+    evidenceHashAlgorithm: "sha256" | "sha512" = "sha256",
+    lifecycleEndpoint = "http://localhost/spis/v1"
   ): SpisProviderInteroperabilityManifest {
     const unsigned = {
       spisVersion,
@@ -93,14 +93,12 @@ export class SpisInteroperabilityEngine {
     };
   }
 
-  verifyConformance(
-    manifest: SpisProviderInteroperabilityManifest
-  ): boolean {
+  verifyConformance(manifest: SpisProviderInteroperabilityManifest): boolean {
     return (
-      manifest.spisVersion.startsWith('1.') &&
+      manifest.spisVersion.startsWith("1.") &&
       manifest.supportedRuntimes.length > 0 &&
       manifest.manifestDigest.length === 64 &&
-      manifest.certificationSignatureHex.startsWith('3045022100')
+      manifest.certificationSignatureHex.startsWith("3045022100")
     );
   }
 
@@ -111,22 +109,22 @@ export class SpisInteroperabilityEngine {
       `**Certified Conformance Level**: **${manifest.conformanceLevel}**`,
       `**Evidence Hash Algorithm**: \`${manifest.evidenceHashAlgorithm}\``,
       `**Lifecycle Protocol Endpoint**: \`${manifest.lifecycleEndpoint}\``,
-      '',
-      '## 1. Supported Runtime Technologies',
-      ...manifest.supportedRuntimes.map(r => `- ⚙️ \`${r}\``),
-      '',
-      '## 2. Supported Security & Isolation Profiles',
-      ...manifest.supportedSecurityProfiles.map(s => `- 🛡️ \`${s}\``),
-      '',
-      '## 3. Registered Extensions',
+      "",
+      "## 1. Supported Runtime Technologies",
+      ...manifest.supportedRuntimes.map((r) => `- ⚙️ \`${r}\``),
+      "",
+      "## 2. Supported Security & Isolation Profiles",
+      ...manifest.supportedSecurityProfiles.map((s) => `- 🛡️ \`${s}\``),
+      "",
+      "## 3. Registered Extensions",
       manifest.supportedExtensions.length > 0
-        ? manifest.supportedExtensions.map(e => `- 🔌 \`${e}\``).join('\n')
-        : '- *(None - Pure Standard Conformance)*',
-      '',
+        ? manifest.supportedExtensions.map((e) => `- 🔌 \`${e}\``).join("\n")
+        : "- *(None - Pure Standard Conformance)*",
+      "",
       `**Manifest Digest**: \`${manifest.manifestDigest}\``,
       `**SPIS Certification Signature**: \`${manifest.certificationSignatureHex}\``
     ];
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

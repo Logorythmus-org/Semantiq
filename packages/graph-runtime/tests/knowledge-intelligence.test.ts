@@ -2,7 +2,11 @@ import { describe, expect, it } from "vitest";
 import { createKnowledgeObjectAggregate } from "../../core/src/index.js";
 import { ExplainableSemantiqRuntime } from "../../semantiq/src/index.js";
 import { LocalQuestionIntelligenceEngine } from "../../question-intelligence/src/index.js";
-import { LocalKnowledgeGraphRuntime, createKnowledgeEdge, type KnowledgeNode } from "../src/index.js";
+import {
+  LocalKnowledgeGraphRuntime,
+  createKnowledgeEdge,
+  type KnowledgeNode
+} from "../src/index.js";
 
 const node = (id: string, type: KnowledgeNode["type"], title: string): KnowledgeNode => ({
   id,
@@ -21,9 +25,17 @@ const node = (id: string, type: KnowledgeNode["type"], title: string): Knowledge
 describe("knowledge intelligence runtime", () => {
   it("creates nodes, edges, traversal results, timeline entries, and events", async () => {
     const runtime = new LocalKnowledgeGraphRuntime();
-    await runtime.createNode(node("node:question", "question", "How can evidence improve learning?"));
-    await runtime.createNode(node("node:evidence", "evidence", "Evidence improves learning through feedback."));
-    await runtime.createEdge(createKnowledgeEdge("edge:answers", "node:evidence", "node:question", "answers", ["evidence:1"]));
+    await runtime.createNode(
+      node("node:question", "question", "How can evidence improve learning?")
+    );
+    await runtime.createNode(
+      node("node:evidence", "evidence", "Evidence improves learning through feedback.")
+    );
+    await runtime.createEdge(
+      createKnowledgeEdge("edge:answers", "node:evidence", "node:question", "answers", [
+        "evidence:1"
+      ])
+    );
 
     const neighborhood = await runtime.neighborhood("node:question", 1);
     const path = await runtime.shortestPath("node:question", "node:evidence");
@@ -37,9 +49,17 @@ describe("knowledge intelligence runtime", () => {
 
   it("searches and recommends through semantic relationships", async () => {
     const runtime = new LocalKnowledgeGraphRuntime();
-    await runtime.createNode(node("node:question", "question", "What makes a reusable knowledge graph?"));
-    await runtime.createNode(node("node:research", "research", "Reusable graph research with explainable relations."));
-    await runtime.createEdge(createKnowledgeEdge("edge:references", "node:question", "node:research", "references", ["paper:1"]));
+    await runtime.createNode(
+      node("node:question", "question", "What makes a reusable knowledge graph?")
+    );
+    await runtime.createNode(
+      node("node:research", "research", "Reusable graph research with explainable relations.")
+    );
+    await runtime.createEdge(
+      createKnowledgeEdge("edge:references", "node:question", "node:research", "references", [
+        "paper:1"
+      ])
+    );
 
     const search = await runtime.searchKnowledge("reusable graph");
     const recommendations = await runtime.recommendKnowledge("node:question");

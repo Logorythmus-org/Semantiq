@@ -24,15 +24,15 @@ SemantIQ separates **Artifact Identity**, **Version Identity**, and **Cryptograp
 
 ## Provenance Relationship Vocabulary
 
-| Relationship | Meaning | Example |
-|---|---|---|
-| `isVersionOf` | Parent concept / series | `semantiq:benchmark-pack:synthetic-smoke:v1.0.0` isVersionOf `semantiq:benchmark-pack:synthetic-smoke` |
-| `hasVersion` | Child version | `semantiq:benchmark-pack:synthetic-smoke` hasVersion `v1.0.0` |
-| `isDerivedFrom` | Derived benchmark or dataset | `semantiq:dataset-pack:eval-2026` isDerivedFrom `semantiq:benchmark-pack:synthetic-smoke:v1.0.0` |
-| `documents` | Documentation target | `semantiq:doc:quickstart` documents `semantiq:software-release:semantiq-benchmarks:v0.1.0-alpha.1` |
-| `usesDataset` | Evaluation dataset | `semantiq:evaluation-report:rpt-001` usesDataset `semantiq:dataset-pack:eval-2026` |
-| `usesModel` | Evaluated model backend | `semantiq:evaluation-report:rpt-001` usesModel `ollama-llama3` |
-| `generatedBy` | Generator tool | `semantiq:evaluation-report:rpt-001` generatedBy `semantiq-engine-v0.1.0` |
+| Relationship    | Meaning                      | Example                                                                                                |
+| --------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
+| `isVersionOf`   | Parent concept / series      | `semantiq:benchmark-pack:synthetic-smoke:v1.0.0` isVersionOf `semantiq:benchmark-pack:synthetic-smoke` |
+| `hasVersion`    | Child version                | `semantiq:benchmark-pack:synthetic-smoke` hasVersion `v1.0.0`                                          |
+| `isDerivedFrom` | Derived benchmark or dataset | `semantiq:dataset-pack:eval-2026` isDerivedFrom `semantiq:benchmark-pack:synthetic-smoke:v1.0.0`       |
+| `documents`     | Documentation target         | `semantiq:doc:quickstart` documents `semantiq:software-release:semantiq-benchmarks:v0.1.0-alpha.1`     |
+| `usesDataset`   | Evaluation dataset           | `semantiq:evaluation-report:rpt-001` usesDataset `semantiq:dataset-pack:eval-2026`                     |
+| `usesModel`     | Evaluated model backend      | `semantiq:evaluation-report:rpt-001` usesModel `ollama-llama3`                                         |
+| `generatedBy`   | Generator tool               | `semantiq:evaluation-report:rpt-001` generatedBy `semantiq-engine-v0.1.0`                              |
 
 ---
 

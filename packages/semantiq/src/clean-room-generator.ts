@@ -25,9 +25,9 @@ export interface CleanRoomValidationReport {
   readonly timestamp: string;
 }
 
-const FORBIDDEN_PATTERNS = ['.git/', 'node_modules/', '.env', 'secrets/', '.npmrc-private'];
-const GIT_ARTIFACT_PATTERNS = ['.git', 'COMMIT_EDITMSG', 'ORIG_HEAD', 'FETCH_HEAD'];
-const SECRET_PATTERNS = ['.env', 'secrets', 'credentials', 'private-key'];
+const FORBIDDEN_PATTERNS = [".git/", "node_modules/", ".env", "secrets/", ".npmrc-private"];
+const GIT_ARTIFACT_PATTERNS = [".git", "COMMIT_EDITMSG", "ORIG_HEAD", "FETCH_HEAD"];
+const SECRET_PATTERNS = [".env", "secrets", "credentials", "private-key"];
 
 /**
  * Clean-Room Candidate Generator Engine.
@@ -47,7 +47,7 @@ export class CleanRoomGeneratorEngine {
       sourceCommit,
       manifestVersion,
       generatedAt: new Date().toISOString(),
-      generatorVersion: '11.10',
+      generatorVersion: "11.10",
       isDeterministic: true,
       totalIncludedFiles: totalIncluded,
       totalExcludedFiles: totalExcluded
@@ -70,8 +70,8 @@ export class CleanRoomGeneratorEngine {
         return { isAllowed: false, reason: `forbidden-path: ${pattern}` };
       }
     }
-    if (filePath.startsWith('/') || /^[A-Za-z]:\\/.test(filePath)) {
-      return { isAllowed: false, reason: 'absolute-path' };
+    if (filePath.startsWith("/") || /^[A-Za-z]:\\/.test(filePath)) {
+      return { isAllowed: false, reason: "absolute-path" };
     }
     return { isAllowed: true };
   }
@@ -85,9 +85,9 @@ export class CleanRoomGeneratorEngine {
     for (const f of files) {
       const result = this.validateCandidatePath(f);
       if (!result.isAllowed) {
-        if (result.reason?.startsWith('git-artifact')) gitCount++;
-        else if (result.reason?.startsWith('secret-file')) secretCount++;
-        else if (result.reason === 'absolute-path') absoluteCount++;
+        if (result.reason?.startsWith("git-artifact")) gitCount++;
+        else if (result.reason?.startsWith("secret-file")) secretCount++;
+        else if (result.reason === "absolute-path") absoluteCount++;
         else forbiddenCount++;
       }
     }

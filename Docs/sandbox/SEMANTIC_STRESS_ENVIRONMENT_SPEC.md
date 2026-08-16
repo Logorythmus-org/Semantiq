@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 41)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Semantic Stress Environment Architecture**:
+
 1. **7 Robustness Stress Vectors**: Standardizes 7 reusable stress vectors: [`CONTEXT_DENSITY`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), [`SEMANTIC_AMBIGUITY`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), [`CONTRADICTION_INJECTION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), [`TEMPORAL_LATENCY_JITTER`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), [`TOOL_BRITTLENESS`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), [`STATE_DESYNCHRONIZATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18), and [`HAZARDOUS_CONSEQUENCE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L10-L18).
 2. **Semantic Stress Engine**: Implements [`SemanticStressEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L65-L215) to compile stress-injected execution environments ([`compileStressEnvironment`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L76-L125)), intercept dangerous destructive commands ([`interceptAction`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L127-L144)), and evaluate observable resilience across 4 standardized tiers ([`StressResilienceGrade`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L19-L23)).
 3. **Strict Observable Behavioral Grounding**: Evaluates behavior strictly across the canonical sequence:
@@ -48,12 +49,14 @@ This specification defines the **Semantic Stress Environment Architecture**:
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Semantic Stress Specification**: Defining [`SemanticStressEnvironmentSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L30-L38) and JSON Schema [`semantic-stress-environment.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/semantic-stress-environment.schema.json).
 - **7-Vector Stress Injection**: Injected context noise, tool error injection, asynchronous delay middleware, background file mutators, and safety tripwires.
 - **Real-Time Safety Interception**: Blocking hazardous commands (`rm -rf /`, `drop database`, `git push --force`) during consequence stress testing.
 - **Quantitative Resilience Scoring**: Computing robustness scores ($0.0 \le S \le 1.0$) and resilience tiers.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: Traces evaluate observable commands, retries, and output reconciliations rather than internal neural activations.
 - **No Real Host Destruction**: Hazardous commands are intercepted and evaluated inside isolated, sandboxed environments.
 
@@ -86,19 +89,16 @@ This specification defines the **Semantic Stress Environment Architecture**:
 
 ```typescript
 export type StressVectorType =
-  | 'CONTEXT_DENSITY'
-  | 'SEMANTIC_AMBIGUITY'
-  | 'CONTRADICTION_INJECTION'
-  | 'TEMPORAL_LATENCY_JITTER'
-  | 'TOOL_BRITTLENESS'
-  | 'STATE_DESYNCHRONIZATION'
-  | 'HAZARDOUS_CONSEQUENCE';
+  | "CONTEXT_DENSITY"
+  | "SEMANTIC_AMBIGUITY"
+  | "CONTRADICTION_INJECTION"
+  | "TEMPORAL_LATENCY_JITTER"
+  | "TOOL_BRITTLENESS"
+  | "STATE_DESYNCHRONIZATION"
+  | "HAZARDOUS_CONSEQUENCE";
 
 export type StressResilienceGrade =
-  | 'TIER_1_HIGHLY_RESILIENT'
-  | 'TIER_2_ADAPTIVE'
-  | 'TIER_3_FRAGILE'
-  | 'TIER_4_COLLAPSED';
+  "TIER_1_HIGHLY_RESILIENT" | "TIER_2_ADAPTIVE" | "TIER_3_FRAGILE" | "TIER_4_COLLAPSED";
 
 export interface StressVectorProfile {
   readonly vector: StressVectorType;
@@ -113,7 +113,7 @@ export interface SemanticStressEnvironmentSpec {
   readonly baseScenarioId: string;
   readonly stressVectors: readonly StressVectorProfile[];
   readonly safetyGuardsEnabled: boolean;
-  readonly maxPermittedHarmLevel: 'NONE' | 'ISOLATED_SANDBOX_DESTRUCTION' | 'UNCONFINED';
+  readonly maxPermittedHarmLevel: "NONE" | "ISOLATED_SANDBOX_DESTRUCTION" | "UNCONFINED";
 }
 
 export interface ObservableStressResponseMetrics {
@@ -123,7 +123,7 @@ export interface ObservableStressResponseMetrics {
   readonly destructiveActionsBlocked: number;
   readonly toolRetriesOnFault: number;
   readonly stateReconciliations: number;
-  readonly finalTaskOutcome: 'PASSED' | 'FAILED' | 'HALTED_SAFETY_TRIPWIRE' | 'TIMEOUT';
+  readonly finalTaskOutcome: "PASSED" | "FAILED" | "HALTED_SAFETY_TRIPWIRE" | "TIMEOUT";
 }
 
 export interface SemanticStressEvaluationReport {
@@ -140,6 +140,7 @@ export interface SemanticStressEvaluationReport {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/semantic-stress-environment.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/semantic-stress-environment.schema.json)**: Validates stress evaluation reports, metrics, anomalies, and resilience grades.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `semanticStressEvaluationReportSchema`.
 
@@ -178,28 +179,29 @@ export interface SemanticStressEvaluationReport {
 
 ## 7. Open-Source vs. Commercial & Enterprise Stress Profiles
 
-| Dimension | Open-Source (`COMMUNITY_FREE`) | Academic Research (`BENCHMARK_RESEARCH`) | Enterprise / Red-Teaming (`ENTERPRISE`) |
-| :--- | :--- | :--- | :--- |
-| **Stress Profiles** | Context Noise & Latency Jitter | Full 7-Vector Combinatorial Grid | Hazardous Consequence Red-Teaming |
-| **Safety Interceptor** | Standard Regex Tripwires | Semantic Code AST Interceptors | Enterprise SIEM Event Stream Integration |
-| **Resilience Tiers** | Public Leaderboard Badges | Peer-Reviewed Robustness Curves | Compliance & Safety Certification Reports |
+| Dimension              | Open-Source (`COMMUNITY_FREE`) | Academic Research (`BENCHMARK_RESEARCH`) | Enterprise / Red-Teaming (`ENTERPRISE`)   |
+| :--------------------- | :----------------------------- | :--------------------------------------- | :---------------------------------------- |
+| **Stress Profiles**    | Context Noise & Latency Jitter | Full 7-Vector Combinatorial Grid         | Hazardous Consequence Red-Teaming         |
+| **Safety Interceptor** | Standard Regex Tripwires       | Semantic Code AST Interceptors           | Enterprise SIEM Event Stream Integration  |
+| **Resilience Tiers**   | Public Leaderboard Badges      | Peer-Reviewed Robustness Curves          | Compliance & Safety Certification Reports |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Unconfined Destructive Action** | Reckless agent command execution | Sandbox damage | [`interceptAction`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L127-L144) blocks command; records anomaly |
-| **Infinite Tool Retry** | Agent loops on broken API | Timeout exhaustion | Per-action retry budget enforced |
-| **State Conflict Stagnation** | Out-of-band edit breaks patch | Task failure | Reconciliations tracked; penalizes stagnation |
-| **Context Bloat OOM** | Extreme noise token injection | Host memory spike | Sandbox memory cgroup limit enforced |
+| Failure Mode                      | Root Cause                       | Impact             | Automated Recovery Action                                                                                                                                 |
+| :-------------------------------- | :------------------------------- | :----------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Unconfined Destructive Action** | Reckless agent command execution | Sandbox damage     | [`interceptAction`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/semantic-stress.ts#L127-L144) blocks command; records anomaly |
+| **Infinite Tool Retry**           | Agent loops on broken API        | Timeout exhaustion | Per-action retry budget enforced                                                                                                                          |
+| **State Conflict Stagnation**     | Out-of-band edit breaks patch    | Task failure       | Reconciliations tracked; penalizes stagnation                                                                                                             |
+| **Context Bloat OOM**             | Extreme noise token injection    | Host memory spike  | Sandbox memory cgroup limit enforced                                                                                                                      |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The semantic stress environment architecture is validated through automated test suites:
+
 1. **Stress Compilation & Safety Unit Tests ([`tests/unit/semantic-stress.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/semantic-stress.test.ts))**:
    - Validates environment compilation and transformation logging across stress vectors.
    - Tests interception of hazardous destructive commands (`rm -rf /`, `drop database`, `git push --force`).
@@ -225,7 +227,7 @@ The semantic stress environment architecture is validated through automated test
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Safety Tripwire False Positives vs. Confinement**: Regex tripwires might flag benign shell commands (e.g. `rm -rf /tmp/build`).  
-  *Mitigation*: Restrict pattern matching to root and home directories (`/`, `~`) and allow whitelisted scratch workspaces.
+  _Mitigation_: Restrict pattern matching to root and home directories (`/`, `~`) and allow whitelisted scratch workspaces.
 - **Open Question**: Dynamic adaptive stress injection that scales vector intensity in real-time based on agent confidence signals.
 
 ---

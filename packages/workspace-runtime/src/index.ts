@@ -65,7 +65,9 @@ export class LocalWorkspaceRuntimeRepository implements WorkspaceRuntimeReposito
 }
 
 export class LocalWorkspaceRuntimeService implements WorkspaceRuntimeService {
-  constructor(private readonly repository: LocalWorkspaceRuntimeRepository = new LocalWorkspaceRuntimeRepository()) {}
+  constructor(
+    private readonly repository: LocalWorkspaceRuntimeRepository = new LocalWorkspaceRuntimeRepository()
+  ) {}
 
   async createWorkspace(workspace: RuntimeWorkspace): Promise<void> {
     if (!workspace.offlineEnabled) {
@@ -89,7 +91,12 @@ export class LocalWorkspaceRuntimeService implements WorkspaceRuntimeService {
   async createObject(object: RuntimeKnowledgeObject): Promise<void> {
     await this.requireWorkspace(object.workspaceId);
     await this.repository.saveObject(object);
-    await this.emit("KnowledgeObjectCreated", { kind: object.kind, title: object.title }, object.workspaceId, object.id);
+    await this.emit(
+      "KnowledgeObjectCreated",
+      { kind: object.kind, title: object.title },
+      object.workspaceId,
+      object.id
+    );
   }
 
   async moveObject(objectId: string, targetWorkspaceId: string): Promise<void> {
@@ -98,22 +105,36 @@ export class LocalWorkspaceRuntimeService implements WorkspaceRuntimeService {
       throw new Error(`Knowledge object not found: ${objectId}`);
     }
     await this.requireWorkspace(targetWorkspaceId);
-    await this.emit("KnowledgeObjectCreated", { movedFrom: object.workspaceId, movedTo: targetWorkspaceId }, targetWorkspaceId, object.id);
+    await this.emit(
+      "KnowledgeObjectCreated",
+      { movedFrom: object.workspaceId, movedTo: targetWorkspaceId },
+      targetWorkspaceId,
+      object.id
+    );
   }
 
-  async searchWorkspace(request: WorkspaceSearchRequest): Promise<readonly RuntimeKnowledgeObject[]> {
+  async searchWorkspace(
+    request: WorkspaceSearchRequest
+  ): Promise<readonly RuntimeKnowledgeObject[]> {
     await this.requireWorkspace(request.workspaceId);
     const query = request.query.toLowerCase();
     return this.repository
       .listObjects(request.workspaceId)
-      .filter((object) => object.title.toLowerCase().includes(query) || object.kind.toLowerCase().includes(query))
+      .filter(
+        (object) =>
+          object.title.toLowerCase().includes(query) || object.kind.toLowerCase().includes(query)
+      )
       .slice(0, request.limit);
   }
 
   async launchNotebook(notebook: RuntimeNotebook): Promise<void> {
     await this.requireWorkspace(notebook.workspaceId);
     await this.repository.saveNotebook(notebook);
-    await this.emit("NotebookExecuted", { notebookId: notebook.id, cellCount: notebook.cellIds.length }, notebook.workspaceId);
+    await this.emit(
+      "NotebookExecuted",
+      { notebookId: notebook.id, cellCount: notebook.cellIds.length },
+      notebook.workspaceId
+    );
   }
 
   async launchAgent(workspaceId: string, agentId: string): Promise<void> {
@@ -123,7 +144,11 @@ export class LocalWorkspaceRuntimeService implements WorkspaceRuntimeService {
 
   async renderGraph(projection: WorkspaceGraphProjection): Promise<WorkspaceGraphProjection> {
     await this.requireWorkspace(projection.workspaceId);
-    await this.emit("GraphUpdated", { projectionId: projection.id, renderer: projection.renderer }, projection.workspaceId);
+    await this.emit(
+      "GraphUpdated",
+      { projectionId: projection.id, renderer: projection.renderer },
+      projection.workspaceId
+    );
     return projection;
   }
 
@@ -132,7 +157,11 @@ export class LocalWorkspaceRuntimeService implements WorkspaceRuntimeService {
     if (!plan.encrypted) {
       throw new Error("Workspace synchronization must be encrypted");
     }
-    await this.emit("WorkspaceSynced", { syncPlanId: plan.id, scopes: plan.scopes }, plan.workspaceId);
+    await this.emit(
+      "WorkspaceSynced",
+      { syncPlanId: plan.id, scopes: plan.scopes },
+      plan.workspaceId
+    );
   }
 
   async shareWorkspace(workspaceId: string, principalIds: readonly string[]): Promise<void> {

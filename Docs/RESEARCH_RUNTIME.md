@@ -5,6 +5,7 @@ The Research Runtime turns questions into traceable research projects, evidence,
 The runtime composes Core Domain, Graph Runtime, and Semantiq. It does not own storage infrastructure directly.
 
 ## Runtime Capabilities
+
 - `createResearch()`
 - `createHypothesis()`
 - `addEvidence()`
@@ -22,6 +23,7 @@ The runtime composes Core Domain, Graph Runtime, and Semantiq. It does not own s
 - `analytics()`
 
 ## Invariants
+
 - Every research project starts from a question.
 - Every research object can become a graph node.
 - Evidence keeps provenance.

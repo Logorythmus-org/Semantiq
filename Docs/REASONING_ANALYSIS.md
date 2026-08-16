@@ -3,6 +3,7 @@
 Reasoning Analysis evaluates the thinking structure behind an object.
 
 ## Rubric
+
 - problem decomposition
 - abstraction
 - deduction
@@ -15,4 +16,5 @@ Reasoning Analysis evaluates the thinking structure behind an object.
 - meta-reasoning
 
 ## Explainability
+
 Reports identify strengths, weak reasoning links, assumptions, and possible alternative interpretations.

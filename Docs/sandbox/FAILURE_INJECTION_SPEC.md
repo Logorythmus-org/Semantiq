@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 42)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Failure Injection and Chaos Engineering Architecture**:
+
 1. **7 Injected Fault Types**: Standardizes 7 deterministic fault modes: [`CONTEXT_LOSS_TRUNCATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), [`TOOL_RPC_ERROR`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), [`NETWORK_PARTITION_LATENCY`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), [`STALE_STATE_DRIFT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), [`CONTRADICTION_MUTATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), [`PERMISSION_REVOCATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16), and [`PARTIAL_RESULT_CORRUPTION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L9-L16).
 2. **Deterministic Trigger Engine**: Implements [`FailureInjectionEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L68-L215) to compile execution plans ([`FailureInjectionPlan`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L33-L38)) triggered on step indices, regex matches, tool names, file paths, or probabilities.
 3. **Multi-Step Recovery & MTTR Evaluation**: Evaluates observable recovery trajectories strictly across the canonical sequence:
@@ -49,12 +50,14 @@ This specification defines the **Failure Injection and Chaos Engineering Archite
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Failure Injection Specification**: Defining [`FailureInjectionPlan`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/failure-injection.ts#L33-L38) and JSON Schema [`failure-injection-plan.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/failure-injection-plan.schema.json).
 - **7 Fault Injection Modes**: Simulating context truncation, tool RPC 500 errors, network timeouts, stale file state, shifted test assertions, permission revocations, and corrupted stdout streams.
 - **Recovery & MTTR Tracking**: Measuring step-based recovery latency, alternative action types, and infinite retry loop detection.
 - **Observable Behavioral Preservation**: Evaluating observable shell commands, tool retries, and output reconciliations.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: Evaluates strictly observable actions, stdout/stderr streams, and return codes rather than internal model attention weights.
 - **No Random Non-Reproducible Chaos**: Fault injection sequences are strictly deterministic and replayable via seeds.
 
@@ -87,20 +90,16 @@ This specification defines the **Failure Injection and Chaos Engineering Archite
 
 ```typescript
 export type InjectedFaultType =
-  | 'CONTEXT_LOSS_TRUNCATION'
-  | 'TOOL_RPC_ERROR'
-  | 'NETWORK_PARTITION_LATENCY'
-  | 'STALE_STATE_DRIFT'
-  | 'CONTRADICTION_MUTATION'
-  | 'PERMISSION_REVOCATION'
-  | 'PARTIAL_RESULT_CORRUPTION';
+  | "CONTEXT_LOSS_TRUNCATION"
+  | "TOOL_RPC_ERROR"
+  | "NETWORK_PARTITION_LATENCY"
+  | "STALE_STATE_DRIFT"
+  | "CONTRADICTION_MUTATION"
+  | "PERMISSION_REVOCATION"
+  | "PARTIAL_RESULT_CORRUPTION";
 
 export type FaultTriggerType =
-  | 'ON_STEP_INDEX'
-  | 'ON_COMMAND_REGEX'
-  | 'ON_TOOL_NAME'
-  | 'ON_FILE_PATH'
-  | 'PROBABILISTIC';
+  "ON_STEP_INDEX" | "ON_COMMAND_REGEX" | "ON_TOOL_NAME" | "ON_FILE_PATH" | "PROBABILISTIC";
 
 export interface FaultTriggerCondition {
   readonly triggerType: FaultTriggerType;
@@ -157,6 +156,7 @@ export interface FailureInjectionReport {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/failure-injection-plan.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/failure-injection-plan.schema.json)**: Validates chaos reports, injected fault events, recovery assessments, and scores.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `failureInjectionReportSchema`.
 
@@ -196,28 +196,29 @@ export interface FailureInjectionReport {
 
 ## 7. Open-Source vs. Commercial & Enterprise Chaos Profiles
 
-| Chaos Dimension | Open-Source (`LOCAL_CHAOS`) | Academic Research (`CHAOS_BENCH`) | Enterprise (`PROD_READINESS`) |
-| :--- | :--- | :--- | :--- |
-| **Fault Suite** | Tool RPC & Step-Index Errors | Full 7-Fault Combinatorial Matrix | High-Concurrency Network Chaos |
-| **Recovery Metrics** | MTTR Steps, Pass/Fail | Phase-Transition Recovery Curves | SLA & Cascading Failure Audits |
-| **Replay Artifacts** | Local JSON & Markdown Reports | Reproducible Artifact Bundle | Enterprise Incident Simulation Bundle |
+| Chaos Dimension      | Open-Source (`LOCAL_CHAOS`)   | Academic Research (`CHAOS_BENCH`) | Enterprise (`PROD_READINESS`)         |
+| :------------------- | :---------------------------- | :-------------------------------- | :------------------------------------ |
+| **Fault Suite**      | Tool RPC & Step-Index Errors  | Full 7-Fault Combinatorial Matrix | High-Concurrency Network Chaos        |
+| **Recovery Metrics** | MTTR Steps, Pass/Fail         | Phase-Transition Recovery Curves  | SLA & Cascading Failure Audits        |
+| **Replay Artifacts** | Local JSON & Markdown Reports | Reproducible Artifact Bundle      | Enterprise Incident Simulation Bundle |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Pathological Loop** | Agent repeats identical failed command | Run timeout | Engine detects loop ($>2$ identical actions) and logs loop flag |
-| **Cascading Collapse**| Minor tool error triggers panic | Run failure | Engine tracks step latency from error to final task failure |
-| **Trigger Over-Firing** | Regex matches more commands than intended | Inaccurate test | Rule parameter `maxTriggerCount` caps total firings |
-| **Non-Deterministic Execution**| Unseeded async timer jitter | Inconsistent run | Pinned `deterministicSeed` enforces replayability |
+| Failure Mode                    | Root Cause                                | Impact           | Automated Recovery Action                                       |
+| :------------------------------ | :---------------------------------------- | :--------------- | :-------------------------------------------------------------- |
+| **Pathological Loop**           | Agent repeats identical failed command    | Run timeout      | Engine detects loop ($>2$ identical actions) and logs loop flag |
+| **Cascading Collapse**          | Minor tool error triggers panic           | Run failure      | Engine tracks step latency from error to final task failure     |
+| **Trigger Over-Firing**         | Regex matches more commands than intended | Inaccurate test  | Rule parameter `maxTriggerCount` caps total firings             |
+| **Non-Deterministic Execution** | Unseeded async timer jitter               | Inconsistent run | Pinned `deterministicSeed` enforces replayability               |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The failure injection architecture is verified through automated test suites:
+
 1. **Plan & Recovery Unit Tests ([`tests/unit/failure-injection.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/failure-injection.test.ts))**:
    - Validates deterministic plan creation and trigger condition evaluation.
    - Tests output mutation and `InjectedFaultEvent` generation across fault types.
@@ -242,7 +243,7 @@ The failure injection architecture is verified through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Intrusive Middleware vs. Black-Box Provider APIs**: Injected middleware requires providers to expose tool execution hooks or proxies.  
-  *Mitigation*: Implement standard CLI/stdio wrappers and proxy middleware that wrap arbitrary provider runtimes cleanly.
+  _Mitigation_: Implement standard CLI/stdio wrappers and proxy middleware that wrap arbitrary provider runtimes cleanly.
 - **Open Question**: Multi-agent adversarial chaos where a rogue agent dynamically injects faults into peer agents.
 
 ---

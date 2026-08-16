@@ -1,7 +1,7 @@
 # Shared Memory Integrity & Anomaly Taxonomy (10 Anomaly Classes)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

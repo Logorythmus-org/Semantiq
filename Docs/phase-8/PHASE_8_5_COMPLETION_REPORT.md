@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.5 — Final System Freeze  
 **Date**: 2026-08-01  
-**Target Version**: `0.1.0-alpha.1`  
+**Target Version**: `0.1.0-alpha.1`
 
 ---
 

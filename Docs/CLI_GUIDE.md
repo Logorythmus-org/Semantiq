@@ -3,6 +3,7 @@
 The `techclub` CLI supports development, automation, publishing, diagnostics, and platform operations.
 
 ## Commands
+
 - `techclub init`
 - `techclub dev`
 - `techclub plugin create`
@@ -18,4 +19,5 @@ The `techclub` CLI supports development, automation, publishing, diagnostics, an
 - `techclub marketplace`
 
 ## Automation
+
 CLI commands are scriptable and return structured output where possible.

@@ -6,12 +6,12 @@ This report evaluates **SemantIQ Benchmarks** for WCAG 2.2 AA accessibility alig
 
 ## Evaluation Scope & Summary
 
-| Surface | Target Standard | Status | Audit Findings |
-|---|---|---|---|
-| **Documentation Portal** | WCAG 2.2 Level AA | Compliant | Semantic HTML headers (`<h1>`–`<h4>`), high-contrast text, keyboard navigable TOC links. |
-| **CLI & Terminal Output** | High-Contrast CLI | Compliant | Clear text output, distinct status prefixes (`[PASS]`, `[WARN]`, `[FAIL]`), no color-only information conveyance. |
-| **JSON & Markdown Exports** | Screen Reader Accessible | Compliant | Text-based, structured format readable by screen readers and plain-text editors. |
-| **Visual Graphs & Atlas** | Text Alternative | Compliant | All visual graph views provide structured JSON and Markdown text alternatives (`getGraphTextAlternative()`). |
+| Surface                     | Target Standard          | Status    | Audit Findings                                                                                                    |
+| --------------------------- | ------------------------ | --------- | ----------------------------------------------------------------------------------------------------------------- |
+| **Documentation Portal**    | WCAG 2.2 Level AA        | Compliant | Semantic HTML headers (`<h1>`–`<h4>`), high-contrast text, keyboard navigable TOC links.                          |
+| **CLI & Terminal Output**   | High-Contrast CLI        | Compliant | Clear text output, distinct status prefixes (`[PASS]`, `[WARN]`, `[FAIL]`), no color-only information conveyance. |
+| **JSON & Markdown Exports** | Screen Reader Accessible | Compliant | Text-based, structured format readable by screen readers and plain-text editors.                                  |
+| **Visual Graphs & Atlas**   | Text Alternative         | Compliant | All visual graph views provide structured JSON and Markdown text alternatives (`getGraphTextAlternative()`).      |
 
 ---
 

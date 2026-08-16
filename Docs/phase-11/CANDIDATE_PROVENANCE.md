@@ -1,7 +1,7 @@
 # Candidate Provenance (Prompt 11.14)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 

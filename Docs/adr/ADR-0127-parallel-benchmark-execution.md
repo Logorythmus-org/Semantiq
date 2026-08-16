@@ -1,7 +1,7 @@
 # ADR-0127: Parallel Benchmark Execution Across Sandboxes
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

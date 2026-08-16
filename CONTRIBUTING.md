@@ -3,6 +3,7 @@
 Tech Club follows Spec-Kit development. Every production change must link to a specification, backlog ID, acceptance tests, validation evidence, and documentation updates.
 
 ## Workflow
+
 1. Complete repository audit for the target area.
 2. Create or update the Spec-Kit record.
 3. Define acceptance tests before implementation.
@@ -11,6 +12,7 @@ Tech Club follows Spec-Kit development. Every production change must link to a s
 6. Update documentation and changelog notes.
 
 ## Standards
+
 - Conventional commits.
 - Strict TypeScript and typed Python.
 - Package boundaries remain explicit.

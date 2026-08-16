@@ -3,6 +3,7 @@
 The Knowledge Timeline records semantic evolution.
 
 ## Timeline Areas
+
 - Version history.
 - Question evolution.
 - Research evolution.

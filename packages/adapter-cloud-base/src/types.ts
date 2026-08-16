@@ -24,6 +24,6 @@ export interface CloudBillingMetadata {
   readonly billedExecutionDurationMs: number;
   readonly wallClockDurationMs: number;
   readonly estimatedCostUsd: number;
-  readonly currency: 'USD';
+  readonly currency: "USD";
   readonly zeroDataRetentionConfirmed: boolean;
 }

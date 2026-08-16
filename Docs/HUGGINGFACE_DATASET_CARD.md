@@ -1,38 +1,38 @@
 ---
 annotations_creators:
-- synthetic
+  - synthetic
 language_creators:
-- expert-generated
+  - expert-generated
 language:
-- en
+  - en
 license:
-- cc0-1.0
+  - cc0-1.0
 multilinguality:
-- monolingual
+  - monolingual
 size_categories:
-- n<1K
+  - n<1K
 source_datasets:
-- original
+  - original
 task_categories:
-- evaluation
-- question-answering
+  - evaluation
+  - question-answering
 task_ids:
-- evaluation-benchmarks
+  - evaluation-benchmarks
 pretty_name: SemantIQ Benchmarks Synthetic Smoke Dataset
 dataset_info:
   features:
-  - name: id
-    dtype: string
-  - name: title
-    dtype: string
-  - name: content
-    dtype: string
-  - name: kind
-    dtype: string
-  - name: version
-    dtype: string
-  - name: evidence_ids
-    sequence: string
+    - name: id
+      dtype: string
+    - name: title
+      dtype: string
+    - name: content
+      dtype: string
+    - name: kind
+      dtype: string
+    - name: version
+      dtype: string
+    - name: evidence_ids
+      sequence: string
 ---
 
 # SemantIQ Benchmarks Synthetic Smoke Dataset

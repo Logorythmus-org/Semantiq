@@ -27,6 +27,7 @@
 ## 2. Files Audit
 
 ### Files Inspected
+
 - `package.json`
 - `packages/semantiq/package.json`
 - `packages/semantiq/src/index.ts`
@@ -37,6 +38,7 @@
 - `scripts/boundary-validator.mjs`
 
 ### Files Created
+
 - `PHASE_12_PUBLIC_ALPHA_EVIDENCE_MANIFEST.json`
 - `schemas/public-alpha-evidence-manifest.schema.json`
 - `packages/semantiq/src/release-candidate-integrity.ts`
@@ -46,6 +48,7 @@
 - `PHASE_11_5_RC_INTEGRITY_REPORT.md`
 
 ### Files Modified
+
 - `packages/semantiq/src/index.ts`
 
 ---

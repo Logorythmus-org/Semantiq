@@ -1,7 +1,7 @@
 # Phase 8 Remaining Risks & Deferred Work
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

@@ -1,29 +1,29 @@
-import type { BehavioralEventSchema } from './event-schema.js';
+import type { BehavioralEventSchema } from "./event-schema.js";
 
 export type GraphNodeType =
-  | 'event'
-  | 'action'
-  | 'decision'
-  | 'resource'
-  | 'permission'
-  | 'evidence'
-  | 'result'
-  | 'consequence'
-  | 'recovery';
+  | "event"
+  | "action"
+  | "decision"
+  | "resource"
+  | "permission"
+  | "evidence"
+  | "result"
+  | "consequence"
+  | "recovery";
 
 export type GraphEdgeType =
-  | 'follows'
-  | 'caused_by'
-  | 'enabled_by'
-  | 'denied_by'
-  | 'used_tool'
-  | 'affected_resource'
-  | 'produced'
-  | 'observed_as'
-  | 'violated'
-  | 'recovered_by'
-  | 'approved_by'
-  | 'delegated_to';
+  | "follows"
+  | "caused_by"
+  | "enabled_by"
+  | "denied_by"
+  | "used_tool"
+  | "affected_resource"
+  | "produced"
+  | "observed_as"
+  | "violated"
+  | "recovered_by"
+  | "approved_by"
+  | "delegated_to";
 
 export interface GraphNode {
   readonly id: string;
@@ -79,34 +79,34 @@ export class BehavioralGraphBuilder {
       // Event node
       addNode({
         id: evt.eventId,
-        type: 'event',
+        type: "event",
         label: `${evt.eventType}:${evt.primaryVerb}`,
         metadata: { sequenceNumber: evt.sequenceNumber, timestamp: evt.timestamp }
       });
 
       // Causal edges to parent events
       for (const pId of evt.parentEventIds) {
-        edges.push({ sourceId: evt.eventId, targetId: pId, type: 'caused_by' });
+        edges.push({ sourceId: evt.eventId, targetId: pId, type: "caused_by" });
       }
 
       // Temporal edge
       if (prevEventId) {
-        edges.push({ sourceId: prevEventId, targetId: evt.eventId, type: 'follows' });
+        edges.push({ sourceId: prevEventId, targetId: evt.eventId, type: "follows" });
       }
       prevEventId = evt.eventId;
 
       // Resource node
       if (evt.resourceRef) {
         const resId = `res_${evt.resourceRef}`;
-        addNode({ id: resId, type: 'resource', label: evt.resourceRef, metadata: {} });
-        edges.push({ sourceId: evt.eventId, targetId: resId, type: 'affected_resource' });
+        addNode({ id: resId, type: "resource", label: evt.resourceRef, metadata: {} });
+        edges.push({ sourceId: evt.eventId, targetId: resId, type: "affected_resource" });
       }
 
       // Permission node
       if (evt.permissionRef) {
         const permId = `perm_${evt.permissionRef}`;
-        addNode({ id: permId, type: 'permission', label: evt.permissionRef, metadata: {} });
-        edges.push({ sourceId: evt.eventId, targetId: permId, type: 'enabled_by' });
+        addNode({ id: permId, type: "permission", label: evt.permissionRef, metadata: {} });
+        edges.push({ sourceId: evt.eventId, targetId: permId, type: "enabled_by" });
       }
     }
 
@@ -125,7 +125,11 @@ export class BehavioralGraphBuilder {
  * Rebuilds execution graph from stored replay bundle without making live network or shell calls.
  */
 export class DryReplayEngine {
-  replayBundle(bundle: ReplayBundle): { success: boolean; graph: BehavioralExecutionGraph; errors: readonly string[] } {
+  replayBundle(bundle: ReplayBundle): {
+    success: boolean;
+    graph: BehavioralExecutionGraph;
+    errors: readonly string[];
+  } {
     const errors: string[] = [];
 
     // Verify evidence hashes match
@@ -133,7 +137,9 @@ export class DryReplayEngine {
       for (const evRef of evt.evidenceRefs) {
         const expected = bundle.evidenceHashes[evRef.uri];
         if (expected && expected !== evRef.hash) {
-          errors.push(`EVIDENCE CHECKSUM MISMATCH: '${evRef.uri}' expected ${expected} but got ${evRef.hash}`);
+          errors.push(
+            `EVIDENCE CHECKSUM MISMATCH: '${evRef.uri}' expected ${expected} but got ${evRef.hash}`
+          );
         }
       }
     }
@@ -160,7 +166,7 @@ export class HumanReadableTraceRenderer {
     md += `|---|---|---|---|---|\n`;
 
     for (const evt of events) {
-      md += `| ${evt.sequenceNumber} | ${evt.eventType} | \`${evt.primaryVerb}\` | ${evt.resourceRef || 'N/A'} | ${evt.timestamp} |\n`;
+      md += `| ${evt.sequenceNumber} | ${evt.eventType} | \`${evt.primaryVerb}\` | ${evt.resourceRef || "N/A"} | ${evt.timestamp} |\n`;
     }
 
     return md;

@@ -3,6 +3,7 @@
 The Search Engine supports provider-abstract knowledge search.
 
 ## Modes
+
 - Semantic search.
 - Hybrid search.
 - Keyword search.

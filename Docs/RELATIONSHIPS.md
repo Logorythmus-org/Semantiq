@@ -3,6 +3,7 @@
 Relationships are first-class domain objects owned by the Knowledge Graph context.
 
 ## Relationship Shape
+
 ```ts
 type SemanticRelationship = {
   id: string;
@@ -20,6 +21,7 @@ type SemanticRelationship = {
 ```
 
 ## Relationship Types
+
 - supports
 - contradicts
 - extends
@@ -38,6 +40,7 @@ type SemanticRelationship = {
 - future-work
 
 ## Rules
+
 - Relationships may connect any domain object with a stable identity.
 - A relationship can be proposed, accepted, rejected, superseded, or archived.
 - Relationship changes emit events.

@@ -6,7 +6,7 @@
 **Version Baseline**: `v0.1.0-alpha.1` (Pre-Release Baseline)  
 **Sandbox Subsystem Status**: `INTERNAL GATE PASSED`  
 **SemantIQ Product Release Status**: `PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`  
-**R07 Audit Verdict**: **`PASS`**  
+**R07 Audit Verdict**: **`PASS`**
 
 ---
 
@@ -17,6 +17,7 @@ This document certifies the successful execution of **R07: Clean Public Release 
 In strict enforcement of the non-negotiable rule that **the local workspace is not the publication unit**, an isolated clean staging tree was instantiated at `C:/Users/Kaveh/Desktop/semantiq-clean-staging` populated **strictly from the R06 positive allowlist**. Zero unapproved files, zero local environment secrets (`.env.local`), zero private preservation archives (`semantiq-preservation-private`), and zero transient run artifacts were admitted into the staging environment.
 
 ### Non-Negotiable Staging Pipeline Certified:
+
 $$\text{Local Workspace} \longrightarrow \text{Inventory} \longrightarrow \text{Positive Allowlist} \longrightarrow \text{Clean Isolated Staging} \longrightarrow \text{Manifest/Hash Verification} \longrightarrow \text{Isolated Git Repository} \longrightarrow \text{Push Dry-Run} \longrightarrow \text{Phase 12}$$
 
 ---
@@ -40,14 +41,14 @@ Composed exclusively of files verified against [`Docs/release/github-publication
 
 ## 4. Path Classification Matrix
 
-| Category | Count in Staging | Status | Description |
-|:---|:---:|:---:|:---|
-| **`PUBLIC_REQUIRED`** | 2,615 | **STAGED & VERIFIED** | Core engines, contracts, packages, services, tests, docs, configs |
-| **`PUBLIC_OPTIONAL`** | 211 | **STAGED & VERIFIED** | Supplementary examples, specs, rubrics, governance |
-| **`GENERATED_BUT_APPROVED`** | 75 | **STAGED & VERIFIED** | Canonical Draft 2020-12 schemas, replication records |
-| **`SECRET_OR_SENSITIVE`** | 0 | **EXCLUDED (0 in Staging)** | `.env.local` verified absent |
-| **`PRIVATE_EXCLUDE`** | 0 | **EXCLUDED (0 in Staging)** | `semantiq-preservation-private`, `artifacts`, `tmp` absent |
-| **`LOCAL_ONLY`** | 0 | **EXCLUDED (0 in Staging)** | `.vscode`, `.turbo`, `node_modules` absent |
+| Category                     | Count in Staging |           Status            | Description                                                       |
+| :--------------------------- | :--------------: | :-------------------------: | :---------------------------------------------------------------- |
+| **`PUBLIC_REQUIRED`**        |      2,615       |    **STAGED & VERIFIED**    | Core engines, contracts, packages, services, tests, docs, configs |
+| **`PUBLIC_OPTIONAL`**        |       211        |    **STAGED & VERIFIED**    | Supplementary examples, specs, rubrics, governance                |
+| **`GENERATED_BUT_APPROVED`** |        75        |    **STAGED & VERIFIED**    | Canonical Draft 2020-12 schemas, replication records              |
+| **`SECRET_OR_SENSITIVE`**    |        0         | **EXCLUDED (0 in Staging)** | `.env.local` verified absent                                      |
+| **`PRIVATE_EXCLUDE`**        |        0         | **EXCLUDED (0 in Staging)** | `semantiq-preservation-private`, `artifacts`, `tmp` absent        |
+| **`LOCAL_ONLY`**             |        0         | **EXCLUDED (0 in Staging)** | `.vscode`, `.turbo`, `node_modules` absent                        |
 
 ---
 
@@ -63,6 +64,7 @@ Composed exclusively of files verified against [`Docs/release/github-publication
 ## 6. Explicit Exclusions Verification
 
 Every restricted path was inspected in `C:/Users/Kaveh/Desktop/semantiq-clean-staging` to confirm 100% absence:
+
 - `.env.local`: **ABSENT**
 - `semantiq-preservation-private`: **ABSENT**
 - `artifacts`: **ABSENT**

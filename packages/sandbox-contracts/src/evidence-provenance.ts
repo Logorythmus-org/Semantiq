@@ -3,14 +3,10 @@
  * End-to-End Evidence Provenance and Lineage Graph Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type LineageRelationType =
-  | 'DERIVED_FROM'
-  | 'GENERATED_BY'
-  | 'EVALUATED_BY'
-  | 'TRANSFORMED_BY'
-  | 'EXECUTED_IN';
+  "DERIVED_FROM" | "GENERATED_BY" | "EVALUATED_BY" | "TRANSFORMED_BY" | "EXECUTED_IN";
 
 export interface BenchmarkManifestLineage {
   readonly scenarioId: string;
@@ -103,7 +99,7 @@ export class EvidenceProvenanceEngine {
       computeSha256(canonicalJson(evaluator))
     ];
 
-    const graphMerkleRoot = computeSha256(nodeHashes.join(':'));
+    const graphMerkleRoot = computeSha256(nodeHashes.join(":"));
 
     const unsignedGraph = {
       graphId,
@@ -128,7 +124,10 @@ export class EvidenceProvenanceEngine {
     };
   }
 
-  verifyContinuity(graph: ComprehensiveEvidenceProvenanceGraph): { valid: boolean; violations: readonly string[] } {
+  verifyContinuity(graph: ComprehensiveEvidenceProvenanceGraph): {
+    valid: boolean;
+    violations: readonly string[];
+  } {
     const violations: string[] = [];
 
     // 1. Verify Merkle Root
@@ -140,9 +139,11 @@ export class EvidenceProvenanceEngine {
       computeSha256(canonicalJson(graph.artifacts)),
       computeSha256(canonicalJson(graph.evaluator))
     ];
-    const expectedMerkleRoot = computeSha256(expectedNodeHashes.join(':'));
+    const expectedMerkleRoot = computeSha256(expectedNodeHashes.join(":"));
     if (graph.graphMerkleRoot !== expectedMerkleRoot) {
-      violations.push(`Graph Merkle root mismatch: expected ${expectedMerkleRoot}, got ${graph.graphMerkleRoot}`);
+      violations.push(
+        `Graph Merkle root mismatch: expected ${expectedMerkleRoot}, got ${graph.graphMerkleRoot}`
+      );
     }
 
     // 2. Verify Transformation chain continuity
@@ -150,7 +151,9 @@ export class EvidenceProvenanceEngine {
       const prev = graph.transformations[i - 1]!;
       const curr = graph.transformations[i]!;
       if (curr.inputDigest !== prev.outputDigest) {
-        violations.push(`Transformation pipeline broken at step ${i}: input ${curr.inputDigest} != prev output ${prev.outputDigest}`);
+        violations.push(
+          `Transformation pipeline broken at step ${i}: input ${curr.inputDigest} != prev output ${prev.outputDigest}`
+        );
       }
     }
 
@@ -173,31 +176,33 @@ export class EvidenceProvenanceEngine {
       `**Scenario**: \`${graph.scenarioId}\` | **Run ID**: \`${graph.runId}\``,
       `**Graph Merkle Root**: \`${graph.graphMerkleRoot}\``,
       `**Sealed At**: ${graph.sealedAt}`,
-      '',
-      '## 1. Provenance Lineage Summary',
-      '| Dimension | Identity / Version | Digest / Hash |',
-      '| :--- | :--- | :--- |',
+      "",
+      "## 1. Provenance Lineage Summary",
+      "| Dimension | Identity / Version | Digest / Hash |",
+      "| :--- | :--- | :--- |",
       `| **Benchmark Scenario** | \`${graph.benchmark.scenarioId}\` (v${graph.benchmark.dslVersion}) | \`${graph.benchmark.manifestDigest.substring(0, 16)}...\` |`,
       `| **Tested Model & Agent** | \`${graph.model.modelId}\` (\`${graph.model.agentArchitecture}\`) | \`${graph.model.promptDigest.substring(0, 16)}...\` |`,
       `| **Execution Environment** | \`${graph.environment.providerId}\` (v${graph.environment.providerVersion}) | \`${graph.environment.imageDigest.substring(0, 16)}...\` |`,
       `| **Evaluation Engine** | \`${graph.evaluator.evaluatorId}\` (v${graph.evaluator.evaluatorVersion}) | \`${graph.evaluator.rubricDigest.substring(0, 16)}...\` |`,
-      '',
-      '## 2. Generated Artifacts & Hashes',
-      '| Artifact Path | Size | Source Step | SHA-256 Digest |',
-      '| :--- | :--- | :--- | :--- |'
+      "",
+      "## 2. Generated Artifacts & Hashes",
+      "| Artifact Path | Size | Source Step | SHA-256 Digest |",
+      "| :--- | :--- | :--- | :--- |"
     ];
 
     if (graph.artifacts.length === 0) {
-      lines.push('| _No artifacts produced_ | 0 B | _N/A_ | _N/A_ |');
+      lines.push("| _No artifacts produced_ | 0 B | _N/A_ | _N/A_ |");
     } else {
       for (const art of graph.artifacts) {
-        lines.push(`| \`${art.path}\` | ${art.sizeBytes} B | Step ${art.sourceStep} | \`${art.sha256.substring(0, 16)}...\` |`);
+        lines.push(
+          `| \`${art.path}\` | ${art.sizeBytes} B | Step ${art.sourceStep} | \`${art.sha256.substring(0, 16)}...\` |`
+        );
       }
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Provenance Cryptographic Signature**: \`${graph.lineageSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

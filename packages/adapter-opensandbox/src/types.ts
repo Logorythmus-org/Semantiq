@@ -18,25 +18,29 @@ export interface OpenSandboxDaemonInfo {
     readonly snapshots: boolean;
     readonly fsDiff: boolean;
   };
-  readonly supportedArchitectures: readonly ('x86_64' | 'aarch64')[];
+  readonly supportedArchitectures: readonly ("x86_64" | "aarch64")[];
 }
 
 export interface CreateSandboxWireRequest {
   readonly image: string;
   readonly workingDir?: string | undefined;
   readonly env?: Record<string, string> | undefined;
-  readonly resources?: {
-    readonly cpuCores?: number | undefined;
-    readonly memoryMb?: number | undefined;
-    readonly diskMb?: number | undefined;
-    readonly pidsMax?: number | undefined;
-  } | undefined;
-  readonly security?: {
-    readonly networkMode?: string | undefined;
-    readonly allowedEgressHosts?: readonly string[] | undefined;
-    readonly readOnlyRoot?: boolean | undefined;
-    readonly unprivilegedUser?: string | undefined;
-  } | undefined;
+  readonly resources?:
+    | {
+        readonly cpuCores?: number | undefined;
+        readonly memoryMb?: number | undefined;
+        readonly diskMb?: number | undefined;
+        readonly pidsMax?: number | undefined;
+      }
+    | undefined;
+  readonly security?:
+    | {
+        readonly networkMode?: string | undefined;
+        readonly allowedEgressHosts?: readonly string[] | undefined;
+        readonly readOnlyRoot?: boolean | undefined;
+        readonly unprivilegedUser?: string | undefined;
+      }
+    | undefined;
 }
 
 export interface CreateSandboxWireResponse {
@@ -61,6 +65,11 @@ export interface ExecWireResponse {
 
 export interface OpenSandboxDiffWireResponse {
   readonly created: readonly { path: string; sha256: string; size: number }[];
-  readonly modified: readonly { path: string; preSha256: string; postSha256: string; diff: string }[];
+  readonly modified: readonly {
+    path: string;
+    preSha256: string;
+    postSha256: string;
+    diff: string;
+  }[];
   readonly deleted: readonly string[];
 }

@@ -64,7 +64,8 @@ export interface PolicyObject {
   readonly affectedCommunityIds: readonly string[];
   readonly alternativeIds: readonly string[];
   readonly versionHistoryIds: readonly string[];
-  readonly implementationStatus: "draft" | "review" | "approved" | "implementing" | "active" | "under-review" | "retired";
+  readonly implementationStatus:
+    "draft" | "review" | "approved" | "implementing" | "active" | "under-review" | "retired";
   readonly impactIds: readonly string[];
   readonly reviewSchedule: string;
   readonly graphLinkIds: readonly string[];
@@ -148,7 +149,14 @@ export interface TransparencyRecord {
 
 export interface GovernanceRoadmap {
   readonly id: string;
-  readonly scope: "community" | "organization" | "research-network" | "education" | "innovation" | "infrastructure" | "global-challenge";
+  readonly scope:
+    | "community"
+    | "organization"
+    | "research-network"
+    | "education"
+    | "innovation"
+    | "infrastructure"
+    | "global-challenge";
   readonly processIds: readonly string[];
   readonly policyIds: readonly string[];
   readonly evidenceIds: readonly string[];

@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 26)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 Benchmarking multi-agent systems (collaborative software engineering, autonomous security red-teaming, decentralized planning, multi-agent negotiation, and adversarial simulation) requires orchestrating multiple distinct agent instances interacting within shared or partitioned sandboxes.
 
 This specification defines **Provider-Neutral Multi-Agent Execution Contracts**:
+
 1. **SemantIQ Core** declares declarative topologies (`MultiAgentTopologySpec`), participant roles (`AgentParticipantSpec`), shared resource mounts (`SharedResourceSpec`), and communication boundaries (`CommunicationPolicy`).
 2. **Provider Adapters** provision and interconnect the physical execution boundaries (multi-container bridge networks, shared volume mounts, or isolated microVM networks).
 3. **Causal Evidence Normalization** assigns monotonic causal sequence numbers and strict action attributions (`actorId`, `actorRole`, `action`, `target`) to all inter-agent messages and state mutations.
@@ -81,12 +82,19 @@ Benchmark → Multi-Agent Topology Contract → Router → Provider Adapter → 
 ## 5. Data & Event Schemas
 
 ### 5.1 Multi-Agent Topology Specification
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "MultiAgentTopologySpec",
   "type": "object",
-  "required": ["topologyId", "participants", "sharedResources", "communicationPolicies", "maxExecutionDurationSeconds"],
+  "required": [
+    "topologyId",
+    "participants",
+    "sharedResources",
+    "communicationPolicies",
+    "maxExecutionDurationSeconds"
+  ],
   "properties": {
     "topologyId": { "type": "string" },
     "participants": {
@@ -97,7 +105,10 @@ Benchmark → Multi-Agent Topology Contract → Router → Provider Adapter → 
         "properties": {
           "agentId": { "type": "string" },
           "role": { "type": "string" },
-          "isolationLevel": { "type": "string", "enum": ["shared_process", "isolated_container", "isolated_microvm"] },
+          "isolationLevel": {
+            "type": "string",
+            "enum": ["shared_process", "isolated_container", "isolated_microvm"]
+          },
           "permissions": { "type": "array", "items": { "type": "string" } },
           "environmentOverrides": { "type": "object", "additionalProperties": { "type": "string" } }
         }
@@ -110,7 +121,10 @@ Benchmark → Multi-Agent Topology Contract → Router → Provider Adapter → 
         "required": ["resourceId", "resourceType", "accessMode", "accessibleByAgentIds"],
         "properties": {
           "resourceId": { "type": "string" },
-          "resourceType": { "type": "string", "enum": ["shared_filesystem", "message_bus", "shared_memory", "database"] },
+          "resourceType": {
+            "type": "string",
+            "enum": ["shared_filesystem", "message_bus", "shared_memory", "database"]
+          },
           "mountPath": { "type": "string" },
           "accessMode": { "type": "string", "enum": ["read_write", "read_only"] },
           "accessibleByAgentIds": { "type": "array", "items": { "type": "string" } }
@@ -178,15 +192,15 @@ Benchmark → Multi-Agent Topology Contract → Router → Provider Adapter → 
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Multi-Agent Role |
-| :--- | :--- |
-| **Context** | Team roles, shared files, and communication channels declared. |
-| **Interpretation** | Agent inspects role responsibilities and incoming messages. |
-| **Decision** | Agent decides whether to delegate, write to shared volume, or reply. |
-| **Action** | Action dispatched with `actorId` and `actorRole` attribution tags. |
-| **Result** | Sandbox updates shared state or delivers message to peer. |
-| **Consequence** | `MultiAgentCausalTracker` records sequence number and state delta. |
-| **Recovery** | Deadlock or unhandled message triggers timeout recovery or role re-assignment. |
+| Behavioral Chain Stage | Multi-Agent Role                                                               |
+| :--------------------- | :----------------------------------------------------------------------------- |
+| **Context**            | Team roles, shared files, and communication channels declared.                 |
+| **Interpretation**     | Agent inspects role responsibilities and incoming messages.                    |
+| **Decision**           | Agent decides whether to delegate, write to shared volume, or reply.           |
+| **Action**             | Action dispatched with `actorId` and `actorRole` attribution tags.             |
+| **Result**             | Sandbox updates shared state or delivers message to peer.                      |
+| **Consequence**        | `MultiAgentCausalTracker` records sequence number and state delta.             |
+| **Recovery**           | Deadlock or unhandled message triggers timeout recovery or role re-assignment. |
 
 ---
 

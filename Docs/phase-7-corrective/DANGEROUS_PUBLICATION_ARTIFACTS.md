@@ -1,7 +1,7 @@
 # Dangerous Publication Artifacts Classification
 
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

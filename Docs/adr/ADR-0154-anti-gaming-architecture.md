@@ -1,7 +1,7 @@
 # ADR-0154: SemantIQ Anti-Gaming, Anti-Memorization, and Authenticity Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

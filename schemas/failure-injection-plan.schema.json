@@ -25,7 +25,15 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["faultEventId", "ruleId", "stepIndex", "faultType", "targetAction", "injectedOutcome", "timestamp"],
+        "required": [
+          "faultEventId",
+          "ruleId",
+          "stepIndex",
+          "faultType",
+          "targetAction",
+          "injectedOutcome",
+          "timestamp"
+        ],
         "properties": {
           "faultEventId": { "type": "string" },
           "ruleId": { "type": "string" },
@@ -52,7 +60,13 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["faultEventId", "faultType", "recovered", "recoveryLatencySteps", "pathologicalLoopDetected"],
+        "required": [
+          "faultEventId",
+          "faultType",
+          "recovered",
+          "recoveryLatencySteps",
+          "pathologicalLoopDetected"
+        ],
         "properties": {
           "faultEventId": { "type": "string" },
           "faultType": {

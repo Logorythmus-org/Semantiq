@@ -3,6 +3,7 @@
 Spec ID: S6-TASKS
 
 ## Task Map
+
 - S6-TASK-001 -> S6-SCOPE: Freeze alpha scope.
 - S6-TASK-002 -> S6-SEC: Harden security.
 - S6-TASK-003 -> S6-PRIV: Harden privacy.

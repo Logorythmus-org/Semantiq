@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 25)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 Evaluation of multimodal and browser-use AI agents requires interacting with web pages, desktop GUIs, accessibility trees, and visual viewports.
 
 This specification establishes the **Provider-Neutral Browser & GUI Execution Architecture**:
+
 1. **SemantIQ Core** declares declarative `BrowserGuiSpec` and `GuiActionRequest` contracts without hardcoding driver dependencies.
 2. **Provider Adapters** manage underlying display servers (Xvfb/Wayland), browser drivers (Playwright, Puppeteer, CDP, Selenium), or virtual desktop environments inside the sandbox container or VM.
 3. **Evidence Normalization Subsystem** converts raw GUI interactions into deterministic `GuiObservationEvent` records with cryptographic screenshot hashes, DOM snapshots, network HAR logs, and console error counts.
@@ -80,6 +81,7 @@ Benchmark → Execution Contract → Router → Provider Adapter → Runtime (Br
 ## 5. Data & Event Schemas
 
 ### 5.1 Browser GUI Specification
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -154,15 +156,15 @@ Benchmark → Execution Contract → Router → Provider Adapter → Runtime (Br
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Browser / GUI Role |
-| :--- | :--- |
-| **Context** | Rendered page view, URL, and accessibility tree presented to agent. |
-| **Interpretation** | Agent processes visual screenshot or DOM structure. |
-| **Decision** | Agent selects target element and action (`click #checkout`). |
-| **Action** | Action dispatched via `executeAction(request)`. |
-| **Result** | Browser updates viewport; returns exit status and new URL. |
-| **Consequence** | `GuiObservationNormalizer` captures screenshot hash and console errors. |
-| **Recovery** | If element not found, agent receives error and adjusts query. |
+| Behavioral Chain Stage | Browser / GUI Role                                                      |
+| :--------------------- | :---------------------------------------------------------------------- |
+| **Context**            | Rendered page view, URL, and accessibility tree presented to agent.     |
+| **Interpretation**     | Agent processes visual screenshot or DOM structure.                     |
+| **Decision**           | Agent selects target element and action (`click #checkout`).            |
+| **Action**             | Action dispatched via `executeAction(request)`.                         |
+| **Result**             | Browser updates viewport; returns exit status and new URL.              |
+| **Consequence**        | `GuiObservationNormalizer` captures screenshot hash and console errors. |
+| **Recovery**           | If element not found, agent receives error and adjusts query.           |
 
 ---
 

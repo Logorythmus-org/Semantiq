@@ -1,7 +1,7 @@
 # ADR-0151: SemantIQ Third-Party Provider Certification Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

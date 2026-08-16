@@ -1,7 +1,7 @@
 # ADR-0160: SemantIQ Full Sandbox Phase Red-Team Security Audit Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

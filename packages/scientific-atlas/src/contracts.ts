@@ -72,7 +72,16 @@ export interface AtlasEntry {
 export interface EvidenceItem {
   readonly id: string;
   readonly source: string;
-  readonly sourceType: "paper" | "book" | "dataset" | "experiment" | "observation" | "repository" | "benchmark" | "publication" | "other";
+  readonly sourceType:
+    | "paper"
+    | "book"
+    | "dataset"
+    | "experiment"
+    | "observation"
+    | "repository"
+    | "benchmark"
+    | "publication"
+    | "other";
   readonly linkedQuestionIds: readonly string[];
   readonly confidence: number;
   readonly traceability: string;
@@ -87,7 +96,8 @@ export interface Hypothesis {
   readonly questionId: string;
   readonly statement: string;
   readonly kind: "primary" | "alternative" | "null";
-  readonly status: "proposed" | "testing" | "supported" | "refuted" | "inconclusive" | "superseded" | "archived";
+  readonly status:
+    "proposed" | "testing" | "supported" | "refuted" | "inconclusive" | "superseded" | "archived";
   readonly evidenceIds: readonly string[];
   readonly experimentIds: readonly string[];
   readonly probability?: number;

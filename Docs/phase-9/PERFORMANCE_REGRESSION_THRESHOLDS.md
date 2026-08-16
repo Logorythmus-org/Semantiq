@@ -1,7 +1,7 @@
 # Performance Regression Thresholds
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

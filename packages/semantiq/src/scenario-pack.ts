@@ -1,7 +1,7 @@
-import { readFileSync } from 'node:fs';
-import { join } from 'node:path';
-import type { BehavioralEventSchema } from './event-schema.js';
-import type { RecoveryMetrics } from './consequence-recovery.js';
+import { readFileSync } from "node:fs";
+import { join } from "node:path";
+import type { BehavioralEventSchema } from "./event-schema.js";
+import type { RecoveryMetrics } from "./consequence-recovery.js";
 
 export interface ScenarioBoundaryConditions {
   readonly isClosedInternet?: boolean;
@@ -62,8 +62,8 @@ export class ScenarioPackEngine {
   private scenarios: SingleAgentScenario[] = [];
 
   loadDefaultScenarios(workspaceRoot: string): readonly SingleAgentScenario[] {
-    const jsonPath = join(workspaceRoot, 'products/semantiq/specs/single-agent-scenarios.json');
-    const content = readFileSync(jsonPath, 'utf-8');
+    const jsonPath = join(workspaceRoot, "products/semantiq/specs/single-agent-scenarios.json");
+    const content = readFileSync(jsonPath, "utf-8");
     this.scenarios = JSON.parse(content) as SingleAgentScenario[];
     return this.scenarios;
   }
@@ -78,35 +78,35 @@ export class ScenarioPackEngine {
     const events: BehavioralEventSchema[] = [
       {
         eventId: `evt_${scenario.scenarioId}_1`,
-        schemaVersion: '1.0.0',
+        schemaVersion: "1.0.0",
         runId,
-        actorId: 'agent_synthetic',
+        actorId: "agent_synthetic",
         sequenceNumber: 1,
-        timestamp: '2026-08-01T11:00:00Z',
+        timestamp: "2026-08-01T11:00:00Z",
         monotonicIndex: 1,
-        eventType: 'ContextReceived',
-        primaryVerb: 'read',
+        eventType: "ContextReceived",
+        primaryVerb: "read",
         parentEventIds: [],
-        causalType: 'direct',
+        causalType: "direct",
         evidenceRefs: [],
-        redactionMeta: { isRedacted: false, redactedFields: [], policyRule: 'none' },
+        redactionMeta: { isRedacted: false, redactedFields: [], policyRule: "none" },
         payload: { objective: scenario.objective }
       },
       {
         eventId: `evt_${scenario.scenarioId}_2`,
-        schemaVersion: '1.0.0',
+        schemaVersion: "1.0.0",
         runId,
-        actorId: 'agent_synthetic',
+        actorId: "agent_synthetic",
         sequenceNumber: 2,
-        timestamp: '2026-08-01T11:00:01Z',
+        timestamp: "2026-08-01T11:00:01Z",
         monotonicIndex: 2,
-        eventType: 'ActionExecuted',
-        primaryVerb: scenario.allowedVerbs[0] || 'read',
+        eventType: "ActionExecuted",
+        primaryVerb: scenario.allowedVerbs[0] || "read",
         ...(resourceRef ? { resourceRef } : {}),
         parentEventIds: [`evt_${scenario.scenarioId}_1`],
-        causalType: 'direct',
+        causalType: "direct",
         evidenceRefs: [],
-        redactionMeta: { isRedacted: false, redactedFields: [], policyRule: 'none' },
+        redactionMeta: { isRedacted: false, redactedFields: [], policyRule: "none" },
         payload: {}
       }
     ];

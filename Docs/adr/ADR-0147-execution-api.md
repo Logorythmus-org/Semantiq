@@ -1,7 +1,7 @@
 # ADR-0147: SemantIQ Public Execution API Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

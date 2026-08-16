@@ -3,9 +3,9 @@
  * Canonical Sandbox Benchmark Report Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
-export type BenchmarkVerdict = 'PASSED' | 'FAILED' | 'PARTIAL' | 'ERROR';
+export type BenchmarkVerdict = "PASSED" | "FAILED" | "PARTIAL" | "ERROR";
 
 export interface BenchmarkMethodologySummary {
   readonly benchmarkId: string;
@@ -101,58 +101,63 @@ export class BenchmarkReportEngine {
   }
 
   renderReportMarkdown(report: CanonicalBenchmarkReport): string {
-    const verdictBadge = report.verdict === 'PASSED' ? '✅ PASSED' : (report.verdict === 'PARTIAL' ? '⚠️ PARTIAL' : '❌ ' + report.verdict);
+    const verdictBadge =
+      report.verdict === "PASSED"
+        ? "✅ PASSED"
+        : report.verdict === "PARTIAL"
+          ? "⚠️ PARTIAL"
+          : "❌ " + report.verdict;
     const lines: string[] = [
       `# SemantIQ Canonical Benchmark Report: \`${report.reportId}\``,
       `**Scenario**: \`${report.scenarioId}\` | **Run ID**: \`${report.runId}\``,
       `**Verdict**: **${verdictBadge}** | **Composite Score**: **${(report.compositeScore * 100).toFixed(1)}%**`,
       `**Generated At**: ${report.generatedAt}`,
-      '',
-      '## 1. Methodology & Execution Environment',
-      '| Dimension | Specification |',
-      '| :--- | :--- |',
+      "",
+      "## 1. Methodology & Execution Environment",
+      "| Dimension | Specification |",
+      "| :--- | :--- |",
       `| **Benchmark ID** | \`${report.methodology.benchmarkId}\` (DSL v${report.methodology.dslVersion}) |`,
       `| **Execution Provider** | \`${report.methodology.providerId}\` |`,
       `| **Container Image Digest** | \`${report.methodology.imageDigest.substring(0, 20)}...\` |`,
       `| **Network Policy** | \`${report.methodology.networkPolicy}\` |`,
       `| **Total Step Budget** | ${report.methodology.totalStepBudget} steps |`,
-      '',
-      '## 2. Observable Behavioral Findings',
-      '| Metric | Score | Description |',
-      '| :--- | :--- | :--- |',
+      "",
+      "## 2. Observable Behavioral Findings",
+      "| Metric | Score | Description |",
+      "| :--- | :--- | :--- |",
       `| **Long-Horizon Resilience ($LHRI$)** | **${(report.behavioralFindings.longHorizonResilienceIndex * 100).toFixed(1)}%** | Multi-phase goal completion & context retention |`,
       `| **Consequence Attribution ($CAI$)** | **${(report.behavioralFindings.consequenceAttributionIndex * 100).toFixed(1)}%** | Delayed impact recognition & response |`,
       `| **Recovery Resilience ($RRI$)** | **${(report.behavioralFindings.recoveryResilienceIndex * 100).toFixed(1)}%** | Fault tolerance & error recovery efficiency |`,
       `| **Behavioral Transitions** | **${report.behavioralFindings.detectedTransitions}** | Detected phase shifts & strategy adjustments |`,
-      '',
-      '## 3. Integrity, Authenticity & Trust Attestation',
-      '| Pillar | Status | Description |',
-      '| :--- | :--- | :--- |',
+      "",
+      "## 3. Integrity, Authenticity & Trust Attestation",
+      "| Pillar | Status | Description |",
+      "| :--- | :--- | :--- |",
       `| **Benchmark Integrity Seal** | **${report.integrityAndTrust.integrityGrade}** | Merkle-chained manifest and assertion protection |`,
       `| **Anti-Gaming Authenticity** | **${report.integrityAndTrust.authenticityClassification}** | Memorization and shortcut anomaly check |`,
       `| **Independent Observer Trust** | **${(report.integrityAndTrust.observerTrustScore * 100).toFixed(1)}%** | Out-of-band PTY / host ground-truth verification |`,
-      '',
-      '## 4. Financial Cost Accounting & Lineage Provenance',
-      '| Metric | Value |',
-      '| :--- | :--- |',
+      "",
+      "## 4. Financial Cost Accounting & Lineage Provenance",
+      "| Metric | Value |",
+      "| :--- | :--- |",
       `| **Total Evaluation Cost** | **$${report.costAccounting.totalCostUsd.toFixed(4)} USD** |`,
       `| **Verifiable Receipt Hash** | \`${report.costAccounting.receiptSignature.substring(0, 20)}...\` |`,
       `| **Lineage Merkle Root** | \`${report.provenance.graphMerkleRoot}\` |`,
       `| **Evidence Digest** | \`${report.provenance.evidenceDigest.substring(0, 20)}...\` |`,
-      ''
+      ""
     ];
 
     if (report.limitations.length > 0) {
-      lines.push('## 5. Declared Limitations & Environmental Variance');
+      lines.push("## 5. Declared Limitations & Environmental Variance");
       for (const lim of report.limitations) {
         lines.push(`- ℹ️ ${lim}`);
       }
-      lines.push('');
+      lines.push("");
     }
 
     lines.push(`**Auditor Cryptographic Signature**: \`${report.reportSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 
   renderReportJson(report: CanonicalBenchmarkReport): string {

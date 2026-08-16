@@ -19,11 +19,13 @@ This document provides complete instructions and readiness sign-off for transiti
 When Phase 7 publication is explicitly requested:
 
 1. **Tag Release Commit**:
+
    ```bash
    git tag -a v0.1.0-alpha.1 -m "SemantIQ Benchmarks v0.1.0-alpha.1 Public Alpha"
    ```
 
 2. **Push Release Tag to GitHub Remote**:
+
    ```bash
    git push origin main --tags
    ```

@@ -3,19 +3,13 @@
  * Provider Trust, Identity, Security Posture, and Certification Framework
  */
 
-import type { SandboxCapabilities } from './types.js';
+import type { SandboxCapabilities } from "./types.js";
 
 export type ProviderTrustTier =
-  | 'UNVERIFIED'
-  | 'SELF_ATTESTED'
-  | 'TCK_VERIFIED'
-  | 'CRYPTOGRAPHICALLY_CERTIFIED';
+  "UNVERIFIED" | "SELF_ATTESTED" | "TCK_VERIFIED" | "CRYPTOGRAPHICALLY_CERTIFIED";
 
 export type SecurityPostureGrade =
-  | 'A_HARDENED_MICROVM'
-  | 'B_ISOLATED_CONTAINER'
-  | 'C_RESTRICTED_PROCESS'
-  | 'F_UNCONFINED';
+  "A_HARDENED_MICROVM" | "B_ISOLATED_CONTAINER" | "C_RESTRICTED_PROCESS" | "F_UNCONFINED";
 
 export interface ProviderIdentity {
   readonly providerId: string;
@@ -63,41 +57,43 @@ export class ProviderTrustValidator {
 
     // 1. Validate Identity
     if (!attestation.identity.providerId || attestation.identity.providerId.trim().length === 0) {
-      violations.push('Provider ID is missing or empty.');
+      violations.push("Provider ID is missing or empty.");
     }
     if (!attestation.identity.publicKeyHex || attestation.identity.publicKeyHex.length < 32) {
-      violations.push('Invalid or missing public key format.');
+      violations.push("Invalid or missing public key format.");
     }
 
     // 2. Validate TCK pass rate
     const tck = attestation.tckSummary;
     if (tck.totalTests === 0) {
-      violations.push('TCK suite reported zero tests executed.');
+      violations.push("TCK suite reported zero tests executed.");
     }
     if (tck.failedTests > 0) {
       violations.push(`TCK conformance failed with ${tck.failedTests} failing tests.`);
     }
 
     // 3. Security posture alignment
-    if (attestation.securityGrade === 'F_UNCONFINED') {
-      violations.push('Unconfined security posture is not eligible for SemantIQ benchmark execution.');
+    if (attestation.securityGrade === "F_UNCONFINED") {
+      violations.push(
+        "Unconfined security posture is not eligible for SemantIQ benchmark execution."
+      );
     }
 
     // 4. Signature presence check
     if (!attestation.signatureHex || attestation.signatureHex.length < 64) {
-      violations.push('Cryptographic signature is missing or malformed.');
+      violations.push("Cryptographic signature is missing or malformed.");
     }
 
     const isValid = violations.length === 0;
 
-    let assignedTrustTier: ProviderTrustTier = 'UNVERIFIED';
+    let assignedTrustTier: ProviderTrustTier = "UNVERIFIED";
     if (isValid) {
       if (tck.passedTests >= 10 && attestation.signatureHex) {
-        assignedTrustTier = 'CRYPTOGRAPHICALLY_CERTIFIED';
+        assignedTrustTier = "CRYPTOGRAPHICALLY_CERTIFIED";
       } else if (tck.passedTests > 0) {
-        assignedTrustTier = 'TCK_VERIFIED';
+        assignedTrustTier = "TCK_VERIFIED";
       } else {
-        assignedTrustTier = 'SELF_ATTESTED';
+        assignedTrustTier = "SELF_ATTESTED";
       }
     }
 

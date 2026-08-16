@@ -1,9 +1,11 @@
 # Sprint 3 Specification
 
 ## Purpose
+
 Turn Tech Club into an executable Human-AI collaboration platform where research goals become approved, observable, reviewable workflows.
 
 ## Spec IDs
+
 - S3-AUDIT: Repository audit.
 - S3-GOAL: Goal runtime and audited state transitions.
 - S3-PLAN: Planning engine.
@@ -20,4 +22,5 @@ Turn Tech Club into an executable Human-AI collaboration platform where research
 - S3-TEST: Automated validation.
 
 ## Non-Goals
+
 No marketplace, federation, distributed compute, real cloud provider execution, unsupervised external actions, or publishing without approval.

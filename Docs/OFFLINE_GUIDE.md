@@ -22,6 +22,7 @@ node tools/automation/cli.mjs safe-mode
 ```
 
 This configuration:
+
 - Disables external provider connectors.
 - Disables federation sharing.
 - Disables external plugin network requests.

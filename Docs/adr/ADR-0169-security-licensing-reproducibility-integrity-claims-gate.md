@@ -1,12 +1,15 @@
 # ADR-0169: Security, Licensing, Reproducibility, Integrity, and Claims Gate (Pre-Phase-12 Release Readiness)
 
 ## Status
+
 Accepted
 
 ## Context
+
 As the final pre-release readiness checkpoint before Phase 11 extraction and Phase 12 release execution, an authoritative gate must evaluate red-team security defenses, clean-room licensing boundaries, reproducibility guarantees, cryptographic trace integrity, provider neutrality, and claim grounding.
 
 ## Decision
+
 1. **Security Verification**:
    - 10 red-team threat vectors evaluated in automated suites with zero critical failures in test scope.
    - Secret key redaction and path traversal prevention verified in configuration security tests.
@@ -22,8 +25,9 @@ As the final pre-release readiness checkpoint before Phase 11 extraction and Pha
 5. **Canonical Status Separation**:
    - Sandbox Subsystem Status: `INTERNAL GATE PASSED`
    - SemantIQ Product Status: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`
-   - Invariant: *A subsystem PASS never authorizes product release.*
+   - Invariant: _A subsystem PASS never authorizes product release._
 
 ## Consequences
+
 - The pre-release baseline is confirmed secure, legally compliant, provider-neutral, and grounded.
 - Baseline is approved for Phase 11 Clean-Room Extraction and Phase 12 Public Alpha Release Authorization.

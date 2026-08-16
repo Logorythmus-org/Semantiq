@@ -3,7 +3,9 @@
 The Question is the primary social aggregate.
 
 ## Fields
+
 Every question supports:
+
 - unique identity
 - title
 - summary
@@ -38,7 +40,9 @@ Every question supports:
 - future AI suggestions
 
 ## Question Types
+
 Open Question, Research Question, Scientific Question, Educational Question, Engineering Question, Business Question, Design Question, Programming Question, Ethical Question, Historical Question, Creative Question, Personal Reflection, Prediction, Challenge, Mystery, and Meta Question.
 
 ## Rule
+
 Every type inherits common question behavior and can participate in graph, benchmark, workspace, search, and discussion systems.

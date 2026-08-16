@@ -3,7 +3,7 @@
 **Tag**: `v0.1.0-alpha.1`  
 **Title**: SemantIQ Benchmarks v0.1.0-alpha.1 (Controlled Public Alpha)  
 **Target Branch**: `main`  
-**Pre-release**: Yes  
+**Pre-release**: Yes
 
 ---
 

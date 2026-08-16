@@ -1,16 +1,16 @@
 # Isolated Build Report (Prompt 11.11)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 
 ## Build Steps
 
-| Step | Command | Exit Code | Result |
-|------|---------|-----------|--------|
-| Type check | `pnpm typecheck` (`tsc -p tsconfig.base.json --noEmit`) | 0 | ✅ PASSED |
-| Boundary validation | `node scripts/boundary-validator.mjs` | 0 | ✅ PASSED |
+| Step                | Command                                                 | Exit Code | Result    |
+| ------------------- | ------------------------------------------------------- | --------- | --------- |
+| Type check          | `pnpm typecheck` (`tsc -p tsconfig.base.json --noEmit`) | 0         | ✅ PASSED |
+| Boundary validation | `node scripts/boundary-validator.mjs`                   | 0         | ✅ PASSED |
 
 ## Outputs
 

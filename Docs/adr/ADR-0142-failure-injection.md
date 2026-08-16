@@ -1,7 +1,7 @@
 # ADR-0142: Failure Injection and Chaos Engineering Architecture for AI Agent Evaluation
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

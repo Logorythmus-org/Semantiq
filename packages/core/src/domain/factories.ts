@@ -30,7 +30,11 @@ export const createIdentityAggregate = (
   };
 };
 
-export const createWorkspaceAggregate = (id: string, ownerId: string, name: string): WorkspaceAggregate => {
+export const createWorkspaceAggregate = (
+  id: string,
+  ownerId: string,
+  name: string
+): WorkspaceAggregate => {
   const now = new Date().toISOString();
   return {
     id,

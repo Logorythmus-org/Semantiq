@@ -15,7 +15,11 @@ describe("agent operating system runtime", () => {
     const runtime = new LocalAgentRuntime();
     const planner = createAgent("agent:planner", "planner", ["planning"], ["filesystem"]);
     const tester = createAgent("agent:tester", "testing", ["testing"], ["terminal"]);
-    const goal = createGoal("goal:1", "Validate the research runtime", "workspace:1", ["Plan validation", "Run tests", "Document results"]);
+    const goal = createGoal("goal:1", "Validate the research runtime", "workspace:1", [
+      "Plan validation",
+      "Run tests",
+      "Document results"
+    ]);
 
     await runtime.registerAgent(planner);
     await runtime.registerAgent(tester);
@@ -75,8 +79,15 @@ describe("agent operating system runtime", () => {
 
   it("requires human approval for privileged workflow nodes and tool calls", async () => {
     const runtime = new LocalAgentRuntime();
-    const security = createAgent("agent:security", "security", ["security", "planning"], ["terminal"]);
-    const goal = createGoal("goal:approval", "Publish external communication", "workspace:1", ["Publish external communication"]);
+    const security = createAgent(
+      "agent:security",
+      "security",
+      ["security", "planning"],
+      ["terminal"]
+    );
+    const goal = createGoal("goal:approval", "Publish external communication", "workspace:1", [
+      "Publish external communication"
+    ]);
     await runtime.registerAgent(security);
     await runtime.createGoal(goal);
 

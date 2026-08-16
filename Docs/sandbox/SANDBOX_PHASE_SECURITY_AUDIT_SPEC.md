@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 60 — Final Phase Audit)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Sandbox Phase Red-Team Security Audit Architecture**:
+
 1. **Full Red-Team Penetration Battery**: Standardizes 10 threat vectors in [`RedTeamThreatVector`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L10-L18) probing isolation breakouts, network egress leaks, credential harvesting, assertion tampering, instant-solve memorization, telemetry forging, fork bombs, trace tampering, provider supply chain attacks, and ephemeral process leaks.
 2. **Phase Security Audit Engine**: Implements [`SandboxPhaseSecurityAuditEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L36-L191) executing automated audits, computing the Ecosystem Hardening Score ($EHS = 1.0$), and issuing signed [`SandboxPhaseSecurityAuditReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L20-L31) certificates (`securityAuditorSignatureHex`).
 3. **Verified Security Invariants**: Formally certifies provider neutrality, observable behavioral grounding along the 7-stage chain, cryptographic Merkle immutability, and local-first air-gapped execution.
@@ -49,6 +50,7 @@ This specification establishes the **SemantIQ Sandbox Phase Red-Team Security Au
 ## 2. Inputs & Prior Decisions
 
 This specification represents the comprehensive security verification of all 30 Sandbox Phase prompts:
+
 - **Prompt 31–36**: Multi-provider model, trust verification, and terms attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -60,11 +62,13 @@ This specification represents the comprehensive security verification of all 30 
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Phase Security Audit Specification**: Defining [`PhaseAuditStatus`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L8-L8), [`RedTeamThreatVector`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L10-L18), [`SandboxPhaseSecurityAuditReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts#L20-L31), and JSON Schema [`sandbox-phase-security-audit-report.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/sandbox-phase-security-audit-report.schema.json).
 - **10-Vector Red-Team Penetration Engine**: Automated attack verification across all layers.
 - **Audit Markdown & Certificate Generation**.
 
 ### 3.2 Non-Goals
+
 - **No Reliance on Closed Security Scanners**: Every security check runs natively in open-source TypeScript.
 - **No Provider Exemptions**: All local and cloud providers must satisfy the same security invariants.
 
@@ -94,7 +98,8 @@ This specification represents the comprehensive security verification of all 30 
 ### 5.1 TypeScript Security Audit Definitions ([`packages/sandbox-contracts/src/phase-security-audit.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/phase-security-audit.ts))
 
 ```typescript
-export type PhaseAuditStatus = 'AUDIT_PASSED_HARDENED' | 'CONDITIONAL_PASS' | 'SECURITY_DEFECTS_FOUND';
+export type PhaseAuditStatus =
+  "AUDIT_PASSED_HARDENED" | "CONDITIONAL_PASS" | "SECURITY_DEFECTS_FOUND";
 
 export interface RedTeamThreatVector {
   readonly threatId: string;
@@ -102,13 +107,13 @@ export interface RedTeamThreatVector {
   readonly attackVector: string;
   readonly redTeamPayload: string;
   readonly defenseMechanism: string;
-  readonly status: 'MITIGATED' | 'BLOCKED' | 'FLAGGED_AND_DISQUALIFIED';
+  readonly status: "MITIGATED" | "BLOCKED" | "FLAGGED_AND_DISQUALIFIED";
   readonly verificationDigest: string;
 }
 
 export interface SandboxPhaseSecurityAuditReport {
   readonly auditId: string;
-  readonly phase: 'SANDBOX_PHASE';
+  readonly phase: "SANDBOX_PHASE";
   readonly auditedVersion: string;
   readonly overallStatus: PhaseAuditStatus;
   readonly threatVectorsTested: number;
@@ -161,28 +166,29 @@ export interface SandboxPhaseSecurityAuditReport {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Namespace Isolation | Egress Control | Hardening Status |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Linux user namespaces + seccomp | iptables default-deny | `HARDENED_COMPLIANT` |
-| **Podman (Rootless)** | Rootless subuid/subgid mapping | Slirp4netns network isolation| `HARDENED_COMPLIANT` |
-| **Firecracker MicroVM**| KVM hardware virtualization | Host TAP device filtering | `HARDENED_COMPLIANT` |
-| **Modal / Cloud MicroVM**| gVisor / Cloud microVM boundary | VPC firewall rule enforcement| `HARDENED_COMPLIANT` |
+| Execution Provider        | Namespace Isolation             | Egress Control                | Hardening Status     |
+| :------------------------ | :------------------------------ | :---------------------------- | :------------------- |
+| **Docker (Local)**        | Linux user namespaces + seccomp | iptables default-deny         | `HARDENED_COMPLIANT` |
+| **Podman (Rootless)**     | Rootless subuid/subgid mapping  | Slirp4netns network isolation | `HARDENED_COMPLIANT` |
+| **Firecracker MicroVM**   | KVM hardware virtualization     | Host TAP device filtering     | `HARDENED_COMPLIANT` |
+| **Modal / Cloud MicroVM** | gVisor / Cloud microVM boundary | VPC firewall rule enforcement | `HARDENED_COMPLIANT` |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Host Namespace Leak** | Misconfigured container mount (`/proc` RW)| Isolation compromise | Aborts run immediately; revokes provider certification |
-| **Egress Exfiltration** | Unblocked DNS port (UDP 53) | Data exfiltration risk | Flags provider as non-compliant; enforces mock DNS |
-| **Resource Freeze** | Missing cgroup `pids.max` cap | Host CPU starvation | Enforces process limits before task spawn |
+| Failure Mode            | Root Cause                                 | Impact                 | Automated Recovery Action                              |
+| :---------------------- | :----------------------------------------- | :--------------------- | :----------------------------------------------------- |
+| **Host Namespace Leak** | Misconfigured container mount (`/proc` RW) | Isolation compromise   | Aborts run immediately; revokes provider certification |
+| **Egress Exfiltration** | Unblocked DNS port (UDP 53)                | Data exfiltration risk | Flags provider as non-compliant; enforces mock DNS     |
+| **Resource Freeze**     | Missing cgroup `pids.max` cap              | Host CPU starvation    | Enforces process limits before task spawn              |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Sandbox Phase Security Audit architecture is validated through automated test suites:
+
 1. **Security Audit Unit Tests ([`tests/unit/phase-security-audit.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/phase-security-audit.test.ts))**:
    - Tests executing full 10-vector red-team penetration audit and certifying hardened posture.
    - Tests formatting comprehensive Markdown security audit certificates.
@@ -204,7 +210,7 @@ The Sandbox Phase Security Audit architecture is validated through automated tes
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Kernel Version Dependency**: Advanced eBPF observer features require Linux kernel 5.8+.  
-  *Mitigation*: Gracefully falls back to socket PTY mirrors on older kernels or macOS/Windows hosts.
+  _Mitigation_: Gracefully falls back to socket PTY mirrors on older kernels or macOS/Windows hosts.
 - **Open Question**: Automated fuzzing of benchmark DSL compilers using AFL++ / libFuzzer.
 
 ---

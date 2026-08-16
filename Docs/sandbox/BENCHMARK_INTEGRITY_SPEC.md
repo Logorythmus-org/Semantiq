@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 53)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Benchmark Integrity Architecture**:
+
 1. **Pre-Execution Manifest Sealing**: Implements [`sealManifest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L38-L56) generating a cryptographically sealed [`BenchmarkIntegrityManifest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L13-L22) containing canonical SHA-256 digests of the scenario DSL, file mounts, and scoring assertion scripts.
 2. **Append-Only Merkle Trace Chain**: Implements [`verifyTraceChain`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L58-L78) validating `previousEventHash` linkage across all [`BehavioralTraceEvent`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L22-L31) records.
 3. **End-to-End Integrity Verification Engine**: Implements [`verifyExecutionIntegrity`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L80-L135) in [`BenchmarkIntegrityEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L37-L168) evaluating all surfaces and emitting signed [`IntegrityVerificationReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L24-L35) records (`auditSignatureHex`).
@@ -49,6 +50,7 @@ This specification establishes the **SemantIQ Benchmark Integrity Architecture**
 ## 2. Inputs & Prior Decisions
 
 This specification integrates integrity requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider trust boundaries, licensing, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -60,11 +62,13 @@ This specification integrates integrity requirements across the Sandbox Phase:
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Benchmark Integrity Specification**: Defining [`BenchmarkIntegrityManifest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L13-L22), [`IntegrityVerificationReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts#L24-L35), and JSON Schema [`benchmark-integrity-report.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/benchmark-integrity-report.schema.json).
 - **Anti-Tamper Verification Algorithm**: Detecting post-hoc rubric modifications, manifest divergence, and trace sequence breaks.
 - **Cryptographic Audit Signing**: Sealing verification reports with ECDSA signatures.
 
 ### 3.2 Non-Goals
+
 - **No Reliance on Proprietary Cloud Ledger**: All integrity validation is local and mathematically provable via SHA-256 Merkle trees.
 - **No Evaluation Logic in Integrity Module**: Module strictly verifies cryptographic continuity across contracts.
 
@@ -95,9 +99,9 @@ This specification integrates integrity requirements across the Sandbox Phase:
 ### 5.1 TypeScript Integrity Definitions ([`packages/sandbox-contracts/src/benchmark-integrity.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/benchmark-integrity.ts))
 
 ```typescript
-export type IntegrityTier = 'STANDARD_HASH_VERIFIED' | 'MERKLE_CHAINED' | 'HERMETIC_ATTESTED';
+export type IntegrityTier = "STANDARD_HASH_VERIFIED" | "MERKLE_CHAINED" | "HERMETIC_ATTESTED";
 
-export type IntegrityGrade = 'SEALED_VALID' | 'TAMPERING_DETECTED' | 'PROVENANCE_BROKEN';
+export type IntegrityGrade = "SEALED_VALID" | "TAMPERING_DETECTED" | "PROVENANCE_BROKEN";
 
 export interface BenchmarkIntegrityManifest {
   readonly manifestId: string;
@@ -169,29 +173,30 @@ export interface IntegrityVerificationReport {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Fixture Isolation Layer | Trace Streaming Integrity | Typical Integrity Status |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Read-only volume mounts (`:ro`) | Monotonic Unix Socket Pipe | `SEALED_VALID` |
-| **Podman (Rootless)** | Read-only user namespace mounts | Monotonic IPC Stream | `SEALED_VALID` |
-| **Firecracker MicroVM**| Read-only block device (`/dev/vdb`) | Monotonic VSOCK Serial Stream | `SEALED_VALID` |
-| **Modal / Fly.io** | Read-only ephemeral volume mounts | WebSocket / SSE Stream | `SEALED_VALID` |
+| Execution Provider      | Fixture Isolation Layer             | Trace Streaming Integrity     | Typical Integrity Status |
+| :---------------------- | :---------------------------------- | :---------------------------- | :----------------------- |
+| **Docker (Local)**      | Read-only volume mounts (`:ro`)     | Monotonic Unix Socket Pipe    | `SEALED_VALID`           |
+| **Podman (Rootless)**   | Read-only user namespace mounts     | Monotonic IPC Stream          | `SEALED_VALID`           |
+| **Firecracker MicroVM** | Read-only block device (`/dev/vdb`) | Monotonic VSOCK Serial Stream | `SEALED_VALID`           |
+| **Modal / Fly.io**      | Read-only ephemeral volume mounts   | WebSocket / SSE Stream        | `SEALED_VALID`           |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Rubric Mutation** | Evaluator altered assertions mid-run | Benchmark invalidation | Engine flags `TAMPERING_DETECTED`; rejects scorecard |
-| **Trace Gap** | Network drop caused missing event log | Trace discontinuity | Engine flags `PROVENANCE_BROKEN`; identifies gap step |
-| **Fixture Tampering** | Agent modified test runner file in sandbox | Gamed results | Read-only mount prevents write; integrity check asserts digest |
-| **Post-Hoc Replay Divergence** | Non-deterministic dependency pull | Output mismatch | Engine labels run with `VARIANCE_DETECTED` |
+| Failure Mode                   | Root Cause                                 | Impact                 | Automated Recovery Action                                      |
+| :----------------------------- | :----------------------------------------- | :--------------------- | :------------------------------------------------------------- |
+| **Rubric Mutation**            | Evaluator altered assertions mid-run       | Benchmark invalidation | Engine flags `TAMPERING_DETECTED`; rejects scorecard           |
+| **Trace Gap**                  | Network drop caused missing event log      | Trace discontinuity    | Engine flags `PROVENANCE_BROKEN`; identifies gap step          |
+| **Fixture Tampering**          | Agent modified test runner file in sandbox | Gamed results          | Read-only mount prevents write; integrity check asserts digest |
+| **Post-Hoc Replay Divergence** | Non-deterministic dependency pull          | Output mismatch        | Engine labels run with `VARIANCE_DETECTED`                     |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Benchmark Integrity architecture is validated through automated test suites:
+
 1. **Benchmark Integrity Unit Tests ([`tests/unit/benchmark-integrity.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/benchmark-integrity.test.ts))**:
    - Tests sealing manifest with canonical SHA-256 digest and author signature.
    - Tests append-only Merkle trace chain verification and detects broken linkages.
@@ -216,7 +221,7 @@ The Benchmark Integrity architecture is validated through automated test suites:
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Storage Overhead vs. Merkle Chain Depth**: Recording SHA-256 digests on every single trace event in 10,000-step benchmarks adds minor payload overhead.  
-  *Mitigation*: Use streaming Merkle accumulators with constant $O(1)$ memory footprint.
+  _Mitigation_: Use streaming Merkle accumulators with constant $O(1)$ memory footprint.
 - **Open Question**: Hardware enclave (Intel SGX / AMD SEV) remote attestation for enterprise benchmark certification.
 
 ---

@@ -1,7 +1,7 @@
 # ADR-0144: Consequence Testing and Delayed Impact Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

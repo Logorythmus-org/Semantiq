@@ -3,31 +3,31 @@
  * Recovery Testing Protocols and Metrics Architecture for AI Agent Evaluation
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { BehavioralTraceEvent } from './evidence-package.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { BehavioralTraceEvent } from "./evidence-package.js";
 
 export type RecoveryTriggerCategory =
-  | 'EXECUTION_ERROR'
-  | 'FAILED_ASSERTION'
-  | 'STALE_ENVIRONMENT_DRIFT'
-  | 'INCORRECT_ASSUMPTION'
-  | 'PERMISSION_DENIED'
-  | 'TIMEOUT_EXHAUSTION';
+  | "EXECUTION_ERROR"
+  | "FAILED_ASSERTION"
+  | "STALE_ENVIRONMENT_DRIFT"
+  | "INCORRECT_ASSUMPTION"
+  | "PERMISSION_DENIED"
+  | "TIMEOUT_EXHAUSTION";
 
 export type RecoveryBehaviorArchetype =
-  | 'CORRECTIVE_REFACTOR'
-  | 'EXPLORATORY_PROBING'
-  | 'ENVIRONMENTAL_RECONCILIATION'
-  | 'HYPOTHESIS_PIVOT'
-  | 'GRACEFUL_DEGRADATION'
-  | 'PATHOLOGICAL_STAGNATION';
+  | "CORRECTIVE_REFACTOR"
+  | "EXPLORATORY_PROBING"
+  | "ENVIRONMENTAL_RECONCILIATION"
+  | "HYPOTHESIS_PIVOT"
+  | "GRACEFUL_DEGRADATION"
+  | "PATHOLOGICAL_STAGNATION";
 
 export type RecoveryCertificationGrade =
-  | 'GRADE_A_SELF_HEALING'
-  | 'GRADE_B_ADAPTIVE'
-  | 'GRADE_C_TARDY'
-  | 'GRADE_D_BRITTLE'
-  | 'GRADE_F_STAGNANT';
+  | "GRADE_A_SELF_HEALING"
+  | "GRADE_B_ADAPTIVE"
+  | "GRADE_C_TARDY"
+  | "GRADE_D_BRITTLE"
+  | "GRADE_F_STAGNANT";
 
 export interface RecoveryEpisodeTrace {
   readonly episodeId: string;
@@ -67,7 +67,7 @@ export class RecoveryTestingEngine {
   extractRecoveryEpisodes(events: readonly BehavioralTraceEvent[]): RecoveryEpisodeTrace[] {
     const episodes: RecoveryEpisodeTrace[] = [];
     let currentTriggerSeq: number | null = null;
-    let currentTriggerCat: RecoveryTriggerCategory = 'EXECUTION_ERROR';
+    let currentTriggerCat: RecoveryTriggerCategory = "EXECUTION_ERROR";
     let diagnosticCount = 0;
     let previousActionCmd: string | null = null;
     let stagnationCount = 0;
@@ -78,12 +78,18 @@ export class RecoveryTestingEngine {
 
       // Identify Failure Trigger in RESULT or CONSEQUENCE
       if (currentTriggerSeq === null) {
-        if (e.stage === 'RESULT' && (e.payload['exitCode'] === 1 || e.payload['exitCode'] === 126 || e.payload['exitCode'] === 28 || e.payload['passed'] === false)) {
+        if (
+          e.stage === "RESULT" &&
+          (e.payload["exitCode"] === 1 ||
+            e.payload["exitCode"] === 126 ||
+            e.payload["exitCode"] === 28 ||
+            e.payload["passed"] === false)
+        ) {
           currentTriggerSeq = e.seq;
-          if (e.payload['exitCode'] === 126) currentTriggerCat = 'PERMISSION_DENIED';
-          else if (e.payload['exitCode'] === 28) currentTriggerCat = 'TIMEOUT_EXHAUSTION';
-          else if (e.payload['passed'] === false) currentTriggerCat = 'FAILED_ASSERTION';
-          else currentTriggerCat = 'EXECUTION_ERROR';
+          if (e.payload["exitCode"] === 126) currentTriggerCat = "PERMISSION_DENIED";
+          else if (e.payload["exitCode"] === 28) currentTriggerCat = "TIMEOUT_EXHAUSTION";
+          else if (e.payload["passed"] === false) currentTriggerCat = "FAILED_ASSERTION";
+          else currentTriggerCat = "EXECUTION_ERROR";
 
           diagnosticCount = 0;
           stagnationCount = 0;
@@ -91,8 +97,8 @@ export class RecoveryTestingEngine {
         }
       } else {
         // While in recovery state
-        if (e.stage === 'ACTION') {
-          const cmd = String(e.payload['cmd'] ?? e.actionType ?? '');
+        if (e.stage === "ACTION") {
+          const cmd = String(e.payload["cmd"] ?? e.actionType ?? "");
           // Check for diagnostic probing
           if (/^(ls|pwd|cat|find|git status|env|echo)/i.test(cmd)) {
             diagnosticCount++;
@@ -102,14 +108,17 @@ export class RecoveryTestingEngine {
             stagnationCount++;
           }
           previousActionCmd = cmd;
-        } else if (e.stage === 'RESULT' && (e.payload['exitCode'] === 0 || e.payload['passed'] === true)) {
+        } else if (
+          e.stage === "RESULT" &&
+          (e.payload["exitCode"] === 0 || e.payload["passed"] === true)
+        ) {
           // Success resolution reached
           const latencySteps = e.seq - currentTriggerSeq;
-          let archetype: RecoveryBehaviorArchetype = 'CORRECTIVE_REFACTOR';
+          let archetype: RecoveryBehaviorArchetype = "CORRECTIVE_REFACTOR";
           if (stagnationCount > 1) {
-            archetype = 'PATHOLOGICAL_STAGNATION';
+            archetype = "PATHOLOGICAL_STAGNATION";
           } else if (diagnosticCount > 1) {
-            archetype = 'EXPLORATORY_PROBING';
+            archetype = "EXPLORATORY_PROBING";
           }
 
           episodes.push({
@@ -136,7 +145,7 @@ export class RecoveryTestingEngine {
         triggerCategory: currentTriggerCat,
         triggerEventSeq: currentTriggerSeq,
         latencySteps: events.length - currentTriggerSeq,
-        archetype: stagnationCount > 0 ? 'PATHOLOGICAL_STAGNATION' : 'CORRECTIVE_REFACTOR',
+        archetype: stagnationCount > 0 ? "PATHOLOGICAL_STAGNATION" : "CORRECTIVE_REFACTOR",
         isSuccessful: false,
         stagnationCount,
         diagnosticProbesCount: diagnosticCount
@@ -163,7 +172,7 @@ export class RecoveryTestingEngine {
         stagnationIndex: 0.0,
         diagnosticProbingDensity: 1.0,
         recoveryResilienceIndex: 1.0,
-        recoveryGrade: 'GRADE_A_SELF_HEALING' as RecoveryCertificationGrade,
+        recoveryGrade: "GRADE_A_SELF_HEALING" as RecoveryCertificationGrade,
         episodes: [],
         evaluatedAt: new Date().toISOString()
       };
@@ -174,40 +183,49 @@ export class RecoveryTestingEngine {
       };
     }
 
-    const successfulEpisodes = episodes.filter(e => e.isSuccessful).length;
+    const successfulEpisodes = episodes.filter((e) => e.isSuccessful).length;
     const recoverySuccessRate = Number((successfulEpisodes / episodes.length).toFixed(4));
 
-    const resolvedEpisodes = episodes.filter(e => e.isSuccessful);
-    const meanStepsToRecovery = resolvedEpisodes.length > 0
-      ? Number((resolvedEpisodes.reduce((acc, e) => acc + e.latencySteps, 0) / resolvedEpisodes.length).toFixed(2))
-      : 10.0;
+    const resolvedEpisodes = episodes.filter((e) => e.isSuccessful);
+    const meanStepsToRecovery =
+      resolvedEpisodes.length > 0
+        ? Number(
+            (
+              resolvedEpisodes.reduce((acc, e) => acc + e.latencySteps, 0) / resolvedEpisodes.length
+            ).toFixed(2)
+          )
+        : 10.0;
 
     const totalStagnations = episodes.reduce((acc, e) => acc + e.stagnationCount, 0);
-    const stagnationIndex = Number(Math.min(1.0, totalStagnations / (episodes.length * 2)).toFixed(4));
+    const stagnationIndex = Number(
+      Math.min(1.0, totalStagnations / (episodes.length * 2)).toFixed(4)
+    );
 
     const totalProbes = episodes.reduce((acc, e) => acc + e.diagnosticProbesCount, 0);
-    const diagnosticProbingDensity = Number(Math.min(1.0, totalProbes / (episodes.length * 2)).toFixed(4));
+    const diagnosticProbingDensity = Number(
+      Math.min(1.0, totalProbes / (episodes.length * 2)).toFixed(4)
+    );
 
     // RRI Composite Metric
     const rriRaw =
-      0.40 * recoverySuccessRate +
+      0.4 * recoverySuccessRate +
       0.25 * (1.0 - Math.min(1.0, meanStepsToRecovery / 10.0)) +
-      0.20 * diagnosticProbingDensity +
+      0.2 * diagnosticProbingDensity +
       0.15 * (1.0 - stagnationIndex);
 
     const recoveryResilienceIndex = Number(Math.max(0.0, Math.min(1.0, rriRaw)).toFixed(4));
 
     let recoveryGrade: RecoveryCertificationGrade;
     if (recoveryResilienceIndex >= 0.85 && stagnationIndex === 0) {
-      recoveryGrade = 'GRADE_A_SELF_HEALING';
-    } else if (recoveryResilienceIndex >= 0.70) {
-      recoveryGrade = 'GRADE_B_ADAPTIVE';
-    } else if (recoveryResilienceIndex >= 0.50) {
-      recoveryGrade = 'GRADE_C_TARDY';
-    } else if (recoveryResilienceIndex >= 0.30) {
-      recoveryGrade = 'GRADE_D_BRITTLE';
+      recoveryGrade = "GRADE_A_SELF_HEALING";
+    } else if (recoveryResilienceIndex >= 0.7) {
+      recoveryGrade = "GRADE_B_ADAPTIVE";
+    } else if (recoveryResilienceIndex >= 0.5) {
+      recoveryGrade = "GRADE_C_TARDY";
+    } else if (recoveryResilienceIndex >= 0.3) {
+      recoveryGrade = "GRADE_D_BRITTLE";
     } else {
-      recoveryGrade = 'GRADE_F_STAGNANT';
+      recoveryGrade = "GRADE_F_STAGNANT";
     }
 
     const unsignedScorecard = {
@@ -243,21 +261,21 @@ export class RecoveryTestingEngine {
       `**Mean Steps to Recovery (MTTR)**: **${scorecard.meanStepsToRecovery} step(s)**`,
       `**Stagnation Index**: ${scorecard.stagnationIndex} | **Diagnostic Probing Density**: ${scorecard.diagnosticProbingDensity}`,
       `**Evaluated At**: ${scorecard.evaluatedAt}`,
-      '',
-      '## 1. Recovery Episode Trajectories',
-      '| Episode ID | Trigger Category | Latency Steps | Archetype | Resolved? | Stagnations | Probes |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Recovery Episode Trajectories",
+      "| Episode ID | Trigger Category | Latency Steps | Archetype | Resolved? | Stagnations | Probes |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const ep of scorecard.episodes) {
       lines.push(
-        `| \`${ep.episodeId}\` | \`${ep.triggerCategory}\` | ${ep.latencySteps} | \`${ep.archetype}\` | ${ep.isSuccessful ? '✅ Yes' : '❌ No'} | ${ep.stagnationCount} | ${ep.diagnosticProbesCount} |`
+        `| \`${ep.episodeId}\` | \`${ep.triggerCategory}\` | ${ep.latencySteps} | \`${ep.archetype}\` | ${ep.isSuccessful ? "✅ Yes" : "❌ No"} | ${ep.stagnationCount} | ${ep.diagnosticProbesCount} |`
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Cryptographic Scorecard Signature**: \`${scorecard.scorecardSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

@@ -10,7 +10,14 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["shardId", "scenarioId", "modelId", "repetitionIndex", "deterministicSeed", "spec"],
+        "required": [
+          "shardId",
+          "scenarioId",
+          "modelId",
+          "repetitionIndex",
+          "deterministicSeed",
+          "spec"
+        ],
         "properties": {
           "shardId": { "type": "string" },
           "scenarioId": { "type": "string" },
@@ -23,7 +30,12 @@
     },
     "policy": {
       "type": "object",
-      "required": ["maxConcurrentSandboxes", "maxMemoryMebibytesTotal", "maxCpuCoresTotal", "retryAttemptsOnTransientError"],
+      "required": [
+        "maxConcurrentSandboxes",
+        "maxMemoryMebibytesTotal",
+        "maxCpuCoresTotal",
+        "retryAttemptsOnTransientError"
+      ],
       "properties": {
         "maxConcurrentSandboxes": { "type": "integer" },
         "maxMemoryMebibytesTotal": { "type": "integer" },

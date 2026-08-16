@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 37)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **8-Vector Holistic Execution Cost Model and Ledger Architecture**:
+
 1. **8-Vector Cost Taxonomy**: Defines 8 orthogonal financial vectors: [`INFERENCE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L10-L18), [`RUNTIME_COMPUTE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L20-L27), [`BROWSER_GUI`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L29-L34), [`GPU_ACCELERATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L36-L41), [`STORAGE_IO`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L43-L49), [`NETWORK_BANDWIDTH`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L51-L55), [`TOOL_INVOCATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L57-L61), and [`EVALUATION_JUDGE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L63-L68).
 2. **Deterministic Ledger Engine**: Implements [`ExecutionCostCalculator`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L106-L260) to calculate gross and net execution costs ([`HolisticExecutionCostLedger`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L70-L86)) with cryptographic signing.
 3. **Grant Subsidies & Showback Settlement**: Automatically calculates foundation grant deductions and formats human-readable Markdown summaries for publication.
@@ -48,6 +49,7 @@ This specification defines the **8-Vector Holistic Execution Cost Model and Ledg
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **8-Vector Cost Model**: Comprehensive coverage across LLM inference, sandbox VM compute, browser rendering, GPU acceleration, storage disk IOPS, network egress bandwidth, MCP tools, and evaluation judge tokens.
 - **Cost Rates Configuration**: Standardizing unit rate definitions ([`CostRatesConfig`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/execution-cost-model.ts#L88-L104)).
 - **Cryptographic Ledger Sealing**: Signing cost manifests using canonical JSON SHA-256 digests.
@@ -56,6 +58,7 @@ This specification defines the **8-Vector Holistic Execution Cost Model and Ledg
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Pay-To-Win Benchmarking**: Benchmark scores are strictly decoupled from financial spend.
 - **No Direct Credit Card Billing in Core**: SemantIQ Core calculates machine-readable ledgers; commercial billing gateways remain external.
 - **No Mandatory Commercial Providers**: Local-first $0.00 execution tracks raw resource metrics without requiring financial accounts.
@@ -89,14 +92,14 @@ This specification defines the **8-Vector Holistic Execution Cost Model and Ledg
 
 ```typescript
 export type CostDimension =
-  | 'INFERENCE'
-  | 'RUNTIME_COMPUTE'
-  | 'BROWSER_GUI'
-  | 'GPU_ACCELERATION'
-  | 'STORAGE_IO'
-  | 'NETWORK_BANDWIDTH'
-  | 'TOOL_INVOCATION'
-  | 'EVALUATION_JUDGE';
+  | "INFERENCE"
+  | "RUNTIME_COMPUTE"
+  | "BROWSER_GUI"
+  | "GPU_ACCELERATION"
+  | "STORAGE_IO"
+  | "NETWORK_BANDWIDTH"
+  | "TOOL_INVOCATION"
+  | "EVALUATION_JUDGE";
 
 export interface InferenceCostBreakdown {
   readonly modelId: string;
@@ -161,7 +164,7 @@ export interface HolisticExecutionCostLedger {
   readonly runId: string;
   readonly benchmarkId: string;
   readonly scenarioId: string;
-  readonly currency: 'USD';
+  readonly currency: "USD";
   readonly inference: InferenceCostBreakdown;
   readonly runtimeCompute: RuntimeComputeBreakdown;
   readonly browserGui: BrowserGuiBreakdown;
@@ -179,6 +182,7 @@ export interface HolisticExecutionCostLedger {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/execution-cost-model.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/execution-cost-model.schema.json)**: Validates holistic cost ledgers, breakdown objects, and cryptographic signatures.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `holisticExecutionCostLedgerSchema`.
 
@@ -220,30 +224,31 @@ export interface HolisticExecutionCostLedger {
 
 ## 7. Open-Source vs. Commercial & Enterprise Cost Profiles
 
-| Cost Dimension | Open-Source (`COMMUNITY_FREE`) | Academic (`SPONSORED_GRANT`) | Commercial (`COMMERCIAL_PAYG`) |
-| :--- | :--- | :--- | :--- |
-| **Inference Cost** | $0.00 (Local Ollama / vLLM) | Subsidized by Grant | Metered per token |
-| **Runtime Compute** | $0.00 (Local Docker) | Subsidized by Grant | Metered per core-second |
-| **GPU Acceleration** | $0.00 (Local GPU) | Subsidized | $1.50 - $4.00 per GPU-hr |
-| **Network Egress** | $0.00 (Loopback) | Subsidized | $0.05 - $0.12 per GB |
-| **Total Net Billed** | **$0.00** | **$0.00 (Post-Grant)** | **Metered Actuals** |
+| Cost Dimension       | Open-Source (`COMMUNITY_FREE`) | Academic (`SPONSORED_GRANT`) | Commercial (`COMMERCIAL_PAYG`) |
+| :------------------- | :----------------------------- | :--------------------------- | :----------------------------- |
+| **Inference Cost**   | $0.00 (Local Ollama / vLLM)    | Subsidized by Grant          | Metered per token              |
+| **Runtime Compute**  | $0.00 (Local Docker)           | Subsidized by Grant          | Metered per core-second        |
+| **GPU Acceleration** | $0.00 (Local GPU)              | Subsidized                   | $1.50 - $4.00 per GPU-hr       |
+| **Network Egress**   | $0.00 (Loopback)               | Subsidized                   | $0.05 - $0.12 per GB           |
+| **Total Net Billed** | **$0.00**                      | **$0.00 (Post-Grant)**       | **Metered Actuals**            |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Budget Overrun** | Agent issues thousands of tool calls | Runaway cloud invoice | Calculator triggers circuit breaker abort |
-| **Missing Rate Card** | Provider omits storage or egress rates | Incomplete cost ledger | Fallback to conservative default rate card |
-| **Discrepant Token Counts** | Proxy vs provider token mismatch | Inaccurate billing | Ledger records raw tokenizer counts as ground truth |
-| **Egress Burst** | Agent exfiltrates or downloads huge files | Spiked egress bill | Egress threshold alert pauses network bridge |
+| Failure Mode                | Root Cause                                | Impact                 | Automated Recovery Action                           |
+| :-------------------------- | :---------------------------------------- | :--------------------- | :-------------------------------------------------- |
+| **Budget Overrun**          | Agent issues thousands of tool calls      | Runaway cloud invoice  | Calculator triggers circuit breaker abort           |
+| **Missing Rate Card**       | Provider omits storage or egress rates    | Incomplete cost ledger | Fallback to conservative default rate card          |
+| **Discrepant Token Counts** | Proxy vs provider token mismatch          | Inaccurate billing     | Ledger records raw tokenizer counts as ground truth |
+| **Egress Burst**            | Agent exfiltrates or downloads huge files | Spiked egress bill     | Egress threshold alert pauses network bridge        |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The execution cost model is verified through automated test suites:
+
 1. **8-Vector Calculation Unit Tests ([`tests/unit/execution-cost-model.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/execution-cost-model.test.ts))**:
    - Validates accurate pricing across all 8 vectors (inference, compute, browser, GPU, storage, network, tools, judge).
    - Tests grant subsidy subtraction and net cost calculation.
@@ -269,7 +274,7 @@ The execution cost model is verified through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Granular Micro-Meter Telemetry vs. Measurement Overhead**: Profiling memory and network at millisecond intervals adds slight CPU overhead.  
-  *Mitigation*: Telemetry samples at 1-second intervals or utilizes hypervisor cgroup accounting.
+  _Mitigation_: Telemetry samples at 1-second intervals or utilizes hypervisor cgroup accounting.
 - **Open Question**: Dynamic spot-pricing rate card ingestion for cloud GPU clusters.
 
 ---

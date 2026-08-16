@@ -1,7 +1,7 @@
 # Consensus Observation Specification (8 Consensus Models)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

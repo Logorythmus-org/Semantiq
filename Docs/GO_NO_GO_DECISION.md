@@ -5,7 +5,7 @@
 **Stage**: Stage 5 — Release Audit, Evidence Freeze & Go/No-Go  
 **Version**: `0.1.0-alpha.1`  
 **Git Tag Candidate**: `v0.1.0-alpha.1`  
-**Date**: 2026-07-31  
+**Date**: 2026-07-31
 
 ---
 

@@ -3,6 +3,7 @@
 Sprint 0 creates the engineering automation pipeline that supports long-term autonomous Tech Club development.
 
 ## Scope
+
 - Repository validation.
 - Dependency validation.
 - Spec generation.
@@ -16,7 +17,9 @@ Sprint 0 creates the engineering automation pipeline that supports long-term aut
 - CLI command extensions.
 
 ## Non-Scope
+
 Sprint 0 does not add product features.
 
 ## Completion State
+
 The first deterministic automation engine is implemented under `tools/automation`, covered by tests, and exposed through the `techclub` CLI.

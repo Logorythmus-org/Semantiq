@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **Release Level**: Level 2 — Public Alpha (Experimental)  
-**Date**: 2026-08-07  
+**Date**: 2026-08-07
 
 ---
 

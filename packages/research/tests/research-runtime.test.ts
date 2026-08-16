@@ -16,7 +16,13 @@ import {
 describe("research and community runtime", () => {
   it("turns a question into connected research, evidence, experiment, publication, and review objects", async () => {
     const runtime = new LocalResearchRuntime();
-    const project = createResearchProject("research:1", "question:1", "Evidence in learning", ["Measure evidence effects"], "education research");
+    const project = createResearchProject(
+      "research:1",
+      "question:1",
+      "Evidence in learning",
+      ["Measure evidence effects"],
+      "education research"
+    );
     const evidence: EvidenceObject = {
       id: "evidence:1",
       projectId: project.id,
@@ -104,7 +110,13 @@ describe("research and community runtime", () => {
 
   it("supports research communities, collaboration, tasks, datasets, and recommendations", async () => {
     const runtime = new LocalResearchRuntime();
-    const project = createResearchProject("research:2", "question:2", "Open science collaboration", ["Coordinate researchers"], "community research");
+    const project = createResearchProject(
+      "research:2",
+      "question:2",
+      "Open science collaboration",
+      ["Coordinate researchers"],
+      "community research"
+    );
     const community: ResearchCommunityRuntime = {
       id: "community:1",
       name: "Open Research Lab",

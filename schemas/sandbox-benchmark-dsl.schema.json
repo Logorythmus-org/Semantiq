@@ -15,7 +15,16 @@
     "dslVersion": { "type": "string", "const": "1.0.0" },
     "metadata": {
       "type": "object",
-      "required": ["benchmarkId", "scenarioId", "version", "title", "description", "tags", "license", "author"],
+      "required": [
+        "benchmarkId",
+        "scenarioId",
+        "version",
+        "title",
+        "description",
+        "tags",
+        "license",
+        "author"
+      ],
       "properties": {
         "benchmarkId": { "type": "string" },
         "scenarioId": { "type": "string" },
@@ -46,7 +55,10 @@
             "gpuCount": { "type": "integer", "minimum": 0 }
           }
         },
-        "networkPolicy": { "type": "string", "enum": ["ISOLATED", "EGRESS_ALLOWLIST", "FULL_ACCESS"] },
+        "networkPolicy": {
+          "type": "string",
+          "enum": ["ISOLATED", "EGRESS_ALLOWLIST", "FULL_ACCESS"]
+        },
         "egressAllowlist": { "type": "array", "items": { "type": "string" } },
         "envVars": { "type": "object", "additionalProperties": { "type": "string" } },
         "preinstalledPackages": { "type": "array", "items": { "type": "string" } },
@@ -71,9 +83,15 @@
         "required": ["actorId", "role", "allowedTools", "permissionLevel"],
         "properties": {
           "actorId": { "type": "string" },
-          "role": { "type": "string", "enum": ["PRIMARY_AGENT", "EVALUATOR", "MOCK_PEER", "USER_PROXY"] },
+          "role": {
+            "type": "string",
+            "enum": ["PRIMARY_AGENT", "EVALUATOR", "MOCK_PEER", "USER_PROXY"]
+          },
           "allowedTools": { "type": "array", "items": { "type": "string" } },
-          "permissionLevel": { "type": "string", "enum": ["SANDBOX_USER", "SUDO_ROOT", "RESTRICTED_READONLY"] }
+          "permissionLevel": {
+            "type": "string",
+            "enum": ["SANDBOX_USER", "SUDO_ROOT", "RESTRICTED_READONLY"]
+          }
         }
       }
     },
@@ -84,7 +102,10 @@
         "required": ["name", "type", "description", "timeoutMs"],
         "properties": {
           "name": { "type": "string" },
-          "type": { "type": "string", "enum": ["BASH", "FILE_SYSTEM", "HTTP_API", "BROWSER", "MCP_SERVER"] },
+          "type": {
+            "type": "string",
+            "enum": ["BASH", "FILE_SYSTEM", "HTTP_API", "BROWSER", "MCP_SERVER"]
+          },
           "description": { "type": "string" },
           "timeoutMs": { "type": "integer", "minimum": 100 },
           "config": { "type": "object" }
@@ -166,7 +187,13 @@
     },
     "lifecycle": {
       "type": "object",
-      "required": ["setupCommands", "maxDurationSeconds", "totalStepBudget", "retryBudget", "teardownCommands"],
+      "required": [
+        "setupCommands",
+        "maxDurationSeconds",
+        "totalStepBudget",
+        "retryBudget",
+        "teardownCommands"
+      ],
       "properties": {
         "setupCommands": { "type": "array", "items": { "type": "string" } },
         "maxDurationSeconds": { "type": "integer", "minimum": 1 },

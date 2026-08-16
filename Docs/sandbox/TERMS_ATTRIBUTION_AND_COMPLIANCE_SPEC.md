@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 35)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Terms, Attribution, NOTICE, and Commercial Compliance Architecture**:
+
 1. **Machine-Readable Attribution Protocol**: Standardizes structured declarations for notices (`AttributionNotice`), trademark disclaimers (`TrademarkDisclaimer`), and commercial usability terms (`CommercialRestrictionTerms`).
 2. **Automated NOTICE & Attribution Compiler**: Employs [`ComplianceAttributionCompiler`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/terms-attribution.ts#L61-L165) to compile comprehensive, legally robust compliance packages (`ComplianceAttributionPackage`) with every benchmark execution run.
 3. **Graduated Compliance Grades**: Evaluates and assigns clear compliance ratings: `FULLY_COMPLIANT`, `COMPLIANT_WITH_NOTICES`, `NON_COMMERCIAL_RESTRICTED`, and `NON_COMPLIANT_BLOCKED`.
@@ -47,6 +48,7 @@ This specification defines the **Terms, Attribution, NOTICE, and Commercial Comp
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Notice & Attribution Aggregation**: Extracting and assembling upstream copyright notices and Apache-2.0 NOTICE blocks into a unified format.
 - **Trademark Nominative Fair-Use Disclaimers**: Providing clear disclaimers for all third-party container, orchestration, and cloud runtime marks.
 - **Commercial Usability Governance**: Flagging research-only datasets or non-commercial benchmarks to protect enterprise deployments from IP infringements.
@@ -55,6 +57,7 @@ This specification defines the **Terms, Attribution, NOTICE, and Commercial Comp
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Formal Legal Advice**: Compliance classifications and terms are recorded as machine-readable technical facts without providing legal guarantees.
 - **No OpenSandbox Fork or Clone**: Runtimes remain independent external systems; SemantIQ Core never duplicates vendor codebase files.
 - **No Monetization or Licensing Gateways**: SemantIQ does not broker licenses or collect licensing royalties.
@@ -88,10 +91,10 @@ This specification defines the **Terms, Attribution, NOTICE, and Commercial Comp
 
 ```typescript
 export type ComplianceGrade =
-  | 'FULLY_COMPLIANT'
-  | 'COMPLIANT_WITH_NOTICES'
-  | 'NON_COMMERCIAL_RESTRICTED'
-  | 'NON_COMPLIANT_BLOCKED';
+  | "FULLY_COMPLIANT"
+  | "COMPLIANT_WITH_NOTICES"
+  | "NON_COMMERCIAL_RESTRICTED"
+  | "NON_COMPLIANT_BLOCKED";
 
 export interface AttributionNotice {
   readonly component: string;
@@ -134,6 +137,7 @@ export interface ComplianceAttributionPackage {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/terms-attribution.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/terms-attribution.schema.json)**: Validates compliance packages, attribution arrays, trademark blocks, and commercial terms.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `complianceAttributionPackageSchema`.
 
@@ -177,29 +181,30 @@ export interface ComplianceAttributionPackage {
 
 ## 7. Open-Source vs. Commercial & Enterprise Compliance Paths
 
-| Compliance Dimension | Open-Source (`COMMUNITY_FREE`) | Academic (`RESEARCH_ONLY`) | Commercial / Enterprise (`ENTERPRISE`) |
-| :--- | :--- | :--- | :--- |
-| **Dataset Licensing** | Open Datasets (MIT, CC-BY-4.0) | Non-Commercial Research Use | Commercial Evaluation Cleared |
-| **Compliance Grade** | `COMPLIANT_WITH_NOTICES` | `NON_COMMERCIAL_RESTRICTED` | `FULLY_COMPLIANT` |
+| Compliance Dimension   | Open-Source (`COMMUNITY_FREE`)  | Academic (`RESEARCH_ONLY`)      | Commercial / Enterprise (`ENTERPRISE`)  |
+| :--------------------- | :------------------------------ | :------------------------------ | :-------------------------------------- |
+| **Dataset Licensing**  | Open Datasets (MIT, CC-BY-4.0)  | Non-Commercial Research Use     | Commercial Evaluation Cleared           |
+| **Compliance Grade**   | `COMPLIANT_WITH_NOTICES`        | `NON_COMMERCIAL_RESTRICTED`     | `FULLY_COMPLIANT`                       |
 | **Trademark Handling** | Nominative fair-use disclaimers | Nominative fair-use disclaimers | Corporate trademark guidelines verified |
-| **NOTICE Handling** | Aggregated in report | Aggregated in report | Aggregated and archived for legal audit |
+| **NOTICE Handling**    | Aggregated in report            | Aggregated in report            | Aggregated and archived for legal audit |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Missing Notice Fields** | Author omits copyright or license | Incomplete legal notice | [`ComplianceAttributionCompiler`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/terms-attribution.ts#L61-L165) flags `NON_COMPLIANT_BLOCKED` |
-| **Unannounced Commercial Restriction** | Upstream dataset adds research-only clause | Corporate license violation | Compiler detects clause; downgrades grade to `NON_COMMERCIAL_RESTRICTED` |
-| **Trademark Dispute** | Proprietary vendor questions mark usage | Brand friction | Compiler ensures default nominative fair-use disclaimers are present |
-| **Missing Apache NOTICE** | Section 4d NOTICE file stripped | License infringement | Compiler requires explicit noticeText field for Apache-2.0 components |
+| Failure Mode                           | Root Cause                                 | Impact                      | Automated Recovery Action                                                                                                                                              |
+| :------------------------------------- | :----------------------------------------- | :-------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Missing Notice Fields**              | Author omits copyright or license          | Incomplete legal notice     | [`ComplianceAttributionCompiler`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/terms-attribution.ts#L61-L165) flags `NON_COMPLIANT_BLOCKED` |
+| **Unannounced Commercial Restriction** | Upstream dataset adds research-only clause | Corporate license violation | Compiler detects clause; downgrades grade to `NON_COMMERCIAL_RESTRICTED`                                                                                               |
+| **Trademark Dispute**                  | Proprietary vendor questions mark usage    | Brand friction              | Compiler ensures default nominative fair-use disclaimers are present                                                                                                   |
+| **Missing Apache NOTICE**              | Section 4d NOTICE file stripped            | License infringement        | Compiler requires explicit noticeText field for Apache-2.0 components                                                                                                  |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The compliance architecture is validated through automated test suites:
+
 1. **Compilation & Formatting Unit Tests ([`tests/unit/terms-attribution.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/terms-attribution.test.ts))**:
    - Validates end-to-end compilation of notices, default trademark disclaimers, and commercial terms into markdown.
    - Tests `NON_COMMERCIAL_RESTRICTED` assignment for research-only clauses.
@@ -225,7 +230,7 @@ The compliance architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Granular Per-Package Attribution vs. Report Size**: Embedding hundreds of deep transitive dependency notices can increase report size.  
-  *Mitigation*: Deep transitive licenses are referenced via SPDX IDs and URLs, while primary components include full NOTICE blocks.
+  _Mitigation_: Deep transitive licenses are referenced via SPDX IDs and URLs, while primary components include full NOTICE blocks.
 - **Open Question**: Implementing automated SPDX SBOM (Software Bill of Materials) generation (e.g., CycloneDX format) for enterprise container images.
 
 ---

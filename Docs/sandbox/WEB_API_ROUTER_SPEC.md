@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 49)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **Web and API Provider Router Architecture**:
+
 1. **Provider Router Layer**: Implements [`ProviderRouterEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L48-L155) to evaluate scenario [`EnvironmentSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/types.ts#L8-L23) contracts against the [`CanonicalProviderRegistryEntry`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/canonical-registry.ts#L22-L34) database.
 2. **Capability & Policy Matching Matrix**: Evaluates candidate providers against organizational [`RoutingPolicy`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L9-L16) constraints (local-only, cost thresholds, trust tiers, allowed regions).
 3. **Automated Primary & Fallback Selection**: Ranks compliant candidates by composite health, cost, and preference scores ([`RoutingCandidateScore`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L18-L26)), selecting primary and secondary fallback endpoints.
@@ -51,6 +52,7 @@ This specification establishes the **Web and API Provider Router Architecture**:
 ## 2. Inputs & Prior Decisions
 
 This specification builds upon and integrates prior Sandbox-phase modules:
+
 - **Prompt 31–36**: Multi-provider model, canonical registry, marketplace discovery, and trust verification.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle sequence continuity.
@@ -62,12 +64,14 @@ This specification builds upon and integrates prior Sandbox-phase modules:
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Provider Router Specification**: Defining [`RoutingPolicy`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L9-L16), [`RoutingCandidateScore`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L18-L26), [`RoutingDecisionRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/web-api-router.ts#L28-L41), and JSON Schema [`web-api-routing-decision.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/web-api-routing-decision.schema.json).
 - **Capability Matching Algorithm**: Automated matching of hardware requirements (GPU, memory, disk, network isolation, rootless execution).
 - **Policy Enforcement**: Local-only, regional compliance, price caps, and trust tier filtering.
 - **Fallback Chain Resolution**: Automatic secondary provider failover configuration.
 
 ### 3.2 Non-Goals
+
 - **No Proprietary Cloud Hosting**: SemantIQ routes execution contracts; provider endpoints remain external.
 - **No In-Band Credential Leakage**: Secrets and tokens are injected at the router boundary and never passed to the benchmark sandbox.
 
@@ -101,7 +105,8 @@ This specification builds upon and integrates prior Sandbox-phase modules:
 ```typescript
 export interface RoutingPolicy {
   readonly requireLocalOnly?: boolean;
-  readonly minTrustTier?: 'COMMUNITY_UNVERIFIED' | 'SELF_HOSTED_VERIFIED' | 'COMMERCIAL_AUDITED' | 'ENTERPRISE_CERTIFIED';
+  readonly minTrustTier?:
+    "COMMUNITY_UNVERIFIED" | "SELF_HOSTED_VERIFIED" | "COMMERCIAL_AUDITED" | "ENTERPRISE_CERTIFIED";
   readonly maxCostPerMinuteUsd?: number;
   readonly allowedRegions?: readonly string[];
   readonly preferredProviders?: readonly string[];
@@ -181,29 +186,30 @@ export interface RoutingDecisionRecord {
 
 ## 9. Provider Compatibility Matrix
 
-| Provider Endpoint | Capability Support | Latency SLA | Fallback Suitability |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | Container, Rootful, Low Cost | < 10ms | Primary Local Default |
-| **Podman (Local)** | Container, Rootless, Zero-Perm | < 15ms | Primary Rootless Default |
-| **Firecracker Cluster** | MicroVM, KVM HW Isolation | < 50ms | Primary Secure Enterprise |
-| **Modal / Fly.io / E2B** | GPU, MicroVM, Serverless | 200 - 800ms | Highly Scalable Cloud Fallback |
+| Provider Endpoint        | Capability Support             | Latency SLA | Fallback Suitability           |
+| :----------------------- | :----------------------------- | :---------- | :----------------------------- |
+| **Docker (Local)**       | Container, Rootful, Low Cost   | < 10ms      | Primary Local Default          |
+| **Podman (Local)**       | Container, Rootless, Zero-Perm | < 15ms      | Primary Rootless Default       |
+| **Firecracker Cluster**  | MicroVM, KVM HW Isolation      | < 50ms      | Primary Secure Enterprise      |
+| **Modal / Fly.io / E2B** | GPU, MicroVM, Serverless       | 200 - 800ms | Highly Scalable Cloud Fallback |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Primary 429 Throttle** | Provider hits concurrent rate limit | Request rejected | Router immediately fails over to `fallbackProviderId` |
-| **No Eligible Candidates**| Policy too restrictive / missing hardware | Routing failure | Router returns structured rejection explanation |
-| **Endpoint Timeout** | Network partition to remote cluster | Hang | Router aborts after 5000ms; switches to fallback |
-| **Price Surge** | Provider dynamically increased rates | Budget breach | Cost cap filter rejects provider; selects alternative |
+| Failure Mode               | Root Cause                                | Impact           | Automated Recovery Action                             |
+| :------------------------- | :---------------------------------------- | :--------------- | :---------------------------------------------------- |
+| **Primary 429 Throttle**   | Provider hits concurrent rate limit       | Request rejected | Router immediately fails over to `fallbackProviderId` |
+| **No Eligible Candidates** | Policy too restrictive / missing hardware | Routing failure  | Router returns structured rejection explanation       |
+| **Endpoint Timeout**       | Network partition to remote cluster       | Hang             | Router aborts after 5000ms; switches to fallback      |
+| **Price Surge**            | Provider dynamically increased rates      | Budget breach    | Cost cap filter rejects provider; selects alternative |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Web and API Provider Router architecture is validated through automated test suites:
+
 1. **Router Engine Unit Tests ([`tests/unit/web-api-router.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/web-api-router.test.ts))**:
    - Validates capability matching and cost optimization (selects Docker/Podman for container scenarios).
    - Tests policy enforcement (`requireLocalOnly` rejects remote commercial providers).
@@ -228,7 +234,7 @@ The Web and API Provider Router architecture is validated through automated test
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Lowest Cost vs. Lowest Latency**: Prioritizing lowest cost might select endpoints with higher queuing latency.  
-  *Mitigation*: Support configurable routing weights (e.g. `costWeight: 0.6`, `latencyWeight: 0.4`).
+  _Mitigation_: Support configurable routing weights (e.g. `costWeight: 0.6`, `latencyWeight: 0.4`).
 - **Open Question**: Dynamic spot-instance bidding for cost-optimized long-horizon benchmark batches.
 
 ---

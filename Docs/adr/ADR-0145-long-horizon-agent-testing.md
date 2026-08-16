@@ -1,7 +1,7 @@
 # ADR-0145: Long-Horizon Agent Testing and Multi-Step Autonomous Evaluation Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

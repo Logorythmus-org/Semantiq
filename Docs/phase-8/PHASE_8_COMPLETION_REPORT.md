@@ -4,7 +4,7 @@
 **Phase**: Phase 8 — Behavioral Evaluation System  
 **Date**: 2026-08-01  
 **Target Version**: `0.1.0-alpha.1`  
-**License**: CC0-1.0 Universal / MIT / CC-BY-4.0  
+**License**: CC0-1.0 Universal / MIT / CC-BY-4.0
 
 ---
 

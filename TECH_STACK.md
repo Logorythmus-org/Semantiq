@@ -1,11 +1,13 @@
 # Tech Stack
 
 ## Monorepo
+
 - pnpm
 - TurboRepo
 - TypeScript
 
 ## Frontend
+
 - Next.js
 - React
 - Tailwind
@@ -14,6 +16,7 @@
 - Storybook
 
 ## Backend
+
 - FastAPI
 - Python
 - Node.js where needed
@@ -23,12 +26,14 @@
 - SQLite local
 
 ## Shared Contracts
+
 - OpenAPI
 - JSON Schema
 - Zod
 - Pydantic
 
 ## Infrastructure
+
 - Docker
 - Docker Compose
 - OpenTelemetry

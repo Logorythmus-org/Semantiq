@@ -1,14 +1,14 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type AuditFailureClass =
-  | 'missing_policy_evidence'
-  | 'missing_approval'
-  | 'tampered_event'
-  | 'incomplete_recovery'
-  | 'altered_responsibility_edge'
-  | 'source_evaluator_mixing'
-  | 'nondeterministic_inventory'
-  | 'unsupported_audit_conclusion';
+  | "missing_policy_evidence"
+  | "missing_approval"
+  | "tampered_event"
+  | "incomplete_recovery"
+  | "altered_responsibility_edge"
+  | "source_evaluator_mixing"
+  | "nondeterministic_inventory"
+  | "unsupported_audit_conclusion";
 
 export interface AuditScope {
   readonly scopeId: string;
@@ -20,7 +20,7 @@ export interface AuditScope {
 export interface AuditCriterion {
   readonly criterionId: string;
   readonly statement: string;
-  readonly category: 'security' | 'authority' | 'approval' | 'recovery';
+  readonly category: "security" | "authority" | "approval" | "recovery";
 }
 
 export interface EvidenceInventory {
@@ -37,7 +37,7 @@ export interface MissingEvidenceRegister {
 export interface AuditFinding {
   readonly findingId: string;
   readonly criterionId: string;
-  readonly status: 'satisfied' | 'violated' | 'inconclusive';
+  readonly status: "satisfied" | "violated" | "inconclusive";
   readonly evidenceRef?: string | undefined;
 }
 
@@ -83,10 +83,10 @@ export interface AuditFailureReport {
 export class GovernanceIncidentAuditEngine {
   evaluateIncidentBundle(bundle: GovernanceIncidentBundle): AuditFailureReport | undefined {
     // 1. Missing Policy Evidence Check
-    if (!bundle.policyRef || bundle.policyRef.trim() === '') {
+    if (!bundle.policyRef || bundle.policyRef.trim() === "") {
       return {
         reportId: `fail_no_pol_${bundle.incidentId}`,
-        failureClass: 'missing_policy_evidence',
+        failureClass: "missing_policy_evidence",
         incidentId: bundle.incidentId,
         description: `Incident bundle '${bundle.incidentId}' lacks required policy version evidence reference.`,
         timestamp: bundle.timestamp
@@ -94,10 +94,10 @@ export class GovernanceIncidentAuditEngine {
     }
 
     // 2. Missing Approval Check
-    if (!bundle.approvalRef || bundle.approvalRef.trim() === '') {
+    if (!bundle.approvalRef || bundle.approvalRef.trim() === "") {
       return {
         reportId: `fail_no_app_${bundle.incidentId}`,
-        failureClass: 'missing_approval',
+        failureClass: "missing_approval",
         incidentId: bundle.incidentId,
         description: `Incident bundle '${bundle.incidentId}' lacks required human approval evidence reference.`,
         timestamp: bundle.timestamp
@@ -108,7 +108,7 @@ export class GovernanceIncidentAuditEngine {
     if (!bundle.eventInventory.isDeterministic) {
       return {
         reportId: `fail_nondet_${bundle.incidentId}`,
-        failureClass: 'nondeterministic_inventory',
+        failureClass: "nondeterministic_inventory",
         incidentId: bundle.incidentId,
         description: `Event inventory for incident '${bundle.incidentId}' is non-deterministic.`,
         timestamp: bundle.timestamp
@@ -119,7 +119,7 @@ export class GovernanceIncidentAuditEngine {
     if (!bundle.recoveryCompleted) {
       return {
         reportId: `fail_incomp_rec_${bundle.incidentId}`,
-        failureClass: 'incomplete_recovery',
+        failureClass: "incomplete_recovery",
         incidentId: bundle.incidentId,
         description: `Incident '${bundle.incidentId}' closed without completed recovery evidence.`,
         timestamp: bundle.timestamp

@@ -1,7 +1,7 @@
 # ADR-0121: 6-Layer Security Boundary Architecture for SemantIQ Sandboxes
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.3 — Verb-Centered Behavioral Taxonomy  
 **Date**: 2026-08-01  
-**Taxonomy Verdict**: `VERB TAXONOMY IMPLEMENTED`  
+**Taxonomy Verdict**: `VERB TAXONOMY IMPLEMENTED`
 
 ---
 

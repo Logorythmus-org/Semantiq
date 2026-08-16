@@ -3,6 +3,7 @@
 Prompt templates are versioned artifacts stored in `packages/question-intelligence/prompts/`.
 
 ## Required Templates
+
 - `question-refinement.prompt.md`
 - `intent-extraction.prompt.md`
 - `ambiguity-analysis.prompt.md`
@@ -19,4 +20,5 @@ Prompt templates are versioned artifacts stored in `packages/question-intelligen
 - `review.prompt.md`
 
 ## Rules
+
 Prompts must preserve user meaning, expose uncertainty, avoid fabricated evidence, and require user approval for changes.

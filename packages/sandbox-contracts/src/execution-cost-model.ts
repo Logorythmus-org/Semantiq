@@ -3,17 +3,17 @@
  * 8-Vector Holistic Execution Cost Model and Ledger Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type CostDimension =
-  | 'INFERENCE'
-  | 'RUNTIME_COMPUTE'
-  | 'BROWSER_GUI'
-  | 'GPU_ACCELERATION'
-  | 'STORAGE_IO'
-  | 'NETWORK_BANDWIDTH'
-  | 'TOOL_INVOCATION'
-  | 'EVALUATION_JUDGE';
+  | "INFERENCE"
+  | "RUNTIME_COMPUTE"
+  | "BROWSER_GUI"
+  | "GPU_ACCELERATION"
+  | "STORAGE_IO"
+  | "NETWORK_BANDWIDTH"
+  | "TOOL_INVOCATION"
+  | "EVALUATION_JUDGE";
 
 export interface InferenceCostBreakdown {
   readonly modelId: string;
@@ -78,7 +78,7 @@ export interface HolisticExecutionCostLedger {
   readonly runId: string;
   readonly benchmarkId: string;
   readonly scenarioId: string;
-  readonly currency: 'USD';
+  readonly currency: "USD";
   readonly inference: InferenceCostBreakdown;
   readonly runtimeCompute: RuntimeComputeBreakdown;
   readonly browserGui: BrowserGuiBreakdown;
@@ -158,8 +158,10 @@ export class ExecutionCostCalculator {
     // 1. Inference
     const reasoningTokens = metrics.reasoningTokens ?? 0;
     const cachedTokens = metrics.cachedTokens ?? 0;
-    const reasoningRate = rates.inferenceRatePer1kTokens.reasoning ?? rates.inferenceRatePer1kTokens.completion;
-    const cachedRate = rates.inferenceRatePer1kTokens.cached ?? rates.inferenceRatePer1kTokens.prompt * 0.5;
+    const reasoningRate =
+      rates.inferenceRatePer1kTokens.reasoning ?? rates.inferenceRatePer1kTokens.completion;
+    const cachedRate =
+      rates.inferenceRatePer1kTokens.cached ?? rates.inferenceRatePer1kTokens.prompt * 0.5;
 
     const inferenceCost =
       (metrics.promptTokens / 1000) * rates.inferenceRatePer1kTokens.prompt +
@@ -210,7 +212,7 @@ export class ExecutionCostCalculator {
     const gpuCost = (gpuDurationMs / 3600000) * rates.gpuRatePerHour * allocatedGpus;
 
     const gpu: GpuAccelerationBreakdown = {
-      gpuType: metrics.gpuType ?? 'NONE',
+      gpuType: metrics.gpuType ?? "NONE",
       allocatedGpuCount: allocatedGpus,
       durationMs: gpuDurationMs,
       costUsd: Number(gpuCost.toFixed(6))
@@ -255,7 +257,7 @@ export class ExecutionCostCalculator {
     const evalCost = (judgeTokens / 1000) * rates.judgeRatePer1kTokens;
 
     const evaluation: EvaluationJudgeBreakdown = {
-      judgeModelId: metrics.judgeModelId ?? 'NONE',
+      judgeModelId: metrics.judgeModelId ?? "NONE",
       judgeTokens,
       tckComputeMs: metrics.tckComputeMs ?? 0,
       costUsd: Number(evalCost.toFixed(6))
@@ -282,7 +284,7 @@ export class ExecutionCostCalculator {
       runId,
       benchmarkId,
       scenarioId,
-      currency: 'USD' as const,
+      currency: "USD" as const,
       inference,
       runtimeCompute,
       browserGui,
@@ -314,22 +316,22 @@ export class ExecutionCostCalculator {
       `**Grant Subsidies**: -$${ledger.grantSubsidiesUsd.toFixed(4)} USD`,
       `**Total Net Cost**: **$${ledger.totalNetCostUsd.toFixed(4)} USD**`,
       `**Timestamp**: ${ledger.timestamp}`,
-      '',
-      '## Cost Vector Breakdown',
-      '| Vector | Key Quantities | Cost (USD) |',
-      '| :--- | :--- | :--- |',
+      "",
+      "## Cost Vector Breakdown",
+      "| Vector | Key Quantities | Cost (USD) |",
+      "| :--- | :--- | :--- |",
       `| **1. Inference** | Prompt: ${ledger.inference.promptTokens}, Comp: ${ledger.inference.completionTokens}, Reason: ${ledger.inference.reasoningTokens} | $${ledger.inference.costUsd.toFixed(4)} |`,
       `| **2. Runtime Compute** | ${ledger.runtimeCompute.cpuCoreSeconds} core-s, ${ledger.runtimeCompute.ramGibSeconds} GiB-s | $${ledger.runtimeCompute.costUsd.toFixed(4)} |`,
       `| **3. Browser & GUI** | ${ledger.browserGui.browserSessions} sessions (${(ledger.browserGui.activeDurationMs / 1000).toFixed(1)}s), ${ledger.browserGui.screenCaptureFrames} frames | $${ledger.browserGui.costUsd.toFixed(4)} |`,
       `| **4. GPU Acceleration** | ${ledger.gpu.allocatedGpuCount}x ${ledger.gpu.gpuType} (${(ledger.gpu.durationMs / 1000).toFixed(1)}s) | $${ledger.gpu.costUsd.toFixed(4)} |`,
       `| **5. Storage I/O** | Disk: ${ledger.storage.diskAllocatedGb} GB, Snapshots: ${ledger.storage.snapshotCount} | $${ledger.storage.costUsd.toFixed(4)} |`,
-      `| **6. Network** | Ingress: ${(ledger.network.ingressBytes / (1024*1024)).toFixed(2)} MB, Egress: ${(ledger.network.egressBytes / (1024*1024)).toFixed(2)} MB | $${ledger.network.costUsd.toFixed(4)} |`,
+      `| **6. Network** | Ingress: ${(ledger.network.ingressBytes / (1024 * 1024)).toFixed(2)} MB, Egress: ${(ledger.network.egressBytes / (1024 * 1024)).toFixed(2)} MB | $${ledger.network.costUsd.toFixed(4)} |`,
       `| **7. Tools & MCP** | MCP Calls: ${ledger.tools.mcpToolCalls}, Paid API: ${ledger.tools.paidApiCalls} | $${ledger.tools.costUsd.toFixed(4)} |`,
       `| **8. Evaluation Judge** | Judge Tokens: ${ledger.evaluation.judgeTokens}, TCK: ${ledger.evaluation.tckComputeMs}ms | $${ledger.evaluation.costUsd.toFixed(4)} |`,
-      '',
+      "",
       `**Cryptographic Ledger Signature**: \`${ledger.ledgerSignatureHex}\``
     ];
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

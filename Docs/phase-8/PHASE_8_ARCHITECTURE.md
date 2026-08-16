@@ -1,7 +1,7 @@
 # Phase 8 Architecture Overview
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

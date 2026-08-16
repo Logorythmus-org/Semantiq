@@ -44,12 +44,7 @@
     },
     "resilienceGrade": {
       "type": "string",
-      "enum": [
-        "TIER_1_HIGHLY_RESILIENT",
-        "TIER_2_ADAPTIVE",
-        "TIER_3_FRAGILE",
-        "TIER_4_COLLAPSED"
-      ]
+      "enum": ["TIER_1_HIGHLY_RESILIENT", "TIER_2_ADAPTIVE", "TIER_3_FRAGILE", "TIER_4_COLLAPSED"]
     },
     "observedAnomalies": { "type": "array", "items": { "type": "string" } },
     "analyzedAt": { "type": "string" },

@@ -1,7 +1,7 @@
 # ADR-0156: SemantIQ End-to-End Evidence Provenance and Lineage Graph Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

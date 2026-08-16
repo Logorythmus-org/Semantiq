@@ -13,4 +13,5 @@ export const serializeMarkdown = (title: string, body: string): SerializedDocume
   content: `# ${title}\n\n${body}`
 });
 
-export const snapshot = (value: unknown): SerializedDocument => serializeJson({ createdAt: new Date().toISOString(), value });
+export const snapshot = (value: unknown): SerializedDocument =>
+  serializeJson({ createdAt: new Date().toISOString(), value });

@@ -1,7 +1,7 @@
 # ADR-0159: SemantIQ Canonical Sandbox Benchmark Report Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

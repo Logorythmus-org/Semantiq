@@ -1,7 +1,22 @@
-import type { CoreDomainEvent, CoreDomainEventType, EventBus, EventHandler } from "../domain/events.js";
-import type { GraphEdge, GraphNode, GraphTraversalQuery, GraphTraversalResult } from "../domain/graph.js";
+import type {
+  CoreDomainEvent,
+  CoreDomainEventType,
+  EventBus,
+  EventHandler
+} from "../domain/events.js";
+import type {
+  GraphEdge,
+  GraphNode,
+  GraphTraversalQuery,
+  GraphTraversalResult
+} from "../domain/graph.js";
 import type { KnowledgeId, RelationId } from "../domain/identifiers.js";
-import type { IdentityAggregate, KnowledgeObjectAggregate, QuestionAggregate, WorkspaceAggregate } from "../domain/models.js";
+import type {
+  IdentityAggregate,
+  KnowledgeObjectAggregate,
+  QuestionAggregate,
+  WorkspaceAggregate
+} from "../domain/models.js";
 import type { PermissionGrant } from "../domain/permissions.js";
 import type {
   CoreUnitOfWork,
@@ -26,15 +41,27 @@ class MapRepository<T extends { readonly id: string }> {
   }
 }
 
-export class MemoryIdentityRepository extends MapRepository<IdentityAggregate> implements IdentityRepository {}
-export class MemoryWorkspaceRepository extends MapRepository<WorkspaceAggregate> implements WorkspaceRepository {}
-export class MemoryKnowledgeRepository extends MapRepository<KnowledgeObjectAggregate> implements KnowledgeRepository {}
-export class MemoryQuestionRepository extends MapRepository<QuestionAggregate> implements QuestionRepository {}
+export class MemoryIdentityRepository
+  extends MapRepository<IdentityAggregate>
+  implements IdentityRepository {}
+export class MemoryWorkspaceRepository
+  extends MapRepository<WorkspaceAggregate>
+  implements WorkspaceRepository {}
+export class MemoryKnowledgeRepository
+  extends MapRepository<KnowledgeObjectAggregate>
+  implements KnowledgeRepository {}
+export class MemoryQuestionRepository
+  extends MapRepository<QuestionAggregate>
+  implements QuestionRepository {}
 
-export class MemoryPermissionRepository extends MapRepository<PermissionGrant> implements PermissionRepository {
+export class MemoryPermissionRepository
+  extends MapRepository<PermissionGrant>
+  implements PermissionRepository
+{
   async list(subjectId: string, resourceId?: string): Promise<readonly PermissionGrant[]> {
     return [...this.values.values()].filter(
-      (grant) => grant.subjectId === subjectId && (resourceId ? grant.resourceId === resourceId : true)
+      (grant) =>
+        grant.subjectId === subjectId && (resourceId ? grant.resourceId === resourceId : true)
     );
   }
 

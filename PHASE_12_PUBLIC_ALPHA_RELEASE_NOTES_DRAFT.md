@@ -1,7 +1,7 @@
 # SemantIQ v0.1.0-alpha.1 Public Alpha Release Notes (Draft)
 
 **Release Level**: Level 2 — Public Alpha (Experimental)  
-**Date**: 2026-08-07  
+**Date**: 2026-08-07
 
 ---
 

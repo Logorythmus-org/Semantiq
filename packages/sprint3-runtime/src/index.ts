@@ -1,7 +1,25 @@
-import { createAgent, createGoal as createAgentGoal, LocalAgentRuntime, type LearningRecord, type MemoryRecord, type ReflectionRecord, type ToolRequest } from "../../agent-runtime/src/index.js";
+import {
+  createAgent,
+  createGoal as createAgentGoal,
+  LocalAgentRuntime,
+  type LearningRecord,
+  type MemoryRecord,
+  type ReflectionRecord,
+  type ToolRequest
+} from "../../agent-runtime/src/index.js";
 import { LocalSprint2Runtime, type Sprint2JourneyResult } from "../../sprint2-runtime/src/index.js";
 
-export type Sprint3GoalState = "Draft" | "Planned" | "Ready" | "Executing" | "Waiting" | "Paused" | "Blocked" | "Completed" | "Cancelled" | "Archived";
+export type Sprint3GoalState =
+  | "Draft"
+  | "Planned"
+  | "Ready"
+  | "Executing"
+  | "Waiting"
+  | "Paused"
+  | "Blocked"
+  | "Completed"
+  | "Cancelled"
+  | "Archived";
 export type Sprint3EventType =
   | "GoalCreated"
   | "GoalPlanned"
@@ -84,7 +102,13 @@ export interface GoalRecord {
 export interface ExecutionPlanRecord {
   readonly id: string;
   readonly goalId: string;
-  readonly kind: "Research Planning" | "Implementation Planning" | "Learning Planning" | "Publication Planning" | "Experiment Planning" | "Community Planning";
+  readonly kind:
+    | "Research Planning"
+    | "Implementation Planning"
+    | "Learning Planning"
+    | "Publication Planning"
+    | "Experiment Planning"
+    | "Community Planning";
   readonly tasks: readonly PlanTaskRecord[];
   readonly dependencies: readonly string[];
   readonly resources: readonly string[];
@@ -110,7 +134,15 @@ export interface WorkflowRecord {
   readonly goalId: string;
   readonly nodes: readonly WorkflowNodeRecord[];
   readonly edges: readonly WorkflowEdgeRecord[];
-  readonly state: "draft" | "ready" | "running" | "paused" | "completed" | "failed" | "cancelled" | "waiting-for-approval";
+  readonly state:
+    | "draft"
+    | "ready"
+    | "running"
+    | "paused"
+    | "completed"
+    | "failed"
+    | "cancelled"
+    | "waiting-for-approval";
   readonly conditions: readonly string[];
   readonly checkpointIds: readonly string[];
   readonly recovery: "rollback" | "retry" | "resume" | "human-escalation";
@@ -121,7 +153,16 @@ export interface WorkflowRecord {
 export interface WorkflowNodeRecord {
   readonly id: string;
   readonly taskId: string;
-  readonly type: "task" | "approval" | "tool" | "agent" | "memory" | "reflection" | "learning" | "parallel" | "loop";
+  readonly type:
+    | "task"
+    | "approval"
+    | "tool"
+    | "agent"
+    | "memory"
+    | "reflection"
+    | "learning"
+    | "parallel"
+    | "loop";
   readonly name: string;
   readonly approvalRequired: boolean;
   readonly status: "pending" | "running" | "completed" | "blocked";
@@ -137,7 +178,20 @@ export interface WorkflowEdgeRecord {
 export interface AgentRecord {
   readonly id: string;
   readonly role: DefaultAgentRole;
-  readonly lifecycle: "Install" | "Register" | "Load" | "Initialize" | "Start" | "Pause" | "Resume" | "Restart" | "Update" | "Disable" | "Archive" | "Delete" | "Health Monitoring";
+  readonly lifecycle:
+    | "Install"
+    | "Register"
+    | "Load"
+    | "Initialize"
+    | "Start"
+    | "Pause"
+    | "Resume"
+    | "Restart"
+    | "Update"
+    | "Disable"
+    | "Archive"
+    | "Delete"
+    | "Health Monitoring";
   readonly capabilities: readonly string[];
   readonly permissions: readonly string[];
   readonly sandbox: true;
@@ -231,7 +285,8 @@ export interface Sprint3JourneyResult {
 }
 
 const now = (): string => new Date().toISOString();
-const id = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const id = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 
 export const sprint3DefaultWorkflows = [
   "Question Improvement",
@@ -247,7 +302,10 @@ export const sprint3DefaultWorkflows = [
   "Research Summary"
 ] as const;
 
-export const sprint3DefaultAgents: readonly { readonly role: DefaultAgentRole; readonly capabilities: readonly string[] }[] = [
+export const sprint3DefaultAgents: readonly {
+  readonly role: DefaultAgentRole;
+  readonly capabilities: readonly string[];
+}[] = [
   { role: "Planner Agent", capabilities: ["planning", "coordination"] },
   { role: "Research Agent", capabilities: ["research", "evidence"] },
   { role: "Question Agent", capabilities: ["question", "refinement"] },
@@ -353,17 +411,42 @@ export class LocalSprint3Runtime {
       risks: sprint2.researchProject.risks,
       resources: [sprint2.evidence.id, sprint2.hypothesis.id],
       expectedOutput: "Reviewed research summary with reusable knowledge and learning records.",
-      successCriteria: ["Workflow completed", "Memory stored", "Reflection created", "Learning completed", "Graph updated"]
+      successCriteria: [
+        "Workflow completed",
+        "Memory stored",
+        "Reflection created",
+        "Learning completed",
+        "Graph updated"
+      ]
     });
     const plan = await this.planGoal(sprint2.workspaceId, sprint2.identityId, goal.id);
     const workflow = await this.createWorkflow(sprint2.workspaceId, sprint2.identityId, plan.id);
-    const approval = await this.requestApproval(sprint2.workspaceId, sprint2.identityId, "Running External Providers", "Confirm workflow remains local and no external provider is called.");
+    const approval = await this.requestApproval(
+      sprint2.workspaceId,
+      sprint2.identityId,
+      "Running External Providers",
+      "Confirm workflow remains local and no external provider is called."
+    );
     await this.approveExecution(sprint2.workspaceId, sprint2.identityId, approval.id);
-    const executionStatus = await this.runWorkflow(sprint2.workspaceId, sprint2.identityId, workflow.id);
+    const executionStatus = await this.runWorkflow(
+      sprint2.workspaceId,
+      sprint2.identityId,
+      workflow.id
+    );
     const collaboration = await this.delegateTask(sprint2.workspaceId, sprint2.identityId, goal.id);
-    const memory = await this.storeMemory(sprint2.workspaceId, sprint2.identityId, goal.id, "Workflow generated research summary, evidence review, and hypothesis review.");
+    const memory = await this.storeMemory(
+      sprint2.workspaceId,
+      sprint2.identityId,
+      goal.id,
+      "Workflow generated research summary, evidence review, and hypothesis review."
+    );
     const reflection = await this.reflect(sprint2.workspaceId, sprint2.identityId, goal.id);
-    const learning = await this.learn(sprint2.workspaceId, sprint2.identityId, goal.id, reflection.id);
+    const learning = await this.learn(
+      sprint2.workspaceId,
+      sprint2.identityId,
+      goal.id,
+      reflection.id
+    );
     const runtimeStatus = this.runtimeStatus();
     return {
       sprint2,
@@ -385,7 +468,10 @@ export class LocalSprint3Runtime {
   async createGoal(
     workspaceId: string,
     actorId: string,
-    input: Omit<GoalRecord, "id" | "history" | "knowledgeLinks" | "state" | "version" | "semantiqEvaluationId">
+    input: Omit<
+      GoalRecord,
+      "id" | "history" | "knowledgeLinks" | "state" | "version" | "semantiqEvaluationId"
+    >
   ): Promise<GoalRecord> {
     const goal: GoalRecord = {
       ...input,
@@ -396,16 +482,23 @@ export class LocalSprint3Runtime {
       version: "1.0.0"
     };
     this.goals.set(goal.id, goal);
-    await this.agentRuntime.createGoal(createAgentGoal(goal.id, goal.mission, workspaceId, goal.taskTree));
+    await this.agentRuntime.createGoal(
+      createAgentGoal(goal.id, goal.mission, workspaceId, goal.taskTree)
+    );
     this.emit("GoalCreated", actorId, workspaceId, goal.id, { goalId: goal.id });
     return goal;
   }
 
-  async planGoal(workspaceId: string, actorId: string, goalId: string): Promise<ExecutionPlanRecord> {
+  async planGoal(
+    workspaceId: string,
+    actorId: string,
+    goalId: string
+  ): Promise<ExecutionPlanRecord> {
     const goal = this.requireGoal(goalId);
     const tasks = goal.taskTree.map<PlanTaskRecord>((task, index) => {
       const requiredCapability = this.capabilityFor(task);
-      const agent = this.discoverAgents(requiredCapability)[0] ?? this.discoverAgents("planning")[0];
+      const agent =
+        this.discoverAgents(requiredCapability)[0] ?? this.discoverAgents("planning")[0];
       const base = {
         id: `${goal.id}:task:${index + 1}`,
         description: task,
@@ -427,16 +520,27 @@ export class LocalSprint3Runtime {
       milestones: goal.milestones,
       estimatedDurationMinutes: Math.max(15, tasks.length * 10),
       confidence: 0.78,
-      alternativePlans: ["Sequential single-agent execution", "Human-led research checklist", "Pause for additional planning"]
+      alternativePlans: [
+        "Sequential single-agent execution",
+        "Human-led research checklist",
+        "Pause for additional planning"
+      ]
     };
     this.plans.set(plan.id, plan);
     this.transitionGoal(goalId, "Planned", `GoalPlanned:${now()}`);
     await this.agentRuntime.planGoal(goalId);
-    this.emit("GoalPlanned", actorId, workspaceId, goalId, { planId: plan.id, taskCount: tasks.length });
+    this.emit("GoalPlanned", actorId, workspaceId, goalId, {
+      planId: plan.id,
+      taskCount: tasks.length
+    });
     return plan;
   }
 
-  async createWorkflow(workspaceId: string, actorId: string, planId: string): Promise<WorkflowRecord> {
+  async createWorkflow(
+    workspaceId: string,
+    actorId: string,
+    planId: string
+  ): Promise<WorkflowRecord> {
     const plan = this.requirePlan(planId);
     const nodes = plan.tasks.map<WorkflowNodeRecord>((task) => ({
       id: `${task.id}:node`,
@@ -466,16 +570,26 @@ export class LocalSprint3Runtime {
     };
     this.workflows.set(workflow.id, workflow);
     this.transitionGoal(plan.goalId, "Ready", `WorkflowCreated:${now()}`);
-    this.emit("WorkflowCreated", actorId, workspaceId, workflow.id, { workflowId: workflow.id, nodes: nodes.length });
+    this.emit("WorkflowCreated", actorId, workspaceId, workflow.id, {
+      workflowId: workflow.id,
+      nodes: nodes.length
+    });
     return workflow;
   }
 
-  async runWorkflow(workspaceId: string, actorId: string, workflowId: string): Promise<WorkflowRecord["state"]> {
+  async runWorkflow(
+    workspaceId: string,
+    actorId: string,
+    workflowId: string
+  ): Promise<WorkflowRecord["state"]> {
     const workflow = this.requireWorkflow(workflowId);
     this.workflows.set(workflowId, { ...workflow, state: "running" });
     this.transitionGoal(workflow.goalId, "Executing", `WorkflowStarted:${now()}`);
     this.emit("WorkflowStarted", actorId, workspaceId, workflowId, { workflowId });
-    const blocked = workflow.nodes.find((node) => node.approvalRequired && !this.approvals.some((approval) => approval.state === "granted"));
+    const blocked = workflow.nodes.find(
+      (node) =>
+        node.approvalRequired && !this.approvals.some((approval) => approval.state === "granted")
+    );
     if (blocked) {
       const waiting = { ...workflow, state: "waiting-for-approval" as const };
       this.workflows.set(workflowId, waiting);
@@ -492,7 +606,10 @@ export class LocalSprint3Runtime {
     const benchmark = await this.agentRuntime.benchmarkExecution(workflow.goalId, workflow.id);
     this.semantiqTrendScores.push(benchmark.report.weightedScore);
     this.transitionGoal(workflow.goalId, "Completed", `WorkflowCompleted:${now()}`);
-    this.emit("WorkflowCompleted", actorId, workspaceId, workflowId, { workflowId, benchmarkId: benchmark.report.id });
+    this.emit("WorkflowCompleted", actorId, workspaceId, workflowId, {
+      workflowId,
+      benchmarkId: benchmark.report.id
+    });
     return completed.state;
   }
 
@@ -521,7 +638,12 @@ export class LocalSprint3Runtime {
     return updated;
   }
 
-  async registerAgent(workspaceId: string, actorId: string, role: DefaultAgentRole, capabilities: readonly string[]): Promise<AgentRecord> {
+  async registerAgent(
+    workspaceId: string,
+    actorId: string,
+    role: DefaultAgentRole,
+    capabilities: readonly string[]
+  ): Promise<AgentRecord> {
     const agent: AgentRecord = {
       id: id("agent"),
       role,
@@ -534,7 +656,9 @@ export class LocalSprint3Runtime {
       metrics: { utilization: 0, tasksCompleted: 0 }
     };
     this.agents.set(agent.id, agent);
-    await this.agentRuntime.registerAgent(createAgent(agent.id, this.agentType(role), capabilities, []));
+    await this.agentRuntime.registerAgent(
+      createAgent(agent.id, this.agentType(role), capabilities, [])
+    );
     await this.agentRuntime.startAgent(agent.id);
     this.emit("AgentRegistered", actorId, workspaceId, agent.id, { agentId: agent.id, role });
     this.emit("AgentStarted", actorId, workspaceId, agent.id, { agentId: agent.id });
@@ -542,10 +666,16 @@ export class LocalSprint3Runtime {
   }
 
   discoverAgents(capability: string): readonly AgentRecord[] {
-    return [...this.agents.values()].filter((agent) => agent.health === "healthy" && agent.capabilities.includes(capability));
+    return [...this.agents.values()].filter(
+      (agent) => agent.health === "healthy" && agent.capabilities.includes(capability)
+    );
   }
 
-  async delegateTask(workspaceId: string, actorId: string, goalId: string): Promise<CollaborationRecord> {
+  async delegateTask(
+    workspaceId: string,
+    actorId: string,
+    goalId: string
+  ): Promise<CollaborationRecord> {
     const plan = [...this.plans.values()].find((item) => item.goalId === goalId);
     if (!plan) throw new Error(`Plan not found for goal ${goalId}`);
     const record: CollaborationRecord = {
@@ -557,15 +687,31 @@ export class LocalSprint3Runtime {
       knowledgeShared: ["Research question", "Evidence quality", "Hypothesis", "Semantiq report"],
       conflicts: [],
       consensus: "Agents agreed on sequential local execution with human approval gates.",
-      negotiationLog: ["Coordinator delegated tasks by capability.", "Reviewer retained approval checkpoints."],
+      negotiationLog: [
+        "Coordinator delegated tasks by capability.",
+        "Reviewer retained approval checkpoints."
+      ],
       humanInterventionRequired: plan.tasks.some((task) => task.approvalRequired)
     };
     this.collaboration.set(record.id, record);
     return record;
   }
 
-  async storeMemory(workspaceId: string, actorId: string, goalId: string, content: string): Promise<readonly MemoryRecord[]> {
-    const kinds: MemoryRecord["kind"][] = ["working", "workspace", "research", "semantic", "conversation", "execution", "long-term"];
+  async storeMemory(
+    workspaceId: string,
+    actorId: string,
+    goalId: string,
+    content: string
+  ): Promise<readonly MemoryRecord[]> {
+    const kinds: MemoryRecord["kind"][] = [
+      "working",
+      "workspace",
+      "research",
+      "semantic",
+      "conversation",
+      "execution",
+      "long-term"
+    ];
     const created = kinds.map<MemoryRecord>((kind) => ({
       id: id("memory"),
       kind,
@@ -580,7 +726,10 @@ export class LocalSprint3Runtime {
     for (const record of created) {
       this.memory.push(record);
       await this.agentRuntime.storeMemory(record);
-      this.emit("MemoryUpdated", actorId, workspaceId, record.id, { memoryId: record.id, kind: record.kind });
+      this.emit("MemoryUpdated", actorId, workspaceId, record.id, {
+        memoryId: record.id,
+        kind: record.kind
+      });
     }
     return created;
   }
@@ -599,7 +748,10 @@ export class LocalSprint3Runtime {
       goalReview: "Goal remained aligned with research objective and human oversight.",
       knowledgeReview: goal.knowledgeLinks,
       semantiqReview: "Semantiq execution benchmark recorded.",
-      improvementSuggestions: ["Add persistent workflow storage.", "Expand real tool adapters under approval policy."],
+      improvementSuggestions: [
+        "Add persistent workflow storage.",
+        "Expand real tool adapters under approval policy."
+      ],
       lessonsLearned: ["Approval-first execution keeps research automation auditable."],
       failures: [],
       successes: ["Plan created", "Workflow completed", "Memory stored"],
@@ -623,7 +775,12 @@ export class LocalSprint3Runtime {
     return record;
   }
 
-  async learn(workspaceId: string, actorId: string, goalId: string, reflectionId: string): Promise<LearningRecord3> {
+  async learn(
+    workspaceId: string,
+    actorId: string,
+    goalId: string,
+    reflectionId: string
+  ): Promise<LearningRecord3> {
     const reflection = this.reflections.get(reflectionId);
     if (!reflection) throw new Error(`Reflection not found: ${reflectionId}`);
     const record: LearningRecord3 = {
@@ -637,7 +794,8 @@ export class LocalSprint3Runtime {
       knowledgeExtraction: reflection.lessonsLearned,
       patternDetection: ["Research tasks map cleanly to capability-based agent delegation."],
       recommendationUpdates: ["Start Sprint 4 with persistent orchestration storage."],
-      explanation: "Learning derived from execution, reflection, memory, and human approval history."
+      explanation:
+        "Learning derived from execution, reflection, memory, and human approval history."
     };
     this.learning.set(record.id, record);
     const agentLearning: LearningRecord = {
@@ -656,16 +814,38 @@ export class LocalSprint3Runtime {
     return record;
   }
 
-  async requestApproval(workspaceId: string, actorId: string, action: ApprovalAction, reason: string): Promise<ApprovalRecord> {
-    const approval: ApprovalRecord = { id: id("approval"), action, requesterId: actorId, state: "requested", reason, immutable: true, createdAt: now() };
+  async requestApproval(
+    workspaceId: string,
+    actorId: string,
+    action: ApprovalAction,
+    reason: string
+  ): Promise<ApprovalRecord> {
+    const approval: ApprovalRecord = {
+      id: id("approval"),
+      action,
+      requesterId: actorId,
+      state: "requested",
+      reason,
+      immutable: true,
+      createdAt: now()
+    };
     this.approvals.push(approval);
     this.emit("ApprovalRequested", actorId, workspaceId, approval.id, { action, reason });
     return approval;
   }
 
-  async approveExecution(workspaceId: string, actorId: string, approvalId: string): Promise<ApprovalRecord> {
+  async approveExecution(
+    workspaceId: string,
+    actorId: string,
+    approvalId: string
+  ): Promise<ApprovalRecord> {
     const approval = this.requireApproval(approvalId);
-    const updated: ApprovalRecord = { ...approval, approverId: actorId, state: "granted", decidedAt: now() };
+    const updated: ApprovalRecord = {
+      ...approval,
+      approverId: actorId,
+      state: "granted",
+      decidedAt: now()
+    };
     this.approvals.push(updated);
     this.emit("ApprovalGranted", actorId, workspaceId, approvalId, { approvalId });
     return updated;
@@ -673,13 +853,23 @@ export class LocalSprint3Runtime {
 
   rejectApproval(workspaceId: string, actorId: string, approvalId: string): ApprovalRecord {
     const approval = this.requireApproval(approvalId);
-    const updated: ApprovalRecord = { ...approval, approverId: actorId, state: "rejected", decidedAt: now() };
+    const updated: ApprovalRecord = {
+      ...approval,
+      approverId: actorId,
+      state: "rejected",
+      decidedAt: now()
+    };
     this.approvals.push(updated);
     this.emit("ApprovalRejected", actorId, workspaceId, approvalId, { approvalId });
     return updated;
   }
 
-  async runTool(workspaceId: string, actorId: string, goalId: string, action: ApprovalAction): Promise<"waiting-for-approval" | "succeeded"> {
+  async runTool(
+    workspaceId: string,
+    actorId: string,
+    goalId: string,
+    action: ApprovalAction
+  ): Promise<"waiting-for-approval" | "succeeded"> {
     const request: ToolRequest = {
       id: id("tool"),
       kind: "terminal",
@@ -691,7 +881,12 @@ export class LocalSprint3Runtime {
     };
     const result = await this.agentRuntime.runTool(request);
     if (result.status === "waiting-for-approval") {
-      await this.requestApproval(workspaceId, actorId, action, "Tool adapter requires human approval.");
+      await this.requestApproval(
+        workspaceId,
+        actorId,
+        action,
+        "Tool adapter requires human approval."
+      );
       return "waiting-for-approval";
     }
     this.toolUsage += 1;
@@ -700,7 +895,9 @@ export class LocalSprint3Runtime {
 
   runtimeStatus(): RuntimeStatus {
     const duration = performance.now() - this.startedAt;
-    const completed = [...this.workflows.values()].filter((workflow) => workflow.state === "completed").length;
+    const completed = [...this.workflows.values()].filter(
+      (workflow) => workflow.state === "completed"
+    ).length;
     return {
       workflowDurationMs: duration,
       agentUtilization: this.agents.size === 0 ? 0 : completed / this.agents.size,
@@ -720,10 +917,15 @@ export class LocalSprint3Runtime {
     return this.events;
   }
 
-  private async installDefaultAgents(actorId: string, workspaceId: string): Promise<readonly AgentRecord[]> {
+  private async installDefaultAgents(
+    actorId: string,
+    workspaceId: string
+  ): Promise<readonly AgentRecord[]> {
     const created: AgentRecord[] = [];
     for (const definition of sprint3DefaultAgents) {
-      created.push(await this.registerAgent(workspaceId, actorId, definition.role, definition.capabilities));
+      created.push(
+        await this.registerAgent(workspaceId, actorId, definition.role, definition.capabilities)
+      );
     }
     return created;
   }
@@ -745,7 +947,15 @@ export class LocalSprint3Runtime {
 
   private requiresApproval(task: string): boolean {
     const lower = task.toLowerCase();
-    return ["publish", "delete", "external", "repository", "permission", "policy", "dangerous"].some((term) => lower.includes(term));
+    return [
+      "publish",
+      "delete",
+      "external",
+      "repository",
+      "permission",
+      "policy",
+      "dangerous"
+    ].some((term) => lower.includes(term));
   }
 
   private agentType(role: DefaultAgentRole): Parameters<typeof createAgent>[1] {
@@ -785,7 +995,13 @@ export class LocalSprint3Runtime {
     return approval;
   }
 
-  private emit(type: Sprint3EventType, actorId: string, workspaceId: string, causationId: string, payload: unknown): void {
+  private emit(
+    type: Sprint3EventType,
+    actorId: string,
+    workspaceId: string,
+    causationId: string,
+    payload: unknown
+  ): void {
     this.events.push({
       eventId: id("event"),
       type,

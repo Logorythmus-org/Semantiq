@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **Semantic Version**: `0.1.0-alpha.1`  
-**Date**: 2026-07-31  
+**Date**: 2026-07-31
 
 ---
 

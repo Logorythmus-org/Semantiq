@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **License**: MIT  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 
@@ -14,11 +14,11 @@ SemantIQ Benchmarks is released under the MIT License. The following third-party
 
 ## Development Dependencies
 
-| Package | License | Notice Required |
-|---------|---------|-----------------|
-| `typescript` | Apache-2.0 | ✅ |
-| `vitest` | MIT | ❌ |
-| `@types/node` | MIT | ❌ |
+| Package       | License    | Notice Required |
+| ------------- | ---------- | --------------- |
+| `typescript`  | Apache-2.0 | ✅              |
+| `vitest`      | MIT        | ❌              |
+| `@types/node` | MIT        | ❌              |
 
 ---
 

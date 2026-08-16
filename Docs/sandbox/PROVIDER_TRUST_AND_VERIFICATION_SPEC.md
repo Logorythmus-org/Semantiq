@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 30)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 When benchmarks execute across external cloud sandbox providers, community-hosted runners, or third-party infrastructure, SemantIQ cannot blindly trust unverified claims regarding container isolation, network segregation, or execution fidelity.
 
 This specification defines the **Provider Trust, Verification, and Certification Framework**:
+
 1. **Technology Compatibility Kit (TCK)**: All providers must execute the standardized SemantIQ TCK suite to empirically prove conformance to filesystem isolation, network whitelisting, signal handling, process lifecycle, and snapshot contracts.
 2. **Cryptographic Attestation & Identity**: Certified providers maintain a verifiable public/private keypair and publish signed attestation manifests (`ProviderAttestation`).
 3. **Graduated Trust Tiers**: Providers are classified into clear trust tiers (`UNVERIFIED`, `SELF_ATTESTED`, `TCK_VERIFIED`, `CRYPTOGRAPHICALLY_CERTIFIED`) and assigned security grades (`A_HARDENED_MICROVM`, `B_ISOLATED_CONTAINER`, `C_RESTRICTED_PROCESS`, `F_UNCONFINED`).
@@ -78,12 +79,20 @@ Provider Registration ──> TCK Test Suite ──> Attestation Verification �
 ## 5. Data & Event Schemas
 
 ### 5.1 Provider Attestation Schema
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "ProviderAttestation",
   "type": "object",
-  "required": ["identity", "declaredTrustTier", "securityGrade", "tckSummary", "capabilities", "signatureHex"],
+  "required": [
+    "identity",
+    "declaredTrustTier",
+    "securityGrade",
+    "tckSummary",
+    "capabilities",
+    "signatureHex"
+  ],
   "properties": {
     "identity": {
       "type": "object",
@@ -96,11 +105,24 @@ Provider Registration ──> TCK Test Suite ──> Attestation Verification �
         "registeredAt": { "type": "string" }
       }
     },
-    "declaredTrustTier": { "type": "string", "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"] },
-    "securityGrade": { "type": "string", "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"] },
+    "declaredTrustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
     "tckSummary": {
       "type": "object",
-      "required": ["tckSuiteVersion", "totalTests", "passedTests", "failedTests", "executedAt", "tckEvidenceSha256"],
+      "required": [
+        "tckSuiteVersion",
+        "totalTests",
+        "passedTests",
+        "failedTests",
+        "executedAt",
+        "tckEvidenceSha256"
+      ],
       "properties": {
         "tckSuiteVersion": { "type": "string" },
         "totalTests": { "type": "integer" },
@@ -157,15 +179,15 @@ Provider Registration ──> TCK Test Suite ──> Attestation Verification �
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Provider Trust Role |
-| :--- | :--- |
-| **Context** | Provider identity and verified trust tier declared in router catalog. |
-| **Interpretation** | Router evaluates benchmark security requirements against provider tier. |
-| **Decision** | Router routes high-risk tasks only to certified, hardened providers. |
-| **Action** | Benchmark executes inside verified runtime boundary. |
-| **Result** | Execution evidence returned alongside cryptographic provider signature. |
-| **Consequence** | Public consumers can independently audit provider certification status. |
-| **Recovery** | TCK regression or signature mismatch triggers automatic routing revocation. |
+| Behavioral Chain Stage | Provider Trust Role                                                         |
+| :--------------------- | :-------------------------------------------------------------------------- |
+| **Context**            | Provider identity and verified trust tier declared in router catalog.       |
+| **Interpretation**     | Router evaluates benchmark security requirements against provider tier.     |
+| **Decision**           | Router routes high-risk tasks only to certified, hardened providers.        |
+| **Action**             | Benchmark executes inside verified runtime boundary.                        |
+| **Result**             | Execution evidence returned alongside cryptographic provider signature.     |
+| **Consequence**        | Public consumers can independently audit provider certification status.     |
+| **Recovery**           | TCK regression or signature mismatch triggers automatic routing revocation. |
 
 ---
 

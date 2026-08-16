@@ -1,7 +1,7 @@
 # Independent Replication Guide
 
 **Version**: 1.1.0  
-**Date**: 2026-08-07  
+**Date**: 2026-08-07
 
 ---
 
@@ -23,6 +23,7 @@ This guide provides deterministic, step-by-step instructions for any external or
 ## 3. Clean-Room Installation
 
 1. **Clone or Extract Candidate**:
+
    ```bash
    git clone <repo-url>
    cd <repo-dir>
@@ -40,22 +41,28 @@ This guide provides deterministic, step-by-step instructions for any external or
 Execute the following verification steps in sequence:
 
 1. **Product Boundary Validation**:
+
    ```bash
    node scripts/boundary-validator.mjs
    ```
-   *Expected Output*: `[BOUNDARY VALIDATION PASSED]: SemantIQ product boundary is clean.`
+
+   _Expected Output_: `[BOUNDARY VALIDATION PASSED]: SemantIQ product boundary is clean.`
 
 2. **TypeScript Strict Typecheck**:
+
    ```bash
    pnpm typecheck
    ```
-   *Expected Output*: Exit code 0 with zero typecheck errors.
+
+   _Expected Output_: Exit code 0 with zero typecheck errors.
 
 3. **Full Vitest Test Suite**:
+
    ```bash
    pnpm test
    ```
-   *Expected Output*: Exit code 0 with all test files and unit tests passing.
+
+   _Expected Output_: Exit code 0 with all test files and unit tests passing.
 
 4. **Checksum & Provenance Verification**:
    Inspect `release-candidates/semantiq-v0.1.0-alpha.1/CHECKSUMS.sha256` and `INVENTORY.md` to confirm artifact integrity against generated bundles.

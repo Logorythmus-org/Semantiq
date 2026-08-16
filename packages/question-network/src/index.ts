@@ -11,7 +11,8 @@ import type {
   QuestionRelation
 } from "./contracts.js";
 
-const createId = (prefix: string): string => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
 export class LocalQuestionNetworkRepository implements QuestionNetworkRepository {
   private readonly questions = new Map<string, Question>();
@@ -50,7 +51,9 @@ export class LocalQuestionNetworkRepository implements QuestionNetworkRepository
 }
 
 export class LocalQuestionNetworkService implements QuestionNetworkService {
-  constructor(private readonly repository: LocalQuestionNetworkRepository = new LocalQuestionNetworkRepository()) {}
+  constructor(
+    private readonly repository: LocalQuestionNetworkRepository = new LocalQuestionNetworkRepository()
+  ) {}
 
   async createQuestion(input: CreateQuestionInput): Promise<Question> {
     const now = new Date().toISOString();
@@ -121,7 +124,10 @@ export class LocalQuestionNetworkService implements QuestionNetworkService {
   async recommendQuestions(query: QuestionDiscoveryQuery): Promise<readonly QuestionFeedItem[]> {
     return this.repository
       .listQuestions()
-      .filter((question) => !query.tags?.length || query.tags.some((tag) => question.semanticTags.includes(tag)))
+      .filter(
+        (question) =>
+          !query.tags?.length || query.tags.some((tag) => question.semanticTags.includes(tag))
+      )
       .slice(0, query.limit)
       .map((question, index) => ({
         questionId: question.id,

@@ -31,16 +31,16 @@ semantiq:<artifact_type>:<artifact_slug_or_uuid>:<version_or_hash>
 
 ### Supported Artifact Types
 
-| Artifact Type | Description | Format Example |
-|---|---|---|
-| `software-release` | Release candidate / release artifact | `semantiq:software-release:semantiq-benchmarks:v0.1.0-alpha.1` |
-| `benchmark-pack` | Structured benchmark definition pack | `semantiq:benchmark-pack:synthetic-smoke:v1.0.0` |
-| `dataset-pack` | Exported evaluation dataset pack | `semantiq:dataset-pack:eval-dataset-2026:v1.0.0` |
-| `evaluation-report` | Generated benchmark report | `semantiq:evaluation-report:rpt-2026-07-31:a1b2c3d4` |
-| `evidence-bundle` | Raw execution evidence bundle | `semantiq:evidence-bundle:ev-bundle-001:v1.0.0` |
-| `provider-snapshot` | Model connector snapshot | `semantiq:provider-snapshot:ollama-llama3:2026-07-31` |
-| `plugin` | Local plugin package | `semantiq:plugin:eval-rubric-plugin:v0.1.0` |
-| `documentation-snapshot` | Documentation release snapshot | `semantiq:documentation-snapshot:docs-alpha-1:v0.1.0` |
+| Artifact Type            | Description                          | Format Example                                                 |
+| ------------------------ | ------------------------------------ | -------------------------------------------------------------- |
+| `software-release`       | Release candidate / release artifact | `semantiq:software-release:semantiq-benchmarks:v0.1.0-alpha.1` |
+| `benchmark-pack`         | Structured benchmark definition pack | `semantiq:benchmark-pack:synthetic-smoke:v1.0.0`               |
+| `dataset-pack`           | Exported evaluation dataset pack     | `semantiq:dataset-pack:eval-dataset-2026:v1.0.0`               |
+| `evaluation-report`      | Generated benchmark report           | `semantiq:evaluation-report:rpt-2026-07-31:a1b2c3d4`           |
+| `evidence-bundle`        | Raw execution evidence bundle        | `semantiq:evidence-bundle:ev-bundle-001:v1.0.0`                |
+| `provider-snapshot`      | Model connector snapshot             | `semantiq:provider-snapshot:ollama-llama3:2026-07-31`          |
+| `plugin`                 | Local plugin package                 | `semantiq:plugin:eval-rubric-plugin:v0.1.0`                    |
+| `documentation-snapshot` | Documentation release snapshot       | `semantiq:documentation-snapshot:docs-alpha-1:v0.1.0`          |
 
 ---
 

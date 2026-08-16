@@ -1,6 +1,7 @@
 # Sprint 5 Repository Audit
 
 ## Component Classification
+
 - Identity runtime: Extend. Sprint 1 identity is local-user oriented; Sprint 5 adds separate node identity.
 - Semantic identity model: Reuse through adapter. Core IDs are stable enough for node/user separation.
 - Workspace ownership model: Reuse directly for allowed workspace scopes.
@@ -24,4 +25,5 @@
 - Test coverage: Extend with deterministic multi-node federation tests.
 
 ## External Component Notes
+
 Sunlionet, Menog OS, Qikio, Semantic Wallet, and SemantIQ are not present as concrete local packages beyond conceptual docs/stubs. Sprint 5 implements local adapter-ready contracts and deterministic runtime behavior.

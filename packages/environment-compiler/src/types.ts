@@ -3,22 +3,28 @@
  * Benchmark Declaration & Compiler Types
  */
 
-import type { EnvironmentSpec } from '../../sandbox-contracts/src/index.js';
+import type { EnvironmentSpec } from "../../sandbox-contracts/src/index.js";
 
 export interface InjectedFileDeclaration {
   readonly path: string;
   readonly content: string;
-  readonly encoding?: 'utf-8' | 'base64';
+  readonly encoding?: "utf-8" | "base64";
   readonly isExecutable?: boolean;
 }
 
 export interface BenchmarkTaskDeclaration {
-  readonly declarationVersion: '1.0.0';
+  readonly declarationVersion: "1.0.0";
   readonly taskId: string;
   readonly taskDescription?: string;
 
   readonly baseProfile: {
-    readonly name: 'python_datascience' | 'typescript_node' | 'rust_systems' | 'browser_playwright' | 'swe_bench' | 'custom';
+    readonly name:
+      | "python_datascience"
+      | "typescript_node"
+      | "rust_systems"
+      | "browser_playwright"
+      | "swe_bench"
+      | "custom";
     readonly version: string;
     readonly customImage?: { readonly name: string; readonly digest: string };
   };
@@ -42,7 +48,7 @@ export interface BenchmarkTaskDeclaration {
   };
 
   readonly security?: {
-    readonly networkPolicy?: 'none' | 'isolated_bridge' | 'whitelisted_egress';
+    readonly networkPolicy?: "none" | "isolated_bridge" | "whitelisted_egress";
     readonly whitelistedHosts?: readonly string[];
     readonly readOnlyRoot?: boolean;
     readonly unprivilegedUser?: string;
@@ -62,5 +68,7 @@ export interface CompilationResult {
 
 export interface IEnvironmentCompiler {
   compile(declaration: BenchmarkTaskDeclaration): Promise<CompilationResult>;
-  validateDeclaration(declaration: BenchmarkTaskDeclaration): Promise<{ isValid: boolean; errors: readonly string[] }>;
+  validateDeclaration(
+    declaration: BenchmarkTaskDeclaration
+  ): Promise<{ isValid: boolean; errors: readonly string[] }>;
 }

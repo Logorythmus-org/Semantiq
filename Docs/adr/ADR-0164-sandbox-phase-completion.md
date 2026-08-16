@@ -1,7 +1,7 @@
 # ADR-0164: SemantIQ Sandbox Phase Canonical Completion & Release Seal
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 52)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **Provider-Neutral Security Test Suite Architecture**:
+
 1. **Seven Attack & Isolation Categories**: Standardizes probes for [`FILESYSTEM_CONTAINMENT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L10-L10), [`NETWORK_EGRESS_POLICY`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L11-L11), [`CREDENTIAL_ISOLATION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L12-L12), [`RESOURCE_GOVERNANCE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L13-L13), [`PROCESS_PRIVILEGE_CONTAINMENT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L14-L14), [`CLEANUP_EPHEMERALITY`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L15-L15), and [`EVIDENCE_TAMPER_RESISTANCE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L16-L16).
 2. **Four-Tier Security Posture Grades**: Distinguishes [`GRADE_A_HARDENED_ISOLATED`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L21-L21), [`GRADE_B_CONTAINED`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L22-L22), [`GRADE_C_PERMISSIVE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L23-L23), and [`GRADE_F_VULNERABLE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L24-L24).
 3. **Automated Security Test Suite**: Implements [`ProviderSecurityTestSuite`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L52-L198) running automated attack payloads and emitting signed [`ProviderSecurityAuditReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L37-L48) records (`auditSignatureHex`).
@@ -49,6 +50,7 @@ This specification establishes the **Provider-Neutral Security Test Suite Archit
 ## 2. Inputs & Prior Decisions
 
 This specification integrates security requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider trust boundaries, licensing, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -60,11 +62,13 @@ This specification integrates security requirements across the Sandbox Phase:
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Security Suite Specification**: Defining [`SecurityProbeCategory`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L9-L17), [`SecuritySeverity`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L19-L19), [`SecurityProbeResult`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L26-L35), [`ProviderSecurityAuditReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-security-suite.ts#L37-L48), and JSON Schema [`provider-security-audit-report.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-security-audit-report.schema.json).
 - **Automated Probe Execution**: Running security tests against any `SemantiqProviderAdapter`.
 - **Grade Calculation**: Objective scoring of runtime security posture.
 
 ### 3.2 Non-Goals
+
 - **No Proprietary Security Scanners**: Suite uses open, reproducible POSIX/network probing scripts.
 - **No Reliance on Provider Self-Attestation**: All security claims must be proven via active probes.
 
@@ -96,21 +100,18 @@ This specification integrates security requirements across the Sandbox Phase:
 
 ```typescript
 export type SecurityProbeCategory =
-  | 'FILESYSTEM_CONTAINMENT'
-  | 'NETWORK_EGRESS_POLICY'
-  | 'CREDENTIAL_ISOLATION'
-  | 'RESOURCE_GOVERNANCE'
-  | 'PROCESS_PRIVILEGE_CONTAINMENT'
-  | 'CLEANUP_EPHEMERALITY'
-  | 'EVIDENCE_TAMPER_RESISTANCE';
+  | "FILESYSTEM_CONTAINMENT"
+  | "NETWORK_EGRESS_POLICY"
+  | "CREDENTIAL_ISOLATION"
+  | "RESOURCE_GOVERNANCE"
+  | "PROCESS_PRIVILEGE_CONTAINMENT"
+  | "CLEANUP_EPHEMERALITY"
+  | "EVIDENCE_TAMPER_RESISTANCE";
 
-export type SecuritySeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFORMATIONAL';
+export type SecuritySeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFORMATIONAL";
 
 export type SecurityPostureGrade =
-  | 'GRADE_A_HARDENED_ISOLATED'
-  | 'GRADE_B_CONTAINED'
-  | 'GRADE_C_PERMISSIVE'
-  | 'GRADE_F_VULNERABLE';
+  "GRADE_A_HARDENED_ISOLATED" | "GRADE_B_CONTAINED" | "GRADE_C_PERMISSIVE" | "GRADE_F_VULNERABLE";
 
 export interface SecurityProbeResult {
   readonly probeId: string;
@@ -185,29 +186,30 @@ export interface ProviderSecurityAuditReport {
 
 ## 9. Provider Compatibility
 
-| Execution Engine | Primary Isolation Layer | Typical Posture Grade |
-| :--- | :--- | :--- |
-| **Docker (Local)** | Linux cgroups / namespaces / seccomp | `GRADE_B_CONTAINED` |
-| **Podman (Rootless)** | User namespaces (rootless UID) | `GRADE_A_HARDENED_ISOLATED` |
-| **Firecracker** | Hardware KVM MicroVM / jailer | `GRADE_A_HARDENED_ISOLATED` |
-| **Cloud Sandbox (Modal / E2B)** | Ephemeral gVisor / MicroVM | `GRADE_A_HARDENED_ISOLATED` |
+| Execution Engine                | Primary Isolation Layer              | Typical Posture Grade       |
+| :------------------------------ | :----------------------------------- | :-------------------------- |
+| **Docker (Local)**              | Linux cgroups / namespaces / seccomp | `GRADE_B_CONTAINED`         |
+| **Podman (Rootless)**           | User namespaces (rootless UID)       | `GRADE_A_HARDENED_ISOLATED` |
+| **Firecracker**                 | Hardware KVM MicroVM / jailer        | `GRADE_A_HARDENED_ISOLATED` |
+| **Cloud Sandbox (Modal / E2B)** | Ephemeral gVisor / MicroVM           | `GRADE_A_HARDENED_ISOLATED` |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Egress Leak** | Provider failed to disable bridge network | Exfiltration risk | Assigns `GRADE_F_VULNERABLE`; blocks registration |
-| **Secret Exposure** | Host daemon forwarded evaluator env vars | Credential breach | Assigns `GRADE_F_VULNERABLE`; issues immediate alert |
-| **Fork Bomb Hang** | Missing process count cgroup limit | Host freeze | Suite aborts via timeout; flags resource vulnerability |
-| **Orphan Container** | Teardown hook failed to remove volume | Disk leak | Fails cleanup probe; drops grade to `GRADE_B` |
+| Failure Mode         | Root Cause                                | Impact            | Automated Recovery Action                              |
+| :------------------- | :---------------------------------------- | :---------------- | :----------------------------------------------------- |
+| **Egress Leak**      | Provider failed to disable bridge network | Exfiltration risk | Assigns `GRADE_F_VULNERABLE`; blocks registration      |
+| **Secret Exposure**  | Host daemon forwarded evaluator env vars  | Credential breach | Assigns `GRADE_F_VULNERABLE`; issues immediate alert   |
+| **Fork Bomb Hang**   | Missing process count cgroup limit        | Host freeze       | Suite aborts via timeout; flags resource vulnerability |
+| **Orphan Container** | Teardown hook failed to remove volume     | Disk leak         | Fails cleanup probe; drops grade to `GRADE_B`          |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Provider Security Test Suite architecture is validated through automated test suites:
+
 1. **Security Suite Unit Tests ([`tests/unit/provider-security-suite.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/provider-security-suite.test.ts))**:
    - Tests running full 7-probe security attack battery on `MockReferenceProviderAdapter`.
    - Asserts all 7 probes pass (`SEC-PROBE-01` through `SEC-PROBE-07`).
@@ -231,7 +233,7 @@ The Provider Security Test Suite architecture is validated through automated tes
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Active Probing vs. Safe Execution**: Fork bomb probes must be carefully capped to prevent freezing the test harness machine.  
-  *Mitigation*: Enforce strict 5-second process group timeouts on all security probe invocations.
+  _Mitigation_: Enforce strict 5-second process group timeouts on all security probe invocations.
 - **Open Question**: Adding side-channel (Spectre/Meltdown) timing leakage probes for multi-tenant microVM hosts.
 
 ---

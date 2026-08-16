@@ -1,5 +1,10 @@
 import type { CoreDomainEvent } from "../domain/events.js";
-import type { GraphEdge, GraphNode, GraphTraversalQuery, GraphTraversalResult } from "../domain/graph.js";
+import type {
+  GraphEdge,
+  GraphNode,
+  GraphTraversalQuery,
+  GraphTraversalResult
+} from "../domain/graph.js";
 import type {
   IdentityId,
   KnowledgeId,
@@ -8,7 +13,12 @@ import type {
   RelationId,
   WorkspaceId
 } from "../domain/identifiers.js";
-import type { IdentityAggregate, KnowledgeObjectAggregate, QuestionAggregate, WorkspaceAggregate } from "../domain/models.js";
+import type {
+  IdentityAggregate,
+  KnowledgeObjectAggregate,
+  QuestionAggregate,
+  WorkspaceAggregate
+} from "../domain/models.js";
 import type { PermissionGrant } from "../domain/permissions.js";
 
 export interface IdentityRepository {

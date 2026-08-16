@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 50)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **Lightweight SemantIQ Provider SDK Architecture**:
+
 1. **Lightweight Abstract Adapter**: Standardizes [`SemantiqProviderAdapter`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L48-L62) with 4 discrete lifecycle hooks: [`initialize`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L54-L54), [`provisionEnvironment`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L55-L55), [`executeCommand`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L56-L56), and [`destroyEnvironment`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L57-L57).
 2. **Automated Conformance Harness**: Implements [`ProviderConformanceHarness`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L104-L188) to automatically certify third-party adapters against contract requirements.
 3. **Cryptographic Conformance Certification**: Generates signed [`ProviderConformanceCertificate`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L36-L45) records (`certificateSignatureHex`).
@@ -50,6 +51,7 @@ This specification establishes the **Lightweight SemantIQ Provider SDK Architect
 ## 2. Inputs & Prior Decisions
 
 This specification synthesizes the integration needs established across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, canonical registry, marketplace discovery, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle sequence continuity.
@@ -61,11 +63,13 @@ This specification synthesizes the integration needs established across the Sand
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Provider SDK Definition**: Specifying [`SemantiqProviderAdapter`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L48-L62), [`ProviderConfig`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L9-L16), [`EnvironmentHandle`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L18-L26), [`CommandSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L28-L34), [`CommandResult`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/provider-sdk.ts#L36-L44), and schema [`provider-conformance-certificate.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-conformance-certificate.schema.json).
 - **Automated Conformance Testing**: Verification of third-party adapters.
 - **Zero-Dependency SDK Architecture**: Standalone interfaces requiring no SemantIQ benchmark code.
 
 ### 3.2 Non-Goals
+
 - **No In-Tree Runtime Maintenance**: Third-party adapters live in their own vendor repositories.
 - **No Evaluation Logic in Adapter**: Adapters only execute commands and return telemetry; evaluation logic remains in SemantIQ.
 
@@ -143,14 +147,14 @@ export abstract class SemantiqProviderAdapter {
 ### 5.2 Conformance Harness Workflow
 
 ```typescript
-import { ProviderConformanceHarness } from '@tech-club/sandbox-contracts';
-import { CustomCloudProviderAdapter } from './custom-adapter.js';
+import { ProviderConformanceHarness } from "@tech-club/sandbox-contracts";
+import { CustomCloudProviderAdapter } from "./custom-adapter.js";
 
 const harness = new ProviderConformanceHarness();
 const adapter = new CustomCloudProviderAdapter();
 
 const cert = await harness.certifyAdapter(adapter);
-console.log(`Certification Result: ${cert.isCertified ? 'PASSED ✅' : 'FAILED ❌'}`);
+console.log(`Certification Result: ${cert.isCertified ? "PASSED ✅" : "FAILED ❌"}`);
 console.log(`Certificate Signature: ${cert.certificateSignatureHex}`);
 ```
 
@@ -199,29 +203,30 @@ console.log(`Certificate Signature: ${cert.certificateSignatureHex}`);
 
 ## 9. Provider Compatibility
 
-| Execution Engine | Implementation Mechanism | SDK Compatibility |
-| :--- | :--- | :--- |
-| **Docker / Podman** | Docker Engine API / Podman Socket | Native Class Implementation |
-| **Firecracker** | Firecracker HTTP API / VSOCK | Native Class Implementation |
-| **Modal / Fly.io / E2B** | Remote gRPC / REST Gateway | Native Class Implementation |
-| **Kubernetes Jobs** | K8s Batch API / Pod Spawner | Native Class Implementation |
+| Execution Engine         | Implementation Mechanism          | SDK Compatibility           |
+| :----------------------- | :-------------------------------- | :-------------------------- |
+| **Docker / Podman**      | Docker Engine API / Podman Socket | Native Class Implementation |
+| **Firecracker**          | Firecracker HTTP API / VSOCK      | Native Class Implementation |
+| **Modal / Fly.io / E2B** | Remote gRPC / REST Gateway        | Native Class Implementation |
+| **Kubernetes Jobs**      | K8s Batch API / Pod Spawner       | Native Class Implementation |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Uninitialized Call** | `provisionEnvironment` called before `init` | Error thrown | Adapter rejects request with structured error |
-| **Teardown Leak** | Host daemon leaves orphan container | Resource leak | Conformance harness fails certification check |
-| **Command Timeout** | Process blocks on stdin | Hang | Adapter enforces `timeoutMs` and terminates process |
-| **Invalid Exit Code** | Adapter returns null/undefined exit code | Evaluation drift | Conformance harness rejects adapter implementation |
+| Failure Mode           | Root Cause                                  | Impact           | Automated Recovery Action                           |
+| :--------------------- | :------------------------------------------ | :--------------- | :-------------------------------------------------- |
+| **Uninitialized Call** | `provisionEnvironment` called before `init` | Error thrown     | Adapter rejects request with structured error       |
+| **Teardown Leak**      | Host daemon leaves orphan container         | Resource leak    | Conformance harness fails certification check       |
+| **Command Timeout**    | Process blocks on stdin                     | Hang             | Adapter enforces `timeoutMs` and terminates process |
+| **Invalid Exit Code**  | Adapter returns null/undefined exit code    | Evaluation drift | Conformance harness rejects adapter implementation  |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Provider SDK architecture is validated through automated test suites:
+
 1. **Provider SDK Unit Tests ([`tests/unit/provider-sdk.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/provider-sdk.test.ts))**:
    - Tests implementing `SemantiqProviderAdapter` subclass (`MockReferenceProviderAdapter`), initialization, environment provisioning, command execution, and destruction.
    - Tests `ProviderConformanceHarness` automated certification on `MockReferenceProviderAdapter` asserting all 4 compliance checks pass.
@@ -246,7 +251,7 @@ The Provider SDK architecture is validated through automated test suites:
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Minimal SDK vs. Pre-built Language Bindings**: Maintaining SDK in TypeScript first requires other languages (Python, Go, Rust) to use gRPC.  
-  *Mitigation*: Provide gRPC protobuf definitions alongside TypeScript interfaces for multi-language provider development.
+  _Mitigation_: Provide gRPC protobuf definitions alongside TypeScript interfaces for multi-language provider development.
 - **Open Question**: Automated nightly provider re-certification crons in CI.
 
 ---

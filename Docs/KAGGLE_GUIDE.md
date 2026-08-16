@@ -12,7 +12,7 @@ Use `examples/kaggle/dataset-metadata.json`:
 {
   "title": "SemantIQ Benchmarks Synthetic Smoke Dataset",
   "id": "techclub/semantiq-benchmarks-synthetic-smoke",
-  "licenses": [{"name": "CC0-1.0"}]
+  "licenses": [{ "name": "CC0-1.0" }]
 }
 ```
 

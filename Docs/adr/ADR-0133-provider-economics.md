@@ -1,7 +1,7 @@
 # ADR-0133: Provider Economics and Sustainable Evaluation Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

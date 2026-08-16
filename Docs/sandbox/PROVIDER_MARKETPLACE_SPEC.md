@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 32)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification establishes the **Provider Marketplace and Discovery Architecture**:
+
 1. **Decentralized Marketplace Registry**: Execution providers publish verifiable, machine-readable listings (`ProviderMarketplaceListing`) containing publisher identities, SPDX licensing, granular billing rates, SLA metrics, and cryptographic signatures.
 2. **Multidimensional Discovery Engine**: Supports dynamic queries (`MarketplaceDiscoveryQuery`) filtering across 6 key dimensions: Capabilities, Deployment Mode, Trust Tier, Security Posture Grade, Cost Budget, and Data Privacy Policy.
 3. **MCDM Utility Scoring & Automated Failover**: Ranks matching providers via Multi-Criteria Decision Making (MCDM) utility scoring (Trust 30%, Isolation 25%, Latency 20%, Cost 15%, SLA 10%), automatically assembling primary selection and resilient failover chains.
@@ -47,6 +48,7 @@ This specification establishes the **Provider Marketplace and Discovery Architec
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Decentralized Listing Protocol**: Defining machine-readable formats for provider discovery ([`ProviderMarketplaceListing`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/marketplace.ts#L29-L50)).
 - **Multidimensional Search & Matchmaking**: Filtering by deployment modes, hardware acceleration, zero data retention, latency ceilings, and SPDX license whitelists via [`MarketplaceDiscoveryQuery`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/marketplace.ts#L52-L73).
 - **MCDM Multi-Criteria Scoring**: Automated weighted ranking and deterministic failover chain synthesis via [`ProviderMarketplaceEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/marketplace.ts#L104-L245).
@@ -55,6 +57,7 @@ This specification establishes the **Provider Marketplace and Discovery Architec
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Centralized Paywalled Broker**: SemantIQ does not operate a proprietary monetization tollbooth or mandatory central registry.
 - **No OpenSandbox Fork or Clone**: Runtimes remain independent external systems; SemantIQ Core never duplicates vendor codebase files.
 - **No Vendor Telemetry Ingestion into Core**: SemantIQ Core does not collect or transmit vendor analytics.
@@ -100,12 +103,12 @@ This specification establishes the **Provider Marketplace and Discovery Architec
 
 ```typescript
 export type MarketplaceDeploymentMode =
-  | 'LOCAL_DAEMON'
-  | 'DEDICATED_CLUSTER'
-  | 'SERVERLESS_MICROVM'
-  | 'MANAGED_MULTI_TENANT'
-  | 'AIRGAPPED_ON_PREM'
-  | 'MOCK_REPLAY';
+  | "LOCAL_DAEMON"
+  | "DEDICATED_CLUSTER"
+  | "SERVERLESS_MICROVM"
+  | "MANAGED_MULTI_TENANT"
+  | "AIRGAPPED_ON_PREM"
+  | "MOCK_REPLAY";
 
 export interface ProviderSlaMetrics {
   readonly uptimePercentage: number;
@@ -180,6 +183,7 @@ export interface MarketplaceDiscoveryResult {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/provider-marketplace.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-marketplace.schema.json)**: Validates marketplace listings, publisher identity blocks, SLA figures, and security posture grades.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) provides `providerMarketplaceListingSchema` and `marketplaceDiscoveryQuerySchema`.
 
@@ -226,13 +230,13 @@ export interface MarketplaceDiscoveryResult {
 
 ## 7. Open-Source vs. Commercial & Enterprise Marketplace Paths
 
-| Feature | Open-Source (`LOCAL_DAEMON`) | Commercial (`SERVERLESS_MICROVM`) | Enterprise (`AIRGAPPED_ON_PREM`) |
-| :--- | :--- | :--- | :--- |
-| **Pricing** | Free local ($0.00) | Per-second / per-minute | Internal infrastructure |
-| **Connectivity** | 100% offline capable | Requires secure TLS API | Air-gapped VPC / on-premise |
-| **Boot Latency** | 500ms - 1500ms | 150ms - 300ms (pre-warmed) | 200ms - 500ms |
-| **Scale** | Single machine concurrency | 100+ concurrent microVMs | Dedicated hardware cluster |
-| **Data Privacy** | Local disk only | Ephemeral zero-retention | Strictly air-gapped |
+| Feature          | Open-Source (`LOCAL_DAEMON`) | Commercial (`SERVERLESS_MICROVM`) | Enterprise (`AIRGAPPED_ON_PREM`) |
+| :--------------- | :--------------------------- | :-------------------------------- | :------------------------------- |
+| **Pricing**      | Free local ($0.00)           | Per-second / per-minute           | Internal infrastructure          |
+| **Connectivity** | 100% offline capable         | Requires secure TLS API           | Air-gapped VPC / on-premise      |
+| **Boot Latency** | 500ms - 1500ms               | 150ms - 300ms (pre-warmed)        | 200ms - 500ms                    |
+| **Scale**        | Single machine concurrency   | 100+ concurrent microVMs          | Dedicated hardware cluster       |
+| **Data Privacy** | Local disk only              | Ephemeral zero-retention          | Strictly air-gapped              |
 
 ---
 
@@ -259,19 +263,20 @@ export interface MarketplaceDiscoveryResult {
 
 ## 9. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Signature Forgery** | Tampered listing manifest | Unverified provider listed | `ProviderMarketplaceEngine` rejects listing during audit |
-| **SLA Degradation** | Provider cold boot latency spikes | Benchmark timeouts | Router demotes candidate score; triggers failover candidate |
-| **Un-Isolated Extension** | Vendor injects non-standard env flags | Benchmark scores skewed | Listing audit rejects non-isolated extension matrices |
-| **Region Incompatibility** | Data residency constraint violation | Compliance breach | Discovery engine drops candidates outside requested region |
-| **Outage During Run** | Primary cloud provider API 500 | Benchmark failure | Failover orchestrator re-dispatches run to next listing in chain |
+| Failure Mode               | Root Cause                            | Impact                     | Automated Recovery Action                                        |
+| :------------------------- | :------------------------------------ | :------------------------- | :--------------------------------------------------------------- |
+| **Signature Forgery**      | Tampered listing manifest             | Unverified provider listed | `ProviderMarketplaceEngine` rejects listing during audit         |
+| **SLA Degradation**        | Provider cold boot latency spikes     | Benchmark timeouts         | Router demotes candidate score; triggers failover candidate      |
+| **Un-Isolated Extension**  | Vendor injects non-standard env flags | Benchmark scores skewed    | Listing audit rejects non-isolated extension matrices            |
+| **Region Incompatibility** | Data residency constraint violation   | Compliance breach          | Discovery engine drops candidates outside requested region       |
+| **Outage During Run**      | Primary cloud provider API 500        | Benchmark failure          | Failover orchestrator re-dispatches run to next listing in chain |
 
 ---
 
 ## 10. Testing Strategy & Verification
 
 The marketplace architecture is verified through automated test suites:
+
 1. **Listing Publishing & Audit Unit Tests ([`tests/unit/provider-marketplace.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/provider-marketplace.test.ts))**:
    - Audits valid local, cloud, and enterprise marketplace listings.
    - Detects malformed signatures, un-isolated extensions, and out-of-range SLA metrics.
@@ -298,7 +303,7 @@ The marketplace architecture is verified through automated test suites:
 ## 12. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Decentralized Static Catalogs vs. Dynamic Heartbeat Verification**: Static listings may become stale if a provider goes offline.  
-  *Mitigation*: The marketplace engine pairs static listing discovery with real-time health checks and circuit breaking in `ProviderSelectionRouter`.
+  _Mitigation_: The marketplace engine pairs static listing discovery with real-time health checks and circuit breaking in `ProviderSelectionRouter`.
 - **Open Question**: Implementing decentralized peer-to-peer catalog synchronization via Git repositories or IPFS for multi-organization academic consortia.
 
 ---

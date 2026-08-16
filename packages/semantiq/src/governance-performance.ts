@@ -1,14 +1,19 @@
 export type PerformanceFailureClass =
-  | 'nondeterministic_benchmark'
-  | 'unstated_hardware'
-  | 'single_run_metrics'
-  | 'network_dependent_benchmark'
-  | 'missing_percentile_data'
-  | 'no_regression_thresholds';
+  | "nondeterministic_benchmark"
+  | "unstated_hardware"
+  | "single_run_metrics"
+  | "network_dependent_benchmark"
+  | "missing_percentile_data"
+  | "no_regression_thresholds";
 
 export interface GovernancePerformanceFixture {
   readonly fixtureId: string;
-  readonly targetOperation: 'policy_resolution' | 'applicability_analysis' | 'approval_verification' | 'incident_bundle_gen' | 'profile_gen';
+  readonly targetOperation:
+    | "policy_resolution"
+    | "applicability_analysis"
+    | "approval_verification"
+    | "incident_bundle_gen"
+    | "profile_gen";
   readonly itemCount: number;
   readonly isNetworkDependent: boolean;
 }
@@ -52,7 +57,7 @@ export class GovernancePerformanceEngine {
     if (fixture.isNetworkDependent) {
       return {
         reportId: `fail_net_${result.benchmarkId}`,
-        failureClass: 'network_dependent_benchmark',
+        failureClass: "network_dependent_benchmark",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' relies on external network requests.`,
         timestamp: new Date().toISOString()
@@ -60,10 +65,10 @@ export class GovernancePerformanceEngine {
     }
 
     // 2. Unstated Hardware Check
-    if (!result.hardwareDescription || result.hardwareDescription.trim() === '') {
+    if (!result.hardwareDescription || result.hardwareDescription.trim() === "") {
       return {
         reportId: `fail_hw_${result.benchmarkId}`,
-        failureClass: 'unstated_hardware',
+        failureClass: "unstated_hardware",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' lacks hardware environment specification.`,
         timestamp: new Date().toISOString()
@@ -74,7 +79,7 @@ export class GovernancePerformanceEngine {
     if (result.runCount < 5) {
       return {
         reportId: `fail_run_${result.benchmarkId}`,
-        failureClass: 'single_run_metrics',
+        failureClass: "single_run_metrics",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' run count (${result.runCount}) is below minimum requirement of 5.`,
         timestamp: new Date().toISOString()
@@ -85,7 +90,7 @@ export class GovernancePerformanceEngine {
     if (result.latencyMsP50 <= 0 || result.latencyMsP95 <= 0 || result.latencyMsP99 <= 0) {
       return {
         reportId: `fail_perc_${result.benchmarkId}`,
-        failureClass: 'missing_percentile_data',
+        failureClass: "missing_percentile_data",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' is missing valid P50/P95/P99 percentile data.`,
         timestamp: new Date().toISOString()
@@ -96,7 +101,7 @@ export class GovernancePerformanceEngine {
     if (!threshold) {
       return {
         reportId: `fail_nothresh_${result.benchmarkId}`,
-        failureClass: 'no_regression_thresholds',
+        failureClass: "no_regression_thresholds",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' has no registered regression threshold.`,
         timestamp: new Date().toISOString()
@@ -107,7 +112,7 @@ export class GovernancePerformanceEngine {
     if (!result.isDeterministic) {
       return {
         reportId: `fail_nondet_${result.benchmarkId}`,
-        failureClass: 'nondeterministic_benchmark',
+        failureClass: "nondeterministic_benchmark",
         benchmarkId: result.benchmarkId,
         description: `Benchmark '${result.benchmarkId}' produced non-deterministic results.`,
         timestamp: new Date().toISOString()

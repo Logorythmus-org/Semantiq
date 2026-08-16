@@ -3,14 +3,14 @@
  * Transition Phenomena Laboratory and Controlled Behavioral Experimentation Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type TransitionPhenomenonType =
-  | 'ERROR_RECOVERY_PHASE_SHIFT'
-  | 'CONTEXT_SATURATION_BREAKPOINT'
-  | 'TOOL_COMPOSITION_THRESHOLD'
-  | 'PERTURBATION_CLIFF'
-  | 'RESOURCE_THROTTLING_REGIME';
+  | "ERROR_RECOVERY_PHASE_SHIFT"
+  | "CONTEXT_SATURATION_BREAKPOINT"
+  | "TOOL_COMPOSITION_THRESHOLD"
+  | "PERTURBATION_CLIFF"
+  | "RESOURCE_THROTTLING_REGIME";
 
 export interface ControlledExperimentParameter {
   readonly name: string;
@@ -32,7 +32,7 @@ export interface ControlledExperimentSpec {
 export interface TransitionMetricDataPoint {
   readonly paramValue: number | string | boolean;
   readonly trialIndex: number;
-  readonly outcome: 'PASSED' | 'FAILED' | 'TIMEOUT' | 'ERROR';
+  readonly outcome: "PASSED" | "FAILED" | "TIMEOUT" | "ERROR";
   readonly actionCount: number;
   readonly recoveryEventsCount: number;
   readonly recoverySuccessRate: number;
@@ -75,7 +75,10 @@ export class TransitionPhenomenaEngine {
   private readonly experiments: Map<string, ControlledExperimentSpec> = new Map();
   private readonly trialData: Map<string, TransitionMetricDataPoint[]> = new Map();
 
-  planExperiment(spec: ControlledExperimentSpec): { totalTrials: number; trialMatrix: readonly { paramValue: number | string | boolean; trialIndex: number }[] } {
+  planExperiment(spec: ControlledExperimentSpec): {
+    totalTrials: number;
+    trialMatrix: readonly { paramValue: number | string | boolean; trialIndex: number }[];
+  } {
     this.experiments.set(spec.experimentId, spec);
     this.trialData.set(spec.experimentId, []);
 
@@ -125,17 +128,17 @@ export class TransitionPhenomenaEngine {
     let inflectionFound = false;
 
     for (const [val, points] of groups.entries()) {
-      const passedCount = points.filter(pt => pt.outcome === 'PASSED').length;
+      const passedCount = points.filter((pt) => pt.outcome === "PASSED").length;
       const successRate = (passedCount / points.length) * 100;
-      const loopCount = points.filter(pt => pt.loopCycleDetected).length;
+      const loopCount = points.filter((pt) => pt.loopCycleDetected).length;
 
-      let characteristicBehavior = 'Stable autonomous task resolution with negligible retries.';
+      let characteristicBehavior = "Stable autonomous task resolution with negligible retries.";
       if (loopCount > points.length / 2) {
-        characteristicBehavior = 'Pathological looping and repetitive retry stagnation.';
+        characteristicBehavior = "Pathological looping and repetitive retry stagnation.";
       } else if (successRate < 50) {
-        characteristicBehavior = 'Elevated recovery failure and cascade termination.';
+        characteristicBehavior = "Elevated recovery failure and cascade termination.";
       } else if (successRate < 90) {
-        characteristicBehavior = 'Active multi-step error recovery and hypothesis adaptation.';
+        characteristicBehavior = "Active multi-step error recovery and hypothesis adaptation.";
       }
 
       observedRegimes.push({
@@ -146,7 +149,11 @@ export class TransitionPhenomenaEngine {
       });
 
       // Detect inflection cliff (drop of >= 40% in success rate)
-      if (previousSuccessRate !== null && previousSuccessRate - successRate >= 40 && !inflectionFound) {
+      if (
+        previousSuccessRate !== null &&
+        previousSuccessRate - successRate >= 40 &&
+        !inflectionFound
+      ) {
         inflectionFound = true;
         criticalThreshold = {
           parameter: spec.independentVariable.name,
@@ -163,7 +170,9 @@ export class TransitionPhenomenaEngine {
     }
 
     if (!criticalThreshold) {
-      conclusions.push('No sharp phase transition cliff detected; behavioral metrics exhibit gradual linear response.');
+      conclusions.push(
+        "No sharp phase transition cliff detected; behavioral metrics exhibit gradual linear response."
+      );
     }
 
     const unsignedReport = {
@@ -192,30 +201,32 @@ export class TransitionPhenomenaEngine {
       `**Phenomenon Type**: \`${report.phenomenonType}\``,
       `**Total Executed Trials**: ${report.totalTrials}`,
       `**Analyzed At**: ${report.analyzedAt}`,
-      '',
-      '## 1. Critical Transition Thresholds',
+      "",
+      "## 1. Critical Transition Thresholds",
       report.criticalThreshold
         ? `- **Threshold**: ${report.criticalThreshold.parameter} = \`${report.criticalThreshold.thresholdValue}\` (Confidence: ${(report.criticalThreshold.confidence * 100).toFixed(0)}%)\n- **Description**: ${report.criticalThreshold.description}`
-        : '- *No abrupt transition cliff identified across the evaluated parameter sweep.*',
-      '',
-      '## 2. Observable Behavioral Regimes',
-      '| Regime | Parameter Sweep | Success Rate | Characteristic Observable Behavior |',
-      '| :--- | :--- | :--- | :--- |'
+        : "- *No abrupt transition cliff identified across the evaluated parameter sweep.*",
+      "",
+      "## 2. Observable Behavioral Regimes",
+      "| Regime | Parameter Sweep | Success Rate | Characteristic Observable Behavior |",
+      "| :--- | :--- | :--- | :--- |"
     ];
 
     for (const r of report.observedRegimes) {
-      lines.push(`| **${r.regimeName}** | \`${r.parameterRange}\` | ${r.successRatePercentage}% | ${r.characteristicBehavior} |`);
+      lines.push(
+        `| **${r.regimeName}** | \`${r.parameterRange}\` | ${r.successRatePercentage}% | ${r.characteristicBehavior} |`
+      );
     }
 
-    lines.push('');
-    lines.push('## 3. Conclusions & Findings');
+    lines.push("");
+    lines.push("## 3. Conclusions & Findings");
     for (const c of report.conclusions) {
       lines.push(`- ${c}`);
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Cryptographic Report Signature**: \`${report.reportSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

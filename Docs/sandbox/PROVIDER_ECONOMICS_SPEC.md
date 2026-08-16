@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 33)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Provider Economics Architecture**:
+
 1. **Multi-Tier Economic Taxonomy**: Formalizes 5 economic operating tiers: `COMMUNITY_FREE` ($0.00 local), `SPONSORED_GRANT` (foundation/grant subsidized), `COMMERCIAL_PAYG` (metered cloud micro-billing), `ENTERPRISE_RESERVED` (dedicated infrastructure showback), and `REPLAY_TRACE` (zero compute cost).
 2. **Economic Governor & Escrow Engine**: Evaluates pre-flight spend caps, enforces minimum billing increments, calculates data egress and cold-boot surcharges, and halts runs exceeding `EconomicBudgetCap`.
 3. **Cryptographic Execution Receipts**: Emits signed `EconomicExecutionReceipt` manifests with immutable financial breakdowns, grant sponsor attributions, and departmental cost centers.
@@ -46,6 +47,7 @@ This specification defines the **Provider Economics Architecture**:
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Economic Pricing Models**: Machine-readable contracts ([`EconomicPricingModel`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/economics.ts#L18-L27)) defining compute rates, billing units, minimum increments, data egress fees, and startup surcharges.
 - **Grant & Sponsorship Allocation**: Managing foundation credit vouchers ([`EvaluationGrantAllocation`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/economics.ts#L29-L36)) with automated debiting and sponsor attribution.
 - **Departmental Showback / Chargeback**: Tracking internal budget consumption ([`DepartmentalCostAllocation`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/economics.ts#L38-L43)) across organizational cost centers.
@@ -55,6 +57,7 @@ This specification defines the **Provider Economics Architecture**:
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Pay-To-Win Benchmark Scoring**: Financial spend never influences agent evaluation rubrics or benchmark leaderboards.
 - **No Proprietary Payment Gateways in Core**: SemantIQ Core does not process credit cards or fiat banking transactions; it operates strictly on machine-readable unit pricing and credit accounting.
 - **No Mandatory Commercial Providers**: Local-first $0.00 execution remains fully supported and zero-cost forever.
@@ -90,24 +93,15 @@ This specification defines the **Provider Economics Architecture**:
 
 ```typescript
 export type EconomicTier =
-  | 'COMMUNITY_FREE'
-  | 'SPONSORED_GRANT'
-  | 'COMMERCIAL_PAYG'
-  | 'ENTERPRISE_RESERVED'
-  | 'REPLAY_TRACE';
+  "COMMUNITY_FREE" | "SPONSORED_GRANT" | "COMMERCIAL_PAYG" | "ENTERPRISE_RESERVED" | "REPLAY_TRACE";
 
-export type EconomicBillingUnit =
-  | 'SECOND'
-  | 'MINUTE'
-  | 'HOUR'
-  | 'RUN'
-  | 'TOKEN_ESTIMATE';
+export type EconomicBillingUnit = "SECOND" | "MINUTE" | "HOUR" | "RUN" | "TOKEN_ESTIMATE";
 
 export interface EconomicPricingModel {
   readonly tier: EconomicTier;
   readonly unit: EconomicBillingUnit;
   readonly baseUnitPrice: number;
-  readonly currency: 'USD' | 'EUR' | 'CREDITS' | 'NONE';
+  readonly currency: "USD" | "EUR" | "CREDITS" | "NONE";
   readonly minBillingIncrementSec: number;
   readonly egressCostPerGb: number;
   readonly coldBootSurcharge: number;
@@ -160,6 +154,7 @@ export interface EconomicExecutionReceipt {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/provider-economics.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-economics.schema.json)**: Validates economic execution receipts, pricing units, grant debits, and signatures.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `economicPricingModelSchema`, `evaluationGrantAllocationSchema`, and `economicExecutionReceiptSchema`.
 
@@ -205,12 +200,12 @@ export interface EconomicExecutionReceipt {
 
 ## 7. Open-Source vs. Commercial & Enterprise Economics
 
-| Economic Dimension | Open-Source (`COMMUNITY_FREE`) | Sponsored (`SPONSORED_GRANT`) | Commercial (`COMMERCIAL_PAYG`) | Enterprise (`ENTERPRISE_RESERVED`) |
-| :--- | :--- | :--- | :--- | :--- |
-| **Compute Cost** | $0.00 (Local CPU/GPU) | Subsidized by Grant Credits | Billed per sec/min | Internal infrastructure chargeback |
-| **Egress Bandwidth** | $0.00 (Local Loopback) | Subsidized | $0.05 - $0.12 per GB | Corporate network amortized |
-| **Budget Enforcement** | Unlimited runs | Hard cap on grant credits | Hard cap on cloud credit card | Departmental monthly quota |
-| **Sponsor Disclosure** | Open Source Community | e.g. "Sponsored by NSF AI" | Commercial Cloud Tenant | Enterprise Division Tag |
+| Economic Dimension     | Open-Source (`COMMUNITY_FREE`) | Sponsored (`SPONSORED_GRANT`) | Commercial (`COMMERCIAL_PAYG`) | Enterprise (`ENTERPRISE_RESERVED`) |
+| :--------------------- | :----------------------------- | :---------------------------- | :----------------------------- | :--------------------------------- |
+| **Compute Cost**       | $0.00 (Local CPU/GPU)          | Subsidized by Grant Credits   | Billed per sec/min             | Internal infrastructure chargeback |
+| **Egress Bandwidth**   | $0.00 (Local Loopback)         | Subsidized                    | $0.05 - $0.12 per GB           | Corporate network amortized        |
+| **Budget Enforcement** | Unlimited runs                 | Hard cap on grant credits     | Hard cap on cloud credit card  | Departmental monthly quota         |
+| **Sponsor Disclosure** | Open Source Community          | e.g. "Sponsored by NSF AI"    | Commercial Cloud Tenant        | Enterprise Division Tag            |
 
 ---
 
@@ -236,19 +231,20 @@ export interface EconomicExecutionReceipt {
 
 ## 9. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Budget Cap Exceeded** | Agent enters infinite loop | Runaway compute costs | `EconomicGovernor` aborts sandbox execution immediately |
-| **Grant Expired** | Grant timestamp in the past | Subsidies rejected | Fallback to `COMMUNITY_FREE` or prompt user for commercial key |
-| **Egress Spikes** | Agent downloads large datasets | Unanticipated egress bill | Metering checks egress threshold; throttles or halts download |
-| **Billing Discrepancy** | Hypervisor clock vs wall-clock | Overcharge dispute | Receipts log both durations; discrepancies >5% flagged for review |
-| **Departmental Overrun** | Project team exhausts quarterly budget | Benchmark blocked | Soft alert to administrator or automatic switch to local OCI |
+| Failure Mode             | Root Cause                             | Impact                    | Automated Recovery Action                                         |
+| :----------------------- | :------------------------------------- | :------------------------ | :---------------------------------------------------------------- |
+| **Budget Cap Exceeded**  | Agent enters infinite loop             | Runaway compute costs     | `EconomicGovernor` aborts sandbox execution immediately           |
+| **Grant Expired**        | Grant timestamp in the past            | Subsidies rejected        | Fallback to `COMMUNITY_FREE` or prompt user for commercial key    |
+| **Egress Spikes**        | Agent downloads large datasets         | Unanticipated egress bill | Metering checks egress threshold; throttles or halts download     |
+| **Billing Discrepancy**  | Hypervisor clock vs wall-clock         | Overcharge dispute        | Receipts log both durations; discrepancies >5% flagged for review |
+| **Departmental Overrun** | Project team exhausts quarterly budget | Benchmark blocked         | Soft alert to administrator or automatic switch to local OCI      |
 
 ---
 
 ## 10. Testing Strategy & Verification
 
 The economic governance framework is verified through automated test suites:
+
 1. **Pricing Calculation Unit Tests ([`tests/unit/provider-economics.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/provider-economics.test.ts))**:
    - Validates zero-cost calculation for community and replay tiers.
    - Tests per-second rounding, minimum duration floors, egress calculations, and cold-boot surcharges.
@@ -277,7 +273,7 @@ The economic governance framework is verified through automated test suites:
 ## 12. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Granular Micro-Billing vs. Network Egress Volatility**: Egress costs can vary dynamically across cloud regions.  
-  *Mitigation*: Pricing manifests define worst-case regional egress rates, and receipts record exact bytes transferred.
+  _Mitigation_: Pricing manifests define worst-case regional egress rates, and receipts record exact bytes transferred.
 - **Open Question**: Standardization of multi-currency exchange rate snapshots for international academic benchmarks.
 
 ---

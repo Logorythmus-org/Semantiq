@@ -1,6 +1,7 @@
 # Spec Pipeline
 
 The Spec Pipeline generates:
+
 - `spec.md`
 - `contracts.md`
 - `tasks.md`

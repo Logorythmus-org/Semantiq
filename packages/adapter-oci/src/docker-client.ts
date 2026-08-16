@@ -3,8 +3,8 @@
  * Lightweight Docker Engine REST Client over UDS / Windows Named Pipe / TCP
  */
 
-import * as http from 'http';
-import * as net from 'net';
+import * as http from "http";
+import * as net from "net";
 
 export interface DockerClientConfig {
   readonly socketPath?: string;
@@ -24,22 +24,28 @@ export class DockerEngineHttpClient {
 
   private detectDefaultSocket(): string {
     if (process.env.DOCKER_HOST) return process.env.DOCKER_HOST;
-    if (process.platform === 'win32') return '//./pipe/docker_engine';
-    return '/var/run/docker.sock';
+    if (process.platform === "win32") return "//./pipe/docker_engine";
+    return "/var/run/docker.sock";
   }
 
   async request<T>(method: string, path: string, body?: unknown): Promise<T> {
     return new Promise((resolve, reject) => {
-      const isNamedPipe = this.socketPath.startsWith('//./pipe/');
+      const isNamedPipe = this.socketPath.startsWith("//./pipe/");
       const options: http.RequestOptions = isNamedPipe
-        ? { path, method, headers: { 'Content-Type': 'application/json' }, timeout: this.timeoutMs }
-        : { socketPath: this.socketPath, path, method, headers: { 'Content-Type': 'application/json' }, timeout: this.timeoutMs };
+        ? { path, method, headers: { "Content-Type": "application/json" }, timeout: this.timeoutMs }
+        : {
+            socketPath: this.socketPath,
+            path,
+            method,
+            headers: { "Content-Type": "application/json" },
+            timeout: this.timeoutMs
+          };
 
       const req = http.request(options, (res) => {
-        let rawData = '';
-        res.setEncoding('utf8');
-        res.on('data', chunk => rawData += chunk);
-        res.on('end', () => {
+        let rawData = "";
+        res.setEncoding("utf8");
+        res.on("data", (chunk) => (rawData += chunk));
+        res.on("end", () => {
           if (res.statusCode && res.statusCode >= 400) {
             return reject(new Error(`Docker API Error (${res.statusCode}): ${rawData}`));
           }
@@ -54,14 +60,14 @@ export class DockerEngineHttpClient {
         });
       });
 
-      req.on('timeout', () => {
+      req.on("timeout", () => {
         req.destroy();
         reject(new Error(`Docker request timed out after ${this.timeoutMs}ms: ${path}`));
       });
-      req.on('error', reject);
+      req.on("error", reject);
 
       if (body !== undefined) {
-        req.write(typeof body === 'string' ? body : JSON.stringify(body));
+        req.write(typeof body === "string" ? body : JSON.stringify(body));
       }
       req.end();
     });
@@ -69,14 +75,23 @@ export class DockerEngineHttpClient {
 
   async openHijackedStream(path: string, body: unknown): Promise<net.Socket> {
     return new Promise((resolve, reject) => {
-      const isNamedPipe = this.socketPath.startsWith('//./pipe/');
+      const isNamedPipe = this.socketPath.startsWith("//./pipe/");
       const options: http.RequestOptions = isNamedPipe
-        ? { path, method: 'POST', headers: { 'Content-Type': 'application/json', 'Upgrade': 'tcp', 'Connection': 'Upgrade' } }
-        : { socketPath: this.socketPath, path, method: 'POST', headers: { 'Content-Type': 'application/json', 'Upgrade': 'tcp', 'Connection': 'Upgrade' } };
+        ? {
+            path,
+            method: "POST",
+            headers: { "Content-Type": "application/json", Upgrade: "tcp", Connection: "Upgrade" }
+          }
+        : {
+            socketPath: this.socketPath,
+            path,
+            method: "POST",
+            headers: { "Content-Type": "application/json", Upgrade: "tcp", Connection: "Upgrade" }
+          };
 
       const req = http.request(options);
-      req.on('upgrade', (_res, socket) => resolve(socket));
-      req.on('error', reject);
+      req.on("upgrade", (_res, socket) => resolve(socket));
+      req.on("error", reject);
       req.write(JSON.stringify(body));
       req.end();
     });

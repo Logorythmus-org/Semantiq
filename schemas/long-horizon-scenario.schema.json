@@ -42,7 +42,16 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": ["milestoneId", "phase", "startStep", "durationSteps", "achieved", "tokensUsed", "errorsEncountered", "recoveryCount"],
+        "required": [
+          "milestoneId",
+          "phase",
+          "startStep",
+          "durationSteps",
+          "achieved",
+          "tokensUsed",
+          "errorsEncountered",
+          "recoveryCount"
+        ],
         "properties": {
           "milestoneId": { "type": "string" },
           "phase": {

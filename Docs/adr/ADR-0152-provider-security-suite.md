@@ -1,7 +1,7 @@
 # ADR-0152: SemantIQ Provider-Neutral Security Test Suite Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

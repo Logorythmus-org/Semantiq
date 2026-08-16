@@ -3,24 +3,20 @@
  * Failure Injection and Chaos Engineering Architecture for AI Agent Evaluation
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { BehavioralTraceEvent } from './evidence-package.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { BehavioralTraceEvent } from "./evidence-package.js";
 
 export type InjectedFaultType =
-  | 'CONTEXT_LOSS_TRUNCATION'
-  | 'TOOL_RPC_ERROR'
-  | 'NETWORK_PARTITION_LATENCY'
-  | 'STALE_STATE_DRIFT'
-  | 'CONTRADICTION_MUTATION'
-  | 'PERMISSION_REVOCATION'
-  | 'PARTIAL_RESULT_CORRUPTION';
+  | "CONTEXT_LOSS_TRUNCATION"
+  | "TOOL_RPC_ERROR"
+  | "NETWORK_PARTITION_LATENCY"
+  | "STALE_STATE_DRIFT"
+  | "CONTRADICTION_MUTATION"
+  | "PERMISSION_REVOCATION"
+  | "PARTIAL_RESULT_CORRUPTION";
 
 export type FaultTriggerType =
-  | 'ON_STEP_INDEX'
-  | 'ON_COMMAND_REGEX'
-  | 'ON_TOOL_NAME'
-  | 'ON_FILE_PATH'
-  | 'PROBABILISTIC';
+  "ON_STEP_INDEX" | "ON_COMMAND_REGEX" | "ON_TOOL_NAME" | "ON_FILE_PATH" | "PROBABILISTIC";
 
 export interface FaultTriggerCondition {
   readonly triggerType: FaultTriggerType;
@@ -84,7 +80,7 @@ export class FailureInjectionEngine {
   createPlan(
     scenarioId: string,
     rules: readonly FaultInjectionRule[],
-    seed: string = 'chaos-seed-42'
+    seed: string = "chaos-seed-42"
   ): FailureInjectionPlan {
     const planId = `plan-chaos-${computeSha256(canonicalJson({ scenarioId, rules, seed })).substring(0, 12)}`;
     return {
@@ -106,17 +102,17 @@ export class FailureInjectionEngine {
     }
 
     switch (rule.trigger.triggerType) {
-      case 'ON_STEP_INDEX':
+      case "ON_STEP_INDEX":
         return currentStep === Number(rule.trigger.triggerValue);
-      case 'ON_COMMAND_REGEX': {
-        const pattern = new RegExp(String(rule.trigger.triggerValue), 'i');
+      case "ON_COMMAND_REGEX": {
+        const pattern = new RegExp(String(rule.trigger.triggerValue), "i");
         return pattern.test(actionString);
       }
-      case 'ON_TOOL_NAME':
+      case "ON_TOOL_NAME":
         return actionString.includes(String(rule.trigger.triggerValue));
-      case 'ON_FILE_PATH':
+      case "ON_FILE_PATH":
         return actionString.includes(String(rule.trigger.triggerValue));
-      case 'PROBABILISTIC':
+      case "PROBABILISTIC":
         return Number(rule.trigger.triggerValue) >= 0.5;
       default:
         return false;
@@ -131,39 +127,41 @@ export class FailureInjectionEngine {
     let outcome: Record<string, unknown>;
 
     switch (rule.faultType) {
-      case 'TOOL_RPC_ERROR':
+      case "TOOL_RPC_ERROR":
         outcome = {
-          exitCode: (rule.mutationPayload['exitCode'] as number) ?? 1,
-          stderr: (rule.mutationPayload['errorMessage'] as string) ?? 'RPC Error 500: Tool runtime execution faulted.',
-          stdout: ''
+          exitCode: (rule.mutationPayload["exitCode"] as number) ?? 1,
+          stderr:
+            (rule.mutationPayload["errorMessage"] as string) ??
+            "RPC Error 500: Tool runtime execution faulted.",
+          stdout: ""
         };
         break;
-      case 'PERMISSION_REVOCATION':
+      case "PERMISSION_REVOCATION":
         outcome = {
           exitCode: 126,
-          stderr: 'EACCES: Permission denied, open /workspace/target_file',
-          stdout: ''
+          stderr: "EACCES: Permission denied, open /workspace/target_file",
+          stdout: ""
         };
         break;
-      case 'NETWORK_PARTITION_LATENCY':
+      case "NETWORK_PARTITION_LATENCY":
         outcome = {
           exitCode: 28,
-          stderr: 'ETIMEDOUT: Connection timed out after 30000ms',
-          stdout: ''
+          stderr: "ETIMEDOUT: Connection timed out after 30000ms",
+          stdout: ""
         };
         break;
-      case 'PARTIAL_RESULT_CORRUPTION':
+      case "PARTIAL_RESULT_CORRUPTION":
         outcome = {
           exitCode: 0,
           stdout: '{"partial": true, "corrupted_payload": "...[TRUNCATED]',
-          stderr: ''
+          stderr: ""
         };
         break;
       default:
         outcome = {
           exitCode: 1,
           stderr: `Chaos injected fault: ${rule.faultType}`,
-          stdout: ''
+          stdout: ""
         };
         break;
     }
@@ -194,22 +192,27 @@ export class FailureInjectionEngine {
 
     for (const fault of injectedEvents) {
       // Look for subsequent RECOVERY or successful ACTION events after fault.stepIndex
-      const subsequentEvents = traceEvents.filter(e => e.seq > fault.stepIndex);
-      const recoveryEvent = subsequentEvents.find(e => e.stage === 'RECOVERY');
-      const subsequentSuccess = subsequentEvents.find(e => e.stage === 'RESULT' && (e.payload['exitCode'] === 0 || e.payload['passed'] === true));
+      const subsequentEvents = traceEvents.filter((e) => e.seq > fault.stepIndex);
+      const recoveryEvent = subsequentEvents.find((e) => e.stage === "RECOVERY");
+      const subsequentSuccess = subsequentEvents.find(
+        (e) => e.stage === "RESULT" && (e.payload["exitCode"] === 0 || e.payload["passed"] === true)
+      );
 
       const isRecovered = recoveryEvent !== undefined || subsequentSuccess !== undefined;
       const latencySteps = recoveryEvent
         ? recoveryEvent.seq - fault.stepIndex
         : subsequentSuccess
-        ? subsequentSuccess.seq - fault.stepIndex
-        : subsequentEvents.length;
+          ? subsequentSuccess.seq - fault.stepIndex
+          : subsequentEvents.length;
 
       // Detect looping on same command
       const commandActions = subsequentEvents
-        .filter(e => e.stage === 'ACTION')
-        .map(e => String(e.payload['cmd'] ?? e.actionType));
-      const hasLoop = commandActions.length > 2 && commandActions[0] === commandActions[1] && commandActions[1] === commandActions[2];
+        .filter((e) => e.stage === "ACTION")
+        .map((e) => String(e.payload["cmd"] ?? e.actionType));
+      const hasLoop =
+        commandActions.length > 2 &&
+        commandActions[0] === commandActions[1] &&
+        commandActions[1] === commandActions[2];
 
       if (isRecovered) {
         recoveredCount++;
@@ -226,13 +229,14 @@ export class FailureInjectionEngine {
       });
     }
 
-    const meanTimeToRecoverySteps = recoveredCount > 0 ? Number((totalRecoverySteps / recoveredCount).toFixed(2)) : 0;
+    const meanTimeToRecoverySteps =
+      recoveredCount > 0 ? Number((totalRecoverySteps / recoveredCount).toFixed(2)) : 0;
     const rawScore = injectedEvents.length > 0 ? recoveredCount / injectedEvents.length : 1.0;
     const faultResilienceScore = Number(rawScore.toFixed(4));
 
     const unsignedReport = {
-      planId: injectedEvents[0]?.ruleId ? `report-${injectedEvents[0].ruleId}` : 'report-chaos-run',
-      scenarioId: 'scenario-evaluated',
+      planId: injectedEvents[0]?.ruleId ? `report-${injectedEvents[0].ruleId}` : "report-chaos-run",
+      scenarioId: "scenario-evaluated",
       totalInjectedFaults: injectedEvents.length,
       recoveredFaultsCount: recoveredCount,
       meanTimeToRecoverySteps,
@@ -258,21 +262,21 @@ export class FailureInjectionEngine {
       `**Fault Resilience Score**: **${(report.faultResilienceScore * 100).toFixed(1)}%** (${report.recoveredFaultsCount} / ${report.totalInjectedFaults} recovered)`,
       `**Mean Time to Recovery (MTTR)**: **${report.meanTimeToRecoverySteps} step(s)**`,
       `**Analyzed At**: ${report.analyzedAt}`,
-      '',
-      '## 1. Injected Fault Events & Recovery Assessments',
-      '| Fault ID | Fault Type | Injected Step | Recovered? | Latency Steps | Pathological Loop? |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Injected Fault Events & Recovery Assessments",
+      "| Fault ID | Fault Type | Injected Step | Recovered? | Latency Steps | Pathological Loop? |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const a of report.assessments) {
       lines.push(
-        `| \`${a.faultEventId}\` | \`${a.faultType}\` | Step | ${a.recovered ? '✅ Yes' : '❌ No'} | ${a.recoveryLatencySteps} | ${a.pathologicalLoopDetected ? '⚠️ Yes' : 'No'} |`
+        `| \`${a.faultEventId}\` | \`${a.faultType}\` | Step | ${a.recovered ? "✅ Yes" : "❌ No"} | ${a.recoveryLatencySteps} | ${a.pathologicalLoopDetected ? "⚠️ Yes" : "No"} |`
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Cryptographic Report Signature**: \`${report.reportSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

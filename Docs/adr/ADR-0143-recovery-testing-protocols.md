@@ -1,7 +1,7 @@
 # ADR-0143: Recovery Testing Protocols and Self-Healing Metrics Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

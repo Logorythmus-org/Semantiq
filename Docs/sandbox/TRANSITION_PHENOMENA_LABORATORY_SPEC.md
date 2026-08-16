@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 40)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Transition Phenomena Laboratory Architecture**:
+
 1. **Controlled Experiment Taxonomy**: Categorizes 5 critical transition phenomena: [`ERROR_RECOVERY_PHASE_SHIFT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L10-L16), [`CONTEXT_SATURATION_BREAKPOINT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L10-L16), [`TOOL_COMPOSITION_THRESHOLD`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L10-L16), [`PERTURBATION_CLIFF`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L10-L16), and [`RESOURCE_THROTTLING_REGIME`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L10-L16).
 2. **Transition Phenomena Engine**: Implements [`TransitionPhenomenaEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L70-L215) to plan parameter sweeps ([`ControlledExperimentSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L25-L33)), record observable trial metrics ([`TransitionMetricDataPoint`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L35-L44)), detect critical phase boundaries ([`CriticalTransitionThreshold`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L53-L58)), and classify behavioral regimes ([`ObservedBehavioralRegime`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L46-L51)).
 3. **Strict Observable Behavioral Grounding**: Evaluates behavior strictly across the canonical sequence:
@@ -48,12 +49,14 @@ This specification defines the **Transition Phenomena Laboratory Architecture**:
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Transition Laboratory Specification**: Defining [`ControlledExperimentSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L25-L33) and JSON Schema [`transition-phenomena-lab.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/transition-phenomena-lab.schema.json).
 - **Phenomena Modeling**: Simulating tool failure rates, context length growth, multi-tool dependency depth, and hardware throttling.
 - **Mathematical Inflection Detection**: Identifying empirical critical thresholds with confidence scores.
 - **Observable Behavioral Preservation**: Evaluating observable action counts, recovery events, loop cycle frequencies, and execution times.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: All metrics reflect observable shell outputs, tool inputs, and return codes, not internal token probabilities or neural weights.
 - **No Manual Experiment Ad-Hocism**: Experiments are defined declaratively as machine-readable specs.
 
@@ -86,11 +89,11 @@ This specification defines the **Transition Phenomena Laboratory Architecture**:
 
 ```typescript
 export type TransitionPhenomenonType =
-  | 'ERROR_RECOVERY_PHASE_SHIFT'
-  | 'CONTEXT_SATURATION_BREAKPOINT'
-  | 'TOOL_COMPOSITION_THRESHOLD'
-  | 'PERTURBATION_CLIFF'
-  | 'RESOURCE_THROTTLING_REGIME';
+  | "ERROR_RECOVERY_PHASE_SHIFT"
+  | "CONTEXT_SATURATION_BREAKPOINT"
+  | "TOOL_COMPOSITION_THRESHOLD"
+  | "PERTURBATION_CLIFF"
+  | "RESOURCE_THROTTLING_REGIME";
 
 export interface ControlledExperimentParameter {
   readonly name: string;
@@ -112,7 +115,7 @@ export interface ControlledExperimentSpec {
 export interface TransitionMetricDataPoint {
   readonly paramValue: number | string | boolean;
   readonly trialIndex: number;
-  readonly outcome: 'PASSED' | 'FAILED' | 'TIMEOUT' | 'ERROR';
+  readonly outcome: "PASSED" | "FAILED" | "TIMEOUT" | "ERROR";
   readonly actionCount: number;
   readonly recoveryEventsCount: number;
   readonly recoverySuccessRate: number;
@@ -148,6 +151,7 @@ export interface TransitionAnalysisReport {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/transition-phenomena-lab.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/transition-phenomena-lab.schema.json)**: Validates experiment reports, regime objects, critical thresholds, and trial data point arrays.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `transitionAnalysisReportSchema`.
 
@@ -186,28 +190,29 @@ export interface TransitionAnalysisReport {
 
 ## 7. Open-Source vs. Commercial & Enterprise Lab Profiles
 
-| Dimension | Open-Source (`LOCAL_RUNNER`) | Academic Research (`RESEARCH_CLUSTER`) | Enterprise (`CLOUD_GRID`) |
-| :--- | :--- | :--- | :--- |
-| **Trial Concurrency** | 1 - 4 parallel trials | 16 - 64 parallel trials | 128+ distributed trials |
-| **Parameter Sweep Breadth** | 3 - 5 steps (e.g. error rates) | 10 - 20 fine-grained steps | Multi-dimensional grid sweeps |
-| **Storage & Archival** | Local Markdown & JSON reports | Open Science Data Repository | Enterprise Compliance Data Lake |
+| Dimension                   | Open-Source (`LOCAL_RUNNER`)   | Academic Research (`RESEARCH_CLUSTER`) | Enterprise (`CLOUD_GRID`)       |
+| :-------------------------- | :----------------------------- | :------------------------------------- | :------------------------------ |
+| **Trial Concurrency**       | 1 - 4 parallel trials          | 16 - 64 parallel trials                | 128+ distributed trials         |
+| **Parameter Sweep Breadth** | 3 - 5 steps (e.g. error rates) | 10 - 20 fine-grained steps             | Multi-dimensional grid sweeps   |
+| **Storage & Archival**      | Local Markdown & JSON reports  | Open Science Data Repository           | Enterprise Compliance Data Lake |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Insufficient Trial Data**| Partial run crash or abort | Inaccurate inflection | [`analyzeTransitions`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L93-L191) raises descriptive error |
-| **Flaky Infrastructure** | Host CPU throttling skewing timings | Measurement noise | Engine filters outlier durations using interquartile range (IQR) |
-| **False Phase Shift** | Microscopic sample size (1 trial/step) | Statistical artifact | Spec requires minimum `trialsPerStep >= 3` |
-| **Endless Loop Hang** | Agent collapses into infinite retry | Trial timeout | Per-trial timeout enforced; trial marked as `FAILED` with loop flag |
+| Failure Mode                | Root Cause                             | Impact                | Automated Recovery Action                                                                                                                           |
+| :-------------------------- | :------------------------------------- | :-------------------- | :-------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **Insufficient Trial Data** | Partial run crash or abort             | Inaccurate inflection | [`analyzeTransitions`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/transition-lab.ts#L93-L191) raises descriptive error |
+| **Flaky Infrastructure**    | Host CPU throttling skewing timings    | Measurement noise     | Engine filters outlier durations using interquartile range (IQR)                                                                                    |
+| **False Phase Shift**       | Microscopic sample size (1 trial/step) | Statistical artifact  | Spec requires minimum `trialsPerStep >= 3`                                                                                                          |
+| **Endless Loop Hang**       | Agent collapses into infinite retry    | Trial timeout         | Per-trial timeout enforced; trial marked as `FAILED` with loop flag                                                                                 |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The transition phenomena laboratory architecture is verified through automated test suites:
+
 1. **Experiment Planning & Inflection Unit Tests ([`tests/unit/transition-lab.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/transition-lab.test.ts))**:
    - Validates experiment planning and trial matrix generation.
    - Tests ingestion of multi-step trial data points across parameter sweeps.
@@ -233,7 +238,7 @@ The transition phenomena laboratory architecture is verified through automated t
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Fine Parameter Granularity vs. Compute Cost**: Running 20 parameter steps with 10 trials each requires 200 sandbox executions.  
-  *Mitigation*: Implement adaptive bisection search to quickly locate phase boundaries using fewer overall trials.
+  _Mitigation_: Implement adaptive bisection search to quickly locate phase boundaries using fewer overall trials.
 - **Open Question**: Multi-variable phase space mapping (2D/3D heatmaps of concurrent error rate and context length).
 
 ---

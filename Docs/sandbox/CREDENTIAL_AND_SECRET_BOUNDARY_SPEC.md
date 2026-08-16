@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 23)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -14,7 +14,8 @@ Benchmarks and autonomous agent evaluations frequently require interactions with
 If SemantIQ Core stores, persists, logs, or directly manages raw secret keys, it introduces severe security vulnerabilities, compromises third-party reproducibility, and creates vendor lock-in.
 
 This specification establishes a **Zero-Secret Core Architecture**:
-1. **SemantIQ Core** declares *Secret Requirements* and *Redaction Rules* as abstract metadata. It never stores plaintext secrets.
+
+1. **SemantIQ Core** declares _Secret Requirements_ and _Redaction Rules_ as abstract metadata. It never stores plaintext secrets.
 2. **Provider Adapters / Orchestrators** resolve secrets from secure external storage (environment variables, vault, or ephemeral synthetic mock issuers) and inject them directly into isolated execution runtimes (via tmpfs files, env vars, or pipes).
 3. **Evidence & Normalization Subsystems** redact all stdout, stderr, process arguments, network logs, and state deltas using multi-pattern secret redactors before generating cryptographic evidence manifests.
 
@@ -85,17 +86,29 @@ This specification establishes a **Zero-Secret Core Architecture**:
 ## 5. Data & Event Schemas
 
 ### 5.1 Secret Requirement
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "SecretRequirement",
   "type": "object",
-  "required": ["secretKey", "targetName", "injectionTarget", "source", "isOptional", "isSyntheticMockAllowed", "description"],
+  "required": [
+    "secretKey",
+    "targetName",
+    "injectionTarget",
+    "source",
+    "isOptional",
+    "isSyntheticMockAllowed",
+    "description"
+  ],
   "properties": {
     "secretKey": { "type": "string" },
     "targetName": { "type": "string" },
     "injectionTarget": { "type": "string", "enum": ["env", "tmpfs_file", "stdin_pipe"] },
-    "source": { "type": "string", "enum": ["env_var", "file_mount", "vault_ref", "ephemeral_token", "synthetic_mock"] },
+    "source": {
+      "type": "string",
+      "enum": ["env_var", "file_mount", "vault_ref", "ephemeral_token", "synthetic_mock"]
+    },
     "sourcePathOrEnv": { "type": "string" },
     "isOptional": { "type": "boolean" },
     "isSyntheticMockAllowed": { "type": "boolean" },
@@ -150,21 +163,22 @@ This specification establishes a **Zero-Secret Core Architecture**:
 
 ## 10. Behavioral Chain Compatibility
 
-| Chain Step | Role in Credential Handling |
-| :--- | :--- |
-| **Context** | Injected credential requirements declared in benchmark spec. |
-| **Interpretation** | Agent detects authorized tools and endpoints. |
-| **Decision** | Agent chooses whether to invoke authenticated action. |
-| **Action** | Command executed in sandbox with isolated credentials. |
-| **Result** | Sandbox returns execution output and state diffs. |
-| **Consequence** | Redactor cleanses output; Evidence Normalizer seals proof. |
-| **Recovery** | Invalid credentials trigger `FAILED_AUTH` with safe retry path. |
+| Chain Step         | Role in Credential Handling                                     |
+| :----------------- | :-------------------------------------------------------------- |
+| **Context**        | Injected credential requirements declared in benchmark spec.    |
+| **Interpretation** | Agent detects authorized tools and endpoints.                   |
+| **Decision**       | Agent chooses whether to invoke authenticated action.           |
+| **Action**         | Command executed in sandbox with isolated credentials.          |
+| **Result**         | Sandbox returns execution output and state diffs.               |
+| **Consequence**    | Redactor cleanses output; Evidence Normalizer seals proof.      |
+| **Recovery**       | Invalid credentials trigger `FAILED_AUTH` with safe retry path. |
 
 ---
 
 ## 11. Provider-Neutral Design
 
 Adapters for Docker/OCI, MicroVMs, OpenSandbox, or remote replay runtimes implement the same `SecretInjectionTarget` mappings:
+
 - `env`: Injected into container/VM environment map.
 - `tmpfs_file`: Written to in-memory temporary filesystem mounted at `/run/secrets/<targetName>`.
 - `stdin_pipe`: Piped via secure stdin stream during initialization.

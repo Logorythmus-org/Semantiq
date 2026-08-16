@@ -2,7 +2,7 @@
 
 **Project**: SemantIQ Benchmarks  
 **Date**: 2026-08-02  
-**Scope**: Pre-commit Husky Hook / ESLint Legacy Errors  
+**Scope**: Pre-commit Husky Hook / ESLint Legacy Errors
 
 ---
 

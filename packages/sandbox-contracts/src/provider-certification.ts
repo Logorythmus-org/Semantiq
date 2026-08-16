@@ -3,21 +3,21 @@
  * Third-Party Provider Certification and Transparent Audit Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type CertificationTier =
-  | 'TIER_0_UNVERIFIED'
-  | 'TIER_1_CONFORMANCE_VERIFIED'
-  | 'TIER_2_HERMETIC_CERTIFIED'
-  | 'TIER_3_ENTERPRISE_AUDITED';
+  | "TIER_0_UNVERIFIED"
+  | "TIER_1_CONFORMANCE_VERIFIED"
+  | "TIER_2_HERMETIC_CERTIFIED"
+  | "TIER_3_ENTERPRISE_AUDITED";
 
 export type CertificationDimension =
-  | 'CONTRACT_CONFORMANCE'
-  | 'REPRODUCIBILITY'
-  | 'SECURITY_ISOLATION'
-  | 'OBSERVABILITY_FIDELITY'
-  | 'PROVENANCE_INTEGRITY'
-  | 'DECLARED_LIMITATIONS';
+  | "CONTRACT_CONFORMANCE"
+  | "REPRODUCIBILITY"
+  | "SECURITY_ISOLATION"
+  | "OBSERVABILITY_FIDELITY"
+  | "PROVENANCE_INTEGRITY"
+  | "DECLARED_LIMITATIONS";
 
 export interface DimensionAuditResult {
   readonly dimension: CertificationDimension;
@@ -48,11 +48,11 @@ export interface ProviderCertificationScorecard {
 export class ProviderCertificationEngine {
   private static readonly DIMENSION_WEIGHTS: Record<CertificationDimension, number> = {
     CONTRACT_CONFORMANCE: 0.25,
-    REPRODUCIBILITY: 0.20,
-    SECURITY_ISOLATION: 0.20,
+    REPRODUCIBILITY: 0.2,
+    SECURITY_ISOLATION: 0.2,
     OBSERVABILITY_FIDELITY: 0.15,
-    PROVENANCE_INTEGRITY: 0.10,
-    DECLARED_LIMITATIONS: 0.10
+    PROVENANCE_INTEGRITY: 0.1,
+    DECLARED_LIMITATIONS: 0.1
   };
 
   evaluateCertification(
@@ -72,15 +72,15 @@ export class ProviderCertificationEngine {
     compositeScore = Math.min(1.0, Math.max(0.0, compositeScore));
 
     // Determine assigned tier
-    let assignedTier: CertificationTier = 'TIER_0_UNVERIFIED';
-    const allPassed = dimensions.every(d => d.passed);
+    let assignedTier: CertificationTier = "TIER_0_UNVERIFIED";
+    const allPassed = dimensions.every((d) => d.passed);
 
     if (allPassed && compositeScore >= 0.95) {
-      assignedTier = 'TIER_3_ENTERPRISE_AUDITED';
-    } else if (allPassed && compositeScore >= 0.80) {
-      assignedTier = 'TIER_2_HERMETIC_CERTIFIED';
-    } else if (dimensions.some(d => d.dimension === 'CONTRACT_CONFORMANCE' && d.passed)) {
-      assignedTier = 'TIER_1_CONFORMANCE_VERIFIED';
+      assignedTier = "TIER_3_ENTERPRISE_AUDITED";
+    } else if (allPassed && compositeScore >= 0.8) {
+      assignedTier = "TIER_2_HERMETIC_CERTIFIED";
+    } else if (dimensions.some((d) => d.dimension === "CONTRACT_CONFORMANCE" && d.passed)) {
+      assignedTier = "TIER_1_CONFORMANCE_VERIFIED";
     }
 
     const certifiedAt = new Date().toISOString();
@@ -114,33 +114,34 @@ export class ProviderCertificationEngine {
       `**Certification Tier**: **${scorecard.assignedTier}**`,
       `**Composite Conformance Score**: **${(scorecard.compositeScore * 100).toFixed(1)}%**`,
       `**Certified At**: ${scorecard.certifiedAt} | **Expires At**: ${scorecard.expiresAt}`,
-      '',
-      '## 1. Six-Pillar Audit Dimensions',
-      '| Dimension | Score | Status | Evidence Digest | Findings Summary |',
-      '| :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Six-Pillar Audit Dimensions",
+      "| Dimension | Score | Status | Evidence Digest | Findings Summary |",
+      "| :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const d of scorecard.dimensions) {
-      const statusIcon = d.passed ? '✅ PASSED' : '❌ FAILED';
-      const findingsSummary = d.findings.length > 0 ? d.findings.join('; ') : 'No anomalies detected';
+      const statusIcon = d.passed ? "✅ PASSED" : "❌ FAILED";
+      const findingsSummary =
+        d.findings.length > 0 ? d.findings.join("; ") : "No anomalies detected";
       lines.push(
         `| **${d.dimension}** | ${(d.score * 100).toFixed(0)}% | ${statusIcon} | \`${d.evidenceDigest.substring(0, 16)}...\` | ${findingsSummary} |`
       );
     }
 
-    lines.push('');
-    lines.push('## 2. Declared Provider Limitations');
+    lines.push("");
+    lines.push("## 2. Declared Provider Limitations");
     if (scorecard.declaredLimitations.length === 0) {
-      lines.push('_None declared — full feature parity claimed._');
+      lines.push("_None declared — full feature parity claimed._");
     } else {
       for (const lim of scorecard.declaredLimitations) {
         lines.push(`- ⚠️ ${lim}`);
       }
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Auditor Cryptographic Signature**: \`${scorecard.auditorSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

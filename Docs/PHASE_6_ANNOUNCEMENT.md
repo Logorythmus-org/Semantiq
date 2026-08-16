@@ -4,7 +4,7 @@ One of the biggest mistakes open-source AI projects can make is rushing toward p
 
 Over the past weeks, Phase 6 of the SemantIQ roadmap has focused on something less visible than new features—but far more important in the long run: creating the infrastructure that makes every benchmark, every result, and every future release reproducible, transparent, and scientifically credible.
 
-Instead of asking *"Which model is the best?"*, SemantIQ asks a different question:
+Instead of asking _"Which model is the best?"_, SemantIQ asks a different question:
 
 > **Can this result be reproduced, inspected, verified, and understood?**
 
@@ -30,11 +30,11 @@ Before publishing the first public Alpha, we deliberately reduced complexity.
 
 Instead of exposing every concept simultaneously, Phase 6 defines a focused and understandable release:
 
-* install the toolkit,
-* connect a local or authorized model,
-* execute a benchmark,
-* inspect raw evidence,
-* reproduce the results.
+- install the toolkit,
+- connect a local or authorized model,
+- execute a benchmark,
+- inspect raw evidence,
+- reproduce the results.
 
 Everything else remains clearly marked as experimental or future work.
 
@@ -64,16 +64,16 @@ A benchmark score without context has very little scientific value.
 
 Phase 6 therefore introduces reproducible execution manifests that capture everything required to understand a benchmark run:
 
-* software version,
-* benchmark version,
-* model identifier,
-* provider,
-* execution parameters,
-* timestamps,
-* environment metadata,
-* hashes,
-* evaluation metadata,
-* provenance information.
+- software version,
+- benchmark version,
+- model identifier,
+- provider,
+- execution parameters,
+- timestamps,
+- environment metadata,
+- hashes,
+- evaluation metadata,
+- provenance information.
 
 The objective is simple:
 
@@ -102,12 +102,12 @@ Another major milestone of Phase 6 is the definition of stable extension interfa
 
 Future contributors will be able to create:
 
-* benchmark packs,
-* provider connectors,
-* dataset packs,
-* evaluation plugins,
-* visualization modules,
-* reporting extensions,
+- benchmark packs,
+- provider connectors,
+- dataset packs,
+- evaluation plugins,
+- visualization modules,
+- reporting extensions,
 
 without modifying the core architecture.
 
@@ -133,12 +133,12 @@ Beyond technical improvements, this phase also extends SemantIQ toward long-term
 
 Three additional prompts introduce an open and cost-free strategy for:
 
-* persistent artifact identifiers,
-* DOI-ready publication workflows,
-* citation metadata,
-* provenance tracking,
-* authorship records,
-* intellectual property documentation.
+- persistent artifact identifiers,
+- DOI-ready publication workflows,
+- citation metadata,
+- provenance tracking,
+- authorship records,
+- intellectual property documentation.
 
 The planned workflow combines GitHub Releases, Zenodo, DataCite-compatible metadata, ORCID support, and internal artifact identifiers.
 
@@ -158,13 +158,13 @@ SemantIQ is being designed around that principle.
 
 Every benchmark should answer questions like:
 
-* What exactly was tested?
-* Under which conditions?
-* Which model version?
-* Which benchmark version?
-* Which evaluator?
-* Which evidence supports the conclusion?
-* Can someone reproduce the same result later?
+- What exactly was tested?
+- Under which conditions?
+- Which model version?
+- Which benchmark version?
+- Which evaluator?
+- Which evidence supports the conclusion?
+- Can someone reproduce the same result later?
 
 Those questions are more important than any leaderboard.
 

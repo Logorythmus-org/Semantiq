@@ -3,6 +3,7 @@
 The runtime API is technology-independent.
 
 ## Core Methods
+
 - `registerModule()`
 - `registerService()`
 - `resolve()`
@@ -19,4 +20,5 @@ The runtime API is technology-independent.
 - `executeWorkflow()`
 
 ## Design Rules
+
 The API returns typed results, does not expose persistence models, and uses explicit runtime context for actor, session, correlation, and permissions.

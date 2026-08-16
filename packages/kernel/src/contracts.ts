@@ -40,7 +40,10 @@ export interface ServiceDescriptor<TService = unknown> {
   readonly visibility: ServiceVisibility;
   readonly capabilities: readonly string[];
   readonly ownerModule?: string;
-  readonly factory: (container: DependencyContainer, context?: RuntimeContext) => TService | Promise<TService>;
+  readonly factory: (
+    container: DependencyContainer,
+    context?: RuntimeContext
+  ) => TService | Promise<TService>;
 }
 
 export interface ModuleDescriptor {
@@ -105,12 +108,24 @@ export interface MessageBus {
 
 export interface EventEngine {
   publish<TPayload>(event: DomainEvent<TPayload>, context: RuntimeContext): Promise<void>;
-  subscribe(type: string, handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>): () => void;
+  subscribe(
+    type: string,
+    handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>
+  ): () => void;
   replay(type?: string): readonly DomainEvent[];
 }
 
 export interface ConfigurationRecord<TValue = unknown> {
-  readonly scope: "environment" | "workspace" | "project" | "user" | "module" | "plugin" | "development" | "production" | "testing";
+  readonly scope:
+    | "environment"
+    | "workspace"
+    | "project"
+    | "user"
+    | "module"
+    | "plugin"
+    | "development"
+    | "production"
+    | "testing";
   readonly key: string;
   readonly schemaVersion: number;
   readonly value: TValue;
@@ -118,7 +133,10 @@ export interface ConfigurationRecord<TValue = unknown> {
 
 export interface ConfigurationManager {
   set<TValue>(record: ConfigurationRecord<TValue>): void;
-  get<TValue>(scope: ConfigurationRecord["scope"], key: string): ConfigurationRecord<TValue> | undefined;
+  get<TValue>(
+    scope: ConfigurationRecord["scope"],
+    key: string
+  ): ConfigurationRecord<TValue> | undefined;
 }
 
 export interface ScheduledTask {
@@ -156,7 +174,19 @@ export interface PluginManager {
 
 export interface ResourceDescriptor {
   readonly id: string;
-  readonly type: "memory" | "cpu" | "gpu" | "webgpu" | "worker" | "local-ai" | "external-ai" | "file" | "repository" | "cache" | "connection" | "distributed";
+  readonly type:
+    | "memory"
+    | "cpu"
+    | "gpu"
+    | "webgpu"
+    | "worker"
+    | "local-ai"
+    | "external-ai"
+    | "file"
+    | "repository"
+    | "cache"
+    | "connection"
+    | "distributed";
   readonly owner: string;
   readonly status: "available" | "reserved" | "busy" | "unavailable";
   readonly metadata: Readonly<Record<string, unknown>>;
@@ -176,13 +206,19 @@ export interface PlatformKernel {
   registerService<TService>(descriptor: ServiceDescriptor<TService>): void;
   resolve<TService>(token: string, context?: RuntimeContext): Promise<TService>;
   publish<TPayload>(event: DomainEvent<TPayload>, context: RuntimeContext): Promise<void>;
-  subscribe(type: string, handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>): () => void;
+  subscribe(
+    type: string,
+    handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>
+  ): () => void;
   schedule(task: ScheduledTask, context: RuntimeContext): string;
   loadPlugin(manifest: PluginManifest, context: RuntimeContext): Promise<void>;
   startModule(name: string, context: RuntimeContext): Promise<void>;
   stopModule(name: string, context: RuntimeContext): Promise<void>;
   getHealth(): Promise<readonly HealthReport[]>;
-  getConfiguration<TValue>(scope: ConfigurationRecord["scope"], key: string): ConfigurationRecord<TValue> | undefined;
+  getConfiguration<TValue>(
+    scope: ConfigurationRecord["scope"],
+    key: string
+  ): ConfigurationRecord<TValue> | undefined;
   setConfiguration<TValue>(record: ConfigurationRecord<TValue>): void;
   runAgent(command: Command, context: RuntimeContext): Promise<unknown>;
   executeWorkflow(query: Query, context: RuntimeContext): Promise<unknown>;

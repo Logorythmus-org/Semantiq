@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.1 — Policy Evidence Model  
 **Date**: 2026-08-01  
-**Policy Model Verdict**: `POLICY EVIDENCE MODEL FROZEN`  
+**Policy Model Verdict**: `POLICY EVIDENCE MODEL FROZEN`
 
 ---
 

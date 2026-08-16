@@ -1,7 +1,7 @@
 # Parent Dependency Register
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 

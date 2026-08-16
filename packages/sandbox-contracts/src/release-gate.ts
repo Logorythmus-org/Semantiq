@@ -3,13 +3,13 @@
  * SemantIQ Sandbox Phase Final Release Gate Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
-export type ReleaseGateDecision = 'PASS' | 'CONDITIONAL_PASS' | 'FAIL';
+export type ReleaseGateDecision = "PASS" | "CONDITIONAL_PASS" | "FAIL";
 
 export interface ReleaseGateEvaluationRecord {
   readonly gateId: string;
-  readonly phase: 'SANDBOX_PHASE';
+  readonly phase: "SANDBOX_PHASE";
   readonly releaseTag: string;
   readonly verdict: ReleaseGateDecision;
   readonly totalChecksEvaluated: number;
@@ -18,7 +18,7 @@ export interface ReleaseGateEvaluationRecord {
   readonly nonBlockingLimitationsCount: number;
   readonly testSuitesPassed: number;
   readonly testsPassed: number;
-  readonly securityPosture: 'HARDENED_ZERO_DAY_CLEAN';
+  readonly securityPosture: "HARDENED_ZERO_DAY_CLEAN";
   readonly economicBurdenScore: number;
   readonly gateEvaluatedAt: string;
   readonly releaseAuthoritySignatureHex: string;
@@ -30,22 +30,22 @@ export interface ReleaseGateEvaluationRecord {
  * verifying that zero release blockers exist and signing the release authorization.
  */
 export class SandboxReleaseGateEngine {
-  evaluateReleaseGate(releaseTag = 'v1.0.0-sandbox'): ReleaseGateEvaluationRecord {
+  evaluateReleaseGate(releaseTag = "v1.0.0-sandbox"): ReleaseGateEvaluationRecord {
     const gateId = `gate-${computeSha256(`sandbox-release-gate-${Date.now()}`).substring(0, 16)}`;
     const gateEvaluatedAt = new Date().toISOString();
 
     const unsigned = {
       gateId,
-      phase: 'SANDBOX_PHASE' as const,
+      phase: "SANDBOX_PHASE" as const,
       releaseTag,
-      verdict: 'PASS' as const,
+      verdict: "PASS" as const,
       totalChecksEvaluated: 30,
       totalChecksPassed: 30,
       blockingFindingsCount: 0,
       nonBlockingLimitationsCount: 3,
       testSuitesPassed: 36,
       testsPassed: 130,
-      securityPosture: 'HARDENED_ZERO_DAY_CLEAN' as const,
+      securityPosture: "HARDENED_ZERO_DAY_CLEAN" as const,
       economicBurdenScore: 0.0,
       gateEvaluatedAt
     };
@@ -70,13 +70,13 @@ export class SandboxReleaseGateEngine {
       `**Security Posture**: **${record.securityPosture}**`,
       `**Economic Hosting Burden**: **$${record.economicBurdenScore.toFixed(2)} (100% Neutral)**`,
       `**Evaluated At**: ${record.gateEvaluatedAt}`,
-      '',
-      '## 1. Release Authorization Summary',
-      'The SemantIQ Sandbox Subsystem has fulfilled all architectural, security, economic, and verification requirements. All external execution providers connect via the provider-neutral SPIS protocol, with zero runtime daemons or vendor locks in SemantIQ Core.',
-      '',
+      "",
+      "## 1. Release Authorization Summary",
+      "The SemantIQ Sandbox Subsystem has fulfilled all architectural, security, economic, and verification requirements. All external execution providers connect via the provider-neutral SPIS protocol, with zero runtime daemons or vendor locks in SemantIQ Core.",
+      "",
       `**Release Authority Cryptographic Signature**: \`${record.releaseAuthoritySignatureHex}\``
     ];
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

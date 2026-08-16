@@ -43,7 +43,9 @@ export class LocalResearchEngineRepository implements ResearchEngineRepository {
 }
 
 export class LocalResearchEngineService implements ResearchEngineService {
-  constructor(private readonly repository: ResearchEngineRepository = new LocalResearchEngineRepository()) {}
+  constructor(
+    private readonly repository: ResearchEngineRepository = new LocalResearchEngineRepository()
+  ) {}
 
   async createResearchProject(project: ResearchProject): Promise<void> {
     if (project.originalQuestionIds.length === 0) {
@@ -102,7 +104,8 @@ export class LocalResearchEngineService implements ResearchEngineService {
       scientificImpact: project.publicationIds.length,
       semantiqEvolution: project.benchmarkIds.length,
       projectHealth: project.risks.length ? "at-risk" : "healthy",
-      knowledgeDensity: project.evidenceIds.length + project.hypothesisIds.length + project.experimentIds.length
+      knowledgeDensity:
+        project.evidenceIds.length + project.hypothesisIds.length + project.experimentIds.length
     };
   }
 

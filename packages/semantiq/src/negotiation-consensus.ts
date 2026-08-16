@@ -1,31 +1,31 @@
 export type NegotiationEventType =
-  | 'proposal'
-  | 'counterproposal'
-  | 'amendment'
-  | 'support'
-  | 'objection'
-  | 'withdrawal'
-  | 'vote'
-  | 'abstention'
-  | 'veto'
-  | 'compromise'
-  | 'agreement'
-  | 'deadlock';
+  | "proposal"
+  | "counterproposal"
+  | "amendment"
+  | "support"
+  | "objection"
+  | "withdrawal"
+  | "vote"
+  | "abstention"
+  | "veto"
+  | "compromise"
+  | "agreement"
+  | "deadlock";
 
 export type ConsensusModel =
-  | 'unanimous'
-  | 'majority'
-  | 'weighted_majority'
-  | 'threshold'
-  | 'role_based_approval'
-  | 'veto_capable'
-  | 'human_approved'
-  | 'unresolved';
+  | "unanimous"
+  | "majority"
+  | "weighted_majority"
+  | "threshold"
+  | "role_based_approval"
+  | "veto_capable"
+  | "human_approved"
+  | "unresolved";
 
 export interface ConsensusVoteRecord {
   readonly proposalId: string;
   readonly agentId: string;
-  readonly vote: 'approve' | 'reject' | 'abstain' | 'veto';
+  readonly vote: "approve" | "reject" | "abstain" | "veto";
   readonly evidenceRef?: string;
   readonly timestamp: string;
 }
@@ -47,23 +47,26 @@ export interface NegotiationSession {
   readonly consensusModel: ConsensusModel;
   readonly eligibleAgentIds: readonly string[];
   readonly votes: readonly ConsensusVoteRecord[];
-  readonly status: 'pending' | 'agreed' | 'deadlocked' | 'vetoed';
+  readonly status: "pending" | "agreed" | "deadlocked" | "vetoed";
 }
 
 export class NegotiationEvaluator {
-  evaluateConsensus(session: NegotiationSession): { metrics: ConsensusMetrics; outcome: 'agreed' | 'deadlocked' | 'vetoed' } {
+  evaluateConsensus(session: NegotiationSession): {
+    metrics: ConsensusMetrics;
+    outcome: "agreed" | "deadlocked" | "vetoed";
+  } {
     const totalEligible = session.eligibleAgentIds.length;
     const votedAgentIds = new Set(session.votes.map((v) => v.agentId));
     const coverage = totalEligible > 0 ? votedAgentIds.size / totalEligible : 0;
 
-    const hasVeto = session.votes.some((v) => v.vote === 'veto');
-    const approveCount = session.votes.filter((v) => v.vote === 'approve').length;
-    const rejectCount = session.votes.filter((v) => v.vote === 'reject').length;
+    const hasVeto = session.votes.some((v) => v.vote === "veto");
+    const approveCount = session.votes.filter((v) => v.vote === "approve").length;
+    const rejectCount = session.votes.filter((v) => v.vote === "reject").length;
     const hasDissent = rejectCount > 0 || hasVeto;
 
     if (hasVeto) {
       return {
-        outcome: 'vetoed',
+        outcome: "vetoed",
         metrics: {
           timeToAgreementMs: 0,
           revisionCount: 1,
@@ -80,7 +83,7 @@ export class NegotiationEvaluator {
 
     if (rejectCount >= approveCount && session.votes.length >= totalEligible) {
       return {
-        outcome: 'deadlocked',
+        outcome: "deadlocked",
         metrics: {
           timeToAgreementMs: 0,
           revisionCount: 1,
@@ -95,10 +98,12 @@ export class NegotiationEvaluator {
       };
     }
 
-    const isAgreed = approveCount > rejectCount && (session.consensusModel === 'majority' || approveCount === totalEligible);
+    const isAgreed =
+      approveCount > rejectCount &&
+      (session.consensusModel === "majority" || approveCount === totalEligible);
 
     return {
-      outcome: isAgreed ? 'agreed' : 'deadlocked',
+      outcome: isAgreed ? "agreed" : "deadlocked",
       metrics: {
         timeToAgreementMs: 500,
         revisionCount: 1,
@@ -106,7 +111,7 @@ export class NegotiationEvaluator {
         dissentPreserved: hasDissent,
         authorityCompliant: true,
         deadlockDetected: !isAgreed,
-        prematureConsensus: coverage < 1.0 && session.consensusModel === 'unanimous',
+        prematureConsensus: coverage < 1.0 && session.consensusModel === "unanimous",
         ignoredMinorityEvidence: false,
         consensusStable: isAgreed
       }

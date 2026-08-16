@@ -19,16 +19,16 @@ Duration:    ~20.8 seconds
 
 ## Category Breakdown
 
-| Test Suite Category | Executed Test Files | Passed | Failed | Status |
-|---|---|---|---|---|
-| **Unit Tests** | `tests/unit/*.test.ts` | All | 0 | **PASS** |
-| **Smoke Tests** | `tests/smoke/*.test.ts` | All | 0 | **PASS** |
-| **Integration Tests** | `tests/integration/*.test.ts` | All | 0 | **PASS** |
-| **API Contract Tests** | `tests/api/*.test.ts` | All | 0 | **PASS** |
-| **Security Tests** | `tests/security/*.test.ts` | All | 0 | **PASS** |
-| **E2E Canonical Journey** | `tests/e2e/*.test.ts` | All | 0 | **PASS** |
+| Test Suite Category       | Executed Test Files           | Passed | Failed | Status   |
+| ------------------------- | ----------------------------- | ------ | ------ | -------- |
+| **Unit Tests**            | `tests/unit/*.test.ts`        | All    | 0      | **PASS** |
+| **Smoke Tests**           | `tests/smoke/*.test.ts`       | All    | 0      | **PASS** |
+| **Integration Tests**     | `tests/integration/*.test.ts` | All    | 0      | **PASS** |
+| **API Contract Tests**    | `tests/api/*.test.ts`         | All    | 0      | **PASS** |
+| **Security Tests**        | `tests/security/*.test.ts`    | All    | 0      | **PASS** |
+| **E2E Canonical Journey** | `tests/e2e/*.test.ts`         | All    | 0      | **PASS** |
 
-*(Note: 36 skipped integration tests require a live external PostgreSQL instance).*
+_(Note: 36 skipped integration tests require a live external PostgreSQL instance)._
 
 ---
 

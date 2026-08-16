@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 31)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Unified Open and Commercial Provider Model**:
+
 1. **Universal Provider Neutrality**: SemantIQ Core remains strictly decoupled from runtime implementations. No runtime (commercial or open-source) is mandatory or privileged.
 2. **Standardized Provider Taxonomy**: Unifies all execution platforms into 5 explicit hosting categories (`LOCAL_OPEN_SOURCE`, `SELF_HOSTED_DEDICATED`, `COMMERCIAL_MANAGED_CLOUD`, `ENTERPRISE_PRIVATE_AIRGAPPED`, `DETERMINISTIC_REPLAY`).
 3. **Machine-Readable Metadata & Cost Modeling**: Enforces transparent disclosure of SPDX licensing terms, per-second/per-minute billing rates, zero data retention confirmation, and hardware isolation tiers via `ProviderEcosystemDescriptor` and `CostAttributionRecord`.
@@ -88,19 +89,20 @@ This specification defines the **Unified Open and Commercial Provider Model**:
 
 ### 4.1 Strict Invariant Matrix
 
-| Invariant | SemantIQ Core | Adapter Layer | Execution Provider |
-| :--- | :--- | :--- | :--- |
-| **Benchmark Semantics** | Defines canonical ground truth | Pure passthrough | No influence |
-| **Vendor SDK Dependencies** | Zero external runtime imports | Encapsulates vendor client | Native execution |
-| **Licensing** | Permissive (MIT / Apache-2.0) | Provider-matched | Vendor-defined |
-| **Cost Attribution** | Normalizes & audits records | Calculates unit cost | Invoices usage |
-| **State Verification** | Merkle root & SHA-256 diffs | Extracts raw filesystem diff | Executes mutations |
+| Invariant                   | SemantIQ Core                  | Adapter Layer                | Execution Provider |
+| :-------------------------- | :----------------------------- | :--------------------------- | :----------------- |
+| **Benchmark Semantics**     | Defines canonical ground truth | Pure passthrough             | No influence       |
+| **Vendor SDK Dependencies** | Zero external runtime imports  | Encapsulates vendor client   | Native execution   |
+| **Licensing**               | Permissive (MIT / Apache-2.0)  | Provider-matched             | Vendor-defined     |
+| **Cost Attribution**        | Normalizes & audits records    | Calculates unit cost         | Invoices usage     |
+| **State Verification**      | Merkle root & SHA-256 diffs    | Extracts raw filesystem diff | Executes mutations |
 
 ---
 
 ## 5. Data & Event Schemas
 
 ### 5.1 Provider Ecosystem Descriptor Schema (`schemas/provider-model.schema.json`)
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -126,11 +128,23 @@ This specification defines the **Unified Open and Commercial Provider Model**:
     "version": { "type": "string" },
     "hostingCategory": {
       "type": "string",
-      "enum": ["LOCAL_OPEN_SOURCE", "SELF_HOSTED_DEDICATED", "COMMERCIAL_MANAGED_CLOUD", "ENTERPRISE_PRIVATE_AIRGAPPED", "DETERMINISTIC_REPLAY"]
+      "enum": [
+        "LOCAL_OPEN_SOURCE",
+        "SELF_HOSTED_DEDICATED",
+        "COMMERCIAL_MANAGED_CLOUD",
+        "ENTERPRISE_PRIVATE_AIRGAPPED",
+        "DETERMINISTIC_REPLAY"
+      ]
     },
     "license": {
       "type": "object",
-      "required": ["spdxId", "licenseName", "isOsiApproved", "isCommercialUseAllowed", "copyleftClause"],
+      "required": [
+        "spdxId",
+        "licenseName",
+        "isOsiApproved",
+        "isCommercialUseAllowed",
+        "copyleftClause"
+      ],
       "properties": {
         "spdxId": { "type": "string" },
         "licenseName": { "type": "string" },
@@ -144,7 +158,17 @@ This specification defines the **Unified Open and Commercial Provider Model**:
       "type": "object",
       "required": ["billingModel", "baseRatePerUnit", "currency", "minBillingDurationSeconds"],
       "properties": {
-        "billingModel": { "type": "string", "enum": ["FREE_LOCAL", "PER_SECOND", "PER_MINUTE", "PER_INSTANCE_HOUR", "SUBSCRIPTION_TIER", "FIXED_PER_RUN"] },
+        "billingModel": {
+          "type": "string",
+          "enum": [
+            "FREE_LOCAL",
+            "PER_SECOND",
+            "PER_MINUTE",
+            "PER_INSTANCE_HOUR",
+            "SUBSCRIPTION_TIER",
+            "FIXED_PER_RUN"
+          ]
+        },
         "baseRatePerUnit": { "type": "number", "minimum": 0 },
         "currency": { "type": "string", "enum": ["USD", "EUR", "GBP", "NONE"] },
         "minBillingDurationSeconds": { "type": "integer", "minimum": 0 },
@@ -154,22 +178,52 @@ This specification defines the **Unified Open and Commercial Provider Model**:
     },
     "privacyProfile": {
       "type": "object",
-      "required": ["zeroDataRetentionConfirmed", "dataStorageRegion", "telemetryPolicy", "retentionPolicy", "ephemeralWipeVerified", "complianceAttestations"],
+      "required": [
+        "zeroDataRetentionConfirmed",
+        "dataStorageRegion",
+        "telemetryPolicy",
+        "retentionPolicy",
+        "ephemeralWipeVerified",
+        "complianceAttestations"
+      ],
       "properties": {
         "zeroDataRetentionConfirmed": { "type": "boolean" },
         "dataStorageRegion": { "type": "string" },
-        "telemetryPolicy": { "type": "string", "enum": ["NO_TELEMETRY", "ANONYMIZED_METRICS", "FULL_TELEMETRY"] },
-        "retentionPolicy": { "type": "string", "enum": ["EPHEMERAL_ZERO_RETENTION", "VOLATILE_UNTIL_TERMINATION", "HOST_LOGS_RETAINED_30_DAYS", "PERSISTENT_STORAGE"] },
+        "telemetryPolicy": {
+          "type": "string",
+          "enum": ["NO_TELEMETRY", "ANONYMIZED_METRICS", "FULL_TELEMETRY"]
+        },
+        "retentionPolicy": {
+          "type": "string",
+          "enum": [
+            "EPHEMERAL_ZERO_RETENTION",
+            "VOLATILE_UNTIL_TERMINATION",
+            "HOST_LOGS_RETAINED_30_DAYS",
+            "PERSISTENT_STORAGE"
+          ]
+        },
         "ephemeralWipeVerified": { "type": "boolean" },
         "complianceAttestations": { "type": "array", "items": { "type": "string" } }
       }
     },
-    "trustTier": { "type": "string", "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"] },
-    "securityGrade": { "type": "string", "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"] },
+    "trustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
     "capabilities": { "type": "object" },
     "extensionMatrix": {
       "type": "object",
-      "required": ["supportsCustomTelemetry", "supportsGpuAcceleration", "supportsMemorySnapshots", "supportsNetworkInterception", "isolatedFromBenchmarkSemantics"],
+      "required": [
+        "supportsCustomTelemetry",
+        "supportsGpuAcceleration",
+        "supportsMemorySnapshots",
+        "supportsNetworkInterception",
+        "isolatedFromBenchmarkSemantics"
+      ],
       "properties": {
         "supportsCustomTelemetry": { "type": "boolean" },
         "supportsGpuAcceleration": { "type": "boolean" },
@@ -185,6 +239,7 @@ This specification defines the **Unified Open and Commercial Provider Model**:
 ```
 
 ### 5.2 Cost Attribution Record Schema (`schemas/cost-attribution-record.json`)
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -265,6 +320,7 @@ This specification defines the **Unified Open and Commercial Provider Model**:
 ## 8. Open-Source vs. Commercial Paths
 
 ### 8.1 Open-Source Path (Local-First Default)
+
 - **Runtimes**: Docker Engine, Podman, containerd, Firecracker, runc.
 - **Cost**: Zero compute fees (`billingModel: 'FREE_LOCAL'`).
 - **Network**: Fully offline capable (`offlineOnly: true`).
@@ -272,12 +328,14 @@ This specification defines the **Unified Open and Commercial Provider Model**:
 - **Portability**: Complete evaluation suite runs entirely on a single developer laptop or self-hosted CI runner.
 
 ### 8.2 Commercial & Managed Cloud Path
+
 - **Runtimes**: E2B, Modal, Fly.io Machines, Daytona, RunPod, Blaxel.
 - **Cost**: Granular per-second or per-minute billing with transparent spend limits (`CloudBudgetPolicy`).
 - **Scalability**: Instant spin-up of hundreds of parallel microVMs for large benchmark sweeps.
 - **Verification**: Automatic generation of `CostAttributionRecord` for budgeting and financial auditing.
 
 ### 8.3 Enterprise Private & Air-Gapped Path
+
 - **Runtimes**: On-premise Kubernetes clusters with Kata Containers, gVisor, or dedicated Bare-Metal MicroVMs.
 - **Security**: Strict zero-retention, hardware TPM attestation, custom HSM key management, and air-gapped network policies.
 - **Compliance**: SOC 2 Type II, ISO 27001, and HIPAA compliance mapping.
@@ -310,13 +368,13 @@ SemantIQ establishes a rigorous **Clean-Room License Architecture**:
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Un-Isolated Extension** | Provider injects proprietary env vars | Evaluator results skewed | `ProviderModelAuditor` rejects registration immediately |
-| **Privacy Breach / Log Retention** | Cloud vendor stores prompt traces | Data governance violation | Quarantines provider; failover to local OCI backend |
-| **Cost Budget Exceeded** | Agent enters infinite loop in cloud | Cloud bill inflation | `CostGovernor` automatically terminates instance at budget threshold |
-| **Cold-Boot Latency Spike** | Cloud provider resource contention | Execution timeout | Fallback routing switches to secondary pre-warmed provider |
-| **Airgap Network Leak** | Misconfigured egress route | Benchmark contamination | Security boundary enforcer aborts run and flags breach |
+| Failure Mode                       | Root Cause                            | Impact                    | Automated Recovery Action                                            |
+| :--------------------------------- | :------------------------------------ | :------------------------ | :------------------------------------------------------------------- |
+| **Un-Isolated Extension**          | Provider injects proprietary env vars | Evaluator results skewed  | `ProviderModelAuditor` rejects registration immediately              |
+| **Privacy Breach / Log Retention** | Cloud vendor stores prompt traces     | Data governance violation | Quarantines provider; failover to local OCI backend                  |
+| **Cost Budget Exceeded**           | Agent enters infinite loop in cloud   | Cloud bill inflation      | `CostGovernor` automatically terminates instance at budget threshold |
+| **Cold-Boot Latency Spike**        | Cloud provider resource contention    | Execution timeout         | Fallback routing switches to secondary pre-warmed provider           |
+| **Airgap Network Leak**            | Misconfigured egress route            | Benchmark contamination   | Security boundary enforcer aborts run and flags breach               |
 
 ---
 
@@ -348,7 +406,7 @@ SemantIQ establishes a rigorous **Clean-Room License Architecture**:
 ## 13. Risks & Open Questions
 
 - **Risk**: Cloud providers modifying pricing structures dynamically mid-run.  
-  *Mitigation*: Cost rates are snapshotted in `ProviderEcosystemDescriptor` at run inception and verified against the billed duration.
+  _Mitigation_: Cost rates are snapshotted in `ProviderEcosystemDescriptor` at run inception and verified against the billed duration.
 - **Open Question**: Standardization of GPU capability descriptors across AMD ROCm, NVIDIA CUDA, and Apple Metal for future multi-modal benchmarks.
 
 ---

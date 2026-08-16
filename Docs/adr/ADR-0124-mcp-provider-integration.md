@@ -1,7 +1,7 @@
 # ADR-0124: Provider-Neutral MCP Integration in SemantIQ Sandboxes
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

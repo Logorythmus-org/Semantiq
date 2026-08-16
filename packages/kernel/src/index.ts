@@ -23,7 +23,8 @@ import type { Command, DomainEvent, Query } from "@tech-club/core";
 
 export type * from "./contracts.js";
 
-const createId = (prefix: string): string => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
 export class LocalDependencyContainer implements DependencyContainer, ServiceRegistry {
   private readonly descriptors = new Map<string, ServiceDescriptor>();
@@ -51,7 +52,10 @@ export class LocalDependencyContainer implements DependencyContainer, ServiceReg
       throw new Error(`Service not registered: ${token}`);
     }
 
-    if ((descriptor.lifecycle === "singleton" || descriptor.lifecycle === "lazy") && this.singletons.has(token)) {
+    if (
+      (descriptor.lifecycle === "singleton" || descriptor.lifecycle === "lazy") &&
+      this.singletons.has(token)
+    ) {
       return this.singletons.get(token) as TService;
     }
 
@@ -65,7 +69,10 @@ export class LocalDependencyContainer implements DependencyContainer, ServiceReg
 
 export class LocalEventEngine implements EventEngine {
   private readonly history: Array<{ event: DomainEvent; context: RuntimeContext }> = [];
-  private readonly handlers = new Map<string, Set<(event: DomainEvent, context: RuntimeContext) => void | Promise<void>>>();
+  private readonly handlers = new Map<
+    string,
+    Set<(event: DomainEvent, context: RuntimeContext) => void | Promise<void>>
+  >();
 
   async publish<TPayload>(event: DomainEvent<TPayload>, context: RuntimeContext): Promise<void> {
     this.history.push({ event: event as DomainEvent, context });
@@ -73,7 +80,10 @@ export class LocalEventEngine implements EventEngine {
     await Promise.all([...handlers].map((handler) => handler(event as DomainEvent, context)));
   }
 
-  subscribe(type: string, handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>): () => void {
+  subscribe(
+    type: string,
+    handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>
+  ): () => void {
     const handlers = this.handlers.get(type) ?? new Set();
     handlers.add(handler);
     this.handlers.set(type, handlers);
@@ -83,12 +93,17 @@ export class LocalEventEngine implements EventEngine {
   }
 
   replay(type?: string): readonly DomainEvent[] {
-    return this.history.filter((entry) => !type || entry.event.type === type).map((entry) => entry.event);
+    return this.history
+      .filter((entry) => !type || entry.event.type === type)
+      .map((entry) => entry.event);
   }
 }
 
 export class LocalMessageBus implements MessageBus {
-  private readonly handlers = new Map<string, Set<(message: Message) => unknown | Promise<unknown>>>();
+  private readonly handlers = new Map<
+    string,
+    Set<(message: Message) => unknown | Promise<unknown>>
+  >();
   private readonly failed: Message[] = [];
 
   async send<TPayload>(message: Message<TPayload>): Promise<unknown> {
@@ -122,7 +137,10 @@ export class LocalConfigurationManager implements ConfigurationManager {
     this.records.set(`${record.scope}:${record.key}`, Object.freeze(record) as ConfigurationRecord);
   }
 
-  get<TValue>(scope: ConfigurationRecord["scope"], key: string): ConfigurationRecord<TValue> | undefined {
+  get<TValue>(
+    scope: ConfigurationRecord["scope"],
+    key: string
+  ): ConfigurationRecord<TValue> | undefined {
     return this.records.get(`${scope}:${key}`) as ConfigurationRecord<TValue> | undefined;
   }
 }
@@ -226,7 +244,10 @@ export class LocalPlatformKernel implements PlatformKernel {
     return this.events.publish(event, context);
   }
 
-  subscribe(type: string, handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>): () => void {
+  subscribe(
+    type: string,
+    handler: (event: DomainEvent, context: RuntimeContext) => void | Promise<void>
+  ): () => void {
     return this.events.subscribe(type, handler);
   }
 
@@ -274,7 +295,10 @@ export class LocalPlatformKernel implements PlatformKernel {
     return reports;
   }
 
-  getConfiguration<TValue>(scope: ConfigurationRecord["scope"], key: string): ConfigurationRecord<TValue> | undefined {
+  getConfiguration<TValue>(
+    scope: ConfigurationRecord["scope"],
+    key: string
+  ): ConfigurationRecord<TValue> | undefined {
     return this.config.get(scope, key);
   }
 

@@ -76,7 +76,12 @@
     "extensionMatrix": { "type": "object" },
     "slaMetrics": {
       "type": "object",
-      "required": ["uptimePercentage", "p50ColdBootLatencyMs", "p95ColdBootLatencyMs", "maxConcurrentSandboxes"],
+      "required": [
+        "uptimePercentage",
+        "p50ColdBootLatencyMs",
+        "p95ColdBootLatencyMs",
+        "maxConcurrentSandboxes"
+      ],
       "properties": {
         "uptimePercentage": { "type": "number", "minimum": 0, "maximum": 100 },
         "p50ColdBootLatencyMs": { "type": "number", "minimum": 0 },

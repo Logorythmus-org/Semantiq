@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 24)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 The Model Context Protocol (MCP) defines an open JSON-RPC standard for AI agents to query contextual tools, resources, and prompts. In benchmark evaluations, agents interact with MCP servers across diverse runtime topologies (in-container stdio, host-bridged SSE, or mocked transports).
 
 This specification defines **Provider-Neutral MCP Integration**:
+
 1. **SemantIQ Core** declares declarative `McpServerSpec` and `McpToolDefinition` contracts in `EnvironmentSpec` and normalizes observations.
 2. **Provider Adapters** manage the process lifecycle and communication transports (stdio, loopback SSE/HTTP, or synthetic mock) inside the sandbox.
 3. **Observation & Evidence Layer** intercepts tool invocations, computing argument hashes, capturing duration, verifying response schemas, and linking tool actions directly to filesystem and network state deltas.
@@ -82,6 +83,7 @@ Benchmark → Execution Contract → Router → Provider Adapter → Runtime (MC
 ## 5. Data & Event Schemas
 
 ### 5.1 MCP Server Specification
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
@@ -144,21 +146,22 @@ Benchmark → Execution Contract → Router → Provider Adapter → Runtime (MC
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Role in MCP Integration |
-| :--- | :--- |
-| **Context** | MCP tool schemas discovered via `tools/list`. |
-| **Interpretation** | Agent inspects tool documentation and input parameters. |
-| **Decision** | Agent decides which MCP tool to call with specific arguments. |
-| **Action** | JSON-RPC `tools/call` dispatched across sandbox transport. |
-| **Result** | MCP server returns content payloads and execution status. |
-| **Consequence** | Filesystem mutations tied to `associatedStateDeltaId`. |
-| **Recovery** | `isError: true` triggers agent retry or fallback behavior. |
+| Behavioral Chain Stage | Role in MCP Integration                                       |
+| :--------------------- | :------------------------------------------------------------ |
+| **Context**            | MCP tool schemas discovered via `tools/list`.                 |
+| **Interpretation**     | Agent inspects tool documentation and input parameters.       |
+| **Decision**           | Agent decides which MCP tool to call with specific arguments. |
+| **Action**             | JSON-RPC `tools/call` dispatched across sandbox transport.    |
+| **Result**             | MCP server returns content payloads and execution status.     |
+| **Consequence**        | Filesystem mutations tied to `associatedStateDeltaId`.        |
+| **Recovery**           | `isError: true` triggers agent retry or fallback behavior.    |
 
 ---
 
 ## 11. Provider-Neutral Design
 
 Whether running on local Docker containers, Kata Containers, firecracker microVMs, or remote harnesses, adapters map the standard MCP transports:
+
 - `stdio`: Intercepted via standard process stdin/stdout streams.
 - `sse` / `http_jsonrpc`: Bound to local container loopback interface `127.0.0.1:<port>`.
 - `synthetic_mock`: Resolved completely in-memory by replay adapters for deterministic regression testing.

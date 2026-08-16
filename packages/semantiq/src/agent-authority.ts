@@ -1,14 +1,19 @@
-import type { AgentAuthority, AgentCapability, AgentIdentity, AgentRole } from './multi-agent-model.js';
-import type { BehavioralEventSchema } from './event-schema.js';
+import type {
+  AgentAuthority,
+  AgentCapability,
+  AgentIdentity,
+  AgentRole
+} from "./multi-agent-model.js";
+import type { BehavioralEventSchema } from "./event-schema.js";
 
 export type IdentityFailureClass =
-  | 'identity_collision'
-  | 'unauthorized_action'
-  | 'impersonation_attempt'
-  | 'expired_authority'
-  | 'invalid_authority_transfer'
-  | 'role_overreach'
-  | 'unproven_capability';
+  | "identity_collision"
+  | "unauthorized_action"
+  | "impersonation_attempt"
+  | "expired_authority"
+  | "invalid_authority_transfer"
+  | "role_overreach"
+  | "unproven_capability";
 
 export interface IdentityViolationReport {
   readonly violationId: string;
@@ -34,7 +39,7 @@ export class AuthorityEvaluator {
     if (!identity) {
       return {
         violationId: `viol_id_${event.eventId}`,
-        failureClass: 'impersonation_attempt',
+        failureClass: "impersonation_attempt",
         agentId: event.actorId,
         description: `Action attempted by unauthenticated actor '${event.actorId}'.`,
         timestamp: event.timestamp
@@ -45,7 +50,7 @@ export class AuthorityEvaluator {
     if (role && !role.allowedVerbs.includes(event.primaryVerb)) {
       return {
         violationId: `viol_role_${event.eventId}`,
-        failureClass: 'role_overreach',
+        failureClass: "role_overreach",
         agentId: identity.agentId,
         description: `Verb '${event.primaryVerb}' is outside assigned role '${role.name}'.`,
         timestamp: event.timestamp
@@ -56,7 +61,7 @@ export class AuthorityEvaluator {
     if (!authority || authority.isRevoked) {
       return {
         violationId: `viol_auth_${event.eventId}`,
-        failureClass: 'unauthorized_action',
+        failureClass: "unauthorized_action",
         agentId: identity.agentId,
         description: `Agent '${identity.agentId}' lacks active authority.`,
         timestamp: event.timestamp
@@ -66,7 +71,7 @@ export class AuthorityEvaluator {
     if (authority.expiresAt && new Date(event.timestamp) > new Date(authority.expiresAt)) {
       return {
         violationId: `viol_exp_${event.eventId}`,
-        failureClass: 'expired_authority',
+        failureClass: "expired_authority",
         agentId: identity.agentId,
         description: `Authority '${authority.authorityId}' expired at ${authority.expiresAt}.`,
         timestamp: event.timestamp
@@ -77,7 +82,7 @@ export class AuthorityEvaluator {
     if (capability && !capability.evidenceRef) {
       return {
         violationId: `viol_cap_${event.eventId}`,
-        failureClass: 'unproven_capability',
+        failureClass: "unproven_capability",
         agentId: identity.agentId,
         description: `Capability '${capability.name}' claimed without evidence checksum.`,
         timestamp: event.timestamp

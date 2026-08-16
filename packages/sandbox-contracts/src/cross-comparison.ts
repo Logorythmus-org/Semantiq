@@ -3,7 +3,7 @@
  * Cross-Model and Cross-Provider Fair Comparison Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export interface ModelRunSummary {
   readonly runId: string;
@@ -32,7 +32,7 @@ export interface ComparativeRanking {
     readonly low: number;
     readonly high: number;
   };
-  readonly distinctionSignificance: 'STATISTICALLY_SIGNIFICANT' | 'WITHIN_VARIANCE_MARGIN';
+  readonly distinctionSignificance: "STATISTICALLY_SIGNIFICANT" | "WITHIN_VARIANCE_MARGIN";
 }
 
 export interface CrossModelProviderComparisonReport {
@@ -69,16 +69,19 @@ export class CrossComparisonEngine {
     }
 
     const providerEffects: ProviderEffectDecomposition[] = [];
-    const globalMeanDuration = runs.length > 0
-      ? runs.reduce((acc, r) => acc + r.durationMs, 0) / runs.length
-      : 1000;
+    const globalMeanDuration =
+      runs.length > 0 ? runs.reduce((acc, r) => acc + r.durationMs, 0) / runs.length : 1000;
 
     for (const [pId, pRuns] of providerMap.entries()) {
       const meanLatency = pRuns.reduce((acc, r) => acc + r.durationMs, 0) / pRuns.length;
       // If provider is significantly slower than global baseline, apply slight latency normalization
       const latencyRatio = globalMeanDuration > 0 ? meanLatency / globalMeanDuration : 1.0;
-      const environmentPenaltyFactor = Number((Math.max(0.9, Math.min(1.1, latencyRatio))).toFixed(3));
-      const varianceScore = Number((pRuns.reduce((acc, r) => acc + r.toolErrorCount, 0) / pRuns.length).toFixed(2));
+      const environmentPenaltyFactor = Number(
+        Math.max(0.9, Math.min(1.1, latencyRatio)).toFixed(3)
+      );
+      const varianceScore = Number(
+        (pRuns.reduce((acc, r) => acc + r.toolErrorCount, 0) / pRuns.length).toFixed(2)
+      );
 
       providerEffects.push({
         providerId: pId,
@@ -102,23 +105,23 @@ export class CrossComparisonEngine {
       normalizedScore: number;
       providerVarianceSensitivity: number;
       confidenceInterval: { low: number; high: number };
-      distinctionSignificance: 'STATISTICALLY_SIGNIFICANT' | 'WITHIN_VARIANCE_MARGIN';
+      distinctionSignificance: "STATISTICALLY_SIGNIFICANT" | "WITHIN_VARIANCE_MARGIN";
     }> = [];
 
     for (const [mId, mRuns] of modelMap.entries()) {
       const rawMean = mRuns.reduce((acc, r) => acc + r.rawScore, 0) / mRuns.length;
-      
+
       // Calculate normalized score across different provider runs
       let normalizedSum = 0;
       for (const r of mRuns) {
-        const pe = providerEffects.find(p => p.providerId === r.providerId);
+        const pe = providerEffects.find((p) => p.providerId === r.providerId);
         const penalty = pe ? pe.environmentPenaltyFactor : 1.0;
         normalizedSum += Math.min(1.0, r.rawScore * (1 / penalty));
       }
       const normalizedScore = Number((normalizedSum / mRuns.length).toFixed(4));
 
       // Calculate provider sensitivity (variance across providers)
-      const scores = mRuns.map(r => r.rawScore);
+      const scores = mRuns.map((r) => r.rawScore);
       const minScore = Math.min(...scores);
       const maxScore = Math.max(...scores);
       const providerVarianceSensitivity = Number((maxScore - minScore).toFixed(4));
@@ -133,7 +136,7 @@ export class CrossComparisonEngine {
         normalizedScore,
         providerVarianceSensitivity,
         confidenceInterval: { low, high },
-        distinctionSignificance: 'STATISTICALLY_SIGNIFICANT'
+        distinctionSignificance: "STATISTICALLY_SIGNIFICANT"
       });
     }
 
@@ -172,10 +175,10 @@ export class CrossComparisonEngine {
       `**Benchmark**: \`${report.benchmarkId}\` | **Scenario**: \`${report.scenarioId}\``,
       `**Total Execution Runs Evaluated**: **${report.totalRuns}**`,
       `**Audited At**: ${report.auditedAt}`,
-      '',
-      '## 1. Normalized Comparative Leaderboard',
-      '| Rank | Model ID | Raw Mean Score | Normalized Score | Provider Sensitivity | 95% Confidence Interval |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Normalized Comparative Leaderboard",
+      "| Rank | Model ID | Raw Mean Score | Normalized Score | Provider Sensitivity | 95% Confidence Interval |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const r of report.rankings) {
@@ -184,10 +187,10 @@ export class CrossComparisonEngine {
       );
     }
 
-    lines.push('');
-    lines.push('## 2. Provider Environment Variance & Latency Decomposition');
-    lines.push('| Provider ID | Mean Latency | Environment Penalty Factor | Variance Score |');
-    lines.push('| :--- | :--- | :--- | :--- |');
+    lines.push("");
+    lines.push("## 2. Provider Environment Variance & Latency Decomposition");
+    lines.push("| Provider ID | Mean Latency | Environment Penalty Factor | Variance Score |");
+    lines.push("| :--- | :--- | :--- | :--- |");
 
     for (const pe of report.providerEffects) {
       lines.push(
@@ -195,9 +198,9 @@ export class CrossComparisonEngine {
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Comparison Auditor Signature**: \`${report.comparisonSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

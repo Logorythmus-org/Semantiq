@@ -3,13 +3,14 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 8.12 — Performance Baseline  
 **Date**: 2026-08-01  
-**Baseline Verdict**: `PERFORMANCE BASELINE FROZEN`  
+**Baseline Verdict**: `PERFORMANCE BASELINE FROZEN`
 
 ---
 
 ## 1. Benchmarking Methodology
 
 All benchmarks were conducted locally under node `v20+` using standard micro-second timing (`performance.now()`) across synthetic event streams (1,000 to 100,000 events):
+
 - **Event Ingestion & Validation**: Average 0.004 ms per event.
 - **Deterministic Serialization (`serializeDeterministicEvent`)**: Average 0.002 ms per event.
 - **DAG Sequence Integrity & Cycle Check**: < 1.2 ms for 1,000-event DAG.

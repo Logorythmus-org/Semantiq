@@ -1,7 +1,7 @@
 # ADR-0128: Cross-Provider Reproducibility and Equivalence
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

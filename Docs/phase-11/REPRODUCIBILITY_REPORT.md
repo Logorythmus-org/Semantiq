@@ -9,11 +9,11 @@
 
 ## Reproducibility Audit Summary
 
-| Check | Result |
-|-------|--------|
+| Check                         | Result                                                         |
+| ----------------------------- | -------------------------------------------------------------- |
 | Source & Manifest Determinism | ✅ Same source + manifest yields identical candidate inventory |
-| SHA-256 Checksum Stability | ✅ Stable across repeated generations |
-| Mutation Inspection | ✅ Zero mutation detected during build / test |
-| Lockfile Alignment | ✅ Lockfile matches candidate package metadata exactly |
-| Deterministic Replay | ✅ Replay engine matches 100% across runs |
-| Timestamp Independence | ✅ Content comparison unaffected by timestamp variations |
+| SHA-256 Checksum Stability    | ✅ Stable across repeated generations                          |
+| Mutation Inspection           | ✅ Zero mutation detected during build / test                  |
+| Lockfile Alignment            | ✅ Lockfile matches candidate package metadata exactly         |
+| Deterministic Replay          | ✅ Replay engine matches 100% across runs                      |
+| Timestamp Independence        | ✅ Content comparison unaffected by timestamp variations       |

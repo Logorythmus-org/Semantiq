@@ -13,11 +13,15 @@ describe("Canonical User Journey E2E Test", () => {
 
     // 2. Connector
     const connectors = doctor.getConnectors();
-    const readyConnectors = connectors.filter((c) => c.status === "ready" || c.status === "configured");
+    const readyConnectors = connectors.filter(
+      (c) => c.status === "ready" || c.status === "configured"
+    );
     expect(readyConnectors.length).toBeGreaterThan(0);
 
     // 3. Preflight
-    expect(doctorReport.checks.some((c) => c.id === "local-connector" && c.status === "pass")).toBe(true);
+    expect(doctorReport.checks.some((c) => c.id === "local-connector" && c.status === "pass")).toBe(
+      true
+    );
 
     // 4. Smoke & Benchmark Evaluation
     const subject = {

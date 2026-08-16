@@ -1,7 +1,7 @@
 # ADR-0123: Credential and Secret Boundary for Sandbox Subsystems
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

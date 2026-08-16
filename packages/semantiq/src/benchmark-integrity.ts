@@ -1,17 +1,21 @@
-export type ExposureTier = 'tier_a_public_reference' | 'tier_b_rotating' | 'tier_c_transformational' | 'tier_d_protected_challenge';
+export type ExposureTier =
+  | "tier_a_public_reference"
+  | "tier_b_rotating"
+  | "tier_c_transformational"
+  | "tier_d_protected_challenge";
 
 export type TransformationFamily =
-  | 'paraphrase'
-  | 'language_shift'
-  | 'role_shift'
-  | 'order_change'
-  | 'irrelevant_distraction'
-  | 'delayed_contradiction'
-  | 'equivalent_scenario'
-  | 'altered_surface_vocabulary'
-  | 'benchmark_name_hidden'
-  | 'rubric_terminology_removed'
-  | 'adversarial_evaluator_directed_text';
+  | "paraphrase"
+  | "language_shift"
+  | "role_shift"
+  | "order_change"
+  | "irrelevant_distraction"
+  | "delayed_contradiction"
+  | "equivalent_scenario"
+  | "altered_surface_vocabulary"
+  | "benchmark_name_hidden"
+  | "rubric_terminology_removed"
+  | "adversarial_evaluator_directed_text";
 
 export interface BenchmarkExposureManifest {
   readonly benchmarkId: string;
@@ -62,15 +66,27 @@ export interface BenchmarkIntegrityValidationReport {
  * prompt leakage protection, and transformation manifests.
  */
 export class BenchmarkIntegrityValidatorEngine {
-  validateExposureManifest(manifest: BenchmarkExposureManifest): BenchmarkIntegrityValidationReport {
+  validateExposureManifest(
+    manifest: BenchmarkExposureManifest
+  ): BenchmarkIntegrityValidationReport {
     const violations: string[] = [];
 
-    if (manifest.exposureTier === 'tier_d_protected_challenge' && manifest.isPublicBundleExportable) {
-      violations.push('Protected challenge benchmarks (Tier D) cannot be exported in public bundles.');
+    if (
+      manifest.exposureTier === "tier_d_protected_challenge" &&
+      manifest.isPublicBundleExportable
+    ) {
+      violations.push(
+        "Protected challenge benchmarks (Tier D) cannot be exported in public bundles."
+      );
     }
 
-    if (manifest.exposureTier === 'tier_b_rotating' && (!manifest.rotationScheduleDays || manifest.rotationScheduleDays <= 0)) {
-      violations.push('Rotating evaluation benchmarks (Tier B) must specify a positive rotation schedule in days.');
+    if (
+      manifest.exposureTier === "tier_b_rotating" &&
+      (!manifest.rotationScheduleDays || manifest.rotationScheduleDays <= 0)
+    ) {
+      violations.push(
+        "Rotating evaluation benchmarks (Tier B) must specify a positive rotation schedule in days."
+      );
     }
 
     return {
@@ -87,11 +103,11 @@ export class BenchmarkIntegrityValidatorEngine {
     }
 
     if (record.totalRunsCount < 1) {
-      violations.push('Reporting record must have at least 1 run.');
+      violations.push("Reporting record must have at least 1 run.");
     }
 
     if (record.excludedRunsCount > 0 && record.exclusionReasons.length === 0) {
-      violations.push('Excluded runs require explicit documented exclusion reasons.');
+      violations.push("Excluded runs require explicit documented exclusion reasons.");
     }
 
     return {
@@ -103,9 +119,9 @@ export class BenchmarkIntegrityValidatorEngine {
   sanitizeEvaluatorInput(modelOutput: string): string {
     // Escapes evaluator-directed prompt injection text inside model output
     return modelOutput
-      .replace(/system:/gi, 'system[data]:')
-      .replace(/user:/gi, 'user[data]:')
-      .replace(/assistant:/gi, 'assistant[data]:')
-      .replace(/\[INSTRUCTION\]/gi, '[DATA_OUTPUT]');
+      .replace(/system:/gi, "system[data]:")
+      .replace(/user:/gi, "user[data]:")
+      .replace(/assistant:/gi, "assistant[data]:")
+      .replace(/\[INSTRUCTION\]/gi, "[DATA_OUTPUT]");
   }
 }

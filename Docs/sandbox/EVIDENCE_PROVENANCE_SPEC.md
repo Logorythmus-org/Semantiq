@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 56)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ Evidence Provenance Architecture**:
+
 1. **Six-Layer Provenance Lineage**: Standardizes [`BenchmarkManifestLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L13-L18), [`ModelAgentLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L20-L26), [`EnvironmentProviderLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L28-L34), [`TransformationRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L36-L42), [`ArtifactProvenanceRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L44-L51), and [`EvaluatorLineageRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L53-L58).
 2. **Graph Merkle Root Construction**: Combines all six lineage dimension digests into [`ComprehensiveEvidenceProvenanceGraph.graphMerkleRoot`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L68-L68).
 3. **Evidence Provenance Engine**: Implements [`EvidenceProvenanceEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L78-L177) creating and validating provenance graphs with cryptographic signatures (`lineageSignatureHex`).
@@ -49,6 +50,7 @@ This specification establishes the **SemantIQ Evidence Provenance Architecture**
 ## 2. Inputs & Prior Decisions
 
 This specification integrates provenance requirements across the Sandbox Phase:
+
 - **Prompt 31–36**: Multi-provider model, trust verification, and terms attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle trace immutability.
@@ -60,11 +62,13 @@ This specification integrates provenance requirements across the Sandbox Phase:
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **Evidence Provenance Specification**: Defining [`BenchmarkManifestLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L13-L18), [`ModelAgentLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L20-L26), [`EnvironmentProviderLineage`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L28-L34), [`TransformationRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L36-L42), [`ArtifactProvenanceRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L44-L51), [`EvaluatorLineageRecord`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L53-L58), [`ComprehensiveEvidenceProvenanceGraph`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-provenance.ts#L60-L73), and JSON Schema [`evidence-provenance-graph.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/evidence-provenance-graph.schema.json).
 - **Lineage Verification Algorithm**: Validating Merkle roots and transformation pipeline continuity.
 - **Cryptographic Sealing**: Generating ECDSA signatures on complete provenance graphs.
 
 ### 3.2 Non-Goals
+
 - **No Cloud-Only Dependency**: Provenance graphs can be constructed and verified locally on offline machines.
 - **No Storing Terabytes in Lineage Nodes**: Nodes store cryptographic hashes and URIs, keeping lineage payloads compact (<100KB).
 
@@ -202,28 +206,29 @@ export interface ComprehensiveEvidenceProvenanceGraph {
 
 ## 9. Provider Compatibility
 
-| Execution Provider | Image Digest Format | Artifact Hash Verification | Lineage Status |
-| :--- | :--- | :--- | :--- |
-| **Docker (Local)** | OCI SHA-256 Digest | Host sha256sum | `VERIFIED` |
-| **Podman (Rootless)** | OCI SHA-256 Digest | Host sha256sum | `VERIFIED` |
-| **Firecracker MicroVM**| Rootfs disk image hash | MicroVM block device hash | `VERIFIED` |
-| **Modal / Fly.io** | Cloud container registry digest | Remote export checksum | `VERIFIED` |
+| Execution Provider      | Image Digest Format             | Artifact Hash Verification | Lineage Status |
+| :---------------------- | :------------------------------ | :------------------------- | :------------- |
+| **Docker (Local)**      | OCI SHA-256 Digest              | Host sha256sum             | `VERIFIED`     |
+| **Podman (Rootless)**   | OCI SHA-256 Digest              | Host sha256sum             | `VERIFIED`     |
+| **Firecracker MicroVM** | Rootfs disk image hash          | MicroVM block device hash  | `VERIFIED`     |
+| **Modal / Fly.io**      | Cloud container registry digest | Remote export checksum     | `VERIFIED`     |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Transformation Break**| Filter step omitted intermediate hash | Broken lineage | `verifyContinuity` flags pipeline break; marks run invalid |
-| **Corrupted Artifact** | In-sandbox write aborted mid-stream | Hash mismatch | Provenance engine flags non-sha256 digest |
-| **Image Digest Drift** | Tag `latest` pulled newer image | Non-reproducible run | Enforces immutable `sha256:...` digest pinning |
+| Failure Mode             | Root Cause                            | Impact               | Automated Recovery Action                                  |
+| :----------------------- | :------------------------------------ | :------------------- | :--------------------------------------------------------- |
+| **Transformation Break** | Filter step omitted intermediate hash | Broken lineage       | `verifyContinuity` flags pipeline break; marks run invalid |
+| **Corrupted Artifact**   | In-sandbox write aborted mid-stream   | Hash mismatch        | Provenance engine flags non-sha256 digest                  |
+| **Image Digest Drift**   | Tag `latest` pulled newer image       | Non-reproducible run | Enforces immutable `sha256:...` digest pinning             |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The Evidence Provenance architecture is validated through automated test suites:
+
 1. **Evidence Provenance Unit Tests ([`tests/unit/evidence-provenance.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/evidence-provenance.test.ts))**:
    - Tests constructing complete 6-layer provenance graph with Merkle root and cryptographic signature.
    - Tests verifying valid lineage continuity and detecting broken transformation chains.
@@ -247,7 +252,7 @@ The Evidence Provenance architecture is validated through automated test suites:
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Granularity vs. Graph Size**: Logging every intermediate syscall as a transformation node could inflate provenance graphs.  
-  *Mitigation*: Restrict transformation nodes to significant pipeline operations (log extraction, diff patching, compression).
+  _Mitigation_: Restrict transformation nodes to significant pipeline operations (log extraction, diff patching, compression).
 - **Open Question**: W3C PROV-O ontology serialization for semantic web export.
 
 ---

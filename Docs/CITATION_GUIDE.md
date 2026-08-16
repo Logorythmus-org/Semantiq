@@ -22,7 +22,7 @@ This guide provides instructions for citing **SemantIQ Benchmarks** in academic 
 
 ## 2. APA Citation Format
 
-> Tech Club Foundation. (2026). *SemantIQ Benchmarks: Local-First AI Evaluation Toolkit* (Version 0.1.0-alpha.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.EXAMPLE_VERSION
+> Tech Club Foundation. (2026). _SemantIQ Benchmarks: Local-First AI Evaluation Toolkit_ (Version 0.1.0-alpha.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.EXAMPLE_VERSION
 
 ---
 

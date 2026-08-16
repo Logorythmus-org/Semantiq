@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 43)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Recovery Testing Protocols and Metrics Architecture**:
+
 1. **Trigger & Archetype Taxonomy**: Classifies 6 failure triggers ([`RecoveryTriggerCategory`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L9-L16)) and 6 observable recovery archetypes ([`RecoveryBehaviorArchetype`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L18-L25)).
 2. **Quantitative Self-Healing Metrics**: Defines mathematical formulations for Recovery Success Rate ($R_{sr}$), Mean Steps to Recovery ($MTTR_{steps}$), Stagnation Index ($S_{index}$), Diagnostic Probing Density ($D_{probe}$), and the composite **Recovery Resilience Index ($RRI$)**.
 3. **Recovery Testing Engine**: Implements [`RecoveryTestingEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L57-L225) to parse observable [`BehavioralTraceEvent`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/evidence-package.ts#L22-L31) logs, extract recovery episodes ([`RecoveryEpisodeTrace`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L33-L44)), generate cryptographically sealed scorecards ([`RecoveryResilienceScorecard`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L46-L60)), and award 5 standardized certification grades ([`RecoveryCertificationGrade`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L27-L32)).
@@ -50,12 +51,14 @@ This specification defines the **Recovery Testing Protocols and Metrics Architec
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Recovery Testing Specification**: Defining [`RecoveryResilienceScorecard`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/recovery-testing.ts#L46-L60) and JSON Schema [`recovery-resilience-scorecard.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/recovery-testing-scorecard.schema.json).
 - **Episode Extraction Algorithm**: Automatically parsing sequential trace events into discrete failure $\to$ recovery episodes.
 - **Quantitative Metrics & Grading**: Calculating $RRI$, $MTTR$, stagnation metrics, and assigning certification grades.
 - **Observable Behavioral Preservation**: Evaluating observable commands, diagnostic queries, and retry frequencies.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: Evaluates external observable shell/tool interactions, not internal model latent representations.
 - **No In-Process Agent Tampering**: The engine evaluates raw emitted event streams post-flight or asynchronously via observation middleware.
 
@@ -88,27 +91,27 @@ This specification defines the **Recovery Testing Protocols and Metrics Architec
 
 ```typescript
 export type RecoveryTriggerCategory =
-  | 'EXECUTION_ERROR'
-  | 'FAILED_ASSERTION'
-  | 'STALE_ENVIRONMENT_DRIFT'
-  | 'INCORRECT_ASSUMPTION'
-  | 'PERMISSION_DENIED'
-  | 'TIMEOUT_EXHAUSTION';
+  | "EXECUTION_ERROR"
+  | "FAILED_ASSERTION"
+  | "STALE_ENVIRONMENT_DRIFT"
+  | "INCORRECT_ASSUMPTION"
+  | "PERMISSION_DENIED"
+  | "TIMEOUT_EXHAUSTION";
 
 export type RecoveryBehaviorArchetype =
-  | 'CORRECTIVE_REFACTOR'
-  | 'EXPLORATORY_PROBING'
-  | 'ENVIRONMENTAL_RECONCILIATION'
-  | 'HYPOTHESIS_PIVOT'
-  | 'GRACEFUL_DEGRADATION'
-  | 'PATHOLOGICAL_STAGNATION';
+  | "CORRECTIVE_REFACTOR"
+  | "EXPLORATORY_PROBING"
+  | "ENVIRONMENTAL_RECONCILIATION"
+  | "HYPOTHESIS_PIVOT"
+  | "GRACEFUL_DEGRADATION"
+  | "PATHOLOGICAL_STAGNATION";
 
 export type RecoveryCertificationGrade =
-  | 'GRADE_A_SELF_HEALING'
-  | 'GRADE_B_ADAPTIVE'
-  | 'GRADE_C_TARDY'
-  | 'GRADE_D_BRITTLE'
-  | 'GRADE_F_STAGNANT';
+  | "GRADE_A_SELF_HEALING"
+  | "GRADE_B_ADAPTIVE"
+  | "GRADE_C_TARDY"
+  | "GRADE_D_BRITTLE"
+  | "GRADE_F_STAGNANT";
 
 export interface RecoveryEpisodeTrace {
   readonly episodeId: string;
@@ -140,6 +143,7 @@ export interface RecoveryResilienceScorecard {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/recovery-testing-scorecard.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/recovery-testing-scorecard.schema.json)**: Validates recovery scorecards, episode traces, resilience metrics, and certification grades.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `recoveryResilienceScorecardSchema`.
 
@@ -148,18 +152,23 @@ export interface RecoveryResilienceScorecard {
 ## 5. Mathematical Formulations
 
 ### 5.1 Recovery Success Rate ($R_{sr}$)
+
 $$R_{sr} = \frac{N_{\text{successful}}}{N_{\text{total\_episodes}}}$$
 
 ### 5.2 Mean Steps to Recovery ($MTTR_{steps}$)
+
 $$MTTR_{steps} = \frac{1}{N_{\text{successful}}} \sum_{i \in \text{Successful}} \text{latencySteps}_i$$
 
 ### 5.3 Stagnation Index ($S_{index}$)
+
 $$S_{index} = \min\left(1.0, \frac{\sum \text{stagnationCount}_i}{2 \cdot N_{\text{total\_episodes}}}\right)$$
 
 ### 5.4 Diagnostic Probing Density ($D_{probe}$)
+
 $$D_{probe} = \min\left(1.0, \frac{\sum \text{diagnosticProbesCount}_i}{2 \cdot N_{\text{total\_episodes}}}\right)$$
 
 ### 5.5 Recovery Resilience Index ($RRI$)
+
 $$RRI = 0.40 \cdot R_{sr} + 0.25 \cdot \left(1 - \min\left(1, \frac{MTTR_{steps}}{10}\right)\right) + 0.20 \cdot D_{probe} + 0.15 \cdot (1 - S_{index})$$
 
 ---
@@ -174,28 +183,29 @@ $$RRI = 0.40 \cdot R_{sr} + 0.25 \cdot \left(1 - \min\left(1, \frac{MTTR_{steps}
 
 ## 7. Open-Source vs. Commercial & Enterprise Recovery Profiles
 
-| Dimension | Open-Source (`COMMUNITY_BENCH`) | Academic Research (`RESEARCH_EVAL`) | Enterprise (`PROD_CERTIFICATION`) |
-| :--- | :--- | :--- | :--- |
-| **Recovery Tiers** | `GRADE_A` through `GRADE_F` Badges | Full Statistical Inflection Curves | SLA & MTTR Compliance Thresholds |
-| **Stagnation Guard** | Informational Warning | Detailed Loop Entropy Analysis | Mandatory Block for Automated Deployments |
-| **Scorecard Export** | Local Markdown & JSON | Research Paper Data Bundle | Enterprise Compliance Audit Trail |
+| Dimension            | Open-Source (`COMMUNITY_BENCH`)    | Academic Research (`RESEARCH_EVAL`) | Enterprise (`PROD_CERTIFICATION`)         |
+| :------------------- | :--------------------------------- | :---------------------------------- | :---------------------------------------- |
+| **Recovery Tiers**   | `GRADE_A` through `GRADE_F` Badges | Full Statistical Inflection Curves  | SLA & MTTR Compliance Thresholds          |
+| **Stagnation Guard** | Informational Warning              | Detailed Loop Entropy Analysis      | Mandatory Block for Automated Deployments |
+| **Scorecard Export** | Local Markdown & JSON              | Research Paper Data Bundle          | Enterprise Compliance Audit Trail         |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Pathological Stagnation**| Agent repeats exact failed action | Loop deadlock | Engine flags stagnation; assigns `GRADE_F_STAGNANT` |
-| **Unresolved Episode** | Run ends before recovery | Incomplete task | Marked as `isSuccessful: false`; penalized in $R_{sr}$ |
-| **Zero Failure Run** | Pristine run with zero errors | Division by zero | Engine handles gracefully, awarding default perfect grade |
-| **Diagnostic Hallucination**| Spams `ls`/`cat` without fixing bug | Probing bloat | $MTTR$ penalty bounds excessive unhelpful probing |
+| Failure Mode                 | Root Cause                          | Impact           | Automated Recovery Action                                 |
+| :--------------------------- | :---------------------------------- | :--------------- | :-------------------------------------------------------- |
+| **Pathological Stagnation**  | Agent repeats exact failed action   | Loop deadlock    | Engine flags stagnation; assigns `GRADE_F_STAGNANT`       |
+| **Unresolved Episode**       | Run ends before recovery            | Incomplete task  | Marked as `isSuccessful: false`; penalized in $R_{sr}$    |
+| **Zero Failure Run**         | Pristine run with zero errors       | Division by zero | Engine handles gracefully, awarding default perfect grade |
+| **Diagnostic Hallucination** | Spams `ls`/`cat` without fixing bug | Probing bloat    | $MTTR$ penalty bounds excessive unhelpful probing         |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The recovery testing architecture is validated through automated test suites:
+
 1. **Episode Extraction & Metric Unit Tests ([`tests/unit/recovery-testing.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/recovery-testing.test.ts))**:
    - Validates episode extraction and `EXPLORATORY_PROBING` archetype classification.
    - Tests calculation of $RRI$, $MTTR$, $R_{sr}$, and awarding `GRADE_A_SELF_HEALING`.
@@ -220,7 +230,7 @@ The recovery testing architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Probing Reward vs. Verbose Command Spam**: Rewarding diagnostic probing must not incentivize useless read-only queries.  
-  *Mitigation*: The $MTTR_{steps}$ metric penalizes slow recovery latencies, balancing diagnostic depth with prompt execution.
+  _Mitigation_: The $MTTR_{steps}$ metric penalizes slow recovery latencies, balancing diagnostic depth with prompt execution.
 - **Open Question**: Dynamic hypothesis shift detection using semantic embeddings of action diffs.
 
 ---

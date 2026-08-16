@@ -17,12 +17,16 @@ export interface EcosystemRegistryEntry {
   readonly url: string;
 }
 
-export function validateExternalBenchmarkPack(pack: ExternalBenchmarkPack): { valid: boolean; errors: readonly string[] } {
+export function validateExternalBenchmarkPack(pack: ExternalBenchmarkPack): {
+  valid: boolean;
+  errors: readonly string[];
+} {
   const errors: string[] = [];
   if (!pack.id) errors.push("id is required");
   if (!pack.title) errors.push("title is required");
   if (!pack.version) errors.push("version is required");
-  if (!pack.subjects || pack.subjects.length === 0) errors.push("subjects must contain at least one item");
+  if (!pack.subjects || pack.subjects.length === 0)
+    errors.push("subjects must contain at least one item");
   return { valid: errors.length === 0, errors };
 }
 
@@ -42,7 +46,8 @@ export function importExternalBenchmark(
     id: (item["id"] as string) ?? `ext_${externalFormat}_${idx + 1}`,
     kind: "question",
     version: "1.0.0",
-    title: (item["question"] as string) ?? (item["title"] as string) ?? `External Subject ${idx + 1}`,
+    title:
+      (item["question"] as string) ?? (item["title"] as string) ?? `External Subject ${idx + 1}`,
     content: (item["question"] as string) ?? (item["content"] as string) ?? JSON.stringify(item),
     contextIds: [],
     evidenceIds: []

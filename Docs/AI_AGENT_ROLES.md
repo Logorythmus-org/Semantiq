@@ -3,6 +3,7 @@
 Question Intelligence uses specialized agents.
 
 ## Agents
+
 - Question Refiner Agent: improves clarity while preserving meaning.
 - Intent Agent: detects one or more intents.
 - Ambiguity Agent: finds unclear terms, scope, context, time, domain, audience, goal, evidence, and definitions.
@@ -17,4 +18,5 @@ Question Intelligence uses specialized agents.
 - Review Agent: checks safety, meaning preservation, and approval readiness.
 
 ## Agent Contract
+
 Each agent declares purpose, inputs, outputs, permissions, failure modes, and evaluation criteria.

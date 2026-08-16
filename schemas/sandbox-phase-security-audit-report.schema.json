@@ -24,11 +24,7 @@
     "auditedVersion": { "type": "string" },
     "overallStatus": {
       "type": "string",
-      "enum": [
-        "AUDIT_PASSED_HARDENED",
-        "CONDITIONAL_PASS",
-        "SECURITY_DEFECTS_FOUND"
-      ]
+      "enum": ["AUDIT_PASSED_HARDENED", "CONDITIONAL_PASS", "SECURITY_DEFECTS_FOUND"]
     },
     "threatVectorsTested": { "type": "integer", "minimum": 1 },
     "threatsBlocked": { "type": "integer", "minimum": 0 },

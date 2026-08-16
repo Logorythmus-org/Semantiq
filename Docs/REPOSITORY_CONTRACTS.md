@@ -1,6 +1,7 @@
 # Repository Contracts
 
 Core repository ports are storage-independent:
+
 - `IdentityRepository`
 - `WorkspaceRepository`
 - `KnowledgeRepository`

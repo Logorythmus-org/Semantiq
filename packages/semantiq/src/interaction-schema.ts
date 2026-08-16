@@ -1,27 +1,27 @@
-import type { EvidenceChecksum, RedactionMeta } from './event-schema.js';
+import type { EvidenceChecksum, RedactionMeta } from "./event-schema.js";
 
 export type CanonicalInteractionType =
-  | 'direct_message'
-  | 'broadcast'
-  | 'request'
-  | 'response'
-  | 'clarification'
-  | 'proposal'
-  | 'counterproposal'
-  | 'approval'
-  | 'rejection'
-  | 'escalation'
-  | 'notification'
-  | 'acknowledgment'
-  | 'timeout'
-  | 'cancellation'
-  | 'handoff';
+  | "direct_message"
+  | "broadcast"
+  | "request"
+  | "response"
+  | "clarification"
+  | "proposal"
+  | "counterproposal"
+  | "approval"
+  | "rejection"
+  | "escalation"
+  | "notification"
+  | "acknowledgment"
+  | "timeout"
+  | "cancellation"
+  | "handoff";
 
-export type DeliveryState = 'sent' | 'delivered' | 'acknowledged' | 'failed' | 'timed_out';
+export type DeliveryState = "sent" | "delivered" | "acknowledged" | "failed" | "timed_out";
 
 export interface InteractionSchema {
   readonly interactionId: string;
-  readonly schemaVersion: '1.0.0';
+  readonly schemaVersion: "1.0.0";
   readonly collectiveRunId: string;
   readonly senderAgentId: string;
   readonly recipientAgentIds: readonly string[];
@@ -57,13 +57,23 @@ export class InteractionIntegrityAnalyzer {
     }
 
     // Orphan response detection
-    if (interaction.responseToInteractionId && !this.interactionsById.has(interaction.responseToInteractionId)) {
-      errors.push(`ORPHAN RESPONSE: Parent interaction '${interaction.responseToInteractionId}' not found.`);
+    if (
+      interaction.responseToInteractionId &&
+      !this.interactionsById.has(interaction.responseToInteractionId)
+    ) {
+      errors.push(
+        `ORPHAN RESPONSE: Parent interaction '${interaction.responseToInteractionId}' not found.`
+      );
     }
 
     // Missing recipient for direct messages
-    if (interaction.interactionType === 'direct_message' && interaction.recipientAgentIds.length === 0) {
-      errors.push(`MISSING RECIPIENT: Direct message '${interaction.interactionId}' has 0 recipients.`);
+    if (
+      interaction.interactionType === "direct_message" &&
+      interaction.recipientAgentIds.length === 0
+    ) {
+      errors.push(
+        `MISSING RECIPIENT: Direct message '${interaction.interactionId}' has 0 recipients.`
+      );
     }
 
     if (errors.length === 0) {
@@ -73,13 +83,18 @@ export class InteractionIntegrityAnalyzer {
     return { valid: errors.length === 0, errors };
   }
 
-  validateStreamIntegrity(stream: readonly InteractionSchema[]): { valid: boolean; errors: readonly string[] } {
+  validateStreamIntegrity(stream: readonly InteractionSchema[]): {
+    valid: boolean;
+    errors: readonly string[];
+  } {
     const errors: string[] = [];
     let lastSeq = -1;
 
     for (const item of stream) {
       if (item.sequenceNumber <= lastSeq) {
-        errors.push(`SEQUENCE ERROR: Interaction '${item.interactionId}' sequence ${item.sequenceNumber} <= previous ${lastSeq}.`);
+        errors.push(
+          `SEQUENCE ERROR: Interaction '${item.interactionId}' sequence ${item.sequenceNumber} <= previous ${lastSeq}.`
+        );
       }
       lastSeq = item.sequenceNumber;
 

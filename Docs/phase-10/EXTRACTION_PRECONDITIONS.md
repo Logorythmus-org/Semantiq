@@ -1,7 +1,7 @@
 # Extraction Preconditions Specification
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-02  
+**Date**: 2026-08-02
 
 ---
 

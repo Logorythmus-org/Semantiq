@@ -2,7 +2,21 @@ export type { Command, DomainEvent, Query, TechClubModule } from "@tech-club/cor
 
 export const sdkFoundation = {
   languages: ["typescript", "python"],
-  modules: ["identity", "workspace", "question", "knowledge", "graph", "semantiq", "research", "agent", "workflow", "asset", "registry", "marketplace", "events"],
+  modules: [
+    "identity",
+    "workspace",
+    "question",
+    "knowledge",
+    "graph",
+    "semantiq",
+    "research",
+    "agent",
+    "workflow",
+    "asset",
+    "registry",
+    "marketplace",
+    "events"
+  ],
   localRuntimeSupport: true,
   remoteApiSupport: true,
   errorModel: "TechClubSdkError",

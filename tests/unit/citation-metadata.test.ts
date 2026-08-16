@@ -39,7 +39,9 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
 
     const bibtex = formatBibtexCitation(meta);
     expect(bibtex).toContain("@software{semantiq_benchmarks_2026");
-    expect(bibtex).toContain("title        = {SemantIQ Benchmarks: Local-First AI Evaluation Toolkit}");
+    expect(bibtex).toContain(
+      "title        = {SemantIQ Benchmarks: Local-First AI Evaluation Toolkit}"
+    );
 
     const apa = formatApaCitation(meta);
     expect(apa).toContain("(2026)");

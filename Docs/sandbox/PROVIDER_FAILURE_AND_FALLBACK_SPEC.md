@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 29)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,7 +12,8 @@
 External cloud sandbox platforms, container daemons, and microVM orchestrators inevitably encounter transient network timeouts, infrastructure outages, resource exhaustion, and daemon crashes.
 
 This specification establishes **Provider Failure Classification, Fallback Routing, and Partial-Run Evidence Preservation**:
-1. **SemantIQ Core** distinguishes between *Infrastructure Failures* (transient daemon crashes or cloud network blips) and *Agent Behavioral Faults* (syntax errors, invalid commands, or logical failures).
+
+1. **SemantIQ Core** distinguishes between _Infrastructure Failures_ (transient daemon crashes or cloud network blips) and _Agent Behavioral Faults_ (syntax errors, invalid commands, or logical failures).
 2. **Fallback Routing Engine** orchestrates exponential backoff retries on transient errors and seamlessly routes to secondary fallback providers (`FALLBACK_NEXT_PROVIDER`) on fatal infrastructure faults without altering benchmark requirements.
 3. **Partial-Run Evidence Preservation** ensures that any interrupted benchmark run captures all in-flight stdout/stderr streams, checkpoints, and action history into a sealed `PartialRunEvidenceRecord` rather than silently discarding partial results.
 
@@ -79,12 +80,19 @@ Execution Request ──> Primary Provider ──(Infra Failure)──> Fallback
 ## 5. Data & Event Schemas
 
 ### 5.1 Fallback Policy Schema
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "FallbackPolicy",
   "type": "object",
-  "required": ["primaryProviderId", "fallbackProviderIds", "maxRetriesPerProvider", "backoffBaseMs", "preservePartialEvidence"],
+  "required": [
+    "primaryProviderId",
+    "fallbackProviderIds",
+    "maxRetriesPerProvider",
+    "backoffBaseMs",
+    "preservePartialEvidence"
+  ],
   "properties": {
     "primaryProviderId": { "type": "string" },
     "fallbackProviderIds": { "type": "array", "items": { "type": "string" } },
@@ -137,15 +145,15 @@ Execution Request ──> Primary Provider ──(Infra Failure)──> Fallback
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Failure and Fallback Role |
-| :--- | :--- |
-| **Context** | Injected fallback policies declared in benchmark spec. |
-| **Interpretation** | Engine detects runtime health vs agent exit code. |
-| **Decision** | Fallback engine selects retry, fallback, or partial sealing. |
-| **Action** | Session migrated or retried on healthy provider. |
-| **Result** | Execution finishes or partial evidence is captured. |
-| **Consequence** | Evaluation score reflects agent behavior, not infrastructure outage. |
-| **Recovery** | Exponential backoff prevents thundering-herd cloud overload. |
+| Behavioral Chain Stage | Failure and Fallback Role                                            |
+| :--------------------- | :------------------------------------------------------------------- |
+| **Context**            | Injected fallback policies declared in benchmark spec.               |
+| **Interpretation**     | Engine detects runtime health vs agent exit code.                    |
+| **Decision**           | Fallback engine selects retry, fallback, or partial sealing.         |
+| **Action**             | Session migrated or retried on healthy provider.                     |
+| **Result**             | Execution finishes or partial evidence is captured.                  |
+| **Consequence**        | Evaluation score reflects agent behavior, not infrastructure outage. |
+| **Recovery**           | Exponential backoff prevents thundering-herd cloud overload.         |
 
 ---
 

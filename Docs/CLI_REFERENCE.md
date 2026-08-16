@@ -1,6 +1,7 @@
 # CLI Reference
 
 ## Automation Commands
+
 - `techclub sprint`
 - `techclub spec`
 - `techclub task`

@@ -4,24 +4,15 @@
  */
 
 export type EconomicTier =
-  | 'COMMUNITY_FREE'
-  | 'SPONSORED_GRANT'
-  | 'COMMERCIAL_PAYG'
-  | 'ENTERPRISE_RESERVED'
-  | 'REPLAY_TRACE';
+  "COMMUNITY_FREE" | "SPONSORED_GRANT" | "COMMERCIAL_PAYG" | "ENTERPRISE_RESERVED" | "REPLAY_TRACE";
 
-export type EconomicBillingUnit =
-  | 'SECOND'
-  | 'MINUTE'
-  | 'HOUR'
-  | 'RUN'
-  | 'TOKEN_ESTIMATE';
+export type EconomicBillingUnit = "SECOND" | "MINUTE" | "HOUR" | "RUN" | "TOKEN_ESTIMATE";
 
 export interface EconomicPricingModel {
   readonly tier: EconomicTier;
   readonly unit: EconomicBillingUnit;
   readonly baseUnitPrice: number;
-  readonly currency: 'USD' | 'EUR' | 'CREDITS' | 'NONE';
+  readonly currency: "USD" | "EUR" | "CREDITS" | "NONE";
   readonly minBillingIncrementSec: number;
   readonly egressCostPerGb: number;
   readonly coldBootSurcharge: number;
@@ -124,7 +115,7 @@ export class EconomicGovernor {
     grantSubsidyApplied: number;
     netBilledCost: number;
   } {
-    if (pricing.tier === 'COMMUNITY_FREE' || pricing.tier === 'REPLAY_TRACE') {
+    if (pricing.tier === "COMMUNITY_FREE" || pricing.tier === "REPLAY_TRACE") {
       return {
         billedDurationMs: executionDurationMs,
         computeCost: 0,
@@ -139,19 +130,28 @@ export class EconomicGovernor {
     let billedDurationMs = executionDurationMs;
     let computeCost = 0;
 
-    if (pricing.unit === 'SECOND') {
-      const durationSec = Math.max(pricing.minBillingIncrementSec, Math.ceil(executionDurationMs / 1000));
+    if (pricing.unit === "SECOND") {
+      const durationSec = Math.max(
+        pricing.minBillingIncrementSec,
+        Math.ceil(executionDurationMs / 1000)
+      );
       billedDurationMs = durationSec * 1000;
       computeCost = durationSec * pricing.baseUnitPrice;
-    } else if (pricing.unit === 'MINUTE') {
-      const durationMin = Math.max(Math.ceil(pricing.minBillingIncrementSec / 60), Math.ceil(executionDurationMs / 60000));
+    } else if (pricing.unit === "MINUTE") {
+      const durationMin = Math.max(
+        Math.ceil(pricing.minBillingIncrementSec / 60),
+        Math.ceil(executionDurationMs / 60000)
+      );
       billedDurationMs = durationMin * 60000;
       computeCost = durationMin * pricing.baseUnitPrice;
-    } else if (pricing.unit === 'HOUR') {
-      const durationHr = Math.max(pricing.minBillingIncrementSec / 3600, executionDurationMs / 3600000);
+    } else if (pricing.unit === "HOUR") {
+      const durationHr = Math.max(
+        pricing.minBillingIncrementSec / 3600,
+        executionDurationMs / 3600000
+      );
       billedDurationMs = Math.ceil(durationHr * 3600) * 1000;
       computeCost = durationHr * pricing.baseUnitPrice;
-    } else if (pricing.unit === 'RUN') {
+    } else if (pricing.unit === "RUN") {
       computeCost = pricing.baseUnitPrice;
     }
 
@@ -234,7 +234,8 @@ export class EconomicGovernor {
       sponsorAttribution: grant?.sponsorOrganization,
       costCenter: options?.costCenter,
       timestamp: new Date().toISOString(),
-      receiptSignatureHex: '3045022100rcptecon0123456789abcdef0123456789abcdef0123456789abcdef0220rcptecon0123456789abcdef0123456789abcdef0123456789abcdef'
+      receiptSignatureHex:
+        "3045022100rcptecon0123456789abcdef0123456789abcdef0123456789abcdef0220rcptecon0123456789abcdef0123456789abcdef0123456789abcdef"
     };
 
     this.receipts.push(receipt);
@@ -242,7 +243,7 @@ export class EconomicGovernor {
   }
 
   auditBenchmarkSpend(benchmarkId: string, budgetCap?: EconomicBudgetCap): EconomicAuditReport {
-    const relevantReceipts = this.receipts.filter(r => r.benchmarkId === benchmarkId);
+    const relevantReceipts = this.receipts.filter((r) => r.benchmarkId === benchmarkId);
     const violations: string[] = [];
 
     let totalGrossSpend = 0;
@@ -255,12 +256,16 @@ export class EconomicGovernor {
       totalNetSpend += r.netBilledCost;
 
       if (budgetCap?.maxSpendPerRun && r.netBilledCost > budgetCap.maxSpendPerRun) {
-        violations.push(`Run ${r.scenarioId} exceeded max spend per run ($${r.netBilledCost.toFixed(2)} > $${budgetCap.maxSpendPerRun.toFixed(2)}).`);
+        violations.push(
+          `Run ${r.scenarioId} exceeded max spend per run ($${r.netBilledCost.toFixed(2)} > $${budgetCap.maxSpendPerRun.toFixed(2)}).`
+        );
       }
     }
 
     if (budgetCap?.maxSpendPerSuite && totalNetSpend > budgetCap.maxSpendPerSuite) {
-      violations.push(`Benchmark ${benchmarkId} total net spend ($${totalNetSpend.toFixed(2)}) exceeded suite budget cap ($${budgetCap.maxSpendPerSuite.toFixed(2)}).`);
+      violations.push(
+        `Benchmark ${benchmarkId} total net spend ($${totalNetSpend.toFixed(2)}) exceeded suite budget cap ($${budgetCap.maxSpendPerSuite.toFixed(2)}).`
+      );
     }
 
     return {

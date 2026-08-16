@@ -1,7 +1,7 @@
 # Minority Report Policy for Rubrics
 
 **Version**: 1.0.0  
-**Date**: 2026-08-06  
+**Date**: 2026-08-06
 
 ---
 

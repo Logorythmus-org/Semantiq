@@ -3,6 +3,7 @@
 Quality gates are mandatory for production implementation.
 
 ## Required Gates
+
 - Spec-Kit completion.
 - Format check.
 - Lint.
@@ -17,12 +18,15 @@ Quality gates are mandatory for production implementation.
 - Release note or changelog entry.
 
 ## Automated Checks
+
 GitHub Actions run validation on pull requests and main branch pushes. Future pipelines will add coverage, SBOM, SAST, dependency review, Docker scanning, documentation builds, SDK generation, and release artifacts.
 
 ## Manual Checks
+
 Human approval is required for architecture-impacting changes, public API freezes, security exceptions, marketplace publishing, wallet-sensitive operations, governance releases, and production deployments.
 
 ## Sprint 0 Automation Gates
+
 - Spec-Kit files generated before implementation.
 - Stable task IDs generated.
 - Repository analysis completed.

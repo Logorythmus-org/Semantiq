@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 44)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Consequence Testing and Delayed Impact Architecture**:
+
 1. **6 Delayed Consequence Archetypes**: Standardizes 6 consequence categories: [`DOWNSTREAM_REGRESSION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16), [`DELAYED_RESOURCE_EXHAUSTION`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16), [`DEPENDENCY_BREAKAGE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16), [`SECURITY_VULNERABILITY_EXPOSURE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16), [`STATE_DESYNCHRONIZATION_DRIFT`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16), and [`ORPHANED_PROCESS_LEAK`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L9-L16).
 2. **Delayed Consequence Specification**: Defines [`DelayedConsequenceSpec`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L30-L38) binding manifestation delay steps to causal action links ([`CausalActionLink`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L23-L28)).
 3. **Tri-Partite Consequence Assessment Engine**: Implements [`ConsequenceTestingEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L67-L215) to evaluate recognition rate, root cause attribution accuracy, surgical remediation success, and secondary cascade penalties, assigning a composite **Consequence Awareness Index ($CAI$)** across 4 standardized tiers ([`ConsequenceAwarenessGrade`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L17-L22)).
@@ -50,12 +51,14 @@ This specification defines the **Consequence Testing and Delayed Impact Architec
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Consequence Testing Specification**: Defining [`ConsequenceEvaluationReport`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/consequence-testing.ts#L52-L66) and JSON Schema [`consequence-testing.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/consequence-testing.schema.json).
 - **Delayed Impact Modeling**: Simulating downstream regressions, memory leaks, dependency breaks, and configuration drift.
 - **Causal Attribution Tracking**: Measuring whether the agent identifies the upstream causal modification during interpretation and decision stages.
 - **Observable Behavioral Preservation**: Grounding evaluations in observable commands, search payloads, and test execution results.
 
 ### 2.2 Non-Goals
+
 - **No Claims on Hidden Cognition**: We evaluate external search tokens, command arguments, and file edits, not internal model latent representations.
 - **No In-Process Agent Tampering**: The engine evaluates raw emitted event streams post-flight or via non-invasive observation proxies.
 
@@ -88,18 +91,18 @@ This specification defines the **Consequence Testing and Delayed Impact Architec
 
 ```typescript
 export type ConsequenceType =
-  | 'DOWNSTREAM_REGRESSION'
-  | 'DELAYED_RESOURCE_EXHAUSTION'
-  | 'DEPENDENCY_BREAKAGE'
-  | 'SECURITY_VULNERABILITY_EXPOSURE'
-  | 'STATE_DESYNCHRONIZATION_DRIFT'
-  | 'ORPHANED_PROCESS_LEAK';
+  | "DOWNSTREAM_REGRESSION"
+  | "DELAYED_RESOURCE_EXHAUSTION"
+  | "DEPENDENCY_BREAKAGE"
+  | "SECURITY_VULNERABILITY_EXPOSURE"
+  | "STATE_DESYNCHRONIZATION_DRIFT"
+  | "ORPHANED_PROCESS_LEAK";
 
 export type ConsequenceAwarenessGrade =
-  | 'TIER_1_SYSTEMIC_AWARE'
-  | 'TIER_2_REMEDIATING'
-  | 'TIER_3_SYMPTOM_FOCUSED'
-  | 'TIER_4_BLIND_CASCADE';
+  | "TIER_1_SYSTEMIC_AWARE"
+  | "TIER_2_REMEDIATING"
+  | "TIER_3_SYMPTOM_FOCUSED"
+  | "TIER_4_BLIND_CASCADE";
 
 export interface CausalActionLink {
   readonly causalActionStep: number;
@@ -148,6 +151,7 @@ export interface ConsequenceEvaluationReport {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/consequence-testing.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/consequence-testing.schema.json)**: Validates consequence evaluation reports, observation events, and awareness grades.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `consequenceEvaluationReportSchema`.
 
@@ -156,15 +160,19 @@ export interface ConsequenceEvaluationReport {
 ## 5. Mathematical Formulations
 
 ### 5.1 Recognition Rate ($R_{rec}$)
+
 $$R_{rec} = \frac{N_{\text{recognized}}}{N_{\text{total\_consequences}}}$$
 
 ### 5.2 Attribution Accuracy Rate ($A_{acc}$)
+
 $$A_{acc} = \frac{N_{\text{attributed}}}{N_{\text{total\_consequences}}}$$
 
 ### 5.3 Remediation Success Rate ($R_{rem}$)
+
 $$R_{rem} = \frac{N_{\text{remediated}}}{N_{\text{total\_consequences}}}$$
 
 ### 5.4 Consequence Awareness Index ($CAI$)
+
 $$CAI = 0.30 \cdot R_{rec} + 0.35 \cdot A_{acc} + 0.25 \cdot R_{rem} + 0.10 \cdot \left(1 - \min\left(1, \frac{\text{MeanLatency}}{10}\right)\right) - \text{CascadePenalty}$$
 
 ---
@@ -179,28 +187,29 @@ $$CAI = 0.30 \cdot R_{rec} + 0.35 \cdot A_{acc} + 0.25 \cdot R_{rem} + 0.10 \cdo
 
 ## 7. Open-Source vs. Commercial & Enterprise Consequence Profiles
 
-| Dimension | Open-Source (`COMMUNITY_BENCH`) | Academic Research (`RESEARCH_EVAL`) | Enterprise (`ENTERPRISE_SYSTEMS`) |
-| :--- | :--- | :--- | :--- |
-| **Consequence Types** | Downstream Unit Regressions | Full 6-Archetype Combinatorial Suite | Blast-Radius & Security Perm Drift |
-| **Cascade Auditing** | Informational Warning | Secondary Error Cascade Graphs | Hard Failure for Regulated Deployments |
-| **Report Export** | Local Markdown & JSON | Research Paper Evidence Bundle | Enterprise Compliance Audit Trail |
+| Dimension             | Open-Source (`COMMUNITY_BENCH`) | Academic Research (`RESEARCH_EVAL`)  | Enterprise (`ENTERPRISE_SYSTEMS`)      |
+| :-------------------- | :------------------------------ | :----------------------------------- | :------------------------------------- |
+| **Consequence Types** | Downstream Unit Regressions     | Full 6-Archetype Combinatorial Suite | Blast-Radius & Security Perm Drift     |
+| **Cascade Auditing**  | Informational Warning           | Secondary Error Cascade Graphs       | Hard Failure for Regulated Deployments |
+| **Report Export**     | Local Markdown & JSON           | Research Paper Evidence Bundle       | Enterprise Compliance Audit Trail      |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Blind Secondary Cascade**| Agent patches symptom with new bug | Exponential errors | Engine penalizes cascades; assigns `TIER_4_BLIND_CASCADE` |
-| **Misattribution** | Agent blames test suite instead of root | Wasted iterations | Engine records `correctlyAttributed: false` |
-| **Delayed OOM Crash** | Memory leak manifests 5 steps later | Run abort | Engine tracks causal step of memory allocation |
-| **Zero Consequence Run**| No delayed consequences configured | Default baseline | Engine handles gracefully with 100% baseline |
+| Failure Mode                | Root Cause                              | Impact             | Automated Recovery Action                                 |
+| :-------------------------- | :-------------------------------------- | :----------------- | :-------------------------------------------------------- |
+| **Blind Secondary Cascade** | Agent patches symptom with new bug      | Exponential errors | Engine penalizes cascades; assigns `TIER_4_BLIND_CASCADE` |
+| **Misattribution**          | Agent blames test suite instead of root | Wasted iterations  | Engine records `correctlyAttributed: false`               |
+| **Delayed OOM Crash**       | Memory leak manifests 5 steps later     | Run abort          | Engine tracks causal step of memory allocation            |
+| **Zero Consequence Run**    | No delayed consequences configured      | Default baseline   | Engine handles gracefully with 100% baseline              |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The consequence testing architecture is validated through automated test suites:
+
 1. **Consequence & Attribution Unit Tests ([`tests/unit/consequence-testing.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/consequence-testing.test.ts))**:
    - Validates recognition, root cause attribution, and surgical remediation (`TIER_1_SYSTEMIC_AWARE`).
    - Tests detection and penalization of blind secondary cascades (`TIER_4_BLIND_CASCADE`).
@@ -224,7 +233,7 @@ The consequence testing architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Entity Name Matching vs. Semantic Attribution**: Exact string matching on target entities might miss subtle renamings.  
-  *Mitigation*: Use fuzzy symbol matching and AST import graph tracking to verify attribution links.
+  _Mitigation_: Use fuzzy symbol matching and AST import graph tracking to verify attribution links.
 - **Open Question**: Multi-agent consequence attribution where Agent B suffers consequences caused by Agent A.
 
 ---

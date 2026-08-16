@@ -28,7 +28,14 @@
     "currency": { "type": "string", "enum": ["USD"] },
     "inference": {
       "type": "object",
-      "required": ["modelId", "promptTokens", "completionTokens", "reasoningTokens", "cachedTokens", "costUsd"],
+      "required": [
+        "modelId",
+        "promptTokens",
+        "completionTokens",
+        "reasoningTokens",
+        "cachedTokens",
+        "costUsd"
+      ],
       "properties": {
         "modelId": { "type": "string" },
         "promptTokens": { "type": "integer", "minimum": 0 },
@@ -40,7 +47,14 @@
     },
     "runtimeCompute": {
       "type": "object",
-      "required": ["providerId", "cpuCoreSeconds", "ramGibSeconds", "wallClockDurationMs", "coldBootSurchargeUsd", "costUsd"],
+      "required": [
+        "providerId",
+        "cpuCoreSeconds",
+        "ramGibSeconds",
+        "wallClockDurationMs",
+        "coldBootSurchargeUsd",
+        "costUsd"
+      ],
       "properties": {
         "providerId": { "type": "string" },
         "cpuCoreSeconds": { "type": "number", "minimum": 0 },

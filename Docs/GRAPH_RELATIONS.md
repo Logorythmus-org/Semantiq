@@ -1,6 +1,7 @@
 # Graph Relations
 
 Core graph relations include:
+
 - `answers`
 - `extends`
 - `contradicts`

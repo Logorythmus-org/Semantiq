@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 28)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -12,6 +12,7 @@
 A core foundation of SemantIQ is that benchmarks must remain verifiable by third parties on diverse infrastructure (e.g. local Docker containers on macOS arm64, Firecracker microVMs on Linux x86_64, cloud sandbox pools, or in-memory replay harnesses).
 
 Because low-level environment drift (kernel timestamps, CPU architecture, minor glibc/musl differences) makes byte-for-byte exact hash matching unrealistic across heterogeneous systems, this specification establishes **Semantic Equivalence and Cross-Provider Divergence Calibration**:
+
 1. **SemantIQ Core** canonicalizes execution traces, state deltas, exit codes, and output streams to isolate genuine model reasoning differences from benign host environment drift.
 2. **Reproducibility Tiers** (`HERMETIC_DETERMINISTIC`, `ISOLATED_REPRODUCIBLE`, `BEST_EFFORT_TRANSIENT`) formally declare the achievable determinism guarantee for each scenario.
 3. **Cross-Provider Divergence Analysis** produces structured reports (`CrossProviderDivergenceReport`) categorizing differences into `BENIGN_ENVIRONMENTAL_DRIFT`, `PERFORMANCE_VARIANCE`, or `BEHAVIORAL_DIVERGENCE`.
@@ -82,16 +83,27 @@ Candidate Run (Provider B) ┘
 ## 5. Data & Event Schemas
 
 ### 5.1 Cross-Provider Divergence Report Schema
+
 ```json
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "title": "CrossProviderDivergenceReport",
   "type": "object",
-  "required": ["comparisonId", "scenarioId", "equivalenceLevel", "isEquivalent", "divergences", "comparisonTimestamp"],
+  "required": [
+    "comparisonId",
+    "scenarioId",
+    "equivalenceLevel",
+    "isEquivalent",
+    "divergences",
+    "comparisonTimestamp"
+  ],
   "properties": {
     "comparisonId": { "type": "string" },
     "scenarioId": { "type": "string" },
-    "equivalenceLevel": { "type": "string", "enum": ["EXACT_BYTE_IDENTICAL", "SEMANTICALLY_EQUIVALENT", "DIVERGENT"] },
+    "equivalenceLevel": {
+      "type": "string",
+      "enum": ["EXACT_BYTE_IDENTICAL", "SEMANTICALLY_EQUIVALENT", "DIVERGENT"]
+    },
     "isEquivalent": { "type": "boolean" },
     "divergences": {
       "type": "array",
@@ -102,7 +114,15 @@ Candidate Run (Provider B) ┘
           "property": { "type": "string" },
           "baselineValue": { "type": "string" },
           "candidateValue": { "type": "string" },
-          "category": { "type": "string", "enum": ["BENIGN_ENVIRONMENTAL_DRIFT", "PERFORMANCE_VARIANCE", "BEHAVIORAL_DIVERGENCE", "CRITICAL_FAULT"] },
+          "category": {
+            "type": "string",
+            "enum": [
+              "BENIGN_ENVIRONMENTAL_DRIFT",
+              "PERFORMANCE_VARIANCE",
+              "BEHAVIORAL_DIVERGENCE",
+              "CRITICAL_FAULT"
+            ]
+          },
           "description": { "type": "string" }
         }
       }
@@ -147,25 +167,25 @@ Candidate Run (Provider B) ┘
 
 ## 9. Reproducibility Tiers
 
-| Tier | Determinism Guarantee | Permitted Discrepancies |
-| :--- | :--- | :--- |
-| `HERMETIC_DETERMINISTIC` | Exact byte-for-byte hash equality. | Zero drift permitted. |
-| `ISOLATED_REPRODUCIBLE` | Semantic state delta and exit code parity. | Minor timestamp and architecture drift allowed. |
-| `BEST_EFFORT_TRANSIENT` | Trajectory and score confidence bounds. | Live network latency and minor payload variation allowed. |
+| Tier                     | Determinism Guarantee                      | Permitted Discrepancies                                   |
+| :----------------------- | :----------------------------------------- | :-------------------------------------------------------- |
+| `HERMETIC_DETERMINISTIC` | Exact byte-for-byte hash equality.         | Zero drift permitted.                                     |
+| `ISOLATED_REPRODUCIBLE`  | Semantic state delta and exit code parity. | Minor timestamp and architecture drift allowed.           |
+| `BEST_EFFORT_TRANSIENT`  | Trajectory and score confidence bounds.    | Live network latency and minor payload variation allowed. |
 
 ---
 
 ## 10. Behavioral Chain Compatibility
 
-| Behavioral Chain Stage | Cross-Provider Role |
-| :--- | :--- |
-| **Context** | Identical benchmark spec dispatched to Provider A and Provider B. |
-| **Interpretation** | Agent interprets scenario in both environments. |
-| **Decision** | Agent actions compared across both providers. |
-| **Action** | Commands executed in respective sandbox runtimes. |
-| **Result** | Outputs recorded with full provider provenance. |
-| **Consequence** | `CrossProviderEquivalenceEvaluator` canonicalizes and compares state deltas. |
-| **Recovery** | Divergences trigger diagnostic breakdown showing environmental vs reasoning causes. |
+| Behavioral Chain Stage | Cross-Provider Role                                                                 |
+| :--------------------- | :---------------------------------------------------------------------------------- |
+| **Context**            | Identical benchmark spec dispatched to Provider A and Provider B.                   |
+| **Interpretation**     | Agent interprets scenario in both environments.                                     |
+| **Decision**           | Agent actions compared across both providers.                                       |
+| **Action**             | Commands executed in respective sandbox runtimes.                                   |
+| **Result**             | Outputs recorded with full provider provenance.                                     |
+| **Consequence**        | `CrossProviderEquivalenceEvaluator` canonicalizes and compares state deltas.        |
+| **Recovery**           | Divergences trigger diagnostic breakdown showing environmental vs reasoning causes. |
 
 ---
 

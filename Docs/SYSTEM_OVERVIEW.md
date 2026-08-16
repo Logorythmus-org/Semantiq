@@ -3,6 +3,7 @@
 Tech Club transforms questions into knowledge, projects, collaboration, innovation, and public benefit.
 
 ## Core Systems
+
 - Semantiq Benchmark: semantic quality, reasoning quality, creativity, uncertainty, and scientific potential.
 - Semantic Wallet: identity, ownership, credentials, reputation, and future blockchain integration.
 - Social Question Network: question-centered collaboration and communities.
@@ -18,4 +19,5 @@ Tech Club transforms questions into knowledge, projects, collaboration, innovati
 - External Ecosystem: adapters to external services and repositories.
 
 ## Phase 1 Scope
+
 Phase 1 prepares architecture and infrastructure. It does not implement product features, authentication, marketplace behavior, collaboration flows, or distributed compute.

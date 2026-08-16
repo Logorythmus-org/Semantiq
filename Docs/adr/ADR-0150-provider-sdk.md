@@ -1,7 +1,7 @@
 # ADR-0150: SemantIQ Lightweight Provider SDK and Conformance Harness Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

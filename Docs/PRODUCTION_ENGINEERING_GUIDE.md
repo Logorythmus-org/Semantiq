@@ -3,6 +3,7 @@
 Phase 5 turns the completed architecture into software. The rule is simple: stable architecture, explicit specifications, incremental implementation, complete validation.
 
 ## Engineering Standards
+
 - SOLID.
 - Domain-Driven Design.
 - CQRS where useful.
@@ -18,6 +19,7 @@ Phase 5 turns the completed architecture into software. The rule is simple: stab
 - Conventional commits.
 
 ## Frontend Stack
+
 - Next.js.
 - React.
 - TypeScript.
@@ -29,6 +31,7 @@ Phase 5 turns the completed architecture into software. The rule is simple: stab
 - Three.js where required.
 
 ## Backend Stack
+
 - FastAPI.
 - Python.
 - Node.js where needed.
@@ -41,6 +44,7 @@ Phase 5 turns the completed architecture into software. The rule is simple: stab
 - Background tasks.
 
 ## Agent Stack
+
 - Local models.
 - OpenAI.
 - Anthropic.
@@ -51,6 +55,7 @@ Phase 5 turns the completed architecture into software. The rule is simple: stab
 - Provider abstraction.
 
 ## Database Strategy
+
 - PostgreSQL for relational production data.
 - Neo4j or graph-compatible adapters for graph workloads.
 - Object storage for files and archives.
@@ -62,12 +67,15 @@ Phase 5 turns the completed architecture into software. The rule is simple: stab
 Every storage engine requires migrations, versioning, backups, restore tests, and offline behavior where applicable.
 
 ## Event Architecture
+
 Production modules define commands, events, queries, projections, event stores, replay, versioning, dead letter queues, audit records, and observability.
 
 ## Security Standards
+
 Authentication, authorization, RBAC, ABAC, workspace isolation, encryption, audit logs, secret management, sandboxing, zero trust, and OWASP compliance are required production concerns.
 
 ## Definition of Done
+
 - Spec-Kit complete.
 - Acceptance tests implemented.
 - Unit, integration, contract, and relevant e2e tests pass.

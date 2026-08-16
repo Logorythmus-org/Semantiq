@@ -6,14 +6,14 @@ This document records the privacy audit, network behavior analysis, data residen
 
 ## Privacy Audit Summary
 
-| Privacy Metric | Behavior | Audit Result |
-|---|---|---|
-| **Default Telemetry** | Disabled | Verified — Zero automatic network requests or tracking ping. |
-| **Data Transmission** | Local-only by default | Verified — Evaluation prompts remain in local RAM/disk. |
-| **External AI Calls** | Consent required | Verified — Requires local `.env` API key setup and consent check. |
-| **Federation Sharing** | Invitation-only | Verified — Explicit approval required for cross-node sharing. |
-| **User Data Control** | Exportable & Deletable | Verified — `exportUserData()` and `deleteUserData()` implemented. |
-| **Diagnostic Redaction** | Auto-redacted | Verified — Tokens, passwords, and private titles redacted. |
+| Privacy Metric           | Behavior               | Audit Result                                                      |
+| ------------------------ | ---------------------- | ----------------------------------------------------------------- |
+| **Default Telemetry**    | Disabled               | Verified — Zero automatic network requests or tracking ping.      |
+| **Data Transmission**    | Local-only by default  | Verified — Evaluation prompts remain in local RAM/disk.           |
+| **External AI Calls**    | Consent required       | Verified — Requires local `.env` API key setup and consent check. |
+| **Federation Sharing**   | Invitation-only        | Verified — Explicit approval required for cross-node sharing.     |
+| **User Data Control**    | Exportable & Deletable | Verified — `exportUserData()` and `deleteUserData()` implemented. |
+| **Diagnostic Redaction** | Auto-redacted          | Verified — Tokens, passwords, and private titles redacted.        |
 
 ---
 

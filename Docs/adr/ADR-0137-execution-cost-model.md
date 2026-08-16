@@ -1,7 +1,7 @@
 # ADR-0137: 8-Vector Holistic Execution Cost Model and Ledger Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

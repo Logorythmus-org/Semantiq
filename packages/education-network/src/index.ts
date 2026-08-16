@@ -75,7 +75,9 @@ export class LocalEducationNetworkRepository implements EducationNetworkReposito
 }
 
 export class LocalEducationNetworkService implements EducationNetworkService {
-  constructor(private readonly repository: LocalEducationNetworkRepository = new LocalEducationNetworkRepository()) {}
+  constructor(
+    private readonly repository: LocalEducationNetworkRepository = new LocalEducationNetworkRepository()
+  ) {}
 
   async createLearningPath(path: LearningPath): Promise<void> {
     if (path.questionIds.length === 0) {
@@ -92,12 +94,20 @@ export class LocalEducationNetworkService implements EducationNetworkService {
 
   async trackCompetency(node: CompetencyNode): Promise<void> {
     await this.repository.saveCompetency(node);
-    await this.emit("CompetencyImproved", { competencyId: node.id, level: node.level }, node.learnerId);
+    await this.emit(
+      "CompetencyImproved",
+      { competencyId: node.id, level: node.level },
+      node.learnerId
+    );
   }
 
   async assignMentor(assignment: MentorshipAssignment): Promise<void> {
     await this.repository.saveMentorship(assignment);
-    await this.emit("MentorAssigned", { mentorId: assignment.mentorId, type: assignment.type }, assignment.learnerId);
+    await this.emit(
+      "MentorAssigned",
+      { mentorId: assignment.mentorId, type: assignment.type },
+      assignment.learnerId
+    );
   }
 
   async createCourse(artifact: TeachingArtifact): Promise<void> {
@@ -113,7 +123,11 @@ export class LocalEducationNetworkService implements EducationNetworkService {
 
   async assessPortfolio(assessment: PortfolioAssessment): Promise<void> {
     await this.repository.saveAssessment(assessment);
-    await this.emit("AssessmentCompleted", { assessmentId: assessment.id, mastery: assessment.mastery }, assessment.learnerId);
+    await this.emit(
+      "AssessmentCompleted",
+      { assessmentId: assessment.id, mastery: assessment.mastery },
+      assessment.learnerId
+    );
     if (assessment.mastery) {
       await this.emit("MasteryAchieved", { assessmentId: assessment.id }, assessment.learnerId);
     }
@@ -124,7 +138,12 @@ export class LocalEducationNetworkService implements EducationNetworkService {
       throw new Error("Credentials must be signed and active when issued");
     }
     await this.repository.saveCredential(credential);
-    await this.emit("CredentialIssued", { type: credential.type }, credential.subjectId, credential.id);
+    await this.emit(
+      "CredentialIssued",
+      { type: credential.type },
+      credential.subjectId,
+      credential.id
+    );
   }
 
   async verifyCredential(credentialId: string): Promise<boolean> {
@@ -137,15 +156,28 @@ export class LocalEducationNetworkService implements EducationNetworkService {
     const snapshot: LearningAnalyticsSnapshot = {
       id: `${learnerId}:learning-analytics:${Date.now()}`,
       learnerId,
-      knowledgeGrowth: competencies.reduce((total, competency) => total + competency.evidenceIds.length, 0),
+      knowledgeGrowth: competencies.reduce(
+        (total, competency) => total + competency.evidenceIds.length,
+        0
+      ),
       competencyGrowth: competencies.reduce((total, competency) => total + competency.level, 0),
-      researchParticipation: competencies.reduce((total, competency) => total + competency.researchIds.length, 0),
-      teaching: competencies.reduce((total, competency) => total + competency.teachingIds.length, 0),
+      researchParticipation: competencies.reduce(
+        (total, competency) => total + competency.researchIds.length,
+        0
+      ),
+      teaching: competencies.reduce(
+        (total, competency) => total + competency.teachingIds.length,
+        0
+      ),
       reflection: competencies.filter((competency) => competency.kind === "reflection").length,
       projects: competencies.reduce((total, competency) => total + competency.projectIds.length, 0),
       innovation: 0,
-      collaboration: competencies.filter((competency) => competency.kind === "collaboration").length,
-      communityLearning: competencies.reduce((total, competency) => total + competency.mentorshipIds.length, 0),
+      collaboration: competencies.filter((competency) => competency.kind === "collaboration")
+        .length,
+      communityLearning: competencies.reduce(
+        (total, competency) => total + competency.mentorshipIds.length,
+        0
+      ),
       longTermProgress: competencies.length,
       privacyPreserving: true
     };
@@ -153,7 +185,12 @@ export class LocalEducationNetworkService implements EducationNetworkService {
     return snapshot;
   }
 
-  private async emit(type: EducationNetworkEvent["type"], payload: unknown, learnerId?: string, credentialId?: string): Promise<void> {
+  private async emit(
+    type: EducationNetworkEvent["type"],
+    payload: unknown,
+    learnerId?: string,
+    credentialId?: string
+  ): Promise<void> {
     const event: EducationNetworkEvent = {
       type,
       version: 1,

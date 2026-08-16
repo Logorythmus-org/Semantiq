@@ -1,12 +1,12 @@
 export type DependencyCategory =
-  | 'SEMANTIQ_OWNED'
-  | 'EXTERNAL_RUNTIME'
-  | 'EXTERNAL_DEVELOPMENT'
-  | 'OPTIONAL_ADAPTER'
-  | 'SHARED_NEUTRAL'
-  | 'PARENT_ONLY'
-  | 'FORBIDDEN'
-  | 'UNRESOLVED';
+  | "SEMANTIQ_OWNED"
+  | "EXTERNAL_RUNTIME"
+  | "EXTERNAL_DEVELOPMENT"
+  | "OPTIONAL_ADAPTER"
+  | "SHARED_NEUTRAL"
+  | "PARENT_ONLY"
+  | "FORBIDDEN"
+  | "UNRESOLVED";
 
 export interface DependencyNode {
   readonly packageName: string;
@@ -29,31 +29,31 @@ export interface DependencyGraphValidationReport {
  */
 export class DependencyGraphEngine {
   classifyDependency(name: string, isDev = false, isOptional = false): DependencyNode {
-    let category: DependencyCategory = 'UNRESOLVED';
+    let category: DependencyCategory = "UNRESOLVED";
 
-    if (name.startsWith('@tech-club/semantiq') || name === 'semantiq') {
-      category = 'SEMANTIQ_OWNED';
+    if (name.startsWith("@tech-club/semantiq") || name === "semantiq") {
+      category = "SEMANTIQ_OWNED";
     } else if (
-      name.includes('civilization') ||
-      name.includes('wallet') ||
-      name.includes('marketplace') ||
-      name.includes('question-network')
+      name.includes("civilization") ||
+      name.includes("wallet") ||
+      name.includes("marketplace") ||
+      name.includes("question-network")
     ) {
-      category = 'FORBIDDEN';
-    } else if (name.startsWith('@tech-club/')) {
-      category = 'PARENT_ONLY';
+      category = "FORBIDDEN";
+    } else if (name.startsWith("@tech-club/")) {
+      category = "PARENT_ONLY";
     } else if (isDev) {
-      category = 'EXTERNAL_DEVELOPMENT';
+      category = "EXTERNAL_DEVELOPMENT";
     } else if (isOptional) {
-      category = 'OPTIONAL_ADAPTER';
+      category = "OPTIONAL_ADAPTER";
     } else {
-      category = 'EXTERNAL_RUNTIME';
+      category = "EXTERNAL_RUNTIME";
     }
 
     return {
       packageName: name,
       category,
-      version: '1.0.0',
+      version: "1.0.0",
       isOptional
     };
   }
@@ -63,9 +63,9 @@ export class DependencyGraphEngine {
     let parentOnlyCount = 0;
 
     for (const node of nodes) {
-      if (node.category === 'FORBIDDEN') {
+      if (node.category === "FORBIDDEN") {
         forbiddenCount++;
-      } else if (node.category === 'PARENT_ONLY') {
+      } else if (node.category === "PARENT_ONLY") {
         parentOnlyCount++;
       }
     }

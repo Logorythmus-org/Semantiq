@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.13 — Governance Replay Validation  
 **Date**: 2026-08-02  
-**Replay Verdict**: `GOVERNANCE REPLAY VALIDATED`  
+**Replay Verdict**: `GOVERNANCE REPLAY VALIDATED`
 
 ---
 

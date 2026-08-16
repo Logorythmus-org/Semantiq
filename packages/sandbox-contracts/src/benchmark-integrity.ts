@@ -3,13 +3,13 @@
  * Benchmark Integrity and Anti-Tamper Verification Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { SandboxBenchmarkDSL } from './benchmark-dsl.js';
-import type { BehavioralTraceEvent } from './evidence-package.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { SandboxBenchmarkDSL } from "./benchmark-dsl.js";
+import type { BehavioralTraceEvent } from "./evidence-package.js";
 
-export type IntegrityTier = 'STANDARD_HASH_VERIFIED' | 'MERKLE_CHAINED' | 'HERMETIC_ATTESTED';
+export type IntegrityTier = "STANDARD_HASH_VERIFIED" | "MERKLE_CHAINED" | "HERMETIC_ATTESTED";
 
-export type IntegrityGrade = 'SEALED_VALID' | 'TAMPERING_DETECTED' | 'PROVENANCE_BROKEN';
+export type IntegrityGrade = "SEALED_VALID" | "TAMPERING_DETECTED" | "PROVENANCE_BROKEN";
 
 export interface BenchmarkIntegrityManifest {
   readonly manifestId: string;
@@ -41,7 +41,10 @@ export interface IntegrityVerificationReport {
  * from tampering, retroactive modification, or sequence manipulation.
  */
 export class BenchmarkIntegrityEngine {
-  sealManifest(dsl: SandboxBenchmarkDSL, authorSigningKey = 'default-author-key'): BenchmarkIntegrityManifest {
+  sealManifest(
+    dsl: SandboxBenchmarkDSL,
+    authorSigningKey = "default-author-key"
+  ): BenchmarkIntegrityManifest {
     const manifestId = `seal-${computeSha256(`${dsl.metadata.scenarioId}-${Date.now()}`).substring(0, 16)}`;
     const manifestDigest = computeSha256(canonicalJson(dsl));
     const fixturesMerkleRoot = computeSha256(canonicalJson(dsl.environment.volumeMounts ?? []));
@@ -61,7 +64,10 @@ export class BenchmarkIntegrityEngine {
     };
   }
 
-  verifyTraceChain(events: readonly BehavioralTraceEvent[]): { valid: boolean; violations: readonly string[] } {
+  verifyTraceChain(events: readonly BehavioralTraceEvent[]): {
+    valid: boolean;
+    violations: readonly string[];
+  } {
     const violations: string[] = [];
 
     for (let i = 0; i < events.length; i++) {
@@ -78,7 +84,9 @@ export class BenchmarkIntegrityEngine {
         const prevEvent = events[i - 1]!;
         const expectedPrevHash = computeSha256(canonicalJson(prevEvent));
         if (event.previousEventHash && event.previousEventHash !== expectedPrevHash) {
-          violations.push(`Merkle trace break at step ${effectiveStep}: previousEventHash mismatch`);
+          violations.push(
+            `Merkle trace break at step ${effectiveStep}: previousEventHash mismatch`
+          );
         }
       }
     }
@@ -102,14 +110,16 @@ export class BenchmarkIntegrityEngine {
     const currentManifestDigest = computeSha256(canonicalJson(currentDSL));
     const manifestIntact = currentManifestDigest === sealedManifest.manifestDigest;
     if (!manifestIntact) {
-      violations.push(`Manifest altered: expected ${sealedManifest.manifestDigest}, got ${currentManifestDigest}`);
+      violations.push(
+        `Manifest altered: expected ${sealedManifest.manifestDigest}, got ${currentManifestDigest}`
+      );
     }
 
     // 2. Verify Assertions/Rubrics
     const currentAssertionsDigest = computeSha256(canonicalJson(currentDSL.assertions));
     const scoringRubricIntact = currentAssertionsDigest === sealedManifest.assertionsDigest;
     if (!scoringRubricIntact) {
-      violations.push('Scoring assertions modified post-sealing');
+      violations.push("Scoring assertions modified post-sealing");
     }
 
     // 3. Verify Trace Chain
@@ -119,11 +129,11 @@ export class BenchmarkIntegrityEngine {
 
     const providerAttestationIntact = true; // In mock execution
 
-    let integrityGrade: IntegrityGrade = 'SEALED_VALID';
+    let integrityGrade: IntegrityGrade = "SEALED_VALID";
     if (!manifestIntact || !scoringRubricIntact) {
-      integrityGrade = 'TAMPERING_DETECTED';
+      integrityGrade = "TAMPERING_DETECTED";
     } else if (!traceSequenceIntact) {
-      integrityGrade = 'PROVENANCE_BROKEN';
+      integrityGrade = "PROVENANCE_BROKEN";
     }
 
     const auditedAt = new Date().toISOString();
@@ -153,29 +163,29 @@ export class BenchmarkIntegrityEngine {
     const lines: string[] = [
       `# SemantIQ Benchmark Integrity Verification Report: \`${report.auditId}\``,
       `**Scenario**: \`${report.scenarioId}\` | **Run ID**: \`${report.runId}\``,
-      `**Overall Integrity Grade**: **${report.integrityGrade === 'SEALED_VALID' ? '✅ SEALED_VALID (Untampered)' : '❌ ' + report.integrityGrade}**`,
+      `**Overall Integrity Grade**: **${report.integrityGrade === "SEALED_VALID" ? "✅ SEALED_VALID (Untampered)" : "❌ " + report.integrityGrade}**`,
       `**Audited At**: ${report.auditedAt}`,
-      '',
-      '## 1. Cryptographic Surface Verification',
-      '| Surface Area | Status | Protection Mechanism |',
-      '| :--- | :--- | :--- |',
-      `| **Benchmark Manifest** | ${report.manifestIntact ? '✅ Intact' : '❌ Tampered'} | Canonical JSON SHA-256 Digest |`,
-      `| **Trace Event Chain** | ${report.traceSequenceIntact ? '✅ Intact' : '❌ Broken'} | Append-Only Merkle Hash Chain |`,
-      `| **Scoring Assertions** | ${report.scoringRubricIntact ? '✅ Intact' : '❌ Modified'} | Pre-Execution Rubric Digest |`,
-      `| **Provider Attestation** | ${report.providerAttestationIntact ? '✅ Valid' : '❌ Invalid'} | ECDSA Receipt Signing |`,
-      ''
+      "",
+      "## 1. Cryptographic Surface Verification",
+      "| Surface Area | Status | Protection Mechanism |",
+      "| :--- | :--- | :--- |",
+      `| **Benchmark Manifest** | ${report.manifestIntact ? "✅ Intact" : "❌ Tampered"} | Canonical JSON SHA-256 Digest |`,
+      `| **Trace Event Chain** | ${report.traceSequenceIntact ? "✅ Intact" : "❌ Broken"} | Append-Only Merkle Hash Chain |`,
+      `| **Scoring Assertions** | ${report.scoringRubricIntact ? "✅ Intact" : "❌ Modified"} | Pre-Execution Rubric Digest |`,
+      `| **Provider Attestation** | ${report.providerAttestationIntact ? "✅ Valid" : "❌ Invalid"} | ECDSA Receipt Signing |`,
+      ""
     ];
 
     if (report.violations.length > 0) {
-      lines.push('## 2. Detected Violations');
+      lines.push("## 2. Detected Violations");
       for (const v of report.violations) {
         lines.push(`- ⚠️ ${v}`);
       }
-      lines.push('');
+      lines.push("");
     }
 
     lines.push(`**Auditor Cryptographic Signature**: \`${report.auditSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

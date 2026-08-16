@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.8 — Trust and Risk Profiles  
 **Date**: 2026-08-02  
-**Profile Verdict**: `TRUST AND RISK PROFILES IMPLEMENTED`  
+**Profile Verdict**: `TRUST AND RISK PROFILES IMPLEMENTED`
 
 ---
 

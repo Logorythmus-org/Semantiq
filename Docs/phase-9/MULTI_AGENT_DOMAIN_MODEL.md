@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 9.1 — Multi-Agent Domain Model  
 **Date**: 2026-08-01  
-**Model Verdict**: `MULTI-AGENT DOMAIN MODEL FROZEN`  
+**Model Verdict**: `MULTI-AGENT DOMAIN MODEL FROZEN`
 
 ---
 

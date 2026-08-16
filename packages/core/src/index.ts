@@ -15,7 +15,8 @@ export interface Logger {
   error(message: string, context?: Readonly<Record<string, unknown>>): void;
 }
 
-export type DomainEvent<TPayload = unknown> = import("./domain/events.js").CoreDomainEvent<TPayload>;
+export type DomainEvent<TPayload = unknown> =
+  import("./domain/events.js").CoreDomainEvent<TPayload>;
 
 export * from "./domain/identifiers.js";
 export * from "./domain/events.js";

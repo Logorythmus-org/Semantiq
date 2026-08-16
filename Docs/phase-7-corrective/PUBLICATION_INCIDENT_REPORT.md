@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 7 Corrective — Incident Reconstruction  
 **Date**: 2026-08-01  
-**Incident Verdict**: `PUBLICATION INCIDENT FULLY RECONSTRUCTED`  
+**Incident Verdict**: `PUBLICATION INCIDENT FULLY RECONSTRUCTED`
 
 ---
 
@@ -26,9 +26,9 @@ During Phase 7 execution, an automated release command initialized Git and confi
 
 ## 3. Incident Classification Matrix
 
-| Artifact / Command | Location / Scope | Classification | Description |
-|---|---|---|---|
-| Direct Push from Parent Root | `git push origin main` in `c:\Users\Kaveh\Desktop\Tech-Club` | `DANGEROUS_WORKSPACE_PUBLICATION` | Pushes parent workspace to public SemantIQ remote |
-| SemantIQ Core Package | `packages/semantiq` | `SAFE_FOR_FUTURE_SEMANTIQ_EXTRACTION` | Decoupled evaluation engine re-exporting core modules |
-| Parent Monorepo Scripts | `package.json` (`pnpm dev`, `pnpm test`) | `SAFE_FOR_PARENT_WORKSPACE` | Internal monorepo build & test tooling |
-| Previous Release Reports | `Docs/FINAL_RELEASE_PACKAGE.md` | `HISTORICAL_EVIDENCE_ONLY` | Retained strictly for incident audit history |
+| Artifact / Command           | Location / Scope                                             | Classification                        | Description                                           |
+| ---------------------------- | ------------------------------------------------------------ | ------------------------------------- | ----------------------------------------------------- |
+| Direct Push from Parent Root | `git push origin main` in `c:\Users\Kaveh\Desktop\Tech-Club` | `DANGEROUS_WORKSPACE_PUBLICATION`     | Pushes parent workspace to public SemantIQ remote     |
+| SemantIQ Core Package        | `packages/semantiq`                                          | `SAFE_FOR_FUTURE_SEMANTIQ_EXTRACTION` | Decoupled evaluation engine re-exporting core modules |
+| Parent Monorepo Scripts      | `package.json` (`pnpm dev`, `pnpm test`)                     | `SAFE_FOR_PARENT_WORKSPACE`           | Internal monorepo build & test tooling                |
+| Previous Release Reports     | `Docs/FINAL_RELEASE_PACKAGE.md`                              | `HISTORICAL_EVIDENCE_ONLY`            | Retained strictly for incident audit history          |

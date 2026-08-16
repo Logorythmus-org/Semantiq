@@ -3,6 +3,7 @@
 Sprint 1 runs in memory for deterministic tests and local previews.
 
 Declared storage adapters:
+
 - Memory: implemented.
 - JSON: planned for portable local persistence.
 - SQLite: planned as the default local app store.

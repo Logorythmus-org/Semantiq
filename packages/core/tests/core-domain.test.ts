@@ -22,7 +22,12 @@ describe("core domain implementation", () => {
     const workspaceService = new WorkspaceApplicationService(unitOfWork, eventBus);
 
     await identityService.registerIdentity("identity:1", "Kaveh", "kaveh", correlation);
-    await workspaceService.createWorkspace("workspace:1", "identity:1", "Core Workspace", correlation);
+    await workspaceService.createWorkspace(
+      "workspace:1",
+      "identity:1",
+      "Core Workspace",
+      correlation
+    );
 
     const identity = await unitOfWork.identities.get("identity:1");
     const workspace = await unitOfWork.workspaces.get("workspace:1");
@@ -38,8 +43,22 @@ describe("core domain implementation", () => {
     const knowledgeService = new KnowledgeApplicationService(unitOfWork, eventBus);
     const questionService = new QuestionApplicationService(unitOfWork, eventBus);
 
-    await knowledgeService.createKnowledgeObject("knowledge:1", "workspace:1", "identity:1", "note", "First Note", correlation);
-    await questionService.createQuestion("question:1", "knowledge:question:1", "workspace:1", "identity:1", "What is the core domain?", correlation);
+    await knowledgeService.createKnowledgeObject(
+      "knowledge:1",
+      "workspace:1",
+      "identity:1",
+      "note",
+      "First Note",
+      correlation
+    );
+    await questionService.createQuestion(
+      "question:1",
+      "knowledge:question:1",
+      "workspace:1",
+      "identity:1",
+      "What is the core domain?",
+      correlation
+    );
 
     expect(await unitOfWork.knowledge.get("knowledge:1")).toBeDefined();
     expect(await unitOfWork.questions.get("question:1")).toBeDefined();
@@ -52,9 +71,30 @@ describe("core domain implementation", () => {
     const knowledgeService = new KnowledgeApplicationService(unitOfWork, eventBus);
     const graphService = new GraphApplicationService(unitOfWork, eventBus);
 
-    await knowledgeService.createKnowledgeObject("knowledge:a", "workspace:1", "identity:1", "question", "A", correlation);
-    await knowledgeService.createKnowledgeObject("knowledge:b", "workspace:1", "identity:1", "answer", "B", correlation);
-    await graphService.relate("relation:1", "knowledge:a", "knowledge:b", "answers", "identity:1", correlation);
+    await knowledgeService.createKnowledgeObject(
+      "knowledge:a",
+      "workspace:1",
+      "identity:1",
+      "question",
+      "A",
+      correlation
+    );
+    await knowledgeService.createKnowledgeObject(
+      "knowledge:b",
+      "workspace:1",
+      "identity:1",
+      "answer",
+      "B",
+      correlation
+    );
+    await graphService.relate(
+      "relation:1",
+      "knowledge:a",
+      "knowledge:b",
+      "answers",
+      "identity:1",
+      correlation
+    );
 
     const traversal = await unitOfWork.graph.traverse({ startNodeId: "knowledge:a", maxDepth: 1 });
     expect(traversal.nodeIds).toContain("knowledge:b");
@@ -89,6 +129,8 @@ describe("core domain implementation", () => {
     });
 
     expect(decision.allowed).toBe(true);
-    expect((await unitOfWork.events.list()).map((event) => event.type)).toContain("PermissionGranted");
+    expect((await unitOfWork.events.list()).map((event) => event.type)).toContain(
+      "PermissionGranted"
+    );
   });
 });

@@ -6,7 +6,7 @@
 **Version Baseline**: `v0.1.0-alpha.1` (Pre-Release Baseline)  
 **Sandbox Subsystem Status**: `INTERNAL GATE PASSED`  
 **SemantIQ Product Release Status**: `PRE-RELEASE` / `PUBLIC ALPHA NOT YET AUTHORIZED`  
-**R06 Audit Verdict**: **`PASS`**  
+**R06 Audit Verdict**: **`PASS`**
 
 ---
 
@@ -17,6 +17,7 @@ This document certifies the execution of **R06: GitHub Publication Boundary and 
 In accordance with the non-negotiable rule that **the local workspace is not the publication unit**, this audit has inventoried the entire repository filesystem and Git topology, identified the exact canonical SemantIQ publication root, constructed a cryptographic positive allowlist of all approved files, and established strict exclusion boundaries for local secrets, private preservation trees, and transient runtime artifacts.
 
 ### Non-Negotiable Publication Pipeline:
+
 $$\text{Local Workspace} \longrightarrow \text{Inventory} \longrightarrow \text{Positive Allowlist} \longrightarrow \text{Clean Isolated Staging} \longrightarrow \text{Manifest/Hash Verification} \longrightarrow \text{Isolated Git Repository} \longrightarrow \text{Push Dry-Run} \longrightarrow \text{Phase 12}$$
 
 ---
@@ -45,25 +46,25 @@ The canonical SemantIQ publication root is defined strictly by the **Positive Al
 
 Every directory and root-level path in the workspace is categorized under the canonical R06 taxonomy:
 
-| Path / Directory Pattern | Classification | Status / Action | Description & Purpose |
-|:---|:---:|:---:|:---|
-| `packages/**`, `services/**`, `apps/**` | **`PUBLIC_REQUIRED`** | **APPROVED** | Core TypeScript domain engines, contracts, and interfaces |
-| `schemas/**` | **`GENERATED_BUT_APPROVED`** | **APPROVED** | Canonical Draft 2020-12 JSON schemas |
-| `tests/**` | **`PUBLIC_REQUIRED`** | **APPROVED** | Automated unit, security, and contract test suites |
-| `Docs/**` | **`PUBLIC_REQUIRED`** | **APPROVED** | Specifications, ADRs, audits, and limitation registers |
-| `config/**`, `scripts/**`, `tools/**` | **`PUBLIC_REQUIRED`** | **APPROVED** | Build automation, CLI runner, and release-freeze config |
-| `examples/**`, `specs/**`, `rubrics/**` | **`PUBLIC_OPTIONAL`** | **APPROVED** | Supplementary scenarios, rubrics, and documentation |
-| `trust/**`, `governance/**`, `benchmark-integrity/**` | **`PUBLIC_OPTIONAL`** | **APPROVED** | Supplementary governance and benchmark resources |
-| Root configs (`package.json`, `turbo.json`, `pnpm-workspace.yaml`, `tsconfig.base.json`, etc.) | **`PUBLIC_REQUIRED`** | **APPROVED** | Monorepo build and workspace toolchain definitions |
-| Root legal/meta (`LICENSE`, `README.md`, `SECURITY.md`, `CHANGELOG.md`, `CITATION.cff`, etc.) | **`PUBLIC_REQUIRED`** | **APPROVED** | Open-source licensing, citation, and security policies |
-| `.env.example`, `.env.test.example` | **`PUBLIC_REQUIRED`** | **APPROVED** | Safe, sanitized environment configuration templates |
-| `.env.local` | **`SECRET_OR_SENSITIVE`** | **EXCLUDED** | Local personal access tokens and secrets (**NEVER PUBLISH**) |
-| `semantiq-preservation-private/**` | **`PRIVATE_EXCLUDE`** | **EXCLUDED** | Internal private preservation archive |
-| `artifacts/**`, `tmp/**` | **`PRIVATE_EXCLUDE`** | **EXCLUDED** | Transient local execution outputs and temp files |
-| `release-simulation/**`, `release-candidates/**` | **`PRIVATE_EXCLUDE`** | **EXCLUDED** | Local simulation runs and unsealed candidate scratch |
-| `disputes/**`, `high-impact/**`, `products/**` | **`PRIVATE_EXCLUDE`** | **EXCLUDED** | Internal working documents and local research notes |
-| `.vscode/**`, `.turbo/**`, `.changeset/**`, `.husky/**`, `.devcontainer/**` | **`LOCAL_ONLY`** | **EXCLUDED** | Developer workstation IDE state and local caches |
-| `**/node_modules/**` | **`LOCAL_ONLY`** | **EXCLUDED** | Local package dependency trees |
+| Path / Directory Pattern                                                                       |        Classification        | Status / Action | Description & Purpose                                        |
+| :--------------------------------------------------------------------------------------------- | :--------------------------: | :-------------: | :----------------------------------------------------------- |
+| `packages/**`, `services/**`, `apps/**`                                                        |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Core TypeScript domain engines, contracts, and interfaces    |
+| `schemas/**`                                                                                   | **`GENERATED_BUT_APPROVED`** |  **APPROVED**   | Canonical Draft 2020-12 JSON schemas                         |
+| `tests/**`                                                                                     |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Automated unit, security, and contract test suites           |
+| `Docs/**`                                                                                      |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Specifications, ADRs, audits, and limitation registers       |
+| `config/**`, `scripts/**`, `tools/**`                                                          |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Build automation, CLI runner, and release-freeze config      |
+| `examples/**`, `specs/**`, `rubrics/**`                                                        |    **`PUBLIC_OPTIONAL`**     |  **APPROVED**   | Supplementary scenarios, rubrics, and documentation          |
+| `trust/**`, `governance/**`, `benchmark-integrity/**`                                          |    **`PUBLIC_OPTIONAL`**     |  **APPROVED**   | Supplementary governance and benchmark resources             |
+| Root configs (`package.json`, `turbo.json`, `pnpm-workspace.yaml`, `tsconfig.base.json`, etc.) |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Monorepo build and workspace toolchain definitions           |
+| Root legal/meta (`LICENSE`, `README.md`, `SECURITY.md`, `CHANGELOG.md`, `CITATION.cff`, etc.)  |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Open-source licensing, citation, and security policies       |
+| `.env.example`, `.env.test.example`                                                            |    **`PUBLIC_REQUIRED`**     |  **APPROVED**   | Safe, sanitized environment configuration templates          |
+| `.env.local`                                                                                   |  **`SECRET_OR_SENSITIVE`**   |  **EXCLUDED**   | Local personal access tokens and secrets (**NEVER PUBLISH**) |
+| `semantiq-preservation-private/**`                                                             |    **`PRIVATE_EXCLUDE`**     |  **EXCLUDED**   | Internal private preservation archive                        |
+| `artifacts/**`, `tmp/**`                                                                       |    **`PRIVATE_EXCLUDE`**     |  **EXCLUDED**   | Transient local execution outputs and temp files             |
+| `release-simulation/**`, `release-candidates/**`                                               |    **`PRIVATE_EXCLUDE`**     |  **EXCLUDED**   | Local simulation runs and unsealed candidate scratch         |
+| `disputes/**`, `high-impact/**`, `products/**`                                                 |    **`PRIVATE_EXCLUDE`**     |  **EXCLUDED**   | Internal working documents and local research notes          |
+| `.vscode/**`, `.turbo/**`, `.changeset/**`, `.husky/**`, `.devcontainer/**`                    |       **`LOCAL_ONLY`**       |  **EXCLUDED**   | Developer workstation IDE state and local caches             |
+| `**/node_modules/**`                                                                           |       **`LOCAL_ONLY`**       |  **EXCLUDED**   | Local package dependency trees                               |
 
 ---
 
@@ -72,6 +73,7 @@ Every directory and root-level path in the workspace is categorized under the ca
 The positive allowlist comprises **2,899 explicitly approved files** totaling **276,237,159 bytes**, cataloged with per-file SHA-256 digests in [`Docs/release/github-publication-manifest.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/release/github-publication-manifest.json).
 
 ### Composition:
+
 - **`PUBLIC_REQUIRED`**: 2,613 files (Core code, contracts, documentation, configs, tests).
 - **`PUBLIC_OPTIONAL`**: 211 files (Supplementary examples, specs, rubrics).
 - **`GENERATED_BUT_APPROVED`**: 75 files (Draft 2020-12 schemas, replication records).
@@ -81,6 +83,7 @@ The positive allowlist comprises **2,899 explicitly approved files** totaling **
 ## 6. Explicit Exclusions
 
 The following patterns are strictly excluded from publication:
+
 1. `.env.local` (Local secrets)
 2. `semantiq-preservation-private/**` (Private preservation archives)
 3. `artifacts/**` (Local benchmark artifacts)

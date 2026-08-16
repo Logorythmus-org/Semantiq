@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 48)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Provider Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 This specification establishes the **SemantIQ CLI and Local Runner Architecture**:
+
 1. **Local-First CLI Runner Engine**: Implements [`CLIRunnerEngine`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L48-L145) to manage runtime detection ([`detectLocalProviders`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L52-L60)), provider resolution ([`resolveProvider`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L62-L68)), and end-to-end benchmark execution ([`run`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L70-L123)).
 2. **Pluggable Local Runtimes**: Supports `docker`, `podman`, `firecracker`, and `local_process` without vendor lock-in.
 3. **Hermetic & Dry-Run Modes**: Supports `--dry-run` to validate and compile scenario manifests without provisioning sandbox containers, and `--seed` for reproducible execution seeds.
@@ -57,6 +58,7 @@ This specification establishes the **SemantIQ CLI and Local Runner Architecture*
 ## 2. Inputs & Prior Decisions
 
 This specification builds upon and exposes the full Sandbox-phase architecture:
+
 - **Prompt 31–36**: Multi-provider ecosystem, canonical registry, marketplace discovery, and attribution.
 - **Prompt 37–38**: Holistic execution cost accounting and verifiable execution receipts.
 - **Prompt 39**: Portable Evidence Package and Merkle sequence continuity.
@@ -69,12 +71,14 @@ This specification builds upon and exposes the full Sandbox-phase architecture:
 ## 3. Scope and Non-Goals
 
 ### 3.1 In Scope
+
 - **CLI Runner Specification**: Defining [`CLIRunnerOptions`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L13-L23), [`CLIRunResult`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts#L25-L39), and JSON Schema [`cli-runner-result.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/cli-runner-result.schema.json).
 - **Local Runtime Auto-Detection**: Discovering Docker, Podman, Firecracker, and native process capabilities.
 - **Dry-Run & Validation**: Compiling DSL without spinning up containers.
 - **Local Artifact Serialization**: Writing `manifest.json`, `receipt.json`, `evidence.json`, and `report.md`.
 
 ### 3.2 Non-Goals
+
 - **No Mandatory Cloud Dependencies**: The local runner functions 100% offline without network connectivity when local container images are present.
 - **No Proprietary Container Engine**: Works with standard Docker and rootless Podman daemons.
 
@@ -125,7 +129,7 @@ $ semantiq sandbox providers list
 ### 5.2 TypeScript CLI Definitions ([`packages/sandbox-contracts/src/cli-runner.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/cli-runner.ts))
 
 ```typescript
-export type LocalProviderType = 'docker' | 'podman' | 'firecracker' | 'local_process' | 'auto';
+export type LocalProviderType = "docker" | "podman" | "firecracker" | "local_process" | "auto";
 
 export interface CLIRunnerOptions {
   readonly manifestPath: string;
@@ -209,29 +213,30 @@ export interface CLIRunResult {
 
 ## 9. Provider Compatibility
 
-| Local Provider | Detection Mechanism | Rootless Support | Hardware Isolation |
-| :--- | :--- | :--- | :--- |
-| **Docker** | `docker version` CLI / Unix Socket | Optional (Docker Rootless) | Container Cgroups / Namespaces |
-| **Podman** | `podman --version` CLI | Native Default | Rootless User Namespaces |
-| **Firecracker** | KVM device `/dev/kvm` presence | Yes (via jailer) | Hardware KVM MicroVM |
-| **Local Process** | Standard POSIX / Windows child_process | Yes | In-Process Working Directory |
+| Local Provider    | Detection Mechanism                    | Rootless Support           | Hardware Isolation             |
+| :---------------- | :------------------------------------- | :------------------------- | :----------------------------- |
+| **Docker**        | `docker version` CLI / Unix Socket     | Optional (Docker Rootless) | Container Cgroups / Namespaces |
+| **Podman**        | `podman --version` CLI                 | Native Default             | Rootless User Namespaces       |
+| **Firecracker**   | KVM device `/dev/kvm` presence         | Yes (via jailer)           | Hardware KVM MicroVM           |
+| **Local Process** | Standard POSIX / Windows child_process | Yes                        | In-Process Working Directory   |
 
 ---
 
 ## 10. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Daemon Inactive** | Docker / Podman daemon is not running | Connection error | Auto-falls back to `local_process` if allowed |
-| **Image Pull Failure** | Offline mode without cached container | Pull error | Flags error immediately; recommends local pre-pull |
-| **Disk Space Exhaustion**| Local `/tmp` or `--output-dir` full | Write error | Runner returns exit code 2 (Infrastructure Error) |
-| **Timeout Exceeded** | Agent blocks on prompt | Step budget abort | Runner issues graceful SIGINT, then SIGKILL |
+| Failure Mode              | Root Cause                            | Impact            | Automated Recovery Action                          |
+| :------------------------ | :------------------------------------ | :---------------- | :------------------------------------------------- |
+| **Daemon Inactive**       | Docker / Podman daemon is not running | Connection error  | Auto-falls back to `local_process` if allowed      |
+| **Image Pull Failure**    | Offline mode without cached container | Pull error        | Flags error immediately; recommends local pre-pull |
+| **Disk Space Exhaustion** | Local `/tmp` or `--output-dir` full   | Write error       | Runner returns exit code 2 (Infrastructure Error)  |
+| **Timeout Exceeded**      | Agent blocks on prompt                | Step budget abort | Runner issues graceful SIGINT, then SIGKILL        |
 
 ---
 
 ## 11. Testing Strategy & Verification
 
 The CLI and Local Runner architecture is validated through automated test suites:
+
 1. **Local Runner Unit Tests ([`tests/unit/cli-runner.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/cli-runner.test.ts))**:
    - Validates local container/virtualization provider detection.
    - Tests provider resolution for explicit and `auto` preferences.
@@ -256,7 +261,7 @@ The CLI and Local Runner architecture is validated through automated test suites
 ## 13. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Rootless Isolation vs. Performance**: Rootless container file copying can be slightly slower on some Linux distributions.  
-  *Mitigation*: Use local tmpfs volume mounts for high-IOPS benchmark scenarios.
+  _Mitigation_: Use local tmpfs volume mounts for high-IOPS benchmark scenarios.
 - **Open Question**: Standalone single-binary distribution using Bun or Node.js SEA (Single Executable Applications).
 
 ---

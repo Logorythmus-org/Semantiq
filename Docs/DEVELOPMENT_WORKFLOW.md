@@ -3,15 +3,19 @@
 Tech Club follows specification-driven development.
 
 ## Required Sequence
+
 Goal -> Requirements -> Specification -> Architecture -> Repository Analysis -> Compatibility Review -> Implementation Plan -> Implementation -> Validation -> Documentation.
 
 ## Phase 5 Spec-Kit Rule
+
 Architecture is stable. Production implementation begins only after repository audit, reuse analysis, Spec-Kit completion, acceptance test definition, and documentation ownership are complete for the target capability.
 
 ## Monorepo Bootstrap Rule
+
 Engineering foundation changes must improve the shared repository platform: package management, build graph, tests, CI, documentation, DevContainer, local development, Docker infrastructure, ownership, or developer CLI. They must not introduce product behavior without a feature Spec-Kit.
 
 ## Validation Checklist
+
 - Specification exists and includes acceptance criteria.
 - Architecture boundaries are respected.
 - Bounded context ownership is clear.
@@ -54,6 +58,7 @@ Engineering foundation changes must improve the shared repository platform: pack
 - Tests cover the changed contract or behavior.
 
 ## Commands
+
 - `pnpm install`
 - `pnpm lint`
 - `pnpm typecheck`

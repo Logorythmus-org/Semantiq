@@ -1,6 +1,7 @@
 # Sprint 3 Contracts
 
 Required API contracts:
+
 - `createGoal()`
 - `planGoal()`
 - `runWorkflow()`

@@ -5,6 +5,7 @@ The Civilization Coordination Kernel is the highest architectural layer of Tech 
 The kernel does not replace knowledge, research, education, innovation, governance, economy, federation, workspace, agent, workflow, compute, identity, graph, or Semantiq modules. It composes them through stable contracts and adapters.
 
 ## Responsibilities
+
 - Maintain the meta knowledge model across all platform objects.
 - Maintain universal explainable relations across the Civilization Graph.
 - Measure Civilization Health through transparent Semantiq-backed metrics.
@@ -14,6 +15,7 @@ The kernel does not replace knowledge, research, education, innovation, governan
 - Produce transparent civilization reports and digital twin snapshots.
 
 ## Kernel Invariants
+
 - Questions remain the origin of every coordination process.
 - Knowledge remains decentralized and portable.
 - Federation remains optional.
@@ -24,6 +26,7 @@ The kernel does not replace knowledge, research, education, innovation, governan
 - Future technologies attach through adapters and never force core redesign.
 
 ## Package Directory Map
+
 - `coordination/`: global coordination runtime and participant orchestration notes.
 - `health/`: Civilization Health dimensions and health index profiles.
 - `ontology/`: meta knowledge object model and semantic identity rules.
@@ -45,7 +48,9 @@ The kernel does not replace knowledge, research, education, innovation, governan
 - `docs/`: package-local documentation.
 
 ## Reuse Strategy
+
 The kernel reuses Knowledge Graph, Federation, Semantiq, Workspace Runtime, Agent OS, Workflow Engine, Identity, Civilization OS, Innovation Network, Education Network, Governance Engine, Semantic Economy, Distributed Compute, and archive infrastructure through adapters.
 
 ## Long-Term Validation
+
 Every release should verify decentralization, question origin coverage, health transparency, optional federation, offline readiness, human oversight, protocol compatibility, migration safety, and technology independence.

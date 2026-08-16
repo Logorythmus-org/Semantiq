@@ -1,26 +1,26 @@
 export type DisputeState =
-  | 'submitted'
-  | 'acknowledged'
-  | 'under_review'
-  | 'evidence_requested'
-  | 'partially_accepted'
-  | 'accepted'
-  | 'rejected_with_reasons'
-  | 'appealed'
-  | 'resolved'
-  | 'reopened'
-  | 'superseded';
+  | "submitted"
+  | "acknowledged"
+  | "under_review"
+  | "evidence_requested"
+  | "partially_accepted"
+  | "accepted"
+  | "rejected_with_reasons"
+  | "appealed"
+  | "resolved"
+  | "reopened"
+  | "superseded";
 
 export type CorrectionLevel =
-  | 'clarification'
-  | 'metadata_correction'
-  | 'score_recalculation'
-  | 'annotation'
-  | 'suspension'
-  | 'partial_withdrawal'
-  | 'full_withdrawal'
-  | 'benchmark_deprecation'
-  | 'methodology_revision';
+  | "clarification"
+  | "metadata_correction"
+  | "score_recalculation"
+  | "annotation"
+  | "suspension"
+  | "partial_withdrawal"
+  | "full_withdrawal"
+  | "benchmark_deprecation"
+  | "methodology_revision";
 
 export interface ScoreDisputeRecord {
   readonly disputeId: string;
@@ -30,7 +30,11 @@ export interface ScoreDisputeRecord {
   readonly state: DisputeState;
   readonly evidenceUrls: readonly string[];
   readonly justification: string;
-  readonly stateHistory: readonly { readonly state: DisputeState; readonly timestamp: string; readonly notes: string }[];
+  readonly stateHistory: readonly {
+    readonly state: DisputeState;
+    readonly timestamp: string;
+    readonly notes: string;
+  }[];
 }
 
 export interface CorrectionRecord {
@@ -70,11 +74,17 @@ export class ScoreDisputesEngine {
     const violations: string[] = [];
 
     if (!record.originalEvidencePreserved) {
-      violations.push('Correction records must preserve the original evaluation evidence.');
+      violations.push("Correction records must preserve the original evaluation evidence.");
     }
 
-    if (record.isWithdrawn && record.correctionLevel !== 'full_withdrawal' && record.correctionLevel !== 'partial_withdrawal') {
-      violations.push('Withdrawn status requires correctionLevel of full_withdrawal or partial_withdrawal.');
+    if (
+      record.isWithdrawn &&
+      record.correctionLevel !== "full_withdrawal" &&
+      record.correctionLevel !== "partial_withdrawal"
+    ) {
+      violations.push(
+        "Withdrawn status requires correctionLevel of full_withdrawal or partial_withdrawal."
+      );
     }
 
     return {

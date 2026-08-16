@@ -3,21 +3,19 @@
  * Independent Observer Model and Out-of-Band Telemetry Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { BehavioralStage } from './types.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { BehavioralStage } from "./types.js";
 
 export type ObservationSourceType =
-  | 'HOST_KERNEL_EBPF'
-  | 'SOCKET_PTY_MIRROR'
-  | 'NETWORK_BRIDGE_TAP'
-  | 'FILESYSTEM_SNAPSHOT_DIFF'
-  | 'PROVIDER_ADAPTER_API'
-  | 'AGENT_SELF_REPORT';
+  | "HOST_KERNEL_EBPF"
+  | "SOCKET_PTY_MIRROR"
+  | "NETWORK_BRIDGE_TAP"
+  | "FILESYSTEM_SNAPSHOT_DIFF"
+  | "PROVIDER_ADAPTER_API"
+  | "AGENT_SELF_REPORT";
 
 export type CrossVerificationStatus =
-  | 'VERIFIED_BY_HOST'
-  | 'DISCREPANCY_DETECTED'
-  | 'UNVERIFIABLE_CLAIM';
+  "VERIFIED_BY_HOST" | "DISCREPANCY_DETECTED" | "UNVERIFIABLE_CLAIM";
 
 export interface IndependentObservationRecord {
   readonly observationId: string;
@@ -56,8 +54,8 @@ export class IndependentObserverEngine {
     SOCKET_PTY_MIRROR: 1.0,
     NETWORK_BRIDGE_TAP: 1.0,
     FILESYSTEM_SNAPSHOT_DIFF: 0.95,
-    PROVIDER_ADAPTER_API: 0.70,
-    AGENT_SELF_REPORT: 0.30
+    PROVIDER_ADAPTER_API: 0.7,
+    AGENT_SELF_REPORT: 0.3
   };
 
   createObservation(
@@ -70,16 +68,16 @@ export class IndependentObserverEngine {
     const observationId = `obs-${computeSha256(`${stepIndex}-${sourceType}-${Date.now()}`).substring(0, 16)}`;
     const trustConfidence = IndependentObserverEngine.SOURCE_CONFIDENCE[sourceType];
 
-    let crossVerificationStatus: CrossVerificationStatus = 'VERIFIED_BY_HOST';
+    let crossVerificationStatus: CrossVerificationStatus = "VERIFIED_BY_HOST";
     let providerClaimDiscrepancy: string | undefined;
 
-    if (sourceType === 'AGENT_SELF_REPORT') {
-      crossVerificationStatus = 'UNVERIFIABLE_CLAIM';
-    } else if (providerClaimData && sourceType !== 'PROVIDER_ADAPTER_API') {
+    if (sourceType === "AGENT_SELF_REPORT") {
+      crossVerificationStatus = "UNVERIFIABLE_CLAIM";
+    } else if (providerClaimData && sourceType !== "PROVIDER_ADAPTER_API") {
       // Cross-verify host ground truth vs provider claim
       const isMatch = canonicalJson(data) === canonicalJson(providerClaimData);
       if (!isMatch) {
-        crossVerificationStatus = 'DISCREPANCY_DETECTED';
+        crossVerificationStatus = "DISCREPANCY_DETECTED";
         providerClaimDiscrepancy = `Host data differed from provider claim`;
       }
     }
@@ -114,16 +112,24 @@ export class IndependentObserverEngine {
 
     const totalObservations = records.length;
     const groundTruthCount = records.filter(
-      r => r.sourceType === 'HOST_KERNEL_EBPF' || r.sourceType === 'SOCKET_PTY_MIRROR' || r.sourceType === 'NETWORK_BRIDGE_TAP'
+      (r) =>
+        r.sourceType === "HOST_KERNEL_EBPF" ||
+        r.sourceType === "SOCKET_PTY_MIRROR" ||
+        r.sourceType === "NETWORK_BRIDGE_TAP"
     ).length;
-    const discrepancyCount = records.filter(r => r.crossVerificationStatus === 'DISCREPANCY_DETECTED').length;
+    const discrepancyCount = records.filter(
+      (r) => r.crossVerificationStatus === "DISCREPANCY_DETECTED"
+    ).length;
 
     // Calculate overall trust score
-    const avgConfidence = records.length > 0
-      ? records.reduce((acc, r) => acc + r.trustConfidence, 0) / records.length
-      : 1.0;
+    const avgConfidence =
+      records.length > 0
+        ? records.reduce((acc, r) => acc + r.trustConfidence, 0) / records.length
+        : 1.0;
     const discrepancyPenalty = discrepancyCount * 0.15;
-    const overallObservationTrustScore = Number(Math.max(0.0, Math.min(1.0, avgConfidence - discrepancyPenalty)).toFixed(4));
+    const overallObservationTrustScore = Number(
+      Math.max(0.0, Math.min(1.0, avgConfidence - discrepancyPenalty)).toFixed(4)
+    );
 
     const auditedAt = new Date().toISOString();
     const unsignedBundle = {
@@ -155,22 +161,27 @@ export class IndependentObserverEngine {
       `**Ground-Truth Out-of-Band Observations**: **${bundle.groundTruthCount} / ${bundle.totalObservations}**`,
       `**Provider Claim Discrepancies**: **${bundle.discrepancyCount}**`,
       `**Audited At**: ${bundle.auditedAt}`,
-      '',
-      '## 1. Out-of-Band Observation Stream',
-      '| Step | Stage | Evidence Source | Confidence | Status | Digest |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Out-of-Band Observation Stream",
+      "| Step | Stage | Evidence Source | Confidence | Status | Digest |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const obs of bundle.observations) {
-      const statusIcon = obs.crossVerificationStatus === 'VERIFIED_BY_HOST' ? '✅ Verified' : (obs.crossVerificationStatus === 'DISCREPANCY_DETECTED' ? '❌ Discrepancy' : '⚠️ Unverified Claim');
+      const statusIcon =
+        obs.crossVerificationStatus === "VERIFIED_BY_HOST"
+          ? "✅ Verified"
+          : obs.crossVerificationStatus === "DISCREPANCY_DETECTED"
+            ? "❌ Discrepancy"
+            : "⚠️ Unverified Claim";
       lines.push(
         `| Step ${obs.stepIndex} | **${obs.stage}** | \`${obs.sourceType}\` | ${(obs.trustConfidence * 100).toFixed(0)}% | ${statusIcon} | \`${obs.observationDigest.substring(0, 12)}...\` |`
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Observer Cryptographic Signature**: \`${bundle.observerSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

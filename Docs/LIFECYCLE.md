@@ -3,6 +3,7 @@
 The kernel owns lifecycle transitions. Modules and plugins expose hooks but do not manage themselves.
 
 ## States
+
 - installed
 - initialized
 - configured
@@ -16,6 +17,7 @@ The kernel owns lifecycle transitions. Modules and plugins expose hooks but do n
 - shutdown
 
 ## Hooks
+
 - install
 - initialize
 - configure
@@ -29,4 +31,5 @@ The kernel owns lifecycle transitions. Modules and plugins expose hooks but do n
 - shutdown
 
 ## Rules
+
 Transitions are ordered, auditable, and idempotent where possible. Failed transitions enter an unhealthy state and produce diagnostics.

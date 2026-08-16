@@ -1,7 +1,7 @@
 # Extraction Deny Rules (Default-Deny Policy)
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-03  
+**Date**: 2026-08-03
 
 ---
 

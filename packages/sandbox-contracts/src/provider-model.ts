@@ -3,34 +3,31 @@
  * Open & Commercial Provider Ecosystem Model
  */
 
-import type { SandboxCapabilities } from './types.js';
-import type { ProviderTrustTier, SecurityPostureGrade } from './trust-verification.js';
+import type { SandboxCapabilities } from "./types.js";
+import type { ProviderTrustTier, SecurityPostureGrade } from "./trust-verification.js";
 
 export type ProviderHostingCategory =
-  | 'LOCAL_OPEN_SOURCE'
-  | 'SELF_HOSTED_DEDICATED'
-  | 'COMMERCIAL_MANAGED_CLOUD'
-  | 'ENTERPRISE_PRIVATE_AIRGAPPED'
-  | 'DETERMINISTIC_REPLAY';
+  | "LOCAL_OPEN_SOURCE"
+  | "SELF_HOSTED_DEDICATED"
+  | "COMMERCIAL_MANAGED_CLOUD"
+  | "ENTERPRISE_PRIVATE_AIRGAPPED"
+  | "DETERMINISTIC_REPLAY";
 
 export type ProviderBillingModel =
-  | 'FREE_LOCAL'
-  | 'PER_SECOND'
-  | 'PER_MINUTE'
-  | 'PER_INSTANCE_HOUR'
-  | 'SUBSCRIPTION_TIER'
-  | 'FIXED_PER_RUN';
+  | "FREE_LOCAL"
+  | "PER_SECOND"
+  | "PER_MINUTE"
+  | "PER_INSTANCE_HOUR"
+  | "SUBSCRIPTION_TIER"
+  | "FIXED_PER_RUN";
 
 export type ProviderDataRetentionPolicy =
-  | 'EPHEMERAL_ZERO_RETENTION'
-  | 'VOLATILE_UNTIL_TERMINATION'
-  | 'HOST_LOGS_RETAINED_30_DAYS'
-  | 'PERSISTENT_STORAGE';
+  | "EPHEMERAL_ZERO_RETENTION"
+  | "VOLATILE_UNTIL_TERMINATION"
+  | "HOST_LOGS_RETAINED_30_DAYS"
+  | "PERSISTENT_STORAGE";
 
-export type ProviderTelemetryPolicy =
-  | 'NO_TELEMETRY'
-  | 'ANONYMIZED_METRICS'
-  | 'FULL_TELEMETRY';
+export type ProviderTelemetryPolicy = "NO_TELEMETRY" | "ANONYMIZED_METRICS" | "FULL_TELEMETRY";
 
 export interface ProviderLicenseInfo {
   readonly spdxId: string; // e.g. "Apache-2.0", "MIT", "BSD-3-Clause", "Proprietary", "AGPL-3.0-only"
@@ -44,7 +41,7 @@ export interface ProviderLicenseInfo {
 export interface ProviderCostStructure {
   readonly billingModel: ProviderBillingModel;
   readonly baseRatePerUnit: number;
-  readonly currency: 'USD' | 'EUR' | 'GBP' | 'NONE';
+  readonly currency: "USD" | "EUR" | "GBP" | "NONE";
   readonly minBillingDurationSeconds: number;
   readonly networkEgressRatePerGb?: number | undefined;
   readonly idleTimeoutSeconds?: number | undefined;
@@ -119,34 +116,46 @@ export class ProviderModelAuditor {
     // 1. License Check
     let licenseCompatible = true;
     if (!descriptor.license.spdxId || descriptor.license.spdxId.trim().length === 0) {
-      violations.push('License SPDX identifier is missing.');
+      violations.push("License SPDX identifier is missing.");
       licenseCompatible = false;
     }
-    if (descriptor.license.copyleftClause && descriptor.hostingCategory === 'LOCAL_OPEN_SOURCE' && descriptor.license.spdxId.startsWith('AGPL')) {
-      violations.push('AGPL license detected; runtime must operate strictly across network/CLI process boundary.');
+    if (
+      descriptor.license.copyleftClause &&
+      descriptor.hostingCategory === "LOCAL_OPEN_SOURCE" &&
+      descriptor.license.spdxId.startsWith("AGPL")
+    ) {
+      violations.push(
+        "AGPL license detected; runtime must operate strictly across network/CLI process boundary."
+      );
     }
 
     // 2. Extension Isolation Check
     let extensionsIsolated = true;
     if (!descriptor.extensionMatrix.isolatedFromBenchmarkSemantics) {
-      violations.push('Provider extensions are not isolated from canonical benchmark semantics.');
+      violations.push("Provider extensions are not isolated from canonical benchmark semantics.");
       extensionsIsolated = false;
     }
 
     // 3. Privacy & Zero-Retention Check
     let privacyCompliant = true;
-    if (descriptor.hostingCategory === 'COMMERCIAL_MANAGED_CLOUD' && !descriptor.privacyProfile.zeroDataRetentionConfirmed) {
-      violations.push('Commercial cloud provider has not confirmed zero data retention policy.');
+    if (
+      descriptor.hostingCategory === "COMMERCIAL_MANAGED_CLOUD" &&
+      !descriptor.privacyProfile.zeroDataRetentionConfirmed
+    ) {
+      violations.push("Commercial cloud provider has not confirmed zero data retention policy.");
       privacyCompliant = false;
     }
     if (!descriptor.privacyProfile.ephemeralWipeVerified) {
-      violations.push('Provider has not verified ephemeral volume wiping on teardown.');
+      violations.push("Provider has not verified ephemeral volume wiping on teardown.");
       privacyCompliant = false;
     }
 
     // 4. Cost Structure Validity Check
-    if (descriptor.costStructure.billingModel !== 'FREE_LOCAL' && descriptor.costStructure.baseRatePerUnit < 0) {
-      violations.push('Negative billing rates are invalid.');
+    if (
+      descriptor.costStructure.billingModel !== "FREE_LOCAL" &&
+      descriptor.costStructure.baseRatePerUnit < 0
+    ) {
+      violations.push("Negative billing rates are invalid.");
     }
 
     const isCompliant = violations.length === 0;
@@ -172,21 +181,30 @@ export class ProviderModelAuditor {
     let billedDurationMs = executionDurationMs;
     let computeCost = 0;
 
-    if (cost.billingModel === 'FREE_LOCAL') {
+    if (cost.billingModel === "FREE_LOCAL") {
       computeCost = 0;
-    } else if (cost.billingModel === 'PER_SECOND') {
-      const durationSec = Math.max(cost.minBillingDurationSeconds, Math.ceil(executionDurationMs / 1000));
+    } else if (cost.billingModel === "PER_SECOND") {
+      const durationSec = Math.max(
+        cost.minBillingDurationSeconds,
+        Math.ceil(executionDurationMs / 1000)
+      );
       billedDurationMs = durationSec * 1000;
       computeCost = durationSec * cost.baseRatePerUnit;
-    } else if (cost.billingModel === 'PER_MINUTE') {
-      const durationMin = Math.max(Math.ceil(cost.minBillingDurationSeconds / 60), Math.ceil(executionDurationMs / 60000));
+    } else if (cost.billingModel === "PER_MINUTE") {
+      const durationMin = Math.max(
+        Math.ceil(cost.minBillingDurationSeconds / 60),
+        Math.ceil(executionDurationMs / 60000)
+      );
       billedDurationMs = durationMin * 60000;
       computeCost = durationMin * cost.baseRatePerUnit;
-    } else if (cost.billingModel === 'PER_INSTANCE_HOUR') {
-      const durationHours = Math.max(cost.minBillingDurationSeconds / 3600, executionDurationMs / 3600000);
+    } else if (cost.billingModel === "PER_INSTANCE_HOUR") {
+      const durationHours = Math.max(
+        cost.minBillingDurationSeconds / 3600,
+        executionDurationMs / 3600000
+      );
       billedDurationMs = Math.ceil(durationHours * 3600) * 1000;
       computeCost = durationHours * cost.baseRatePerUnit;
-    } else if (cost.billingModel === 'FIXED_PER_RUN') {
+    } else if (cost.billingModel === "FIXED_PER_RUN") {
       computeCost = cost.baseRatePerUnit;
     }
 
@@ -235,7 +253,7 @@ export class ProviderModelRegistry {
   }
 
   listByHostingCategory(category: ProviderHostingCategory): readonly ProviderEcosystemDescriptor[] {
-    return Array.from(this.descriptors.values()).filter(d => d.hostingCategory === category);
+    return Array.from(this.descriptors.values()).filter((d) => d.hostingCategory === category);
   }
 
   removeDescriptor(providerId: string): boolean {

@@ -1,7 +1,7 @@
 # ADR-0146: Sandbox Benchmark DSL and Declarative Scenario Specification
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

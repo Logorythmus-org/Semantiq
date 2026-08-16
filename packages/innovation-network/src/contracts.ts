@@ -57,7 +57,8 @@ export interface GlobalChallenge {
   readonly difficulty: number;
   readonly urgency: number;
   readonly impactArea: string;
-  readonly scientificStatus: "unknown" | "emerging" | "active" | "validated" | "deployed" | "completed";
+  readonly scientificStatus:
+    "unknown" | "emerging" | "active" | "validated" | "deployed" | "completed";
   readonly evidenceIds: readonly string[];
   readonly participantIds: readonly string[];
   readonly communityIds: readonly string[];

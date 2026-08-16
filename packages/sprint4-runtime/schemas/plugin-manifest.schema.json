@@ -3,7 +3,17 @@
   "$id": "https://tech-club.local/schemas/plugin-manifest.schema.json",
   "title": "Tech Club Plugin Manifest",
   "type": "object",
-  "required": ["id", "version", "entrypoint", "capabilities", "permissions", "healthCheck", "licenseId", "publisherId", "sandbox"],
+  "required": [
+    "id",
+    "version",
+    "entrypoint",
+    "capabilities",
+    "permissions",
+    "healthCheck",
+    "licenseId",
+    "publisherId",
+    "sandbox"
+  ],
   "properties": {
     "id": { "type": "string" },
     "version": { "type": "string" },

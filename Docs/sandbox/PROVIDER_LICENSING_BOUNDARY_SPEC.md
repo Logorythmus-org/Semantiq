@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 34)  
 **Status**: Approved Specification  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -15,6 +15,7 @@ SemantIQ evaluates agent reasoning and observable behavior across the standard p
 `Benchmark → Scenario → Execution Contract → Provider Router → Provider Adapter → Runtime → Observation → Evidence → Evaluation → Report`
 
 This specification defines the **Provider Licensing Boundary and Clean-Room Architecture**:
+
 1. **Absolute Clean-Room Separation**: SemantIQ Core contains zero vendored, cloned, or forked third-party runtime kernel code.
 2. **Network & Process Isolation Boundary**: All runtime interactions occur across standardized network RPC (HTTP/REST, gRPC), standard OCI APIs, or separate process CLI boundaries, preventing copyleft viral contamination.
 3. **Machine-Readable Licensing Declarations**: Standardizes [`ProviderLicensingManifest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/licensing-boundary.ts#L22-L35) and schema [`provider-licensing-boundary.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-licensing-boundary.schema.json) for explicit SPDX metadata, copyleft classifications, and copyright notices.
@@ -46,6 +47,7 @@ This specification defines the **Provider Licensing Boundary and Clean-Room Arch
 ## 2. Scope and Non-Goals
 
 ### 2.1 In Scope
+
 - **Clean-Room Boundary Invariant**: Ensuring zero runtime implementation duplication or static/dynamic linking into SemantIQ Core.
 - **Machine-Readable Manifests**: Defining [`ProviderLicensingManifest`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/licensing-boundary.ts#L22-L35) for runtime SPDX identifiers, license classifications, and third-party notices.
 - **Licensing Boundary Auditor**: Validating isolation mechanisms ([`BoundaryIsolationMechanism`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/licensing-boundary.ts#L14-L20)) for strong/network copyleft runtimes via [`LicensingBoundaryAuditor`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/licensing-boundary.ts#L47-L125).
@@ -54,6 +56,7 @@ This specification defines the **Provider Licensing Boundary and Clean-Room Arch
   $$\text{Context} \longrightarrow \text{Interpretation} \longrightarrow \text{Decision} \longrightarrow \text{Action} \longrightarrow \text{Result} \longrightarrow \text{Consequence} \longrightarrow \text{Recovery}$$
 
 ### 2.2 Non-Goals
+
 - **No Formal Legal Advice**: SPDX identifiers and classifications are recorded as machine-readable technical assertions without providing legal warranties.
 - **No OpenSandbox Fork or Clone**: Runtimes remain independent external systems; SemantIQ Core never duplicates vendor codebase files.
 - **No Trademark Infringement**: SemantIQ references runtime names (e.g. Docker, E2B, Firecracker) solely for nominative fair-use identification.
@@ -88,19 +91,19 @@ This specification defines the **Provider Licensing Boundary and Clean-Room Arch
 
 ```typescript
 export type LicenseClassification =
-  | 'PERMISSIVE'
-  | 'WEAK_COPYLEFT'
-  | 'STRONG_COPYLEFT'
-  | 'NETWORK_COPYLEFT'
-  | 'COMMERCIAL_PROPRIETARY'
-  | 'SOURCE_AVAILABLE';
+  | "PERMISSIVE"
+  | "WEAK_COPYLEFT"
+  | "STRONG_COPYLEFT"
+  | "NETWORK_COPYLEFT"
+  | "COMMERCIAL_PROPRIETARY"
+  | "SOURCE_AVAILABLE";
 
 export type BoundaryIsolationMechanism =
-  | 'NETWORK_RPC_REST'
-  | 'NETWORK_RPC_GRPC'
-  | 'PROCESS_CLI_SUBPROCESS'
-  | 'SOCKET_IPC'
-  | 'OCI_STANDARD_API';
+  | "NETWORK_RPC_REST"
+  | "NETWORK_RPC_GRPC"
+  | "PROCESS_CLI_SUBPROCESS"
+  | "SOCKET_IPC"
+  | "OCI_STANDARD_API";
 
 export interface ThirdPartyNoticeEntry {
   readonly componentName: string;
@@ -136,6 +139,7 @@ export interface LicensingAuditReport {
 ```
 
 ### 4.2 JSON Schema Manifests
+
 - **[`schemas/provider-licensing-boundary.schema.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/schemas/provider-licensing-boundary.schema.json)**: Validates runtime licensing declarations, isolation mechanisms, and third-party notice arrays.
 - **Exported Schemas**: [`packages/sandbox-contracts/src/schemas.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/schemas.ts) exports `providerLicensingManifestSchema`.
 
@@ -180,30 +184,31 @@ export interface LicensingAuditReport {
 
 ## 7. Open-Source vs. Commercial & Enterprise Licensing Paths
 
-| Licensing Dimension | Open-Source (`PERMISSIVE`) | Copyleft (`NETWORK_COPYLEFT`) | Commercial (`COMMERCIAL_PROPRIETARY`) |
-| :--- | :--- | :--- | :--- |
-| **Examples** | Docker CE, Firecracker, Podman | AGPL Daemon, Kata Containers | E2B Cloud, Daytona Managed |
-| **SPDX ID** | `Apache-2.0`, `MIT`, `BSD-3-Clause` | `AGPL-3.0-only`, `GPL-3.0-or-later` | `Proprietary` |
-| **Isolation Mechanism** | `OCI_STANDARD_API`, `PROCESS_CLI` | `NETWORK_RPC_GRPC`, `NETWORK_RPC_REST` | `NETWORK_RPC_REST` (TLS) |
-| **Redistribution** | Unrestricted | Source-code access for network users | Non-redistributable / SaaS |
-| **Attribution** | Included in notices | Included in notices | EULA & Trademark compliance |
+| Licensing Dimension     | Open-Source (`PERMISSIVE`)          | Copyleft (`NETWORK_COPYLEFT`)          | Commercial (`COMMERCIAL_PROPRIETARY`) |
+| :---------------------- | :---------------------------------- | :------------------------------------- | :------------------------------------ |
+| **Examples**            | Docker CE, Firecracker, Podman      | AGPL Daemon, Kata Containers           | E2B Cloud, Daytona Managed            |
+| **SPDX ID**             | `Apache-2.0`, `MIT`, `BSD-3-Clause` | `AGPL-3.0-only`, `GPL-3.0-or-later`    | `Proprietary`                         |
+| **Isolation Mechanism** | `OCI_STANDARD_API`, `PROCESS_CLI`   | `NETWORK_RPC_GRPC`, `NETWORK_RPC_REST` | `NETWORK_RPC_REST` (TLS)              |
+| **Redistribution**      | Unrestricted                        | Source-code access for network users   | Non-redistributable / SaaS            |
+| **Attribution**         | Included in notices                 | Included in notices                    | EULA & Trademark compliance           |
 
 ---
 
 ## 8. Failure Modes & Resilience Strategies
 
-| Failure Mode | Root Cause | Impact | Automated Recovery Action |
-| :--- | :--- | :--- | :--- |
-| **Copyleft Ingestion** | Adapter attempts static linking of AGPL code | License contagion risk | `LicensingBoundaryAuditor` flags critical violation and blocks build |
-| **Missing SPDX Identifier** | Publisher omits license string | Unclear legal status | Auditor rejects provider registration |
-| **Redistribution Conflict** | Proprietary provider claims open redistribution | EULA violation | Auditor strips redistribution flag and issues violation |
-| **Missing Attribution** | Component requires attribution but notices empty | Copyright non-compliance | Auditor halts bundle generation until notices populated |
+| Failure Mode                | Root Cause                                       | Impact                   | Automated Recovery Action                                            |
+| :-------------------------- | :----------------------------------------------- | :----------------------- | :------------------------------------------------------------------- |
+| **Copyleft Ingestion**      | Adapter attempts static linking of AGPL code     | License contagion risk   | `LicensingBoundaryAuditor` flags critical violation and blocks build |
+| **Missing SPDX Identifier** | Publisher omits license string                   | Unclear legal status     | Auditor rejects provider registration                                |
+| **Redistribution Conflict** | Proprietary provider claims open redistribution  | EULA violation           | Auditor strips redistribution flag and issues violation              |
+| **Missing Attribution**     | Component requires attribution but notices empty | Copyright non-compliance | Auditor halts bundle generation until notices populated              |
 
 ---
 
 ## 9. Testing Strategy & Verification
 
 The licensing boundary architecture is validated through automated test suites:
+
 1. **Manifest Audit Unit Tests ([`tests/unit/provider-licensing-boundary.test.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/tests/unit/provider-licensing-boundary.test.ts))**:
    - Validates permissive, copyleft, and commercial runtime manifests.
    - Detects non-clean-room declarations, missing attribution notices, and invalid redistribution claims.
@@ -228,7 +233,7 @@ The licensing boundary architecture is validated through automated test suites:
 ## 11. Risks, Trade-Offs, and Open Questions
 
 - **Trade-Off: Process/Network Boundary Latency vs. Legal Isolation**: Inter-process communication adds 1-2ms latency compared to in-process linking.  
-  *Mitigation*: The microscopic latency overhead is vastly outweighed by absolute legal safety and clean-room isolation.
+  _Mitigation_: The microscopic latency overhead is vastly outweighed by absolute legal safety and clean-room isolation.
 - **Open Question**: Tracking dynamic license changes for cloud providers transitioning between open-core and source-available licenses (e.g. BSL/SSPL).
 
 ---

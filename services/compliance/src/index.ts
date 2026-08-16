@@ -1,1 +1,5 @@
-export const complianceService = { name: "compliance", health: "healthy", certificationClaim: false } as const;
+export const complianceService = {
+  name: "compliance",
+  health: "healthy",
+  certificationClaim: false
+} as const;

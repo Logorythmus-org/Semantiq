@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { AutonomousEngineeringEngine, engineeringAgents, type FeatureGoal, type RepositoryInventory } from "../../tools/automation/src/index.js";
+import {
+  AutonomousEngineeringEngine,
+  engineeringAgents,
+  type FeatureGoal,
+  type RepositoryInventory
+} from "../../tools/automation/src/index.js";
 
 const goal: FeatureGoal = {
   id: "TC-106",

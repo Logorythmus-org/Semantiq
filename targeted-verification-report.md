@@ -2,16 +2,16 @@
 
 ## 1. Verification Metadata — FAIL
 
-| Field | Evidence |
-|---|---|
-| Repository | `C:\Users\Kaveh\Desktop\SemantIQ-canonical` |
-| Branch | `foundation/canonicalize-semantiq` |
-| Current commit | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Audit target actually present | Prompt 4.4 exists only as uncommitted working-tree changes |
-| Current-commit status | The commit still contains the former unconditional CC BY 4.0 exporter behavior |
-| Working-tree status | Dirty: 15 modified tracked files and one untracked remediation report |
-| Remote state | Fetch points to the local source repository; push URL is `DISABLED` |
-| Validation location | Disposable copy of the current working tree |
+| Field                         | Evidence                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------ |
+| Repository                    | `C:\Users\Kaveh\Desktop\SemantIQ-canonical`                                    |
+| Branch                        | `foundation/canonicalize-semantiq`                                             |
+| Current commit                | `26372470a709d23686ef7c82c77911c6207f207b`                                     |
+| Audit target actually present | Prompt 4.4 exists only as uncommitted working-tree changes                     |
+| Current-commit status         | The commit still contains the former unconditional CC BY 4.0 exporter behavior |
+| Working-tree status           | Dirty: 15 modified tracked files and one untracked remediation report          |
+| Remote state                  | Fetch points to the local source repository; push URL is `DISABLED`            |
+| Validation location           | Disposable copy of the current working tree                                    |
 
 **Result: FAIL.** The supplied gate requires use of the current commit and a clean Git status. The verified Prompt 4.4 candidate is not contained in the current commit.
 
@@ -137,17 +137,17 @@ The documents consistently state:
 
 All checks used a disposable working-tree copy with provider/service credential variables removed.
 
-| Check | Result |
-|---|---|
-| Offline mock run | PASS; exit 0, one answer |
-| Offline mock evaluation | PASS; exit 0, one evaluation |
-| Approved-fixture JSONL export | PASS; exit 0 |
-| Unknown/human-component export | PASS; exit 0 |
-| Metadata generation | PASS |
-| Dataset card generation | PASS |
-| Existing targeted exporter tests | PASS: 2 tests |
-| Test warnings | One expected warning for a test answer without evaluation scores |
-| Diff whitespace check | PASS |
+| Check                            | Result                                                           |
+| -------------------------------- | ---------------------------------------------------------------- |
+| Offline mock run                 | PASS; exit 0, one answer                                         |
+| Offline mock evaluation          | PASS; exit 0, one evaluation                                     |
+| Approved-fixture JSONL export    | PASS; exit 0                                                     |
+| Unknown/human-component export   | PASS; exit 0                                                     |
+| Metadata generation              | PASS                                                             |
+| Dataset card generation          | PASS                                                             |
+| Existing targeted exporter tests | PASS: 2 tests                                                    |
+| Test warnings                    | One expected warning for a test answer without evaluation scores |
+| Diff whitespace check            | PASS                                                             |
 
 No full repository audit or unrelated test suite was run.
 
@@ -175,14 +175,14 @@ This dirty state was inherited from Prompt 4.4, whose stop condition prohibited 
 
 ## 9. Evidence Summary — WARNING
 
-| Question | Working-tree candidate | Current commit / gate result |
-|---|---|---|
-| 1. Export licensing | PASS | FAIL — old licensing remains in `HEAD` |
-| 2. Component metadata | PASS | Candidate only |
-| 3. Security truth | PASS | Candidate only |
-| 4. Documentation consistency | PASS | Candidate only |
-| 5. Regression check | PASS | Candidate only |
-| 6. Repository integrity | FAIL | Dirty tree; remediation not committed |
+| Question                     | Working-tree candidate | Current commit / gate result           |
+| ---------------------------- | ---------------------- | -------------------------------------- |
+| 1. Export licensing          | PASS                   | FAIL — old licensing remains in `HEAD` |
+| 2. Component metadata        | PASS                   | Candidate only                         |
+| 3. Security truth            | PASS                   | Candidate only                         |
+| 4. Documentation consistency | PASS                   | Candidate only                         |
+| 5. Regression check          | PASS                   | Candidate only                         |
+| 6. Repository integrity      | FAIL                   | Dirty tree; remediation not committed  |
 
 Prompt 4.4 is independently confirmed technically in the working tree. It is not confirmed as part of the current commit, so the final release gate cannot pass.
 

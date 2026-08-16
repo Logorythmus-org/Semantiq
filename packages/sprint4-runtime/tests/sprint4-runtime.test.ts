@@ -15,14 +15,20 @@ describe("Sprint 4 semantic marketplace runtime", () => {
     expect(result.asset.type).toBe("Workflow Template");
     expect(result.asset.state).toBe("Published");
     expect(result.asset.knowledgeObjectId).toContain("knowledge:");
-    expect(result.package.layout).toEqual(expect.arrayContaining(["manifest.json", "README.md", "LICENSE", "semantiq/report.json"]));
+    expect(result.package.layout).toEqual(
+      expect.arrayContaining(["manifest.json", "README.md", "LICENSE", "semantiq/report.json"])
+    );
     expect(result.package.manifest.packageVersion).toBe("techclub-asset-v1");
     expect(result.validation).toHaveLength(12);
     expect(result.validation.map((item) => item.stage)).toContain("Security Scan");
-    expect(result.semantiq.scores.map((score) => score.dimension)).toEqual(expect.arrayContaining(["Clarity", "Documentation quality", "Reusability", "Approval design"]));
+    expect(result.semantiq.scores.map((score) => score.dimension)).toEqual(
+      expect.arrayContaining(["Clarity", "Documentation quality", "Reusability", "Approval design"])
+    );
     expect(result.listing.trustIndicators).toContain("human-approved");
     expect(result.installationPlan.mutatesEnvironment).toBe(false);
-    expect(result.installationPlan.permissions).toEqual(expect.arrayContaining(["workspace:read", "graph:write"]));
+    expect(result.installationPlan.permissions).toEqual(
+      expect.arrayContaining(["workspace:read", "graph:write"])
+    );
     expect(result.installation.state).toBe("Installed");
     expect(result.review.explanation).toContain("Structured local review");
     expect(result.updatedAsset.version).toBe("1.0.1");
@@ -55,7 +61,15 @@ describe("Sprint 4 semantic marketplace runtime", () => {
     ] as const) {
       expect(eventTypes).toContain(required);
     }
-    expect(result.events.every((event) => event.eventVersion === 1 && event.actorId && event.assetId && event.audit.localFirst === true)).toBe(true);
+    expect(
+      result.events.every(
+        (event) =>
+          event.eventVersion === 1 &&
+          event.actorId &&
+          event.assetId &&
+          event.audit.localFirst === true
+      )
+    ).toBe(true);
   });
 
   it("supports package verification, plugin sandbox, SDK descriptors, moderation, search and CLI/API contracts", async () => {
@@ -65,7 +79,12 @@ describe("Sprint 4 semantic marketplace runtime", () => {
     const plugin = runtime.registerPlugin("identity:sprint4", result.asset.id);
     runtime.registerAgentPackage("identity:sprint4", result.asset.id);
     const sdk = runtime.generateSDK("typescript");
-    const moderation = runtime.reportAsset("identity:sprint4", result.asset.id, "Request changes", "Clarify sandbox guarantees.");
+    const moderation = runtime.reportAsset(
+      "identity:sprint4",
+      result.asset.id,
+      "Request changes",
+      "Clarify sandbox guarantees."
+    );
     const search = runtime.searchAssets("workflow evidence", { localOnly: true });
     const uninstalled = runtime.uninstallAsset("identity:sprint4", result.installation.id);
 

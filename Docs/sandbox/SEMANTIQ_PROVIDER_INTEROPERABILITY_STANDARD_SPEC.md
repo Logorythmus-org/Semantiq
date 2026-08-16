@@ -3,7 +3,7 @@
 **Version**: 1.0.0  
 **Phase**: Sandbox Phase (Prompt 63)  
 **Status**: Approved Specification & Release Standard  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 
@@ -14,6 +14,7 @@ The **SemantIQ Provider Interoperability Standard (SPIS)** defines the normative
 $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Execution Contract} \longrightarrow \text{Router} \longrightarrow \text{Provider Adapter} \longrightarrow \text{Runtime} \longrightarrow \text{Observation} \longrightarrow \text{Evidence} \longrightarrow \text{Evaluation} \longrightarrow \text{Report}$$
 
 ### Key Standard Pillars:
+
 1. **Three-Tier Conformance Hierarchy**:
    - `SPIS_CORE_L1`: Basic execution contract compliance, POSIX stream piping, and exit code capture.
    - `SPIS_HERMETIC_L2`: L1 + Strict cgroup resource limit enforcement, deterministic seeding, and network egress isolation.
@@ -42,7 +43,7 @@ $$\text{Benchmark} \longrightarrow \text{Scenario} \longrightarrow \text{Executi
 ### 3.1 TypeScript Contracts ([`packages/sandbox-contracts/src/interoperability-standard.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/sandbox-contracts/src/interoperability-standard.ts))
 
 ```typescript
-export type SpisConformanceLevel = 'SPIS_CORE_L1' | 'SPIS_HERMETIC_L2' | 'SPIS_FULL_OBSERVABLE_L3';
+export type SpisConformanceLevel = "SPIS_CORE_L1" | "SPIS_HERMETIC_L2" | "SPIS_FULL_OBSERVABLE_L3";
 
 export interface SpisProviderInteroperabilityManifest {
   readonly spisVersion: string;
@@ -51,7 +52,7 @@ export interface SpisProviderInteroperabilityManifest {
   readonly supportedRuntimes: readonly string[];
   readonly supportedSecurityProfiles: readonly string[];
   readonly supportedExtensions: readonly string[];
-  readonly evidenceHashAlgorithm: 'sha256' | 'sha512';
+  readonly evidenceHashAlgorithm: "sha256" | "sha512";
   readonly lifecycleEndpoint: string;
   readonly manifestDigest: string;
   readonly certificationSignatureHex: string;

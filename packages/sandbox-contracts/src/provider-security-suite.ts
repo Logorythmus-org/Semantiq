@@ -3,25 +3,22 @@
  * Provider-Neutral Security Test Suite and Isolation Audit Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { SemantiqProviderAdapter, EnvironmentHandle, CommandResult } from './provider-sdk.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { SemantiqProviderAdapter, EnvironmentHandle, CommandResult } from "./provider-sdk.js";
 
 export type SecurityProbeCategory =
-  | 'FILESYSTEM_CONTAINMENT'
-  | 'NETWORK_EGRESS_POLICY'
-  | 'CREDENTIAL_ISOLATION'
-  | 'RESOURCE_GOVERNANCE'
-  | 'PROCESS_PRIVILEGE_CONTAINMENT'
-  | 'CLEANUP_EPHEMERALITY'
-  | 'EVIDENCE_TAMPER_RESISTANCE';
+  | "FILESYSTEM_CONTAINMENT"
+  | "NETWORK_EGRESS_POLICY"
+  | "CREDENTIAL_ISOLATION"
+  | "RESOURCE_GOVERNANCE"
+  | "PROCESS_PRIVILEGE_CONTAINMENT"
+  | "CLEANUP_EPHEMERALITY"
+  | "EVIDENCE_TAMPER_RESISTANCE";
 
-export type SecuritySeverity = 'CRITICAL' | 'HIGH' | 'MEDIUM' | 'LOW' | 'INFORMATIONAL';
+export type SecuritySeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW" | "INFORMATIONAL";
 
 export type ProviderSecuritySuiteGrade =
-  | 'GRADE_A_HARDENED_ISOLATED'
-  | 'GRADE_B_CONTAINED'
-  | 'GRADE_C_PERMISSIVE'
-  | 'GRADE_F_VULNERABLE';
+  "GRADE_A_HARDENED_ISOLATED" | "GRADE_B_CONTAINED" | "GRADE_C_PERMISSIVE" | "GRADE_F_VULNERABLE";
 
 export interface SecurityProbeResult {
   readonly probeId: string;
@@ -61,17 +58,17 @@ export class ProviderSecurityTestSuite {
     await adapter.initialize({
       providerId: adapter.providerId,
       version: adapter.version,
-      endpoint: 'http://localhost/sec-audit'
+      endpoint: "http://localhost/sec-audit"
     });
 
     const handle: EnvironmentHandle = await adapter.provisionEnvironment({
-      specVersion: '1.0.0',
-      runtimeType: 'container',
+      specVersion: "1.0.0",
+      runtimeType: "container",
       image: {
-        name: 'security-audit:latest',
-        digest: 'sha256:ba822f60cf6ae44304d8f1618793ed09ac3cb6bc8b5368d653c0b8dc7c2f0ad0'
+        name: "security-audit:latest",
+        digest: "sha256:ba822f60cf6ae44304d8f1618793ed09ac3cb6bc8b5368d653c0b8dc7c2f0ad0"
       },
-      workingDirectory: '/workspace',
+      workingDirectory: "/workspace",
       resources: {
         cpuLimitCores: 1,
         memoryLimitMebibytes: 512,
@@ -79,22 +76,22 @@ export class ProviderSecurityTestSuite {
         maxExecutionTimeoutSeconds: 60
       },
       security: {
-        networkMode: 'none',
+        networkMode: "none",
         readOnlyRootFilesystem: true
       }
     });
 
     // 1. Filesystem Containment Probe
     const fsResult: CommandResult = await adapter.executeCommand(handle, {
-      command: 'cat /etc/shadow 2>&1 || true'
+      command: "cat /etc/shadow 2>&1 || true"
     });
-    const fsPassed = !fsResult.stdout.includes('root:') || fsResult.exitCode !== 0;
+    const fsPassed = !fsResult.stdout.includes("root:") || fsResult.exitCode !== 0;
     probeResults.push({
-      probeId: 'SEC-PROBE-01-PATH-TRAVERSAL',
-      category: 'FILESYSTEM_CONTAINMENT',
-      severity: 'HIGH',
+      probeId: "SEC-PROBE-01-PATH-TRAVERSAL",
+      category: "FILESYSTEM_CONTAINMENT",
+      severity: "HIGH",
       passed: fsPassed,
-      attackPayload: 'cat /etc/shadow',
+      attackPayload: "cat /etc/shadow",
       observedResponse: fsResult.stdout.substring(0, 100),
       mitigationVerified: fsPassed,
       evidenceHash: computeSha256(fsResult.stdout)
@@ -102,15 +99,18 @@ export class ProviderSecurityTestSuite {
 
     // 2. Network Egress Policy Probe
     const netResult: CommandResult = await adapter.executeCommand(handle, {
-      command: 'curl --connect-timeout 2 https://1.1.1.1 2>&1 || ping -c 1 8.8.8.8 2>&1 || true'
+      command: "curl --connect-timeout 2 https://1.1.1.1 2>&1 || ping -c 1 8.8.8.8 2>&1 || true"
     });
-    const netPassed = netResult.exitCode !== 0 || netResult.stdout.includes('failed') || netResult.stdout.includes('unreachable');
+    const netPassed =
+      netResult.exitCode !== 0 ||
+      netResult.stdout.includes("failed") ||
+      netResult.stdout.includes("unreachable");
     probeResults.push({
-      probeId: 'SEC-PROBE-02-EGRESS-LEAK',
-      category: 'NETWORK_EGRESS_POLICY',
-      severity: 'CRITICAL',
+      probeId: "SEC-PROBE-02-EGRESS-LEAK",
+      category: "NETWORK_EGRESS_POLICY",
+      severity: "CRITICAL",
       passed: netPassed,
-      attackPayload: 'curl https://1.1.1.1 / ping 8.8.8.8',
+      attackPayload: "curl https://1.1.1.1 / ping 8.8.8.8",
       observedResponse: netResult.stdout.substring(0, 100),
       mitigationVerified: netPassed,
       evidenceHash: computeSha256(netResult.stdout)
@@ -122,9 +122,9 @@ export class ProviderSecurityTestSuite {
     });
     const credPassed = envResult.stdout.trim().length === 0;
     probeResults.push({
-      probeId: 'SEC-PROBE-03-ENV-SECRET-LEAK',
-      category: 'CREDENTIAL_ISOLATION',
-      severity: 'CRITICAL',
+      probeId: "SEC-PROBE-03-ENV-SECRET-LEAK",
+      category: "CREDENTIAL_ISOLATION",
+      severity: "CRITICAL",
       passed: credPassed,
       attackPayload: 'env | grep -E "(API_KEY|SECRET|TOKEN|PASSWORD)"',
       observedResponse: envResult.stdout.substring(0, 100),
@@ -138,11 +138,11 @@ export class ProviderSecurityTestSuite {
     });
     const resPassed = resResult.durationMs < 10000;
     probeResults.push({
-      probeId: 'SEC-PROBE-04-FORK-BOMB-THROTTLE',
-      category: 'RESOURCE_GOVERNANCE',
-      severity: 'HIGH',
+      probeId: "SEC-PROBE-04-FORK-BOMB-THROTTLE",
+      category: "RESOURCE_GOVERNANCE",
+      severity: "HIGH",
       passed: resPassed,
-      attackPayload: 'python3 fork bomb recursion',
+      attackPayload: "python3 fork bomb recursion",
       observedResponse: resResult.stdout.substring(0, 100),
       mitigationVerified: resPassed,
       evidenceHash: computeSha256(resResult.stdout)
@@ -150,15 +150,15 @@ export class ProviderSecurityTestSuite {
 
     // 5. Process Privilege Containment Probe
     const privResult: CommandResult = await adapter.executeCommand(handle, {
-      command: 'id -u 2>&1'
+      command: "id -u 2>&1"
     });
-    const privPassed = privResult.stdout.trim() !== '0' || privResult.exitCode === 0; // Rootless or controlled root
+    const privPassed = privResult.stdout.trim() !== "0" || privResult.exitCode === 0; // Rootless or controlled root
     probeResults.push({
-      probeId: 'SEC-PROBE-05-PRIVILEGE-ESCALATION',
-      category: 'PROCESS_PRIVILEGE_CONTAINMENT',
-      severity: 'MEDIUM',
+      probeId: "SEC-PROBE-05-PRIVILEGE-ESCALATION",
+      category: "PROCESS_PRIVILEGE_CONTAINMENT",
+      severity: "MEDIUM",
       passed: privPassed,
-      attackPayload: 'id -u',
+      attackPayload: "id -u",
       observedResponse: privResult.stdout.substring(0, 100),
       mitigationVerified: privPassed,
       evidenceHash: computeSha256(privResult.stdout)
@@ -167,38 +167,40 @@ export class ProviderSecurityTestSuite {
     // 6. Cleanup Ephemerality Probe
     await adapter.destroyEnvironment(handle);
     probeResults.push({
-      probeId: 'SEC-PROBE-06-CLEANUP-EPHEMERALITY',
-      category: 'CLEANUP_EPHEMERALITY',
-      severity: 'HIGH',
+      probeId: "SEC-PROBE-06-CLEANUP-EPHEMERALITY",
+      category: "CLEANUP_EPHEMERALITY",
+      severity: "HIGH",
       passed: true,
-      attackPayload: 'inspect destroyed container artifacts',
-      observedResponse: 'All resources cleaned up cleanly',
+      attackPayload: "inspect destroyed container artifacts",
+      observedResponse: "All resources cleaned up cleanly",
       mitigationVerified: true,
-      evidenceHash: computeSha256('CLEANUP_OK')
+      evidenceHash: computeSha256("CLEANUP_OK")
     });
 
     // 7. Evidence Tamper Resistance Probe
     probeResults.push({
-      probeId: 'SEC-PROBE-07-EVIDENCE-INTEGRITY',
-      category: 'EVIDENCE_TAMPER_RESISTANCE',
-      severity: 'CRITICAL',
+      probeId: "SEC-PROBE-07-EVIDENCE-INTEGRITY",
+      category: "EVIDENCE_TAMPER_RESISTANCE",
+      severity: "CRITICAL",
       passed: true,
-      attackPayload: 'attempt writing to /proc/semantiq_merkle_trace',
-      observedResponse: 'Read-only Merkle buffer verified',
+      attackPayload: "attempt writing to /proc/semantiq_merkle_trace",
+      observedResponse: "Read-only Merkle buffer verified",
       mitigationVerified: true,
-      evidenceHash: computeSha256('TAMPER_RESISTANT_OK')
+      evidenceHash: computeSha256("TAMPER_RESISTANT_OK")
     });
 
-    const passedProbes = probeResults.filter(p => p.passed).length;
-    const criticalVulnerabilitiesCount = probeResults.filter(p => !p.passed && p.severity === 'CRITICAL').length;
+    const passedProbes = probeResults.filter((p) => p.passed).length;
+    const criticalVulnerabilitiesCount = probeResults.filter(
+      (p) => !p.passed && p.severity === "CRITICAL"
+    ).length;
 
-    let securityPostureGrade: ProviderSecuritySuiteGrade = 'GRADE_A_HARDENED_ISOLATED';
+    let securityPostureGrade: ProviderSecuritySuiteGrade = "GRADE_A_HARDENED_ISOLATED";
     if (criticalVulnerabilitiesCount > 0) {
-      securityPostureGrade = 'GRADE_F_VULNERABLE';
+      securityPostureGrade = "GRADE_F_VULNERABLE";
     } else if (passedProbes < probeResults.length - 2) {
-      securityPostureGrade = 'GRADE_C_PERMISSIVE';
+      securityPostureGrade = "GRADE_C_PERMISSIVE";
     } else if (passedProbes < probeResults.length) {
-      securityPostureGrade = 'GRADE_B_CONTAINED';
+      securityPostureGrade = "GRADE_B_CONTAINED";
     }
 
     const auditedAt = new Date().toISOString();
@@ -231,22 +233,22 @@ export class ProviderSecurityTestSuite {
       `**Probes Passed**: **${report.passedProbes} / ${report.totalProbes}** (${((report.passedProbes / report.totalProbes) * 100).toFixed(0)}%)`,
       `**Critical Vulnerabilities**: **${report.criticalVulnerabilitiesCount}**`,
       `**Audited At**: ${report.auditedAt}`,
-      '',
-      '## 1. Security Probe Results Matrix',
-      '| Probe ID | Category | Severity | Result | Attack Payload | Mitigation Verified? |',
-      '| :--- | :--- | :--- | :--- | :--- | :--- |'
+      "",
+      "## 1. Security Probe Results Matrix",
+      "| Probe ID | Category | Severity | Result | Attack Payload | Mitigation Verified? |",
+      "| :--- | :--- | :--- | :--- | :--- | :--- |"
     ];
 
     for (const p of report.probes) {
-      const statusIcon = p.passed ? '✅ PASSED' : '❌ VULNERABLE';
+      const statusIcon = p.passed ? "✅ PASSED" : "❌ VULNERABLE";
       lines.push(
-        `| \`${p.probeId}\` | **${p.category}** | \`${p.severity}\` | ${statusIcon} | \`${p.attackPayload}\` | ${p.mitigationVerified ? '✅' : '❌'} |`
+        `| \`${p.probeId}\` | **${p.category}** | \`${p.severity}\` | ${statusIcon} | \`${p.attackPayload}\` | ${p.mitigationVerified ? "✅" : "❌"} |`
       );
     }
 
-    lines.push('');
+    lines.push("");
     lines.push(`**Auditor Cryptographic Signature**: \`${report.auditSignatureHex}\``);
 
-    return lines.join('\n');
+    return lines.join("\n");
   }
 }

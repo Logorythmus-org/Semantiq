@@ -3,7 +3,7 @@
 **Status**: Accepted  
 **Date**: 2026-08-15  
 **Subsystem Status**: `INTERNAL GATE PASSED`  
-**Product Release Status**: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`  
+**Product Release Status**: `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED`
 
 ---
 
@@ -11,7 +11,7 @@
 
 As the formal conclusion of the SemantIQ Sandbox Phase (Prompts 01–65), a final subsystem gate evaluates all evidence, test executions, security guarantees, provider neutrality postures, and economic structures to issue an explicit internal authorization decision (`INTERNAL GATE PASSED`).
 
-*Canonical Invariant*: A subsystem internal gate pass does not authorize the whole SemantIQ product release. Product release is governed exclusively by Phase 11 clean-room verification and Phase 12 release freeze procedures.
+_Canonical Invariant_: A subsystem internal gate pass does not authorize the whole SemantIQ product release. Product release is governed exclusively by Phase 11 clean-room verification and Phase 12 release freeze procedures.
 
 ---
 

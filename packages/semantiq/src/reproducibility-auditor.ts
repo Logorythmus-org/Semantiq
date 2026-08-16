@@ -28,13 +28,10 @@ export interface ReproducibilityReport {
  * Generates CycloneDX-style SBOM metadata and verifies reproducibility of release artifacts.
  */
 export class ReproducibilityAuditorEngine {
-  generateSbom(
-    rootPackage: string,
-    packages: readonly SbomPackage[]
-  ): CandidateSbom {
+  generateSbom(rootPackage: string, packages: readonly SbomPackage[]): CandidateSbom {
     return {
-      sbomVersion: '1.0.0',
-      specVersion: 'CycloneDX-1.5',
+      sbomVersion: "1.0.0",
+      specVersion: "CycloneDX-1.5",
       timestamp: new Date().toISOString(),
       rootPackage,
       packages

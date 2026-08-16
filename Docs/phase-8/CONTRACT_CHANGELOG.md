@@ -1,13 +1,14 @@
 # SemantIQ Contract Changelog
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 
 ## Version History & Changes
 
 ### `v0.1.0-alpha.1` (Phase 8 API Freeze)
+
 - **Added**: Initial Phase 8 Behavioral Evaluation System.
 - **Added**: 9-stage observable lifecycle model.
 - **Added**: 44 canonical verbs across 7 verb families.

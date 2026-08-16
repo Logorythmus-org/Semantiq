@@ -3,31 +3,19 @@
  * Canonical Machine-Readable Provider Registry Architecture
  */
 
-import type { SandboxCapabilities } from './types.js';
-import type { ProviderTrustTier, SecurityPostureGrade } from './trust-verification.js';
-import type { MarketplaceDeploymentMode, ProviderSlaMetrics } from './marketplace.js';
-import type { EconomicPricingModel } from './economics.js';
-import type { ProviderLicensingManifest } from './licensing-boundary.js';
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
+import type { SandboxCapabilities } from "./types.js";
+import type { ProviderTrustTier, SecurityPostureGrade } from "./trust-verification.js";
+import type { MarketplaceDeploymentMode, ProviderSlaMetrics } from "./marketplace.js";
+import type { EconomicPricingModel } from "./economics.js";
+import type { ProviderLicensingManifest } from "./licensing-boundary.js";
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
-export type ProviderReleaseChannel =
-  | 'STABLE'
-  | 'BETA'
-  | 'EXPERIMENTAL'
-  | 'DEPRECATED';
+export type ProviderReleaseChannel = "STABLE" | "BETA" | "EXPERIMENTAL" | "DEPRECATED";
 
 export type ProviderOperationalStatus =
-  | 'ONLINE'
-  | 'DEGRADED'
-  | 'MAINTENANCE'
-  | 'OFFLINE'
-  | 'QUARANTINED';
+  "ONLINE" | "DEGRADED" | "MAINTENANCE" | "OFFLINE" | "QUARANTINED";
 
-export type TransportProtocol =
-  | 'LOCAL_SOCKET'
-  | 'HTTP_REST'
-  | 'GRPC'
-  | 'STDIO_SUBPROCESS';
+export type TransportProtocol = "LOCAL_SOCKET" | "HTTP_REST" | "GRPC" | "STDIO_SUBPROCESS";
 
 export interface ProviderEndpointConfig {
   readonly primaryUrl: string;
@@ -84,7 +72,8 @@ export interface RegistryRegistrationReport {
 export interface ProviderRegistryEvent {
   readonly eventId: string;
   readonly providerId: string;
-  readonly eventType: 'REGISTERED' | 'HEALTH_UPDATED' | 'STATUS_CHANGED' | 'DEPRECATED' | 'DEREGISTERED';
+  readonly eventType:
+    "REGISTERED" | "HEALTH_UPDATED" | "STATUS_CHANGED" | "DEPRECATED" | "DEREGISTERED";
   readonly previousStatus?: ProviderOperationalStatus | undefined;
   readonly currentStatus: ProviderOperationalStatus;
   readonly details: string;
@@ -106,30 +95,30 @@ export class CanonicalProviderRegistry {
 
     // 1. Identity & Naming
     if (!entry.providerId || entry.providerId.trim().length === 0) {
-      violations.push('Provider ID is missing.');
+      violations.push("Provider ID is missing.");
     }
     if (!entry.version || entry.version.trim().length === 0) {
-      violations.push('Provider version is missing.');
+      violations.push("Provider version is missing.");
     }
 
     // 2. Endpoints
     if (!entry.endpoints.primaryUrl || entry.endpoints.primaryUrl.trim().length === 0) {
-      violations.push('Primary endpoint URL is missing.');
+      violations.push("Primary endpoint URL is missing.");
     }
 
     // 3. Cryptographic Signature
     if (!entry.signatureHex || entry.signatureHex.length < 64) {
-      violations.push('Cryptographic signature is missing or malformed.');
+      violations.push("Cryptographic signature is missing or malformed.");
     }
 
     // 4. Release Channel & Status
-    if (entry.releaseChannel === 'DEPRECATED') {
+    if (entry.releaseChannel === "DEPRECATED") {
       warnings.push(`Provider '${entry.providerId}' is marked as DEPRECATED.`);
     }
 
     // 5. Licensing Clean-Room Verification
     if (!entry.licensing.isCleanRoomImplementation) {
-      violations.push('Provider licensing manifest is not clean-room verified.');
+      violations.push("Provider licensing manifest is not clean-room verified.");
     }
 
     const isSuccess = violations.length === 0;
@@ -140,7 +129,7 @@ export class CanonicalProviderRegistry {
       this.emitEvent({
         eventId: `evt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         providerId: entry.providerId,
-        eventType: 'REGISTERED',
+        eventType: "REGISTERED",
         currentStatus: entry.status,
         details: `Provider '${entry.displayName}' registered successfully on channel ${entry.releaseChannel}.`,
         timestamp: new Date().toISOString()
@@ -165,9 +154,9 @@ export class CanonicalProviderRegistry {
     this.emitEvent({
       eventId: `evt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
       providerId,
-      eventType: 'DEREGISTERED',
+      eventType: "DEREGISTERED",
       previousStatus: existing.status,
-      currentStatus: 'OFFLINE',
+      currentStatus: "OFFLINE",
       details: `Provider '${providerId}' deregistered from canonical registry.`,
       timestamp: new Date().toISOString()
     });
@@ -204,7 +193,7 @@ export class CanonicalProviderRegistry {
       this.emitEvent({
         eventId: `evt-${Date.now()}-${Math.random().toString(36).substring(2, 7)}`,
         providerId,
-        eventType: 'STATUS_CHANGED',
+        eventType: "STATUS_CHANGED",
         previousStatus,
         currentStatus: status,
         details: `Operational status transitioned from ${previousStatus} to ${status}.`,
@@ -237,11 +226,15 @@ export class CanonicalProviderRegistry {
       if (query.statusFilter && query.statusFilter.length > 0) {
         if (!query.statusFilter.includes(entry.status)) continue;
       } else {
-        if (entry.status === 'OFFLINE' || entry.status === 'QUARANTINED') continue;
+        if (entry.status === "OFFLINE" || entry.status === "QUARANTINED") continue;
       }
 
       // 2. Offline Only
-      if (query.offlineOnly && (entry.deploymentMode === 'MANAGED_MULTI_TENANT' || entry.deploymentMode === 'SERVERLESS_MICROVM')) {
+      if (
+        query.offlineOnly &&
+        (entry.deploymentMode === "MANAGED_MULTI_TENANT" ||
+          entry.deploymentMode === "SERVERLESS_MICROVM")
+      ) {
         continue;
       }
 
@@ -261,7 +254,10 @@ export class CanonicalProviderRegistry {
       }
 
       // 6. Security Grade
-      if (query.minSecurityGrade && gradeRanks[entry.securityGrade] < gradeRanks[query.minSecurityGrade]) {
+      if (
+        query.minSecurityGrade &&
+        gradeRanks[entry.securityGrade] < gradeRanks[query.minSecurityGrade]
+      ) {
         continue;
       }
 
@@ -271,7 +267,10 @@ export class CanonicalProviderRegistry {
       }
 
       // 8. Latency Ceiling
-      if (query.maxColdBootLatencyMs !== undefined && entry.sla.p50ColdBootLatencyMs > query.maxColdBootLatencyMs) {
+      if (
+        query.maxColdBootLatencyMs !== undefined &&
+        entry.sla.p50ColdBootLatencyMs > query.maxColdBootLatencyMs
+      ) {
         continue;
       }
 
@@ -286,7 +285,7 @@ export class CanonicalProviderRegistry {
 
       // 10. Tags
       if (query.tags && query.tags.length > 0) {
-        const hasAllTags = query.tags.every(t => entry.tags.includes(t));
+        const hasAllTags = query.tags.every((t) => entry.tags.includes(t));
         if (!hasAllTags) continue;
       }
 

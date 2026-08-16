@@ -29,7 +29,15 @@
     },
     "provenance": {
       "type": "object",
-      "required": ["providerId", "providerVersion", "runtimeType", "environmentSpecHash", "imageDigest", "isolationMechanism", "reproducibilityTier"],
+      "required": [
+        "providerId",
+        "providerVersion",
+        "runtimeType",
+        "environmentSpecHash",
+        "imageDigest",
+        "isolationMechanism",
+        "reproducibilityTier"
+      ],
       "properties": {
         "providerId": { "type": "string" },
         "providerVersion": { "type": "string" },
@@ -39,7 +47,12 @@
         "isolationMechanism": { "type": "string" },
         "reproducibilityTier": {
           "type": "string",
-          "enum": ["HERMETIC_DETERMINISTIC", "PINNED_ENVIRONMENT", "BEST_EFFORT_REPRODUCIBLE", "NON_REPRODUCIBLE"]
+          "enum": [
+            "HERMETIC_DETERMINISTIC",
+            "PINNED_ENVIRONMENT",
+            "BEST_EFFORT_REPRODUCIBLE",
+            "NON_REPRODUCIBLE"
+          ]
         },
         "deterministicSeed": { "type": "string" }
       }

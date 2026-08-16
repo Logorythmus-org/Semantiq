@@ -1,13 +1,14 @@
 # Multi-Agent Evaluation Specification
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 
 ## Evaluation Process
 
 Multi-agent evaluation operates via offline trace analysis:
+
 1. Load synthetic or empirical interaction event streams into `InteractionIntegrityAnalyzer`.
 2. Construct identity, authority, and delegation records via `AuthorityEvaluator` and `DelegationEvaluator`.
 3. Analyze shared context reads/writes via `SharedMemoryAnalyzer`.

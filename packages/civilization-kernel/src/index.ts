@@ -84,7 +84,9 @@ export class LocalCivilizationKernelRepository implements CivilizationKernelRepo
 }
 
 export class LocalCivilizationKernelService implements CivilizationKernelService {
-  constructor(private readonly repository: LocalCivilizationKernelRepository = new LocalCivilizationKernelRepository()) {}
+  constructor(
+    private readonly repository: LocalCivilizationKernelRepository = new LocalCivilizationKernelRepository()
+  ) {}
 
   async evaluateCivilization(objectIds: readonly string[]): Promise<CivilizationReport> {
     if (objectIds.length === 0) {
@@ -94,7 +96,9 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
     return this.generateCivilizationReport(`health:${Date.now()}`);
   }
 
-  async measureCivilizationHealth(metrics: readonly CivilizationHealthMetric[]): Promise<CivilizationHealthIndex> {
+  async measureCivilizationHealth(
+    metrics: readonly CivilizationHealthMetric[]
+  ): Promise<CivilizationHealthIndex> {
     if (metrics.length === 0) {
       throw new Error("Civilization health requires transparent metrics");
     }
@@ -123,10 +127,18 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
       throw new Error("Civilization coordination requires human oversight and Semantiq evaluation");
     }
     await this.repository.saveCoordinationPlan(plan);
-    await this.emit("GlobalCoordinationStarted", { participantIds: plan.participantIds }, undefined, plan.id);
+    await this.emit(
+      "GlobalCoordinationStarted",
+      { participantIds: plan.participantIds },
+      undefined,
+      plan.id
+    );
   }
 
-  async generateRoadmap(questionId: string, horizonYears: number): Promise<ArchitectureEvolutionSuggestion> {
+  async generateRoadmap(
+    questionId: string,
+    horizonYears: number
+  ): Promise<ArchitectureEvolutionSuggestion> {
     if (!questionId) {
       throw new Error("Roadmaps must originate from questions");
     }
@@ -134,7 +146,8 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
       id: `roadmap:${questionId}:${horizonYears}`,
       type: "future-compatibility",
       title: `${horizonYears}-year adaptive architecture roadmap`,
-      rationale: "Generated as an advisory roadmap from questions, evidence, health metrics, and future compatibility constraints.",
+      rationale:
+        "Generated as an advisory roadmap from questions, evidence, health metrics, and future compatibility constraints.",
       affectedModuleIds: [],
       evidenceIds: [questionId],
       migrationIds: [],
@@ -147,7 +160,9 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
     return suggestion;
   }
 
-  async simulateArchitectureEvolution(suggestion: ArchitectureEvolutionSuggestion): Promise<CivilizationDigitalTwinSnapshot> {
+  async simulateArchitectureEvolution(
+    suggestion: ArchitectureEvolutionSuggestion
+  ): Promise<CivilizationDigitalTwinSnapshot> {
     if (!suggestion.advisoryOnly) {
       throw new Error("Architecture evolution simulation must remain advisory");
     }
@@ -165,7 +180,9 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
       challengeIds: [],
       roadmapIds: [suggestion.id],
       analyticalOnly: true,
-      uncertaintyNotes: ["Digital twin scenarios support exploration and planning, not predictive certainty."]
+      uncertaintyNotes: [
+        "Digital twin scenarios support exploration and planning, not predictive certainty."
+      ]
     };
     await this.repository.saveDigitalTwinSnapshot(snapshot);
     await this.emit("CivilizationSnapshotCreated", { snapshotId: snapshot.id });
@@ -177,7 +194,13 @@ export class LocalCivilizationKernelService implements CivilizationKernelService
       throw new Error("Open Civilization Protocol must remain technology-neutral");
     }
     await this.repository.saveProtocol(protocol);
-    await this.emit("ProtocolPublished", { version: protocol.version }, undefined, undefined, protocol.id);
+    await this.emit(
+      "ProtocolPublished",
+      { version: protocol.version },
+      undefined,
+      undefined,
+      protocol.id
+    );
   }
 
   async reviewArchitecture(suggestion: ArchitectureEvolutionSuggestion): Promise<void> {

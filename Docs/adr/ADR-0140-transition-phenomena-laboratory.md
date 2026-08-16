@@ -1,7 +1,7 @@
 # ADR-0140: Transition Phenomena Laboratory and Controlled Behavioral Experimentation
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

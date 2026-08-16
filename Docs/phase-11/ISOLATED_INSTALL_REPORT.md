@@ -9,21 +9,21 @@
 
 ## Install Environment
 
-| Property | Value |
-|----------|-------|
-| Node.js | v22.15.0 |
-| Package Manager | pnpm v11.7.0 |
-| OS | Microsoft Windows 10.0.26200 |
-| Architecture | AMD64 |
-| Install Mode | Frozen lockfile (`--frozen-lockfile`) |
-| Network Access | Offline (local node_modules only) |
+| Property        | Value                                 |
+| --------------- | ------------------------------------- |
+| Node.js         | v22.15.0                              |
+| Package Manager | pnpm v11.7.0                          |
+| OS              | Microsoft Windows 10.0.26200          |
+| Architecture    | AMD64                                 |
+| Install Mode    | Frozen lockfile (`--frozen-lockfile`) |
+| Network Access  | Offline (local node_modules only)     |
 
 ## Install Steps
 
-| Step | Command | Exit Code | Result |
-|------|---------|-----------|--------|
-| Install (frozen) | `pnpm install --frozen-lockfile` | 0 | ✅ PASSED |
-| Verify lockfile integrity | `pnpm install --frozen-lockfile` | 0 | ✅ PASSED |
+| Step                      | Command                          | Exit Code | Result    |
+| ------------------------- | -------------------------------- | --------- | --------- |
+| Install (frozen)          | `pnpm install --frozen-lockfile` | 0         | ✅ PASSED |
+| Verify lockfile integrity | `pnpm install --frozen-lockfile` | 0         | ✅ PASSED |
 
 ## Notes
 

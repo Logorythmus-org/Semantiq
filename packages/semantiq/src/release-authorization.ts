@@ -1,4 +1,8 @@
-export type ReleaseLevel = 'level_0_no_release' | 'level_1_research_preview' | 'level_2_public_alpha' | 'level_3_public_benchmark_release';
+export type ReleaseLevel =
+  | "level_0_no_release"
+  | "level_1_research_preview"
+  | "level_2_public_alpha"
+  | "level_3_public_benchmark_release";
 
 export interface GateStatus {
   readonly gateId: string;
@@ -56,34 +60,45 @@ export class ReleaseAuthorizationEngine {
       gates.gateG_correctionCapability.isPassed &&
       gates.gateH_selfObservation.isPassed;
 
-    if (criticalBlockersCount > 0 || !gates.gateA_scientificHonesty.isPassed || !gates.gateD_humanResponsibility.isPassed) {
-      return 'level_0_no_release';
+    if (
+      criticalBlockersCount > 0 ||
+      !gates.gateA_scientificHonesty.isPassed ||
+      !gates.gateD_humanResponsibility.isPassed
+    ) {
+      return "level_0_no_release";
     }
 
     if (allGatesPassed && criticalBlockersCount === 0) {
-      return 'level_2_public_alpha'; // Approved for Level 2 Public Alpha transition to Phase 12
+      return "level_2_public_alpha"; // Approved for Level 2 Public Alpha transition to Phase 12
     }
 
-    return 'level_1_research_preview';
+    return "level_1_research_preview";
   }
 
-  validateDecision(decision: ReleaseAuthorizationDecision, gates: GateSuiteEvaluation): ReleaseAuthorizationReport {
+  validateDecision(
+    decision: ReleaseAuthorizationDecision,
+    gates: GateSuiteEvaluation
+  ): ReleaseAuthorizationReport {
     const violations: string[] = [];
 
-    if (decision.approvedReleaseLevel === 'level_3_public_benchmark_release') {
+    if (decision.approvedReleaseLevel === "level_3_public_benchmark_release") {
       // Require independent external reproduction evidence before Level 3
-      const hasExtRep = decision.evidenceManifestLinks.some(l => l.includes('independent-reproduction'));
+      const hasExtRep = decision.evidenceManifestLinks.some((l) =>
+        l.includes("independent-reproduction")
+      );
       if (!hasExtRep) {
-        violations.push('Level 3 Public Benchmark Release requires documented independent external reproduction evidence.');
+        violations.push(
+          "Level 3 Public Benchmark Release requires documented independent external reproduction evidence."
+        );
       }
     }
 
     if (!decision.evidenceManifestLinks || decision.evidenceManifestLinks.length === 0) {
-      violations.push('Release authorization decision must link to evidence manifests.');
+      violations.push("Release authorization decision must link to evidence manifests.");
     }
 
-    if (!decision.rollbackTrigger || decision.rollbackTrigger.trim() === '') {
-      violations.push('Release authorization decision must define a rollback trigger.');
+    if (!decision.rollbackTrigger || decision.rollbackTrigger.trim() === "") {
+      violations.push("Release authorization decision must define a rollback trigger.");
     }
 
     return {

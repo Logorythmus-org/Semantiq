@@ -3,6 +3,7 @@
 Dependency injection makes dependencies explicit and replaceable.
 
 ## Lifecycles
+
 - Singleton: one instance per kernel.
 - Scoped: one instance per runtime scope, such as request, workflow, or session.
 - Transient: new instance for every resolution.
@@ -12,6 +13,7 @@ Dependency injection makes dependencies explicit and replaceable.
 - Configuration injection: typed configuration passed explicitly.
 
 ## Rules
+
 - Modules declare dependencies in registration metadata.
 - Constructors and factories receive interfaces, never global services.
 - Domain packages do not resolve dependencies directly from hidden globals.

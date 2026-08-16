@@ -1,13 +1,14 @@
 # Collective Behavior Lifecycle Specification
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 
 ## Multi-Agent Lifecycle
 
 The collective behavior lifecycle extends Phase 8 single-agent stages to multi-agent groups:
+
 - **Registration**: Participant `AgentIdentity` and `AgentRole` initialization.
 - **Delegation**: Task & authority delegation from primary agent to worker agents.
 - **Coordination**: Message passing and shared resource interactions.

@@ -6,13 +6,13 @@ This document details verified execution environments, system prerequisites, cle
 
 ## Supported Environments
 
-| Environment | Supported Status | Node.js | Package Manager | Docker Required? | Notes |
-|---|---|---|---|---|---|
-| **Linux (Ubuntu 22.04+)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Baseline CI environment |
-| **Windows 10/11 (PowerShell/WSL2)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Native PowerShell & WSL2 verified |
-| **macOS (Apple Silicon & Intel)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Verified on macOS 14+ |
-| **Docker Container** | Fully Supported | Containerized | Pre-packaged | Yes | Clean isolated execution |
-| **Clean Node Environment** | Fully Supported | `>= 22.0.0` | `pnpm` / `npm` | No | Zero external system dependencies |
+| Environment                         | Supported Status | Node.js       | Package Manager | Docker Required? | Notes                             |
+| ----------------------------------- | ---------------- | ------------- | --------------- | ---------------- | --------------------------------- |
+| **Linux (Ubuntu 22.04+)**           | Fully Supported  | `>= 22.0.0`   | `pnpm 11.7.0`   | Optional         | Baseline CI environment           |
+| **Windows 10/11 (PowerShell/WSL2)** | Fully Supported  | `>= 22.0.0`   | `pnpm 11.7.0`   | Optional         | Native PowerShell & WSL2 verified |
+| **macOS (Apple Silicon & Intel)**   | Fully Supported  | `>= 22.0.0`   | `pnpm 11.7.0`   | Optional         | Verified on macOS 14+             |
+| **Docker Container**                | Fully Supported  | Containerized | Pre-packaged    | Yes              | Clean isolated execution          |
+| **Clean Node Environment**          | Fully Supported  | `>= 22.0.0`   | `pnpm` / `npm`  | No               | Zero external system dependencies |
 
 ---
 
@@ -28,17 +28,20 @@ This document details verified execution environments, system prerequisites, cle
 ## Clean Installation Steps
 
 ### 1. Fresh Monorepo Checkout
+
 ```bash
 git clone https://github.com/tech-club/tech-club.git
 cd tech-club
 ```
 
 ### 2. Dependency Installation
+
 ```bash
 pnpm install
 ```
 
 ### 3. Verification & Doctor Diagnostic
+
 ```bash
 pnpm doctor
 pnpm verify

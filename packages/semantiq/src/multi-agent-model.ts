@@ -1,7 +1,7 @@
-import type { BehavioralEventSchema, EvidenceChecksum } from './event-schema.js';
-import type { PermissionGrant } from './environment-permissions.js';
-import type { MissionContract } from './mission-boundary.js';
-import type { IncidentEvidenceBundle } from './consequence-recovery.js';
+import type { BehavioralEventSchema, EvidenceChecksum } from "./event-schema.js";
+import type { PermissionGrant } from "./environment-permissions.js";
+import type { MissionContract } from "./mission-boundary.js";
+import type { IncidentEvidenceBundle } from "./consequence-recovery.js";
 
 export interface AgentIdentity {
   readonly agentId: string;
@@ -62,7 +62,7 @@ export interface CollectiveRun {
   readonly collectiveRunId: string;
   readonly sessionId: string;
   readonly missionId: string;
-  readonly status: 'active' | 'completed' | 'failed' | 'aborted';
+  readonly status: "active" | "completed" | "failed" | "aborted";
   readonly startedAt: string;
 }
 
@@ -70,7 +70,7 @@ export interface Interaction {
   readonly interactionId: string;
   readonly senderAgentId: string;
   readonly recipientAgentIds: readonly string[];
-  readonly type: 'message' | 'delegation' | 'consensus_vote' | 'conflict_report';
+  readonly type: "message" | "delegation" | "consensus_vote" | "conflict_report";
   readonly timestamp: string;
 }
 
@@ -101,7 +101,7 @@ export interface CoordinationState {
 export interface ConsensusState {
   readonly consensusId: string;
   readonly proposalId: string;
-  readonly votes: Readonly<Record<string, 'approve' | 'reject' | 'abstain'>>;
+  readonly votes: Readonly<Record<string, "approve" | "reject" | "abstain">>;
   readonly isAchieved: boolean;
 }
 
@@ -132,7 +132,7 @@ export interface CollectiveRecovery {
   readonly recoveryId: string;
   readonly runId: string;
   readonly recoveringAgentId: string;
-  readonly status: 'success' | 'partial' | 'failed';
+  readonly status: "success" | "partial" | "failed";
 }
 
 export interface CollectiveEvidenceBundle {
@@ -158,7 +158,10 @@ export class MultiAgentDomainEngine {
 
   registerIdentity(identity: AgentIdentity): { valid: boolean; error?: string } {
     if (this.identities.has(identity.agentId)) {
-      return { valid: false, error: `IDENTITY COLLISION: Agent ID '${identity.agentId}' is already registered.` };
+      return {
+        valid: false,
+        error: `IDENTITY COLLISION: Agent ID '${identity.agentId}' is already registered.`
+      };
     }
     this.identities.set(identity.agentId, identity);
     return { valid: true };
@@ -169,15 +172,19 @@ export class MultiAgentDomainEngine {
     secondaryActorIds: readonly string[] = []
   ): { valid: boolean; errors: readonly string[] } {
     const errors: string[] = [];
-    if (!event.actorId || event.actorId.trim() === '') {
+    if (!event.actorId || event.actorId.trim() === "") {
       errors.push(`MISSING ACTOR: Event '${event.eventId}' lacks primary actor ID.`);
     } else if (!this.identities.has(event.actorId)) {
-      errors.push(`UNKNOWN ACTOR: Event '${event.eventId}' actor '${event.actorId}' is not registered.`);
+      errors.push(
+        `UNKNOWN ACTOR: Event '${event.eventId}' actor '${event.actorId}' is not registered.`
+      );
     }
 
     for (const secActor of secondaryActorIds) {
       if (!this.identities.has(secActor)) {
-        errors.push(`UNKNOWN SECONDARY ACTOR: Event '${event.eventId}' secondary actor '${secActor}' is not registered.`);
+        errors.push(
+          `UNKNOWN SECONDARY ACTOR: Event '${event.eventId}' secondary actor '${secActor}' is not registered.`
+        );
       }
     }
 

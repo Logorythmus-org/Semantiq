@@ -15,7 +15,7 @@ import {
   type WriteOptions,
   generateProvenance,
   computeSha256
-} from '../../sandbox-contracts/src/index.js';
+} from "../../sandbox-contracts/src/index.js";
 
 export interface RecordedTraceStep {
   readonly command: readonly string[];
@@ -25,7 +25,7 @@ export interface RecordedTraceStep {
 
 export class DeterministicReplayInstance extends BaseSandboxInstance {
   readonly instanceId: string;
-  readonly providerId = 'replay';
+  readonly providerId = "replay";
   readonly spec: EnvironmentSpec;
   private readonly adapterVersion: string;
   private readonly traces: readonly RecordedTraceStep[];
@@ -48,20 +48,20 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
     // Load initial files if provided in spec
     if (spec.initialFilesystem) {
       for (const entry of spec.initialFilesystem) {
-        this.inMemoryFiles.set(entry.path, Buffer.from(entry.contentBase64, 'base64'));
+        this.inMemoryFiles.set(entry.path, Buffer.from(entry.contentBase64, "base64"));
       }
     }
   }
 
   async executeCommand(request: ExecutionRequest): Promise<ExecutionResult> {
-    if (this.isTerminated) throw new Error('Cannot execute on terminated replay instance.');
+    if (this.isTerminated) throw new Error("Cannot execute on terminated replay instance.");
 
     // Look for matching recorded step or synthesize deterministic result
     const step = this.traces[this.currentStep];
     this.currentStep++;
 
-    const stdout = step?.result?.stdout ?? `[REPLAY] Executed: ${request.command.join(' ')}\n`;
-    const stderr = step?.result?.stderr ?? '';
+    const stdout = step?.result?.stdout ?? `[REPLAY] Executed: ${request.command.join(" ")}\n`;
+    const stderr = step?.result?.stderr ?? "";
     const exitCode = step?.result?.exitCode ?? 0;
 
     this.notifyStdout(stdout);
@@ -81,8 +81,12 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
     };
   }
 
-  async writeFile(path: string, content: Uint8Array | string, _options?: WriteOptions): Promise<void> {
-    const data = typeof content === 'string' ? Buffer.from(content, 'utf-8') : content;
+  async writeFile(
+    path: string,
+    content: Uint8Array | string,
+    _options?: WriteOptions
+  ): Promise<void> {
+    const data = typeof content === "string" ? Buffer.from(content, "utf-8") : content;
     this.inMemoryFiles.set(path, data);
   }
 
@@ -121,8 +125,8 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
 
     return {
       deltaId: crypto.randomUUID(),
-      fromCheckpoint: sinceCheckpointId || 'baseline',
-      toCheckpoint: 'current',
+      fromCheckpoint: sinceCheckpointId || "baseline",
+      toCheckpoint: "current",
       timestamp: new Date().toISOString(),
       mutations: {
         createdFiles,
@@ -138,9 +142,9 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
     const meta: CheckpointMetadata = {
       checkpointId,
       instanceId: this.instanceId,
-      name: name || 'checkpoint',
+      name: name || "checkpoint",
       createdAt: new Date().toISOString(),
-      rootMerkleHash: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
+      rootMerkleHash: "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       processStateCount: 0,
       parentCheckpointId: null
     };
@@ -149,7 +153,7 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
   }
 
   async restoreCheckpoint(checkpointId: string): Promise<void> {
-    if (!this.checkpoints.has(checkpointId) && checkpointId !== 'baseline') {
+    if (!this.checkpoints.has(checkpointId) && checkpointId !== "baseline") {
       throw new Error(`Checkpoint '${checkpointId}' not found.`);
     }
   }
@@ -168,10 +172,10 @@ export class DeterministicReplayInstance extends BaseSandboxInstance {
       provenance: generateProvenance(
         this.spec,
         this.providerId,
-        '1.0.0',
+        "1.0.0",
         this.adapterVersion,
-        '42',
-        'HERMETIC_DETERMINISTIC'
+        "42",
+        "HERMETIC_DETERMINISTIC"
       )
     };
   }

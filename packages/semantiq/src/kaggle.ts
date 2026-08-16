@@ -14,7 +14,9 @@ export interface KaggleDatasetRecord {
   readonly evidence_count: number;
 }
 
-export function formatKaggleDataset(subjects: readonly BenchmarkSubject[]): readonly KaggleDatasetRecord[] {
+export function formatKaggleDataset(
+  subjects: readonly BenchmarkSubject[]
+): readonly KaggleDatasetRecord[] {
   return subjects.map((sub) => ({
     id: sub.id,
     title: sub.title ?? sub.id,
@@ -24,7 +26,11 @@ export function formatKaggleDataset(subjects: readonly BenchmarkSubject[]): read
   }));
 }
 
-export function generateKaggleDatasetMetadata(slug: string, title: string, license: string = "CC0-1.0"): KaggleDatasetMetadata {
+export function generateKaggleDatasetMetadata(
+  slug: string,
+  title: string,
+  license: string = "CC0-1.0"
+): KaggleDatasetMetadata {
   return {
     title,
     id: `techclub/${slug}`,

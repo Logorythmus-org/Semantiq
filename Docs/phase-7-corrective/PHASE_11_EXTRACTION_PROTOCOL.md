@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 7 Corrective — Extraction Protocol  
 **Date**: 2026-08-01  
-**Protocol Verdict**: `CLEAN RELEASE PROTOCOL ENFORCED`  
+**Protocol Verdict**: `CLEAN RELEASE PROTOCOL ENFORCED`
 
 ---
 

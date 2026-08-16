@@ -65,12 +65,25 @@ describe("Sprint 3 Agent OS collaboration runtime", () => {
     ] as const) {
       expect(eventTypes).toContain(required);
     }
-    expect(result.events.every((event) => event.version === 1 && event.actorId && event.workspaceId && event.audit.localFirst === true)).toBe(true);
+    expect(
+      result.events.every(
+        (event) =>
+          event.version === 1 &&
+          event.actorId &&
+          event.workspaceId &&
+          event.audit.localFirst === true
+      )
+    ).toBe(true);
   });
 
   it("supports workflow controls, rejected approvals, tool gates, prompts, and contracts", async () => {
     const runtime = new LocalSprint3Runtime();
-    const agent = await runtime.registerAgent("workspace:manual", "identity:manual", "Planner Agent", ["planning"]);
+    const agent = await runtime.registerAgent(
+      "workspace:manual",
+      "identity:manual",
+      "Planner Agent",
+      ["planning"]
+    );
     const goal = await runtime.createGoal("workspace:manual", "identity:manual", {
       mission: "Plan a publication workflow",
       objectives: ["Prepare publication"],
@@ -88,9 +101,19 @@ describe("Sprint 3 Agent OS collaboration runtime", () => {
     const waiting = await runtime.runWorkflow("workspace:manual", "identity:manual", workflow.id);
     const paused = runtime.pauseWorkflow("workspace:manual", "identity:manual", workflow.id);
     const resumed = runtime.resumeWorkflow("workspace:manual", "identity:manual", workflow.id);
-    const approval = await runtime.requestApproval("workspace:manual", "identity:manual", "Publishing", "Publication needs approval.");
+    const approval = await runtime.requestApproval(
+      "workspace:manual",
+      "identity:manual",
+      "Publishing",
+      "Publication needs approval."
+    );
     const rejected = runtime.rejectApproval("workspace:manual", "identity:manual", approval.id);
-    const tool = await runtime.runTool("workspace:manual", agent.id, goal.id, "Executing Dangerous Tools");
+    const tool = await runtime.runTool(
+      "workspace:manual",
+      agent.id,
+      goal.id,
+      "Executing Dangerous Tools"
+    );
 
     expect(waiting).toBe("waiting-for-approval");
     expect(paused.state).toBe("paused");

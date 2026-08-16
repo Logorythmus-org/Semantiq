@@ -8,7 +8,7 @@ import type {
   ExecutionRequest,
   ExecutionResult,
   StateDelta
-} from '../../sandbox-contracts/src/index.js';
+} from "../../sandbox-contracts/src/index.js";
 
 export interface RawExecutionBundle {
   readonly spec: EnvironmentSpec;
@@ -56,8 +56,17 @@ export interface ResultEvidence {
 }
 
 export interface ConsequenceEvidence {
-  readonly filesCreated: readonly { readonly path: string; readonly sha256: string; readonly sizeBytes: number }[];
-  readonly filesModified: readonly { readonly path: string; readonly preSha256: string; readonly postSha256: string; readonly diffUnified: string }[];
+  readonly filesCreated: readonly {
+    readonly path: string;
+    readonly sha256: string;
+    readonly sizeBytes: number;
+  }[];
+  readonly filesModified: readonly {
+    readonly path: string;
+    readonly preSha256: string;
+    readonly postSha256: string;
+    readonly diffUnified: string;
+  }[];
   readonly filesDeleted: readonly string[];
   readonly totalMutationsCount: number;
   readonly spawnedProcessCount: number;

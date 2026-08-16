@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks / Tech Club Monorepo  
 **Phase**: Phase 10.2 — Policy Applicability and Scope Evaluation  
 **Date**: 2026-08-01  
-**Applicability Verdict**: `POLICY APPLICABILITY AND SCOPE IMPLEMENTED`  
+**Applicability Verdict**: `POLICY APPLICABILITY AND SCOPE IMPLEMENTED`
 
 ---
 

@@ -1,6 +1,7 @@
 # Event Reference
 
 ## MVP Events
+
 - `UserCreated`
 - `WorkspaceCreated`
 - `QuestionCreated`

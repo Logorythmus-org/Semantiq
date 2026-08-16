@@ -3,6 +3,7 @@
 Agent OS memory is explicit, structured, versioned, permissioned, and attached to workflows.
 
 ## Memory Types
+
 - Working memory for active execution.
 - Project memory for project-specific context.
 - Workspace memory for workspace conventions.
@@ -15,10 +16,13 @@ Agent OS memory is explicit, structured, versioned, permissioned, and attached t
 - Long-term memory for approved durable knowledge.
 
 ## Retrieval
+
 Retrieval uses goal context, workspace context, question context, graph context, repository context, semantic wallet permissions, and agent capability needs.
 
 ## Summarization
+
 Summaries preserve source references, confidence, version, permissions, and expiry. Summaries never replace source records.
 
 ## No Hidden Learning
+
 Learning writes only to documented memory records with provenance, permissions, and audit.

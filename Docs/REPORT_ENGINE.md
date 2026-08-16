@@ -3,6 +3,7 @@
 Semantiq reports turn evaluation into learning.
 
 ## Report Sections
+
 - executive summary
 - strengths
 - weaknesses
@@ -18,4 +19,5 @@ Semantiq reports turn evaluation into learning.
 - future learning
 
 ## Streaming
+
 Reports can stream as stages complete, but final reports record profile, version, stage outputs, explanations, and confidence.

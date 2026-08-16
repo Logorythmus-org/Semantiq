@@ -3,6 +3,7 @@
 The Integration Platform connects Tech Club to external systems while preserving local-first independence. External services are optional adapters. The platform owns business rules.
 
 ## Layers
+
 - Presentation Layer: UI and app entry points.
 - Application Layer: workflows and use-case orchestration.
 - Integration Gateway: provider-neutral routing, auth, validation, transformation, policy checks, and diagnostics.
@@ -15,7 +16,9 @@ The Integration Platform connects Tech Club to external systems while preserving
 - Audit: sensitive operations and provider access records.
 
 ## Independence Rule
+
 No domain module imports provider SDKs or depends on provider-specific behavior. Provider-specific behavior is translated by adapters.
 
 ## Local-First Rule
+
 Tech Club remains useful without mandatory cloud services. Integrations enhance capabilities but do not define core operation.

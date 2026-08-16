@@ -33,11 +33,7 @@
     "lockInRisk": { "type": "number", "minimum": 0, "maximum": 1 },
     "verdict": {
       "type": "string",
-      "enum": [
-        "PHASE_COMPLETED_AND_SEALED",
-        "CONDITIONALLY_COMPLETED",
-        "PHASE_INCOMPLETE"
-      ]
+      "enum": ["PHASE_COMPLETED_AND_SEALED", "CONDITIONALLY_COMPLETED", "PHASE_INCOMPLETE"]
     },
     "auditedAt": { "type": "string" },
     "releaseSealSignatureHex": { "type": "string" }

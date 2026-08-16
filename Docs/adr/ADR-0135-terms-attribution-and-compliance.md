@@ -1,7 +1,7 @@
 # ADR-0135: Terms Attribution, NOTICE Blocks, and Commercial Compliance Architecture
 
 **Status**: Accepted  
-**Date**: 2026-08-15  
+**Date**: 2026-08-15
 
 ---
 

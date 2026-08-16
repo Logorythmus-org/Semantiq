@@ -3,7 +3,7 @@
 **Project**: SemantIQ Benchmarks  
 **Phase**: Phase 8 — Public Beta & Ecosystem Expansion  
 **Target Version**: `0.2.0-beta.1`  
-**Date**: 2026-07-31  
+**Date**: 2026-07-31
 
 ---
 

@@ -25,11 +25,7 @@
     "auditedVersion": { "type": "string" },
     "verdict": {
       "type": "string",
-      "enum": [
-        "APPROVED_RELEASE_CANDIDATE",
-        "CONDITIONALLY_APPROVED",
-        "REJECTED_VENDOR_LOCKIN"
-      ]
+      "enum": ["APPROVED_RELEASE_CANDIDATE", "CONDITIONALLY_APPROVED", "REJECTED_VENDOR_LOCKIN"]
     },
     "dimensionsAudited": { "type": "integer", "minimum": 1 },
     "sustainableDimensionsCount": { "type": "integer", "minimum": 0 },

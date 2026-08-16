@@ -3,20 +3,20 @@
  * Public SemantIQ Execution API Architecture
  */
 
-import { canonicalJson, computeSha256 } from './crypto-utils.js';
-import type { SandboxBenchmarkDSL } from './benchmark-dsl.js';
-import type { BehavioralTraceEvent } from './evidence-package.js';
+import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import type { SandboxBenchmarkDSL } from "./benchmark-dsl.js";
+import type { BehavioralTraceEvent } from "./evidence-package.js";
 
 export type RunStatus =
-  | 'PENDING'
-  | 'VALIDATING'
-  | 'PROVISIONING'
-  | 'RUNNING'
-  | 'PAUSED'
-  | 'COMPLETED'
-  | 'FAILED'
-  | 'CANCELLED'
-  | 'CLEANED_UP';
+  | "PENDING"
+  | "VALIDATING"
+  | "PROVISIONING"
+  | "RUNNING"
+  | "PAUSED"
+  | "COMPLETED"
+  | "FAILED"
+  | "CANCELLED"
+  | "CLEANED_UP";
 
 export interface CreateRunRequest {
   readonly scenarioId: string;
@@ -62,14 +62,14 @@ export class ExecutionAPIService {
 
   async createRun(request: CreateRunRequest): Promise<RunRecord> {
     const runId = `run-${computeSha256(`${request.scenarioId}-${request.agentId}-${Date.now()}`).substring(0, 16)}`;
-    const providerId = request.targetProviderId ?? 'provider-docker-local';
+    const providerId = request.targetProviderId ?? "provider-docker-local";
 
     const unsignedRecord = {
       runId,
       scenarioId: request.scenarioId,
       agentId: request.agentId,
       providerId,
-      status: 'PENDING' as RunStatus,
+      status: "PENDING" as RunStatus,
       createdAt: new Date().toISOString(),
       isReplay: false
     };
@@ -92,8 +92,8 @@ export class ExecutionAPIService {
     }
 
     // Transition status to VALIDATING then back to PENDING if valid
-    this.runs.set(runId, { ...run, status: 'VALIDATING' });
-    this.runs.set(runId, { ...run, status: 'PENDING' });
+    this.runs.set(runId, { ...run, status: "VALIDATING" });
+    this.runs.set(runId, { ...run, status: "PENDING" });
 
     return { valid: true, errors: [] };
   }
@@ -106,7 +106,7 @@ export class ExecutionAPIService {
 
     const updatedRecord: RunRecord = {
       ...run,
-      status: 'RUNNING',
+      status: "RUNNING",
       startedAt: new Date().toISOString()
     };
 
@@ -137,7 +137,7 @@ export class ExecutionAPIService {
 
     const updatedRecord: RunRecord = {
       ...run,
-      status: 'CANCELLED',
+      status: "CANCELLED",
       completedAt: new Date().toISOString(),
       cancellationReason: reason
     };
@@ -160,7 +160,7 @@ export class ExecutionAPIService {
       scenarioId: sourceRun.scenarioId,
       agentId: sourceRun.agentId,
       providerId,
-      status: 'PENDING' as RunStatus,
+      status: "PENDING" as RunStatus,
       createdAt: new Date().toISOString(),
       isReplay: true,
       sourceRunId: request.sourceRunId
@@ -185,7 +185,7 @@ export class ExecutionAPIService {
 
     const updatedRecord: RunRecord = {
       ...run,
-      status: 'COMPLETED',
+      status: "COMPLETED",
       completedAt: new Date().toISOString(),
       costEstimateUsd
     };

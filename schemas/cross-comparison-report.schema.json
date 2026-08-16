@@ -46,12 +46,7 @@
       "type": "array",
       "items": {
         "type": "object",
-        "required": [
-          "providerId",
-          "meanLatencyMs",
-          "environmentPenaltyFactor",
-          "varianceScore"
-        ],
+        "required": ["providerId", "meanLatencyMs", "environmentPenaltyFactor", "varianceScore"],
         "properties": {
           "providerId": { "type": "string" },
           "meanLatencyMs": { "type": "integer", "minimum": 0 },

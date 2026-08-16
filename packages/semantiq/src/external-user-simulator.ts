@@ -1,15 +1,15 @@
 export type PersonaType =
-  | 'nodejs-developer'
-  | 'ai-evaluation-researcher'
-  | 'local-model-user'
-  | 'offline-security-user'
-  | 'contributor';
+  | "nodejs-developer"
+  | "ai-evaluation-researcher"
+  | "local-model-user"
+  | "offline-security-user"
+  | "contributor";
 
 export interface OnboardingStep {
   readonly stepName: string;
   readonly commandOrAction: string;
   readonly expectedOutcome: string;
-  readonly status: 'SUCCESS' | 'BLOCKED' | 'CONFUSING';
+  readonly status: "SUCCESS" | "BLOCKED" | "CONFUSING";
   readonly notes?: string | undefined;
 }
 
@@ -40,7 +40,7 @@ export class ExternalUserSimulatorEngine {
     steps: readonly OnboardingStep[],
     timeToSuccessSec: number
   ): PersonaSimulationResult {
-    const blockers = steps.filter(s => s.status === 'BLOCKED').length;
+    const blockers = steps.filter((s) => s.status === "BLOCKED").length;
     return {
       persona,
       overallSuccess: blockers === 0,

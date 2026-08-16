@@ -1,7 +1,7 @@
 # Phase 9.5 Handoff & Readiness Specification
 
 **Project**: SemantIQ Benchmarks  
-**Date**: 2026-08-01  
+**Date**: 2026-08-01
 
 ---
 

@@ -1,6 +1,7 @@
 # Sprint 2 Data Model
 
 Sprint 2 data is in-memory and exportable:
+
 - Semantiq reports and history.
 - Question analysis records.
 - AI suggestions and approval history.

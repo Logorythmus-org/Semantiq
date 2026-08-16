@@ -1,4 +1,4 @@
-import * as path from 'path';
+import * as path from "path";
 
 export interface PathResolutionResult {
   readonly resolvedPath: string;
@@ -22,8 +22,8 @@ export interface DataLayerAuditReport {
 export class DataLayerEngine {
   resolveDataPath(inputPath: string, candidateRoot: string): PathResolutionResult {
     const isAbsolute = path.isAbsolute(inputPath);
-    const isParentTraversal = inputPath.includes('..') && !inputPath.startsWith(candidateRoot);
-    const isTempIsolated = inputPath.startsWith('./tmp') || inputPath.startsWith('./reports');
+    const isParentTraversal = inputPath.includes("..") && !inputPath.startsWith(candidateRoot);
+    const isTempIsolated = inputPath.startsWith("./tmp") || inputPath.startsWith("./reports");
     const isRelative = !isAbsolute;
     const isValid = isRelative && !isParentTraversal;
 
@@ -45,10 +45,10 @@ export class DataLayerEngine {
         absoluteCount++;
       }
       if (
-        p.includes('/var/lib/') ||
-        p.includes('\\AppData\\') ||
-        p.includes('.tech-club-cache') ||
-        p.includes('parent-db')
+        p.includes("/var/lib/") ||
+        p.includes("\\AppData\\") ||
+        p.includes(".tech-club-cache") ||
+        p.includes("parent-db")
       ) {
         forbiddenCount++;
       }
