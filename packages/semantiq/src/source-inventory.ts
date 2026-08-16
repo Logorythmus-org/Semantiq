@@ -60,7 +60,7 @@ export class SemantIQSourceInventoryEngine {
       purpose: `Source item for ${filePath}`,
       owningPackage: filePath.startsWith("packages/semantiq")
         ? "@semantiq/semantiq"
-        : "tech-club-monorepo",
+        : "semantiq-monorepo",
       licenseStatus: classification === "PARENT_ONLY" ? "Internal" : "MIT",
       inManifest
     };

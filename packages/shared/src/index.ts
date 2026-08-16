@@ -36,7 +36,7 @@ export function createConsoleLogger(
     if (order[level] < order[configuredLevel]) return;
     const payload = {
       level,
-      namespace: options.namespace ?? "tech-club",
+      namespace: options.namespace ?? "semantiq",
       message,
       context: redactLogContext(context)
     };

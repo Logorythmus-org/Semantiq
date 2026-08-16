@@ -388,7 +388,7 @@ export class HealthRegistry {
       : checks.some((item) => item.status === "degraded")
         ? "degraded"
         : "healthy";
-    return { component: "tech-club", status, checkedAt: new Date(), dependencies: checks };
+    return { component: "semantiq", status, checkedAt: new Date(), dependencies: checks };
   }
 }
 
