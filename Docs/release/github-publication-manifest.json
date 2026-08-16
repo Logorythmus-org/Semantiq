@@ -4,11 +4,11 @@
   "publicationPhase": "P02_FINAL_RELEASE_CLAIM_AND_PUBLIC_SURFACE_SANITY_CHECK",
   "stagingDirectory": "C:/Users/Kaveh/Desktop/semantiq-clean-staging",
   "gitOriginRemote": "https://github.com/Logorythmus-org/Semantiq.git",
-  "generatedAt": "2026-08-16T08:20:50.390Z",
+  "generatedAt": "2026-08-16T08:50:47.523Z",
   "auditStatus": "PASS",
   "fileCount": 2910,
-  "totalByteSize": 276599897,
-  "finalTreeIdentity": "8a0fa30fb4c029f05204b7cf961702d2abc49da1e39372d9bd52ff06a7af8f9c",
+  "totalByteSize": 276599808,
+  "finalTreeIdentity": "14d998f29001857800eed2cc5ec7b9a56045b2b563dbc97024a40eb24198ce11",
   "files": [
     {
       "path": ".dockerignore",
@@ -14417,8 +14417,8 @@
     },
     {
       "path": "tools/automation/cli.mjs",
-      "sizeBytes": 10086,
-      "sha256": "c9406b7ce877c2dc49c89aaff1717d3b233bf3ac1a770d4c7e2cb71590a4c0ae"
+      "sizeBytes": 9997,
+      "sha256": "951137e4b5fd7757a3e67c151ba603911b4e8e37417080a7ad2a60b47f1ce0ca"
     },
     {
       "path": "tools/automation/cli/README.md",
