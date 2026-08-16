@@ -74,5 +74,6 @@
   "bugs": {
     "url": "https://github.com/Logorythmus-org/Semantiq/issues"
   },
-  "homepage": "https://github.com/Logorythmus-org/Semantiq#readme"
+  "homepage": "https://github.com/Logorythmus-org/Semantiq#readme",
+  "license": "MIT"
 }

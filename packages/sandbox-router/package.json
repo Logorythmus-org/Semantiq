@@ -9,5 +9,6 @@
   "dependencies": {
     "@semantiq/sandbox-contracts": "workspace:*",
     "@semantiq/capability-discovery": "workspace:*"
-  }
+  },
+  "license": "MIT"
 }

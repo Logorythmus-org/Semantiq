@@ -11,5 +11,6 @@
     "dev": "tsx src/local-server.ts",
     "start": "tsx src/local-server.ts",
     "test": "vitest run ../../tests/api"
-  }
+  },
+  "license": "MIT"
 }

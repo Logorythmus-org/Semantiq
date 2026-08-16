@@ -6,5 +6,6 @@
   "exports": {
     ".": "./src/index.ts",
     "./contracts": "./src/contracts.ts"
-  }
+  },
+  "license": "MIT"
 }

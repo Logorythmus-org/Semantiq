@@ -8,5 +8,6 @@
   },
   "dependencies": {
     "@semantiq/sandbox-contracts": "workspace:*"
-  }
+  },
+  "license": "MIT"
 }

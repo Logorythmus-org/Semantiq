@@ -7,5 +7,6 @@
     "build": "echo \"benchmark app build scaffold\"",
     "dev": "echo \"benchmark app dev scaffold\"",
     "test": "echo \"benchmark app tests scaffold\""
-  }
+  },
+  "license": "MIT"
 }

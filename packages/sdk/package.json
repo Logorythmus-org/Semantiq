@@ -8,5 +8,6 @@
   },
   "dependencies": {
     "@semantiq/core": "workspace:*"
-  }
+  },
+  "license": "MIT"
 }

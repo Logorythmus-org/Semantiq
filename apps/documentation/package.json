@@ -7,5 +7,6 @@
     "build": "echo \"documentation app build scaffold\"",
     "dev": "echo \"documentation app dev scaffold\"",
     "test": "echo \"documentation app tests scaffold\""
-  }
+  },
+  "license": "MIT"
 }
