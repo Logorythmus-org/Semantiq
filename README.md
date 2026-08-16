@@ -28,7 +28,7 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 | :------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------: |
 | **WORKS TODAY**     | • CLI Runner (`run`, `replay`, `validate`, `report`)<br>• Local offline deterministic execution (Mock & OCI)<br>• Canonical evidence normalization & Merkle trace sealing<br>• 7-stage behavioral evaluation (`Context → Recovery`)<br>• Anti-gaming heuristics & independent observer mirroring<br>• Draft 2020-12 schema validation suite (37 schemas)<br>• Credential redaction & secret scrubbing |    **FROZEN (Alpha Baseline)**     |
 | **EXPERIMENTAL**    | • Long-horizon multi-step trajectory evaluation<br>• Multi-agent sandbox coordination & arbitration<br>• Transition state recovery laboratory (`TransitionLab`)<br>• Provider Variance Sensitivity ($PVS$) scoring                                                                                                                                                                                    |    **PREVIEW (API may evolve)**    |
-| **OPTIONAL**        | • OpenSandbox daemon adapter (`@tech-club/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI)                                                                                                                                                                                                                        | **MODULAR (Zero core dependency)** |
+| **OPTIONAL**        | • OpenSandbox daemon adapter (`@semantiq/adapter-opensandbox`)<br>• PostgreSQL persistent storage backend<br>• Remote cloud model providers (OpenAI, Anthropic, Google GenAI)                                                                                                                                                                                                                        | **MODULAR (Zero core dependency)** |
 | **NOT IMPLEMENTED** | • Autonomous live web browsing proxy runtime<br>• Native GUI pixel-interaction executor<br>• Zero-knowledge cryptographic proof generation                                                                                                                                                                                                                                                            | **DEFERRED (Out of Alpha Scope)**  |
 | **ROADMAP**         | • Distributed multi-node benchmark orchestration (v0.2.0)<br>• Real-time web visualization dashboard (v0.2.0)<br>• Multi-tenant enterprise SaaS gateway (v1.0.0)                                                                                                                                                                                                                                      |         **FUTURE ROADMAP**         |
 
@@ -53,14 +53,13 @@ SemantIQ is **not** a sandbox runtime vendor. SemantIQ defines the evaluation pr
 
 ## Start Here
 
-- 📖 **[Quick Start Guide](Docs/QUICK_START.md)**: 9-step canonical onboarding flow (`install → doctor → connector → preflight → smoke → benchmark → inspect → export → reproduce`).
-- 💻 **[Installation Matrix](Docs/INSTALLATION_MATRIX.md)**: Platform dependencies, Docker setup, and environment compatibility.
-- 🔒 **[Offline Guide](Docs/OFFLINE_GUIDE.md)**: Zero network data egress posture and `--safe-mode` usage.
-- 🌐 **[Remote Provider Guide](Docs/REMOTE_PROVIDER_GUIDE.md)**: Setup for OpenAI, Anthropic, and Google GenAI with credential protection.
-- 🔬 **[Reproduction Walkthrough](Docs/REPRODUCTION_WALKTHROUGH.md)**: Step-by-step score reproduction and raw evidence inspection.
-- 📋 **[Accepted Limitations Register](Docs/ACCEPTED_LIMITATIONS_REGISTER.md)**: Transparent listing of known alpha boundaries and non-goals.
-- 📚 **[Documentation Index](Docs/DOCUMENTATION_INDEX.md)**: Complete map of user guides, API references, architecture specs, and audit reports.
-- ❓ **[FAQ](Docs/FAQ.md)**: Answers to common questions.
+- 📖 **[Documentation Index](docs/README.md)**: Full navigation for getting started, concepts, benchmarks, and API reference.
+- 🚀 **[Quick Start Guide](docs/getting-started/index.md)**: 3-step verification flow (\`install → doctor → smoke\`).
+- 💻 **[Installation Guide](docs/getting-started/installation.md)**: Platform dependencies, Node.js setup, and local environment.
+- 🔒 **[Privacy & Offline Guide](docs/security/privacy.md)**: Zero network data egress posture and local-first execution.
+- 🌐 **[Model Connectors](docs/integrations/connectors.md)**: Setup for Ollama, OpenAI, Anthropic, and Google GenAI.
+- 🔬 **[Reproducibility Walkthrough](docs/evidence/reproducibility.md)**: Step-by-step score reproduction and raw evidence verification.
+- 📋 **[Limitations Register](docs/project/limitations.md)**: Transparent listing of known alpha boundaries and non-goals.
 
 ---
 
@@ -76,7 +75,7 @@ pnpm install
 pnpm doctor
 
 # 3. Run Local Offline Smoke Test
-node tools/automation/cli.mjs smoke
+pnpm smoke
 ```
 
 ---
@@ -84,7 +83,8 @@ node tools/automation/cli.mjs smoke
 ## License & Attribution
 
 - **Source Code**: [MIT License](LICENSE)
-- **Documentation**: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](Docs/LICENSING_REPORT.md)
+- **Documentation**: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](docs/project/licensing.md)
 - **Baseline Data**: [CC0-1.0 Universal Public Domain](examples/identifiers/benchmark-pack.json)
 
-For citation metadata, see [CITATION.cff](CITATION.cff) or [Docs/CITATION_GUIDE.md](Docs/CITATION_GUIDE.md).
+For citation metadata, see [CITATION.cff](CITATION.cff) or [docs/project/licensing.md](docs/project/licensing.md).
+

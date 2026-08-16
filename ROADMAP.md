@@ -1,5 +1,11 @@
-# Roadmap
+# SemantIQ Project Roadmap
 
-The canonical engineering roadmap is maintained in [Docs/IMPLEMENTATION_ROADMAP.md](Docs/IMPLEMENTATION_ROADMAP.md) and [Docs/SPRINT_PLAN.md](Docs/SPRINT_PLAN.md).
+The canonical public engineering roadmap is maintained in [docs/project/roadmap.md](docs/project/roadmap.md).
 
-Sprint 1 implementation status: local identity, workspace, knowledge, question, graph, search, dashboard, export, service descriptor, CLI, and documentation foundations are tracked in [Docs/SPRING_1.md](Docs/SPRING_1.md).
+## Release Milestones
+
+- **v0.1.0-alpha.1 (Current Baseline)**: Core evaluation engine, deterministic rubrics, local mock & OCI connectors, cryptographic evidence receipts.
+- **v0.2.0 (Planned Alpha 2)**: Extended multi-agent scenarios, distributed evaluation orchestration, real-time evaluation dashboard.
+- **v1.0.0 (General Availability)**: Production-ready enterprise gateway, multi-tenant evaluation mesh, expanded model connector ecosystem.
+
+For current capability boundaries and limitations, see [docs/project/limitations.md](docs/project/limitations.md).
