@@ -3,7 +3,7 @@ message: "If you use SemantIQ Benchmarks in your research or software, please ci
 title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit"
 version: "0.1.0-alpha.1"
 date-released: "2026-07-31"
-repository-code: "https://github.com/Semant-iq/Semantiq.git"
+repository-code: "https://github.com/Logorythmus-org/Semantiq.git"
 license: "MIT"
 authors:
   - family-names: "Tech Club Foundation"

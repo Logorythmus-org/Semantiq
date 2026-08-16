@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "version": "1.0.0",
+  "product": "SemantIQ Benchmarks",
+  "packageName": "@tech-club/semantiq",
+  "defaultPolicy": "deny",
+  "checksumPolicy": "sha256",
+  "symlinkPolicy": "reject_escape",
+  "hiddenFilePolicy": "reject_git_and_secrets",
+  "generatedFilePolicy": "exclude_dist_and_build",
+  "requiredFiles": [
+    "packages/semantiq/package.json",
+    "packages/semantiq/src/index.ts",
+    "LICENSE",
+    "products/semantiq/extraction-manifest.json"
+  ],
+  "includedPaths": [
+    "packages/semantiq",
+    "products/semantiq/specs/verb-taxonomy.json",
+    "products/semantiq/specs/single-agent-scenarios.json",
+    "products/semantiq/specs/multi-agent-scenarios.json",
+    "products/semantiq/specs/governance-scenarios.json",
+    "products/semantiq/specs/package-graph.json",
+    "examples/citation",
+    "examples/ecosystem",
+    "examples/kaggle",
+    "Docs/QUICK_START.md",
+    "CITATION.cff",
+    "codemeta.json",
+    "LICENSE"
+  ],
+  "excludedPaths": [
+    ".git",
+    "packages/civilization-kernel",
+    "packages/wallet",
+    "packages/question-network",
+    "packages/marketplace",
+    "packages/sprint1-runtime",
+    "packages/sprint2-runtime",
+    "packages/sprint3-runtime",
+    "packages/sprint4-runtime",
+    "packages/sprint5-runtime",
+    "packages/alpha-operations",
+    "packages/alpha-runtime",
+    "packages/mvp-runtime",
+    "packages/graph-runtime",
+    "packages/agent-runtime",
+    "packages/research",
+    "apps/",
+    "services/",
+    "Tech-Club-Architect-Blueprint.md",
+    "canonical-release-audit.md"
+  ],
+  "forbiddenImports": [
+    "@tech-club/civilization-kernel",
+    "@tech-club/wallet",
+    "@tech-club/question-network",
+    "@tech-club/marketplace"
+  ]
+}

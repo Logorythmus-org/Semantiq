@@ -4,11 +4,11 @@
   "publicationPhase": "P02_FINAL_RELEASE_CLAIM_AND_PUBLIC_SURFACE_SANITY_CHECK",
   "stagingDirectory": "C:/Users/Kaveh/Desktop/semantiq-clean-staging",
   "gitOriginRemote": "https://github.com/Logorythmus-org/Semantiq.git",
-  "generatedAt": "2026-08-16T08:15:06.626Z",
+  "generatedAt": "2026-08-16T08:20:50.390Z",
   "auditStatus": "PASS",
-  "fileCount": 2904,
-  "totalByteSize": 276526156,
-  "finalTreeIdentity": "a6a2241209826ebfbe692c0819b7965cab1e8320a49cb58d7f5a9cb30b760530",
+  "fileCount": 2910,
+  "totalByteSize": 276599897,
+  "finalTreeIdentity": "8a0fa30fb4c029f05204b7cf961702d2abc49da1e39372d9bd52ff06a7af8f9c",
   "files": [
     {
       "path": ".dockerignore",
@@ -427,8 +427,8 @@
     },
     {
       "path": "CITATION.cff",
-      "sizeBytes": 713,
-      "sha256": "61ba0c740de9cb112a69eeab8495f2b02ad956969b1d752073b21018115f7787"
+      "sizeBytes": 719,
+      "sha256": "0760c85dd950698acc14c1ea33d3cb6047af747859dbf80ed22ea9290083f0f5"
     },
     {
       "path": "clean-room-replication-record.json",
@@ -442,8 +442,8 @@
     },
     {
       "path": "codemeta.json",
-      "sizeBytes": 743,
-      "sha256": "b2d48ec1f588845ed780375e7ab1c4b651119d8c8e258eead4502b03a03f011d"
+      "sizeBytes": 755,
+      "sha256": "8721c0d150c62ae3c2376517ba7d26db2257bccc0a62068a3efbf23472bcd45a"
     },
     {
       "path": "commitlint.config.cjs",
@@ -11606,6 +11606,36 @@
       "sha256": "fb0461b884ac1002249cbe37495a3a055e0d279ae74f2b5f6fa4bbb86b3b2b63"
     },
     {
+      "path": "products/semantiq/extraction-manifest.json",
+      "sizeBytes": 1754,
+      "sha256": "7b47aa29d4c78592836360e454dc15928aa3ea8598c10e5f033d92f33dcfc19b"
+    },
+    {
+      "path": "products/semantiq/specs/governance-scenarios.json",
+      "sizeBytes": 4715,
+      "sha256": "04ba0915966d2d2dad4ae55aa469ecc462d576f43136652abd198554944c331d"
+    },
+    {
+      "path": "products/semantiq/specs/multi-agent-scenarios.json",
+      "sizeBytes": 14071,
+      "sha256": "a19c594fa3d334ba3534f8378a4ce41a4e896206e0be3f99d1d6532da5e65114"
+    },
+    {
+      "path": "products/semantiq/specs/package-graph.json",
+      "sizeBytes": 568,
+      "sha256": "e051d47e19548a241ff95b64904bc974880dbc4aadd6971351a08a61ce678ee1"
+    },
+    {
+      "path": "products/semantiq/specs/single-agent-scenarios.json",
+      "sizeBytes": 8099,
+      "sha256": "2a039ffefda089d24de2f4613ddb2c5665dcbf7ae88145335c011f39bc02a0e6"
+    },
+    {
+      "path": "products/semantiq/specs/verb-taxonomy.json",
+      "sizeBytes": 44498,
+      "sha256": "9c203d5e98a06adfad1c245b2608811a17e1522a0a1b9cb9ab174c17453358c7"
+    },
+    {
       "path": "pyproject.toml",
       "sizeBytes": 272,
       "sha256": "6da28f4da13f8c332daf383b535396cfda450a32a5c289351b5064759c5860c8"
@@ -14167,8 +14197,8 @@
     },
     {
       "path": "tests/unit/public-alpha-release.test.ts",
-      "sizeBytes": 722,
-      "sha256": "f085cb7b7e6900c81cbe14e4885d1854ee175992f63bcf1e691a4224aa8a71f6"
+      "sizeBytes": 740,
+      "sha256": "4c32bed4f46b884fb5afec055a7f089f545bdd8997ab18b5a0751885cf68feeb"
     },
     {
       "path": "tests/unit/public-feedback.test.ts",
