@@ -4,11 +4,11 @@
   "publicationPhase": "P02_FINAL_RELEASE_CLAIM_AND_PUBLIC_SURFACE_SANITY_CHECK",
   "stagingDirectory": "C:/Users/Kaveh/Desktop/semantiq-clean-staging",
   "gitOriginRemote": "https://github.com/Logorythmus-org/Semantiq.git",
-  "generatedAt": "2026-08-16T07:36:02.530Z",
+  "generatedAt": "2026-08-16T07:39:52.897Z",
   "auditStatus": "PASS",
   "fileCount": 2903,
-  "totalByteSize": 276526197,
-  "finalTreeIdentity": "6f53d998c97aab45a8e4ec9a18c87cb0a8df07988597fbe09148294e8b3f779c",
+  "totalByteSize": 276525322,
+  "finalTreeIdentity": "a28cdf797931b8f68b428bbac2ec1191176b42c7e04cbc556ea1733c499aea0d",
   "files": [
     {
       "path": ".dockerignore",
@@ -8212,8 +8212,8 @@
     },
     {
       "path": "package.json",
-      "sizeBytes": 3019,
-      "sha256": "35c72ad3e09823ec55938d0c6bbedf2469b4e6e44fd85326f71fc0d200600f63"
+      "sizeBytes": 2160,
+      "sha256": "0b99d5b1ed0a3a1a93b385e5e28d5250529561d621427dc31f519a9ac506c508"
     },
     {
       "path": "packages/adapter-cloud-base/package.json",
@@ -9422,8 +9422,8 @@
     },
     {
       "path": "packages/graph-runtime/src/index.ts",
-      "sizeBytes": 14218,
-      "sha256": "38f07a4f6f09b974108691f33a9cdc6954f2dd177c241073155a0176f34cd1e0"
+      "sizeBytes": 14202,
+      "sha256": "a314cc9adb4914d0b39c855f8aae2171179183af984744bca7989e7c32c42ea6"
     },
     {
       "path": "packages/graph-runtime/tests/knowledge-intelligence.test.ts",
