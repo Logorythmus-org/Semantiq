@@ -1,6 +1,19 @@
 # Changelog
 
-## 0.1.0-alpha.1 (2026-07-31)
+## 0.1.0-alpha.1 — Public Alpha Consolidation (2026-08-16)
+
+This update consolidates the SemantIQ Public Alpha repository into a clean, lightweight, product-focused distribution.
+
+### Highlights & Key Improvements
+- **Workspace Consolidation**: Decoupled legacy speculative modules and internal governance workpapers, reducing the repository footprint by 88.9% (to 2.74 MB / 861 files) while maintaining 100% test coverage.
+- **Brand & Namespace Alignment**: Standardized all package scopes under `@semantiq/*` and updated official repository URLs to `Logorythmus-org/Semantiq`. Added canonical SemantIQ CLI runner (`scripts/semantiq.mjs`).
+- **Curated Documentation**: Redesigned documentation tree into 8 structured sections (`getting-started`, `concepts`, `benchmarks`, `evidence`, `integrations`, `reference`, `security`, `project`) with 100% verified links.
+- **Onboarding Stabilization**: Validated the complete offline first-run user journey (`pnpm doctor`, `preflight`, `connector`, `smoke`, `reproduce`, `export`) requiring zero external dependencies or API keys.
+- **Security & Privacy Posture**: Comprehensive re-audit confirmed zero credential exposure, zero local operator paths, and local-first offline execution by default.
+
+---
+
+## 0.1.0-alpha.1 — Initial Public Alpha Candidate (2026-07-31)
 
 - **Controlled Public Alpha Candidate Release**
 - Added First-Run Doctor diagnostic command (`pnpm doctor`).
@@ -9,6 +22,8 @@
 - Added 9-role stakeholder audit suite and reproduction verification.
 - Added `CITATION.cff` metadata and GitHub Release draft.
 - Added zero-telemetry local-first Safe Mode posture.
+
+---
 
 ## 0.1.0-mvp-architecture
 
