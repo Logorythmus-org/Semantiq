@@ -40,7 +40,7 @@ export class SemantIQCliEngine {
     return { ...this.config };
   }
 
-  executeCommand(command: SemantIQCliCommand, args: readonly string[] = []): CliCommandResult {
+  executeCommand(command: SemantIQCliCommand, _args: readonly string[] = []): CliCommandResult {
     let success = true;
     let output = "";
 

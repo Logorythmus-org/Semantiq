@@ -3,7 +3,7 @@
  * Provider Marketplace & Discovery Architecture
  */
 
-import type { SandboxCapabilities, EnvironmentSpec } from "./types.js";
+import type { SandboxCapabilities } from "./types.js";
 import type {
   ProviderTrustTier,
   SecurityPostureGrade,
@@ -14,8 +14,7 @@ import type {
   ProviderLicenseInfo,
   ProviderCostStructure,
   ProviderDataPrivacyProfile,
-  ProviderExtensionMatrix,
-  ProviderEcosystemDescriptor
+  ProviderExtensionMatrix
 } from "./provider-model.js";
 
 export type MarketplaceDeploymentMode =

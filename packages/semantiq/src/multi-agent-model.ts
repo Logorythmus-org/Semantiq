@@ -1,5 +1,4 @@
 import type { BehavioralEventSchema, EvidenceChecksum } from "./event-schema.js";
-import type { PermissionGrant } from "./environment-permissions.js";
 import type { MissionContract } from "./mission-boundary.js";
 import type { IncidentEvidenceBundle } from "./consequence-recovery.js";
 

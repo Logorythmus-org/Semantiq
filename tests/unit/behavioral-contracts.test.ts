@@ -5,8 +5,6 @@ import type {
   ContextRecord,
   ActionRecord,
   ResultRecord,
-  ConsequenceRecord,
-  RecoveryRecord,
   BehaviorProfile
 } from "../../packages/semantiq/src/behavioral-contracts.js";
 

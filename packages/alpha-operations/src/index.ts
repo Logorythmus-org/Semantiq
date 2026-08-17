@@ -758,7 +758,7 @@ export class LocalAlphaOperationsRuntime {
     const activated = [...this.invitations.values()].filter((item) => item.accepted).length;
     const count = (type: ProductEventType): number =>
       this.productEvents.filter((event) => event.type === type).length;
-    const sessions = Math.max(1, count("SessionEnded") + activated);
+    const _sessions = Math.max(1, count("SessionEnded") + activated);
     const workflows = count("WorkflowStarted");
     return {
       invitedTesters: invited,

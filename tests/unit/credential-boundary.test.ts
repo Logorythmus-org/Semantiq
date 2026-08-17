@@ -3,11 +3,7 @@ import {
   SecretRedactor,
   CredentialBoundaryValidator
 } from "../../packages/sandbox-contracts/src/credentials.js";
-import type {
-  SecretRequirement,
-  ResolvedSecret,
-  CredentialResolutionContext
-} from "../../packages/sandbox-contracts/src/credentials.js";
+import type { CredentialResolutionContext } from "../../packages/sandbox-contracts/src/credentials.js";
 
 describe("SemantIQ Sandbox Phase — Credential and Secret Boundary", () => {
   it("redacts registered secret values and custom patterns from execution output", () => {

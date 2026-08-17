@@ -90,7 +90,7 @@ export class LongHorizonTestingEngine {
   ): LongHorizonEvaluationReport {
     const milestoneRecords: MilestoneExecutionRecord[] = [];
     let cumulativeOffset = 0;
-    let accumulatedTokens = 0;
+    let _accumulatedTokens = 0;
     let successfulMilestones = 0;
 
     for (let i = 0; i < spec.milestones.length; i++) {
@@ -128,7 +128,7 @@ export class LongHorizonTestingEngine {
         successfulMilestones++;
       }
 
-      accumulatedTokens += durationSteps * 450; // Estimated 450 tokens per step interaction
+      _accumulatedTokens += durationSteps * 450; // Estimated 450 tokens per step interaction
 
       milestoneRecords.push({
         milestoneId: milestone.milestoneId,

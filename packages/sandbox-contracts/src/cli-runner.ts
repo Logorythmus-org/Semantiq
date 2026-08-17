@@ -3,7 +3,6 @@
  * Local-First CLI Runner and Provider Dispatch Architecture
  */
 
-import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 import { SandboxBenchmarkCompiler, type SandboxBenchmarkDSL } from "./benchmark-dsl.js";
 import { ExecutionAPIService, type RunRecord } from "./execution-api.js";
 

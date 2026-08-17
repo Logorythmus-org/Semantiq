@@ -4,7 +4,7 @@
  */
 
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
-import type { EnvironmentSpec, ExecutionRequest, ExecutionResult } from "./types.js";
+import type { EnvironmentSpec } from "./types.js";
 
 export interface ProviderConfig {
   readonly providerId: string;

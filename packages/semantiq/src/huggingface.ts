@@ -1,4 +1,4 @@
-import type { BenchmarkReport, BenchmarkSubject } from "./contracts.js";
+import type { BenchmarkSubject } from "./contracts.js";
 
 export interface HuggingFaceDatasetRecord {
   readonly id: string;

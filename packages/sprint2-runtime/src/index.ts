@@ -1,6 +1,5 @@
 import {
   LocalSprint1Runtime,
-  type KnowledgeRecord,
   type QuestionRecord,
   type WorkspaceExport
 } from "../../sprint1-runtime/src/index.js";

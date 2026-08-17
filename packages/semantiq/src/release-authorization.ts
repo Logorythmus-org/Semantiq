@@ -77,7 +77,7 @@ export class ReleaseAuthorizationEngine {
 
   validateDecision(
     decision: ReleaseAuthorizationDecision,
-    gates: GateSuiteEvaluation
+    _gates: GateSuiteEvaluation
   ): ReleaseAuthorizationReport {
     const violations: string[] = [];
 

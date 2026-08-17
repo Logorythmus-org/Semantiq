@@ -1,9 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { MultiAgentCausalTracker } from "../../packages/sandbox-contracts/src/multi-agent.js";
-import type {
-  MultiAgentTopologySpec,
-  CommunicationPolicy
-} from "../../packages/sandbox-contracts/src/multi-agent.js";
+import type { CommunicationPolicy } from "../../packages/sandbox-contracts/src/multi-agent.js";
 
 describe("SemantIQ Sandbox Phase — Multi-Agent Sandbox", () => {
   const samplePolicies: CommunicationPolicy[] = [

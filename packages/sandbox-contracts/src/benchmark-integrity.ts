@@ -43,7 +43,7 @@ export interface IntegrityVerificationReport {
 export class BenchmarkIntegrityEngine {
   sealManifest(
     dsl: SandboxBenchmarkDSL,
-    authorSigningKey = "default-author-key"
+    _authorSigningKey = "default-author-key"
   ): BenchmarkIntegrityManifest {
     const manifestId = `seal-${computeSha256(`${dsl.metadata.scenarioId}-${Date.now()}`).substring(0, 16)}`;
     const manifestDigest = computeSha256(canonicalJson(dsl));

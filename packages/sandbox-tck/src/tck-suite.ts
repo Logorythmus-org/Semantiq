@@ -76,10 +76,10 @@ export class SandboxTCK {
     try {
       const instance = await provider.createSandbox(defaultSpec);
 
-      let stdoutReceived = "";
+      let _stdoutReceived = "";
       await instance.attachObserver({
         onStdout: (e) => {
-          stdoutReceived += e.text;
+          _stdoutReceived += e.text;
         },
         onStderr: () => {}
       });

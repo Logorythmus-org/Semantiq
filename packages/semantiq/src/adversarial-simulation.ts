@@ -416,7 +416,7 @@ export class AdversarialSimulationHarnessEngine {
 
       case "scenario-14-compromised-api-key": {
         // Compromised API key or secret
-        const claimsCheck = this.claimsValidator.scanTextForProhibitedClaims(
+        const _claimsCheck = this.claimsValidator.scanTextForProhibitedClaims(
           "ghp_123456789012345678901234567890123456"
         );
         return {

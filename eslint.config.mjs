@@ -39,7 +39,14 @@ export default tseslint.config(
       "@typescript-eslint/no-redundant-type-constituents": "off",
       "@typescript-eslint/no-duplicate-type-constituents": "off",
       "@typescript-eslint/restrict-template-expressions": "off",
-      "@typescript-eslint/no-unused-vars": "warn",
+      "@typescript-eslint/no-unused-vars": [
+        "warn",
+        {
+          argsIgnorePattern: "^_",
+          varsIgnorePattern: "^_",
+          caughtErrorsIgnorePattern: "^_"
+        }
+      ],
       "@typescript-eslint/await-thenable": "off",
       "@typescript-eslint/no-base-to-string": "off",
       "@typescript-eslint/no-unnecessary-type-assertion": "off",
@@ -57,6 +64,7 @@ export default tseslint.config(
   {
     files: ["tests/**/*.ts", "**/tests/**/*.ts"],
     rules: {
+      "@typescript-eslint/no-unused-vars": "off",
       "@typescript-eslint/ban-ts-comment": "off",
       "@typescript-eslint/no-non-null-assertion": "off"
     }
