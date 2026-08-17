@@ -92,7 +92,7 @@ export class SandboxEconomicAuditEngine {
         operationalCostModel: "$0.00 infrastructure overhead for SemantIQ protocol governance",
         findings:
           "SemantIQ operates purely as the protocol and evaluation authority; runtime compute is delegated to execution providers.",
-        evidenceArtifact: "Docs/sandbox/SANDBOX_PROVIDER_ECONOMICS_SPEC.md"
+        evidenceArtifact: "docs/sandbox/SANDBOX_PROVIDER_ECONOMICS_SPEC.md"
       },
       {
         dimensionId: "ECON-05",
@@ -140,7 +140,7 @@ export class SandboxEconomicAuditEngine {
         operationalCostModel: "Private enterprise infrastructure",
         findings:
           "Air-gapped verification confirmed in Phase Security Audit; all evidence packages export to local disk.",
-        evidenceArtifact: "Docs/sandbox/SANDBOX_PHASE_SECURITY_AUDIT_SPEC.md"
+        evidenceArtifact: "docs/sandbox/SANDBOX_PHASE_SECURITY_AUDIT_SPEC.md"
       }
     ];
 

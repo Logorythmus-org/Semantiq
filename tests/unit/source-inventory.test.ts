@@ -17,7 +17,7 @@ describe("SemantIQ Source Inventory Freeze (Prompt 11.1)", () => {
   });
 
   it("classifies public documentation path correctly", () => {
-    const item = engine.classifyPath("Docs/phase-10/POLICY_EVIDENCE_MODEL.md", true);
+    const item = engine.classifyPath("docs/phase-10/POLICY_EVIDENCE_MODEL.md", true);
     expect(item.classification).toBe("PUBLIC_DOCUMENTATION");
   });
 

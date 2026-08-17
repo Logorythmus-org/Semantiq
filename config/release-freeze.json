@@ -11,8 +11,8 @@
   ],
   "requiredSealsForPublication": [
     "products/semantiq/extraction-manifest.json",
-    "Docs/phase-11/PHASE_11_RELEASE_SEAL.md",
-    "Docs/phase-12/PHASE_12_PUBLICATION_AUTHORIZATION.json"
+    "docs/phase-11/PHASE_11_RELEASE_SEAL.md",
+    "docs/phase-12/PHASE_12_PUBLICATION_AUTHORIZATION.json"
   ],
   "disallowedParentPaths": [
     "packages/wallet",

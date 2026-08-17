@@ -12,4 +12,4 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: test -f README.md
-      - run: test -f Docs/PRODUCTION_ENGINEERING_GUIDE.md
+      - run: test -f docs/PRODUCTION_ENGINEERING_GUIDE.md

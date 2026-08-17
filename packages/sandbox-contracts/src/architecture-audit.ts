@@ -333,7 +333,7 @@ export class SandboxArchitectureAuditEngine {
         tested: true,
         verified: true,
         status: "PASS",
-        evidenceFile: "Docs/sandbox/"
+        evidenceFile: "docs/sandbox/"
       },
       {
         checkId: 30,
@@ -343,7 +343,7 @@ export class SandboxArchitectureAuditEngine {
         tested: true,
         verified: true,
         status: "PASS",
-        evidenceFile: "Docs/sandbox/SANDBOX_BENCHMARK_REPORT_SPEC.md"
+        evidenceFile: "docs/sandbox/SANDBOX_BENCHMARK_REPORT_SPEC.md"
       }
     ];
 

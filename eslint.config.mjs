@@ -12,7 +12,7 @@ export default tseslint.config(
       "artifacts/**",
       ".turbo/**",
       "**/.turbo/**",
-      "Docs/**",
+      "docs/**",
       "**/*.mjs",
       "**/*.cjs",
       "storybook.config.ts",

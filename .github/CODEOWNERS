@@ -1,8 +1,8 @@
-* @tech-club/maintainers
-/packages/core/ @tech-club/platform
-/packages/identity/ @tech-club/security
-/packages/workspace/ @tech-club/workspace
-/packages/semantiq/ @tech-club/semantiq
-/services/ @tech-club/platform
-/apps/ @tech-club/apps
-/Docs/ @tech-club/docs
+* @Logorythmus-org/maintainers
+/packages/core/ @Logorythmus-org/platform
+/packages/identity/ @Logorythmus-org/security
+/packages/workspace/ @Logorythmus-org/workspace
+/packages/semantiq/ @Logorythmus-org/semantiq
+/services/ @Logorythmus-org/platform
+/apps/ @Logorythmus-org/apps
+/docs/ @Logorythmus-org/docs

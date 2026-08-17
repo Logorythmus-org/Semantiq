@@ -40,7 +40,7 @@ export class SemantIQSourceInventoryEngine {
       classification = "PUBLIC_CORE";
     } else if (filePath.startsWith("tests/unit/") || filePath.startsWith("tests/contracts/")) {
       classification = "PUBLIC_TEST";
-    } else if (filePath.startsWith("Docs/")) {
+    } else if (filePath.startsWith("docs/") || filePath.startsWith("Docs/")) {
       classification = "PUBLIC_DOCUMENTATION";
     } else if (filePath.startsWith("examples/")) {
       classification = "PUBLIC_EXAMPLE";

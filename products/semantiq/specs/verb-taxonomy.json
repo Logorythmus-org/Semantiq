@@ -485,7 +485,7 @@
       "evidenceRequirements": ["src_path", "dest_path"],
       "allowedAliases": ["rename_file", "mv"],
       "prohibitedAmbiguousAliases": ["shift"],
-      "exampleEvents": ["Moved report to Docs/phase-8/."],
+      "exampleEvents": ["Moved report to docs/phase-8/."],
       "nonExamples": ["Copied file."]
     },
     {
