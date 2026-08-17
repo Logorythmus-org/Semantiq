@@ -12,4 +12,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - run: test -f README.md
-      - run: test -f docs/PRODUCTION_ENGINEERING_GUIDE.md
+      - run: test -f docs/README.md
+      - run: test -f docs/getting-started/index.md
+      - run: test -f docs/getting-started/installation.md
+      - run: test -f docs/concepts/architecture.md
+      - run: test -f docs/project/limitations.md
