@@ -71,6 +71,7 @@ export * from "./release-candidate-integrity.js";
 export * from "./final-launch-authorization.js";
 export * from "./sandbox.js";
 export * from "./services/index.js";
+export * from "./http/index.js";
 
 import type {
   BenchmarkHistory,
