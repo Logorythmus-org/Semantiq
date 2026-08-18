@@ -196,3 +196,66 @@ export interface ImportBundleResult {
   readonly importedRunsCount: number;
   readonly importedEvaluationsCount: number;
 }
+
+export const EPISTEMIC_BUNDLE_DISCLAIMER =
+  "Bundle integrity proves provenance/integrity, not truth.";
+
+export interface SoftwareFingerprints {
+  readonly runtime: string;
+  readonly platform: string;
+  readonly toolchainVersion: string;
+  readonly deterministicSeed: number;
+  readonly packages: Readonly<Record<string, string>>;
+  readonly environmentFingerprint: string;
+}
+
+export interface WorkspaceSnapshot {
+  readonly snapshotId: string;
+  readonly workspaceName: string;
+  readonly capturedAt: string;
+  readonly softwareFingerprints: SoftwareFingerprints;
+  readonly activePackages: readonly string[];
+  readonly activeProfilesCount: number;
+  readonly activeRunsCount: number;
+  readonly activeEvaluationsCount: number;
+  readonly snapshotSha256: string;
+}
+
+export interface BundleComponentArtifact {
+  readonly path: string;
+  readonly sha256: string;
+  readonly mediaType: string;
+  readonly sizeBytes: number;
+  readonly category: string;
+}
+
+export interface ResearchBundleManifest {
+  readonly bundleId: string;
+  readonly version: string;
+  readonly studyId: string;
+  readonly title: string;
+  readonly author: string;
+  readonly license: string;
+  readonly createdAt: string;
+  readonly softwareFingerprints: SoftwareFingerprints;
+  readonly sourceEvaluationIds: readonly string[];
+  readonly sourceRunIds: readonly string[];
+  readonly workspaceSnapshot?: WorkspaceSnapshot | undefined;
+  readonly componentArtifacts: readonly BundleComponentArtifact[];
+  readonly merkleRootHash: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_BUNDLE_DISCLAIMER;
+}
+
+export interface BundleVerificationResult {
+  readonly isValid: boolean;
+  readonly bundleId: string;
+  readonly tamperDetected: boolean;
+  readonly merkleRootValid: boolean;
+  readonly verifiedArtifactCount: number;
+  readonly missingArtifacts: readonly string[];
+  readonly corruptedArtifacts: readonly string[];
+  readonly violations: readonly string[];
+  readonly verifiedAt: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_BUNDLE_DISCLAIMER;
+}
+

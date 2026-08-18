@@ -16,6 +16,7 @@ EPISTEMIC_ROBUSTNESS_DISCLAIMER = "Robustness across specifications does not est
 EPISTEMIC_REPRODUCIBILITY_DISCLAIMER = "Stable fingerprints prove artifact/config reproducibility, not scientific replication."
 EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth. All empirical claims are scoped associations."
 EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criteria fulfillment, not scientific proof."
+EPISTEMIC_BUNDLE_DISCLAIMER = "Bundle integrity proves provenance/integrity, not truth."
 
 
 def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
@@ -568,3 +569,68 @@ class ImportBundleResult(_ContractMixin):
     imported_claims_count: int
     imported_runs_count: int
     imported_evaluations_count: int
+
+
+@dataclass
+class SoftwareFingerprints(_ContractMixin):
+    runtime: str
+    platform: str
+    toolchain_version: str
+    deterministic_seed: int
+    packages: Dict[str, str]
+    environment_fingerprint: str
+
+
+@dataclass
+class WorkspaceSnapshot(_ContractMixin):
+    snapshot_id: str
+    workspace_name: str
+    captured_at: str
+    software_fingerprints: SoftwareFingerprints
+    active_packages: List[str]
+    active_profiles_count: int
+    active_runs_count: int
+    active_evaluations_count: int
+    snapshot_sha256: str
+
+
+@dataclass
+class BundleComponentArtifact(_ContractMixin):
+    path: str
+    sha256: str
+    media_type: str
+    size_bytes: int
+    category: str
+
+
+@dataclass
+class ResearchBundleManifest(_ContractMixin):
+    bundle_id: str
+    version: str
+    study_id: str
+    title: str
+    author: str
+    license: str
+    created_at: str
+    software_fingerprints: SoftwareFingerprints
+    source_evaluation_ids: List[str]
+    source_run_ids: List[str]
+    component_artifacts: List[BundleComponentArtifact]
+    merkle_root_hash: str
+    workspace_snapshot: Optional[WorkspaceSnapshot] = None
+    epistemic_disclaimer: str = EPISTEMIC_BUNDLE_DISCLAIMER
+
+
+@dataclass
+class BundleVerificationResult(_ContractMixin):
+    is_valid: bool
+    bundle_id: str
+    tamper_detected: bool
+    merkle_root_valid: bool
+    verified_artifact_count: int
+    missing_artifacts: List[str]
+    corrupted_artifacts: List[str]
+    violations: List[str]
+    verified_at: str
+    epistemic_disclaimer: str = EPISTEMIC_BUNDLE_DISCLAIMER
+
