@@ -3,7 +3,8 @@
  * Entry Point for the Canonical Evidence Engine, Bridge Adapters, Semantic Trace Mapping,
  * Behavioral Metrics, Immutable Evaluation Ledger, Research/Failure Extraction,
  * Cross-Run Evidence Graph, Matched Statistical Contrast, Robustness Diagnostics,
- * Deterministic Evidence Governance, Governed Claim Registry, and Evidence Watch Reconciliation
+ * Deterministic Evidence Governance, Governed Claim Registry, Evidence Watch Reconciliation,
+ * and Persistent Research Workbench
  */
 
 export * from "./types.js";
@@ -39,3 +40,6 @@ export * from "./claim-reconciliation/types.js";
 export * from "./claim-reconciliation/claim-dependency-index.js";
 export * from "./claim-reconciliation/evidence-change-detector.js";
 export * from "./claim-reconciliation/evidence-watch-engine.js";
+export * from "./research-workbench/types.js";
+export * from "./research-workbench/workbench-audit-log.js";
+export * from "./research-workbench/research-workbench-engine.js";
