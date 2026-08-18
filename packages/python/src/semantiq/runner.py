@@ -1,9 +1,11 @@
 """
 SemantIQ Local Deterministic Evaluation Runner (Python).
+
+Runs offline deterministic evaluation cases without external network dependencies.
 """
 import time
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Optional
 
 from .contracts import (
     PRODUCT_CONTRACTS_SCHEMA_VERSION,
@@ -14,6 +16,7 @@ from .contracts import (
     ClaimStatus,
     EpistemicNature,
     Evaluation,
+    EvaluationResult,
     EvaluationStatus,
     EvidenceConfidence,
     EvidenceObservation,
@@ -26,8 +29,9 @@ from .contracts import (
     SystemProfile,
     Trace,
     TraceStatus,
+    compute_sha256,
 )
-from .errors import EvaluationError, ValidationError
+from .errors import ValidationError
 
 
 class LocalDeterministicRunner:
@@ -42,14 +46,16 @@ class LocalDeterministicRunner:
         benchmark: Benchmark,
         case: Case,
         deterministic_seed: Optional[str] = None
-    ) -> Dict[str, Any]:
+    ) -> EvaluationResult:
+        """Executes a benchmark case against a SystemProfile deterministically."""
         if not system_profile.id or not benchmark.id or not case.id:
             raise ValidationError("system_profile, benchmark, and case must all have valid non-empty IDs.")
 
         now_iso = datetime.now(timezone.utc).isoformat()
-        run_id = f"run_{int(time.time() * 1000)}"
-        trace_id = f"trc_{int(time.time() * 1000)}"
-        eval_id = f"eval_{int(time.time() * 1000)}"
+        ts_seed = int(time.time() * 1000)
+        run_id = f"run_{ts_seed}"
+        trace_id = f"trc_{ts_seed}"
+        eval_id = f"eval_{ts_seed}"
 
         run = Run(
             id=run_id,
@@ -81,21 +87,24 @@ class LocalDeterministicRunner:
             ended_at=now_iso
         )
 
+        raw_obs_data = {"score": 1.0, "status": "pass", "caseId": case.id}
+        obs_sig = compute_sha256(raw_obs_data)
+
         observation = EvidenceObservation(
-            id=f"obs_{int(time.time() * 1000)}",
+            id=f"obs_{ts_seed}",
             version=PRODUCT_CONTRACTS_SCHEMA_VERSION,
             trace_id=trace_id,
             run_id=run_id,
             nature=EpistemicNature.OBSERVED,
             category=ObservationCategory.BEHAVIORAL_TRACE,
-            data={"score": 1.0, "status": "pass"},
+            data=raw_obs_data,
             confidence=EvidenceConfidence.DETERMINISTIC,
-            sha256_signature="0" * 64,
+            sha256_signature=obs_sig,
             recorded_at=now_iso
         )
 
         claim = Claim(
-            id=f"clm_{int(time.time() * 1000)}",
+            id=f"clm_{ts_seed}",
             version=PRODUCT_CONTRACTS_SCHEMA_VERSION,
             evaluation_id=eval_id,
             statement=f"Evaluation passed for {system_profile.name} on {case.title}.",
@@ -122,7 +131,7 @@ class LocalDeterministicRunner:
         )
 
         review = Review(
-            id=f"rev_{int(time.time() * 1000)}",
+            id=f"rev_{ts_seed}",
             version=PRODUCT_CONTRACTS_SCHEMA_VERSION,
             target_id=eval_id,
             reviewer_id="reviewer_local_python_runner",
@@ -133,11 +142,11 @@ class LocalDeterministicRunner:
             reviewed_at=now_iso
         )
 
-        return {
-            "run": run,
-            "trace": trace,
-            "evaluation": evaluation,
-            "claims": [claim],
-            "observations": [observation],
-            "review": review
-        }
+        return EvaluationResult(
+            run=run,
+            trace=trace,
+            evaluation=evaluation,
+            claims=[claim],
+            observations=[observation],
+            review=review
+        )

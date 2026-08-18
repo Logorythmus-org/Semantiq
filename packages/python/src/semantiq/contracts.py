@@ -1,12 +1,37 @@
 """
 SemantIQ Canonical Product Contracts & Enums (Python).
+
+Fully-typed dataclasses and enums matching canonical language-neutral schema contracts.
 """
-from dataclasses import dataclass, field
+from dataclasses import asdict, dataclass, field
 from enum import Enum
-from typing import Any, Dict, List, Optional
+import hashlib
+import json
+from typing import Any, Dict, List, Optional, Union
 
 PRODUCT_CONTRACTS_SCHEMA_VERSION = "1.0.0"
 
+EPISTEMIC_CAUSAL_DISCLAIMER = "Matched association is not proof of causal effect."
+EPISTEMIC_ROBUSTNESS_DISCLAIMER = "Robustness across specifications does not establish causal identification."
+EPISTEMIC_REPRODUCIBILITY_DISCLAIMER = "Stable fingerprints prove artifact/config reproducibility, not scientific replication."
+EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth. All empirical claims are scoped associations."
+EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criteria fulfillment, not scientific proof."
+
+
+def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
+    """Computes SHA-256 digest of a string, bytes, or canonical JSON representation."""
+    if isinstance(payload, dict) or isinstance(payload, list):
+        data = json.dumps(payload, sort_keys=True).encode("utf-8")
+    elif isinstance(payload, str):
+        data = payload.encode("utf-8")
+    else:
+        data = payload
+    return hashlib.sha256(data).hexdigest()
+
+
+# ==========================================
+# Core Enums
+# ==========================================
 
 class RunStatus(str, Enum):
     PENDING = "pending"
@@ -102,55 +127,80 @@ class EvaluationStatus(str, Enum):
     FAILED = "failed"
     DEGRADED = "degraded"
     INSUFFICIENT_DATA = "insufficient_data"
-    INCONCLUSIVE = "inconclusive"
+    DISPUTED = "disputed"
 
 
 class ClaimAssertionType(str, Enum):
-    CAPABILITY_BOUND = "capability_bound"
-    SAFETY_GUARANTEE = "safety_guarantee"
+    BEHAVIORAL_BOUNDARY = "behavioral_boundary"
     ANTI_GAMING_RESISTANCE = "anti_gaming_resistance"
-    REPRODUCIBILITY_INVARIANCE = "reproducibility_invariance"
-    COST_EFFICIENCY = "cost_efficiency"
+    DEGRADED_MODE_TOLERANCE = "degraded_mode_tolerance"
+    CONSENSUS_STABILITY = "consensus_stability"
+    ATTRIBUTION_INTEGRITY = "attribution_integrity"
 
 
 class ClaimStatus(str, Enum):
+    PROPOSED = "proposed"
     VERIFIED = "verified"
-    FALSIFIED = "falsified"
-    UNSUPPORTED = "unsupported"
-    INSUFFICIENT_DATA = "insufficient_data"
+    DISPUTED = "disputed"
+    RETRACTED = "retracted"
+
+
+class GovernedClaimLifecycleStatus(str, Enum):
+    DRAFT = "draft"
+    ACTIVE = "active"
+    SUPERSEDED = "superseded"
+    RETRACTED = "retracted"
 
 
 class ReviewerRole(str, Enum):
-    INDEPENDENT_OBSERVER = "independent_observer"
-    DOMAIN_EXPERT = "domain_expert"
     AUTOMATED_AUDITOR = "automated_auditor"
     PEER_REVIEWER = "peer_reviewer"
+    INDEPENDENT_OBSERVER = "independent_observer"
+    SECURITY_RESEARCHER = "security_researcher"
 
 
 class ReviewVerdict(str, Enum):
     APPROVED = "approved"
     REJECTED = "rejected"
-    DISPUTED = "disputed"
-    NEEDS_REVISION = "needs_revision"
-    INSUFFICIENT_DATA = "insufficient_data"
+    FLAGGED_FOR_AUDIT = "flagged_for_audit"
+    ABSTAINED = "abstained"
 
 
 class PartnerRole(str, Enum):
-    BENCHMARK_CONTRIBUTOR = "benchmark_contributor"
-    EVALUATION_HOST = "evaluation_host"
-    AUDIT_PARTNER = "audit_partner"
-    ACADEMIC_COLLABORATOR = "academic_collaborator"
+    FOUNDING_RESEARCH = "founding_research"
+    OBSERVER = "observer"
+    COMMUNITY = "community"
+    AUDITOR = "auditor"
 
 
 class StudyStatus(str, Enum):
     DRAFT = "draft"
-    IN_REVIEW = "in_review"
+    PEER_REVIEW = "peer_review"
     PUBLISHED = "published"
+    REPRODUCED = "reproduced"
     ARCHIVED = "archived"
 
 
+# ==========================================
+# Base Contract Mixin
+# ==========================================
+
+class _ContractMixin:
+    def to_dict(self) -> Dict[str, Any]:
+        """Converts dataclass instance to standard dictionary."""
+        return asdict(self)
+
+    def to_json(self, indent: Optional[int] = None) -> str:
+        """Serializes dataclass instance to canonical JSON string."""
+        return json.dumps(self.to_dict(), indent=indent, sort_keys=True)
+
+
+# ==========================================
+# 15 Core Entity Dataclasses
+# ==========================================
+
 @dataclass
-class SystemProfile:
+class SystemProfile(_ContractMixin):
     id: str
     version: str
     name: str
@@ -164,7 +214,7 @@ class SystemProfile:
 
 
 @dataclass
-class Benchmark:
+class Benchmark(_ContractMixin):
     id: str
     version: str
     name: str
@@ -179,7 +229,7 @@ class Benchmark:
 
 
 @dataclass
-class Case:
+class Case(_ContractMixin):
     id: str
     version: str
     benchmark_id: str
@@ -192,33 +242,7 @@ class Case:
 
 
 @dataclass
-class TraceEvent:
-    id: str
-    trace_id: str
-    sequence_index: int
-    timestamp: str
-    type: TraceEventType
-    source: TraceEventSource
-    payload: Dict[str, Any]
-    sha256_hash: str
-
-
-@dataclass
-class Trace:
-    id: str
-    version: str
-    run_id: str
-    case_id: str
-    status: TraceStatus
-    events: List[TraceEvent]
-    token_usage: Dict[str, Any]
-    duration_ms: float
-    started_at: str
-    ended_at: str
-
-
-@dataclass
-class Run:
+class Run(_ContractMixin):
     id: str
     version: str
     benchmark_id: str
@@ -234,31 +258,58 @@ class Run:
 
 
 @dataclass
-class Pattern:
+class TraceEvent(_ContractMixin):
+    id: str
+    trace_id: str
+    sequence_index: int
+    timestamp: str
+    type: Union[TraceEventType, str]
+    source: Union[TraceEventSource, str]
+    payload: Dict[str, Any]
+    sha256_hash: str
+
+
+@dataclass
+class Trace(_ContractMixin):
     id: str
     version: str
+    run_id: str
+    case_id: str
+    status: TraceStatus
+    events: List[TraceEvent]
+    token_usage: Dict[str, Any]
+    duration_ms: float
+    started_at: str
+    ended_at: str
+
+
+@dataclass
+class Pattern(_ContractMixin):
+    id: str
+    version: str
+    code: str
     name: str
     category: PatternCategory
     description: str
-    detection_rule: Dict[str, Any]
     severity: PatternSeverity
-    confidence: EvidenceConfidence
+    mitigations: List[str] = field(default_factory=list)
+    tags: List[str] = field(default_factory=list)
 
 
 @dataclass
-class Relation:
+class Relation(_ContractMixin):
     id: str
     version: str
-    source_id: str
-    target_id: str
-    relation_type: RelationType
+    source_pattern_id: str
+    target_pattern_id: str
+    type: RelationType
     weight: float
     nature: EpistemicNature
-    evidence_ids: List[str]
+    evidence_ids: List[str] = field(default_factory=list)
 
 
 @dataclass
-class EvidenceObservation:
+class EvidenceObservation(_ContractMixin):
     id: str
     version: str
     nature: EpistemicNature
@@ -272,7 +323,7 @@ class EvidenceObservation:
 
 
 @dataclass
-class Evaluation:
+class Evaluation(_ContractMixin):
     id: str
     version: str
     run_id: str
@@ -287,7 +338,7 @@ class Evaluation:
 
 
 @dataclass
-class Claim:
+class Claim(_ContractMixin):
     id: str
     version: str
     evaluation_id: str
@@ -297,11 +348,11 @@ class Claim:
     nature: EpistemicNature
     supporting_observation_ids: List[str]
     refuting_observation_ids: List[str]
-    scope: Dict[str, Any]
+    scope: Dict[str, Any] = field(default_factory=dict)
 
 
 @dataclass
-class Review:
+class Review(_ContractMixin):
     id: str
     version: str
     target_id: str
@@ -314,7 +365,7 @@ class Review:
 
 
 @dataclass
-class Partner:
+class Partner(_ContractMixin):
     id: str
     version: str
     name: str
@@ -326,7 +377,7 @@ class Partner:
 
 
 @dataclass
-class Study:
+class Study(_ContractMixin):
     id: str
     version: str
     title: str
@@ -337,12 +388,12 @@ class Study:
     run_ids: List[str]
     evaluation_ids: List[str]
     status: StudyStatus
-    citation: Dict[str, str] = field(default_factory=dict)
+    citation: Optional[Dict[str, str]] = None
     published_at: Optional[str] = None
 
 
 @dataclass
-class ResearchBundle:
+class ResearchBundle(_ContractMixin):
     id: str
     version: str
     study_id: str
@@ -351,3 +402,169 @@ class ResearchBundle:
     included_artifacts: List[Dict[str, str]]
     license: str
     created_timestamp: str
+
+
+# ==========================================
+# Extended Governed Evidence Models
+# ==========================================
+
+@dataclass
+class ControlledLanguageViolation(_ContractMixin):
+    term: str
+    category: str
+    suggested_replacement: str
+    rationale: str
+
+
+@dataclass
+class ControlledLanguageValidationResult(_ContractMixin):
+    is_valid: bool
+    violations: List[ControlledLanguageViolation]
+    statement: str
+
+
+@dataclass
+class GovernedEvidenceClaim(_ContractMixin):
+    id: str
+    claim_family_id: str
+    claim_family_topic: str
+    target_pattern_or_relation_id: str
+    version: str
+    statement: str
+    status: GovernedClaimLifecycleStatus
+    governance_verdict: str
+    evidence_references: Dict[str, List[str]]
+    approvals: List[Dict[str, Any]]
+    created_at: str
+    released_at: Optional[str] = None
+    retraction_reason: Optional[str] = None
+    epistemic_disclaimer: str = EPISTEMIC_LANGUAGE_DISCLAIMER
+
+
+# ==========================================
+# Matched Controls & Statistical Contrast Models
+# ==========================================
+
+@dataclass
+class EnvironmentProfile(_ContractMixin):
+    provider: str
+    platform: str
+    network_isolated: bool
+    os: str
+
+
+@dataclass
+class ModelProfile(_ContractMixin):
+    model_family: str
+    model_id: str
+    temperature: float
+
+
+@dataclass
+class PopulationProfile(_ContractMixin):
+    agent_count: int
+    topology: str
+
+
+@dataclass
+class ToolsProfile(_ContractMixin):
+    tool_count: int
+    has_boundary_guard: bool
+    allowed_tool_names: List[str]
+
+
+@dataclass
+class MemoryProfile(_ContractMixin):
+    context_window_tokens: int
+    has_memory_partitioning: bool
+
+
+@dataclass
+class ResourcePressureProfile(_ContractMixin):
+    max_steps: int
+    token_budget: int
+    throttle_rps: Optional[float] = None
+
+
+@dataclass
+class RunProfile(_ContractMixin):
+    run_id: str
+    is_treatment: bool
+    environment: EnvironmentProfile
+    model: ModelProfile
+    population: PopulationProfile
+    tools: ToolsProfile
+    memory: MemoryProfile
+    resource_pressure: ResourcePressureProfile
+    horizon: str
+    outcome_metrics: Dict[str, float]
+
+
+@dataclass
+class MatchedRunPair(_ContractMixin):
+    pair_id: str
+    treatment_run: RunProfile
+    control_run: RunProfile
+    matched_dimensions: List[str]
+    metric_delta: float
+
+
+@dataclass
+class BootstrapConfidenceInterval(_ContractMixin):
+    lower: float
+    upper: float
+    mean_delta: float
+    confidence_level: float
+    iterations: int
+    is_significant: bool
+
+
+@dataclass
+class ExactSignTestResult(_ContractMixin):
+    positive_count: int
+    negative_count: int
+    zero_count: int
+    total_pairs: int
+    p_value: float
+    is_significant: bool
+
+
+@dataclass
+class MatchedContrastReport(_ContractMixin):
+    report_id: str
+    target_metric: str
+    treatment_count: int
+    control_count: int
+    matched_pairs_count: int
+    unmatched_count: int
+    matching_coverage_ratio: float
+    mean_treatment_score: float
+    mean_control_score: float
+    mean_delta: float
+    bootstrap_ci: BootstrapConfidenceInterval
+    sign_test: ExactSignTestResult
+    statistical_evidence_grade: str
+    epistemic_disclaimer: str = EPISTEMIC_CAUSAL_DISCLAIMER
+
+
+# ==========================================
+# Workflow Result Models
+# ==========================================
+
+@dataclass
+class EvaluationResult(_ContractMixin):
+    run: Run
+    trace: Trace
+    evaluation: Evaluation
+    claims: List[Claim]
+    observations: List[EvidenceObservation]
+    review: Review
+
+
+@dataclass
+class ImportBundleResult(_ContractMixin):
+    verified: bool
+    bundle_id: str
+    imported_claims_count: int
+    imported_runs_count: int
+    imported_evaluations_count: int

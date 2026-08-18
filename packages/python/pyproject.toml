@@ -25,6 +25,9 @@ classifiers = [
 ]
 dependencies = []
 
+[project.scripts]
+semantiq = "semantiq.cli:main"
+
 [project.optional-dependencies]
 pandas = ["pandas>=2.0.0"]
 jupyter = ["ipywidgets>=8.0.0", "matplotlib>=3.7.0"]

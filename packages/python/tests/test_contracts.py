@@ -41,7 +41,7 @@ from semantiq.client import SemantiqClient
 @pytest.fixture
 def canonical_fixtures():
     # Look for fixture file in repository root or relative path
-    repo_root = Path(__file__).resolve().parents[2]
+    repo_root = Path(__file__).resolve().parents[3]
     fixture_file = repo_root / "fixtures" / "contracts" / "canonical_entities.json"
     if not fixture_file.exists():
         fixture_file = Path("fixtures/contracts/canonical_entities.json")
@@ -70,6 +70,11 @@ def test_system_profile_fixture(canonical_fixtures):
     assert profile.id.startswith("sys_prof_")
     assert profile.model_family == "gpt"
     assert profile.context_window_tokens == 128000
+    
+    # Test roundtrip
+    d = profile.to_dict()
+    assert d["name"] == raw["name"]
+    assert d["context_window_tokens"] == 128000
 
 
 def test_benchmark_and_case_fixtures(canonical_fixtures):
@@ -193,11 +198,11 @@ def test_python_client_evaluate_flow(canonical_fixtures):
     )
 
     result = client.evaluate(system_profile=profile, benchmark=bmk, case=case)
-    assert result["run"].status == RunStatus.COMPLETED
-    assert result["evaluation"].status == EvaluationStatus.PASSED
-    assert result["evaluation"].overall_score == 1.0
-    assert len(result["claims"]) == 1
-    assert result["claims"][0].status == ClaimStatus.VERIFIED
+    assert result.run.status == RunStatus.COMPLETED
+    assert result.evaluation.status == EvaluationStatus.PASSED
+    assert result.evaluation.overall_score == 1.0
+    assert len(result.claims) == 1
+    assert result.claims[0].status == ClaimStatus.VERIFIED
 
 
 def test_python_client_verify_receipt(canonical_fixtures):
