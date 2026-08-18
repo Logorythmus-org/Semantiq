@@ -1,6 +1,6 @@
 /**
  * @package @semantiq/evidence
- * Entry Point for the Canonical Evidence Engine, Bridge Adapters, and Semantic Trace Mapping
+ * Entry Point for the Canonical Evidence Engine, Bridge Adapters, Semantic Trace Mapping, and Behavioral Metrics
  */
 
 export * from "./types.js";
@@ -10,3 +10,6 @@ export * from "./schema-fingerprint.js";
 export * from "./trace-mapping-profile.js";
 export * from "./mapping-suggester.js";
 export * from "./trace-mapper-engine.js";
+export * from "./behavioral-metrics/types.js";
+export * from "./behavioral-metrics/metric-definitions.js";
+export * from "./behavioral-metrics/behavioral-metrics-engine.js";
