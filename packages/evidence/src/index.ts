@@ -2,7 +2,8 @@
  * @package @semantiq/evidence
  * Entry Point for the Canonical Evidence Engine, Bridge Adapters, Semantic Trace Mapping,
  * Behavioral Metrics, Immutable Evaluation Ledger, Research/Failure Extraction,
- * Cross-Run Evidence Graph, Matched Statistical Contrast, and Robustness Diagnostics
+ * Cross-Run Evidence Graph, Matched Statistical Contrast, Robustness Diagnostics,
+ * and Deterministic Evidence Governance Decision Policy
  */
 
 export * from "./types.js";
@@ -29,3 +30,5 @@ export * from "./statistical-contrast/run-profile-matcher.js";
 export * from "./statistical-contrast/statistical-contrast-engine.js";
 export * from "./robustness-diagnostics/types.js";
 export * from "./robustness-diagnostics/robustness-engine.js";
+export * from "./governance-policy/types.js";
+export * from "./governance-policy/evidence-decision-policy.js";
