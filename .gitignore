@@ -1,22 +1,73 @@
+# Dependencies
 node_modules/
+.pnpm-store/
+
+# Build Outputs & Bundles
 dist/
 build/
-coverage/
+out/
 artifacts/
+*.tsbuildinfo
+*.egg-info/
+*.whl
+*.tar.gz
+
+# Testing & Coverage
+coverage/
+.nyc_output/
+playwright-report/
+test-results/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+
+# Runtimes & Caches
 .turbo/
+**/.turbo/
 .vite/
 .vite-temp/
-**/.turbo/
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
 *.log
 *.tmp
 *.cache
-*.tsbuildinfo
-.pytest_cache/
-__pycache__/
-.ruff_cache/
+
+# Python Virtual Environments
+.venv/
+venv/
+env/
+ENV/
+
+# Local SemantIQ Evaluation Storage & DBs
+.semantiq/
+*.sqlite
+*.sqlite3
+*.db
+local.db
+
+# Secrets & Environment Configurations
 .env
 .env.*
 !.env.example
 !.env.test.example
-playwright-report/
-test-results/
+*.pem
+*.key
+*.pfx
+
+# OS & Editor Artifacts
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+*.swp
+*.swo
+
+# Explicitly Preserved Fixtures & Schemas
+!packages/sdk/src/fixtures.ts
+!packages/patterns/src/seeds.ts
+!tests/fixtures/**
+!schemas/**
