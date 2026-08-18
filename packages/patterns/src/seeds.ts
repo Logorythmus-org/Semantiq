@@ -362,6 +362,15 @@ export const SEED_RELATIONS: readonly PatternRelation[] = [
     weight: 0.95,
     nature: EpistemicNature.OBSERVED,
     rationale: "TP-001 evaluates long-horizon context retention against FP-002."
+  },
+  {
+    id: "rel_08",
+    sourceId: "pat_dp_008",
+    targetId: "pat_fp_002",
+    type: RelationType.REFUTES,
+    weight: 0.95,
+    nature: EpistemicNature.OBSERVED,
+    rationale: "DP-008 independent observer verification actively monitors and refutes FP-002 unbounded context drift."
   }
 ];
 
