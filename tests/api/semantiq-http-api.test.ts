@@ -181,12 +181,33 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(text).toContain("SemantIQ Web UI Mock");
     });
 
-    it("runs 100% headless when staticDir is omitted", async () => {
+    it("runs 100% headless and executes core workflows when staticDir is omitted", async () => {
       const headlessApp = createSemantiqHttpServer({ port: 0, host: "127.0.0.1" });
       const headlessPort = await headlessApp.start();
+      const headlessUrl = `http://127.0.0.1:${headlessPort}`;
       try {
-        const res = await fetch(`http://127.0.0.1:${headlessPort}/index.html`);
-        expect(res.status).toBe(404);
+        // Static UI request returns 404
+        const uiRes = await fetch(`${headlessUrl}/index.html`);
+        expect(uiRes.status).toBe(404);
+
+        // Core API workflows execute with 100% functionality
+        const healthRes = await fetch(`${headlessUrl}/health`);
+        expect(healthRes.status).toBe(200);
+
+        const validateRes = await fetch(`${headlessUrl}/api/v1/claims/validate-language`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ statement: "DP-008 is associated with reduced FP-002 context drift." })
+        });
+        expect(validateRes.status).toBe(200);
+        const validateJson = await validateRes.json();
+        expect(validateJson.data.isValid).toBe(true);
+
+        const patternsRes = await fetch(`${headlessUrl}/api/v1/patterns`);
+        expect(patternsRes.status).toBe(200);
+        const patternsJson = await patternsRes.json();
+        expect(Array.isArray(patternsJson.data)).toBe(true);
+        expect(patternsJson.data.length).toBeGreaterThan(0);
       } finally {
         await headlessApp.stop();
       }
