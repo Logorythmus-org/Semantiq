@@ -27,6 +27,7 @@
     "verify": "node scripts/verify-local.mjs",
     "test:e2e": "playwright test",
     "docs": "node scripts/techclub.mjs docs",
+    "docs:build": "node scripts/build-docs.mjs",
     "benchmark": "node scripts/techclub.mjs benchmark",
     "benchmark:question-discovery": "node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs scripts/question-discovery-performance.ts",
     "doctor": "tsx tools/automation/cli.mjs doctor",

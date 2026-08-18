@@ -1,4 +1,4 @@
-name: Docs
+name: Documentation Site
 
 on:
   pull_request:
@@ -7,15 +7,25 @@ on:
       - main
 
 jobs:
-  docs:
+  build-docs:
+    name: Build & Verify Documentation Site
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify Canonical Documentation Files
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Build Static Documentation Site
+        run: node scripts/build-docs.mjs
+      - name: Verify Generated Documentation Artifacts
         run: |
-          test -f README.md
-          test -f docs/README.md
-          test -f docs/getting-started/index.md
-          test -f docs/getting-started/installation.md
-          test -f docs/concepts/architecture.md
-          test -f docs/project/limitations.md
+          test -f dist/docs/index.html
+          test -f dist/docs/getting-started/index.html
+          test -f dist/docs/architecture/index.html
+          test -f dist/docs/evidence/index.html
+          test -f dist/docs/research/index.html
+          test -f dist/docs/sdk/index.html
+          test -f dist/docs/api/index.html
+          test -f dist/docs/security/index.html
+          test -f dist/docs/governance/index.html
+          test -f dist/docs/releases/index.html
