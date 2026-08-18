@@ -1,26 +1,31 @@
 # Master Documentation Index
 
-Welcome to the **SemantIQ Benchmarks** documentation directory.
+Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation platform.
 
 ---
 
-## 1. Getting Started & User Guides
+## 1. Product Architecture & Core Infrastructure
 
-- 📖 **[Quick Start Guide](QUICK_START.md)**: 9-step canonical onboarding flow.
+- 📐 **[System Architecture](ARCHITECTURE.md)**: Deep dive into Benchmark Engine, Evidence Engine, and Research Workbench.
+- 🔬 **[Canonical Research Workflow](RESEARCH_WORKFLOW.md)**: 18-stage end-to-end evidence reference pipeline (`DP-008 → FP-002`).
+- 🛡️ **[Scientific Guardrails & Epistemic Invariants](SCIENTIFIC_GUARDRAILS.md)**: The 16 core epistemic boundaries, controlled language rules, and eligibility gating.
+- 📦 **[Package Boundaries](BOUNDED_CONTEXTS.md)**: Monorepo package dependency structure.
+- 🏗️ **[Core Domain Model](DOMAIN_MODEL.md)**: Runs, Traces, Observations, Contrasts, Claims, and Protocols.
+
+---
+
+## 2. Developer Guides & SDK Usage
+
+- 🐍 **[Python Usage Guide](PYTHON_USAGE.md)**: `semantiq` Python SDK installation, statistical contrast, and claims workflow.
+- 📘 **[TypeScript SDK Guide](TYPESCRIPT_SDK.md)**: `@semantiq/sdk` TypeScript client and contract fixtures.
+- 💻 **[CLI Usage Guide](CLI_USAGE.md)**: `semantiq` CLI commands (`doctor`, `patterns`, `evidence`, `claims`, `reviews`, `studies`, `serve`).
+- 🌐 **[Headless HTTP API Reference](HTTP_API_REFERENCE.md)**: REST API endpoints reference (`/health`, `/info`, `/api/v1/...`).
+- 📖 **[Quick Start Guide](QUICK_START.md)**: Getting started in under 5 minutes.
 - 💻 **[Installation Matrix](INSTALLATION_MATRIX.md)**: System requirements, platform support, and Docker setup.
 - 🔒 **[Offline Guide](OFFLINE_GUIDE.md)**: Zero-telemetry posture and `--safe-mode` usage.
 - 🌐 **[Remote Provider Guide](REMOTE_PROVIDER_GUIDE.md)**: OpenAI, Anthropic, and Google GenAI connector setup.
 - 🔬 **[Reproduction Walkthrough](REPRODUCTION_WALKTHROUGH.md)**: Step-by-step score reproduction.
-- 💻 **[CLI Guide](CLI_GUIDE.md)**: Command-line reference.
 - ❓ **[FAQ](FAQ.md)**: Frequently asked questions.
-
----
-
-## 2. Platform & Domain Architecture
-
-- 📐 **[System Architecture](ARCHITECTURE.md)**: Core domain concepts and bounded contexts.
-- 📦 **[Package Boundaries](BOUNDED_CONTEXTS.md)**: Monorepo package relationships.
-- 🏗️ **[Core Domain Model](DOMAIN_MODEL.md)**: Subject, ScoringProfile, Report, and Evidence definitions.
 
 ---
 
@@ -60,7 +65,7 @@ Welcome to the **SemantIQ Benchmarks** documentation directory.
 
 ## 6. Release Reports & Handoffs
 
-- 🚀 **[Final Release Candidate Report](FINAL_RELEASE_CANDIDATE_REPORT.md)**: Sealed release candidate `0.1.0-alpha.1`.
+- 🚀 **[Final Release Candidate Report](FINAL_RELEASE_CANDIDATE_REPORT.md)**: Release candidate verification.
 - 🚥 **[Formal Go/No-Go Decision](GO_NO_GO_DECISION.md)**: **GO** verdict signed off.
 - 📦 **[Artifact Checksums](ARTIFACT_CHECKSUMS.md)**: SHA-256 release file checksums.
 - 🤝 **[Phase 7 Handoff](PHASE_7_HANDOFF.md)**: Publication execution guide.

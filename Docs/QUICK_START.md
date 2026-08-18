@@ -1,80 +1,103 @@
 # Quick Start Guide
 
-Welcome to **SemantIQ Benchmarks**, an independent, open-source, local-first AI evaluation toolkit.
+Welcome to **SemantIQ**, Behavioral Evidence Infrastructure for AI Systems.
 
-This guide takes you from a clean checkout to running local benchmark evaluations, inspecting raw evidence, exporting reports, and reproducing scores in under 5 minutes.
-
----
-
-## User Personas & Scenarios
-
-- **Developer**: Programmatic SDK evaluation (`@tech-club/semantiq`), CLI integration, unit tests.
-- **Researcher**: Explainable scoring rubrics, offline raw benchmark evidence, reproducible exports.
-- **Student**: Simple local execution without Docker or cloud accounts, step-by-step guidance.
-- **Open-Source Contributor**: Clean monorepo structure, quality gates (`pnpm verify`), transparent contracts.
-- **AI Product Team**: Model connectors (Ollama, OpenAI, Anthropic, Google GenAI), preflight, smoke testing.
-- **Security-Conscious User**: Local-first posture, zero telemetry by default, `--safe-mode` enforcement.
+This guide walks you through setting up SemantIQ and running your first evidence workflows using the CLI, TypeScript SDK, and Python API.
 
 ---
 
-## Canonical First-Run Flow
+## 1. Setup & Installation
 
-Follow these 9 verified steps:
+Clone the repository and install dependencies:
 
-```text
-install → launch → connector → preflight → smoke test → benchmark → inspect evidence → export → reproduce
-```
-
-### Step 1: Install Dependencies
 ```bash
-git clone https://github.com/tech-club/tech-club.git
-cd tech-club
+git clone https://github.com/Logorythmus-org/Semantiq.git
+cd Semantiq
 pnpm install
+pnpm build
 ```
 
-### Step 2: Run First-Run Doctor
-Check node runtime compatibility, workspace integrity, and local configuration:
+Verify your environment with the doctor tool:
 ```bash
 pnpm doctor
-# or
-node tools/automation/cli.mjs doctor
 ```
 
-### Step 3: Inspect Model Connectors
-By default, SemantIQ uses deterministic local evaluation. View available local & remote connectors:
+---
+
+## 2. Fast CLI Workflow
+
+Validate claim statements and discover registered failure modes:
+
 ```bash
-node tools/automation/cli.mjs connector
+# Validate claim statement phrasing
+node tools/automation/cli.mjs claims validate "DP-008 is associated with reduced FP-002 context drift."
+
+# Inspect pattern catalog
+node tools/automation/cli.mjs patterns list
+
+# Inspect evidence graph
+node tools/automation/cli.mjs evidence graph
 ```
 
-### Step 4: Run Preflight Check
-Validate system readiness and model connector posture:
-```bash
-node tools/automation/cli.mjs preflight
+---
+
+## 3. TypeScript SDK Quick Start
+
+```typescript
+import { SemantiqClient } from "@semantiq/sdk";
+
+const client = new SemantiqClient({ isOfflineDeterministic: true });
+
+// Validate language
+const validation = client.validateClaimLanguage(
+  "DP-008 out-of-band observer is associated with reduced FP-002 drift."
+);
+console.log("Valid Language:", validation.isValid);
+
+// Propose governed claim
+const claim = client.draftClaim({
+  topic: "anti_gaming_drift_mitigation",
+  targetPatternOrRelationId: "rel_08",
+  statement: "DP-008 out-of-band observer is associated with reduced FP-002 drift.",
+  version: "1.0.0",
+  runIds: ["run_1", "run_2"]
+});
+console.log("Drafted Claim ID:", claim.id);
 ```
 
-### Step 5: Execute Local Smoke Test
-Run a fast local evaluation verifying score pipeline handling:
-```bash
-node tools/automation/cli.mjs smoke
+---
+
+## 4. Python API Quick Start
+
+```python
+from semantiq import SemantiqClient, validate_claim_language
+
+# Validate language
+validation = validate_claim_language(
+    "DP-008 out-of-band observer is associated with reduced FP-002 drift."
+)
+print("Valid Language:", validation["is_valid"])
+
+# Propose claim
+client = SemantiqClient(is_offline_deterministic=True)
+claim = client.draft_claim(
+    topic="anti_gaming_drift_mitigation",
+    target_pattern_id="rel_08",
+    statement=validation["sanitized_statement"],
+    run_ids=["run_1", "run_2"],
+)
+print("Drafted Claim ID:", claim.id)
 ```
 
-### Step 6: Run Benchmark Evaluation
-Run explainable evaluation against a benchmark target:
+---
+
+## 5. Starting the Headless HTTP API Server
+
 ```bash
-pnpm benchmark
+node packages/semantiq/dist/cli/index.js serve --port 3000
 ```
 
-### Step 7: Inspect Evidence
-Review generated raw evidence and explanation outputs separate from summary scores in the generated reports.
-
-### Step 8: Export Evaluation Reports
-Export reports in JSON or Markdown format:
+Verify server status:
 ```bash
-node tools/automation/cli.mjs export
-```
-
-### Step 9: Reproduce Results
-Re-run evaluation manifests and verify identical score results:
-```bash
-node tools/automation/cli.mjs reproduce
+curl http://localhost:3000/health
 ```

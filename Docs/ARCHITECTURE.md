@@ -1,119 +1,115 @@
-# Architecture
+# SemantIQ Architecture: Behavioral Evidence Infrastructure
 
-Tech Club is an Open Knowledge Operating System centered on questions. Phase 1 establishes the engineering operating system: contracts, package boundaries, standards, documentation, and validation.
+## Overview
 
-## System Layers
+**SemantIQ is Behavioral Evidence Infrastructure for AI Systems.**
 
-### Application Layer
-Hosts user-facing surfaces such as web, desktop, and mobile apps. Apps compose domain packages and services but do not own domain logic.
+SemantIQ establishes a rigorous, verifiable bridge between raw AI benchmark executions and scientific knowledge governance. Rather than treating benchmark scores as ground truth, SemantIQ models evaluation as an empirical observation pipeline that enforces strict epistemic separation between what is directly observed, what is statistically contrasted under matched controls, and what is governed as an admissible scientific claim.
 
-### Agent Layer
-Provides agent orchestration, tool access, planning, context, evaluation, and human approval flows. Agents act through explicit commands and queries.
+```
+┌────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                           SEMANTIQ PLATFORM                                            │
+│                                                                                                        │
+│  ┌────────────────────────┐      ┌────────────────────────┐      ┌────────────────────────┐            │
+│  │    BENCHMARK ENGINE    │ ───► │    EVIDENCE ENGINE     │ ───► │   RESEARCH WORKBENCH   │            │
+│  │                        │      │                        │      │                        │            │
+│  │ • Pluggable Providers  │      │ • Observation Normal.  │      │ • Governed Claims      │            │
+│  │ • State-Chained Traces │      │ • Evidence Graph       │      │ • Controlled Language  │            │
+│  │ • Latency & Metrics    │      │ • 7D Matched Contrast  │      │ • Two-Party Reviews    │            │
+│  │ • Modular Test Suites  │      │ • Robustness & TVD     │      │ • Release Gate         │            │
+│  │   (SMF, HACS, Vision)  │      │ • Specification Curve  │      │ • Research Bundles     │            │
+│  │                        │      │ • Decision Policy      │      │ • Study Protocols      │            │
+│  │                        │      │                        │      │ • Execution Manifests  │            │
+│  │                        │      │                        │      │ • Eligibility Gate     │            │
+│  │                        │      │                        │      │ • Replication Registry │            │
+│  └────────────────────────┘      └────────────────────────┘      └────────────────────────┘            │
+│                                                                                                        │
+│  ────────────────────────────────────────────────────────────────────────────────────────────────────  │
+│  HEADLESS ACCESS INTERFACES:                                                                           │
+│  • Python Public API (`semantiq`)         • TypeScript SDK (`@semantiq/sdk`)                           │
+│  • Unified CLI (`semantiq`)               • Headless HTTP API (`/api/v1/...`)                          │
+└────────────────────────────────────────────────────────────────────────────────────────────────────────┘
+```
 
-### Semantic Layer
-Owns semantic evaluation, meaning extraction, benchmarking, and semantic object contracts.
+---
 
-### Knowledge Layer
-Owns questions, projects, evidence, hypotheses, learning objects, publications, and knowledge graph contracts.
+## The Three Core Subsystems
 
-### Storage Layer
-Provides local-first persistence, sync boundaries, encrypted storage, migrations, indexing, and recovery contracts.
+### 1. Benchmark Engine
 
-### Data Platform Layer
-Provides semantic nodes, first-class relationships, storage-engine abstraction, repositories, indexing, vector storage, cache, synchronization, backup, recovery, import/export, data security, and data observability.
+The **Benchmark Engine** is responsible for orchestrating, executing, and capturing verifiable telemetry from agentic and model interactions:
 
-### Infrastructure Layer
-Provides logging, metrics, tracing, configuration, background workers, gateway services, Docker, CI, and development tooling.
+- **Provider-Neutral Execution**: Interacts with local OCI containers, Podman, MicroVMs, or external endpoints via standardized provider interfaces (`ExecutionProvider`).
+- **Cryptographic Trace Sealing**: Records sequential interactions into `Trace` and `TraceEvent` structures. Each event carries an immutable SHA-256 state digest chaining back to initial system prompts.
+- **Benchmark Suite Families**: Houses modular test suites:
+  - **SMF (Semantic Model Foundry)**: Semantic reasoning, tool utilization, and error boundary tests.
+  - **HACS (Host Agent Context Suite)**: Long-horizon multi-turn task retention, out-of-band monitoring, and drift resistance evaluations.
+  - **Vision / Multimodal**: Visual reasoning, spatial grounding, and perception robustness batteries.
 
-### Kernel Layer
-Provides module registration, service discovery, dependency injection, lifecycle management, message routing, event routing, scheduling, plugin loading, resource management, health monitoring, security checks, and diagnostics.
+### 2. Evidence Engine
 
-### Integration Layer
-Hosts adapters for external repositories and services, including Qikio, Menog OS, SemantIQ, Semantic Wallet, Sunlionet, GitHub, Hugging Face, Google Workspace, blockchain providers, and MCP services.
+The **Evidence Engine** transforms raw trace data into normalized scientific evidence and statistical contrasts:
 
-### Gateway Layer
-Provides provider-neutral routing, authentication, authorization, rate limiting, transformation, validation, versioning, tracing, health checks, provider selection, failover, webhooks, and external event bridging.
+- **Empirical Observation Normalization**: Translates raw anomalies into structured `EvidenceObservation` objects. Enforces epistemic classification (`OBSERVED` vs `INFERRED`).
+- **Evidence Graph**: Directed knowledge graph representing design patterns (e.g. `DP-008` Out-of-Band Observer), failure patterns (e.g. `FP-002` Context Drift), and their empirical relationship edges (`SUPPORTS`, `REFUTES`, `MITIGATES`).
+- **7-Dimensional Matched Statistical Contrast**:
+  Matches runs across 7 covariate dimensions:
+  1. `environment` (platform, isolation, OS)
+  2. `model` (family, version, temperature)
+  3. `population` (topology, agent count)
+  4. `tools` (tool count, guardrails)
+  5. `memory` (context window, partitioning)
+  6. `resource_pressure` (token budget, max steps)
+  7. `horizon` (short, medium, long)
+  Computes nonparametric 1,000-resample Bootstrap Confidence Intervals and Exact Sign Tests.
+- **Robustness Diagnostics**:
+  - Total Variation Distance ($TVD \le 0.05$) to verify post-match covariate balance.
+  - Negative control placebos to verify that unexposed variables exhibit zero delta.
+  - Perturbation tests to measure sensitivity to covariate drops.
+- **Specification Curve Analysis**: Exhaustively evaluates all specification sub-combinations to measure directional stability ($directionStabilityRatio = 1.0$).
+- **Evidence Decision Policy**: Deterministic policy evaluating statistical grades and robustness into governance verdicts (`promote`, `hold`, `downgrade`, `insufficient`).
 
-### Security Layer
-Defines permissions, roles, secret handling, audit logging, identity boundaries, and zero-trust execution. Authentication implementation is deferred.
+### 3. Research Workbench
 
-### Identity Layer
-Defines semantic identities for actors and objects, provider-independent authentication, explainable authorization, composable permissions, declarative policies, Semantic Wallet records, ownership, trust, reputation, privacy, compliance, and immutable audit trails.
+The **Research Workbench** manages the full lifecycle of scientific claims, pre-registrations, and replication exchange:
 
-### Question Network Layer
-Defines the first product system: question creation, living question profiles, semantic discussions, question graph, discovery, search, moderation, analytics, Semantiq benchmarking integration, and curiosity-driven feeds.
+- **Governed Claim Registry**: Immutable registry tracking claims through lifecycle stages (`draft` $\to$ `in_review` $\to$ `active` $\to$ `superseded` $\to$ `retracted`).
+- **Controlled Language Rules**: Regex-enforced linguistic guardrails that reject unhedged causal terms (`causes`, `proves`, `guarantees`, `eliminates`, `causal proof`).
+- **Two-Party Review & Release Gate**: Requires $\ge 2$ independent reviewer approvals and 0 rejections before transitioning claims to `active`.
+- **Reproducible Research Bundles**: Packages claims, datasets, config fingerprints, and contrast reports into Merkle-tree verified bundles (`ResearchBundleManifest`).
+- **Study Protocol Pre-registration**: Generates deterministic study protocols with frozen pre-registration fingerprints (`freezeProtocol`) and hash-chained deviation tracking.
+- **Protocol-Aware Execution Manifests**: Ingests external partner results, validating adherence against pre-registered parameters.
+- **External Evidence Eligibility Gate**: Evaluates submissions across 7 criteria (`eligible`, `eligible_with_caveats`, `quarantined`, `rejected`) before permitting evidence to affect aggregate registries.
+- **Partner Replication Registry**: Aggregates multi-organizational replications while preserving full counterevidence visibility and enforcing genuine context diversity ($\ge 2$ independent orgs, diversity $\ge 0.70$) for E4 promotion.
 
-### Semantiq Layer
-Defines semantic evaluation for questions, answers, projects, repositories, research, conversations, agents, games, educational content, workflows, communities, and knowledge objects through explainable dimensions, reports, comparisons, history, and recommendations.
+---
 
-### Question Intelligence Layer
-Defines AI-assisted question refinement, intent extraction, ambiguity and assumption analysis, semantic tagging, duplicate detection, relation suggestion, evidence strategy, hypotheses, experiments, project/game conversion, Semantiq preview, and approval workflows.
+## UI-Independent Headless Architecture
 
-### Scientific Atlas Layer
-Defines living scientific question profiles, knowledge evolution, evidence networks, hypothesis management, experiment registry, uncertainty profiles, research recommendations, interdisciplinary bridges, timelines, and Atlas visualization.
+SemantIQ is explicitly designed as a **headless infrastructure layer**. It does not require a browser, UI framework, or graphical environment:
 
-### Research Engine Layer
-Defines question-driven research projects, teams, contributions, hypothesis workspaces, experiment management, peer review, publication pipelines, research analytics, innovation tracking, and AI research-agent collaboration.
+- **Pure TypeScript / Node.js & Python Domain**: All domain services, statistical algorithms, cryptographic sealers, and registries run in headless server environments.
+- **HTTP REST API**: Exposes all platform capabilities via standard JSON REST endpoints (`/health`, `/info`, `/api/v1/patterns`, `/api/v1/claims`, `/api/v1/reviews`, `/api/v1/studies`, `/api/v1/bundles`).
+- **SDK Parity**: TypeScript and Python SDKs provide direct programmatic access to all application service workflows with type safety.
+- **Optional Static UI Serving**: The HTTP API server supports optional static asset serving if a frontend bundle is supplied, but operates fully without one.
 
-### Narrative Knowledge Layer
-Defines question-to-story transformation, educational game transformation, narrative objects, roles, cards, decisions, reflection, adaptive learning, AI narrative agents, and Semantiq game benchmarking.
+---
 
-### Community Intelligence Layer
-Defines question-centered communities, membership, roles, traceable contributions, explainable reputation, evidence-based trust, consensus, collective intelligence, analytics, mentorship, recommendations, and AI community agents.
+## Package Structure & Monorepo Boundaries
 
-### Agent OS Runtime Layer
-Defines goal-first execution, intent interpretation, planning, multi-agent orchestration, task execution, context, memory, tool permissions, human approval, monitoring, reflection, learning, Semantiq benchmarking, and Knowledge Graph updates.
+```
+packages/
+├── sandbox-contracts/       # Immutable JSON schemas, DTOs, enums & crypto utilities
+├── benchmark/               # Execution runners, test suites, provider interfaces
+├── adapters/                # Trace & benchmark artifact ingestion adapters
+├── evidence/                # Contrast engine, robustness, graph, claims & gate
+├── research/                # Research bundle builders, verifiers, replication
+├── sdk/                     # Official TypeScript SDK (@semantiq/sdk)
+├── semantiq/                # Core application services, CLI, and HTTP router
+└── python/                  # Official Python SDK & public API (semantiq)
+```
 
-### Workflow Engine Layer
-Defines goal-to-workflow generation, visual workflow graphs, node and edge models, workflow execution, approval checkpoints, schedules, templates, simulation, optimization, workflow memory, marketplace readiness, Semantiq benchmarking, and Knowledge Graph contribution.
+### Architectural Dependency Invariant
 
-### Workspace Runtime Layer
-Defines the visible semantic operating environment: workspace shell, navigation, knowledge object runtime, documents, notebooks, execution panels, Agent OS integration, live collaboration, graph runtime, synchronization, offline storage, presentation, search, automation, analytics, and timeline.
-
-### Compute Engine Layer
-Defines provider-independent compute resources, scheduling, task queues, workers, CPU/GPU/WebGPU execution, optional distributed execution, checkpoints, AI model routing, memory management, graph processing, performance, observability, Semantiq benchmarking, and Knowledge Graph integration.
-
-### Semantic Economy Layer
-Defines semantic assets, marketplace listings, machine-readable licenses, ownership, attribution, revenue sharing, transactions, funding campaigns, public goods, wallet integration, reviews, trust, search, marketplace agents, audit, and human approval for commercial publishing.
-
-### Developer Platform Layer
-Defines SDKs, plugin runtime, extension APIs, component library, CLI, public APIs, MCP SDK, Agent SDK, Workflow SDK, Knowledge SDK, documentation portal, example applications, templates, marketplace publishing, versioning, analytics, security, and developer community surfaces.
-
-### System Integration Layer
-Defines the MVP release boundary: system maps, dependency validation, architecture validation, module integration, API validation, workflow validation, health scoring, security reports, performance reports, offline validation, deployment profiles, release candidates, release notes, and roadmap evolution.
-
-### Federation Layer
-Defines the Global Knowledge Mesh: autonomous knowledge nodes, federation gateways, open federation protocol, global discovery, knowledge routing, distributed search, cross-node graph references, replication, synchronization, federated identity, trust network, policy enforcement, offline federation, and global marketplace exchange.
-
-### Collective Intelligence Layer
-Defines global discovery, knowledge gap detection, research coordination, collective reasoning, distributed memory, knowledge forecasting, planetary analytics, global research maps, scientific challenge coordination, AI collective agents, Semantiq intelligence metrics, and public-benefit innovation.
-
-### Civilization OS Layer
-Defines civilization memory, semantic archives, long-term preservation, knowledge lineage, provenance, historical timelines, knowledge time-machine queries, open knowledge standards, decentralized governance, knowledge constitution, digital heritage, persistent identifiers, migration, future compatibility, and long-term analytics.
-
-### Innovation Network Layer
-Defines planetary challenges, open science infrastructure, innovation registry, prototype management, technology observatory, impact measurement, innovation forecasting, civilization roadmaps, AI innovation agents, innovation graph integration, global dashboards, and public-benefit deployment feedback loops.
-
-### Education Network Layer
-Defines planetary learning, Human Development OS, adaptive learning paths, learning objects, competency graph, mentorship, teaching, portfolio assessment, verifiable credentials, learning analytics, global classrooms, accessibility, AI education agents, and lifelong learning graph integration.
-
-### Governance Engine Layer
-Defines civilization governance, decision lifecycles, semantic policy workspaces, deliberation, consensus, impact simulation, transparency, participation, adaptive roadmaps, AI governance agents, civic dashboards, governance analytics, and evidence-based review.
-
-### Civilization Coordination Kernel Layer
-Defines the highest architecture layer for coordinating knowledge, research, education, innovation, governance, economy, communities, AI agents, human intelligence, federation, compute, civilization memory, and future technologies through one semantic operating model. The kernel composes existing subsystems through adapters, measures Civilization Health through Semantiq, exports the Civilization Graph, publishes the Open Civilization Protocol, and keeps evolution advisory, decentralized, offline-capable, and technology-neutral.
-
-## Dependency Direction
-Apps and services depend on packages. Packages depend inward on stable contracts. External systems connect through adapters. No package may depend on an app.
-
-## Runtime Shape
-The platform starts by loading configuration, registering modules, wiring dependencies, starting observability, opening storage, and then exposing app or service entry points.
-
-## Architectural Principles
-- Single responsibility per module.
-- Explicit interfaces and dependency injection.
-- No hidden globals.
-- Contract-first communication.
-- Versioned events and extension points.
-- Replaceable infrastructure.
-- Local execution before cloud dependency.
+- **Strict Upward Layering**: Domain packages (`core`, `evidence`, `benchmark`, `sandbox-contracts`) NEVER import from application services (`packages/semantiq/src/services/`).
+- **Application Services Encapsulation**: High-level application logic resides in `SemantiqApplicationService`, orchestrated by the CLI, HTTP Router, and SDK clients.
