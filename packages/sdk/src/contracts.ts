@@ -347,4 +347,47 @@ export interface CrossOrgReplicationAggregation {
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
 
+export const EPISTEMIC_PREREGISTRATION_DISCLAIMER =
+  "Preregistration ensures protocol transparency and guards against p-hacking and post-hoc selective reporting; it does not confer truth.";
+
+export interface StudyProtocol {
+  readonly protocolId: string;
+  readonly version: string;
+  readonly title: string;
+  readonly researchQuestion: string;
+  readonly targetRelationId: string;
+  readonly targetPatternId: string;
+  readonly preregistrationHash: string;
+  readonly status: "draft" | "frozen" | "executed" | "archived";
+  readonly createdAt: string;
+  readonly frozenAt?: string | undefined;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_PREREGISTRATION_DISCLAIMER;
+}
+
+export interface ProtocolDeviation {
+  readonly deviationId: string;
+  readonly protocolId: string;
+  readonly timing: "pre_execution" | "during_execution" | "post_hoc";
+  readonly severity: "minor" | "material" | "critical";
+  readonly description: string;
+  readonly rationale: string;
+  readonly recordedAt: string;
+  readonly recordedBy: string;
+  readonly deviationHash: string;
+}
+
+export interface ProtocolExecutionSummary {
+  readonly protocolId: string;
+  readonly preregistrationFrozen: boolean;
+  readonly protocolHashValid: boolean;
+  readonly totalDeviations: number;
+  readonly materialDeviationsCount: number;
+  readonly criticalDeviationsCount: number;
+  readonly evidenceLevelCap: string;
+  readonly capReason?: string | undefined;
+  readonly evaluatedAt: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_PREREGISTRATION_DISCLAIMER;
+}
+
+
 

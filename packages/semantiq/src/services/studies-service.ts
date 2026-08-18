@@ -1,29 +1,37 @@
 /**
  * @package @tech-club/semantiq
- * Authoritative Studies, Partner Replication, and Exchange Application Service
+ * Authoritative Studies, Protocol Pre-registration, and Partner Exchange Application Service
  * 
  * Invariants:
  * 1. Counterevidence remains visible in aggregation.
- * 2. E4 requires genuine context diversity and remains non-causal.
- * 3. Replication demonstrates empirical consistency across contexts, not causal proof or universal truth.
+ * 2. Preregistration ensures protocol transparency and guards against p-hacking/post-hoc selective reporting.
+ * 3. Material deviations cap evidence level to prevent unhedged claim promotion.
+ * 4. E4 requires genuine context diversity and remains non-causal.
  */
 
 import {
   DatasetCaseRegistry,
   ExchangeRedactionEngine,
   PartnerOrganizationRegistry,
+  ProtocolDeviationLedger,
   ReplicationRegistryEngine,
+  StudyProtocolGenerator,
   type CaseStudy,
   type CreateSnapshotOptions,
   type CrossOrgReplicationAggregation,
   type DatasetSnapshot,
   type DatasetSource,
+  type GenerateProtocolOptions,
   type PartnerOrganization,
   type PartnerStudy,
+  type ProtocolDeviation,
+  type ProtocolExecutionSummary,
   type RedactedPackageResult,
   type RedactPackageOptions,
+  type RecordDeviationOptions,
   type RegisterPartnerOptions,
-  type ReplicationRecord
+  type ReplicationRecord,
+  type StudyProtocol
 } from "../../../evidence/src/index.js";
 import type { PartnerRole } from "../../../sandbox-contracts/src/index.js";
 
@@ -32,6 +40,8 @@ export class StudiesService {
   public readonly partnerRegistry = new PartnerOrganizationRegistry();
   public readonly replicationRegistry = new ReplicationRegistryEngine();
   public readonly redactionEngine = new ExchangeRedactionEngine();
+  public readonly protocolGenerator = new StudyProtocolGenerator();
+  public readonly deviationLedger = new ProtocolDeviationLedger();
 
   // -------------------------------------------------------------
   // Dataset and Case Registry
@@ -66,6 +76,33 @@ export class StudiesService {
 
   public async listDatasetSnapshots(datasetId?: string): Promise<readonly DatasetSnapshot[]> {
     return this.caseRegistry.listSnapshots(datasetId);
+  }
+
+  // -------------------------------------------------------------
+  // Study Protocols & Pre-registration
+  // -------------------------------------------------------------
+  public async generateStudyProtocol(options: GenerateProtocolOptions): Promise<StudyProtocol> {
+    const protocol = this.protocolGenerator.generateProtocolForRelation(options);
+    this.deviationLedger.registerProtocol(protocol);
+    return protocol;
+  }
+
+  public async freezeStudyProtocol(protocol: StudyProtocol): Promise<StudyProtocol> {
+    const frozen = this.protocolGenerator.freezeProtocol(protocol);
+    this.deviationLedger.registerProtocol(frozen);
+    return frozen;
+  }
+
+  public async recordProtocolDeviation(options: RecordDeviationOptions): Promise<ProtocolDeviation> {
+    return this.deviationLedger.recordDeviation(options);
+  }
+
+  public async listProtocolDeviations(protocolId: string): Promise<readonly ProtocolDeviation[]> {
+    return this.deviationLedger.listDeviations(protocolId);
+  }
+
+  public async evaluateProtocolExecution(protocolId: string): Promise<ProtocolExecutionSummary> {
+    return this.deviationLedger.evaluateEvidenceCap(protocolId);
   }
 
   // -------------------------------------------------------------

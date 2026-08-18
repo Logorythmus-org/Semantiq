@@ -18,6 +18,7 @@ EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth. All empiri
 EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criteria fulfillment, not scientific proof."
 EPISTEMIC_BUNDLE_DISCLAIMER = "Bundle integrity proves provenance/integrity, not truth."
 EPISTEMIC_REPLICATION_DISCLAIMER = "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+EPISTEMIC_PREREGISTRATION_DISCLAIMER = "Preregistration ensures protocol transparency and guards against p-hacking and post-hoc selective reporting; it does not confer truth."
 
 
 def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
@@ -712,5 +713,49 @@ class CrossOrgReplicationAggregation(_ContractMixin):
     counterevidence_preserved: bool
     aggregated_evidence_grade: str
     epistemic_disclaimer: str = EPISTEMIC_REPLICATION_DISCLAIMER
+
+
+@dataclass
+class StudyProtocol(_ContractMixin):
+    protocol_id: str
+    version: str
+    title: str
+    research_question: str
+    target_relation_id: str
+    target_pattern_id: str
+    preregistration_hash: str
+    status: str
+    created_at: str
+    frozen_at: Optional[str] = None
+    epistemic_disclaimer: str = EPISTEMIC_PREREGISTRATION_DISCLAIMER
+
+
+@dataclass
+class ProtocolDeviation(_ContractMixin):
+    deviation_id: str
+    protocol_id: str
+    timing: str
+    severity: str
+    description: str
+    rationale: str
+    recorded_at: str
+    recorded_by: str
+    deviation_hash: str
+    previous_deviation_hash: Optional[str] = None
+
+
+@dataclass
+class ProtocolExecutionSummary(_ContractMixin):
+    protocol_id: str
+    preregistration_frozen: bool
+    protocol_hash_valid: bool
+    total_deviations: int
+    material_deviations_count: int
+    critical_deviations_count: int
+    evidence_level_cap: str
+    evaluated_at: str
+    cap_reason: Optional[str] = None
+    epistemic_disclaimer: str = EPISTEMIC_PREREGISTRATION_DISCLAIMER
+
 
 
