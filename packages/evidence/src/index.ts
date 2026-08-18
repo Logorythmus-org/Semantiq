@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Entry Point for the Canonical Evidence Engine, Bridge Adapters, Semantic Trace Mapping,
- * Behavioral Metrics, and Immutable Evaluation Ledger
+ * Behavioral Metrics, Immutable Evaluation Ledger, and Research/Failure Evidence Extraction
  */
 
 export * from "./types.js";
@@ -17,3 +17,7 @@ export * from "./behavioral-metrics/behavioral-metrics-engine.js";
 export * from "./evaluation-ledger/types.js";
 export * from "./evaluation-ledger/dataset-case-registry.js";
 export * from "./evaluation-ledger/evaluation-ledger.js";
+export * from "./research-evidence/types.js";
+export * from "./research-evidence/research-claim-store.js";
+export * from "./research-evidence/pattern-promotion-engine.js";
+export * from "./research-evidence/failure-evidence-extractor.js";
