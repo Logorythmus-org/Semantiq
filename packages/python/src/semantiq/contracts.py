@@ -17,6 +17,7 @@ EPISTEMIC_REPRODUCIBILITY_DISCLAIMER = "Stable fingerprints prove artifact/confi
 EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth. All empirical claims are scoped associations."
 EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criteria fulfillment, not scientific proof."
 EPISTEMIC_BUNDLE_DISCLAIMER = "Bundle integrity proves provenance/integrity, not truth."
+EPISTEMIC_REPLICATION_DISCLAIMER = "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
 
 
 def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
@@ -633,4 +634,83 @@ class BundleVerificationResult(_ContractMixin):
     violations: List[str]
     verified_at: str
     epistemic_disclaimer: str = EPISTEMIC_BUNDLE_DISCLAIMER
+
+
+@dataclass
+class PartnerOrganization(_ContractMixin):
+    id: str
+    name: str
+    role: str
+    trust_tier: str
+    contact_email: str
+    registered_at: str
+    public_key: Optional[str] = None
+    endpoint_url: Optional[str] = None
+
+
+@dataclass
+class PartnerStudy(_ContractMixin):
+    id: str
+    organization_id: str
+    title: str
+    abstract: str
+    target_pattern_or_claim_id: str
+    status: str
+    bundle_id: str
+    merkle_root_hash: str
+    created_at: str
+    replication_target_study_id: Optional[str] = None
+
+
+@dataclass
+class ContextDiversityDimension(_ContractMixin):
+    environment_providers: List[str]
+    model_families: List[str]
+    platforms: List[str]
+    diversity_score: float
+
+
+@dataclass
+class ReplicationRecord(_ContractMixin):
+    replication_id: str
+    original_study_id: str
+    target_claim_id: str
+    replicating_organization_id: str
+    replicating_study_id: str
+    outcome: str
+    effect_delta_observed: float
+    baseline_delta_target: float
+    context_diversity: ContextDiversityDimension
+    counterevidence_observed: bool
+    conducted_at: str
+    counterevidence_details: Optional[str] = None
+    epistemic_disclaimer: str = EPISTEMIC_REPLICATION_DISCLAIMER
+
+
+@dataclass
+class RedactedExchangePackage(_ContractMixin):
+    package_id: str
+    source_organization_id: str
+    study: PartnerStudy
+    package_merkle_hash: str
+    exported_at: str
+    target_organization_id: Optional[str] = None
+    epistemic_disclaimer: str = EPISTEMIC_REPLICATION_DISCLAIMER
+
+
+@dataclass
+class CrossOrgReplicationAggregation(_ContractMixin):
+    target_claim_id: str
+    total_replications_count: int
+    independent_organizations_count: int
+    support_count: int
+    counter_count: int
+    mixed_count: int
+    inconclusive_count: int
+    context_diversity_index: float
+    e4_context_diversity_satisfied: bool
+    counterevidence_preserved: bool
+    aggregated_evidence_grade: str
+    epistemic_disclaimer: str = EPISTEMIC_REPLICATION_DISCLAIMER
+
 

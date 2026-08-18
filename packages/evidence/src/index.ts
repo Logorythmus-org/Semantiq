@@ -44,3 +44,4 @@ export * from "./research-workbench/types.js";
 export * from "./research-workbench/workbench-audit-log.js";
 export * from "./research-workbench/research-workbench-engine.js";
 export * from "./research-bundles/index.js";
+export * from "./partner-exchange/index.js";

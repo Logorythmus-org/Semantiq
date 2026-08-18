@@ -259,3 +259,92 @@ export interface BundleVerificationResult {
   readonly epistemicDisclaimer: typeof EPISTEMIC_BUNDLE_DISCLAIMER;
 }
 
+export const EPISTEMIC_REPLICATION_DISCLAIMER =
+  "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth.";
+
+export type PartnerTrustTier =
+  | "unverified"
+  | "registered"
+  | "verified_academic"
+  | "commercial_audited"
+  | "certified_consortium";
+
+export interface PartnerOrganization {
+  readonly id: string;
+  readonly name: string;
+  readonly role: string;
+  readonly trustTier: PartnerTrustTier;
+  readonly contactEmail: string;
+  readonly publicKey?: string | undefined;
+  readonly endpointUrl?: string | undefined;
+  readonly registeredAt: string;
+}
+
+export interface PartnerStudy {
+  readonly id: string;
+  readonly organizationId: string;
+  readonly title: string;
+  readonly abstract: string;
+  readonly targetPatternOrClaimId: string;
+  readonly replicationTargetStudyId?: string | undefined;
+  readonly status: string;
+  readonly bundleId: string;
+  readonly merkleRootHash: string;
+  readonly createdAt: string;
+}
+
+export type ReplicationOutcome =
+  | "support"
+  | "counter"
+  | "mixed"
+  | "inconclusive";
+
+export interface ContextDiversityDimension {
+  readonly environmentProviders: readonly string[];
+  readonly modelFamilies: readonly string[];
+  readonly platforms: readonly string[];
+  readonly diversityScore: number;
+}
+
+export interface ReplicationRecord {
+  readonly replicationId: string;
+  readonly originalStudyId: string;
+  readonly targetClaimId: string;
+  readonly replicatingOrganizationId: string;
+  readonly replicatingStudyId: string;
+  readonly outcome: ReplicationOutcome;
+  readonly effectDeltaObserved: number;
+  readonly baselineDeltaTarget: number;
+  readonly contextDiversity: ContextDiversityDimension;
+  readonly counterevidenceObserved: boolean;
+  readonly counterevidenceDetails?: string | undefined;
+  readonly conductedAt: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
+}
+
+export interface RedactedExchangePackage {
+  readonly packageId: string;
+  readonly sourceOrganizationId: string;
+  readonly targetOrganizationId?: string | undefined;
+  readonly study: PartnerStudy;
+  readonly packageMerkleHash: string;
+  readonly exportedAt: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
+}
+
+export interface CrossOrgReplicationAggregation {
+  readonly targetClaimId: string;
+  readonly totalReplicationsCount: number;
+  readonly independentOrganizationsCount: number;
+  readonly supportCount: number;
+  readonly counterCount: number;
+  readonly mixedCount: number;
+  readonly inconclusiveCount: number;
+  readonly contextDiversityIndex: number;
+  readonly e4ContextDiversitySatisfied: boolean;
+  readonly counterevidencePreserved: true;
+  readonly aggregatedEvidenceGrade: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
+}
+
+
