@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "IntegrityVerificationReport",
+  "type": "object",
+  "required": [
+    "auditId",
+    "scenarioId",
+    "runId",
+    "integrityGrade",
+    "manifestIntact",
+    "traceSequenceIntact",
+    "scoringRubricIntact",
+    "providerAttestationIntact",
+    "violations",
+    "auditedAt",
+    "auditSignatureHex"
+  ],
+  "properties": {
+    "auditId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "integrityGrade": {
+      "type": "string",
+      "enum": ["SEALED_VALID", "TAMPERING_DETECTED", "PROVENANCE_BROKEN"]
+    },
+    "manifestIntact": { "type": "boolean" },
+    "traceSequenceIntact": { "type": "boolean" },
+    "scoringRubricIntact": { "type": "boolean" },
+    "providerAttestationIntact": { "type": "boolean" },
+    "violations": { "type": "array", "items": { "type": "string" } },
+    "auditedAt": { "type": "string" },
+    "auditSignatureHex": { "type": "string" }
+  }
+}

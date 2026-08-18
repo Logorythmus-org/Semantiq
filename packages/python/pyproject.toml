@@ -5,10 +5,10 @@ build-backend = "hatchling.build"
 [project]
 name = "semantiq"
 version = "0.1.0a2"
-description = "SemantIQ Autonomous Agent Behavioral Benchmark & Evaluation Infrastructure"
+description = "SemantIQ: Behavioral Evidence Infrastructure for AI Systems"
 readme = "README.md"
 authors = [
-    { name = "Logorythmus", email = "engineering@logorythmus.org" }
+    { name = "SemantIQ Core Contributors", email = "engineering@semantiq.org" }
 ]
 license = "MIT"
 requires-python = ">=3.10"
@@ -39,9 +39,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Logorythmus-org/Semantiq"
-Documentation = "https://github.com/Logorythmus-org/Semantiq/tree/main/docs"
-Repository = "https://github.com/Logorythmus-org/Semantiq"
+Homepage = "https://github.com/Semant-iq/Semantiq"
+Documentation = "https://github.com/Semant-iq/Semantiq/tree/main/Docs"
+Repository = "https://github.com/Semant-iq/Semantiq"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/semantiq"]

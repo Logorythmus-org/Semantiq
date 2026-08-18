@@ -1,25 +1,29 @@
 {
-  "title": "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
-  "description": "Independent, open-source, local-first evaluation toolkit for AI model quality, governance evidence, reasoning, and scientific potential.",
+  "title": "SemantIQ: Behavioral Evidence Infrastructure for AI Systems",
+  "description": "Independent, open-source, local-first behavioral evidence infrastructure for AI system empirical observation, matched statistical contrast, governed claims, and reproducible research bundles.",
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",
   "creators": [
     {
-      "name": "SemantIQ Benchmarks Contributors",
-      "affiliation": "SemantIQ Benchmarks"
+      "name": "SemantIQ Core Contributors",
+      "affiliation": "SemantIQ Research Group"
     }
   ],
   "keywords": [
+    "behavioral evidence",
+    "governed claims",
     "AI evaluation",
-    "governance",
+    "statistical contrast",
     "benchmarking",
     "local-first",
     "TypeScript",
+    "Python",
+    "reproducible research",
     "open-source"
   ],
-  "notes": "This release is the Phase 11 independent extraction candidate. Not yet published. Treat as unpublished until Phase 12.",
-  "version": "0.1.0-alpha.1",
+  "notes": "SemantIQ Behavioral Evidence Infrastructure 1.0.0 headless release candidate.",
+  "version": "1.0.0",
   "language": "eng",
   "related_identifiers": []
 }

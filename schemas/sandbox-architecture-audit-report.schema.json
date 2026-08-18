@@ -1,0 +1,69 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxArchitectureAuditReport",
+  "type": "object",
+  "required": [
+    "auditId",
+    "phase",
+    "auditedVersion",
+    "verdict",
+    "checksTotal",
+    "checksPassed",
+    "architectureHealthScore",
+    "couplingLeakageDetected",
+    "checks",
+    "auditedAt",
+    "auditorSignatureHex"
+  ],
+  "properties": {
+    "auditId": { "type": "string" },
+    "phase": {
+      "type": "string",
+      "enum": ["SANDBOX_PHASE"]
+    },
+    "auditedVersion": { "type": "string" },
+    "verdict": {
+      "type": "string",
+      "enum": [
+        "APPROVED_RELEASE_CANDIDATE",
+        "CONDITIONALLY_APPROVED",
+        "REJECTED_ARCHITECTURE_FLAWS"
+      ]
+    },
+    "checksTotal": { "type": "integer", "minimum": 1 },
+    "checksPassed": { "type": "integer", "minimum": 0 },
+    "architectureHealthScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "couplingLeakageDetected": { "type": "boolean" },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "checkId",
+          "requirement",
+          "designed",
+          "implemented",
+          "tested",
+          "verified",
+          "status",
+          "evidenceFile"
+        ],
+        "properties": {
+          "checkId": { "type": "integer", "minimum": 1 },
+          "requirement": { "type": "string" },
+          "designed": { "type": "boolean" },
+          "implemented": { "type": "boolean" },
+          "tested": { "type": "boolean" },
+          "verified": { "type": "boolean" },
+          "status": {
+            "type": "string",
+            "enum": ["PASS", "FAIL", "INCOMPLETE", "NOT_VERIFIED", "OUT_OF_SCOPE"]
+          },
+          "evidenceFile": { "type": "string" }
+        }
+      }
+    },
+    "auditedAt": { "type": "string" },
+    "auditorSignatureHex": { "type": "string" }
+  }
+}

@@ -1,10 +1,10 @@
 # SemantIQ TypeScript SDK (`@semantiq/sdk`)
 
-> Standalone, typed TypeScript SDK for Autonomous Agent Behavioral Benchmarking, Governed Evidence Claims, and Reproducibility Verification.
+> Standalone, typed TypeScript SDK for SemantIQ Behavioral Evidence Infrastructure, Governed Claims, and Reproducibility Verification.
 
 [![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-blue.svg)](https://npmjs.com/package/@semantiq/sdk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Logorythmus-org/Semantiq)
+[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Semant-iq/Semantiq)
 
 ---
 

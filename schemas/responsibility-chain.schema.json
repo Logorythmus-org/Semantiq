@@ -31,7 +31,10 @@
     "incidentOwner": { "type": "string" },
     "affectedPopulation": { "type": "string" },
     "decisionScope": { "type": "string" },
-    "semantiqInfluenceLevel": { "type": "string", "enum": ["none", "advisory", "prohibited_sole_decider"] },
+    "semantiqInfluenceLevel": {
+      "type": "string",
+      "enum": ["none", "advisory", "prohibited_sole_decider"]
+    },
     "influenceExplanation": { "type": "string" },
     "alternativeNonAutomatedPath": { "type": "string" },
     "expirationReviewDate": { "type": "string" }

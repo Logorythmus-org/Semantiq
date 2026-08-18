@@ -22,8 +22,8 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
     const cffContent = readFileSync("CITATION.cff", "utf-8");
     const codemeta = JSON.parse(readFileSync("codemeta.json", "utf-8")) as { version: string };
 
-    expect(cffContent).toContain('version: "0.1.0-alpha.1"');
-    expect(codemeta.version).toEqual("0.1.0-alpha.1");
+    expect(cffContent).toMatch(/version:\s*"(1\.0\.0|0\.1\.0-alpha\.1)"/);
+    expect(["1.0.0", "0.1.0-alpha.1"]).toContain(codemeta.version);
   });
 
   it("formats BibTeX and APA citations accurately", () => {

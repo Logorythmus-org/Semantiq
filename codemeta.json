@@ -1,20 +1,20 @@
 {
   "@context": "https://doi.org/10.5063/schema/codemeta-2.0",
   "@type": "SoftwareSourceCode",
-  "identifier": "semantiq-benchmarks",
-  "name": "SemantIQ Benchmarks",
-  "description": "Independent, open-source, local-first evaluation toolkit for AI model quality, reasoning, and scientific potential.",
-  "version": "0.1.0-alpha.1",
+  "identifier": "semantiq",
+  "name": "SemantIQ",
+  "description": "Behavioral Evidence Infrastructure for AI Systems.",
+  "version": "1.0.0",
   "codeRepository": "https://github.com/Semant-iq/Semantiq.git",
   "issueTracker": "https://github.com/Semant-iq/Semantiq/issues",
   "license": "https://spdx.org/licenses/MIT",
-  "programmingLanguage": ["TypeScript", "JavaScript"],
-  "runtimePlatform": ["Node.js >= 22.0.0"],
+  "programmingLanguage": ["TypeScript", "JavaScript", "Python"],
+  "runtimePlatform": ["Node.js >= 20.0.0", "Python >= 3.10"],
   "developmentStatus": "active",
   "author": [
     {
       "@type": "Organization",
-      "name": "Tech Club Foundation"
+      "name": "SemantIQ Core Contributors"
     }
   ]
 }

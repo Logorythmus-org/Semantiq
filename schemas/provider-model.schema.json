@@ -1,0 +1,158 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderEcosystemDescriptor",
+  "type": "object",
+  "required": [
+    "providerId",
+    "displayName",
+    "version",
+    "hostingCategory",
+    "license",
+    "costStructure",
+    "privacyProfile",
+    "trustTier",
+    "securityGrade",
+    "capabilities",
+    "extensionMatrix",
+    "registeredAt"
+  ],
+  "properties": {
+    "providerId": {
+      "type": "string"
+    },
+    "displayName": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "hostingCategory": {
+      "type": "string",
+      "enum": [
+        "LOCAL_OPEN_SOURCE",
+        "SELF_HOSTED_DEDICATED",
+        "COMMERCIAL_MANAGED_CLOUD",
+        "ENTERPRISE_PRIVATE_AIRGAPPED",
+        "DETERMINISTIC_REPLAY"
+      ]
+    },
+    "license": {
+      "type": "object",
+      "required": [
+        "spdxId",
+        "licenseName",
+        "isOsiApproved",
+        "isCommercialUseAllowed",
+        "copyleftClause"
+      ],
+      "properties": {
+        "spdxId": { "type": "string" },
+        "licenseName": { "type": "string" },
+        "isOsiApproved": { "type": "boolean" },
+        "isCommercialUseAllowed": { "type": "boolean" },
+        "copyleftClause": { "type": "boolean" },
+        "termsUrl": { "type": "string" }
+      }
+    },
+    "costStructure": {
+      "type": "object",
+      "required": ["billingModel", "baseRatePerUnit", "currency", "minBillingDurationSeconds"],
+      "properties": {
+        "billingModel": {
+          "type": "string",
+          "enum": [
+            "FREE_LOCAL",
+            "PER_SECOND",
+            "PER_MINUTE",
+            "PER_INSTANCE_HOUR",
+            "SUBSCRIPTION_TIER",
+            "FIXED_PER_RUN"
+          ]
+        },
+        "baseRatePerUnit": {
+          "type": "number",
+          "minimum": 0
+        },
+        "currency": {
+          "type": "string",
+          "enum": ["USD", "EUR", "GBP", "NONE"]
+        },
+        "minBillingDurationSeconds": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "networkEgressRatePerGb": {
+          "type": "number"
+        },
+        "idleTimeoutSeconds": {
+          "type": "integer"
+        }
+      }
+    },
+    "privacyProfile": {
+      "type": "object",
+      "required": [
+        "zeroDataRetentionConfirmed",
+        "dataStorageRegion",
+        "telemetryPolicy",
+        "retentionPolicy",
+        "ephemeralWipeVerified",
+        "complianceAttestations"
+      ],
+      "properties": {
+        "zeroDataRetentionConfirmed": { "type": "boolean" },
+        "dataStorageRegion": { "type": "string" },
+        "telemetryPolicy": {
+          "type": "string",
+          "enum": ["NO_TELEMETRY", "ANONYMIZED_METRICS", "FULL_TELEMETRY"]
+        },
+        "retentionPolicy": {
+          "type": "string",
+          "enum": [
+            "EPHEMERAL_ZERO_RETENTION",
+            "VOLATILE_UNTIL_TERMINATION",
+            "HOST_LOGS_RETAINED_30_DAYS",
+            "PERSISTENT_STORAGE"
+          ]
+        },
+        "ephemeralWipeVerified": { "type": "boolean" },
+        "complianceAttestations": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+    "trustTier": {
+      "type": "string",
+      "enum": ["UNVERIFIED", "SELF_ATTESTED", "TCK_VERIFIED", "CRYPTOGRAPHICALLY_CERTIFIED"]
+    },
+    "securityGrade": {
+      "type": "string",
+      "enum": ["A_HARDENED_MICROVM", "B_ISOLATED_CONTAINER", "C_RESTRICTED_PROCESS", "F_UNCONFINED"]
+    },
+    "capabilities": {
+      "type": "object"
+    },
+    "extensionMatrix": {
+      "type": "object",
+      "required": [
+        "supportsCustomTelemetry",
+        "supportsGpuAcceleration",
+        "supportsMemorySnapshots",
+        "supportsNetworkInterception",
+        "isolatedFromBenchmarkSemantics"
+      ],
+      "properties": {
+        "supportsCustomTelemetry": { "type": "boolean" },
+        "supportsGpuAcceleration": { "type": "boolean" },
+        "supportsMemorySnapshots": { "type": "boolean" },
+        "supportsNetworkInterception": { "type": "boolean" },
+        "vendorExtensionNamespace": { "type": "string" },
+        "isolatedFromBenchmarkSemantics": { "type": "boolean" }
+      }
+    },
+    "registeredAt": {
+      "type": "string"
+    }
+  }
+}

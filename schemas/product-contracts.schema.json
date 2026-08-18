@@ -7,7 +7,15 @@
   "definitions": {
     "RunStatus": {
       "type": "string",
-      "enum": ["pending", "running", "completed", "failed", "degraded", "cancelled", "insufficient_data"]
+      "enum": [
+        "pending",
+        "running",
+        "completed",
+        "failed",
+        "degraded",
+        "cancelled",
+        "insufficient_data"
+      ]
     },
     "TraceStatus": {
       "type": "string",
@@ -15,7 +23,16 @@
     },
     "TraceEventType": {
       "type": "string",
-      "enum": ["prompt", "response", "tool_call", "tool_result", "state_change", "observation", "anomaly", "error"]
+      "enum": [
+        "prompt",
+        "response",
+        "tool_call",
+        "tool_result",
+        "state_change",
+        "observation",
+        "anomaly",
+        "error"
+      ]
     },
     "TraceEventSource": {
       "type": "string",
@@ -23,7 +40,14 @@
     },
     "PatternCategory": {
       "type": "string",
-      "enum": ["behavioral_anomaly", "anti_gaming_evasion", "degraded_mode_recovery", "consensus_drift", "hallucination_pattern", "capability_emergence"]
+      "enum": [
+        "behavioral_anomaly",
+        "anti_gaming_evasion",
+        "degraded_mode_recovery",
+        "consensus_drift",
+        "hallucination_pattern",
+        "capability_emergence"
+      ]
     },
     "PatternSeverity": {
       "type": "string",
@@ -39,11 +63,27 @@
     },
     "RelationType": {
       "type": "string",
-      "enum": ["evaluates", "derives_from", "supports", "refutes", "contradicts", "supersedes", "depends_on", "reproduces"]
+      "enum": [
+        "evaluates",
+        "derives_from",
+        "supports",
+        "refutes",
+        "contradicts",
+        "supersedes",
+        "depends_on",
+        "reproduces"
+      ]
     },
     "ObservationCategory": {
       "type": "string",
-      "enum": ["telemetry", "tool_output", "merkle_proof", "behavioral_trace", "anomaly_signal", "human_review"]
+      "enum": [
+        "telemetry",
+        "tool_output",
+        "merkle_proof",
+        "behavioral_trace",
+        "anomaly_signal",
+        "human_review"
+      ]
     },
     "EvaluationStatus": {
       "type": "string",
@@ -51,7 +91,13 @@
     },
     "ClaimAssertionType": {
       "type": "string",
-      "enum": ["capability_bound", "safety_guarantee", "anti_gaming_resistance", "reproducibility_invariance", "cost_efficiency"]
+      "enum": [
+        "capability_bound",
+        "safety_guarantee",
+        "anti_gaming_resistance",
+        "reproducibility_invariance",
+        "cost_efficiency"
+      ]
     },
     "ClaimStatus": {
       "type": "string",
@@ -76,7 +122,17 @@
 
     "SystemProfile": {
       "type": "object",
-      "required": ["id", "version", "name", "modelFamily", "modelId", "parameters", "capabilities", "contextWindowTokens", "createdAt"],
+      "required": [
+        "id",
+        "version",
+        "name",
+        "modelFamily",
+        "modelId",
+        "parameters",
+        "capabilities",
+        "contextWindowTokens",
+        "createdAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^sys_prof_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -94,7 +150,18 @@
 
     "Benchmark": {
       "type": "object",
-      "required": ["id", "version", "name", "description", "domain", "categories", "caseIds", "rubricIds", "versionTag", "createdAt"],
+      "required": [
+        "id",
+        "version",
+        "name",
+        "description",
+        "domain",
+        "categories",
+        "caseIds",
+        "rubricIds",
+        "versionTag",
+        "createdAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^bmk_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -113,7 +180,16 @@
 
     "Run": {
       "type": "object",
-      "required": ["id", "version", "benchmarkId", "systemProfileId", "status", "startedAt", "traceIds", "environmentMetadata"],
+      "required": [
+        "id",
+        "version",
+        "benchmarkId",
+        "systemProfileId",
+        "status",
+        "startedAt",
+        "traceIds",
+        "environmentMetadata"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^run_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -151,7 +227,18 @@
 
     "Trace": {
       "type": "object",
-      "required": ["id", "version", "runId", "caseId", "status", "events", "tokenUsage", "durationMs", "startedAt", "endedAt"],
+      "required": [
+        "id",
+        "version",
+        "runId",
+        "caseId",
+        "status",
+        "events",
+        "tokenUsage",
+        "durationMs",
+        "startedAt",
+        "endedAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^trc_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -179,7 +266,16 @@
 
     "TraceEvent": {
       "type": "object",
-      "required": ["id", "traceId", "sequenceIndex", "timestamp", "type", "source", "payload", "sha256Hash"],
+      "required": [
+        "id",
+        "traceId",
+        "sequenceIndex",
+        "timestamp",
+        "type",
+        "source",
+        "payload",
+        "sha256Hash"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^evt_[a-zA-Z0-9_.-]+$" },
         "traceId": { "type": "string" },
@@ -195,7 +291,16 @@
 
     "Case": {
       "type": "object",
-      "required": ["id", "version", "benchmarkId", "title", "prompt", "inputs", "expectedBehavior", "tags"],
+      "required": [
+        "id",
+        "version",
+        "benchmarkId",
+        "title",
+        "prompt",
+        "inputs",
+        "expectedBehavior",
+        "tags"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^case_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -221,7 +326,16 @@
 
     "Pattern": {
       "type": "object",
-      "required": ["id", "version", "name", "category", "description", "detectionRule", "severity", "confidence"],
+      "required": [
+        "id",
+        "version",
+        "name",
+        "category",
+        "description",
+        "detectionRule",
+        "severity",
+        "confidence"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^pat_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -246,7 +360,16 @@
 
     "Relation": {
       "type": "object",
-      "required": ["id", "version", "sourceId", "targetId", "relationType", "weight", "nature", "evidenceIds"],
+      "required": [
+        "id",
+        "version",
+        "sourceId",
+        "targetId",
+        "relationType",
+        "weight",
+        "nature",
+        "evidenceIds"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^rel_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -262,7 +385,16 @@
 
     "EvidenceObservation": {
       "type": "object",
-      "required": ["id", "version", "nature", "category", "data", "confidence", "sha256Signature", "recordedAt"],
+      "required": [
+        "id",
+        "version",
+        "nature",
+        "category",
+        "data",
+        "confidence",
+        "sha256Signature",
+        "recordedAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^obs_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -280,7 +412,19 @@
 
     "Evaluation": {
       "type": "object",
-      "required": ["id", "version", "runId", "benchmarkId", "systemProfileId", "status", "overallScore", "scoreBreakdown", "observationIds", "claimIds", "generatedAt"],
+      "required": [
+        "id",
+        "version",
+        "runId",
+        "benchmarkId",
+        "systemProfileId",
+        "status",
+        "overallScore",
+        "scoreBreakdown",
+        "observationIds",
+        "claimIds",
+        "generatedAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^eval_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -311,7 +455,18 @@
 
     "Claim": {
       "type": "object",
-      "required": ["id", "version", "evaluationId", "statement", "assertionType", "status", "nature", "supportingObservationIds", "refutingObservationIds", "scope"],
+      "required": [
+        "id",
+        "version",
+        "evaluationId",
+        "statement",
+        "assertionType",
+        "status",
+        "nature",
+        "supportingObservationIds",
+        "refutingObservationIds",
+        "scope"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^clm_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -337,7 +492,17 @@
 
     "Review": {
       "type": "object",
-      "required": ["id", "version", "targetId", "reviewerId", "reviewerRole", "verdict", "comments", "reproducibilityAuditPassed", "reviewedAt"],
+      "required": [
+        "id",
+        "version",
+        "targetId",
+        "reviewerId",
+        "reviewerRole",
+        "verdict",
+        "comments",
+        "reproducibilityAuditPassed",
+        "reviewedAt"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^rev_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -370,7 +535,18 @@
 
     "Study": {
       "type": "object",
-      "required": ["id", "version", "title", "abstract", "leadAuthor", "partnerIds", "benchmarkIds", "runIds", "evaluationIds", "status"],
+      "required": [
+        "id",
+        "version",
+        "title",
+        "abstract",
+        "leadAuthor",
+        "partnerIds",
+        "benchmarkIds",
+        "runIds",
+        "evaluationIds",
+        "status"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^std_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },
@@ -398,7 +574,16 @@
 
     "ResearchBundle": {
       "type": "object",
-      "required": ["id", "version", "studyId", "pepArchiveUri", "merkleRootHash", "includedArtifacts", "license", "createdTimestamp"],
+      "required": [
+        "id",
+        "version",
+        "studyId",
+        "pepArchiveUri",
+        "merkleRootHash",
+        "includedArtifacts",
+        "license",
+        "createdTimestamp"
+      ],
       "properties": {
         "id": { "type": "string", "pattern": "^bundle_[a-zA-Z0-9_.-]+$" },
         "version": { "type": "string" },

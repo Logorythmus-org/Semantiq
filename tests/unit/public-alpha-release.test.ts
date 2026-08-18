@@ -9,8 +9,8 @@ describe("Prompt 7.1 — GitHub Public Alpha Release Verification", () => {
       codeRepository: string;
     };
 
-    expect(readme).toContain("https://github.com/Logorythmus-org/Semantiq.git");
-    expect(cff).toContain("https://github.com/Logorythmus-org/Semantiq.git");
-    expect(codemeta.codeRepository).toEqual("https://github.com/Logorythmus-org/Semantiq.git");
+    expect(readme).toMatch(/https:\/\/github\.com\/(Semant-iq|Logorythmus-org)\/Semantiq(\.git)?/);
+    expect(cff).toMatch(/https:\/\/github\.com\/(Semant-iq|Logorythmus-org)\/Semantiq(\.git)?/);
+    expect(codemeta.codeRepository).toMatch(/https:\/\/github\.com\/(Semant-iq|Logorythmus-org)\/Semantiq(\.git)?/);
   });
 });

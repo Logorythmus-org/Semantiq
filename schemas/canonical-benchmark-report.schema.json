@@ -1,0 +1,95 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CanonicalBenchmarkReport",
+  "type": "object",
+  "required": [
+    "reportId",
+    "scenarioId",
+    "runId",
+    "verdict",
+    "compositeScore",
+    "methodology",
+    "behavioralFindings",
+    "integrityAndTrust",
+    "costAccounting",
+    "provenance",
+    "limitations",
+    "generatedAt",
+    "reportSignatureHex"
+  ],
+  "properties": {
+    "reportId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASSED", "FAILED", "PARTIAL", "ERROR"]
+    },
+    "compositeScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "methodology": {
+      "type": "object",
+      "required": [
+        "benchmarkId",
+        "dslVersion",
+        "providerId",
+        "imageDigest",
+        "networkPolicy",
+        "totalStepBudget"
+      ],
+      "properties": {
+        "benchmarkId": { "type": "string" },
+        "dslVersion": { "type": "string" },
+        "providerId": { "type": "string" },
+        "imageDigest": { "type": "string" },
+        "networkPolicy": { "type": "string" },
+        "totalStepBudget": { "type": "integer", "minimum": 1 }
+      }
+    },
+    "behavioralFindings": {
+      "type": "object",
+      "required": [
+        "longHorizonResilienceIndex",
+        "consequenceAttributionIndex",
+        "recoveryResilienceIndex",
+        "detectedTransitions"
+      ],
+      "properties": {
+        "longHorizonResilienceIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+        "consequenceAttributionIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+        "recoveryResilienceIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+        "detectedTransitions": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "integrityAndTrust": {
+      "type": "object",
+      "required": ["integrityGrade", "authenticityClassification", "observerTrustScore"],
+      "properties": {
+        "integrityGrade": { "type": "string" },
+        "authenticityClassification": { "type": "string" },
+        "observerTrustScore": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "costAccounting": {
+      "type": "object",
+      "required": ["totalCostUsd", "receiptSignature"],
+      "properties": {
+        "totalCostUsd": { "type": "number", "minimum": 0 },
+        "receiptSignature": { "type": "string" }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "required": ["graphMerkleRoot", "evidenceDigest"],
+      "properties": {
+        "graphMerkleRoot": { "type": "string" },
+        "evidenceDigest": { "type": "string" }
+      }
+    },
+    "limitations": {
+      "type": "array",
+      "items": { "type": "string" }
+    },
+    "generatedAt": { "type": "string" },
+    "reportSignatureHex": { "type": "string" }
+  }
+}

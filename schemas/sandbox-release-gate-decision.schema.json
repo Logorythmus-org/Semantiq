@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxReleaseGateDecision",
+  "type": "object",
+  "required": [
+    "gateId",
+    "phase",
+    "releaseTag",
+    "verdict",
+    "totalChecksEvaluated",
+    "totalChecksPassed",
+    "blockingFindingsCount",
+    "nonBlockingLimitationsCount",
+    "testSuitesPassed",
+    "testsPassed",
+    "securityPosture",
+    "economicBurdenScore",
+    "gateEvaluatedAt",
+    "releaseAuthoritySignatureHex"
+  ],
+  "properties": {
+    "gateId": { "type": "string" },
+    "phase": {
+      "type": "string",
+      "enum": ["SANDBOX_PHASE"]
+    },
+    "releaseTag": { "type": "string" },
+    "verdict": {
+      "type": "string",
+      "enum": ["PASS", "CONDITIONAL_PASS", "FAIL"]
+    },
+    "totalChecksEvaluated": { "type": "integer", "minimum": 1 },
+    "totalChecksPassed": { "type": "integer", "minimum": 0 },
+    "blockingFindingsCount": { "type": "integer", "minimum": 0 },
+    "nonBlockingLimitationsCount": { "type": "integer", "minimum": 0 },
+    "testSuitesPassed": { "type": "integer", "minimum": 1 },
+    "testsPassed": { "type": "integer", "minimum": 1 },
+    "securityPosture": {
+      "type": "string",
+      "enum": ["HARDENED_ZERO_DAY_CLEAN"]
+    },
+    "economicBurdenScore": { "type": "number", "minimum": 0 },
+    "gateEvaluatedAt": { "type": "string" },
+    "releaseAuthoritySignatureHex": { "type": "string" }
+  }
+}

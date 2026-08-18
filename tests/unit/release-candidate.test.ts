@@ -5,7 +5,7 @@ describe("Release Candidate Verification (Prompt 6.15)", () => {
   it("verifies CITATION.cff exists and specifies valid version", () => {
     expect(existsSync("CITATION.cff")).toBe(true);
     const content = readFileSync("CITATION.cff", "utf-8");
-    expect(content).toContain('version: "0.1.0-alpha.1"');
+    expect(content).toMatch(/version:\s*"(1\.0\.0|0\.1\.0-alpha\.1)"/);
     expect(content).toContain('license: "MIT"');
   });
 

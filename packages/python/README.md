@@ -1,10 +1,10 @@
 # SemantIQ Python SDK (`semantiq`)
 
-> First-class, typed Python SDK and CLI for Autonomous Agent Behavioral Benchmarking, Governed Evidence Claims, and Reproducibility Verification.
+> First-class, typed Python SDK for SemantIQ Behavioral Evidence Infrastructure, Governed Claims, and Reproducibility Verification.
 
 [![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://pypi.org/project/semantiq/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Logorythmus-org/Semantiq)
+[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Semant-iq/Semantiq)
 
 ---
 

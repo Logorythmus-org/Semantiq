@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "CLIRunResult",
+  "type": "object",
+  "required": [
+    "exitCode",
+    "runId",
+    "scenarioId",
+    "providerUsed",
+    "artifactsGenerated",
+    "totalExecutionTimeMs",
+    "scorecardSummary",
+    "manifestDigest",
+    "executedAt"
+  ],
+  "properties": {
+    "exitCode": { "type": "integer" },
+    "runId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "providerUsed": { "type": "string" },
+    "artifactsGenerated": { "type": "array", "items": { "type": "string" } },
+    "totalExecutionTimeMs": { "type": "number", "minimum": 0 },
+    "scorecardSummary": {
+      "type": "object",
+      "required": ["milestoneRate", "resilienceGrade", "awarenessGrade"],
+      "properties": {
+        "milestoneRate": { "type": "number", "minimum": 0, "maximum": 1 },
+        "resilienceGrade": { "type": "string" },
+        "awarenessGrade": { "type": "string" }
+      }
+    },
+    "manifestDigest": { "type": "string" },
+    "executedAt": { "type": "string" }
+  }
+}

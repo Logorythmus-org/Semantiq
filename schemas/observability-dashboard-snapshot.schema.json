@@ -1,0 +1,64 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "DashboardStateSnapshot",
+  "type": "object",
+  "required": [
+    "dashboardId",
+    "scenarioId",
+    "runId",
+    "viewMode",
+    "lifecycleStatus",
+    "currentStep",
+    "totalSteps",
+    "activeStage",
+    "elapsedMs",
+    "totalCostUsd",
+    "authenticityClassification",
+    "integrityGrade",
+    "terminalBufferPreview",
+    "recentEventsCount",
+    "resourceUtilization",
+    "renderedAt",
+    "snapshotDigest"
+  ],
+  "properties": {
+    "dashboardId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "viewMode": {
+      "type": "string",
+      "enum": ["LIVE_STREAMING", "POST_RUN_FORENSIC_REPLAY"]
+    },
+    "lifecycleStatus": { "type": "string" },
+    "currentStep": { "type": "integer", "minimum": 0 },
+    "totalSteps": { "type": "integer", "minimum": 0 },
+    "activeStage": {
+      "type": "string",
+      "enum": [
+        "Context",
+        "Interpretation",
+        "Decision",
+        "Action",
+        "Result",
+        "Consequence",
+        "Recovery"
+      ]
+    },
+    "elapsedMs": { "type": "integer", "minimum": 0 },
+    "totalCostUsd": { "type": "number", "minimum": 0 },
+    "authenticityClassification": { "type": "string" },
+    "integrityGrade": { "type": "string" },
+    "terminalBufferPreview": { "type": "string" },
+    "recentEventsCount": { "type": "integer", "minimum": 0 },
+    "resourceUtilization": {
+      "type": "object",
+      "required": ["cpuPercent", "memoryMbUsed"],
+      "properties": {
+        "cpuPercent": { "type": "number", "minimum": 0, "maximum": 100 },
+        "memoryMbUsed": { "type": "number", "minimum": 0 }
+      }
+    },
+    "renderedAt": { "type": "string" },
+    "snapshotDigest": { "type": "string" }
+  }
+}

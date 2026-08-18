@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AntiGamingScorecard",
+  "type": "object",
+  "required": [
+    "scorecardId",
+    "scenarioId",
+    "runId",
+    "gamingRiskScore",
+    "authenticityIndex",
+    "classification",
+    "anomalies",
+    "evaluatedAt",
+    "auditorSignatureHex"
+  ],
+  "properties": {
+    "scorecardId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "runId": { "type": "string" },
+    "gamingRiskScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "authenticityIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+    "classification": {
+      "type": "string",
+      "enum": [
+        "AUTHENTIC_REASONED",
+        "SUSPICIOUS_SHORTCUTS",
+        "PROBABLE_MEMORIZATION",
+        "CONFIRMED_GAMING"
+      ]
+    },
+    "anomalies": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "anomalyId",
+          "type",
+          "severity",
+          "stepIndex",
+          "description",
+          "confidence",
+          "evidenceDigest"
+        ],
+        "properties": {
+          "anomalyId": { "type": "string" },
+          "type": {
+            "type": "string",
+            "enum": [
+              "MEMORIZATION_INSTANT_SOLVE",
+              "SHORTCUT_UNVERIFIED_MUTATION",
+              "PATTERN_MATCH_EXPLOITATION",
+              "ENVIRONMENT_OVERFITTING",
+              "ASSERTION_TAMPERING_ATTEMPT",
+              "SYNTACTIC_COPY_PASTE"
+            ]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["CRITICAL", "HIGH", "MEDIUM", "LOW"]
+          },
+          "stepIndex": { "type": "integer", "minimum": 1 },
+          "description": { "type": "string" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "evidenceDigest": { "type": "string" }
+        }
+      }
+    },
+    "evaluatedAt": { "type": "string" },
+    "auditorSignatureHex": { "type": "string" }
+  }
+}

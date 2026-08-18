@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ProviderCertificationScorecard",
+  "type": "object",
+  "required": [
+    "certificateId",
+    "providerId",
+    "providerVersion",
+    "assignedTier",
+    "compositeScore",
+    "dimensions",
+    "declaredLimitations",
+    "certifiedAt",
+    "expiresAt",
+    "auditorSignatureHex"
+  ],
+  "properties": {
+    "certificateId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "providerVersion": { "type": "string" },
+    "assignedTier": {
+      "type": "string",
+      "enum": [
+        "TIER_0_UNVERIFIED",
+        "TIER_1_CONFORMANCE_VERIFIED",
+        "TIER_2_HERMETIC_CERTIFIED",
+        "TIER_3_ENTERPRISE_AUDITED"
+      ]
+    },
+    "compositeScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "dimensions": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["dimension", "score", "passed", "findings", "evidenceDigest"],
+        "properties": {
+          "dimension": {
+            "type": "string",
+            "enum": [
+              "CONTRACT_CONFORMANCE",
+              "REPRODUCIBILITY",
+              "SECURITY_ISOLATION",
+              "OBSERVABILITY_FIDELITY",
+              "PROVENANCE_INTEGRITY",
+              "DECLARED_LIMITATIONS"
+            ]
+          },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "passed": { "type": "boolean" },
+          "findings": { "type": "array", "items": { "type": "string" } },
+          "evidenceDigest": { "type": "string" }
+        }
+      }
+    },
+    "declaredLimitations": { "type": "array", "items": { "type": "string" } },
+    "certifiedAt": { "type": "string" },
+    "expiresAt": { "type": "string" },
+    "auditorSignatureHex": { "type": "string" }
+  }
+}

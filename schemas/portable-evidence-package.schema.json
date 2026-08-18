@@ -1,0 +1,120 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "PortableEvidencePackage",
+  "type": "object",
+  "required": [
+    "manifest",
+    "environment",
+    "behavioralTrace",
+    "artifacts",
+    "evaluations",
+    "financial",
+    "compliance",
+    "receipt",
+    "packageMerkleRoot",
+    "packageSignatureHex"
+  ],
+  "properties": {
+    "manifest": {
+      "type": "object",
+      "required": [
+        "packageId",
+        "packageVersion",
+        "evaluationRunId",
+        "benchmarkId",
+        "scenarioId",
+        "createdAt"
+      ],
+      "properties": {
+        "packageId": { "type": "string" },
+        "packageVersion": { "type": "string", "enum": ["1.0.0"] },
+        "evaluationRunId": { "type": "string" },
+        "benchmarkId": { "type": "string" },
+        "scenarioId": { "type": "string" },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "environment": {
+      "type": "object",
+      "required": ["spec", "specHash"],
+      "properties": {
+        "spec": { "type": "object" },
+        "specHash": { "type": "string" }
+      }
+    },
+    "behavioralTrace": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["eventId", "seq", "stage", "timestamp", "agentId", "payload", "payloadDigest"],
+        "properties": {
+          "eventId": { "type": "string" },
+          "seq": { "type": "integer", "minimum": 0 },
+          "stage": {
+            "type": "string",
+            "enum": [
+              "CONTEXT",
+              "INTERPRETATION",
+              "DECISION",
+              "ACTION",
+              "RESULT",
+              "CONSEQUENCE",
+              "RECOVERY"
+            ]
+          },
+          "timestamp": { "type": "string" },
+          "agentId": { "type": "string" },
+          "actionType": { "type": "string" },
+          "payload": { "type": "object" },
+          "payloadDigest": { "type": "string" }
+        }
+      }
+    },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "path", "sha256", "sizeBytes", "mimeType"],
+        "properties": {
+          "name": { "type": "string" },
+          "path": { "type": "string" },
+          "sha256": { "type": "string" },
+          "sizeBytes": { "type": "integer", "minimum": 0 },
+          "mimeType": { "type": "string" }
+        }
+      }
+    },
+    "evaluations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "evaluatorId",
+          "evaluatorType",
+          "metricName",
+          "score",
+          "maxScore",
+          "rationale",
+          "passed"
+        ],
+        "properties": {
+          "evaluatorId": { "type": "string" },
+          "evaluatorType": {
+            "type": "string",
+            "enum": ["DETERMINISTIC_ASSERTION", "LLM_JUDGE", "TCK_VERIFIER", "HUMAN_EXPERT"]
+          },
+          "metricName": { "type": "string" },
+          "score": { "type": "number" },
+          "maxScore": { "type": "number" },
+          "rationale": { "type": "string" },
+          "passed": { "type": "boolean" }
+        }
+      }
+    },
+    "financial": { "type": "object" },
+    "compliance": { "type": "object" },
+    "receipt": { "type": "object" },
+    "packageMerkleRoot": { "type": "string" },
+    "packageSignatureHex": { "type": "string" }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "SandboxEconomicAuditReport",
+  "type": "object",
+  "required": [
+    "auditId",
+    "phase",
+    "auditedVersion",
+    "verdict",
+    "dimensionsAudited",
+    "sustainableDimensionsCount",
+    "lockInRiskScore",
+    "localExecutionViabilityScore",
+    "commercialExtensibilityScore",
+    "dimensionResults",
+    "auditedAt",
+    "releaseAuthoritySignatureHex"
+  ],
+  "properties": {
+    "auditId": { "type": "string" },
+    "phase": {
+      "type": "string",
+      "enum": ["SANDBOX_PHASE"]
+    },
+    "auditedVersion": { "type": "string" },
+    "verdict": {
+      "type": "string",
+      "enum": ["APPROVED_RELEASE_CANDIDATE", "CONDITIONALLY_APPROVED", "REJECTED_VENDOR_LOCKIN"]
+    },
+    "dimensionsAudited": { "type": "integer", "minimum": 1 },
+    "sustainableDimensionsCount": { "type": "integer", "minimum": 0 },
+    "lockInRiskScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "localExecutionViabilityScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "commercialExtensibilityScore": { "type": "number", "minimum": 0, "maximum": 1 },
+    "dimensionResults": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dimensionId",
+          "dimensionName",
+          "auditCriterion",
+          "sustainablePosture",
+          "vendorLockInRisk",
+          "operationalCostModel",
+          "findings",
+          "evidenceArtifact"
+        ],
+        "properties": {
+          "dimensionId": { "type": "string" },
+          "dimensionName": { "type": "string" },
+          "auditCriterion": { "type": "string" },
+          "sustainablePosture": { "type": "boolean" },
+          "vendorLockInRisk": {
+            "type": "string",
+            "enum": ["ZERO", "LOW", "MEDIUM", "CRITICAL"]
+          },
+          "operationalCostModel": { "type": "string" },
+          "findings": { "type": "string" },
+          "evidenceArtifact": { "type": "string" }
+        }
+      }
+    },
+    "auditedAt": { "type": "string" },
+    "releaseAuthoritySignatureHex": { "type": "string" }
+  }
+}

@@ -1,0 +1,81 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "ComplianceAttributionPackage",
+  "type": "object",
+  "required": [
+    "packageId",
+    "benchmarkId",
+    "scenarioId",
+    "providerId",
+    "generatedAt",
+    "notices",
+    "trademarks",
+    "commercialTerms",
+    "complianceGrade",
+    "summaryMarkdown",
+    "packageSignatureHex"
+  ],
+  "properties": {
+    "packageId": { "type": "string" },
+    "benchmarkId": { "type": "string" },
+    "scenarioId": { "type": "string" },
+    "providerId": { "type": "string" },
+    "generatedAt": { "type": "string" },
+    "notices": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["component", "spdxLicense", "copyrightHolders", "noticeText"],
+        "properties": {
+          "component": { "type": "string" },
+          "spdxLicense": { "type": "string" },
+          "copyrightHolders": { "type": "array", "items": { "type": "string" } },
+          "noticeText": { "type": "string" },
+          "sourceUrl": { "type": "string" },
+          "licenseSha256": { "type": "string" }
+        }
+      }
+    },
+    "trademarks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["mark", "owner", "usageContext", "disclaimerText"],
+        "properties": {
+          "mark": { "type": "string" },
+          "owner": { "type": "string" },
+          "usageContext": { "type": "string" },
+          "disclaimerText": { "type": "string" }
+        }
+      }
+    },
+    "commercialTerms": {
+      "type": "object",
+      "required": [
+        "commercialUseAllowed",
+        "researchOnlyClause",
+        "patentRetaliationClause",
+        "redistributionPermitted"
+      ],
+      "properties": {
+        "commercialUseAllowed": { "type": "boolean" },
+        "researchOnlyClause": { "type": "boolean" },
+        "patentRetaliationClause": { "type": "boolean" },
+        "redistributionPermitted": { "type": "boolean" },
+        "termsOfServiceUrl": { "type": "string" },
+        "termsVersion": { "type": "string" }
+      }
+    },
+    "complianceGrade": {
+      "type": "string",
+      "enum": [
+        "FULLY_COMPLIANT",
+        "COMPLIANT_WITH_NOTICES",
+        "NON_COMMERCIAL_RESTRICTED",
+        "NON_COMPLIANT_BLOCKED"
+      ]
+    },
+    "summaryMarkdown": { "type": "string" },
+    "packageSignatureHex": { "type": "string" }
+  }
+}
