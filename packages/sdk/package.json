@@ -1,12 +1,18 @@
 {
-  "name": "@tech-club/sdk",
-  "version": "0.0.0",
+  "name": "@semantiq/sdk",
+  "version": "0.1.0-alpha.2",
+  "description": "SemantIQ TypeScript SDK for Autonomous Agent Behavioral Benchmarking and Evidence Verification",
   "type": "module",
-  "private": true,
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
   "exports": {
-    ".": "./src/index.ts"
+    ".": "./src/index.ts",
+    "./contracts": "./src/contracts.ts",
+    "./errors": "./src/errors.ts",
+    "./client": "./src/client.ts"
   },
   "dependencies": {
-    "@tech-club/core": "workspace:*"
+    "@tech-club/core": "workspace:*",
+    "@tech-club/sandbox-contracts": "workspace:*"
   }
 }

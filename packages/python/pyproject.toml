@@ -1,0 +1,52 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "semantiq"
+version = "0.1.0a2"
+description = "SemantIQ Autonomous Agent Behavioral Benchmark & Evaluation Infrastructure"
+readme = "README.md"
+authors = [
+    { name = "Logorythmus", email = "engineering@logorythmus.org" }
+]
+license = "MIT"
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+dependencies = []
+
+[project.optional-dependencies]
+pandas = ["pandas>=2.0.0"]
+jupyter = ["ipywidgets>=8.0.0", "matplotlib>=3.7.0"]
+kaggle = ["pandas>=2.0.0", "tqdm>=4.65.0"]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.4.0",
+    "mypy>=1.9.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Logorythmus-org/Semantiq"
+Documentation = "https://github.com/Logorythmus-org/Semantiq/tree/main/docs"
+Repository = "https://github.com/Logorythmus-org/Semantiq"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/semantiq"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]

@@ -1,12 +1,10 @@
-export type { Command, DomainEvent, Query, TechClubModule } from "@tech-club/core";
+/**
+ * @package @semantiq/sdk
+ * First-Class SemantIQ TypeScript SDK Entry Point
+ */
 
-export const sdkFoundation = {
-  languages: ["typescript", "python"],
-  modules: ["identity", "workspace", "question", "knowledge", "graph", "semantiq", "research", "agent", "workflow", "asset", "registry", "marketplace", "events"],
-  localRuntimeSupport: true,
-  remoteApiSupport: true,
-  errorModel: "TechClubSdkError",
-  retryBehavior: "exponential-backoff-descriptor",
-  pagination: "cursor-descriptor",
-  streaming: "adapter-ready"
-} as const;
+export * from "./contracts.js";
+export * from "./errors.js";
+export * from "./client.js";
+
+export const SDK_VERSION = "0.1.0-alpha.2";
