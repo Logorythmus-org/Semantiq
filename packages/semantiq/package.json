@@ -5,5 +5,11 @@
   "private": true,
   "exports": {
     ".": "./src/index.ts"
+  },
+  "dependencies": {
+    "@tech-club/benchmark": "workspace:*",
+    "@tech-club/evidence": "workspace:*",
+    "@tech-club/patterns": "workspace:*",
+    "@tech-club/sandbox-contracts": "workspace:*"
   }
 }
