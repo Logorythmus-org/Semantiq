@@ -1,10 +1,30 @@
 import { createKnowledgeObjectAggregate } from "../../core/src/index.js";
-import { createKnowledgeEdge, type KnowledgeNode, LocalKnowledgeGraphRuntime } from "../../graph-runtime/src/index.js";
+import {
+  createKnowledgeEdge,
+  type KnowledgeNode,
+  LocalKnowledgeGraphRuntime
+} from "../../graph-runtime/src/index.js";
 import { ExplainableSemantiqRuntime } from "../../semantiq/src/index.js";
 
-export type GoalStatus = "created" | "planned" | "executing" | "waiting-for-approval" | "completed" | "failed" | "archived";
+export type GoalStatus =
+  | "created"
+  | "planned"
+  | "executing"
+  | "waiting-for-approval"
+  | "completed"
+  | "failed"
+  | "archived";
 export type GoalPriority = "low" | "normal" | "high" | "critical";
-export type AgentLifecycle = "installed" | "registered" | "initialized" | "loaded" | "started" | "paused" | "disabled" | "archived" | "destroyed";
+export type AgentLifecycle =
+  | "installed"
+  | "registered"
+  | "initialized"
+  | "loaded"
+  | "started"
+  | "paused"
+  | "disabled"
+  | "archived"
+  | "destroyed";
 export type WorkflowNodeType =
   | "goal"
   | "task"
@@ -23,7 +43,15 @@ export type WorkflowNodeType =
   | "delay"
   | "custom";
 export type ExecutionMode = "sequential" | "parallel" | "distributed";
-export type MemoryKind = "working" | "conversation" | "workspace" | "project" | "research" | "execution" | "semantic" | "long-term";
+export type MemoryKind =
+  | "working"
+  | "conversation"
+  | "workspace"
+  | "project"
+  | "research"
+  | "execution"
+  | "semantic"
+  | "long-term";
 export type ToolKind =
   | "filesystem"
   | "git"
@@ -184,7 +212,14 @@ export interface AgentMessage {
   readonly id: string;
   readonly fromAgentId: string;
   readonly toAgentId: string;
-  readonly type: "delegation" | "knowledge-request" | "tool-request" | "benchmark-request" | "negotiation" | "consensus" | "conflict-resolution";
+  readonly type:
+    | "delegation"
+    | "knowledge-request"
+    | "tool-request"
+    | "benchmark-request"
+    | "negotiation"
+    | "consensus"
+    | "conflict-resolution";
   readonly content: string;
   readonly contextIds: readonly string[];
   readonly createdAt: string;
@@ -262,7 +297,8 @@ export interface AgentRuntimeEvent {
   readonly payload: unknown;
 }
 
-const createId = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 const now = (): string => new Date().toISOString();
 
 export class LocalAgentRuntime {
@@ -288,18 +324,26 @@ export class LocalAgentRuntime {
       throw new Error("Goal objective is required");
     }
     this.goals.set(goal.id, goal);
-    await this.createGraphNode(goal.id, "workflow", goal.objective, { type: "goal", priority: goal.priority });
+    await this.createGraphNode(goal.id, "workflow", goal.objective, {
+      type: "goal",
+      priority: goal.priority
+    });
     this.emit("GoalCreated", { objective: goal.objective }, goal.id);
   }
 
   async registerAgent(agent: AgentDefinition): Promise<void> {
     this.agents.set(agent.id, { ...agent, lifecycle: "registered" });
-    await this.createGraphNode(agent.id, "agent", agent.type, { capabilities: agent.capabilities, tools: agent.tools });
+    await this.createGraphNode(agent.id, "agent", agent.type, {
+      capabilities: agent.capabilities,
+      tools: agent.tools
+    });
     this.emit("AgentRegistered", { type: agent.type }, undefined, agent.id);
   }
 
   discoverAgents(capability: string): readonly AgentDefinition[] {
-    return [...this.agents.values()].filter((agent) => agent.capabilities.includes(capability) && agent.health === "healthy");
+    return [...this.agents.values()].filter(
+      (agent) => agent.capabilities.includes(capability) && agent.health === "healthy"
+    );
   }
 
   async startAgent(agentId: string): Promise<void> {
@@ -319,7 +363,8 @@ export class LocalAgentRuntime {
     const tasks = goal.milestones.length > 0 ? goal.milestones : [goal.objective];
     const planTasks = tasks.map<PlanTask>((milestone, index) => {
       const requiredCapability = this.capabilityFromText(milestone);
-      const agent = this.discoverAgents(requiredCapability)[0] ?? this.discoverAgents("planning")[0];
+      const agent =
+        this.discoverAgents(requiredCapability)[0] ?? this.discoverAgents("planning")[0];
       const task: PlanTask = {
         id: `${goal.id}:task:${index + 1}`,
         goalId: goal.id,
@@ -328,13 +373,19 @@ export class LocalAgentRuntime {
         dependencyIds: index === 0 ? [] : [`${goal.id}:task:${index}`],
         requiredCapability,
         riskIds: [],
-        validationCriteria: ["Result is observable", "Knowledge Graph updated", "Semantiq benchmark completed"],
+        validationCriteria: [
+          "Result is observable",
+          "Knowledge Graph updated",
+          "Semantiq benchmark completed"
+        ],
         approvalRequired: this.requiresApproval(milestone),
         status: "pending"
       };
       return agent ? { ...task, assignedAgentId: agent.id } : task;
     });
-    const assignments = Object.fromEntries(planTasks.flatMap((task) => (task.assignedAgentId ? [[task.id, task.assignedAgentId]] : [])));
+    const assignments = Object.fromEntries(
+      planTasks.flatMap((task) => (task.assignedAgentId ? [[task.id, task.assignedAgentId]] : []))
+    );
     const plan: ExecutionPlan = {
       id: `${goal.id}:plan:1`,
       goalId,
@@ -342,12 +393,17 @@ export class LocalAgentRuntime {
       tasks: planTasks,
       agentAssignments: assignments,
       dependencyOrder: planTasks.map((task) => task.id),
-      risks: planTasks.some((task) => task.approvalRequired) ? ["Human approval required for privileged operation"] : [],
+      risks: planTasks.some((task) => task.approvalRequired)
+        ? ["Human approval required for privileged operation"]
+        : [],
       validationPlan: ["Execute tasks", "Store memory", "Reflect", "Learn", "Benchmark"],
       alternativePlans: ["Pause for human planning", "Use sequential single-agent execution"]
     };
     this.plans.set(goalId, plan);
-    await this.createGraphNode(plan.id, "workflow", "Execution Plan", { goalId, taskCount: plan.tasks.length });
+    await this.createGraphNode(plan.id, "workflow", "Execution Plan", {
+      goalId,
+      taskCount: plan.tasks.length
+    });
     await this.link(plan.id, goalId, "generated_by");
     this.emit("GoalPlanned", { taskCount: plan.tasks.length }, goalId);
     return plan;
@@ -377,14 +433,23 @@ export class LocalAgentRuntime {
       version: "1.0.0"
     };
     this.workflows.set(workflow.id, workflow);
-    await this.createGraphNode(workflow.id, "workflow", "Workflow", { goalId: plan.goalId, nodes: nodes.length });
+    await this.createGraphNode(workflow.id, "workflow", "Workflow", {
+      goalId: plan.goalId,
+      nodes: nodes.length
+    });
     await this.link(workflow.id, plan.id, "generated_by");
     return workflow;
   }
 
   async executeWorkflow(workflowId: string): Promise<WorkflowExecutionResult> {
     const workflow = this.requireWorkflow(workflowId);
-    this.emit("WorkflowStarted", { nodeCount: workflow.nodes.length }, workflow.goalId, undefined, workflow.id);
+    this.emit(
+      "WorkflowStarted",
+      { nodeCount: workflow.nodes.length },
+      workflow.goalId,
+      undefined,
+      workflow.id
+    );
     const approvalNode = workflow.nodes.find((node) => node.approvalRequired);
     if (approvalNode) {
       return {
@@ -419,7 +484,12 @@ export class LocalAgentRuntime {
       };
     }
     this.toolExecutions += 1;
-    this.emit("ToolExecuted", { tool: request.kind, requestId: request.id }, request.goalId, request.agentId);
+    this.emit(
+      "ToolExecuted",
+      { tool: request.kind, requestId: request.id },
+      request.goalId,
+      request.agentId
+    );
     return {
       id: createId("tool-result"),
       requestId: request.id,
@@ -437,7 +507,10 @@ export class LocalAgentRuntime {
 
   async storeMemory(record: MemoryRecord): Promise<void> {
     this.memory.set(record.id, record);
-    await this.createGraphNode(record.id, "knowledge", record.summary, { kind: record.kind, goalId: record.goalId });
+    await this.createGraphNode(record.id, "knowledge", record.summary, {
+      kind: record.kind,
+      goalId: record.goalId
+    });
     await this.link(record.id, record.goalId, "generated_by");
     this.emit("MemoryUpdated", { memoryId: record.id, kind: record.kind }, record.goalId);
   }
@@ -457,7 +530,10 @@ export class LocalAgentRuntime {
     this.emit("LearningCompleted", { learningId: record.id }, record.goalId);
   }
 
-  async benchmarkExecution(goalId: string, workflowId?: string): Promise<Awaited<ReturnType<ExplainableSemantiqRuntime["runSemantiq"]>>> {
+  async benchmarkExecution(
+    goalId: string,
+    workflowId?: string
+  ): Promise<Awaited<ReturnType<ExplainableSemantiqRuntime["runSemantiq"]>>> {
     const goal = this.requireGoal(goalId);
     const benchmark = await this.semantiq.runSemantiq(
       {
@@ -482,7 +558,9 @@ export class LocalAgentRuntime {
 
   metrics(): RuntimeMetrics {
     return {
-      activeGoals: [...this.goals.values()].filter((goal) => goal.status !== "completed" && goal.status !== "archived").length,
+      activeGoals: [...this.goals.values()].filter(
+        (goal) => goal.status !== "completed" && goal.status !== "archived"
+      ).length,
       registeredAgents: this.agents.size,
       runningWorkflows: this.workflows.size,
       memoryRecords: this.memory.size,
@@ -507,7 +585,16 @@ export class LocalAgentRuntime {
 
   private requiresApproval(text: string): boolean {
     const lower = text.toLowerCase();
-    return ["publish", "delete", "payment", "merge", "permission", "external", "wallet", "sensitive"].some((term) => lower.includes(term));
+    return [
+      "publish",
+      "delete",
+      "payment",
+      "merge",
+      "permission",
+      "external",
+      "wallet",
+      "sensitive"
+    ].some((term) => lower.includes(term));
   }
 
   private requireGoal(goalId: string): Goal {
@@ -534,8 +621,20 @@ export class LocalAgentRuntime {
     return workflow;
   }
 
-  private async createGraphNode(id: string, type: KnowledgeNode["type"], title: string, metadata: Readonly<Record<string, unknown>>): Promise<void> {
-    const object = createKnowledgeObjectAggregate(id, "workspace:agent-runtime", "identity:agent-runtime", type, title, metadata);
+  private async createGraphNode(
+    id: string,
+    type: KnowledgeNode["type"],
+    title: string,
+    metadata: Readonly<Record<string, unknown>>
+  ): Promise<void> {
+    const object = createKnowledgeObjectAggregate(
+      id,
+      "workspace:agent-runtime",
+      "identity:agent-runtime",
+      type,
+      title,
+      metadata
+    );
     await this.graph.createNode({
       id,
       type,
@@ -549,11 +648,23 @@ export class LocalAgentRuntime {
     });
   }
 
-  private async link(sourceId: string, targetId: string, relation: Parameters<typeof createKnowledgeEdge>[3]): Promise<void> {
-    await this.graph.createEdge(createKnowledgeEdge(createId("agent-edge"), sourceId, targetId, relation));
+  private async link(
+    sourceId: string,
+    targetId: string,
+    relation: Parameters<typeof createKnowledgeEdge>[3]
+  ): Promise<void> {
+    await this.graph.createEdge(
+      createKnowledgeEdge(createId("agent-edge"), sourceId, targetId, relation)
+    );
   }
 
-  private emit(type: AgentRuntimeEventType, payload: unknown, goalId?: string, agentId?: string, workflowId?: string): void {
+  private emit(
+    type: AgentRuntimeEventType,
+    payload: unknown,
+    goalId?: string,
+    agentId?: string,
+    workflowId?: string
+  ): void {
     const base: AgentRuntimeEvent = {
       type,
       version: 1,
@@ -567,7 +678,12 @@ export class LocalAgentRuntime {
   }
 }
 
-export const createGoal = (id: string, objective: string, workspaceId: string, milestones: readonly string[] = []): Goal => ({
+export const createGoal = (
+  id: string,
+  objective: string,
+  workspaceId: string,
+  milestones: readonly string[] = []
+): Goal => ({
   id,
   objective,
   milestones,
@@ -583,7 +699,12 @@ export const createGoal = (id: string, objective: string, workspaceId: string, m
   version: "1.0.0"
 });
 
-export const createAgent = (id: string, type: AgentType, capabilities: readonly string[], tools: readonly ToolKind[] = []): AgentDefinition => ({
+export const createAgent = (
+  id: string,
+  type: AgentType,
+  capabilities: readonly string[],
+  tools: readonly ToolKind[] = []
+): AgentDefinition => ({
   id,
   type,
   identityId: `identity:${id}`,

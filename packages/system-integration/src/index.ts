@@ -84,7 +84,9 @@ export class LocalSystemIntegrationRepository implements SystemIntegrationReposi
 }
 
 export class LocalSystemIntegrationService implements SystemIntegrationService {
-  constructor(private readonly repository: LocalSystemIntegrationRepository = new LocalSystemIntegrationRepository()) {}
+  constructor(
+    private readonly repository: LocalSystemIntegrationRepository = new LocalSystemIntegrationRepository()
+  ) {}
 
   async systemHealth(): Promise<SystemHealthReport> {
     return this.generateHealthReport();
@@ -92,7 +94,11 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
 
   async validateArchitecture(): Promise<ValidationReport> {
     const modules = await this.repository.listModules();
-    const report = createValidationReport("architecture", modules, modules.length > 0 ? "pass" : "block");
+    const report = createValidationReport(
+      "architecture",
+      modules,
+      modules.length > 0 ? "pass" : "block"
+    );
     await this.repository.saveValidationReport(report);
     await this.emit("ArchitectureValidated", { recommendation: report.releaseRecommendation });
     return report;
@@ -100,7 +106,9 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
 
   async validateModules(): Promise<readonly ValidationReport[]> {
     const modules = await this.repository.listModules();
-    const reports = modules.map((module) => createValidationReport("modules", [module], module.contractIds.length > 0 ? "pass" : "block"));
+    const reports = modules.map((module) =>
+      createValidationReport("modules", [module], module.contractIds.length > 0 ? "pass" : "block")
+    );
     for (const report of reports) {
       await this.repository.saveValidationReport(report);
       await this.emit("ModuleIntegrated", { reportId: report.id }, report.moduleIds[0]);
@@ -114,7 +122,10 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
     const scores = healthDimensions.map((dimension) => ({
       dimension,
       score,
-      explanation: score === 100 ? `${dimension} has registered module coverage` : `${dimension} has no registered module coverage`,
+      explanation:
+        score === 100
+          ? `${dimension} has registered module coverage`
+          : `${dimension} has no registered module coverage`,
       evidenceIds: modules.map((module) => module.id),
       riskIds: [],
       blockerIds: score === 100 ? [] : [`${dimension}:missing-modules`]
@@ -135,7 +146,17 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
   async benchmarkSystem(): Promise<PerformanceReport> {
     const report: PerformanceReport = {
       id: `performance:${Date.now()}`,
-      benchmarkAreas: ["startup", "workspace-loading", "search", "knowledge-graph", "workflow-runtime", "agent-runtime", "marketplace", "offline-mode", "synchronization"],
+      benchmarkAreas: [
+        "startup",
+        "workspace-loading",
+        "search",
+        "knowledge-graph",
+        "workflow-runtime",
+        "agent-runtime",
+        "marketplace",
+        "offline-mode",
+        "synchronization"
+      ],
       measurements: [],
       regressions: [],
       releaseRecommendation: "pass-with-risk"
@@ -147,7 +168,11 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
   async runIntegrationTests(): Promise<readonly ValidationReport[]> {
     const architecture = await this.validateArchitecture();
     const modules = await this.validateModules();
-    const documentation = createValidationReport("documentation", await this.repository.listModules(), "pass-with-risk");
+    const documentation = createValidationReport(
+      "documentation",
+      await this.repository.listModules(),
+      "pass-with-risk"
+    );
     await this.repository.saveValidationReport(documentation);
     await this.emit("DocumentationVerified", { reportId: documentation.id });
     return [architecture, ...modules, documentation];
@@ -213,8 +238,23 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
     const plan: RoadmapPlan = {
       id: `roadmap:${version}`,
       version,
-      horizons: ["version-1.0", "version-1.1", "version-2", "enterprise", "scientific-cloud", "global-knowledge-network", "educational-network", "distributed-intelligence"],
-      itemIds: ["mvp-hardening", "security-validation", "public-beta", "developer-ecosystem", "distributed-intelligence"],
+      horizons: [
+        "version-1.0",
+        "version-1.1",
+        "version-2",
+        "enterprise",
+        "scientific-cloud",
+        "global-knowledge-network",
+        "educational-network",
+        "distributed-intelligence"
+      ],
+      itemIds: [
+        "mvp-hardening",
+        "security-validation",
+        "public-beta",
+        "developer-ecosystem",
+        "distributed-intelligence"
+      ],
       adaptive: true,
       updatedAt: new Date().toISOString()
     };
@@ -229,7 +269,12 @@ export class LocalSystemIntegrationService implements SystemIntegrationService {
     await this.emit("ModuleIntegrated", { packageName: module.packageName }, module.id);
   }
 
-  private async emit(type: SystemIntegrationEvent["type"], payload: unknown, moduleId?: string, releaseId?: string): Promise<void> {
+  private async emit(
+    type: SystemIntegrationEvent["type"],
+    payload: unknown,
+    moduleId?: string,
+    releaseId?: string
+  ): Promise<void> {
     const event: SystemIntegrationEvent = {
       type,
       version: 1,
@@ -279,7 +324,8 @@ function createDeploymentProfiles(): readonly DeploymentProfile[] {
     target,
     requiredModuleIds: [],
     optionalModuleIds: [],
-    storageMode: target === "local" || target === "desktop" || target === "browser" ? "local" : "hybrid",
+    storageMode:
+      target === "local" || target === "desktop" || target === "browser" ? "local" : "hybrid",
     syncMode: target === "local" ? "offline" : "hybrid",
     authenticationMode: target === "enterprise" || target === "government" ? "enterprise" : "local",
     observabilityEnabled: true,

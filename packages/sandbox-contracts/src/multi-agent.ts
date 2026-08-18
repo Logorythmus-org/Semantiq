@@ -3,10 +3,10 @@
  * Multi-Agent Sandbox Provider-Neutral Contracts and Interfaces
  */
 
-import type { ExecutionRequest, ExecutionResult } from './types.js';
+import type { ExecutionRequest, ExecutionResult } from "./types.js";
 
-export type AgentIsolationLevel = 'shared_process' | 'isolated_container' | 'isolated_microvm';
-export type SharedResourceType = 'shared_filesystem' | 'message_bus' | 'shared_memory' | 'database';
+export type AgentIsolationLevel = "shared_process" | "isolated_container" | "isolated_microvm";
+export type SharedResourceType = "shared_filesystem" | "message_bus" | "shared_memory" | "database";
 
 export interface AgentParticipantSpec {
   readonly agentId: string;
@@ -20,7 +20,7 @@ export interface SharedResourceSpec {
   readonly resourceId: string;
   readonly resourceType: SharedResourceType;
   readonly mountPath?: string | undefined;
-  readonly accessMode: 'read_write' | 'read_only';
+  readonly accessMode: "read_write" | "read_only";
   readonly accessibleByAgentIds: readonly string[];
 }
 
@@ -58,7 +58,7 @@ export interface AttributedExecutionRequest {
 export interface AttributedMutationEvent {
   readonly actorId: string;
   readonly actorRole: string;
-  readonly action: 'CREATE' | 'MODIFY' | 'DELETE' | 'MESSAGE_SENT' | 'TOOL_INVOKED';
+  readonly action: "CREATE" | "MODIFY" | "DELETE" | "MESSAGE_SENT" | "TOOL_INVOKED";
   readonly target: string;
   readonly sequenceNumber: number;
   readonly timestamp: string;
@@ -109,7 +109,7 @@ export class MultiAgentCausalTracker {
   recordAttributedEvent(
     actorId: string,
     actorRole: string,
-    action: AttributedMutationEvent['action'],
+    action: AttributedMutationEvent["action"],
     target: string
   ): AttributedMutationEvent {
     this.currentSequence++;

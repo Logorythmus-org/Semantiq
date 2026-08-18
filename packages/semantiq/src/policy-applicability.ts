@@ -1,15 +1,24 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
-export type ApplicabilityDimensionType = 'actor' | 'role' | 'authority' | 'mission' | 'resource' | 'action' | 'environment' | 'organization' | 'temporal';
+export type ApplicabilityDimensionType =
+  | "actor"
+  | "role"
+  | "authority"
+  | "mission"
+  | "resource"
+  | "action"
+  | "environment"
+  | "organization"
+  | "temporal";
 
 export type ApplicabilityFailureClass =
-  | 'wrong_actor_scope'
-  | 'wrong_resource_scope'
-  | 'temporal_mismatch'
-  | 'overlapping_policies'
-  | 'stale_policy_reference'
-  | 'silent_assumption_of_applicability'
-  | 'insufficient_evidence';
+  | "wrong_actor_scope"
+  | "wrong_resource_scope"
+  | "temporal_mismatch"
+  | "overlapping_policies"
+  | "stale_policy_reference"
+  | "silent_assumption_of_applicability"
+  | "insufficient_evidence";
 
 export interface ApplicabilityDimension {
   readonly dimensionType: ApplicabilityDimensionType;
@@ -82,11 +91,15 @@ export class PolicyApplicabilityEngine {
           timestamp,
           isApplicable: false,
           dimensions: [],
-          uncertainty: { uncertaintyId: `unc_${policyId}`, score: 1.0, missingEvidenceFields: ['evidence_checksum'] }
+          uncertainty: {
+            uncertaintyId: `unc_${policyId}`,
+            score: 1.0,
+            missingEvidenceFields: ["evidence_checksum"]
+          }
         },
         failure: {
           reportId: `fail_ev_${policyId}`,
-          failureClass: 'insufficient_evidence',
+          failureClass: "insufficient_evidence",
           policyId,
           description: `Applicability for policy '${policyId}' cannot be evaluated without evidence.`,
           timestamp
@@ -104,11 +117,11 @@ export class PolicyApplicabilityEngine {
           targetResourceId: requestResourceId,
           timestamp,
           isApplicable: false,
-          dimensions: [{ dimensionType: 'actor', targetValue: requestActorId }]
+          dimensions: [{ dimensionType: "actor", targetValue: requestActorId }]
         },
         failure: {
           reportId: `fail_actor_${policyId}`,
-          failureClass: 'wrong_actor_scope',
+          failureClass: "wrong_actor_scope",
           policyId,
           description: `Actor '${requestActorId}' is outside allowed policy scope.`,
           timestamp
@@ -126,11 +139,11 @@ export class PolicyApplicabilityEngine {
           targetResourceId: requestResourceId,
           timestamp,
           isApplicable: false,
-          dimensions: [{ dimensionType: 'resource', targetValue: requestResourceId }]
+          dimensions: [{ dimensionType: "resource", targetValue: requestResourceId }]
         },
         failure: {
           reportId: `fail_res_${policyId}`,
-          failureClass: 'wrong_resource_scope',
+          failureClass: "wrong_resource_scope",
           policyId,
           description: `Resource '${requestResourceId}' is outside allowed policy scope.`,
           timestamp
@@ -148,11 +161,11 @@ export class PolicyApplicabilityEngine {
           targetResourceId: requestResourceId,
           timestamp,
           isApplicable: false,
-          dimensions: [{ dimensionType: 'temporal', targetValue: validUntil }]
+          dimensions: [{ dimensionType: "temporal", targetValue: validUntil }]
         },
         failure: {
           reportId: `fail_time_${policyId}`,
-          failureClass: 'temporal_mismatch',
+          failureClass: "temporal_mismatch",
           policyId,
           description: `Policy evaluation at '${timestamp}' exceeds valid expiration date '${validUntil}'.`,
           timestamp
@@ -169,8 +182,8 @@ export class PolicyApplicabilityEngine {
         timestamp,
         isApplicable: true,
         dimensions: [
-          { dimensionType: 'actor', targetValue: requestActorId },
-          { dimensionType: 'resource', targetValue: requestResourceId }
+          { dimensionType: "actor", targetValue: requestActorId },
+          { dimensionType: "resource", targetValue: requestResourceId }
         ]
       }
     };

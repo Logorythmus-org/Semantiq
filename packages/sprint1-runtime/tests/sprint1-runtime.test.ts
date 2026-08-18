@@ -1,5 +1,10 @@
 import { describe, expect, it } from "vitest";
-import { LocalSprint1Runtime, sprint1AuthAdapters, sprint1Screens, sprint1StorageAdapters } from "../src/index.js";
+import {
+  LocalSprint1Runtime,
+  sprint1AuthAdapters,
+  sprint1Screens,
+  sprint1StorageAdapters
+} from "../src/index.js";
 
 describe("Sprint 1 local-first knowledge application runtime", () => {
   it("creates an identity, authenticates a device, and logs out cleanly", async () => {
@@ -22,8 +27,15 @@ describe("Sprint 1 local-first knowledge application runtime", () => {
 
   it("creates workspace, knowledge, questions, graph relations, dashboard, search, and exports", async () => {
     const runtime = new LocalSprint1Runtime();
-    const identity = await runtime.createIdentity({ id: "identity:flow", displayName: "Flow User" });
-    const workspace = await runtime.createWorkspace(identity.id, "Local Knowledge Lab", "research-template");
+    const identity = await runtime.createIdentity({
+      id: "identity:flow",
+      displayName: "Flow User"
+    });
+    const workspace = await runtime.createWorkspace(
+      identity.id,
+      "Local Knowledge Lab",
+      "research-template"
+    );
     const note = await runtime.createKnowledge({
       workspaceId: workspace.id,
       ownerId: identity.id,
@@ -67,7 +79,10 @@ describe("Sprint 1 local-first knowledge application runtime", () => {
 
   it("declares required events, contracts, screens, storage adapters, and auth adapters", async () => {
     const runtime = new LocalSprint1Runtime();
-    const identity = await runtime.createIdentity({ id: "identity:contracts", displayName: "Contracts User" });
+    const identity = await runtime.createIdentity({
+      id: "identity:contracts",
+      displayName: "Contracts User"
+    });
     const workspace = await runtime.createWorkspace(identity.id, "Contract Workspace");
     const question = await runtime.createQuestion({
       workspaceId: workspace.id,
@@ -81,15 +96,47 @@ describe("Sprint 1 local-first knowledge application runtime", () => {
 
     const eventTypes = runtime.eventsLog().map((event) => event.type);
     expect(eventTypes).toEqual(
-      expect.arrayContaining(["IdentityCreated", "WorkspaceCreated", "QuestionCreated", "QuestionUpdated", "GraphUpdated", "WorkspaceExported", "SearchExecuted"])
+      expect.arrayContaining([
+        "IdentityCreated",
+        "WorkspaceCreated",
+        "QuestionCreated",
+        "QuestionUpdated",
+        "GraphUpdated",
+        "WorkspaceExported",
+        "SearchExecuted"
+      ])
     );
     expect(Object.values(runtime.apiContracts())).toEqual(
-      expect.arrayContaining(["POST /workspaces", "PATCH /questions/{questionId}", "GET /workspaces/{workspaceId}/graph"])
+      expect.arrayContaining([
+        "POST /workspaces",
+        "PATCH /questions/{questionId}",
+        "GET /workspaces/{workspaceId}/graph"
+      ])
     );
     expect(sprint1Screens).toEqual(
-      expect.arrayContaining(["Welcome", "Identity Setup", "Workspace Dashboard", "Question Editor", "Knowledge Editor", "Graph Viewer", "Search", "Settings", "Export"])
+      expect.arrayContaining([
+        "Welcome",
+        "Identity Setup",
+        "Workspace Dashboard",
+        "Question Editor",
+        "Knowledge Editor",
+        "Graph Viewer",
+        "Search",
+        "Settings",
+        "Export"
+      ])
     );
-    expect(sprint1StorageAdapters.map((adapter) => adapter.kind)).toEqual(expect.arrayContaining(["memory", "json", "sqlite", "postgresql", "neo4j"]));
-    expect(sprint1AuthAdapters.map((adapter) => adapter.kind)).toEqual(expect.arrayContaining(["local-login", "device-auth", "oauth", "federated-identity", "recovery"]));
+    expect(sprint1StorageAdapters.map((adapter) => adapter.kind)).toEqual(
+      expect.arrayContaining(["memory", "json", "sqlite", "postgresql", "neo4j"])
+    );
+    expect(sprint1AuthAdapters.map((adapter) => adapter.kind)).toEqual(
+      expect.arrayContaining([
+        "local-login",
+        "device-auth",
+        "oauth",
+        "federated-identity",
+        "recovery"
+      ])
+    );
   });
 });

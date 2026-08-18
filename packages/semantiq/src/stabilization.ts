@@ -50,7 +50,12 @@ export async function executeStabilizedEvaluation(
     return { report, recovered: false };
   } catch (_err) {
     // Graceful fallback to default profile if custom evaluation fails
-    const fallbackProfile: ScoringProfile = { id: "fallback", version: "1.0.0", name: "Fallback Profile", weights: {} };
+    const fallbackProfile: ScoringProfile = {
+      id: "fallback",
+      version: "1.0.0",
+      name: "Fallback Profile",
+      weights: {}
+    };
     const report = await engine.evaluate(subject, fallbackProfile);
     return { report, recovered: true };
   }

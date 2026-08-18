@@ -1,14 +1,14 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type ApprovalFailureClass =
-  | 'unauthorized_approver'
-  | 'action_before_approval'
-  | 'expired_approval'
-  | 'reused_approval'
-  | 'post_hoc_approval'
-  | 'missing_review_evidence'
-  | 'conflicting_approvals'
-  | 'human_override_without_justification';
+  | "unauthorized_approver"
+  | "action_before_approval"
+  | "expired_approval"
+  | "reused_approval"
+  | "post_hoc_approval"
+  | "missing_review_evidence"
+  | "conflicting_approvals"
+  | "human_override_without_justification";
 
 export interface ApproverIdentity {
   readonly approverId: string;
@@ -50,7 +50,7 @@ export interface ApprovalDecision {
   readonly decisionId: string;
   readonly requestId: string;
   readonly approver: ApproverIdentity;
-  readonly outcome: 'approved' | 'rejected' | 'escalated';
+  readonly outcome: "approved" | "rejected" | "escalated";
   readonly decidedAt: string;
   readonly expiresAt?: string;
   readonly reviewEvidence?: ReviewEvidence;
@@ -61,7 +61,7 @@ export interface InterventionRecord {
   readonly interventionId: string;
   readonly approverId: string;
   readonly targetRunId: string;
-  readonly actionTaken: 'pause' | 'abort' | 'modify_state';
+  readonly actionTaken: "pause" | "abort" | "modify_state";
   readonly timestamp: string;
 }
 
@@ -106,7 +106,7 @@ export class HumanApprovalEngine {
         allowed: false,
         failure: {
           reportId: `fail_no_app_${request.requestId}`,
-          failureClass: 'action_before_approval',
+          failureClass: "action_before_approval",
           requestId: request.requestId,
           description: `Action '${request.targetAction}' executed at '${actionExecutedAt}' without prior human approval decision.`,
           timestamp: actionExecutedAt
@@ -120,7 +120,7 @@ export class HumanApprovalEngine {
         allowed: false,
         failure: {
           reportId: `fail_post_hoc_${request.requestId}`,
-          failureClass: 'post_hoc_approval',
+          failureClass: "post_hoc_approval",
           requestId: request.requestId,
           description: `Approval decision issued at '${decision.decidedAt}' AFTER action was executed at '${actionExecutedAt}'.`,
           timestamp: actionExecutedAt
@@ -129,12 +129,12 @@ export class HumanApprovalEngine {
     }
 
     // 3. Unauthorized Approver Check
-    if (!decision.approver.authorityId || decision.approver.authorityId.trim() === '') {
+    if (!decision.approver.authorityId || decision.approver.authorityId.trim() === "") {
       return {
         allowed: false,
         failure: {
           reportId: `fail_unauth_${request.requestId}`,
-          failureClass: 'unauthorized_approver',
+          failureClass: "unauthorized_approver",
           requestId: request.requestId,
           description: `Approver '${decision.approver.approverId}' lacks valid authority reference.`,
           timestamp: decision.decidedAt
@@ -148,7 +148,7 @@ export class HumanApprovalEngine {
         allowed: false,
         failure: {
           reportId: `fail_exp_${request.requestId}`,
-          failureClass: 'expired_approval',
+          failureClass: "expired_approval",
           requestId: request.requestId,
           description: `Approval decision expired at '${decision.expiresAt}' prior to action execution at '${actionExecutedAt}'.`,
           timestamp: actionExecutedAt
@@ -163,7 +163,7 @@ export class HumanApprovalEngine {
         allowed: false,
         failure: {
           reportId: `fail_reuse_${request.requestId}`,
-          failureClass: 'reused_approval',
+          failureClass: "reused_approval",
           requestId: request.requestId,
           description: `Approval decision '${decision.decisionId}' exceeded max usage count of ${request.scope.maxUsageCount}.`,
           timestamp: actionExecutedAt
@@ -175,7 +175,7 @@ export class HumanApprovalEngine {
     this.usedDecisions.set(decision.decisionId, currentUsage + 1);
 
     return {
-      allowed: decision.outcome === 'approved'
+      allowed: decision.outcome === "approved"
     };
   }
 }

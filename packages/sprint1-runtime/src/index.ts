@@ -1,5 +1,10 @@
 import { createKnowledgeObjectAggregate } from "../../core/src/index.js";
-import { LocalKnowledgeGraphRuntime, createKnowledgeEdge, type KnowledgeEdge, type KnowledgeNode } from "../../graph-runtime/src/index.js";
+import {
+  LocalKnowledgeGraphRuntime,
+  createKnowledgeEdge,
+  type KnowledgeEdge,
+  type KnowledgeNode
+} from "../../graph-runtime/src/index.js";
 
 export type Sprint1EventType =
   | "IdentityCreated"
@@ -191,7 +196,8 @@ export interface PerformanceMeasurements {
 }
 
 const now = (): string => new Date().toISOString();
-const id = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const id = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 
 export class LocalSprint1Runtime {
   private readonly identities = new Map<string, LocalIdentity>();
@@ -234,7 +240,11 @@ export class LocalSprint1Runtime {
     return identity;
   }
 
-  async loginLocal(identityId: string, deviceId: string, rememberDevice = true): Promise<LocalSession> {
+  async loginLocal(
+    identityId: string,
+    deviceId: string,
+    rememberDevice = true
+  ): Promise<LocalSession> {
     this.requireIdentity(identityId);
     const session: LocalSession = {
       id: id("session"),
@@ -258,7 +268,11 @@ export class LocalSprint1Runtime {
     return loggedOut;
   }
 
-  async createWorkspace(ownerId: string, name: string, templateId?: string): Promise<WorkspaceRecord> {
+  async createWorkspace(
+    ownerId: string,
+    name: string,
+    templateId?: string
+  ): Promise<WorkspaceRecord> {
     this.requireIdentity(ownerId);
     const timestamp = now();
     const workspaceBase = {
@@ -273,13 +287,18 @@ export class LocalSprint1Runtime {
       createdAt: timestamp,
       updatedAt: timestamp
     };
-    const workspace: WorkspaceRecord = templateId ? { ...workspaceBase, templateId } : workspaceBase;
+    const workspace: WorkspaceRecord = templateId
+      ? { ...workspaceBase, templateId }
+      : workspaceBase;
     this.workspaces.set(workspace.id, workspace);
     this.emit("WorkspaceCreated", { workspaceId: workspace.id }, workspace.id);
     return workspace;
   }
 
-  async updateWorkspace(workspaceId: string, patch: { readonly name?: string; readonly archived?: boolean }): Promise<WorkspaceRecord> {
+  async updateWorkspace(
+    workspaceId: string,
+    patch: { readonly name?: string; readonly archived?: boolean }
+  ): Promise<WorkspaceRecord> {
     const workspace = this.requireWorkspace(workspaceId);
     const updated: WorkspaceRecord = {
       ...workspace,
@@ -319,7 +338,12 @@ export class LocalSprint1Runtime {
       updatedAt: timestamp
     };
     this.knowledge.set(record.id, record);
-    await this.graph.createNode(this.toNode(record.id, record.kind, record.title, input.workspaceId, input.ownerId, { body: record.body, tags: record.tags }));
+    await this.graph.createNode(
+      this.toNode(record.id, record.kind, record.title, input.workspaceId, input.ownerId, {
+        body: record.body,
+        tags: record.tags
+      })
+    );
     this.emit("KnowledgeCreated", { knowledgeId: record.id }, input.workspaceId, record.id);
     this.emit("GraphUpdated", { nodeId: record.id }, input.workspaceId, record.id);
     return record;
@@ -349,15 +373,28 @@ export class LocalSprint1Runtime {
       createdAt: timestamp,
       updatedAt: timestamp
     };
-    const question: QuestionRecord = input.templateId ? { ...questionBase, templateId: input.templateId } : questionBase;
+    const question: QuestionRecord = input.templateId
+      ? { ...questionBase, templateId: input.templateId }
+      : questionBase;
     this.questions.set(question.id, question);
-    await this.graph.createNode(this.toNode(question.id, "question", question.text, input.workspaceId, input.ownerId, { tags: question.tags }));
+    await this.graph.createNode(
+      this.toNode(question.id, "question", question.text, input.workspaceId, input.ownerId, {
+        tags: question.tags
+      })
+    );
     this.emit("QuestionCreated", { questionId: question.id }, input.workspaceId, question.id);
     this.emit("GraphUpdated", { nodeId: question.id }, input.workspaceId, question.id);
     return question;
   }
 
-  async updateQuestion(questionId: string, patch: { readonly text?: string; readonly tags?: readonly string[]; readonly status?: QuestionRecord["status"] }): Promise<QuestionRecord> {
+  async updateQuestion(
+    questionId: string,
+    patch: {
+      readonly text?: string;
+      readonly tags?: readonly string[];
+      readonly status?: QuestionRecord["status"];
+    }
+  ): Promise<QuestionRecord> {
     const question = this.requireQuestion(questionId);
     const updated: QuestionRecord = {
       ...question,
@@ -388,7 +425,9 @@ export class LocalSprint1Runtime {
       text: question.text,
       tags: question.tags
     };
-    return this.createQuestion(question.templateId ? { ...input, templateId: question.templateId } : input);
+    return this.createQuestion(
+      question.templateId ? { ...input, templateId: question.templateId } : input
+    );
   }
 
   async bookmarkQuestion(questionId: string, bookmarked = true): Promise<QuestionRecord> {
@@ -404,7 +443,10 @@ export class LocalSprint1Runtime {
     return updated;
   }
 
-  async convertQuestionToKnowledge(questionId: string, kind: Exclude<KnowledgeKind, "question"> = "note"): Promise<KnowledgeRecord> {
+  async convertQuestionToKnowledge(
+    questionId: string,
+    kind: Exclude<KnowledgeKind, "question"> = "note"
+  ): Promise<KnowledgeRecord> {
     const question = this.requireQuestion(questionId);
     const converted = await this.createKnowledge({
       workspaceId: question.workspaceId,
@@ -421,25 +463,46 @@ export class LocalSprint1Runtime {
   async relateQuestionToKnowledge(questionId: string, knowledgeId: string): Promise<void> {
     const question = this.requireQuestion(questionId);
     if (!this.knowledge.has(knowledgeId)) throw new Error(`Knowledge not found: ${knowledgeId}`);
-    const edge = createKnowledgeEdge(id("edge"), questionId, knowledgeId, "references", [questionId]);
+    const edge = createKnowledgeEdge(id("edge"), questionId, knowledgeId, "references", [
+      questionId
+    ]);
     await this.graph.createEdge(edge);
     this.graphEdges.push(edge);
     this.emit("GraphUpdated", { questionId, knowledgeId }, question.workspaceId, questionId);
   }
 
   graphViewer(workspaceId: string, selectedId?: string): GraphViewerModel {
-    const knowledgeNodes = [...this.knowledge.values()].filter((item) => item.workspaceId === workspaceId);
-    const questionNodes = [...this.questions.values()].filter((item) => item.workspaceId === workspaceId);
+    const knowledgeNodes = [...this.knowledge.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
+    const questionNodes = [...this.questions.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
     const nodes = [
-      ...knowledgeNodes.map((item) => ({ id: item.id, label: item.title, kind: item.kind, selected: item.id === selectedId })),
-      ...questionNodes.map((item) => ({ id: item.id, label: item.text, kind: "question", selected: item.id === selectedId }))
+      ...knowledgeNodes.map((item) => ({
+        id: item.id,
+        label: item.title,
+        kind: item.kind,
+        selected: item.id === selectedId
+      })),
+      ...questionNodes.map((item) => ({
+        id: item.id,
+        label: item.text,
+        kind: "question",
+        selected: item.id === selectedId
+      }))
     ];
     const nodeIds = new Set(nodes.map((node) => node.id));
     return {
       nodes,
       edges: this.graphEdges
         .filter((edge) => nodeIds.has(edge.sourceId) && nodeIds.has(edge.targetId))
-        .map((edge) => ({ id: edge.id, sourceId: edge.sourceId, targetId: edge.targetId, relation: edge.relation })),
+        .map((edge) => ({
+          id: edge.id,
+          sourceId: edge.sourceId,
+          targetId: edge.targetId,
+          relation: edge.relation
+        })),
       viewport: { zoom: 1, panX: 0, panY: 0 },
       filters: [],
       timelineMode: false,
@@ -452,41 +515,81 @@ export class LocalSprint1Runtime {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
     const score = (text: string): number => {
       const lower = text.toLowerCase();
-      return terms.length === 0 ? 0 : terms.filter((term) => lower.includes(term)).length / terms.length;
+      return terms.length === 0
+        ? 0
+        : terms.filter((term) => lower.includes(term)).length / terms.length;
     };
     const results: SearchResult[] = [
       ...[...this.workspaces.values()]
         .filter((workspace) => workspace.id === workspaceId)
-        .map((workspace) => ({ id: workspace.id, type: "workspace" as const, score: score(workspace.name), title: workspace.name, explanation: "Matched workspace name." })),
+        .map((workspace) => ({
+          id: workspace.id,
+          type: "workspace" as const,
+          score: score(workspace.name),
+          title: workspace.name,
+          explanation: "Matched workspace name."
+        })),
       ...[...this.knowledge.values()]
         .filter((item) => item.workspaceId === workspaceId)
-        .map((item) => ({ id: item.id, type: "knowledge" as const, score: score(`${item.title} ${item.body} ${item.tags.join(" ")}`), title: item.title, explanation: "Matched knowledge title, body, or tags." })),
+        .map((item) => ({
+          id: item.id,
+          type: "knowledge" as const,
+          score: score(`${item.title} ${item.body} ${item.tags.join(" ")}`),
+          title: item.title,
+          explanation: "Matched knowledge title, body, or tags."
+        })),
       ...[...this.questions.values()]
         .filter((item) => item.workspaceId === workspaceId)
-        .map((item) => ({ id: item.id, type: "question" as const, score: score(`${item.text} ${item.tags.join(" ")}`), title: item.text, explanation: "Matched question text or tags." })),
-      ...this.events.map((event) => ({ id: `${event.type}:${event.occurredAt}`, type: "activity" as const, score: score(event.type), title: event.type, explanation: "Matched recent activity." }))
+        .map((item) => ({
+          id: item.id,
+          type: "question" as const,
+          score: score(`${item.text} ${item.tags.join(" ")}`),
+          title: item.text,
+          explanation: "Matched question text or tags."
+        })),
+      ...this.events.map((event) => ({
+        id: `${event.type}:${event.occurredAt}`,
+        type: "activity" as const,
+        score: score(event.type),
+        title: event.type,
+        explanation: "Matched recent activity."
+      }))
     ]
       .filter((result) => result.score > 0)
       .sort((a, b) => b.score - a.score);
-    this.emit("SearchExecuted", { query, count: results.length, durationMs: performance.now() - started }, workspaceId);
+    this.emit(
+      "SearchExecuted",
+      { query, count: results.length, durationMs: performance.now() - started },
+      workspaceId
+    );
     return results;
   }
 
   dashboard(workspaceId: string): DashboardState {
-    const knowledge = [...this.knowledge.values()].filter((item) => item.workspaceId === workspaceId);
-    const questions = [...this.questions.values()].filter((item) => item.workspaceId === workspaceId);
+    const knowledge = [...this.knowledge.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
+    const questions = [...this.questions.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
     return {
       recentQuestions: questions.slice(-5),
       recentKnowledge: knowledge.slice(-5),
       workspaceStatistics: {
-        workspaceCount: [...this.workspaces.values()].filter((workspace) => workspace.id === workspaceId).length,
+        workspaceCount: [...this.workspaces.values()].filter(
+          (workspace) => workspace.id === workspaceId
+        ).length,
         knowledgeCount: knowledge.length,
         questionCount: questions.length
       },
       semantiqPlaceholder: "ready-for-sprint-2",
       graphSummary: {
         nodes: knowledge.length + questions.length,
-        edges: this.graphEdges.filter((edge) => knowledge.some((item) => item.id === edge.targetId) || questions.some((item) => item.id === edge.sourceId)).length
+        edges: this.graphEdges.filter(
+          (edge) =>
+            knowledge.some((item) => item.id === edge.targetId) ||
+            questions.some((item) => item.id === edge.sourceId)
+        ).length
       },
       recentActivity: this.events.filter((event) => event.workspaceId === workspaceId).slice(-10),
       tasks: [],
@@ -495,14 +598,33 @@ export class LocalSprint1Runtime {
     };
   }
 
-  exportWorkspace(workspaceId: string, format: WorkspaceExport["format"] = "json"): WorkspaceExport {
+  exportWorkspace(
+    workspaceId: string,
+    format: WorkspaceExport["format"] = "json"
+  ): WorkspaceExport {
     const started = performance.now();
     const workspace = this.requireWorkspace(workspaceId);
-    const knowledge = [...this.knowledge.values()].filter((item) => item.workspaceId === workspaceId);
-    const questions = [...this.questions.values()].filter((item) => item.workspaceId === workspaceId);
+    const knowledge = [...this.knowledge.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
+    const questions = [...this.questions.values()].filter(
+      (item) => item.workspaceId === workspaceId
+    );
     const graph = this.graphViewer(workspaceId);
-    const markdown = [`# ${workspace.name}`, "", "## Questions", ...questions.map((item) => `- ${item.text}`), "", "## Knowledge", ...knowledge.map((item) => `- ${item.title}`)].join("\n");
-    this.emit("WorkspaceExported", { workspaceId, format, durationMs: performance.now() - started }, workspaceId);
+    const markdown = [
+      `# ${workspace.name}`,
+      "",
+      "## Questions",
+      ...questions.map((item) => `- ${item.text}`),
+      "",
+      "## Knowledge",
+      ...knowledge.map((item) => `- ${item.title}`)
+    ].join("\n");
+    this.emit(
+      "WorkspaceExported",
+      { workspaceId, format, durationMs: performance.now() - started },
+      workspaceId
+    );
     return {
       format,
       workspaceSnapshot: workspace,
@@ -551,8 +673,22 @@ export class LocalSprint1Runtime {
     };
   }
 
-  private toNode(idValue: string, type: KnowledgeNode["type"] | string, title: string, workspaceId: string, ownerId: string, metadata: Readonly<Record<string, unknown>>): KnowledgeNode {
-    const object = createKnowledgeObjectAggregate(idValue, workspaceId, ownerId, type, title, metadata);
+  private toNode(
+    idValue: string,
+    type: KnowledgeNode["type"] | string,
+    title: string,
+    workspaceId: string,
+    ownerId: string,
+    metadata: Readonly<Record<string, unknown>>
+  ): KnowledgeNode {
+    const object = createKnowledgeObjectAggregate(
+      idValue,
+      workspaceId,
+      ownerId,
+      type,
+      title,
+      metadata
+    );
     return {
       id: idValue,
       type: type === "question" ? "question" : "knowledge",
@@ -584,7 +720,12 @@ export class LocalSprint1Runtime {
     return question;
   }
 
-  private emit(type: Sprint1EventType, payload: unknown, workspaceId?: string, objectId?: string): void {
+  private emit(
+    type: Sprint1EventType,
+    payload: unknown,
+    workspaceId?: string,
+    objectId?: string
+  ): void {
     const base: Sprint1Event = { type, version: 1, occurredAt: now(), payload };
     const withWorkspace = workspaceId ? { ...base, workspaceId } : base;
     const withObject = objectId ? { ...withWorkspace, objectId } : withWorkspace;
@@ -611,7 +752,11 @@ export const sprint1Screens = [
 export const sprint1StorageAdapters = [
   { kind: "memory", status: "implemented", purpose: "Fast local tests and in-process previews." },
   { kind: "json", status: "planned", purpose: "Portable local workspace persistence." },
-  { kind: "sqlite", status: "planned", purpose: "Default local-first desktop and web persistence." },
+  {
+    kind: "sqlite",
+    status: "planned",
+    purpose: "Default local-first desktop and web persistence."
+  },
   { kind: "postgresql", status: "planned", purpose: "Future team and hosted deployments." },
   { kind: "neo4j", status: "planned", purpose: "Future graph-specialized persistence." }
 ] as const;

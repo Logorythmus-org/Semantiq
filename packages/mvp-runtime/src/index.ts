@@ -4,7 +4,11 @@ import {
   WorkspaceApplicationService,
   createMemoryUnitOfWork
 } from "../../core/src/index.js";
-import { LocalKnowledgeGraphRuntime, createKnowledgeEdge, type KnowledgeNode } from "../../graph-runtime/src/index.js";
+import {
+  LocalKnowledgeGraphRuntime,
+  createKnowledgeEdge,
+  type KnowledgeNode
+} from "../../graph-runtime/src/index.js";
 import { LocalQuestionIntelligenceEngine } from "../../question-intelligence/src/index.js";
 import { ExplainableSemantiqRuntime } from "../../semantiq/src/index.js";
 import {
@@ -140,13 +144,23 @@ export const mvpHealthEndpoints: readonly HealthEndpoint[] = [
   { service: "api-gateway", path: "/health", status: "stubbed", dependencies: ["api"] },
   { service: "identity", path: "/health", status: "healthy", dependencies: ["core"] },
   { service: "workspace", path: "/health", status: "healthy", dependencies: ["core"] },
-  { service: "question", path: "/health", status: "healthy", dependencies: ["question-intelligence"] },
+  {
+    service: "question",
+    path: "/health",
+    status: "healthy",
+    dependencies: ["question-intelligence"]
+  },
   { service: "graph", path: "/health", status: "healthy", dependencies: ["graph-runtime"] },
   { service: "semantiq", path: "/health", status: "healthy", dependencies: ["semantiq"] },
   { service: "research", path: "/health", status: "healthy", dependencies: ["research"] },
   { service: "community", path: "/health", status: "healthy", dependencies: ["research"] },
   { service: "agent-runtime", path: "/health", status: "healthy", dependencies: ["agent-runtime"] },
-  { service: "workflow-runtime", path: "/health", status: "healthy", dependencies: ["agent-runtime"] },
+  {
+    service: "workflow-runtime",
+    path: "/health",
+    status: "healthy",
+    dependencies: ["agent-runtime"]
+  },
   { service: "search", path: "/health", status: "healthy", dependencies: ["graph-runtime"] },
   { service: "notification", path: "/health", status: "stubbed", dependencies: [] },
   { service: "dashboard", path: "/health", status: "healthy", dependencies: ["mvp-runtime"] }
@@ -167,9 +181,14 @@ export class LocalMvpRuntime {
   private readonly events: MvpEvent[] = [];
 
   async runMvpJourney(input: MvpJourneyInput): Promise<MvpJourneyResult> {
-    await this.identity.registerIdentity(input.identityId, input.displayName, input.displayName.toLowerCase(), {
-      correlationId: "mvp-alpha"
-    });
+    await this.identity.registerIdentity(
+      input.identityId,
+      input.displayName,
+      input.displayName.toLowerCase(),
+      {
+        correlationId: "mvp-alpha"
+      }
+    );
     this.emit("UserCreated", { identityId: input.identityId });
 
     await this.workspace.createWorkspace(input.workspaceId, input.identityId, input.workspaceName, {
@@ -186,7 +205,9 @@ export class LocalMvpRuntime {
       contextObjectIds: []
     });
     const improved = intelligence.improvedVersion.payload.question;
-    const approved = await this.questionIntelligence.approveSuggestion(intelligence.improvedVersion.id);
+    const approved = await this.questionIntelligence.approveSuggestion(
+      intelligence.improvedVersion.id
+    );
     this.emit("QuestionImproved", { suggestionId: approved.id, improved });
 
     const semantiq = await this.semantiq.runSemantiq(
@@ -212,15 +233,30 @@ export class LocalMvpRuntime {
         }
       }
     );
-    this.emit("SemantiqCompleted", { reportId: semantiq.report.id, weightedScore: semantiq.report.weightedScore });
+    this.emit("SemantiqCompleted", {
+      reportId: semantiq.report.id,
+      weightedScore: semantiq.report.weightedScore
+    });
 
     const questionNodeId = `node:${input.questionId}`;
-    await this.graph.createNode(this.node(questionNodeId, "question", improved, input.workspaceId, input.identityId));
+    await this.graph.createNode(
+      this.node(questionNodeId, "question", improved, input.workspaceId, input.identityId)
+    );
     this.emit("GraphUpdated", { nodeId: questionNodeId });
 
-    const project = createResearchProject("research:mvp", input.questionId, `Research: ${improved}`, ["Collect evidence", "Run workflow"], "MVP research scope");
+    const project = createResearchProject(
+      "research:mvp",
+      input.questionId,
+      `Research: ${improved}`,
+      ["Collect evidence", "Run workflow"],
+      "MVP research scope"
+    );
     await this.research.createResearch(project);
-    await this.graph.createEdge(createKnowledgeEdge("edge:question-research", questionNodeId, project.id, "generated_by", [input.questionId]));
+    await this.graph.createEdge(
+      createKnowledgeEdge("edge:question-research", questionNodeId, project.id, "generated_by", [
+        input.questionId
+      ])
+    );
     this.emit("ResearchProjectCreated", { projectId: project.id });
 
     const evidence: EvidenceObject = {
@@ -245,11 +281,12 @@ export class LocalMvpRuntime {
     await this.agents.startAgent(planner.id);
     await this.agents.startAgent(researcher.id);
 
-    const goal = createGoal("goal:mvp", `Advance research project ${project.id}`, input.workspaceId, [
-      "Plan research",
-      "Run research task",
-      "Document result"
-    ]);
+    const goal = createGoal(
+      "goal:mvp",
+      `Advance research project ${project.id}`,
+      input.workspaceId,
+      ["Plan research", "Run research task", "Document result"]
+    );
     await this.agents.createGoal(goal);
     this.emit("GoalCreated", { goalId: goal.id });
 
@@ -277,7 +314,10 @@ export class LocalMvpRuntime {
       executionReview: "The MVP workflow completed with local runtime adapters.",
       goalReview: "The research project produced an executable workflow.",
       errorReview: [],
-      improvementSuggestions: ["Add persistent storage adapters.", "Replace UI descriptors with real screens."],
+      improvementSuggestions: [
+        "Add persistent storage adapters.",
+        "Replace UI descriptors with real screens."
+      ],
       benchmarkAnalysis: "Semantiq benchmark generated during workflow execution.",
       knowledgeExtracted: ["Local-first MVP loop is integrated."],
       futureRecommendations: ["Prepare public alpha UI refinement."],
@@ -315,7 +355,16 @@ export class LocalMvpRuntime {
 
     this.emit("AssetPublished", { publication: "mvp-export-package", status: "local-export" });
     const dashboard = await this.dashboard();
-    const exportPackage = await this.exportWorkspace(input.workspaceId, input.identityId, input.workspaceName, input.questionId, input.rawQuestion, improved, project.id, evidence);
+    const exportPackage = await this.exportWorkspace(
+      input.workspaceId,
+      input.identityId,
+      input.workspaceName,
+      input.questionId,
+      input.rawQuestion,
+      improved,
+      project.id,
+      evidence
+    );
 
     return {
       identityId: input.identityId,
@@ -344,8 +393,11 @@ export class LocalMvpRuntime {
       questions: this.events.filter((event) => event.type === "QuestionCreated").length,
       semantiqScores: this.events
         .filter((event) => event.type === "SemantiqCompleted")
-        .map((event) => Number((event.payload as { readonly weightedScore?: number }).weightedScore ?? 0)),
-      researchProjects: this.events.filter((event) => event.type === "ResearchProjectCreated").length,
+        .map((event) =>
+          Number((event.payload as { readonly weightedScore?: number }).weightedScore ?? 0)
+        ),
+      researchProjects: this.events.filter((event) => event.type === "ResearchProjectCreated")
+        .length,
       communityActivity: researchAnalytics?.communityActivity ?? 0,
       agentActivity: agentMetrics.registeredAgents,
       workflowRuns: this.events.filter((event) => event.type === "WorkflowCompleted").length,
@@ -368,7 +420,9 @@ export class LocalMvpRuntime {
     evidence: EvidenceObject
   ): Promise<PortableWorkspaceExport> {
     const search = await this.graph.searchKnowledge(improved, 20);
-    const workflowHistory = this.events.filter((event) => event.type === "WorkflowStarted" || event.type === "WorkflowCompleted").map((event) => event.type);
+    const workflowHistory = this.events
+      .filter((event) => event.type === "WorkflowStarted" || event.type === "WorkflowCompleted")
+      .map((event) => event.type);
     return {
       formatVersion: "mvp-alpha-1",
       workspace: {
@@ -387,9 +441,13 @@ export class LocalMvpRuntime {
         eventCount: this.events.filter((event) => event.type === "GraphUpdated").length,
         searchResultIds: search.map((result) => result.nodeId)
       },
-      agentLogs: this.events.filter((event) => event.type === "GoalCreated" || event.type === "WorkflowCompleted"),
+      agentLogs: this.events.filter(
+        (event) => event.type === "GoalCreated" || event.type === "WorkflowCompleted"
+      ),
       workflowHistory,
-      communityData: this.events.filter((event) => event.type === "CommunityCreated" || event.type === "MemberJoined").map((event) => event.type),
+      communityData: this.events
+        .filter((event) => event.type === "CommunityCreated" || event.type === "MemberJoined")
+        .map((event) => event.type),
       markdownSummary: `# ${workspaceName}\n\nQuestion: ${improved}\n\nResearch project: ${projectId}\n\nEvidence: ${evidence.id}\n`
     };
   }
@@ -398,7 +456,13 @@ export class LocalMvpRuntime {
     return mvpHealthEndpoints;
   }
 
-  private node(id: string, type: KnowledgeNode["type"], title: string, workspaceId: string, ownerId: string): KnowledgeNode {
+  private node(
+    id: string,
+    type: KnowledgeNode["type"],
+    title: string,
+    workspaceId: string,
+    ownerId: string
+  ): KnowledgeNode {
     const object = {
       ...createKnowledgeObjectForMvp(id, workspaceId, ownerId, type, title),
       metadata: { workspaceId, ownerId, title }
@@ -426,11 +490,23 @@ export class LocalMvpRuntime {
   }
 }
 
-function createKnowledgeObjectForMvp(id: string, workspaceId: string, ownerId: string, kind: string, title: string) {
+function createKnowledgeObjectForMvp(
+  id: string,
+  workspaceId: string,
+  ownerId: string,
+  kind: string,
+  title: string
+) {
   return createKnowledgeObjectAggregateCompat(id, workspaceId, ownerId, kind, title);
 }
 
-function createKnowledgeObjectAggregateCompat(id: string, workspaceId: string, ownerId: string, kind: string, title: string) {
+function createKnowledgeObjectAggregateCompat(
+  id: string,
+  workspaceId: string,
+  ownerId: string,
+  kind: string,
+  title: string
+) {
   return {
     id,
     workspaceId,

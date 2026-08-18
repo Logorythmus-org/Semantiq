@@ -1,31 +1,31 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type ExceptionState =
-  | 'requested'
-  | 'approved'
-  | 'rejected'
-  | 'conditionally_approved'
-  | 'active'
-  | 'expired'
-  | 'revoked'
-  | 'superseded'
-  | 'violated'
-  | 'closed'
-  | 'unresolved';
+  | "requested"
+  | "approved"
+  | "rejected"
+  | "conditionally_approved"
+  | "active"
+  | "expired"
+  | "revoked"
+  | "superseded"
+  | "violated"
+  | "closed"
+  | "unresolved";
 
 export type ExceptionFailureClass =
-  | 'exception_without_authority'
-  | 'exception_without_evidence'
-  | 'exception_outside_scope'
-  | 'expired_exception'
-  | 'temporary_exception_used_permanently'
-  | 'override_without_review'
-  | 'repeated_exception_pattern'
-  | 'exception_used_to_bypass_approval'
-  | 'undocumented_emergency_action'
-  | 'unresolved_residual_risk'
-  | 'exception_attached_after_decision'
-  | 'exception_not_included_in_replay';
+  | "exception_without_authority"
+  | "exception_without_evidence"
+  | "exception_outside_scope"
+  | "expired_exception"
+  | "temporary_exception_used_permanently"
+  | "override_without_review"
+  | "repeated_exception_pattern"
+  | "exception_used_to_bypass_approval"
+  | "undocumented_emergency_action"
+  | "unresolved_residual_risk"
+  | "exception_attached_after_decision"
+  | "exception_not_included_in_replay";
 
 export interface ExceptionAuthority {
   readonly authorityId: string;
@@ -83,8 +83,8 @@ export interface ExceptionDecision {
 
 export interface OverrideImpact {
   readonly impactId: string;
-  readonly severity: 'low' | 'medium' | 'high' | 'critical';
-  readonly residualRiskLevel: 'none' | 'acceptable' | 'unresolved';
+  readonly severity: "low" | "medium" | "high" | "critical";
+  readonly residualRiskLevel: "none" | "acceptable" | "unresolved";
 }
 
 export interface OverrideRecord {
@@ -135,7 +135,7 @@ export class ExceptionModelEngine {
     if (!decision.authority.isAuthorized) {
       return {
         reportId: `fail_auth_${request.requestId}`,
-        failureClass: 'exception_without_authority',
+        failureClass: "exception_without_authority",
         requestId: request.requestId,
         description: `Authority '${decision.authority.authorityId}' is not authorized to grant exception.`,
         timestamp: decision.decidedAt
@@ -146,7 +146,7 @@ export class ExceptionModelEngine {
     if (!evidence || !evidence.isVerified) {
       return {
         reportId: `fail_ev_${request.requestId}`,
-        failureClass: 'exception_without_evidence',
+        failureClass: "exception_without_evidence",
         requestId: request.requestId,
         description: `Exception request '${request.requestId}' lacks verified supporting evidence.`,
         timestamp: decision.decidedAt
@@ -154,10 +154,10 @@ export class ExceptionModelEngine {
     }
 
     // 3. Expired Exception
-    if (decision.state === 'expired') {
+    if (decision.state === "expired") {
       return {
         reportId: `fail_exp_${request.requestId}`,
-        failureClass: 'expired_exception',
+        failureClass: "expired_exception",
         requestId: request.requestId,
         description: `Exception decision '${decision.decisionId}' has expired.`,
         timestamp: decision.decidedAt
@@ -168,7 +168,7 @@ export class ExceptionModelEngine {
     if (override && override.isEmergency && (!review || !review.isReviewed)) {
       return {
         reportId: `fail_rev_${request.requestId}`,
-        failureClass: 'override_without_review',
+        failureClass: "override_without_review",
         requestId: request.requestId,
         description: `Emergency override '${override.overrideId}' lacks post-incident review.`,
         timestamp: override.timestamp
@@ -179,7 +179,7 @@ export class ExceptionModelEngine {
     if (override && override.isEmergency && !override.isDocumented) {
       return {
         reportId: `fail_doc_${request.requestId}`,
-        failureClass: 'undocumented_emergency_action',
+        failureClass: "undocumented_emergency_action",
         requestId: request.requestId,
         description: `Emergency override '${override.overrideId}' was not documented.`,
         timestamp: override.timestamp
@@ -187,10 +187,10 @@ export class ExceptionModelEngine {
     }
 
     // 6. Unresolved Residual Risk
-    if (override && override.impact.residualRiskLevel === 'unresolved') {
+    if (override && override.impact.residualRiskLevel === "unresolved") {
       return {
         reportId: `fail_risk_${request.requestId}`,
-        failureClass: 'unresolved_residual_risk',
+        failureClass: "unresolved_residual_risk",
         requestId: request.requestId,
         description: `Override '${override.overrideId}' has unresolved residual risk.`,
         timestamp: override.timestamp

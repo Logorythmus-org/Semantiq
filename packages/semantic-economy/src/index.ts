@@ -91,7 +91,9 @@ export class LocalSemanticEconomyRepository implements SemanticEconomyRepository
 }
 
 export class LocalSemanticEconomyService implements SemanticEconomyService {
-  constructor(private readonly repository: LocalSemanticEconomyRepository = new LocalSemanticEconomyRepository()) {}
+  constructor(
+    private readonly repository: LocalSemanticEconomyRepository = new LocalSemanticEconomyRepository()
+  ) {}
 
   async createAsset(asset: SemanticAsset): Promise<void> {
     if (asset.sourceQuestionIds.length === 0) {
@@ -107,7 +109,11 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
       throw new Error(`Commercial publishing requires human approval: ${asset.id}`);
     }
     await this.repository.saveListing(listing);
-    await this.emit("AssetPublished", { listingId: listing.id, accessModel: listing.accessModel }, asset.id);
+    await this.emit(
+      "AssetPublished",
+      { listingId: listing.id, accessModel: listing.accessModel },
+      asset.id
+    );
   }
 
   async licenseAsset(assetId: string, license: MachineReadableLicense): Promise<void> {
@@ -140,7 +146,13 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
       throw new Error("Public-good funding cannot require paywalls");
     }
     await this.repository.saveCampaign(campaign);
-    await this.emit("FundingStarted", { type: campaign.type, goalAmount: campaign.goalAmount }, campaign.assetId, undefined, campaign.id);
+    await this.emit(
+      "FundingStarted",
+      { type: campaign.type, goalAmount: campaign.goalAmount },
+      campaign.assetId,
+      undefined,
+      campaign.id
+    );
   }
 
   async donate(campaignId: string, donorId: string, amount: number): Promise<EconomyTransaction> {
@@ -162,9 +174,21 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
       auditHistoryIds: campaign.auditHistoryIds
     };
     await this.repository.saveTransaction(transaction);
-    await this.emit("DonationReceived", { amount, donorId }, campaign.assetId, transaction.id, campaign.id);
+    await this.emit(
+      "DonationReceived",
+      { amount, donorId },
+      campaign.assetId,
+      transaction.id,
+      campaign.id
+    );
     if (campaign.raisedAmount + amount >= campaign.goalAmount) {
-      await this.emit("FundingCompleted", { campaignId }, campaign.assetId, transaction.id, campaign.id);
+      await this.emit(
+        "FundingCompleted",
+        { campaignId },
+        campaign.assetId,
+        transaction.id,
+        campaign.id
+      );
     }
     return transaction;
   }
@@ -191,7 +215,11 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
   async reviewAsset(review: AssetReview): Promise<void> {
     await this.requireAsset(review.assetId);
     await this.repository.saveReview(review);
-    await this.emit("AssetReviewed", { reviewId: review.id, approved: review.approved }, review.assetId);
+    await this.emit(
+      "AssetReviewed",
+      { reviewId: review.id, approved: review.approved },
+      review.assetId
+    );
   }
 
   async searchAssets(query: MarketplaceSearchQuery): Promise<readonly SemanticAsset[]> {
@@ -199,10 +227,25 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
     const assets = await this.repository.listAssets();
     return assets
       .filter((asset) => query.assetTypes.length === 0 || query.assetTypes.includes(asset.type))
-      .filter((asset) => text.length === 0 || asset.title.toLowerCase().includes(text) || asset.description.toLowerCase().includes(text))
-      .filter((asset) => query.sourceQuestionIds.length === 0 || asset.sourceQuestionIds.some((id) => query.sourceQuestionIds.includes(id)))
-      .filter((asset) => query.projectIds.length === 0 || asset.projectIds.some((id) => query.projectIds.includes(id)))
-      .filter((asset) => query.creatorIds.length === 0 || query.creatorIds.includes(asset.creatorId))
+      .filter(
+        (asset) =>
+          text.length === 0 ||
+          asset.title.toLowerCase().includes(text) ||
+          asset.description.toLowerCase().includes(text)
+      )
+      .filter(
+        (asset) =>
+          query.sourceQuestionIds.length === 0 ||
+          asset.sourceQuestionIds.some((id) => query.sourceQuestionIds.includes(id))
+      )
+      .filter(
+        (asset) =>
+          query.projectIds.length === 0 ||
+          asset.projectIds.some((id) => query.projectIds.includes(id))
+      )
+      .filter(
+        (asset) => query.creatorIds.length === 0 || query.creatorIds.includes(asset.creatorId)
+      )
       .filter((asset) => !query.trustRequired || asset.trustRecordIds.length > 0)
       .slice(0, query.limit);
   }
@@ -240,7 +283,12 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
       auditHistoryIds: asset.auditHistoryIds
     };
     await this.repository.saveTransaction(transaction);
-    await this.emit(type === "purchase" ? "AssetPurchased" : "LicenseGranted", { amount, actorId }, asset.id, transaction.id);
+    await this.emit(
+      type === "purchase" ? "AssetPurchased" : "LicenseGranted",
+      { amount, actorId },
+      asset.id,
+      transaction.id
+    );
     return transaction;
   }
 
@@ -273,5 +321,7 @@ export class LocalSemanticEconomyService implements SemanticEconomyService {
 }
 
 function scoreAsset(asset: SemanticAsset): number {
-  return asset.semantiqScoreIds.length + asset.trustRecordIds.length + asset.reputationRecordIds.length;
+  return (
+    asset.semantiqScoreIds.length + asset.trustRecordIds.length + asset.reputationRecordIds.length
+  );
 }

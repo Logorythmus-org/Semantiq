@@ -4,7 +4,12 @@ export interface GovernanceScenario {
   readonly purpose: string;
   readonly actors: readonly string[];
   readonly policies: readonly string[];
-  readonly expectedDecision: 'approved' | 'rejected' | 'exception_granted' | 'incident_raised' | 'ambiguous';
+  readonly expectedDecision:
+    | "approved"
+    | "rejected"
+    | "exception_granted"
+    | "incident_raised"
+    | "ambiguous";
   readonly deterministicSeed: number;
   readonly isLocalOnly: boolean;
 }
@@ -23,7 +28,7 @@ export interface ScenarioEvaluationResult {
 export class GovernanceScenarioEngine {
   evaluateScenario(scenario: GovernanceScenario): ScenarioEvaluationResult {
     // Deterministic evaluation based on seed & compliant scenario setup
-    const isCompliant = scenario.isLocalOnly && scenario.scenarioId.startsWith('gov_scen_');
+    const isCompliant = scenario.isLocalOnly && scenario.scenarioId.startsWith("gov_scen_");
     const score = isCompliant ? 100 : 0;
 
     return {

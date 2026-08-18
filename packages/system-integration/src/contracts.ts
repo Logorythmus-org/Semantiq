@@ -168,7 +168,16 @@ export interface ReleaseCandidate {
 export interface RoadmapPlan {
   readonly id: string;
   readonly version: string;
-  readonly horizons: readonly ("version-1.0" | "version-1.1" | "version-2" | "enterprise" | "scientific-cloud" | "global-knowledge-network" | "educational-network" | "distributed-intelligence")[];
+  readonly horizons: readonly (
+    | "version-1.0"
+    | "version-1.1"
+    | "version-2"
+    | "enterprise"
+    | "scientific-cloud"
+    | "global-knowledge-network"
+    | "educational-network"
+    | "distributed-intelligence"
+  )[];
   readonly itemIds: readonly string[];
   readonly adaptive: true;
   readonly updatedAt: string;

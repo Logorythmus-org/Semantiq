@@ -95,7 +95,8 @@ export interface SemanticEvaluationResult {
   readonly explanation: string;
 }
 
-const createId = (prefix: string): string => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
 const defaultDimensions: readonly EvaluationDimensionId[] = [
   "question-quality",
@@ -149,7 +150,10 @@ export class LocalSemantiqEngine implements SemantiqEngine {
     return report;
   }
 
-  async compare(subjects: readonly BenchmarkSubject[], profile: ScoringProfile): Promise<ComparisonResult> {
+  async compare(
+    subjects: readonly BenchmarkSubject[],
+    profile: ScoringProfile
+  ): Promise<ComparisonResult> {
     const reports = await Promise.all(subjects.map((subject) => this.evaluate(subject, profile)));
     return {
       id: createId("comparison"),
@@ -166,7 +170,10 @@ export class LocalSemantiqEngine implements SemantiqEngine {
     return {
       subjectId,
       reportIds,
-      trendSummary: reportIds.length > 1 ? "Multiple reports available for trend analysis." : "Insufficient history for trend analysis.",
+      trendSummary:
+        reportIds.length > 1
+          ? "Multiple reports available for trend analysis."
+          : "Insufficient history for trend analysis.",
       regressionDetected: false,
       milestones: []
     };
@@ -201,7 +208,10 @@ export class LocalSemantiqEngine implements SemantiqEngine {
     return configured.length ? configured : defaultDimensions;
   }
 
-  private scoreDimension(dimensionId: EvaluationDimensionId, subject: BenchmarkSubject): DimensionScore {
+  private scoreDimension(
+    dimensionId: EvaluationDimensionId,
+    subject: BenchmarkSubject
+  ): DimensionScore {
     const contentLength = JSON.stringify(subject.content).length;
     const score = Math.min(1, Math.max(0.1, contentLength / 2000));
     return {
@@ -219,7 +229,9 @@ export class LocalSemantiqEngine implements SemantiqEngine {
   private weightedScore(scores: readonly DimensionScore[], profile: ScoringProfile): number {
     const weights = scores.map((score) => profile.weights[score.dimensionId] ?? 1);
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-    return scores.reduce((sum, score, index) => sum + score.score * weights[index]!, 0) / totalWeight;
+    return (
+      scores.reduce((sum, score, index) => sum + score.score * weights[index]!, 0) / totalWeight
+    );
   }
 
   private average(values: readonly number[]): number {

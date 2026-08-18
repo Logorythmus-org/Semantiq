@@ -19,7 +19,7 @@ import type {
   FilesystemMutationEvent,
   NetworkConnectionEvent,
   SandboxRuntimeError
-} from './types.js';
+} from "./types.js";
 
 export interface SubscriptionHandle {
   readonly unsubscribe: () => void;
@@ -40,11 +40,20 @@ export interface FileEntry {
 export interface SandboxSummary {
   readonly instanceId: string;
   readonly providerId: string;
-  readonly status: 'RUNNING' | 'PAUSED' | 'TERMINATED';
+  readonly status: "RUNNING" | "PAUSED" | "TERMINATED";
   readonly createdAt: string;
 }
 
-export type SandboxStatus = 'PROVISIONING' | 'READY' | 'EXECUTING' | 'OBSERVING' | 'CHECKPOINTING' | 'RESTORING' | 'QUARANTINED' | 'TERMINATED' | 'FAILED';
+export type SandboxStatus =
+  | "PROVISIONING"
+  | "READY"
+  | "EXECUTING"
+  | "OBSERVING"
+  | "CHECKPOINTING"
+  | "RESTORING"
+  | "QUARANTINED"
+  | "TERMINATED"
+  | "FAILED";
 
 export interface QuarantineReport {
   readonly instanceId: string;
@@ -74,7 +83,7 @@ export interface ISandboxInstance {
 
   // Execution Primitives
   executeCommand(request: ExecutionRequest): Promise<ExecutionResult>;
-  sendSignal?(pid: number, signal: 'SIGINT' | 'SIGTERM' | 'SIGKILL'): Promise<void>;
+  sendSignal?(pid: number, signal: "SIGINT" | "SIGTERM" | "SIGKILL"): Promise<void>;
 
   // Filesystem Operations
   writeFile(path: string, content: Uint8Array | string, options?: WriteOptions): Promise<void>;

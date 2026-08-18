@@ -89,7 +89,14 @@ export interface MentorshipAssignment {
   readonly id: string;
   readonly learnerId: string;
   readonly mentorId: string;
-  readonly type: "peer" | "expert" | "community" | "ai" | "organization" | "university" | "cross-disciplinary";
+  readonly type:
+    | "peer"
+    | "expert"
+    | "community"
+    | "ai"
+    | "organization"
+    | "university"
+    | "cross-disciplinary";
   readonly competencyIds: readonly string[];
   readonly goalIds: readonly string[];
   readonly sessionIds: readonly string[];
@@ -101,7 +108,15 @@ export interface MentorshipAssignment {
 export interface TeachingArtifact {
   readonly id: string;
   readonly teacherId: string;
-  readonly type: "course" | "micro-lesson" | "live-workshop" | "narrative-learning" | "interactive-game" | "research-seminar" | "project-coaching" | "community-learning";
+  readonly type:
+    | "course"
+    | "micro-lesson"
+    | "live-workshop"
+    | "narrative-learning"
+    | "interactive-game"
+    | "research-seminar"
+    | "project-coaching"
+    | "community-learning";
   readonly questionIds: readonly string[];
   readonly demonstratedKnowledgeIds: readonly string[];
   readonly learningObjectIds: readonly string[];

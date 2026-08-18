@@ -34,7 +34,9 @@ export class OciStreamDemuxer {
 
       if (this.totalBytesEmitted + payload.length > this.maxBytes) {
         const allowed = Math.max(0, this.maxBytes - this.totalBytesEmitted);
-        const truncated = payload.subarray(0, allowed).toString('utf-8') + '\n[STREAM TRUNCATED: 5MB LIMIT EXCEEDED]';
+        const truncated =
+          payload.subarray(0, allowed).toString("utf-8") +
+          "\n[STREAM TRUNCATED: 5MB LIMIT EXCEEDED]";
         if (streamType === 1) onStdout(truncated);
         else if (streamType === 2) onStderr(truncated);
         this.totalBytesEmitted = this.maxBytes;
@@ -42,7 +44,7 @@ export class OciStreamDemuxer {
       }
 
       this.totalBytesEmitted += payload.length;
-      const text = payload.toString('utf-8');
+      const text = payload.toString("utf-8");
       if (streamType === 1) onStdout(text);
       else if (streamType === 2) onStderr(text);
     }

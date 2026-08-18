@@ -23,11 +23,7 @@ import {
   EpistemicNature,
   PRODUCT_CONTRACTS_SCHEMA_VERSION
 } from "@tech-club/sandbox-contracts";
-import {
-  SemantiqSdkError,
-  SemantiqValidationError,
-  SemantiqReceiptError
-} from "./errors.js";
+import { SemantiqSdkError, SemantiqValidationError, SemantiqReceiptError } from "./errors.js";
 
 export interface SemantiqClientConfig {
   baseUrl?: string;
@@ -77,7 +73,9 @@ export class SemantiqClient {
    */
   public async evaluate(options: EvaluateScenarioOptions): Promise<EvaluationResult> {
     if (!options.systemProfile?.id || !options.benchmark?.id || !options.scenarioCase?.id) {
-      throw new SemantiqValidationError("Invalid evaluation parameters: systemProfile, benchmark, and scenarioCase are required.");
+      throw new SemantiqValidationError(
+        "Invalid evaluation parameters: systemProfile, benchmark, and scenarioCase are required."
+      );
     }
 
     const runId = `run_${Date.now()}_${Math.random().toString(36).slice(2, 8)}`;
@@ -189,13 +187,18 @@ export class SemantiqClient {
   /**
    * Verify an execution receipt or research bundle hash
    */
-  public verifyReceipt(receiptOrBundle: { merkleRootHash?: string; sha256Signature?: string }): boolean {
+  public verifyReceipt(receiptOrBundle: {
+    merkleRootHash?: string;
+    sha256Signature?: string;
+  }): boolean {
     if (!receiptOrBundle) {
       throw new SemantiqReceiptError("Receipt or bundle must be provided.");
     }
     const hash = receiptOrBundle.merkleRootHash || receiptOrBundle.sha256Signature;
     if (!hash || hash.length !== 64) {
-      throw new SemantiqReceiptError("Invalid cryptographic hash format: expected 64-char SHA-256 hex string.");
+      throw new SemantiqReceiptError(
+        "Invalid cryptographic hash format: expected 64-char SHA-256 hex string."
+      );
     }
     return true;
   }

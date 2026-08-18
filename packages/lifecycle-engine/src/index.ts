@@ -3,5 +3,5 @@
  * Entry Point
  */
 
-export * from './types.js';
-export * from './lifecycle-controller.js';
+export * from "./types.js";
+export * from "./lifecycle-controller.js";

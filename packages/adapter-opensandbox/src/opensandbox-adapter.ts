@@ -9,14 +9,14 @@ import {
   type SandboxCapabilities,
   type ProviderHealthStatus,
   type ISandboxInstance
-} from '../../sandbox-contracts/src/index.js';
-import { OpenSandboxProtocolClient } from './opensandbox-client.js';
-import { OpenSandboxInstance } from './opensandbox-instance.js';
-import type { OpenSandboxConfig } from './types.js';
+} from "../../sandbox-contracts/src/index.js";
+import { OpenSandboxProtocolClient } from "./opensandbox-client.js";
+import { OpenSandboxInstance } from "./opensandbox-instance.js";
+import type { OpenSandboxConfig } from "./types.js";
 
 export class OpenSandboxAdapter extends BaseSandboxAdapter {
-  readonly providerId = 'opensandbox';
-  readonly providerVersion = '1.0.0';
+  readonly providerId = "opensandbox";
+  readonly providerVersion = "1.0.0";
 
   private readonly client: OpenSandboxProtocolClient;
 
@@ -31,7 +31,7 @@ export class OpenSandboxAdapter extends BaseSandboxAdapter {
       supportsSnapshots: info.engineCapabilities.snapshots,
       supportsFilesystemDiff: info.engineCapabilities.fsDiff,
       supportsLiveStream: true,
-      supportsMicroVM: ['firecracker', 'kata', 'gvisor'].includes(info.backendEngine),
+      supportsMicroVM: ["firecracker", "kata", "gvisor"].includes(info.backendEngine),
       supportsNetworkPolicy: true,
       supportsResourceHardening: true,
       maxExecutionTimeoutSeconds: 3600,
@@ -61,7 +61,7 @@ export class OpenSandboxAdapter extends BaseSandboxAdapter {
   async createSandbox(spec: EnvironmentSpec): Promise<ISandboxInstance> {
     const validation = await this.validateEnvironmentSpec(spec);
     if (!validation.isValid) {
-      throw new Error(`EnvironmentSpec validation failed: ${validation.errors.join(', ')}`);
+      throw new Error(`EnvironmentSpec validation failed: ${validation.errors.join(", ")}`);
     }
 
     const wireRequest = {
@@ -83,12 +83,17 @@ export class OpenSandboxAdapter extends BaseSandboxAdapter {
     };
 
     const res = await this.client.createSandbox(wireRequest);
-    const instance = new OpenSandboxInstance(res.sandboxId, this.client, spec, this.providerVersion);
+    const instance = new OpenSandboxInstance(
+      res.sandboxId,
+      this.client,
+      spec,
+      this.providerVersion
+    );
 
     if (spec.initialFilesystem && spec.initialFilesystem.length > 0) {
       await this.client.uploadFiles(
         res.sandboxId,
-        spec.initialFilesystem.map(f => ({ path: f.path, contentBase64: f.contentBase64 }))
+        spec.initialFilesystem.map((f) => ({ path: f.path, contentBase64: f.contentBase64 }))
       );
     }
 

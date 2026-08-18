@@ -245,10 +245,17 @@ export interface CivilizationKernelRepository {
 
 export interface CivilizationKernelService {
   evaluateCivilization(objectIds: readonly string[]): Promise<CivilizationReport>;
-  measureCivilizationHealth(metrics: readonly CivilizationHealthMetric[]): Promise<CivilizationHealthIndex>;
+  measureCivilizationHealth(
+    metrics: readonly CivilizationHealthMetric[]
+  ): Promise<CivilizationHealthIndex>;
   coordinateCivilization(plan: CivilizationCoordinationPlan): Promise<void>;
-  generateRoadmap(questionId: string, horizonYears: number): Promise<ArchitectureEvolutionSuggestion>;
-  simulateArchitectureEvolution(suggestion: ArchitectureEvolutionSuggestion): Promise<CivilizationDigitalTwinSnapshot>;
+  generateRoadmap(
+    questionId: string,
+    horizonYears: number
+  ): Promise<ArchitectureEvolutionSuggestion>;
+  simulateArchitectureEvolution(
+    suggestion: ArchitectureEvolutionSuggestion
+  ): Promise<CivilizationDigitalTwinSnapshot>;
   publishProtocol(protocol: OpenCivilizationProtocol): Promise<void>;
   reviewArchitecture(suggestion: ArchitectureEvolutionSuggestion): Promise<void>;
   registerFutureTechnology(registration: FutureTechnologyRegistration): Promise<void>;

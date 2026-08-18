@@ -13,10 +13,22 @@ describe("Public Alpha runtime", () => {
     const runtime = new LocalAlphaRuntime();
     const result = await runtime.runPublicAlphaValidation();
 
-    expect(result.scope.included).toEqual(expect.arrayContaining(["Local identity", "Feedback submission", "Invitation-only federation"]));
+    expect(result.scope.included).toEqual(
+      expect.arrayContaining([
+        "Local identity",
+        "Feedback submission",
+        "Invitation-only federation"
+      ])
+    );
     expect(result.localJourney).toHaveLength(20);
     expect(result.federationJourney.remoteReference.revoked).toBe(true);
-    expect(result.safetyJourney).toEqual(expect.arrayContaining(["safe-mode-enabled", "external-provider-call-blocked", "federation-share-blocked"]));
+    expect(result.safetyJourney).toEqual(
+      expect.arrayContaining([
+        "safe-mode-enabled",
+        "external-provider-call-blocked",
+        "federation-share-blocked"
+      ])
+    );
     expect(result.backup.portable).toBe(true);
     expect(result.restore.validation).toBe("pass");
     expect(result.diagnostics.redacted).toBe(true);
@@ -29,20 +41,42 @@ describe("Public Alpha runtime", () => {
   it("enforces conservative flags, Safe Mode and consent-controlled diagnostics", () => {
     const runtime = new LocalAlphaRuntime();
 
-    expect(runtime.getFeatureFlags().find((flag) => flag.name === "remoteAIEnabled")?.enabled).toBe(false);
-    expect(runtime.getFeatureFlags().find((flag) => flag.name === "telemetryEnabled")?.enabled).toBe(false);
+    expect(runtime.getFeatureFlags().find((flag) => flag.name === "remoteAIEnabled")?.enabled).toBe(
+      false
+    );
+    expect(
+      runtime.getFeatureFlags().find((flag) => flag.name === "telemetryEnabled")?.enabled
+    ).toBe(false);
     runtime.enableSafeMode("tester");
-    expect(runtime.getFeatureFlags().find((flag) => flag.name === "federationEnabled")?.enabled).toBe(false);
-    expect(runtime.getFeatureFlags().find((flag) => flag.name === "pluginExecutionEnabled")?.enabled).toBe(false);
+    expect(
+      runtime.getFeatureFlags().find((flag) => flag.name === "federationEnabled")?.enabled
+    ).toBe(false);
+    expect(
+      runtime.getFeatureFlags().find((flag) => flag.name === "pluginExecutionEnabled")?.enabled
+    ).toBe(false);
 
     const bundle = runtime.createDiagnosticBundle("tester");
     const redacted = runtime.redactDiagnosticBundle(bundle.id);
     expect(redacted.contents.token).toBe("[redacted]");
     expect(() =>
-      runtime.submitFeedback({ category: "Bug report", severity: "Medium", reproductionSteps: ["step"], diagnosticBundleId: redacted.id, consentStatus: "remote-consented" })
+      runtime.submitFeedback({
+        category: "Bug report",
+        severity: "Medium",
+        reproductionSteps: ["step"],
+        diagnosticBundleId: redacted.id,
+        consentStatus: "remote-consented"
+      })
     ).toThrow("requires diagnostics consent");
     runtime.grantConsent("tester", "diagnostics", true, "checkbox");
-    expect(runtime.submitFeedback({ category: "Bug report", severity: "Medium", reproductionSteps: ["step"], diagnosticBundleId: redacted.id, consentStatus: "remote-consented" }).status).toBe("Submitted");
+    expect(
+      runtime.submitFeedback({
+        category: "Bug report",
+        severity: "Medium",
+        reproductionSteps: ["step"],
+        diagnosticBundleId: redacted.id,
+        consentStatus: "remote-consented"
+      }).status
+    ).toBe("Submitted");
   });
 
   it("exposes compliance, backup, limitation, release and documentation contracts", () => {

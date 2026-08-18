@@ -14,12 +14,12 @@ import {
   type FileEntry,
   type WriteOptions,
   generateProvenance
-} from '../../sandbox-contracts/src/index.js';
-import { OpenSandboxProtocolClient } from './opensandbox-client.js';
+} from "../../sandbox-contracts/src/index.js";
+import { OpenSandboxProtocolClient } from "./opensandbox-client.js";
 
 export class OpenSandboxInstance extends BaseSandboxInstance {
   readonly instanceId: string;
-  readonly providerId = 'opensandbox';
+  readonly providerId = "opensandbox";
   readonly spec: EnvironmentSpec;
   readonly createdAt: string = new Date().toISOString();
   private readonly adapterVersion: string;
@@ -40,7 +40,7 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
   }
 
   async executeCommand(request: ExecutionRequest): Promise<ExecutionResult> {
-    if (this.isTerminated) throw new Error('Cannot execute on terminated OpenSandbox instance.');
+    if (this.isTerminated) throw new Error("Cannot execute on terminated OpenSandbox instance.");
 
     const startTime = Date.now();
     const result = await this.client.executeCommand(
@@ -52,7 +52,7 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
         timeoutMs: request.timeoutMs
       },
       (stream, chunk) => {
-        if (stream === 'stdout') this.notifyStdout(chunk);
+        if (stream === "stdout") this.notifyStdout(chunk);
         else this.notifyStderr(chunk);
       }
     );
@@ -77,38 +77,52 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
     const diff = await this.client.getFilesystemDiff(this.instanceId);
     return {
       deltaId: crypto.randomUUID(),
-      fromCheckpoint: sinceCheckpointId || 'baseline',
-      toCheckpoint: 'current',
+      fromCheckpoint: sinceCheckpointId || "baseline",
+      toCheckpoint: "current",
       timestamp: new Date().toISOString(),
       mutations: {
-        createdFiles: diff.created.map(c => ({ path: c.path, sha256: c.sha256, sizeBytes: c.size })),
-        modifiedFiles: diff.modified.map(m => ({ path: m.path, preSha256: m.preSha256, postSha256: m.postSha256, diffUnified: m.diff })),
+        createdFiles: diff.created.map((c) => ({
+          path: c.path,
+          sha256: c.sha256,
+          sizeBytes: c.size
+        })),
+        modifiedFiles: diff.modified.map((m) => ({
+          path: m.path,
+          preSha256: m.preSha256,
+          postSha256: m.postSha256,
+          diffUnified: m.diff
+        })),
         deletedFiles: diff.deleted,
         spawnedProcesses: []
       }
     };
   }
 
-  async writeFile(path: string, content: Uint8Array | string, _options?: WriteOptions): Promise<void> {
-    const base64 = typeof content === 'string'
-      ? Buffer.from(content).toString('base64')
-      : Buffer.from(content).toString('base64');
+  async writeFile(
+    path: string,
+    content: Uint8Array | string,
+    _options?: WriteOptions
+  ): Promise<void> {
+    const base64 =
+      typeof content === "string"
+        ? Buffer.from(content).toString("base64")
+        : Buffer.from(content).toString("base64");
     await this.client.uploadFiles(this.instanceId, [{ path, contentBase64: base64 }]);
   }
 
   async readFile(path: string): Promise<Uint8Array> {
     const res = await this.executeCommand({
       requestId: crypto.randomUUID(),
-      command: ['base64', path],
+      command: ["base64", path],
       timeoutMs: 5000
     });
-    return Buffer.from(res.stdout.trim(), 'base64');
+    return Buffer.from(res.stdout.trim(), "base64");
   }
 
   async deleteFile(path: string): Promise<void> {
     await this.executeCommand({
       requestId: crypto.randomUUID(),
-      command: ['rm', '-rf', path],
+      command: ["rm", "-rf", path],
       timeoutMs: 5000
     });
   }
@@ -122,9 +136,9 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
     const meta: CheckpointMetadata = {
       checkpointId,
       instanceId: this.instanceId,
-      name: name || 'checkpoint',
+      name: name || "checkpoint",
       createdAt: new Date().toISOString(),
-      rootMerkleHash: 'sha256:0000000000000000000000000000000000000000000000000000000000000000',
+      rootMerkleHash: "sha256:0000000000000000000000000000000000000000000000000000000000000000",
       processStateCount: 0,
       parentCheckpointId: null
     };
@@ -133,13 +147,13 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
   }
 
   async restoreCheckpoint(checkpointId: string): Promise<void> {
-    if (!this.checkpoints.has(checkpointId) && checkpointId !== 'baseline') {
+    if (!this.checkpoints.has(checkpointId) && checkpointId !== "baseline") {
       throw new Error(`Checkpoint '${checkpointId}' not found on OpenSandbox instance.`);
     }
   }
 
   async terminate(): Promise<SandboxTerminationSummary> {
-    if (this.isTerminated) throw new Error('OpenSandbox instance is already terminated.');
+    if (this.isTerminated) throw new Error("OpenSandbox instance is already terminated.");
 
     await this.client.deleteSandbox(this.instanceId);
     this.isTerminated = true;
@@ -156,10 +170,10 @@ export class OpenSandboxInstance extends BaseSandboxInstance {
       provenance: generateProvenance(
         this.spec,
         this.providerId,
-        '1.0.0',
+        "1.0.0",
         this.adapterVersion,
-        '42',
-        'ISOLATED_REPRODUCIBLE'
+        "42",
+        "ISOLATED_REPRODUCIBLE"
       )
     };
   }

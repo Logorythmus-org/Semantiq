@@ -17,8 +17,22 @@ export type IdentitySubjectKind =
   | "workflow"
   | "benchmark";
 
-export type Visibility = "private" | "shared" | "team" | "organization" | "public" | "anonymous" | "temporary" | "encrypted";
-export type VerificationStatus = "unverified" | "self-verified" | "community-verified" | "provider-verified" | "organization-verified" | "revoked";
+export type Visibility =
+  | "private"
+  | "shared"
+  | "team"
+  | "organization"
+  | "public"
+  | "anonymous"
+  | "temporary"
+  | "encrypted";
+export type VerificationStatus =
+  | "unverified"
+  | "self-verified"
+  | "community-verified"
+  | "provider-verified"
+  | "organization-verified"
+  | "revoked";
 export type TrustLevel = "unknown" | "low" | "medium" | "high" | "verified";
 export type PermissionAction =
   | "read"
@@ -64,7 +78,14 @@ export interface SemanticIdentity {
 
 export interface AuthenticationRequest {
   readonly provider: string;
-  readonly method: "local" | "oauth2" | "oidc" | "passkey" | "hardware-key" | "biometric" | "decentralized";
+  readonly method:
+    | "local"
+    | "oauth2"
+    | "oidc"
+    | "passkey"
+    | "hardware-key"
+    | "biometric"
+    | "decentralized";
   readonly subjectHint?: string;
   readonly context: AuthorizationContext;
 }
@@ -115,7 +136,15 @@ export interface PermissionGrant {
   readonly action: PermissionAction;
   readonly resourceId: string;
   readonly scope: string;
-  readonly source: "direct" | "role" | "policy" | "ownership" | "delegation" | "organization" | "community" | "temporary";
+  readonly source:
+    | "direct"
+    | "role"
+    | "policy"
+    | "ownership"
+    | "delegation"
+    | "organization"
+    | "community"
+    | "temporary";
   readonly expiresAt?: string;
 }
 
@@ -134,14 +163,31 @@ export interface CapabilityDescriptor {
 }
 
 export interface CapabilityEngine {
-  capabilities(resourceId: string, context: AuthorizationContext): Promise<readonly CapabilityDescriptor[]>;
+  capabilities(
+    resourceId: string,
+    context: AuthorizationContext
+  ): Promise<readonly CapabilityDescriptor[]>;
 }
 
 export interface PolicyDefinition {
   readonly id: string;
-  readonly scope: "workspace" | "project" | "organization" | "community" | "security" | "plugin" | "ai" | "enterprise";
+  readonly scope:
+    | "workspace"
+    | "project"
+    | "organization"
+    | "community"
+    | "security"
+    | "plugin"
+    | "ai"
+    | "enterprise";
   readonly version: string;
-  readonly effect: "allow" | "deny" | "require-approval" | "require-stronger-auth" | "require-audit" | "require-human-review";
+  readonly effect:
+    | "allow"
+    | "deny"
+    | "require-approval"
+    | "require-stronger-auth"
+    | "require-audit"
+    | "require-human-review";
   readonly conditions: Readonly<Record<string, unknown>>;
 }
 
@@ -163,7 +209,18 @@ export interface WalletRecord {
 export interface WalletAsset {
   readonly id: string;
   readonly ownerId: string;
-  readonly type: "semantic-asset" | "credential" | "certificate" | "achievement" | "benchmark-score" | "learning-record" | "project-contribution" | "publication" | "license" | "signature" | "blockchain-reference";
+  readonly type:
+    | "semantic-asset"
+    | "credential"
+    | "certificate"
+    | "achievement"
+    | "benchmark-score"
+    | "learning-record"
+    | "project-contribution"
+    | "publication"
+    | "license"
+    | "signature"
+    | "blockchain-reference";
   readonly metadata: Readonly<Record<string, unknown>>;
   readonly issuedAt: string;
   readonly revokedAt?: string;
@@ -187,7 +244,13 @@ export interface OwnershipRegistry {
 
 export interface TrustSignal {
   readonly id: string;
-  readonly type: "identity" | "contribution" | "knowledge" | "benchmark" | "research" | "organization";
+  readonly type:
+    | "identity"
+    | "contribution"
+    | "knowledge"
+    | "benchmark"
+    | "research"
+    | "organization";
   readonly confidence: number;
   readonly evidence: readonly string[];
   readonly explanation: string;
@@ -200,7 +263,17 @@ export interface TrustEvaluator {
 export interface ReputationEntry {
   readonly id: string;
   readonly identityId: string;
-  readonly source: "contribution" | "review" | "research" | "project" | "question" | "collaboration" | "benchmark" | "teaching" | "mentoring" | "community";
+  readonly source:
+    | "contribution"
+    | "review"
+    | "research"
+    | "project"
+    | "question"
+    | "collaboration"
+    | "benchmark"
+    | "teaching"
+    | "mentoring"
+    | "community";
   readonly evidence: readonly string[];
   readonly explanation: string;
   readonly createdAt: string;

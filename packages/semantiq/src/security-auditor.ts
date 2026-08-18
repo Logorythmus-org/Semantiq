@@ -19,7 +19,7 @@ const SECRET_PATTERNS = [
   /BEGIN RSA PRIVATE KEY/
 ];
 
-const TELEMETRY_KEYWORDS = ['analytics.track', 'mixpanel', 'segment', 'sentry.init', 'posthog'];
+const TELEMETRY_KEYWORDS = ["analytics.track", "mixpanel", "segment", "sentry.init", "posthog"];
 
 /**
  * Security & Privacy Auditor Engine.
@@ -42,13 +42,16 @@ export class SecurityAuditorEngine {
     return { secretsFound, telemetryFound };
   }
 
-  scanFilePaths(paths: readonly string[]): { hiddenFileViolations: number; repoContaminations: number } {
+  scanFilePaths(paths: readonly string[]): {
+    hiddenFileViolations: number;
+    repoContaminations: number;
+  } {
     let hiddenFileViolations = 0;
     let repoContaminations = 0;
 
     for (const p of paths) {
-      if (p.includes('.git/') || p.includes('.env')) hiddenFileViolations++;
-      if (p.includes('Tech-Club-Architect-Blueprint') || p.includes('canonical-release-audit')) {
+      if (p.includes(".git/") || p.includes(".env")) hiddenFileViolations++;
+      if (p.includes("Tech-Club-Architect-Blueprint") || p.includes("canonical-release-audit")) {
         repoContaminations++;
       }
     }

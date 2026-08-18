@@ -3,8 +3,8 @@
  * Cost & Quota Governor for Cloud Sandboxes
  */
 
-import { SandboxRuntimeError } from '../../sandbox-contracts/src/index.js';
-import type { CloudBudgetPolicy } from './types.js';
+import { SandboxRuntimeError } from "../../sandbox-contracts/src/index.js";
+import type { CloudBudgetPolicy } from "./types.js";
 
 export class CostQuotaGovernor {
   private policy: CloudBudgetPolicy;
@@ -14,7 +14,7 @@ export class CostQuotaGovernor {
   constructor(policy?: Partial<CloudBudgetPolicy>) {
     this.policy = {
       maxSpendPerRunUsd: policy?.maxSpendPerRunUsd ?? 5.0,
-      maxCostPerMinuteUsd: policy?.maxCostPerMinuteUsd ?? 0.50,
+      maxCostPerMinuteUsd: policy?.maxCostPerMinuteUsd ?? 0.5,
       maxConcurrentSandboxes: policy?.maxConcurrentSandboxes ?? 10,
       autoAbortOnSpendLimit: policy?.autoAbortOnSpendLimit ?? true
     };
@@ -34,18 +34,18 @@ export class CostQuotaGovernor {
   checkPreflight(): void {
     if (this.activeSandboxesCount >= this.policy.maxConcurrentSandboxes) {
       throw new SandboxRuntimeError(
-        'ERR_CLOUD_CONCURRENCY_EXCEEDED',
+        "ERR_CLOUD_CONCURRENCY_EXCEEDED",
         `Active cloud sandboxes (${this.activeSandboxesCount}) reached limit (${this.policy.maxConcurrentSandboxes})`,
-        'cloud-governor',
+        "cloud-governor",
         true
       );
     }
 
     if (this.totalSpendUsd >= this.policy.maxSpendPerRunUsd) {
       throw new SandboxRuntimeError(
-        'ERR_PROV_BUDGET_EXCEEDED',
+        "ERR_PROV_BUDGET_EXCEEDED",
         `Cloud spend ($${this.totalSpendUsd.toFixed(4)}) reached budget ceiling ($${this.policy.maxSpendPerRunUsd.toFixed(2)})`,
-        'cloud-governor',
+        "cloud-governor",
         false
       );
     }

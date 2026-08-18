@@ -32,7 +32,9 @@ export class ConstitutionalValidatorEngine {
   validateEmergencyRule(rule: EmergencyPolicyRule): ConstitutionalInvariantReport {
     const violations: string[] = [];
     if (!rule.expiresAt || rule.isPermanent === true) {
-      violations.push('Emergency authority must have an explicit expiration date and cannot be permanent.');
+      violations.push(
+        "Emergency authority must have an explicit expiration date and cannot be permanent."
+      );
     }
     return {
       isValid: violations.length === 0,
@@ -44,13 +46,13 @@ export class ConstitutionalValidatorEngine {
     const violations: string[] = [];
 
     if (!record.evidence || record.evidence.length === 0) {
-      violations.push('Governance decision must contain supporting evidence.');
+      violations.push("Governance decision must contain supporting evidence.");
     }
-    if (!record.appealDeadline || record.appealDeadline.trim() === '') {
-      violations.push('Governance decision must specify an explicit appeal deadline.');
+    if (!record.appealDeadline || record.appealDeadline.trim() === "") {
+      violations.push("Governance decision must specify an explicit appeal deadline.");
     }
-    if (!record.reviewDate || record.reviewDate.trim() === '') {
-      violations.push('Governance decision must specify a scheduled review date.');
+    if (!record.reviewDate || record.reviewDate.trim() === "") {
+      violations.push("Governance decision must specify a scheduled review date.");
     }
 
     return {
@@ -63,8 +65,8 @@ export class ConstitutionalValidatorEngine {
     existingRecord: ConstitutionalDecisionRecord,
     dissentingOpinion: string
   ): ConstitutionalDecisionRecord {
-    if (!dissentingOpinion || dissentingOpinion.trim() === '') {
-      throw new Error('Dissenting opinion cannot be empty.');
+    if (!dissentingOpinion || dissentingOpinion.trim() === "") {
+      throw new Error("Dissenting opinion cannot be empty.");
     }
     return {
       ...existingRecord,

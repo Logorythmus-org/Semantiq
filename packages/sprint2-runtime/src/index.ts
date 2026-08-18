@@ -1,8 +1,25 @@
-import { LocalSprint1Runtime, type KnowledgeRecord, type QuestionRecord, type WorkspaceExport } from "../../sprint1-runtime/src/index.js";
+import {
+  LocalSprint1Runtime,
+  type KnowledgeRecord,
+  type QuestionRecord,
+  type WorkspaceExport
+} from "../../sprint1-runtime/src/index.js";
 
 export type SemantiqLevel = "low" | "medium" | "high" | "excellent";
-export type SemantiqExecutionMode = "rule-based-local" | "local-ai-assisted" | "remote-provider-assisted" | "hybrid" | "test-fixture";
-export type ApprovalState = "Suggested" | "Reviewed" | "Accepted" | "Partially Accepted" | "Rejected" | "Expired" | "Superseded";
+export type SemantiqExecutionMode =
+  | "rule-based-local"
+  | "local-ai-assisted"
+  | "remote-provider-assisted"
+  | "hybrid"
+  | "test-fixture";
+export type ApprovalState =
+  | "Suggested"
+  | "Reviewed"
+  | "Accepted"
+  | "Partially Accepted"
+  | "Rejected"
+  | "Expired"
+  | "Superseded";
 export type Sprint2EventType =
   | "QuestionAnalysisRequested"
   | "QuestionAnalysisCompleted"
@@ -78,8 +95,24 @@ export type EvidenceType =
   | "Simulation result"
   | "Unknown source";
 
-export type ResearchStatus = "Draft" | "Planned" | "Active" | "Paused" | "Under Review" | "Completed" | "Archived" | "Reopened";
-export type HypothesisStatus = "Draft" | "Proposed" | "Under Investigation" | "Supported" | "Partially Supported" | "Contradicted" | "Inconclusive" | "Retired";
+export type ResearchStatus =
+  | "Draft"
+  | "Planned"
+  | "Active"
+  | "Paused"
+  | "Under Review"
+  | "Completed"
+  | "Archived"
+  | "Reopened";
+export type HypothesisStatus =
+  | "Draft"
+  | "Proposed"
+  | "Under Investigation"
+  | "Supported"
+  | "Partially Supported"
+  | "Contradicted"
+  | "Inconclusive"
+  | "Retired";
 
 export interface SemantiqProfile {
   readonly id: string;
@@ -193,7 +226,15 @@ export interface AssumptionFinding {
 
 export interface RefinementVariant {
   readonly id: string;
-  readonly kind: "Minimal correction" | "Clear version" | "Precise version" | "Research-ready version" | "Scientific version" | "Beginner version" | "Expert version" | "Project-oriented version";
+  readonly kind:
+    | "Minimal correction"
+    | "Clear version"
+    | "Precise version"
+    | "Research-ready version"
+    | "Scientific version"
+    | "Beginner version"
+    | "Expert version"
+    | "Project-oriented version";
   readonly refinedText: string;
   readonly changesMade: readonly string[];
   readonly meaningPreservationNote: string;
@@ -233,7 +274,14 @@ export interface DuplicateCandidate {
   readonly sharedTags: readonly string[];
   readonly sharedConcepts: readonly string[];
   readonly differences: readonly string[];
-  readonly recommendedAction: "Keep separate" | "Link as related" | "Mark as duplicate" | "Merge" | "Fork" | "Generalize" | "Specialize";
+  readonly recommendedAction:
+    | "Keep separate"
+    | "Link as related"
+    | "Mark as duplicate"
+    | "Merge"
+    | "Fork"
+    | "Generalize"
+    | "Specialize";
 }
 
 export interface RelationSuggestion {
@@ -411,7 +459,10 @@ export interface AIProvider {
   readonly id: string;
   readonly capabilities: readonly ModelCapability[];
   health(): Promise<ModelHealth>;
-  analyzeText(input: string, configuration: ModelConfiguration): Promise<{ readonly text: string; readonly usage: ModelUsageRecord }>;
+  analyzeText(
+    input: string,
+    configuration: ModelConfiguration
+  ): Promise<{ readonly text: string; readonly usage: ModelUsageRecord }>;
 }
 
 export interface PromptRegistryEntry {
@@ -472,8 +523,10 @@ export interface Sprint2JourneyResult {
 }
 
 const now = (): string => new Date().toISOString();
-const createId = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
-const words = (text: string): readonly string[] => text.toLowerCase().match(/[a-z][a-z-]{2,}/g) ?? [];
+const createId = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const words = (text: string): readonly string[] =>
+  text.toLowerCase().match(/[a-z][a-z-]{2,}/g) ?? [];
 const clamp = (value: number): number => Math.min(1, Math.max(0, value));
 
 export const sprint2PromptRegistry: readonly PromptRegistryEntry[] = [
@@ -493,7 +546,11 @@ export const sprint2PromptRegistry: readonly PromptRegistryEntry[] = [
   purpose: `Structured ${name.replaceAll("-", " ")} prompt contract.`,
   inputSchema: `${name}.input.schema.json`,
   outputSchema: `${name}.output.schema.json`,
-  safetyNotes: ["Do not fabricate evidence.", "Preserve uncertainty.", "Require user approval for generated changes."],
+  safetyNotes: [
+    "Do not fabricate evidence.",
+    "Preserve uncertainty.",
+    "Require user approval for generated changes."
+  ],
   evaluationFixtures: [`${name}.fixture.json`],
   changelog: ["v1: Initial Sprint 2 deterministic/local-compatible prompt contract."]
 }));
@@ -531,7 +588,13 @@ export const sprint2ApiContracts = {
     "approveSuggestion()",
     "rejectSuggestion()"
   ],
-  semantiq: ["evaluateQuestion()", "getSemantiqReport()", "compareEvaluations()", "getEvaluationHistory()", "explainScore()"],
+  semantiq: [
+    "evaluateQuestion()",
+    "getSemantiqReport()",
+    "compareEvaluations()",
+    "getEvaluationHistory()",
+    "explainScore()"
+  ],
   research: [
     "createResearchDraft()",
     "approveResearchProject()",
@@ -543,22 +606,77 @@ export const sprint2ApiContracts = {
     "createResearchTask()",
     "getResearchDashboard()"
   ],
-  generatedArtifacts: ["OpenAPI descriptor", "GraphQL schema descriptor", "Zod schema descriptor", "Pydantic model descriptor", "JSON Schema descriptor", "MCP tool contract descriptor"]
+  generatedArtifacts: [
+    "OpenAPI descriptor",
+    "GraphQL schema descriptor",
+    "Zod schema descriptor",
+    "Pydantic model descriptor",
+    "JSON Schema descriptor",
+    "MCP tool contract descriptor"
+  ]
 } as const;
 
 const semantiqDimensions: readonly SemantiqDimension[] = [
-  { id: "clarity", label: "Clarity", rubric: { highSignals: ["question mark", "clear verb"], weaknessSignals: ["vague wording"] } },
-  { id: "specificity", label: "Specificity", rubric: { highSignals: ["constraints", "scope"], weaknessSignals: ["broad wording"] } },
-  { id: "context-completeness", label: "Context Completeness", rubric: { highSignals: ["audience", "domain"], weaknessSignals: ["missing context"] } },
-  { id: "ambiguity", label: "Ambiguity", rubric: { highSignals: ["defined terms"], weaknessSignals: ["future", "best", "better"] } },
-  { id: "assumption-visibility", label: "Assumption Visibility", rubric: { highSignals: ["because", "given"], weaknessSignals: ["hidden premise"] } },
-  { id: "research-potential", label: "Research Potential", rubric: { highSignals: ["why", "how", "evidence"], weaknessSignals: ["yes/no"] } },
-  { id: "evidence-awareness", label: "Evidence Awareness", rubric: { highSignals: ["evidence", "data", "source"], weaknessSignals: ["no evidence need"] } },
-  { id: "testability", label: "Testability", rubric: { highSignals: ["measure", "compare", "test"], weaknessSignals: ["unmeasurable"] } },
-  { id: "novelty", label: "Novelty", rubric: { highSignals: ["new", "unknown"], weaknessSignals: ["generic"] } },
-  { id: "actionability", label: "Actionability", rubric: { highSignals: ["plan", "build", "decide"], weaknessSignals: ["no next action"] } },
-  { id: "ethical-awareness", label: "Ethical Awareness", rubric: { highSignals: ["risk", "privacy", "fair"], weaknessSignals: ["no ethics context"] } },
-  { id: "overall-confidence", label: "Overall Confidence", rubric: { highSignals: ["balanced signals"], weaknessSignals: ["low signal"] } }
+  {
+    id: "clarity",
+    label: "Clarity",
+    rubric: { highSignals: ["question mark", "clear verb"], weaknessSignals: ["vague wording"] }
+  },
+  {
+    id: "specificity",
+    label: "Specificity",
+    rubric: { highSignals: ["constraints", "scope"], weaknessSignals: ["broad wording"] }
+  },
+  {
+    id: "context-completeness",
+    label: "Context Completeness",
+    rubric: { highSignals: ["audience", "domain"], weaknessSignals: ["missing context"] }
+  },
+  {
+    id: "ambiguity",
+    label: "Ambiguity",
+    rubric: { highSignals: ["defined terms"], weaknessSignals: ["future", "best", "better"] }
+  },
+  {
+    id: "assumption-visibility",
+    label: "Assumption Visibility",
+    rubric: { highSignals: ["because", "given"], weaknessSignals: ["hidden premise"] }
+  },
+  {
+    id: "research-potential",
+    label: "Research Potential",
+    rubric: { highSignals: ["why", "how", "evidence"], weaknessSignals: ["yes/no"] }
+  },
+  {
+    id: "evidence-awareness",
+    label: "Evidence Awareness",
+    rubric: { highSignals: ["evidence", "data", "source"], weaknessSignals: ["no evidence need"] }
+  },
+  {
+    id: "testability",
+    label: "Testability",
+    rubric: { highSignals: ["measure", "compare", "test"], weaknessSignals: ["unmeasurable"] }
+  },
+  {
+    id: "novelty",
+    label: "Novelty",
+    rubric: { highSignals: ["new", "unknown"], weaknessSignals: ["generic"] }
+  },
+  {
+    id: "actionability",
+    label: "Actionability",
+    rubric: { highSignals: ["plan", "build", "decide"], weaknessSignals: ["no next action"] }
+  },
+  {
+    id: "ethical-awareness",
+    label: "Ethical Awareness",
+    rubric: { highSignals: ["risk", "privacy", "fair"], weaknessSignals: ["no ethics context"] }
+  },
+  {
+    id: "overall-confidence",
+    label: "Overall Confidence",
+    rubric: { highSignals: ["balanced signals"], weaknessSignals: ["low signal"] }
+  }
 ];
 
 export const defaultQuestionSemantiqProfile: SemantiqProfile = {
@@ -579,7 +697,12 @@ export const researchSemantiqProfilePlaceholder: SemantiqProfile = {
   ...defaultQuestionSemantiqProfile,
   id: "semantiq-research-placeholder",
   name: "Research Profile Placeholder",
-  weights: { ...defaultQuestionSemantiqProfile.weights, "research-potential": 2, "evidence-awareness": 2, testability: 2 }
+  weights: {
+    ...defaultQuestionSemantiqProfile.weights,
+    "research-potential": 2,
+    "evidence-awareness": 2,
+    testability: 2
+  }
 };
 
 export class DeterministicLocalAIProvider implements AIProvider {
@@ -594,7 +717,10 @@ export class DeterministicLocalAIProvider implements AIProvider {
     return { available: true, latencyMs: 0, fallbackUsed: false };
   }
 
-  async analyzeText(input: string, configuration: ModelConfiguration): Promise<{ readonly text: string; readonly usage: ModelUsageRecord }> {
+  async analyzeText(
+    input: string,
+    configuration: ModelConfiguration
+  ): Promise<{ readonly text: string; readonly usage: ModelUsageRecord }> {
     return {
       text: input,
       usage: {
@@ -631,9 +757,16 @@ export class LocalSprint2Runtime {
     readonly evidenceTitle: string;
     readonly evidenceSource: string;
   }): Promise<Sprint2JourneyResult> {
-    const identity = await this.sprint1.createIdentity({ id: input.identityId, displayName: input.displayName });
+    const identity = await this.sprint1.createIdentity({
+      id: input.identityId,
+      displayName: input.displayName
+    });
     await this.sprint1.loginLocal(identity.id, "device:sprint2");
-    const workspace = await this.sprint1.createWorkspace(identity.id, input.workspaceName, "sprint2-research");
+    const workspace = await this.sprint1.createWorkspace(
+      identity.id,
+      input.workspaceName,
+      "sprint2-research"
+    );
     const question = await this.sprint1.createQuestion({
       workspaceId: workspace.id,
       ownerId: identity.id,
@@ -641,11 +774,36 @@ export class LocalSprint2Runtime {
       tags: ["sprint2", "raw-question"]
     });
     const analysis = await this.analyzeQuestion(workspace.id, identity.id, question);
-    const approval = await this.approveSuggestion(workspace.id, identity.id, analysis.refinements[3]?.id ?? analysis.refinements[0]!.id);
-    const approvedText = approval.selectedText ?? analysis.refinements.find((item) => item.id === approval.suggestionId)?.refinedText ?? question.text;
-    const updatedQuestion = await this.sprint1.updateQuestion(question.id, { text: approvedText, tags: analysis.tags.map((tag) => tag.label) });
-    const semantiqReport = await this.evaluateQuestion(workspace.id, identity.id, updatedQuestion, analysis);
-    const researchProject = await this.approveResearchProject(workspace.id, identity.id, await this.createResearchDraft(workspace.id, identity.id, updatedQuestion, analysis, semantiqReport));
+    const approval = await this.approveSuggestion(
+      workspace.id,
+      identity.id,
+      analysis.refinements[3]?.id ?? analysis.refinements[0]!.id
+    );
+    const approvedText =
+      approval.selectedText ??
+      analysis.refinements.find((item) => item.id === approval.suggestionId)?.refinedText ??
+      question.text;
+    const updatedQuestion = await this.sprint1.updateQuestion(question.id, {
+      text: approvedText,
+      tags: analysis.tags.map((tag) => tag.label)
+    });
+    const semantiqReport = await this.evaluateQuestion(
+      workspace.id,
+      identity.id,
+      updatedQuestion,
+      analysis
+    );
+    const researchProject = await this.approveResearchProject(
+      workspace.id,
+      identity.id,
+      await this.createResearchDraft(
+        workspace.id,
+        identity.id,
+        updatedQuestion,
+        analysis,
+        semantiqReport
+      )
+    );
     const evidence = await this.addEvidence(workspace.id, identity.id, researchProject.id, {
       title: input.evidenceTitle,
       description: `Initial evidence for ${researchProject.title}.`,
@@ -683,9 +841,19 @@ export class LocalSprint2Runtime {
     };
   }
 
-  async analyzeQuestion(workspaceId: string, actorId: string, question: QuestionRecord): Promise<QuestionAnalysis> {
+  async analyzeQuestion(
+    workspaceId: string,
+    actorId: string,
+    question: QuestionRecord
+  ): Promise<QuestionAnalysis> {
     const started = performance.now();
-    this.emit("QuestionAnalysisRequested", actorId, workspaceId, { questionId: question.id }, question.id);
+    this.emit(
+      "QuestionAnalysisRequested",
+      actorId,
+      workspaceId,
+      { questionId: question.id },
+      question.id
+    );
     const language = this.detectLanguage(question.text);
     const intentStarted = performance.now();
     const intents = this.detectIntent(question.text);
@@ -720,18 +888,73 @@ export class LocalSprint2Runtime {
       createdAt: now()
     };
     this.analyses.set(analysis.id, analysis);
-    this.emit("QuestionIntentDetected", actorId, workspaceId, { questionId: question.id, intents }, question.id);
-    this.emit("QuestionAmbiguityDetected", actorId, workspaceId, { questionId: question.id, count: ambiguities.length }, question.id);
-    this.emit("QuestionAssumptionDetected", actorId, workspaceId, { questionId: question.id, count: assumptions.length }, question.id);
-    this.emit("QuestionRefinementSuggested", actorId, workspaceId, { questionId: question.id, count: refinements.length }, question.id);
-    this.emit("QuestionTagsSuggested", actorId, workspaceId, { questionId: question.id, count: tags.length }, question.id);
-    if (duplicates.length > 0) this.emit("QuestionDuplicateCandidateFound", actorId, workspaceId, { questionId: question.id, count: duplicates.length }, question.id);
-    if (relations.length > 0) this.emit("QuestionRelationSuggested", actorId, workspaceId, { questionId: question.id, count: relations.length }, question.id);
-    this.emit("QuestionAnalysisCompleted", actorId, workspaceId, { questionId: question.id, analysisId: analysis.id }, question.id);
+    this.emit(
+      "QuestionIntentDetected",
+      actorId,
+      workspaceId,
+      { questionId: question.id, intents },
+      question.id
+    );
+    this.emit(
+      "QuestionAmbiguityDetected",
+      actorId,
+      workspaceId,
+      { questionId: question.id, count: ambiguities.length },
+      question.id
+    );
+    this.emit(
+      "QuestionAssumptionDetected",
+      actorId,
+      workspaceId,
+      { questionId: question.id, count: assumptions.length },
+      question.id
+    );
+    this.emit(
+      "QuestionRefinementSuggested",
+      actorId,
+      workspaceId,
+      { questionId: question.id, count: refinements.length },
+      question.id
+    );
+    this.emit(
+      "QuestionTagsSuggested",
+      actorId,
+      workspaceId,
+      { questionId: question.id, count: tags.length },
+      question.id
+    );
+    if (duplicates.length > 0)
+      this.emit(
+        "QuestionDuplicateCandidateFound",
+        actorId,
+        workspaceId,
+        { questionId: question.id, count: duplicates.length },
+        question.id
+      );
+    if (relations.length > 0)
+      this.emit(
+        "QuestionRelationSuggested",
+        actorId,
+        workspaceId,
+        { questionId: question.id, count: relations.length },
+        question.id
+      );
+    this.emit(
+      "QuestionAnalysisCompleted",
+      actorId,
+      workspaceId,
+      { questionId: question.id, analysisId: analysis.id },
+      question.id
+    );
     return analysis;
   }
 
-  async approveSuggestion(workspaceId: string, actorId: string, suggestionId: string, selectedText?: string): Promise<ApprovalDecision> {
+  async approveSuggestion(
+    workspaceId: string,
+    actorId: string,
+    suggestionId: string,
+    selectedText?: string
+  ): Promise<ApprovalDecision> {
     const base = {
       id: createId("approval"),
       suggestionId,
@@ -742,11 +965,22 @@ export class LocalSprint2Runtime {
     };
     const decision: ApprovalDecision = selectedText ? { ...base, selectedText } : base;
     this.approvals.set(decision.id, decision);
-    this.emit("QuestionRefinementApproved", actorId, workspaceId, { suggestionId, decisionId: decision.id }, suggestionId);
+    this.emit(
+      "QuestionRefinementApproved",
+      actorId,
+      workspaceId,
+      { suggestionId, decisionId: decision.id },
+      suggestionId
+    );
     return decision;
   }
 
-  async rejectSuggestion(workspaceId: string, actorId: string, suggestionId: string, reason: string): Promise<ApprovalDecision> {
+  async rejectSuggestion(
+    workspaceId: string,
+    actorId: string,
+    suggestionId: string,
+    reason: string
+  ): Promise<ApprovalDecision> {
     const decision: ApprovalDecision = {
       id: createId("approval"),
       suggestionId,
@@ -757,17 +991,44 @@ export class LocalSprint2Runtime {
       auditId: createId("audit")
     };
     this.approvals.set(decision.id, decision);
-    this.emit("QuestionRefinementRejected", actorId, workspaceId, { suggestionId, reason }, suggestionId);
+    this.emit(
+      "QuestionRefinementRejected",
+      actorId,
+      workspaceId,
+      { suggestionId, reason },
+      suggestionId
+    );
     return decision;
   }
 
-  async evaluateQuestion(workspaceId: string, actorId: string, question: QuestionRecord, analysis: QuestionAnalysis, profile = defaultQuestionSemantiqProfile): Promise<SemantiqReport> {
-    this.emit("SemantiqEvaluationStarted", actorId, workspaceId, { questionId: question.id, profileId: profile.id }, question.id);
-    const usage = (await this.provider.analyzeText(question.text, { provider: "deterministic-local-rules", externalRequestsAllowed: false, promptVersion: "semantiq-question.v1" })).usage;
-    const scores = semantiqDimensions.map((dimension) => this.scoreDimension(dimension, question.text, analysis));
+  async evaluateQuestion(
+    workspaceId: string,
+    actorId: string,
+    question: QuestionRecord,
+    analysis: QuestionAnalysis,
+    profile = defaultQuestionSemantiqProfile
+  ): Promise<SemantiqReport> {
+    this.emit(
+      "SemantiqEvaluationStarted",
+      actorId,
+      workspaceId,
+      { questionId: question.id, profileId: profile.id },
+      question.id
+    );
+    const usage = (
+      await this.provider.analyzeText(question.text, {
+        provider: "deterministic-local-rules",
+        externalRequestsAllowed: false,
+        promptVersion: "semantiq-question.v1"
+      })
+    ).usage;
+    const scores = semantiqDimensions.map((dimension) =>
+      this.scoreDimension(dimension, question.text, analysis)
+    );
     const weights = scores.map((score) => profile.weights[score.dimensionId] ?? 1);
     const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
-    const normalizedScore = scores.reduce((sum, score, index) => sum + score.score * weights[index]!, 0) / totalWeight;
+    const normalizedScore =
+      scores.reduce((sum, score, index) => sum + score.score * weights[index]!, 0) / totalWeight;
     const report: SemantiqReport = {
       id: createId("semantiq-report"),
       questionId: question.id,
@@ -783,7 +1044,12 @@ export class LocalSprint2Runtime {
       confidence: scores.reduce((sum, score) => sum + score.confidence, 0) / scores.length,
       recommendations: scores
         .filter((score) => score.score < 0.7)
-        .map((score) => ({ id: createId("semantiq-recommendation"), dimensionId: score.dimensionId, text: score.improvementSuggestions[0] ?? "Add more context.", explanation: score.explanation })),
+        .map((score) => ({
+          id: createId("semantiq-recommendation"),
+          dimensionId: score.dimensionId,
+          text: score.improvementSuggestions[0] ?? "Add more context.",
+          explanation: score.explanation
+        })),
       provider: usage,
       createdAt: now()
     };
@@ -791,7 +1057,13 @@ export class LocalSprint2Runtime {
     const reportIds = this.reportsByQuestion.get(question.id) ?? [];
     reportIds.push(report.id);
     this.reportsByQuestion.set(question.id, reportIds);
-    this.emit("SemantiqEvaluationCompleted", actorId, workspaceId, { questionId: question.id, reportId: report.id, normalizedScore }, report.id);
+    this.emit(
+      "SemantiqEvaluationCompleted",
+      actorId,
+      workspaceId,
+      { questionId: question.id, reportId: report.id, normalizedScore },
+      report.id
+    );
     return report;
   }
 
@@ -799,52 +1071,104 @@ export class LocalSprint2Runtime {
     return this.requireReport(reportId);
   }
 
-  compareEvaluations(leftReportId: string, rightReportId: string): { readonly delta: number; readonly explanation: string } {
+  compareEvaluations(
+    leftReportId: string,
+    rightReportId: string
+  ): { readonly delta: number; readonly explanation: string } {
     const left = this.requireReport(leftReportId);
     const right = this.requireReport(rightReportId);
-    return { delta: right.normalizedScore - left.normalizedScore, explanation: "Compared normalized Semantiq scores across evaluations." };
+    return {
+      delta: right.normalizedScore - left.normalizedScore,
+      explanation: "Compared normalized Semantiq scores across evaluations."
+    };
   }
 
   getEvaluationHistory(questionId: string): readonly SemantiqReport[] {
-    return (this.reportsByQuestion.get(questionId) ?? []).map((reportId) => this.requireReport(reportId));
+    return (this.reportsByQuestion.get(questionId) ?? []).map((reportId) =>
+      this.requireReport(reportId)
+    );
   }
 
   explainScore(reportId: string): string {
     const report = this.requireReport(reportId);
-    return report.scores.map((score) => `${score.dimensionId}: ${score.level} (${score.score.toFixed(2)}) - ${score.explanation}`).join("\n");
+    return report.scores
+      .map(
+        (score) =>
+          `${score.dimensionId}: ${score.level} (${score.score.toFixed(2)}) - ${score.explanation}`
+      )
+      .join("\n");
   }
 
-  async createResearchDraft(workspaceId: string, actorId: string, question: QuestionRecord, analysis: QuestionAnalysis, report: SemantiqReport): Promise<ResearchProjectRecord> {
+  async createResearchDraft(
+    workspaceId: string,
+    actorId: string,
+    question: QuestionRecord,
+    analysis: QuestionAnalysis,
+    report: SemantiqReport
+  ): Promise<ResearchProjectRecord> {
     const project: ResearchProjectRecord = {
       id: createId("research-project"),
       sourceQuestionId: question.id,
       title: `Research: ${question.text.slice(0, 72)}`,
       summary: `Draft research project generated from approved question ${question.id}.`,
       researchGoal: `Investigate ${question.text}`,
-      scope: analysis.ambiguities.length > 0 ? "Scope requires clarification before active execution." : "Initial local research scope.",
-      researchQuestions: [question.text, ...analysis.refinements.slice(0, 2).map((item) => item.refinedText)],
-      objectives: ["Clarify scope", "Collect evidence", "Evaluate hypotheses", "Produce a research summary"],
+      scope:
+        analysis.ambiguities.length > 0
+          ? "Scope requires clarification before active execution."
+          : "Initial local research scope.",
+      researchQuestions: [
+        question.text,
+        ...analysis.refinements.slice(0, 2).map((item) => item.refinedText)
+      ],
+      objectives: [
+        "Clarify scope",
+        "Collect evidence",
+        "Evaluate hypotheses",
+        "Produce a research summary"
+      ],
       hypothesisIds: [],
       evidenceIds: [],
       taskIds: [],
-      milestones: ["Question approved", "Evidence collected", "Hypothesis reviewed", "Summary produced"],
+      milestones: [
+        "Question approved",
+        "Evidence collected",
+        "Hypothesis reviewed",
+        "Summary produced"
+      ],
       contributorIds: [actorId],
       workspaceId,
       status: "Draft",
       risks: analysis.ambiguities.map((item) => item.explanation),
-      ethicsNotes: analysis.tags.some((tag) => tag.category === "Risk") ? ["Review ethical and privacy implications before external provider use."] : [],
+      ethicsNotes: analysis.tags.some((tag) => tag.category === "Risk")
+        ? ["Review ethical and privacy implications before external provider use."]
+        : [],
       timeline: [now()],
       semantiqReportId: report.id,
       graphRelationIds: [],
       versionHistory: ["draft:1.0.0"]
     };
     this.projects.set(project.id, project);
-    this.emit("ResearchProjectDrafted", actorId, workspaceId, { projectId: project.id, questionId: question.id }, project.id);
+    this.emit(
+      "ResearchProjectDrafted",
+      actorId,
+      workspaceId,
+      { projectId: project.id, questionId: question.id },
+      project.id
+    );
     return project;
   }
 
-  async approveResearchProject(workspaceId: string, actorId: string, draft: ResearchProjectRecord): Promise<ResearchProjectRecord> {
-    const relation = this.approvedRelation(draft.sourceQuestionId, draft.id, "related_to", "Question converted into a research project after user approval.");
+  async approveResearchProject(
+    workspaceId: string,
+    actorId: string,
+    draft: ResearchProjectRecord
+  ): Promise<ResearchProjectRecord> {
+    const relation = this.approvedRelation(
+      draft.sourceQuestionId,
+      draft.id,
+      "related_to",
+      "Question converted into a research project after user approval."
+    );
     const project: ResearchProjectRecord = {
       ...draft,
       status: "Planned",
@@ -854,8 +1178,20 @@ export class LocalSprint2Runtime {
     };
     this.projects.set(project.id, project);
     this.graphEdges.push(relation);
-    this.emit("ResearchProjectCreated", actorId, workspaceId, { projectId: project.id }, project.id);
-    this.emit("ResearchGraphUpdated", actorId, workspaceId, { relationId: relation.id }, relation.id);
+    this.emit(
+      "ResearchProjectCreated",
+      actorId,
+      workspaceId,
+      { projectId: project.id },
+      project.id
+    );
+    this.emit(
+      "ResearchGraphUpdated",
+      actorId,
+      workspaceId,
+      { relationId: relation.id },
+      relation.id
+    );
     return project;
   }
 
@@ -863,7 +1199,10 @@ export class LocalSprint2Runtime {
     return this.requireProject(projectId);
   }
 
-  updateResearchProject(projectId: string, patch: { readonly status?: ResearchStatus; readonly summary?: string }): ResearchProjectRecord {
+  updateResearchProject(
+    projectId: string,
+    patch: { readonly status?: ResearchStatus; readonly summary?: string }
+  ): ResearchProjectRecord {
     const project = this.requireProject(projectId);
     const updated = {
       ...project,
@@ -912,18 +1251,50 @@ export class LocalSprint2Runtime {
       versionHistory: ["created:1.0.0"],
       auditHistory: [createId("audit")]
     };
-    const evidence: EvidenceRecord = input.urlOrLocalReference ? { ...base, urlOrLocalReference: input.urlOrLocalReference } : base;
+    const evidence: EvidenceRecord = input.urlOrLocalReference
+      ? { ...base, urlOrLocalReference: input.urlOrLocalReference }
+      : base;
     this.evidence.set(evidence.id, evidence);
-    this.projects.set(projectId, { ...project, evidenceIds: [...project.evidenceIds, evidence.id], timeline: [...project.timeline, now()] });
-    this.emit("EvidenceAdded", actorId, workspaceId, { projectId, evidenceId: evidence.id }, evidence.id);
-    this.emit("ResearchGraphUpdated", actorId, workspaceId, { evidenceId: evidence.id, projectId }, evidence.id);
+    this.projects.set(projectId, {
+      ...project,
+      evidenceIds: [...project.evidenceIds, evidence.id],
+      timeline: [...project.timeline, now()]
+    });
+    this.emit(
+      "EvidenceAdded",
+      actorId,
+      workspaceId,
+      { projectId, evidenceId: evidence.id },
+      evidence.id
+    );
+    this.emit(
+      "ResearchGraphUpdated",
+      actorId,
+      workspaceId,
+      { evidenceId: evidence.id, projectId },
+      evidence.id
+    );
     return evidence;
   }
 
-  async evaluateEvidence(workspaceId: string, actorId: string, evidenceId: string): Promise<EvidenceQualityAssessment> {
+  async evaluateEvidence(
+    workspaceId: string,
+    actorId: string,
+    evidenceId: string
+  ): Promise<EvidenceQualityAssessment> {
     const evidence = this.requireEvidence(evidenceId);
     const dimensions = Object.fromEntries(
-      ["source-traceability", "relevance", "reliability", "recency", "method-transparency", "reproducibility", "conflict-of-interest", "completeness", "corroboration"].map((dimensionId) => [
+      [
+        "source-traceability",
+        "relevance",
+        "reliability",
+        "recency",
+        "method-transparency",
+        "reproducibility",
+        "conflict-of-interest",
+        "completeness",
+        "corroboration"
+      ].map((dimensionId) => [
         dimensionId,
         this.genericScore(dimensionId, evidence.description, evidence.confidence)
       ])
@@ -933,10 +1304,17 @@ export class LocalSprint2Runtime {
       evidenceId,
       dimensions,
       overallQuality: values.reduce((sum, value) => sum + value, 0) / values.length,
-      explanation: "Quality assessment is deterministic and preserves uncertainty; it is not scientific peer review."
+      explanation:
+        "Quality assessment is deterministic and preserves uncertainty; it is not scientific peer review."
     };
     this.evidenceQuality.set(evidenceId, assessment);
-    this.emit("EvidenceEvaluated", actorId, workspaceId, { evidenceId, overallQuality: assessment.overallQuality }, evidenceId);
+    this.emit(
+      "EvidenceEvaluated",
+      actorId,
+      workspaceId,
+      { evidenceId, overallQuality: assessment.overallQuality },
+      evidenceId
+    );
     return assessment;
   }
 
@@ -971,13 +1349,35 @@ export class LocalSprint2Runtime {
       nullHypothesis: false
     };
     this.hypotheses.set(hypothesis.id, hypothesis);
-    this.projects.set(projectId, { ...project, hypothesisIds: [...project.hypothesisIds, hypothesis.id], timeline: [...project.timeline, now()] });
-    this.emit("HypothesisCreated", actorId, workspaceId, { projectId, hypothesisId: hypothesis.id }, hypothesis.id);
-    this.emit("ResearchGraphUpdated", actorId, workspaceId, { hypothesisId: hypothesis.id, projectId }, hypothesis.id);
+    this.projects.set(projectId, {
+      ...project,
+      hypothesisIds: [...project.hypothesisIds, hypothesis.id],
+      timeline: [...project.timeline, now()]
+    });
+    this.emit(
+      "HypothesisCreated",
+      actorId,
+      workspaceId,
+      { projectId, hypothesisId: hypothesis.id },
+      hypothesis.id
+    );
+    this.emit(
+      "ResearchGraphUpdated",
+      actorId,
+      workspaceId,
+      { hypothesisId: hypothesis.id, projectId },
+      hypothesis.id
+    );
     return hypothesis;
   }
 
-  async createResearchTask(workspaceId: string, actorId: string, projectId: string, description: string, dependencies: readonly string[] = []): Promise<ResearchTaskRecord> {
+  async createResearchTask(
+    workspaceId: string,
+    actorId: string,
+    projectId: string,
+    description: string,
+    dependencies: readonly string[] = []
+  ): Promise<ResearchTaskRecord> {
     const project = this.requireProject(projectId);
     const task: ResearchTaskRecord = {
       id: createId("research-task"),
@@ -992,12 +1392,20 @@ export class LocalSprint2Runtime {
       auditHistory: [createId("audit")]
     };
     this.tasks.set(task.id, task);
-    this.projects.set(projectId, { ...project, taskIds: [...project.taskIds, task.id], timeline: [...project.timeline, now()] });
+    this.projects.set(projectId, {
+      ...project,
+      taskIds: [...project.taskIds, task.id],
+      timeline: [...project.timeline, now()]
+    });
     this.emit("ResearchTaskCreated", actorId, workspaceId, { projectId, taskId: task.id }, task.id);
     return task;
   }
 
-  async generateResearchTasks(workspaceId: string, actorId: string, projectId: string): Promise<readonly ResearchTaskRecord[]> {
+  async generateResearchTasks(
+    workspaceId: string,
+    actorId: string,
+    projectId: string
+  ): Promise<readonly ResearchTaskRecord[]> {
     const descriptions = [
       "Literature review task",
       "Evidence collection task",
@@ -1019,26 +1427,47 @@ export class LocalSprint2Runtime {
     const project = this.requireProject(projectId);
     const report = this.requireReport(project.semantiqReportId);
     const evidence = project.evidenceIds.map((id) => this.requireEvidence(id));
-    const quality = evidence.map((item) => this.evidenceQuality.get(item.id)?.overallQuality ?? item.confidence);
+    const quality = evidence.map(
+      (item) => this.evidenceQuality.get(item.id)?.overallQuality ?? item.confidence
+    );
     return {
       sourceQuestion: project.researchQuestions[0] ?? project.sourceQuestionId,
       semantiqOverview: { normalizedScore: report.normalizedScore, confidence: report.confidence },
       researchStatus: project.status,
       evidenceCount: evidence.length,
-      evidenceQuality: quality.length ? quality.reduce((sum, item) => sum + item, 0) / quality.length : 0,
+      evidenceQuality: quality.length
+        ? quality.reduce((sum, item) => sum + item, 0) / quality.length
+        : 0,
       hypotheses: project.hypothesisIds.map((id) => this.requireHypothesis(id)),
       tasks: project.taskIds.map((id) => this.requireTask(id)),
       milestones: project.milestones,
-      relatedQuestions: [...this.analyses.values()].flatMap((analysis) => analysis.duplicateCandidates),
-      knowledgeGraph: { nodes: 1 + evidence.length + project.hypothesisIds.length + project.taskIds.length, edges: this.graphEdges.length },
+      relatedQuestions: [...this.analyses.values()].flatMap(
+        (analysis) => analysis.duplicateCandidates
+      ),
+      knowledgeGraph: {
+        nodes: 1 + evidence.length + project.hypothesisIds.length + project.taskIds.length,
+        edges: this.graphEdges.length
+      },
       activityTimeline: this.events.filter((event) => event.workspaceId === workspaceId).slice(-20),
       risks: project.risks,
       contributors: project.contributorIds,
-      suggestedNextSteps: ["Review evidence quality", "Clarify remaining ambiguities", "Advance highest-priority research task"]
+      suggestedNextSteps: [
+        "Review evidence quality",
+        "Clarify remaining ambiguities",
+        "Advance highest-priority research task"
+      ]
     };
   }
 
-  search(workspaceId: string, query: string): readonly { readonly id: string; readonly type: string; readonly title: string; readonly score: number }[] {
+  search(
+    workspaceId: string,
+    query: string
+  ): readonly {
+    readonly id: string;
+    readonly type: string;
+    readonly title: string;
+    readonly score: number;
+  }[] {
     const termSet = new Set(words(query));
     const score = (text: string): number => {
       const tokens = words(text);
@@ -1046,20 +1475,47 @@ export class LocalSprint2Runtime {
       return [...termSet].filter((term) => tokens.includes(term)).length / termSet.size;
     };
     return [
-      ...[...this.projects.values()].filter((item) => item.workspaceId === workspaceId).map((item) => ({ id: item.id, type: "research-project", title: item.title, score: score(`${item.title} ${item.summary}`) })),
-      ...[...this.evidence.values()].map((item) => ({ id: item.id, type: "evidence", title: item.title, score: score(`${item.title} ${item.description} ${item.source}`) })),
-      ...[...this.hypotheses.values()].map((item) => ({ id: item.id, type: "hypothesis", title: item.statement, score: score(`${item.statement} ${item.variables.join(" ")}`) })),
+      ...[...this.projects.values()]
+        .filter((item) => item.workspaceId === workspaceId)
+        .map((item) => ({
+          id: item.id,
+          type: "research-project",
+          title: item.title,
+          score: score(`${item.title} ${item.summary}`)
+        })),
+      ...[...this.evidence.values()].map((item) => ({
+        id: item.id,
+        type: "evidence",
+        title: item.title,
+        score: score(`${item.title} ${item.description} ${item.source}`)
+      })),
+      ...[...this.hypotheses.values()].map((item) => ({
+        id: item.id,
+        type: "hypothesis",
+        title: item.statement,
+        score: score(`${item.statement} ${item.variables.join(" ")}`)
+      })),
       ...[...this.reports.values()].map((item) => ({
         id: item.id,
         type: "semantiq-report",
         title: item.profileId,
         score: score(
           `${item.profileId} semantiq report evidence research ${item.scores
-            .map((scoreItem) => `${scoreItem.dimensionId} ${scoreItem.dimensionId.replaceAll("-", " ")}`)
+            .map(
+              (scoreItem) =>
+                `${scoreItem.dimensionId} ${scoreItem.dimensionId.replaceAll("-", " ")}`
+            )
             .join(" ")} ${item.recommendations.map((rec) => rec.text).join(" ")}`
         )
       })),
-      ...[...this.analyses.values()].flatMap((analysis) => analysis.tags.map((tag) => ({ id: tag.id, type: "semantic-tag", title: tag.label, score: score(`${tag.label} ${tag.explanation}`) })))
+      ...[...this.analyses.values()].flatMap((analysis) =>
+        analysis.tags.map((tag) => ({
+          id: tag.id,
+          type: "semantic-tag",
+          title: tag.label,
+          score: score(`${tag.label} ${tag.explanation}`)
+        }))
+      )
     ]
       .filter((result) => result.score > 0)
       .sort((left, right) => right.score - left.score);
@@ -1068,10 +1524,17 @@ export class LocalSprint2Runtime {
   exportResearchPackage(workspaceId: string, projectId: string): Sprint2Export {
     const project = this.requireProject(projectId);
     const report = this.requireReport(project.semantiqReportId);
-    const analysis = [...this.analyses.values()].find((item) => item.questionId === project.sourceQuestionId);
+    const analysis = [...this.analyses.values()].find(
+      (item) => item.questionId === project.sourceQuestionId
+    );
     if (!analysis) throw new Error(`Analysis not found for project ${projectId}`);
-    const approved = [...this.approvals.values()].find((approval) => analysis.refinements.some((variant) => variant.id === approval.suggestionId));
-    const approvedRefinedQuestion = approved?.selectedText ?? analysis.refinements.find((item) => item.id === approved?.suggestionId)?.refinedText ?? analysis.originalQuestion;
+    const approved = [...this.approvals.values()].find((approval) =>
+      analysis.refinements.some((variant) => variant.id === approval.suggestionId)
+    );
+    const approvedRefinedQuestion =
+      approved?.selectedText ??
+      analysis.refinements.find((item) => item.id === approved?.suggestionId)?.refinedText ??
+      analysis.originalQuestion;
     return {
       sprint1Export: this.sprint1.exportWorkspace(workspaceId, "json"),
       originalQuestion: analysis.originalQuestion,
@@ -1085,7 +1548,10 @@ export class LocalSprint2Runtime {
       hypotheses: project.hypothesisIds.map((id) => this.requireHypothesis(id)),
       researchTasks: project.taskIds.map((id) => this.requireTask(id)),
       auditTrail: this.events,
-      promptAndEvaluatorVersions: [...sprint2PromptRegistry.map((prompt) => prompt.id), report.evaluationVersion.evaluatorVersion]
+      promptAndEvaluatorVersions: [
+        ...sprint2PromptRegistry.map((prompt) => prompt.id),
+        report.evaluationVersion.evaluatorVersion
+      ]
     };
   }
 
@@ -1108,69 +1574,178 @@ export class LocalSprint2Runtime {
   private detectIntent(question: string): readonly DetectedIntent[] {
     const lower = question.toLowerCase();
     const intents: DetectedIntent[] = [];
-    const push = (type: QuestionIntent, confidence: number, triggers: readonly string[], action: string): void => {
-      intents.push({ type, confidence, triggers, suggestedNextAction: action, explanation: `Detected ${type} intent from ${triggers.join(", ") || "general inquiry"} signals.` });
+    const push = (
+      type: QuestionIntent,
+      confidence: number,
+      triggers: readonly string[],
+      action: string
+    ): void => {
+      intents.push({
+        type,
+        confidence,
+        triggers,
+        suggestedNextAction: action,
+        explanation: `Detected ${type} intent from ${triggers.join(", ") || "general inquiry"} signals.`
+      });
     };
-    if (/\b(research|evidence|study|why|how)\b/.test(lower)) push("Research", 0.78, ["research/evidence/how"], "Create a research-ready refinement.");
-    if (/\b(build|implement|system|code|architecture)\b/.test(lower)) push("Engineering", 0.72, ["build/system/code"], "Create a project-oriented plan.");
-    if (/\b(learn|learning|understand|explain|teach|education)\b/.test(lower)) push("Learning", 0.68, ["learn/learning/understand/explain"], "Create a beginner and expert variant.");
-    if (/\b(ethic|privacy|fair|risk)\b/.test(lower)) push("Ethical", 0.7, ["ethic/privacy/fair/risk"], "Add ethical review criteria.");
-    if (intents.length === 0) push("Open Exploration", 0.55, ["open question"], "Clarify scope and desired output.");
+    if (/\b(research|evidence|study|why|how)\b/.test(lower))
+      push("Research", 0.78, ["research/evidence/how"], "Create a research-ready refinement.");
+    if (/\b(build|implement|system|code|architecture)\b/.test(lower))
+      push("Engineering", 0.72, ["build/system/code"], "Create a project-oriented plan.");
+    if (/\b(learn|learning|understand|explain|teach|education)\b/.test(lower))
+      push(
+        "Learning",
+        0.68,
+        ["learn/learning/understand/explain"],
+        "Create a beginner and expert variant."
+      );
+    if (/\b(ethic|privacy|fair|risk)\b/.test(lower))
+      push("Ethical", 0.7, ["ethic/privacy/fair/risk"], "Add ethical review criteria.");
+    if (intents.length === 0)
+      push("Open Exploration", 0.55, ["open question"], "Clarify scope and desired output.");
     return intents;
   }
 
   private detectAmbiguity(question: string): readonly AmbiguityFinding[] {
     const lower = question.toLowerCase();
     const findings: AmbiguityFinding[] = [];
-    if (question.length < 60) findings.push({ type: "context", severity: "medium", text: question, explanation: "The question is short and may lack context.", suggestion: "Add domain, audience, constraints, and expected output." });
-    if (/\b(best|better|improve)\b/.test(lower)) findings.push({ type: "comparison-criteria", severity: "medium", text: "best/better/improve", explanation: "The evaluation criteria are undefined.", suggestion: "Specify whether quality means speed, accuracy, safety, cost, learning value, or rigor." });
-    if (/\b(future|soon|recent|modern)\b/.test(lower)) findings.push({ type: "time-range", severity: "medium", text: "future/soon/recent/modern", explanation: "The time horizon is undefined.", suggestion: "Specify the time horizon, such as one year, five years, or a historical period." });
-    if (/\b(people|users|students|community)\b/.test(lower)) findings.push({ type: "target-population", severity: "low", text: "people/users/students/community", explanation: "The target group may need definition.", suggestion: "Define the population or user segment." });
+    if (question.length < 60)
+      findings.push({
+        type: "context",
+        severity: "medium",
+        text: question,
+        explanation: "The question is short and may lack context.",
+        suggestion: "Add domain, audience, constraints, and expected output."
+      });
+    if (/\b(best|better|improve)\b/.test(lower))
+      findings.push({
+        type: "comparison-criteria",
+        severity: "medium",
+        text: "best/better/improve",
+        explanation: "The evaluation criteria are undefined.",
+        suggestion:
+          "Specify whether quality means speed, accuracy, safety, cost, learning value, or rigor."
+      });
+    if (/\b(future|soon|recent|modern)\b/.test(lower))
+      findings.push({
+        type: "time-range",
+        severity: "medium",
+        text: "future/soon/recent/modern",
+        explanation: "The time horizon is undefined.",
+        suggestion:
+          "Specify the time horizon, such as one year, five years, or a historical period."
+      });
+    if (/\b(people|users|students|community)\b/.test(lower))
+      findings.push({
+        type: "target-population",
+        severity: "low",
+        text: "people/users/students/community",
+        explanation: "The target group may need definition.",
+        suggestion: "Define the population or user segment."
+      });
     return findings;
   }
 
   private detectAssumptions(question: string): readonly AssumptionFinding[] {
     const lower = question.toLowerCase();
     const assumptions: AssumptionFinding[] = [];
-    if (/\b(improve|cause|lead|impact)\b/.test(lower)) assumptions.push({ type: "causal", statement: "This question may assume a causal relationship.", explanation: "The causal mechanism requires clarification and evidence.", confidence: 0.66 });
-    if (/\b(best|better)\b/.test(lower)) assumptions.push({ type: "measurement", statement: "A possible unstated premise is that quality can be measured consistently.", explanation: "Define measurement criteria before ranking alternatives.", confidence: 0.7 });
-    if (/\b(ai|model|automation)\b/.test(lower)) assumptions.push({ type: "technical", statement: "This question may assume the technology is available and appropriate.", explanation: "This requires clarification about tools, constraints, and acceptable risk.", confidence: 0.62 });
+    if (/\b(improve|cause|lead|impact)\b/.test(lower))
+      assumptions.push({
+        type: "causal",
+        statement: "This question may assume a causal relationship.",
+        explanation: "The causal mechanism requires clarification and evidence.",
+        confidence: 0.66
+      });
+    if (/\b(best|better)\b/.test(lower))
+      assumptions.push({
+        type: "measurement",
+        statement: "A possible unstated premise is that quality can be measured consistently.",
+        explanation: "Define measurement criteria before ranking alternatives.",
+        confidence: 0.7
+      });
+    if (/\b(ai|model|automation)\b/.test(lower))
+      assumptions.push({
+        type: "technical",
+        statement: "This question may assume the technology is available and appropriate.",
+        explanation: "This requires clarification about tools, constraints, and acceptable risk.",
+        confidence: 0.62
+      });
     return assumptions;
   }
 
-  private suggestTags(question: string, intents: readonly DetectedIntent[], ambiguities: readonly AmbiguityFinding[]): readonly SemanticTag[] {
+  private suggestTags(
+    question: string,
+    intents: readonly DetectedIntent[],
+    ambiguities: readonly AmbiguityFinding[]
+  ): readonly SemanticTag[] {
     const lower = question.toLowerCase();
     const tags: SemanticTag[] = [
       this.tag("language:en", "Language", "Detected by local character heuristics.", 0.8),
-      ...intents.map((intent) => this.tag(intent.type.toLowerCase().replaceAll(" ", "-"), "Intent", intent.explanation, intent.confidence))
+      ...intents.map((intent) =>
+        this.tag(
+          intent.type.toLowerCase().replaceAll(" ", "-"),
+          "Intent",
+          intent.explanation,
+          intent.confidence
+        )
+      )
     ];
-    if (/\b(evidence|data|source)\b/.test(lower)) tags.push(this.tag("evidence-needed", "Evidence need", "Question references evidence or data.", 0.75));
-    if (/\b(research|study|hypothesis)\b/.test(lower)) tags.push(this.tag("research-ready-candidate", "Research stage", "Question has research-oriented language.", 0.7));
-    if (ambiguities.length > 0) tags.push(this.tag("clarification-needed", "Risk", "Ambiguity findings require review.", 0.72));
+    if (/\b(evidence|data|source)\b/.test(lower))
+      tags.push(
+        this.tag("evidence-needed", "Evidence need", "Question references evidence or data.", 0.75)
+      );
+    if (/\b(research|study|hypothesis)\b/.test(lower))
+      tags.push(
+        this.tag(
+          "research-ready-candidate",
+          "Research stage",
+          "Question has research-oriented language.",
+          0.7
+        )
+      );
+    if (ambiguities.length > 0)
+      tags.push(
+        this.tag("clarification-needed", "Risk", "Ambiguity findings require review.", 0.72)
+      );
     return tags;
   }
 
-  private findDuplicates(question: QuestionRecord, tags: readonly SemanticTag[]): readonly DuplicateCandidate[] {
+  private findDuplicates(
+    question: QuestionRecord,
+    tags: readonly SemanticTag[]
+  ): readonly DuplicateCandidate[] {
     const tagLabels = tags.map((tag) => tag.label);
     const tokens = new Set(words(question.text));
     const conceptList = [...tokens].filter((term) => term.length > 4).slice(0, 5);
-    const similarityScore = clamp((tokens.size > 0 ? conceptList.length / tokens.size : 0) + (tagLabels.length > 2 ? 0.2 : 0));
+    const similarityScore = clamp(
+      (tokens.size > 0 ? conceptList.length / tokens.size : 0) + (tagLabels.length > 2 ? 0.2 : 0)
+    );
     return similarityScore > 0.25
       ? [
           {
             questionId: `${question.id}:candidate`,
             similarityScore,
-            strategies: ["normalized-text", "keyword-overlap", "tag-overlap", "graph-neighborhood-placeholder"],
+            strategies: [
+              "normalized-text",
+              "keyword-overlap",
+              "tag-overlap",
+              "graph-neighborhood-placeholder"
+            ],
             sharedTags: tagLabels.slice(0, 3),
             sharedConcepts: conceptList,
-            differences: ["Candidate is generated for human review; no automatic merge is performed."],
+            differences: [
+              "Candidate is generated for human review; no automatic merge is performed."
+            ],
             recommendedAction: similarityScore > 0.7 ? "Link as related" : "Keep separate"
           }
         ]
       : [];
   }
 
-  private suggestRelations(question: QuestionRecord, duplicates: readonly DuplicateCandidate[]): readonly RelationSuggestion[] {
+  private suggestRelations(
+    question: QuestionRecord,
+    duplicates: readonly DuplicateCandidate[]
+  ): readonly RelationSuggestion[] {
     return duplicates.map((candidate) => ({
       id: createId("relation-suggestion"),
       sourceId: question.id,
@@ -1183,26 +1758,73 @@ export class LocalSprint2Runtime {
     }));
   }
 
-  private suggestRefinements(question: string, ambiguities: readonly AmbiguityFinding[], assumptions: readonly AssumptionFinding[]): readonly RefinementVariant[] {
+  private suggestRefinements(
+    question: string,
+    ambiguities: readonly AmbiguityFinding[],
+    assumptions: readonly AssumptionFinding[]
+  ): readonly RefinementVariant[] {
     const normalized = question.trim().endsWith("?") ? question.trim() : `${question.trim()}?`;
-    const contextNote = ambiguities.length ? " for a defined audience, context, and evaluation criterion" : "";
+    const contextNote = ambiguities.length
+      ? " for a defined audience, context, and evaluation criterion"
+      : "";
     const assumptionNote = assumptions.length ? " while making key assumptions explicit" : "";
     const variants: readonly [RefinementVariant["kind"], string, readonly string[], string][] = [
-      ["Minimal correction", normalized, ["Trimmed whitespace", "Ensured question punctuation"], "Basic readability"],
-      ["Clear version", `${normalized.replace(/\?$/, "")}${contextNote}?`, ["Added context prompt"], "Improves clarity"],
-      ["Precise version", `Which measurable criteria should be used to answer: ${normalized}`, ["Added measurable criteria"], "Improves specificity"],
-      ["Research-ready version", `What evidence would help evaluate ${normalized.replace(/\?$/, "").toLowerCase()}${assumptionNote}?`, ["Added evidence need", "Surfaced assumptions"], "Prepares research project creation"],
-      ["Scientific version", `How could we test the claim behind: ${normalized}`, ["Added testability frame"], "Improves falsifiability"],
-      ["Beginner version", `Can you explain ${normalized.replace(/\?$/, "").toLowerCase()} with examples?`, ["Added beginner-friendly framing"], "Improves accessibility"],
-      ["Expert version", `What are the strongest competing explanations and evidence standards for: ${normalized}`, ["Added competing explanations"], "Improves rigor"],
-      ["Project-oriented version", `What plan, evidence, and milestones are needed to investigate: ${normalized}`, ["Added project planning frame"], "Improves actionability"]
+      [
+        "Minimal correction",
+        normalized,
+        ["Trimmed whitespace", "Ensured question punctuation"],
+        "Basic readability"
+      ],
+      [
+        "Clear version",
+        `${normalized.replace(/\?$/, "")}${contextNote}?`,
+        ["Added context prompt"],
+        "Improves clarity"
+      ],
+      [
+        "Precise version",
+        `Which measurable criteria should be used to answer: ${normalized}`,
+        ["Added measurable criteria"],
+        "Improves specificity"
+      ],
+      [
+        "Research-ready version",
+        `What evidence would help evaluate ${normalized.replace(/\?$/, "").toLowerCase()}${assumptionNote}?`,
+        ["Added evidence need", "Surfaced assumptions"],
+        "Prepares research project creation"
+      ],
+      [
+        "Scientific version",
+        `How could we test the claim behind: ${normalized}`,
+        ["Added testability frame"],
+        "Improves falsifiability"
+      ],
+      [
+        "Beginner version",
+        `Can you explain ${normalized.replace(/\?$/, "").toLowerCase()} with examples?`,
+        ["Added beginner-friendly framing"],
+        "Improves accessibility"
+      ],
+      [
+        "Expert version",
+        `What are the strongest competing explanations and evidence standards for: ${normalized}`,
+        ["Added competing explanations"],
+        "Improves rigor"
+      ],
+      [
+        "Project-oriented version",
+        `What plan, evidence, and milestones are needed to investigate: ${normalized}`,
+        ["Added project planning frame"],
+        "Improves actionability"
+      ]
     ];
     return variants.map(([kind, refinedText, changesMade, expectedBenefit]) => ({
       id: createId("refinement"),
       kind,
       refinedText,
       changesMade,
-      meaningPreservationNote: "Generated variant preserves the original topic and waits for user approval before application.",
+      meaningPreservationNote:
+        "Generated variant preserves the original topic and waits for user approval before application.",
       expectedBenefit,
       semantiqPreview: this.previewScore(refinedText, ambiguities, assumptions),
       confidence: 0.72,
@@ -1210,21 +1832,60 @@ export class LocalSprint2Runtime {
     }));
   }
 
-  private scoreDimension(dimension: SemantiqDimension, question: string, analysis: QuestionAnalysis): SemantiqScore {
+  private scoreDimension(
+    dimension: SemantiqDimension,
+    question: string,
+    analysis: QuestionAnalysis
+  ): SemantiqScore {
     const lower = question.toLowerCase();
     const tokens = words(question);
-    const highMatches = dimension.rubric.highSignals.filter((signal) => lower.includes(signal.split(" ")[0] ?? signal));
-    const weaknessMatches = dimension.rubric.weaknessSignals.filter((signal) => lower.includes(signal.split(" ")[0] ?? signal));
+    const highMatches = dimension.rubric.highSignals.filter((signal) =>
+      lower.includes(signal.split(" ")[0] ?? signal)
+    );
+    const weaknessMatches = dimension.rubric.weaknessSignals.filter((signal) =>
+      lower.includes(signal.split(" ")[0] ?? signal)
+    );
     const lengthSignal = clamp(tokens.length / 24);
-    const ambiguityPenalty = dimension.id === "ambiguity" ? analysis.ambiguities.length * 0.12 : analysis.ambiguities.length * 0.03;
-    const assumptionSignal = dimension.id === "assumption-visibility" ? Math.min(0.25, analysis.assumptions.length * 0.08) : 0;
-    const rawScore = clamp(0.35 + lengthSignal * 0.25 + highMatches.length * 0.1 + assumptionSignal - weaknessMatches.length * 0.08 - ambiguityPenalty);
+    const ambiguityPenalty =
+      dimension.id === "ambiguity"
+        ? analysis.ambiguities.length * 0.12
+        : analysis.ambiguities.length * 0.03;
+    const assumptionSignal =
+      dimension.id === "assumption-visibility"
+        ? Math.min(0.25, analysis.assumptions.length * 0.08)
+        : 0;
+    const rawScore = clamp(
+      0.35 +
+        lengthSignal * 0.25 +
+        highMatches.length * 0.1 +
+        assumptionSignal -
+        weaknessMatches.length * 0.08 -
+        ambiguityPenalty
+    );
     const observations: SemantiqObservation[] = [
-      { id: createId("observation"), dimensionId: dimension.id, text: `${tokens.length} meaningful terms detected.`, polarity: "neutral" },
-      ...highMatches.map((signal) => ({ id: createId("observation"), dimensionId: dimension.id, text: `Positive signal: ${signal}.`, polarity: "strength" as const })),
-      ...weaknessMatches.map((signal) => ({ id: createId("observation"), dimensionId: dimension.id, text: `Weakness signal: ${signal}.`, polarity: "weakness" as const }))
+      {
+        id: createId("observation"),
+        dimensionId: dimension.id,
+        text: `${tokens.length} meaningful terms detected.`,
+        polarity: "neutral"
+      },
+      ...highMatches.map((signal) => ({
+        id: createId("observation"),
+        dimensionId: dimension.id,
+        text: `Positive signal: ${signal}.`,
+        polarity: "strength" as const
+      })),
+      ...weaknessMatches.map((signal) => ({
+        id: createId("observation"),
+        dimensionId: dimension.id,
+        text: `Weakness signal: ${signal}.`,
+        polarity: "weakness" as const
+      }))
     ];
-    const weaknesses = analysis.ambiguities.length > 0 ? analysis.ambiguities.slice(0, 2).map((item) => item.explanation) : weaknessMatches.map((signal) => `Potential weakness: ${signal}.`);
+    const weaknesses =
+      analysis.ambiguities.length > 0
+        ? analysis.ambiguities.slice(0, 2).map((item) => item.explanation)
+        : weaknessMatches.map((signal) => `Potential weakness: ${signal}.`);
     return {
       dimensionId: dimension.id,
       score: rawScore,
@@ -1232,7 +1893,11 @@ export class LocalSprint2Runtime {
       explanation: `${dimension.label} score is deterministic and based on question length, rubric signals, ambiguity findings, and assumption visibility.`,
       observations,
       weaknesses,
-      improvementSuggestions: weaknesses.length ? weaknesses.map((weakness) => `Address: ${weakness}`) : [`Maintain ${dimension.label.toLowerCase()} by preserving context and evidence criteria.`],
+      improvementSuggestions: weaknesses.length
+        ? weaknesses.map((weakness) => `Address: ${weakness}`)
+        : [
+            `Maintain ${dimension.label.toLowerCase()} by preserving context and evidence criteria.`
+          ],
       confidence: 0.72,
       evaluationVersion: "rules-v1"
     };
@@ -1245,19 +1910,40 @@ export class LocalSprint2Runtime {
       score,
       level: this.level(score),
       explanation: `${dimensionId} assessed with deterministic local evidence-quality heuristics; uncertainty is preserved.`,
-      observations: [{ id: createId("observation"), dimensionId, text: "Evidence saved with provenance and citation fields.", polarity: "neutral" }],
-      weaknesses: score < 0.7 ? ["Evidence needs corroboration or stronger method transparency."] : [],
-      improvementSuggestions: ["Add corroborating sources, method notes, and conflict-of-interest review."],
+      observations: [
+        {
+          id: createId("observation"),
+          dimensionId,
+          text: "Evidence saved with provenance and citation fields.",
+          polarity: "neutral"
+        }
+      ],
+      weaknesses:
+        score < 0.7 ? ["Evidence needs corroboration or stronger method transparency."] : [],
+      improvementSuggestions: [
+        "Add corroborating sources, method notes, and conflict-of-interest review."
+      ],
       confidence: 0.65,
       evaluationVersion: "evidence-quality-rules-v1"
     };
   }
 
-  private previewScore(question: string, ambiguities: readonly AmbiguityFinding[], assumptions: readonly AssumptionFinding[]): number {
-    return clamp(0.45 + words(question).length / 50 - ambiguities.length * 0.05 + assumptions.length * 0.03);
+  private previewScore(
+    question: string,
+    ambiguities: readonly AmbiguityFinding[],
+    assumptions: readonly AssumptionFinding[]
+  ): number {
+    return clamp(
+      0.45 + words(question).length / 50 - ambiguities.length * 0.05 + assumptions.length * 0.03
+    );
   }
 
-  private tag(label: string, category: SemanticTag["category"], explanation: string, confidence: number): SemanticTag {
+  private tag(
+    label: string,
+    category: SemanticTag["category"],
+    explanation: string,
+    confidence: number
+  ): SemanticTag {
     return {
       id: createId("tag"),
       label,
@@ -1270,7 +1956,12 @@ export class LocalSprint2Runtime {
     };
   }
 
-  private approvedRelation(sourceId: string, targetId: string, relation: RelationSuggestionType, explanation: string): RelationSuggestion {
+  private approvedRelation(
+    sourceId: string,
+    targetId: string,
+    relation: RelationSuggestionType,
+    explanation: string
+  ): RelationSuggestion {
     return {
       id: createId("relation"),
       sourceId,
@@ -1290,7 +1981,13 @@ export class LocalSprint2Runtime {
     return "low";
   }
 
-  private emit(type: Sprint2EventType, actorId: string, workspaceId: string, payload: unknown, causationId: string): void {
+  private emit(
+    type: Sprint2EventType,
+    actorId: string,
+    workspaceId: string,
+    payload: unknown,
+    causationId: string
+  ): void {
     this.events.push({
       eventId: createId("event"),
       type,

@@ -146,7 +146,17 @@ export interface ResearchHypothesisWorkspace {
 export interface ManagedExperiment {
   readonly id: string;
   readonly projectId: string;
-  readonly state: "idea" | "protocol" | "preparation" | "execution" | "data-collection" | "analysis" | "replication" | "review" | "publication" | "future-improvements";
+  readonly state:
+    | "idea"
+    | "protocol"
+    | "preparation"
+    | "execution"
+    | "data-collection"
+    | "analysis"
+    | "replication"
+    | "review"
+    | "publication"
+    | "future-improvements";
   readonly protocolIds: readonly string[];
   readonly variableIds: readonly string[];
   readonly measurementIds: readonly string[];
@@ -176,7 +186,15 @@ export interface PeerReview {
 export interface ResearchPublication {
   readonly id: string;
   readonly projectId: string;
-  readonly type: "report" | "scientific-paper" | "technical-report" | "educational-material" | "book" | "presentation" | "dataset" | "open-knowledge-object";
+  readonly type:
+    | "report"
+    | "scientific-paper"
+    | "technical-report"
+    | "educational-material"
+    | "book"
+    | "presentation"
+    | "dataset"
+    | "open-knowledge-object";
   readonly title: string;
   readonly linkedQuestionIds: readonly string[];
   readonly contributionIds: readonly string[];
@@ -202,7 +220,17 @@ export interface ResearchAnalyticsSnapshot {
 export interface InnovationRecord {
   readonly id: string;
   readonly projectId: string;
-  readonly type: "idea" | "prototype" | "patent" | "open-design" | "software" | "hardware" | "educational-product" | "game" | "book" | "startup";
+  readonly type:
+    | "idea"
+    | "prototype"
+    | "patent"
+    | "open-design"
+    | "software"
+    | "hardware"
+    | "educational-product"
+    | "game"
+    | "book"
+    | "startup";
   readonly title: string;
   readonly linkedEvidenceIds: readonly string[];
   readonly linkedExperimentIds: readonly string[];

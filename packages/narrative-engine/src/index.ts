@@ -8,7 +8,8 @@ import type {
   NarrativeEngineService
 } from "./contracts.js";
 
-const createId = (prefix: string): string => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
 export class LocalNarrativeEngineRepository implements NarrativeEngineRepository {
   private readonly narratives = new Map<string, Narrative>();
@@ -32,7 +33,9 @@ export class LocalNarrativeEngineRepository implements NarrativeEngineRepository
 }
 
 export class LocalNarrativeEngineService implements NarrativeEngineService {
-  constructor(private readonly repository: NarrativeEngineRepository = new LocalNarrativeEngineRepository()) {}
+  constructor(
+    private readonly repository: NarrativeEngineRepository = new LocalNarrativeEngineRepository()
+  ) {}
 
   async createNarrative(narrative: Narrative): Promise<void> {
     if (narrative.sourceQuestionIds.length === 0) {

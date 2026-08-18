@@ -7,7 +7,7 @@ export interface RuntimeEnvironment {
   readonly timestamp: string;
 }
 
-export type ValidationStepResult = 'PASSED' | 'FAILED' | 'SKIPPED' | 'WARNING';
+export type ValidationStepResult = "PASSED" | "FAILED" | "SKIPPED" | "WARNING";
 
 export interface IsolatedValidationStep {
   readonly step: string;
@@ -56,7 +56,7 @@ export class IsolatedValidatorEngine {
     exitCode: number,
     notes?: string | undefined
   ): IsolatedValidationStep {
-    const result: ValidationStepResult = exitCode === 0 ? 'PASSED' : 'FAILED';
+    const result: ValidationStepResult = exitCode === 0 ? "PASSED" : "FAILED";
     const base = { step, command, result, exitCode };
     return notes !== undefined ? { ...base, notes } : base;
   }
@@ -65,8 +65,8 @@ export class IsolatedValidatorEngine {
     environment: RuntimeEnvironment,
     steps: readonly IsolatedValidationStep[]
   ): IsolatedValidationSuite {
-    const passed = steps.filter(s => s.result === 'PASSED').length;
-    const failed = steps.filter(s => s.result === 'FAILED').length;
+    const passed = steps.filter((s) => s.result === "PASSED").length;
+    const failed = steps.filter((s) => s.result === "FAILED").length;
     return {
       environment,
       steps,

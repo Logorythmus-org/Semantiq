@@ -14,7 +14,7 @@ import type {
   ValidationResult,
   ProviderHealthStatus,
   StreamChunkEvent
-} from './types.js';
+} from "./types.js";
 import type {
   ISandboxProvider,
   ISandboxInstance,
@@ -23,7 +23,7 @@ import type {
   SandboxStatus,
   FileEntry,
   WriteOptions
-} from './interfaces.js';
+} from "./interfaces.js";
 
 export abstract class BaseSandboxAdapter implements ISandboxProvider {
   abstract readonly providerId: string;
@@ -37,16 +37,16 @@ export abstract class BaseSandboxAdapter implements ISandboxProvider {
     const caps = await this.getCapabilities();
 
     if (!spec.image || !spec.image.name) {
-      errors.push('EnvironmentSpec must specify a valid image name.');
+      errors.push("EnvironmentSpec must specify a valid image name.");
     }
     if (!spec.image.digest) {
-      errors.push('EnvironmentSpec must specify an immutable image digest (sha256:...).');
+      errors.push("EnvironmentSpec must specify an immutable image digest (sha256:...).");
     }
-    if (spec.security.networkMode !== 'none' && !caps.supportsNetworkPolicy) {
+    if (spec.security.networkMode !== "none" && !caps.supportsNetworkPolicy) {
       errors.push(`Provider '${this.providerId}' does not support custom network policies.`);
     }
     if (spec.resources.memoryLimitMebibytes < 32) {
-      errors.push('Memory limit must be at least 32 MiB.');
+      errors.push("Memory limit must be at least 32 MiB.");
     }
     return { isValid: errors.length === 0, errors };
   }
@@ -64,7 +64,7 @@ export abstract class BaseSandboxInstance implements ISandboxInstance {
   protected isTerminated = false;
 
   async getStatus(): Promise<SandboxStatus> {
-    return this.isTerminated ? 'TERMINATED' : 'READY';
+    return this.isTerminated ? "TERMINATED" : "READY";
   }
 
   attachObserver(observer: ISandboxObserver): Promise<SubscriptionHandle> {
@@ -77,7 +77,7 @@ export abstract class BaseSandboxInstance implements ISandboxInstance {
   }
 
   protected notifyStdout(text: string): void {
-    const event: StreamChunkEvent = { stream: 'stdout', text, timestamp: new Date().toISOString() };
+    const event: StreamChunkEvent = { stream: "stdout", text, timestamp: new Date().toISOString() };
     for (const observer of this.observers) {
       try {
         observer.onStdout(event);
@@ -88,7 +88,7 @@ export abstract class BaseSandboxInstance implements ISandboxInstance {
   }
 
   protected notifyStderr(text: string): void {
-    const event: StreamChunkEvent = { stream: 'stderr', text, timestamp: new Date().toISOString() };
+    const event: StreamChunkEvent = { stream: "stderr", text, timestamp: new Date().toISOString() };
     for (const observer of this.observers) {
       try {
         observer.onStderr(event);
@@ -99,7 +99,11 @@ export abstract class BaseSandboxInstance implements ISandboxInstance {
   }
 
   abstract executeCommand(request: ExecutionRequest): Promise<ExecutionResult>;
-  abstract writeFile(path: string, content: Uint8Array | string, options?: WriteOptions): Promise<void>;
+  abstract writeFile(
+    path: string,
+    content: Uint8Array | string,
+    options?: WriteOptions
+  ): Promise<void>;
   abstract readFile(path: string): Promise<Uint8Array>;
   abstract deleteFile(path: string): Promise<void>;
   abstract listFiles(path: string, recursive?: boolean): Promise<readonly FileEntry[]>;

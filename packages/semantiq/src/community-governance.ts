@@ -11,7 +11,12 @@ export interface ConflictDisclosureRecord {
   readonly disclosureId: string;
   readonly maintainerId: string;
   readonly entityName: string;
-  readonly relationshipType: 'employment' | 'funding' | 'sponsorship' | 'model_provider' | 'consulting';
+  readonly relationshipType:
+    | "employment"
+    | "funding"
+    | "sponsorship"
+    | "model_provider"
+    | "consulting";
   readonly isRecusedFromVoting: boolean;
 }
 
@@ -29,10 +34,16 @@ export interface CommunityProposalRecord {
   readonly title: string;
   readonly proposer: string;
   readonly submittedAt: string;
-  readonly stage: 'public_proposal' | 'evidence_period' | 'structured_review' | 'community_feedback' | 'recorded_decision' | 'adopted';
+  readonly stage:
+    | "public_proposal"
+    | "evidence_period"
+    | "structured_review"
+    | "community_feedback"
+    | "recorded_decision"
+    | "adopted";
   readonly evidenceLinks: readonly string[];
   readonly recusedMaintainers: readonly string[];
-  readonly decisionStatus: 'pending' | 'approved' | 'rejected' | 'appealed';
+  readonly decisionStatus: "pending" | "approved" | "rejected" | "appealed";
 }
 
 export interface GovernanceValidationReport {
@@ -50,15 +61,19 @@ export class CommunityGovernanceEngine {
     const violations: string[] = [];
 
     if (sponsor.hasVetoPower) {
-      violations.push('Sponsors are strictly forbidden from holding veto power over evaluation results or governance.');
+      violations.push(
+        "Sponsors are strictly forbidden from holding veto power over evaluation results or governance."
+      );
     }
 
     if (sponsor.hasPrivilegedAccess) {
-      violations.push('Sponsors are forbidden from receiving privileged or unreleased benchmark access.');
+      violations.push(
+        "Sponsors are forbidden from receiving privileged or unreleased benchmark access."
+      );
     }
 
     if (sponsor.hasRankingGuarantee) {
-      violations.push('Sponsors are forbidden from receiving ranking or evaluation guarantees.');
+      violations.push("Sponsors are forbidden from receiving ranking or evaluation guarantees.");
     }
 
     return {
@@ -75,7 +90,9 @@ export class CommunityGovernanceEngine {
     const violations: string[] = [];
 
     if (conflict.maintainerId === votingMaintainerId && !conflict.isRecusedFromVoting) {
-      violations.push(`Maintainer '${votingMaintainerId}' has an active conflict of interest and must recuse from voting.`);
+      violations.push(
+        `Maintainer '${votingMaintainerId}' has an active conflict of interest and must recuse from voting.`
+      );
     }
 
     return {
@@ -88,7 +105,7 @@ export class CommunityGovernanceEngine {
     const violations: string[] = [];
 
     if (!proposal.evidenceLinks || proposal.evidenceLinks.length === 0) {
-      violations.push('Community proposals require supporting evidence links.');
+      violations.push("Community proposals require supporting evidence links.");
     }
 
     return {

@@ -5,7 +5,7 @@ export interface RuntimeDependencyAuditReport {
   readonly timestamp: string;
 }
 
-const FORBIDDEN_DOMAINS = ['civilization-kernel', 'wallet', 'marketplace', 'question-network'];
+const FORBIDDEN_DOMAINS = ["civilization-kernel", "wallet", "marketplace", "question-network"];
 
 /**
  * Parent Workspace Runtime Dependency Remover Engine.
@@ -17,10 +17,10 @@ export class RuntimeDependencyRemoverEngine {
     let unresolvedCount = 0;
 
     for (const imp of importList) {
-      const isForbiddenDomain = FORBIDDEN_DOMAINS.some(domain => imp.includes(domain));
-      if (isForbiddenDomain || imp.startsWith('@tech-club/sprint')) {
+      const isForbiddenDomain = FORBIDDEN_DOMAINS.some((domain) => imp.includes(domain));
+      if (isForbiddenDomain || imp.startsWith("@tech-club/sprint")) {
         parentCount++;
-      } else if (imp.includes('..') && imp.includes('packages/')) {
+      } else if (imp.includes("..") && imp.includes("packages/")) {
         unresolvedCount++;
       }
     }

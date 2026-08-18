@@ -1,14 +1,20 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
-export type PolicyLifecycleState = 'draft' | 'proposed' | 'active' | 'deprecated' | 'revoked' | 'expired';
+export type PolicyLifecycleState =
+  | "draft"
+  | "proposed"
+  | "active"
+  | "deprecated"
+  | "revoked"
+  | "expired";
 
 export type PolicyFailureClass =
-  | 'conflicting_versions'
-  | 'missing_provenance'
-  | 'silent_natural_language_to_rule_conversion'
-  | 'expired_or_revoked_policy_used_as_active'
-  | 'unattributed_interpretation'
-  | 'mutable_source_evidence';
+  | "conflicting_versions"
+  | "missing_provenance"
+  | "silent_natural_language_to_rule_conversion"
+  | "expired_or_revoked_policy_used_as_active"
+  | "unattributed_interpretation"
+  | "mutable_source_evidence";
 
 export interface PolicyIdentity {
   readonly policyId: string;
@@ -30,7 +36,7 @@ export interface PolicyIssuer {
 
 export interface PolicySource {
   readonly uri: string;
-  readonly format: 'raw_text' | 'json_schema' | 'yaml_spec';
+  readonly format: "raw_text" | "json_schema" | "yaml_spec";
   readonly hash: EvidenceChecksum;
 }
 
@@ -43,14 +49,14 @@ export interface PolicyRule {
   readonly ruleId: string;
   readonly statementId: string;
   readonly verb: string;
-  readonly effect: 'allow' | 'deny' | 'audit_required';
+  readonly effect: "allow" | "deny" | "audit_required";
   readonly conditionId?: string;
 }
 
 export interface PolicyCondition {
   readonly conditionId: string;
   readonly field: string;
-  readonly operator: 'equals' | 'in_range' | 'matches';
+  readonly operator: "equals" | "in_range" | "matches";
   readonly value: string;
 }
 
@@ -72,7 +78,7 @@ export interface PolicyEvaluationRecord {
   readonly version: string;
   readonly evaluatorId: string;
   readonly timestamp: string;
-  readonly result: 'compliant' | 'non_compliant' | 'inconclusive';
+  readonly result: "compliant" | "non_compliant" | "inconclusive";
   readonly uncertaintyScore: number; // 0.0 to 1.0
 }
 
@@ -106,12 +112,15 @@ export class PolicyEvidenceEngine {
   private readonly policies = new Map<string, PolicyIdentity>();
   private readonly lifecycleStates = new Map<string, PolicyLifecycleRecord>();
 
-  registerPolicy(identity: PolicyIdentity, lifecycle: PolicyLifecycleRecord): PolicyFailureReport | undefined {
+  registerPolicy(
+    identity: PolicyIdentity,
+    lifecycle: PolicyLifecycleRecord
+  ): PolicyFailureReport | undefined {
     // 1. Missing Provenance Check
-    if (!identity.domain || identity.domain.trim() === '') {
+    if (!identity.domain || identity.domain.trim() === "") {
       return {
         reportId: `fail_prov_${identity.policyId}`,
-        failureClass: 'missing_provenance',
+        failureClass: "missing_provenance",
         policyId: identity.policyId,
         description: `Policy '${identity.policyId}' lacks valid domain provenance attribution.`,
         timestamp: lifecycle.updatedAt
@@ -119,10 +128,10 @@ export class PolicyEvidenceEngine {
     }
 
     // 2. Expired or Revoked Policy Used as Active Check
-    if (lifecycle.state === 'expired' || lifecycle.state === 'revoked') {
+    if (lifecycle.state === "expired" || lifecycle.state === "revoked") {
       return {
         reportId: `fail_exp_${identity.policyId}`,
-        failureClass: 'expired_or_revoked_policy_used_as_active',
+        failureClass: "expired_or_revoked_policy_used_as_active",
         policyId: identity.policyId,
         description: `Policy '${identity.policyId}' is in '${lifecycle.state}' state but registered as active.`,
         timestamp: lifecycle.updatedAt
@@ -134,12 +143,16 @@ export class PolicyEvidenceEngine {
     return undefined;
   }
 
-  validateRuleParsing(statement: PolicyStatement, rule: PolicyRule, evaluatorId?: string): PolicyFailureReport | undefined {
+  validateRuleParsing(
+    statement: PolicyStatement,
+    rule: PolicyRule,
+    evaluatorId?: string
+  ): PolicyFailureReport | undefined {
     // 3. Unattributed Interpretation Check
-    if (!evaluatorId || evaluatorId.trim() === '') {
+    if (!evaluatorId || evaluatorId.trim() === "") {
       return {
         reportId: `fail_unattr_${statement.statementId}`,
-        failureClass: 'unattributed_interpretation',
+        failureClass: "unattributed_interpretation",
         policyId: statement.statementId,
         description: `Rule '${rule.ruleId}' derived from raw text without evaluator attribution.`,
         timestamp: new Date().toISOString()
@@ -147,10 +160,10 @@ export class PolicyEvidenceEngine {
     }
 
     // 4. Silent Conversion Check
-    if (statement.rawText.trim() === '' && rule.verb) {
+    if (statement.rawText.trim() === "" && rule.verb) {
       return {
         reportId: `fail_conv_${rule.ruleId}`,
-        failureClass: 'silent_natural_language_to_rule_conversion',
+        failureClass: "silent_natural_language_to_rule_conversion",
         policyId: statement.statementId,
         description: `Rule '${rule.ruleId}' created from empty natural language text.`,
         timestamp: new Date().toISOString()

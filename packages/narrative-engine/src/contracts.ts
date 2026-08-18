@@ -128,7 +128,14 @@ export interface KnowledgeCard {
 
 export interface DecisionPoint {
   readonly id: string;
-  readonly type: "trade-off" | "ethics" | "resource-management" | "scientific" | "engineering" | "strategic" | "social";
+  readonly type:
+    | "trade-off"
+    | "ethics"
+    | "resource-management"
+    | "scientific"
+    | "engineering"
+    | "strategic"
+    | "social";
   readonly prompt: string;
   readonly optionIds: readonly string[];
   readonly consequenceIds: readonly string[];

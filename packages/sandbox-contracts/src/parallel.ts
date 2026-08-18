@@ -3,7 +3,7 @@
  * Parallel Benchmark Execution Provider-Neutral Contracts and Interfaces
  */
 
-import type { EnvironmentSpec } from './types.js';
+import type { EnvironmentSpec } from "./types.js";
 
 export interface ParallelShardSpec {
   readonly shardId: string;
@@ -30,7 +30,7 @@ export interface ParallelExecutionPlan {
   readonly createdAt: string;
 }
 
-export type ShardStatus = 'COMPLETED' | 'FAILED' | 'TIMEOUT' | 'RATE_LIMITED' | 'QUARANTINED';
+export type ShardStatus = "COMPLETED" | "FAILED" | "TIMEOUT" | "RATE_LIMITED" | "QUARANTINED";
 
 export interface ShardExecutionResult {
   readonly shardId: string;
@@ -91,9 +91,13 @@ export class ParallelExecutionScheduler {
     return this.activeCount;
   }
 
-  aggregateResults(planId: string, results: readonly ShardExecutionResult[], totalDurationMs: number): ParallelExecutionSummary {
-    const completed = results.filter(r => r.status === 'COMPLETED').length;
-    const failed = results.filter(r => r.status !== 'COMPLETED').length;
+  aggregateResults(
+    planId: string,
+    results: readonly ShardExecutionResult[],
+    totalDurationMs: number
+  ): ParallelExecutionSummary {
+    const completed = results.filter((r) => r.status === "COMPLETED").length;
+    const failed = results.filter((r) => r.status !== "COMPLETED").length;
 
     return {
       planId,

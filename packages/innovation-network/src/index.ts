@@ -83,14 +83,20 @@ export class LocalInnovationNetworkRepository implements InnovationNetworkReposi
 }
 
 export class LocalInnovationNetworkService implements InnovationNetworkService {
-  constructor(private readonly repository: LocalInnovationNetworkRepository = new LocalInnovationNetworkRepository()) {}
+  constructor(
+    private readonly repository: LocalInnovationNetworkRepository = new LocalInnovationNetworkRepository()
+  ) {}
 
   async createChallenge(challenge: GlobalChallenge): Promise<void> {
     if (challenge.originatingQuestionIds.length === 0) {
       throw new Error("Global challenges must originate from questions");
     }
     await this.repository.saveChallenge(challenge);
-    await this.emit("ChallengeCreated", { title: challenge.title, domains: challenge.domains }, challenge.id);
+    await this.emit(
+      "ChallengeCreated",
+      { title: challenge.title, domains: challenge.domains },
+      challenge.id
+    );
   }
 
   async joinChallenge(challengeId: string, participantId: string): Promise<void> {
@@ -110,7 +116,12 @@ export class LocalInnovationNetworkService implements InnovationNetworkService {
     await this.requireInnovation(record.innovationId);
     await this.repository.savePrototype(record);
     if (record.stage === "validation") {
-      await this.emit("PrototypeValidated", { prototypeId: record.id }, undefined, record.innovationId);
+      await this.emit(
+        "PrototypeValidated",
+        { prototypeId: record.id },
+        undefined,
+        record.innovationId
+      );
     }
   }
 
@@ -141,7 +152,8 @@ export class LocalInnovationNetworkService implements InnovationNetworkService {
     const observations = await this.repository.listObservations();
     const forecasts = observations.map<InnovationForecast>((observation) => ({
       id: `${observation.id}:forecast`,
-      target: observation.signalType === "research-trend" ? "research-bottleneck" : "future-technology",
+      target:
+        observation.signalType === "research-trend" ? "research-bottleneck" : "future-technology",
       evidenceIds: observation.evidenceIds,
       assumptions: ["Observation trend continues", "Evidence remains valid"],
       confidence: observation.confidence,
@@ -186,7 +198,12 @@ export class LocalInnovationNetworkService implements InnovationNetworkService {
 
   async publishInnovation(innovationId: string): Promise<void> {
     const innovation = await this.requireInnovation(innovationId);
-    await this.emit("InnovationAdopted", { publicBenefit: innovation.publicBenefit }, undefined, innovation.id);
+    await this.emit(
+      "InnovationAdopted",
+      { publicBenefit: innovation.publicBenefit },
+      undefined,
+      innovation.id
+    );
   }
 
   async recordOpenScience(record: OpenScienceRecord): Promise<void> {

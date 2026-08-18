@@ -1,17 +1,17 @@
-import fs from 'node:fs';
-import path from 'node:path';
+import fs from "node:fs";
+import path from "node:path";
 
 export type VerbFamily =
-  | 'generative'
-  | 'observational'
-  | 'cognitive'
-  | 'operational'
-  | 'communicative'
-  | 'coordinative'
-  | 'protective_and_recovery';
+  | "generative"
+  | "observational"
+  | "cognitive"
+  | "operational"
+  | "communicative"
+  | "coordinative"
+  | "protective_and_recovery";
 
-export type ReversibilityType = 'reversible' | 'irreversible' | 'partially-reversible';
-export type RiskClass = 'none' | 'low' | 'medium' | 'high' | 'critical';
+export type ReversibilityType = "reversible" | "irreversible" | "partially-reversible";
+export type RiskClass = "none" | "low" | "medium" | "high" | "critical";
 
 export interface VerbMetadata {
   readonly identifier: string;
@@ -81,7 +81,10 @@ export class VerbTaxonomyRegistry {
     return all.filter((v) => v.family === family);
   }
 
-  validateVerbEvent(verbName: string, evidenceProvided: readonly string[]): { valid: boolean; reason?: string } {
+  validateVerbEvent(
+    verbName: string,
+    evidenceProvided: readonly string[]
+  ): { valid: boolean; reason?: string } {
     const verb = this.resolveVerb(verbName);
     if (!verb) {
       return { valid: false, reason: `Unknown or unmapped verb: ${verbName}` };
@@ -89,7 +92,10 @@ export class VerbTaxonomyRegistry {
 
     for (const req of verb.evidenceRequirements) {
       if (!evidenceProvided.includes(req)) {
-        return { valid: false, reason: `Missing mandatory evidence requirement '${req}' for verb '${verb.identifier}'` };
+        return {
+          valid: false,
+          reason: `Missing mandatory evidence requirement '${req}' for verb '${verb.identifier}'`
+        };
       }
     }
 
@@ -103,15 +109,15 @@ export class VerbTaxonomyRegistry {
       doc += `- **Definition**: ${verb.definition}\n`;
       doc += `- **Reversibility**: ${verb.reversibility}\n`;
       doc += `- **Default Risk**: ${verb.defaultRiskClass}\n`;
-      doc += `- **Allowed Aliases**: ${verb.allowedAliases.join(', ') || 'none'}\n\n`;
+      doc += `- **Allowed Aliases**: ${verb.allowedAliases.join(", ") || "none"}\n\n`;
     }
     return doc;
   }
 
   private loadDefaultTaxonomy(): VerbTaxonomyData {
-    const specPath = path.resolve(__dirname, '../../../products/semantiq/specs/verb-taxonomy.json');
+    const specPath = path.resolve(__dirname, "../../../products/semantiq/specs/verb-taxonomy.json");
     if (fs.existsSync(specPath)) {
-      return JSON.parse(fs.readFileSync(specPath, 'utf-8'));
+      return JSON.parse(fs.readFileSync(specPath, "utf-8"));
     }
     throw new Error(`Taxonomy spec file not found at ${specPath}`);
   }

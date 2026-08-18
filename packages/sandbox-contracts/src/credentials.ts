@@ -3,8 +3,13 @@
  * Credential and Secret Boundary Specifications and Interfaces
  */
 
-export type SecretReferenceSource = 'env_var' | 'file_mount' | 'vault_ref' | 'ephemeral_token' | 'synthetic_mock';
-export type SecretInjectionTarget = 'env' | 'tmpfs_file' | 'stdin_pipe';
+export type SecretReferenceSource =
+  | "env_var"
+  | "file_mount"
+  | "vault_ref"
+  | "ephemeral_token"
+  | "synthetic_mock";
+export type SecretInjectionTarget = "env" | "tmpfs_file" | "stdin_pipe";
 
 export interface SecretRequirement {
   readonly secretKey: string;
@@ -34,7 +39,10 @@ export interface CredentialResolutionContext {
 }
 
 export interface ICredentialResolver {
-  resolveSecret(requirement: SecretRequirement, context: CredentialResolutionContext): Promise<ResolvedSecret | null>;
+  resolveSecret(
+    requirement: SecretRequirement,
+    context: CredentialResolutionContext
+  ): Promise<ResolvedSecret | null>;
 }
 
 export interface ResolvedSecret {
@@ -73,11 +81,11 @@ export class SecretRedactor {
     if (!rawValue || rawValue.trim().length === 0) return;
 
     // Escape special regex characters in the raw value
-    const escaped = rawValue.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
-    this.patterns.set(secretKey, new RegExp(escaped, 'g'));
+    const escaped = rawValue.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+    this.patterns.set(secretKey, new RegExp(escaped, "g"));
 
     if (customPattern) {
-      this.patterns.set(`${secretKey}_custom`, new RegExp(customPattern, 'g'));
+      this.patterns.set(`${secretKey}_custom`, new RegExp(customPattern, "g"));
     }
   }
 
@@ -110,14 +118,16 @@ export class CredentialBoundaryValidator {
     // Check known secret values
     for (const secret of knownSecrets) {
       if (secret && secret.length >= 6 && text.includes(secret)) {
-        violations.push('Direct raw secret string detected in payload.');
+        violations.push("Direct raw secret string detected in payload.");
       }
     }
 
     // Check generic secret patterns
     for (const pattern of this.genericSecretPatterns) {
       if (pattern.test(text)) {
-        violations.push(`Pattern match detected for potential secret format: ${pattern.toString()}`);
+        violations.push(
+          `Pattern match detected for potential secret format: ${pattern.toString()}`
+        );
       }
     }
 

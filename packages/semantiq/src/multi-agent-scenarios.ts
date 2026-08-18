@@ -1,5 +1,5 @@
-import * as fs from 'node:fs';
-import * as path from 'node:path';
+import * as fs from "node:fs";
+import * as path from "node:path";
 
 export interface SyntheticMultiAgentScenario {
   readonly scenarioId: string;
@@ -34,14 +34,8 @@ export class MultiAgentScenarioPackRunner {
   constructor(jsonPath?: string) {
     const targetPath =
       jsonPath ??
-      path.resolve(
-        process.cwd(),
-        'products',
-        'semantiq',
-        'specs',
-        'multi-agent-scenarios.json'
-      );
-    const content = fs.readFileSync(targetPath, 'utf8');
+      path.resolve(process.cwd(), "products", "semantiq", "specs", "multi-agent-scenarios.json");
+    const content = fs.readFileSync(targetPath, "utf8");
     this.manifest = JSON.parse(content) as ScenarioPackManifest;
   }
 
@@ -57,7 +51,7 @@ export class MultiAgentScenarioPackRunner {
     const sc = this.getScenarioById(scenarioId);
     if (!sc) throw new Error(`Scenario '${scenarioId}' not found.`);
     return {
-      deterministic: typeof sc.seed === 'number' && sc.seed > 0,
+      deterministic: typeof sc.seed === "number" && sc.seed > 0,
       seed: sc.seed
     };
   }

@@ -31,9 +31,14 @@ export const createUuid = (): Identifier => ({
   value: globalThis.crypto.randomUUID()
 });
 
-export const createUlid = (now: Date = new Date(), random: () => number = Math.random): Identifier => ({
+export const createUlid = (
+  now: Date = new Date(),
+  random: () => number = Math.random
+): Identifier => ({
   kind: "ulid",
-  value: `${now.getTime().toString(36).padStart(10, "0")}${Math.floor(random() * Number.MAX_SAFE_INTEGER)
+  value: `${now.getTime().toString(36).padStart(10, "0")}${Math.floor(
+    random() * Number.MAX_SAFE_INTEGER
+  )
     .toString(36)
     .padStart(11, "0")}`.toUpperCase()
 });

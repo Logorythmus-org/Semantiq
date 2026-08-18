@@ -1,1 +1,4 @@
-export { LocalAlphaOperationsRuntime, type AlphaReleaseChannel } from "../../alpha-operations/src/index.js";
+export {
+  LocalAlphaOperationsRuntime,
+  type AlphaReleaseChannel
+} from "../../alpha-operations/src/index.js";

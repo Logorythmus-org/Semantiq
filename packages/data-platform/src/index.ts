@@ -57,8 +57,11 @@ export class LocalSemanticRepository implements SemanticRepository {
   async queryGraph(query: GraphQuery): Promise<readonly SemanticRelation[]> {
     const relations = [...this.relations.values()].filter((relation) => {
       const startsAtNode =
-        !query.startNodeId || relation.sourceId === query.startNodeId || relation.targetId === query.startNodeId;
-      const matchesType = !query.relationshipTypes?.length || query.relationshipTypes.includes(relation.type);
+        !query.startNodeId ||
+        relation.sourceId === query.startNodeId ||
+        relation.targetId === query.startNodeId;
+      const matchesType =
+        !query.relationshipTypes?.length || query.relationshipTypes.includes(relation.type);
       return startsAtNode && matchesType;
     });
     return relations.slice(0, query.limit);
@@ -68,8 +71,15 @@ export class LocalSemanticRepository implements SemanticRepository {
     const text = query.text?.toLowerCase();
     return [...this.nodes.values()]
       .filter((node) => !query.kind || node.kind === query.kind)
-      .filter((node) => !query.tags?.length || query.tags.every((tag) => node.semanticTags.includes(tag)))
-      .filter((node) => !text || node.metadata.title?.toLowerCase().includes(text) || node.metadata.summary?.toLowerCase().includes(text))
+      .filter(
+        (node) => !query.tags?.length || query.tags.every((tag) => node.semanticTags.includes(tag))
+      )
+      .filter(
+        (node) =>
+          !text ||
+          node.metadata.title?.toLowerCase().includes(text) ||
+          node.metadata.summary?.toLowerCase().includes(text)
+      )
       .slice(0, query.limit ?? 50)
       .map((node) => ({
         nodeId: node.id.stableId,
@@ -83,7 +93,11 @@ export class LocalSemanticRepository implements SemanticRepository {
     return this.versions.get(objectId) ?? [];
   }
 
-  async compareVersions(objectId: string, fromVersion: string, toVersion: string): Promise<unknown> {
+  async compareVersions(
+    objectId: string,
+    fromVersion: string,
+    toVersion: string
+  ): Promise<unknown> {
     return { objectId, fromVersion, toVersion };
   }
 

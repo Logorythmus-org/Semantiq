@@ -18,12 +18,12 @@ describe("Prompt 7.9 — Alpha Stabilization Verification", () => {
   });
 
   it("detects score regressions between baseline and current reports", () => {
-    const baseReport = { weightedScore: 0.90, subjectId: "s1" } as BenchmarkReport;
-    const currentReport = { weightedScore: 0.80, subjectId: "s1" } as BenchmarkReport;
+    const baseReport = { weightedScore: 0.9, subjectId: "s1" } as BenchmarkReport;
+    const currentReport = { weightedScore: 0.8, subjectId: "s1" } as BenchmarkReport;
 
     const res = detectScoreRegressions(baseReport, currentReport, 0.05);
     expect(res.regressionDetected).toBe(true);
-    expect(res.delta).toBeCloseTo(-0.10);
+    expect(res.delta).toBeCloseTo(-0.1);
   });
 
   it("executes stabilized evaluation with fallback recovery", async () => {

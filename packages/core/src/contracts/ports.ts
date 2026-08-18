@@ -5,7 +5,10 @@ export interface StructuredLogger {
 }
 
 export interface Tracer {
-  startSpan(name: string, attributes?: Readonly<Record<string, unknown>>): { readonly id: string; end(): void };
+  startSpan(
+    name: string,
+    attributes?: Readonly<Record<string, unknown>>
+  ): { readonly id: string; end(): void };
 }
 
 export interface Metrics {

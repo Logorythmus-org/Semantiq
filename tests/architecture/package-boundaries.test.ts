@@ -57,7 +57,10 @@ describe("SemantIQ Product Architecture & Package Boundaries", () => {
       const content = readFileSync(file, "utf8");
       const lines = content.split("\n");
       for (const line of lines) {
-        if (/from\s+["'](?:\.\.\/)*apps\//.test(line) || /import\(["'](?:\.\.\/)*apps\//.test(line)) {
+        if (
+          /from\s+["'](?:\.\.\/)*apps\//.test(line) ||
+          /import\(["'](?:\.\.\/)*apps\//.test(line)
+        ) {
           violations.push({ file, line: line.trim() });
         }
       }
@@ -94,7 +97,10 @@ describe("SemantIQ Product Architecture & Package Boundaries", () => {
         const content = readFileSync(file, "utf8");
         const lines = content.split("\n");
         for (const line of lines) {
-          if (/from\s+["'](?:\.\.\/)*services\//.test(line) || /import\(["'](?:\.\.\/)*services\//.test(line)) {
+          if (
+            /from\s+["'](?:\.\.\/)*services\//.test(line) ||
+            /import\(["'](?:\.\.\/)*services\//.test(line)
+          ) {
             violations.push({ package: pkgName, file, line: line.trim() });
           }
         }

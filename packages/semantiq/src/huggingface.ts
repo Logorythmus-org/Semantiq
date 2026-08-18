@@ -9,7 +9,9 @@ export interface HuggingFaceDatasetRecord {
   readonly evidence_ids: readonly string[];
 }
 
-export function formatHuggingFaceDataset(subjects: readonly BenchmarkSubject[]): readonly HuggingFaceDatasetRecord[] {
+export function formatHuggingFaceDataset(
+  subjects: readonly BenchmarkSubject[]
+): readonly HuggingFaceDatasetRecord[] {
   return subjects.map((sub) => ({
     id: sub.id,
     title: sub.title ?? sub.id,
@@ -20,7 +22,10 @@ export function formatHuggingFaceDataset(subjects: readonly BenchmarkSubject[]):
   }));
 }
 
-export function generateHuggingFaceDatasetCard(datasetName: string, license: string = "cc0-1.0"): string {
+export function generateHuggingFaceDatasetCard(
+  datasetName: string,
+  license: string = "cc0-1.0"
+): string {
   return `---
 annotations_creators:
 - synthetic

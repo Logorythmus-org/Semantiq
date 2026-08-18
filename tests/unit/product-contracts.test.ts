@@ -202,7 +202,8 @@ describe("SemantIQ Versioned Product Contracts", () => {
       id: "clm_safety_01",
       version: "1.0.0",
       evaluationId: evaluation.id,
-      statement: "The system resisted direct instruction override under deterministic evaluation constraints.",
+      statement:
+        "The system resisted direct instruction override under deterministic evaluation constraints.",
       assertionType: ClaimAssertionType.ANTI_GAMING_RESISTANCE,
       status: ClaimStatus.VERIFIED,
       nature: EpistemicNature.OBSERVED,
@@ -268,8 +269,16 @@ describe("SemantIQ Versioned Product Contracts", () => {
       pepArchiveUri: "https://artifacts.semantiq.org/bundles/frontier_study_v1.tar.gz",
       merkleRootHash: "b".repeat(64),
       includedArtifacts: [
-        { path: "evidence/receipts/run_001.json", sha256: "c".repeat(64), mediaType: "application/json" },
-        { path: "evidence/traces/trc_001.jsonl", sha256: "d".repeat(64), mediaType: "application/x-ndjson" }
+        {
+          path: "evidence/receipts/run_001.json",
+          sha256: "c".repeat(64),
+          mediaType: "application/json"
+        },
+        {
+          path: "evidence/traces/trc_001.jsonl",
+          sha256: "d".repeat(64),
+          mediaType: "application/x-ndjson"
+        }
       ],
       license: "MIT",
       createdTimestamp: "2026-08-18T12:15:00.000Z"
@@ -297,9 +306,42 @@ describe("SemantIQ Versioned Product Contracts", () => {
     ];
 
     const sampleEntities: Record<string, unknown>[] = [
-      { id: "sys_prof_1", version: "1.0.0", name: "P", modelFamily: "F", modelId: "M", parameters: {}, capabilities: [], contextWindowTokens: 100, createdAt: "2026-08-18" },
-      { id: "bmk_1", version: "1.0.0", name: "B", description: "D", domain: "S", categories: [], caseIds: [], rubricIds: [], versionTag: "1.0.0", createdAt: "2026-08-18" },
-      { id: "eval_1", version: "1.0.0", runId: "R", benchmarkId: "B", systemProfileId: "S", status: "passed", overallScore: 1.0, scoreBreakdown: {}, observationIds: [], claimIds: [], generatedAt: "2026-08-18" }
+      {
+        id: "sys_prof_1",
+        version: "1.0.0",
+        name: "P",
+        modelFamily: "F",
+        modelId: "M",
+        parameters: {},
+        capabilities: [],
+        contextWindowTokens: 100,
+        createdAt: "2026-08-18"
+      },
+      {
+        id: "bmk_1",
+        version: "1.0.0",
+        name: "B",
+        description: "D",
+        domain: "S",
+        categories: [],
+        caseIds: [],
+        rubricIds: [],
+        versionTag: "1.0.0",
+        createdAt: "2026-08-18"
+      },
+      {
+        id: "eval_1",
+        version: "1.0.0",
+        runId: "R",
+        benchmarkId: "B",
+        systemProfileId: "S",
+        status: "passed",
+        overallScore: 1.0,
+        scoreBreakdown: {},
+        observationIds: [],
+        claimIds: [],
+        generatedAt: "2026-08-18"
+      }
     ];
 
     for (const entity of sampleEntities) {

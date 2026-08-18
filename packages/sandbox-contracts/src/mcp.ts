@@ -3,7 +3,7 @@
  * MCP (Model Context Protocol) Provider-Neutral Contracts and Interfaces
  */
 
-export type McpTransportType = 'stdio' | 'sse' | 'http_jsonrpc' | 'synthetic_mock';
+export type McpTransportType = "stdio" | "sse" | "http_jsonrpc" | "synthetic_mock";
 
 export interface McpServerSpec {
   readonly serverName: string;
@@ -36,7 +36,10 @@ export interface McpToolCallResult {
   readonly serverName: string;
   readonly toolName: string;
   readonly isError: boolean;
-  readonly content: readonly { readonly type: 'text' | 'image' | 'resource'; readonly data: string }[];
+  readonly content: readonly {
+    readonly type: "text" | "image" | "resource";
+    readonly data: string;
+  }[];
   readonly durationMs: number;
   readonly timestamp: string;
 }
@@ -70,10 +73,10 @@ export class McpCallNormalizer {
   ): McpObservationEvent {
     // Generate a stable representation of arguments for hashing
     const argsJson = JSON.stringify(request.arguments, Object.keys(request.arguments).sort());
-    
+
     // Summary of result without leaking arbitrary huge binaries
     const summary = result.isError
-      ? `ERROR: ${result.content.map(c => c.data).join('; ')}`
+      ? `ERROR: ${result.content.map((c) => c.data).join("; ")}`
       : `SUCCESS (${result.content.length} items)`;
 
     return {

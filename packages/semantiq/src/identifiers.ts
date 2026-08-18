@@ -56,12 +56,20 @@ export function computeContentHash(content: unknown): string {
   return createHash("sha256").update(normalized, "utf8").digest("hex");
 }
 
-export function formatArtifactId(type: SemantiqArtifactType, slug: string, versionOrHash: string): string {
+export function formatArtifactId(
+  type: SemantiqArtifactType,
+  slug: string,
+  versionOrHash: string
+): string {
   const cleanSlug = slug.toLowerCase().replace(/[^a-z0-9_-]/g, "-");
   return `semantiq:${type}:${cleanSlug}:${versionOrHash}`;
 }
 
-export function parseArtifactId(artifactId: string): { type: SemantiqArtifactType; slug: string; versionOrHash: string } {
+export function parseArtifactId(artifactId: string): {
+  type: SemantiqArtifactType;
+  slug: string;
+  versionOrHash: string;
+} {
   const parts = artifactId.split(":");
   if (parts.length < 4 || parts[0] !== "semantiq") {
     throw new Error(`Invalid Semantiq Artifact ID format: ${artifactId}`);
@@ -73,7 +81,10 @@ export function parseArtifactId(artifactId: string): { type: SemantiqArtifactTyp
   };
 }
 
-export function validateArtifactMetadata(metadata: SemantiqArtifactMetadata): { valid: boolean; errors: readonly string[] } {
+export function validateArtifactMetadata(metadata: SemantiqArtifactMetadata): {
+  valid: boolean;
+  errors: readonly string[];
+} {
   const errors: string[] = [];
 
   if (!metadata.artifactId || !metadata.artifactId.startsWith("semantiq:")) {

@@ -23,7 +23,9 @@ export class LocalProviderRegistry implements ProviderRegistry {
   }
 
   list(kind?: ProviderKind): readonly ProviderAdapter[] {
-    return [...this.adapters.values()].filter((adapter) => !kind || adapter.descriptor.kind === kind);
+    return [...this.adapters.values()].filter(
+      (adapter) => !kind || adapter.descriptor.kind === kind
+    );
   }
 }
 
@@ -34,7 +36,9 @@ export class LocalIntegrationGateway implements IntegrationGateway {
     this.registry.register(adapter);
   }
 
-  async route<TRequest, TResponse>(request: GatewayRequest<TRequest>): Promise<GatewayResponse<TResponse>> {
+  async route<TRequest, TResponse>(
+    request: GatewayRequest<TRequest>
+  ): Promise<GatewayResponse<TResponse>> {
     const adapter = this.selectAdapter(request.providerKind, request.context, request.providerId);
     if (!adapter) {
       const error = request.providerId
@@ -81,18 +85,27 @@ export class LocalIntegrationGateway implements IntegrationGateway {
   }
 
   async health(providerId?: string): Promise<readonly ProviderHealth[]> {
-    const adapters = providerId ? [this.registry.get(providerId)].filter(Boolean) : this.registry.list();
+    const adapters = providerId
+      ? [this.registry.get(providerId)].filter(Boolean)
+      : this.registry.list();
     const context = this.systemContext(providerId);
     return Promise.all(adapters.map((adapter) => adapter!.health(context)));
   }
 
-  private selectAdapter(kind: GatewayRequest["providerKind"], context: IntegrationContext, providerId?: string): ProviderAdapter | undefined {
+  private selectAdapter(
+    kind: GatewayRequest["providerKind"],
+    context: IntegrationContext,
+    providerId?: string
+  ): ProviderAdapter | undefined {
     if (providerId) {
       return this.registry.get(providerId);
     }
     const adapters = this.registry.list(kind);
     if (context.offlinePreferred) {
-      return adapters.find((adapter) => adapter.descriptor.capabilities.includes("offline")) ?? adapters[0];
+      return (
+        adapters.find((adapter) => adapter.descriptor.capabilities.includes("offline")) ??
+        adapters[0]
+      );
     }
     return adapters[0];
   }

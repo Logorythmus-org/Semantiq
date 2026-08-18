@@ -17,8 +17,22 @@ describe("Prompt 7.8 — Public Feedback Cycle Verification", () => {
 
   it("synthesizes feedback item lists into category summaries", () => {
     const items: readonly PublicFeedbackItem[] = [
-      { id: "1", category: "bug-report", title: "Bug 1", description: "D", createdAt: "", status: "new" },
-      { id: "2", category: "benchmark-request", title: "Bench 1", description: "D", createdAt: "", status: "new" }
+      {
+        id: "1",
+        category: "bug-report",
+        title: "Bug 1",
+        description: "D",
+        createdAt: "",
+        status: "new"
+      },
+      {
+        id: "2",
+        category: "benchmark-request",
+        title: "Bench 1",
+        description: "D",
+        createdAt: "",
+        status: "new"
+      }
     ];
 
     const synthesis = synthesizeFeedback(items);
@@ -40,7 +54,10 @@ describe("Prompt 7.8 — Public Feedback Cycle Verification", () => {
     expect(existsSync("Docs/product-decisions/PDR-001-public-alpha-feedback-triage.md")).toBe(true);
     expect(existsSync("Docs/PUBLIC_FEEDBACK_REPORT.md")).toBe(true);
 
-    const jsonStr = readFileSync("Docs/product-decisions/PDR-001-public-alpha-feedback-triage.md", "utf-8");
+    const jsonStr = readFileSync(
+      "Docs/product-decisions/PDR-001-public-alpha-feedback-triage.md",
+      "utf-8"
+    );
     expect(jsonStr).toContain("PDR-001");
   });
 });

@@ -1,11 +1,11 @@
 export type Phase10_5FailureClass =
-  | 'unresolved_contract_drift'
-  | 'failing_replay'
-  | 'failing_boundary_validator'
-  | 'weak_release_guard'
-  | 'parent_only_dependency'
-  | 'unsupported_governance_semantics'
-  | 'publication_action_before_phase_12';
+  | "unresolved_contract_drift"
+  | "failing_replay"
+  | "failing_boundary_validator"
+  | "weak_release_guard"
+  | "parent_only_dependency"
+  | "unsupported_governance_semantics"
+  | "publication_action_before_phase_12";
 
 export interface ExtractionPrecondition {
   readonly preconditionId: string;
@@ -57,8 +57,8 @@ export class Phase10_5FreezeEngine {
     if (!report.phase10Frozen) {
       return {
         reportId: `fail_drift_${Date.now()}`,
-        failureClass: 'unresolved_contract_drift',
-        description: 'Phase 10 contract freeze audit failed due to unresolved contract drift.',
+        failureClass: "unresolved_contract_drift",
+        description: "Phase 10 contract freeze audit failed due to unresolved contract drift.",
         timestamp: new Date().toISOString()
       };
     }
@@ -67,8 +67,8 @@ export class Phase10_5FreezeEngine {
     if (!isBoundaryClean) {
       return {
         reportId: `fail_bound_${Date.now()}`,
-        failureClass: 'failing_boundary_validator',
-        description: 'SemantIQ product boundary validation failed.',
+        failureClass: "failing_boundary_validator",
+        description: "SemantIQ product boundary validation failed.",
         timestamp: new Date().toISOString()
       };
     }
@@ -77,8 +77,9 @@ export class Phase10_5FreezeEngine {
     if (!isReleaseGuardActive) {
       return {
         reportId: `fail_guard_${Date.now()}`,
-        failureClass: 'weak_release_guard',
-        description: 'Release guard safeguards in config/release-freeze.json are disabled or weakened.',
+        failureClass: "weak_release_guard",
+        description:
+          "Release guard safeguards in config/release-freeze.json are disabled or weakened.",
         timestamp: new Date().toISOString()
       };
     }
@@ -88,7 +89,7 @@ export class Phase10_5FreezeEngine {
       if (!prec.isSatisfied) {
         return {
           reportId: `fail_prec_${prec.preconditionId}`,
-          failureClass: 'failing_replay',
+          failureClass: "failing_replay",
           description: `Extraction precondition '${prec.description}' is not satisfied.`,
           timestamp: new Date().toISOString()
         };

@@ -1,0 +1,8 @@
+node_modules
+dist
+.turbo
+.venv
+pnpm-lock.yaml
+coverage
+fixtures
+Docs

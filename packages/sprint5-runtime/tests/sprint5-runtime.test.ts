@@ -82,7 +82,9 @@ describe("Sprint 5 federation runtime", () => {
     const envelope = runtime.createEnvelope(nodeA.id, nodeB.id, "health.request", { ping: true });
 
     expect(runtime.validateGatewayMessage(envelope)).toBe(true);
-    expect(() => runtime.createEnvelope(nodeA.id, nodeB.id, "unsupported.message", {})).toThrow("Unsupported message type");
+    expect(() => runtime.createEnvelope(nodeA.id, nodeB.id, "unsupported.message", {})).toThrow(
+      "Unsupported message type"
+    );
     expect(runtime.rotateNodeKey(nodeA.id).keyVersion).toBe(2);
     expect(runtime.createNetworkTestHarness()).toHaveLength(5);
     expect(runtime.simulateNetworkFault("replay-attack").handled).toBe(true);

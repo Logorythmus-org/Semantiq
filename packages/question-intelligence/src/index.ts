@@ -12,7 +12,8 @@ import type {
   SemantiqPreview
 } from "./contracts.js";
 
-const createId = (prefix: string): string => `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}_${Date.now()}_${Math.random().toString(36).slice(2)}`;
 
 export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngine {
   private readonly suggestions = new Map<string, IntelligenceSuggestion>();
@@ -27,7 +28,8 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
       type: "question-refinement",
       status: "proposed",
       confidence: 0.5,
-      explanation: "Local scaffold trims whitespace and adds a question mark when missing; production AI must preserve meaning explicitly.",
+      explanation:
+        "Local scaffold trims whitespace and adds a question mark when missing; production AI must preserve meaning explicitly.",
       payload: { question: this.normalizeQuestion(request.rawInput) },
       createdAt: new Date().toISOString()
     });
@@ -51,16 +53,17 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
       ],
       ambiguityReport: ambiguity,
       assumptionReport: assumptions,
-      suggestedTags: tags.map((tag) =>
-        this.remember({
-          id: createId("suggestion"),
-          type: "semantic-tag",
-          status: "proposed",
-          confidence: tag.confidence,
-          explanation: tag.explanation,
-          payload: tag,
-          createdAt: new Date().toISOString()
-        }) as IntelligenceSuggestion<SemanticTagSuggestion>
+      suggestedTags: tags.map(
+        (tag) =>
+          this.remember({
+            id: createId("suggestion"),
+            type: "semantic-tag",
+            status: "proposed",
+            confidence: tag.confidence,
+            explanation: tag.explanation,
+            payload: tag,
+            createdAt: new Date().toISOString()
+          }) as IntelligenceSuggestion<SemanticTagSuggestion>
       ),
       duplicateCandidates: [],
       relationSuggestions: [],
@@ -71,7 +74,12 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
           status: "proposed",
           confidence: 0.6,
           explanation: "Evidence search strategy generated without fabricating sources.",
-          payload: { type: "open-question", searchStrategy: `Search for evidence about: ${request.rawInput}`, confidence: 0.6, fabricated: false },
+          payload: {
+            type: "open-question",
+            searchStrategy: `Search for evidence about: ${request.rawInput}`,
+            confidence: 0.6,
+            fabricated: false
+          },
           createdAt: new Date().toISOString()
         }) as QuestionRefinementResult["evidenceSuggestions"][number]
       ],
@@ -94,7 +102,8 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
       type: "question-improvement",
       status: "proposed",
       confidence: 0.65,
-      explanation: "Improvement preserves meaning while adding question punctuation and context prompt.",
+      explanation:
+        "Improvement preserves meaning while adding question punctuation and context prompt.",
       payload: { question: this.normalizeQuestion(question) },
       createdAt: new Date().toISOString()
     }) as IntelligenceSuggestion<{ question: string }>;
@@ -124,17 +133,24 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
 
   async findKnowledgeGaps(question: string): Promise<readonly string[]> {
     const gaps: string[] = [];
-    if (!question.toLowerCase().includes("evidence")) gaps.push("Evidence expectations are not explicit.");
-    if (!question.toLowerCase().includes("context")) gaps.push("Context and scope need clarification.");
+    if (!question.toLowerCase().includes("evidence"))
+      gaps.push("Evidence expectations are not explicit.");
+    if (!question.toLowerCase().includes("context"))
+      gaps.push("Context and scope need clarification.");
     if (question.length < 80) gaps.push("The question may need more constraints or examples.");
     return gaps;
   }
 
   async suggestResearch(question: string): Promise<readonly string[]> {
-    return [`Run a literature and dataset search for: ${question}`, "Identify competing explanations and missing evidence."];
+    return [
+      `Run a literature and dataset search for: ${question}`,
+      "Identify competing explanations and missing evidence."
+    ];
   }
 
-  async suggestProjects(question: string): Promise<readonly import("./contracts.js").QuestionToProjectPlan[]> {
+  async suggestProjects(
+    question: string
+  ): Promise<readonly import("./contracts.js").QuestionToProjectPlan[]> {
     return [
       {
         title: `Project from question: ${question.slice(0, 60)}`,
@@ -165,8 +181,16 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
     const lower = question.toLowerCase();
     const intents: IntentAnalysis["intents"] = [
       lower.includes("build") || lower.includes("project")
-        ? { intent: "project-creation", confidence: 0.6, explanation: "Question contains project/build language." }
-        : { intent: "learning", confidence: 0.4, explanation: "Default local scaffold intent for exploratory questions." }
+        ? {
+            intent: "project-creation",
+            confidence: 0.6,
+            explanation: "Question contains project/build language."
+          }
+        : {
+            intent: "learning",
+            confidence: 0.4,
+            explanation: "Default local scaffold intent for exploratory questions."
+          }
     ];
     return { intents };
   }
@@ -178,8 +202,10 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
           ? [
               {
                 area: "context",
-                explanation: "Short questions often need more context for high-quality exploration.",
-                clarificationQuestion: "What context, audience, or constraints should this question include?",
+                explanation:
+                  "Short questions often need more context for high-quality exploration.",
+                clarificationQuestion:
+                  "What context, audience, or constraints should this question include?",
                 confidence: 0.5
               }
             ]
@@ -194,7 +220,8 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
             {
               type: "definition",
               statement: "The word best assumes shared evaluation criteria.",
-              explanation: "Clarify what best means: fastest, safest, most educational, most rigorous, or most practical.",
+              explanation:
+                "Clarify what best means: fastest, safest, most educational, most rigorous, or most practical.",
               confidence: 0.7
             }
           ]
@@ -205,7 +232,12 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
   async suggestTags(question: string): Promise<readonly SemanticTagSuggestion[]> {
     const tags: SemanticTagSuggestion[] = [];
     if (question.includes("?")) {
-      tags.push({ tag: "question", layer: "intent", confidence: 0.5, explanation: "Input is framed as a question." });
+      tags.push({
+        tag: "question",
+        layer: "intent",
+        confidence: 0.5,
+        explanation: "Input is framed as a question."
+      });
     }
     return tags;
   }
@@ -233,12 +265,17 @@ export class LocalQuestionIntelligenceEngine implements QuestionIntelligenceEngi
     return this.updateSuggestion(suggestionId, "rejected");
   }
 
-  private remember<TPayload>(suggestion: IntelligenceSuggestion<TPayload>): IntelligenceSuggestion<TPayload> {
+  private remember<TPayload>(
+    suggestion: IntelligenceSuggestion<TPayload>
+  ): IntelligenceSuggestion<TPayload> {
     this.suggestions.set(suggestion.id, suggestion);
     return suggestion;
   }
 
-  private updateSuggestion(suggestionId: string, status: "approved" | "rejected"): IntelligenceSuggestion {
+  private updateSuggestion(
+    suggestionId: string,
+    status: "approved" | "rejected"
+  ): IntelligenceSuggestion {
     const suggestion = this.suggestions.get(suggestionId);
     if (!suggestion) {
       throw new Error(`Suggestion not found: ${suggestionId}`);

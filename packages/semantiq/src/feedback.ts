@@ -1,6 +1,12 @@
 export interface PublicFeedbackItem {
   readonly id: string;
-  readonly category: "bug-report" | "benchmark-request" | "connector-request" | "reproducibility-issue" | "documentation-improvement" | "feature-proposal";
+  readonly category:
+    | "bug-report"
+    | "benchmark-request"
+    | "connector-request"
+    | "reproducibility-issue"
+    | "documentation-improvement"
+    | "feature-proposal";
   readonly title: string;
   readonly description: string;
   readonly submitterRole?: string;

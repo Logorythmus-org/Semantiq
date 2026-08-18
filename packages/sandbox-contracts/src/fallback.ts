@@ -4,17 +4,17 @@
  */
 
 export type FailureCategory =
-  | 'INFRASTRUCTURE_TRANSIENT'
-  | 'INFRASTRUCTURE_FATAL'
-  | 'AGENT_BEHAVIORAL_FAULT'
-  | 'SECURITY_VIOLATION'
-  | 'TIMEOUT_EXCEEDED';
+  | "INFRASTRUCTURE_TRANSIENT"
+  | "INFRASTRUCTURE_FATAL"
+  | "AGENT_BEHAVIORAL_FAULT"
+  | "SECURITY_VIOLATION"
+  | "TIMEOUT_EXCEEDED";
 
 export type FallbackStrategy =
-  | 'RETRY_SAME_PROVIDER'
-  | 'FALLBACK_NEXT_PROVIDER'
-  | 'HALT_WITH_PARTIAL_EVIDENCE'
-  | 'QUARANTINE';
+  | "RETRY_SAME_PROVIDER"
+  | "FALLBACK_NEXT_PROVIDER"
+  | "HALT_WITH_PARTIAL_EVIDENCE"
+  | "QUARANTINE";
 
 export interface FallbackPolicy {
   readonly primaryProviderId: string;
@@ -60,33 +60,33 @@ export class FallbackRoutingEngine {
     const currentRetries = this.retryState.get(providerId) ?? 0;
 
     // 1. Security violations must always quarantine immediately
-    if (category === 'SECURITY_VIOLATION') {
+    if (category === "SECURITY_VIOLATION") {
       return {
-        action: 'QUARANTINE',
+        action: "QUARANTINE",
         retryCount: currentRetries,
         delayMs: 0,
-        reason: 'Security isolation violation detected; instance quarantined.'
+        reason: "Security isolation violation detected; instance quarantined."
       };
     }
 
     // 2. Agent behavioral faults belong to the agent's evaluation score (no infra fallback)
-    if (category === 'AGENT_BEHAVIORAL_FAULT') {
+    if (category === "AGENT_BEHAVIORAL_FAULT") {
       return {
-        action: 'HALT_WITH_PARTIAL_EVIDENCE',
+        action: "HALT_WITH_PARTIAL_EVIDENCE",
         retryCount: currentRetries,
         delayMs: 0,
-        reason: 'Agent-induced error or syntax failure; sealed for behavioral scoring.'
+        reason: "Agent-induced error or syntax failure; sealed for behavioral scoring."
       };
     }
 
     // 3. Transient infrastructure error: retry same provider if attempts remain
-    if (category === 'INFRASTRUCTURE_TRANSIENT' && currentRetries < policy.maxRetriesPerProvider) {
+    if (category === "INFRASTRUCTURE_TRANSIENT" && currentRetries < policy.maxRetriesPerProvider) {
       const nextRetry = currentRetries + 1;
       this.retryState.set(providerId, nextRetry);
       const delayMs = policy.backoffBaseMs * Math.pow(2, currentRetries);
 
       return {
-        action: 'RETRY_SAME_PROVIDER',
+        action: "RETRY_SAME_PROVIDER",
         targetProviderId: providerId,
         retryCount: nextRetry,
         delayMs,
@@ -95,10 +95,12 @@ export class FallbackRoutingEngine {
     }
 
     // 4. Fatal infrastructure error or retries exhausted: route to next fallback provider
-    const nextFallback = policy.fallbackProviderIds.find(id => id !== providerId && (this.retryState.get(id) ?? 0) === 0);
+    const nextFallback = policy.fallbackProviderIds.find(
+      (id) => id !== providerId && (this.retryState.get(id) ?? 0) === 0
+    );
     if (nextFallback) {
       return {
-        action: 'FALLBACK_NEXT_PROVIDER',
+        action: "FALLBACK_NEXT_PROVIDER",
         targetProviderId: nextFallback,
         retryCount: 0,
         delayMs: policy.backoffBaseMs,
@@ -108,10 +110,10 @@ export class FallbackRoutingEngine {
 
     // 5. All fallbacks exhausted: halt and preserve partial evidence
     return {
-      action: 'HALT_WITH_PARTIAL_EVIDENCE',
+      action: "HALT_WITH_PARTIAL_EVIDENCE",
       retryCount: currentRetries,
       delayMs: 0,
-      reason: 'All configured providers and retry quotas exhausted.'
+      reason: "All configured providers and retry quotas exhausted."
     };
   }
 

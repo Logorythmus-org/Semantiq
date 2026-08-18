@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/sandbox-contracts
  * Canonical, Versioned Product Contracts
- * 
+ *
  * Defines language-neutral core data models and enums for the Headless SemantIQ Platform:
  * 1. SystemProfile
  * 2. Benchmark
@@ -313,11 +313,14 @@ export interface Evaluation {
   systemProfileId: string;
   status: EvaluationStatus;
   overallScore: number | null;
-  scoreBreakdown: Record<string, {
-    score: number | null;
-    weight: number;
-    status: string;
-  }>;
+  scoreBreakdown: Record<
+    string,
+    {
+      score: number | null;
+      weight: number;
+      status: string;
+    }
+  >;
   observationIds: string[];
   claimIds: string[];
   generatedAt: string;

@@ -9,23 +9,23 @@ import type {
   StateDelta,
   CheckpointMetadata,
   SandboxTerminationSummary
-} from '../../sandbox-contracts/src/index.js';
+} from "../../sandbox-contracts/src/index.js";
 
 export type LifecycleState =
-  | 'UNINITIALIZED'
-  | 'CREATING'
-  | 'PREPARING'
-  | 'READY'
-  | 'EXECUTING'
-  | 'OBSERVING'
-  | 'COLLECTING'
-  | 'SNAPSHOTTING'
-  | 'RESTORING'
-  | 'RECOVERING'
-  | 'QUARANTINED'
-  | 'DESTROYING'
-  | 'DESTROYED'
-  | 'FAILED';
+  | "UNINITIALIZED"
+  | "CREATING"
+  | "PREPARING"
+  | "READY"
+  | "EXECUTING"
+  | "OBSERVING"
+  | "COLLECTING"
+  | "SNAPSHOTTING"
+  | "RESTORING"
+  | "RECOVERING"
+  | "QUARANTINED"
+  | "DESTROYING"
+  | "DESTROYED"
+  | "FAILED";
 
 export interface StateTransitionEvent {
   readonly transitionId: string;

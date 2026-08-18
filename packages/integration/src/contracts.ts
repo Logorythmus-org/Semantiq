@@ -83,7 +83,9 @@ export interface GatewayResponse<TPayload = unknown> {
 }
 
 export interface IntegrationGateway {
-  route<TRequest, TResponse>(request: GatewayRequest<TRequest>): Promise<GatewayResponse<TResponse>>;
+  route<TRequest, TResponse>(
+    request: GatewayRequest<TRequest>
+  ): Promise<GatewayResponse<TResponse>>;
   health(providerId?: string): Promise<readonly ProviderHealth[]>;
 }
 
@@ -103,7 +105,11 @@ export interface CredentialHandle {
 }
 
 export interface AuthProvider {
-  authenticate(providerId: string, method: AuthMethod, context: IntegrationContext): Promise<CredentialHandle>;
+  authenticate(
+    providerId: string,
+    method: AuthMethod,
+    context: IntegrationContext
+  ): Promise<CredentialHandle>;
   refresh(handle: CredentialHandle, context: IntegrationContext): Promise<CredentialHandle>;
   revoke(handle: CredentialHandle, context: IntegrationContext): Promise<void>;
 }
@@ -142,7 +148,11 @@ export interface WalletProvider extends ProviderAdapter {
 }
 
 export interface PaymentProvider extends ProviderAdapter {
-  createPaymentIntent(amount: number, currency: string, context: IntegrationContext): Promise<unknown>;
+  createPaymentIntent(
+    amount: number,
+    currency: string,
+    context: IntegrationContext
+  ): Promise<unknown>;
 }
 
 export interface MCPProvider extends ProviderAdapter {

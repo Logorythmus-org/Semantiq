@@ -4,32 +4,32 @@
  */
 
 export type ResourceClass =
-  | 'network'
-  | 'file_system'
-  | 'shell'
-  | 'browser'
-  | 'database'
-  | 'email'
-  | 'external_api'
-  | 'secrets'
-  | 'memory'
-  | 'device'
-  | 'process'
-  | 'package_manager'
-  | 'repository'
-  | 'human_approval';
+  | "network"
+  | "file_system"
+  | "shell"
+  | "browser"
+  | "database"
+  | "email"
+  | "external_api"
+  | "secrets"
+  | "memory"
+  | "device"
+  | "process"
+  | "package_manager"
+  | "repository"
+  | "human_approval";
 
 export type PermissionState =
-  | 'unavailable'
-  | 'denied'
-  | 'read_only'
-  | 'write'
-  | 'execute'
-  | 'scoped'
-  | 'temporary'
-  | 'approval_required'
-  | 'conditionally_allowed'
-  | 'revoked';
+  | "unavailable"
+  | "denied"
+  | "read_only"
+  | "write"
+  | "execute"
+  | "scoped"
+  | "temporary"
+  | "approval_required"
+  | "conditionally_allowed"
+  | "revoked";
 
 export interface ResourceInstance {
   readonly id: string;
@@ -69,7 +69,7 @@ export interface ApprovalCheckpoint {
   readonly actionId: string;
   readonly requestedBy: string;
   readonly approvedBy?: string;
-  readonly status: 'pending' | 'approved' | 'rejected';
+  readonly status: "pending" | "approved" | "rejected";
   readonly timestamp: string;
 }
 
@@ -131,13 +131,13 @@ export function redactSecrets(input: string, secretsToRedact: readonly string[] 
   // Redact explicit secret strings
   for (const secret of secretsToRedact) {
     if (secret && secret.length > 2) {
-      output = output.replaceAll(secret, '[REDACTED_SECRET]');
+      output = output.replaceAll(secret, "[REDACTED_SECRET]");
     }
   }
   // Redact standard GitHub PATs and generic tokens
-  output = output.replace(/(ghp_[A-Za-z0-9_]{36,40})/g, '[REDACTED_GITHUB_PAT]');
-  output = output.replace(/(github_pat_[A-Za-z0-9_]{22,80})/g, '[REDACTED_GITHUB_PAT]');
-  output = output.replace(/(Bearer\s+[A-Za-z0-9\-\._~\+\/]+=*)/gi, 'Bearer [REDACTED_TOKEN]');
+  output = output.replace(/(ghp_[A-Za-z0-9_]{36,40})/g, "[REDACTED_GITHUB_PAT]");
+  output = output.replace(/(github_pat_[A-Za-z0-9_]{22,80})/g, "[REDACTED_GITHUB_PAT]");
+  output = output.replace(/(Bearer\s+[A-Za-z0-9\-\._~\+\/]+=*)/gi, "Bearer [REDACTED_TOKEN]");
   return output;
 }
 
@@ -152,34 +152,51 @@ export function evaluatePermission(
   currentTimeIso: string
 ): { allowed: boolean; reason: string } {
   if (!grant) {
-    return { allowed: false, reason: 'DEFAULT DENY: No permission grant exists for target resource.' };
+    return {
+      allowed: false,
+      reason: "DEFAULT DENY: No permission grant exists for target resource."
+    };
   }
 
-  if (grant.state === 'denied' || grant.state === 'revoked' || grant.state === 'unavailable') {
+  if (grant.state === "denied" || grant.state === "revoked" || grant.state === "unavailable") {
     return { allowed: false, reason: `Permission state is '${grant.state}'.` };
   }
 
   if (grant.expiresAt && new Date(currentTimeIso) > new Date(grant.expiresAt)) {
-    return { allowed: false, reason: 'EXPIRED GRANT: Permission grant has expired.' };
+    return { allowed: false, reason: "EXPIRED GRANT: Permission grant has expired." };
   }
 
-  if (grant.state === 'approval_required' && grant.requiresHumanApproval) {
-    return { allowed: false, reason: 'APPROVAL REQUIRED: Human operator approval checkpoint pending.' };
+  if (grant.state === "approval_required" && grant.requiresHumanApproval) {
+    return {
+      allowed: false,
+      reason: "APPROVAL REQUIRED: Human operator approval checkpoint pending."
+    };
   }
 
-  if (grant.state === 'read_only' && (requestedAction === 'write' || requestedAction === 'execute' || requestedAction === 'delete')) {
-    return { allowed: false, reason: `READ ONLY VIOLATION: Requested '${requestedAction}' on read-only resource.` };
+  if (
+    grant.state === "read_only" &&
+    (requestedAction === "write" || requestedAction === "execute" || requestedAction === "delete")
+  ) {
+    return {
+      allowed: false,
+      reason: `READ ONLY VIOLATION: Requested '${requestedAction}' on read-only resource.`
+    };
   }
 
   // Scope path matching
   if (grant.scope.allowedPathsOrUrls.length > 0) {
-    const isMatched = grant.scope.allowedPathsOrUrls.some((allowed) => targetPathOrUrl.startsWith(allowed));
+    const isMatched = grant.scope.allowedPathsOrUrls.some((allowed) =>
+      targetPathOrUrl.startsWith(allowed)
+    );
     if (!isMatched) {
-      return { allowed: false, reason: `SCOPE ESCAPE VIOLATION: Target '${targetPathOrUrl}' is outside allowed scope.` };
+      return {
+        allowed: false,
+        reason: `SCOPE ESCAPE VIOLATION: Target '${targetPathOrUrl}' is outside allowed scope.`
+      };
     }
   }
 
-  return { allowed: true, reason: 'Permission granted.' };
+  return { allowed: true, reason: "Permission granted." };
 }
 
 /**
@@ -203,10 +220,15 @@ export function detectPermissionDrift(
   const manifestResSet = new Set(manifest.declaredResources.map((r) => r.id));
   const snapResSet = new Set(snapshot.resources.map((r) => r.id));
 
-  const addedResources = snapshot.resources.filter((r) => !manifestResSet.has(r.id)).map((r) => r.id);
-  const removedResources = manifest.declaredResources.filter((r) => !snapResSet.has(r.id)).map((r) => r.id);
+  const addedResources = snapshot.resources
+    .filter((r) => !manifestResSet.has(r.id))
+    .map((r) => r.id);
+  const removedResources = manifest.declaredResources
+    .filter((r) => !snapResSet.has(r.id))
+    .map((r) => r.id);
 
-  const isDriftDetected = modifiedGrants.length > 0 || addedResources.length > 0 || removedResources.length > 0;
+  const isDriftDetected =
+    modifiedGrants.length > 0 || addedResources.length > 0 || removedResources.length > 0;
 
   return {
     changeId: `change_${Date.now()}`,
@@ -216,6 +238,6 @@ export function detectPermissionDrift(
     addedResources,
     removedResources,
     modifiedGrants,
-    isDriftDetected,
+    isDriftDetected
   };
 }

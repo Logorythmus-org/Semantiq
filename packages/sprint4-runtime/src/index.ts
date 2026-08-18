@@ -33,8 +33,24 @@ export type AssetState =
   | "Archived"
   | "Rejected";
 
-export type ValidationStatus = "Passed" | "Passed with Warnings" | "Failed" | "Skipped" | "Requires Human Review";
-export type InstallationState = "Not Installed" | "Resolving" | "Awaiting Approval" | "Installing" | "Installed" | "Failed" | "Disabled" | "Update Available" | "Updating" | "Rollback Available" | "Uninstalled";
+export type ValidationStatus =
+  | "Passed"
+  | "Passed with Warnings"
+  | "Failed"
+  | "Skipped"
+  | "Requires Human Review";
+export type InstallationState =
+  | "Not Installed"
+  | "Resolving"
+  | "Awaiting Approval"
+  | "Installing"
+  | "Installed"
+  | "Failed"
+  | "Disabled"
+  | "Update Available"
+  | "Updating"
+  | "Rollback Available"
+  | "Uninstalled";
 export type LicenseType =
   | "Public Domain"
   | "MIT"
@@ -331,7 +347,15 @@ export interface MarketplaceReview {
 export interface ModerationAction {
   readonly id: string;
   readonly assetId: string;
-  readonly action: "Report asset" | "Suspend asset" | "Request changes" | "Mark unsafe" | "Mark incompatible" | "Mark abandoned" | "Appeal decision" | "Restore asset";
+  readonly action:
+    | "Report asset"
+    | "Suspend asset"
+    | "Request changes"
+    | "Mark unsafe"
+    | "Mark incompatible"
+    | "Mark abandoned"
+    | "Appeal decision"
+    | "Restore asset";
   readonly explanation: string;
   readonly actorId: string;
   readonly audited: true;
@@ -371,8 +395,10 @@ export interface Sprint4JourneyResult {
 }
 
 const now = (): string => new Date().toISOString();
-const id = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
-const hash = (value: unknown): string => createHash("sha256").update(JSON.stringify(value)).digest("hex");
+const id = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const hash = (value: unknown): string =>
+  createHash("sha256").update(JSON.stringify(value)).digest("hex");
 
 export const assetPackageLayout = [
   "manifest.json",
@@ -395,12 +421,56 @@ export const assetPackageLayout = [
 ] as const;
 
 export const sprint4ApiContracts = {
-  asset: ["createAsset()", "updateAsset()", "buildAssetPackage()", "validateAsset()", "getAsset()", "getAssetVersion()", "listAssetVersions()", "deprecateAsset()", "archiveAsset()"],
-  registry: ["registerAsset()", "resolveAsset()", "resolveDependencies()", "verifyPackage()", "importPackage()", "exportPackage()"],
-  marketplace: ["publishAsset()", "searchAssets()", "getListing()", "reviewAsset()", "reportAsset()", "recommendAssets()"],
-  installation: ["createInstallationPlan()", "approveInstallation()", "installAsset()", "updateAssetInstallation()", "rollbackAsset()", "disableAsset()", "uninstallAsset()"],
-  licensing: ["getLicense()", "validateLicenseMetadata()", "grantLicense()", "revokeLicenseGrant()", "getLicenseHistory()"],
-  developer: ["generateSDK()", "registerPlugin()", "registerAgentPackage()", "registerWorkflowTemplate()", "getCompatibilityReport()"]
+  asset: [
+    "createAsset()",
+    "updateAsset()",
+    "buildAssetPackage()",
+    "validateAsset()",
+    "getAsset()",
+    "getAssetVersion()",
+    "listAssetVersions()",
+    "deprecateAsset()",
+    "archiveAsset()"
+  ],
+  registry: [
+    "registerAsset()",
+    "resolveAsset()",
+    "resolveDependencies()",
+    "verifyPackage()",
+    "importPackage()",
+    "exportPackage()"
+  ],
+  marketplace: [
+    "publishAsset()",
+    "searchAssets()",
+    "getListing()",
+    "reviewAsset()",
+    "reportAsset()",
+    "recommendAssets()"
+  ],
+  installation: [
+    "createInstallationPlan()",
+    "approveInstallation()",
+    "installAsset()",
+    "updateAssetInstallation()",
+    "rollbackAsset()",
+    "disableAsset()",
+    "uninstallAsset()"
+  ],
+  licensing: [
+    "getLicense()",
+    "validateLicenseMetadata()",
+    "grantLicense()",
+    "revokeLicenseGrant()",
+    "getLicenseHistory()"
+  ],
+  developer: [
+    "generateSDK()",
+    "registerPlugin()",
+    "registerAgentPackage()",
+    "registerWorkflowTemplate()",
+    "getCompatibilityReport()"
+  ]
 } as const;
 
 export const sprint4CliCommands = [
@@ -508,18 +578,41 @@ export class LocalSprint4Runtime {
     await this.requestPublication(actorId, asset.id);
     const listing = await this.publishAsset(actorId, asset.id);
     const search = this.searchAssets("evidence workflow", { localOnly: true });
-    if (!search.some((item) => item.assetId === asset.id)) throw new Error("Published asset not searchable");
+    if (!search.some((item) => item.assetId === asset.id))
+      throw new Error("Published asset not searchable");
     const installationPlan = this.createInstallationPlan(actorId, asset.id, "workspace:consumer");
     const installation = await this.installAsset(actorId, installationPlan.id);
     await this.registerWorkflowTemplate(actorId, asset.id);
     const review = this.reviewAsset(actorId, asset.id, "Used in a local research workspace.");
-    const updatedAsset = this.updateAsset(actorId, asset.id, { summary: "Reusable and reviewed workflow template.", version: "1.0.1" });
+    const updatedAsset = this.updateAsset(actorId, asset.id, {
+      summary: "Reusable and reviewed workflow template.",
+      version: "1.0.1"
+    });
     await this.buildAssetPackage(actorId, updatedAsset.id);
-    const updatedInstallation = this.updateAssetInstallation(actorId, installation.id, updatedAsset.version);
+    const updatedInstallation = this.updateAssetInstallation(
+      actorId,
+      installation.id,
+      updatedAsset.version
+    );
     const rollback = this.rollbackAsset(actorId, updatedInstallation.id);
     const exportPackage = this.exportPackage(asset.id);
     const wallet = this.walletFor(actorId);
-    return { sprint3, asset: this.requireAsset(asset.id), package: assetPackage, validation, semantiq, listing, installationPlan, installation, review, updatedAsset, rollback, exportPackage, wallet, events: this.events };
+    return {
+      sprint3,
+      asset: this.requireAsset(asset.id),
+      package: assetPackage,
+      validation,
+      semantiq,
+      listing,
+      installationPlan,
+      installation,
+      review,
+      updatedAsset,
+      rollback,
+      exportPackage,
+      wallet,
+      events: this.events
+    };
   }
 
   async createAsset(
@@ -538,7 +631,10 @@ export class LocalSprint4Runtime {
     }
   ): Promise<SemanticAsset> {
     const assetId = id("asset");
-    const slug = input.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+    const slug = input.title
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-|-$/g, "");
     const manifest: AssetManifest = {
       packageVersion: "techclub-asset-v1",
       assetId,
@@ -582,7 +678,11 @@ export class LocalSprint4Runtime {
       documentation: ["README.md"],
       examples: ["examples/basic.md"],
       changelog: ["1.0.0 initial local asset"],
-      provenance: { source: "sprint4-local-runtime", sourceQuestionIds: input.sourceQuestionIds, sourceProjectIds: input.sourceProjectIds },
+      provenance: {
+        source: "sprint4-local-runtime",
+        sourceQuestionIds: input.sourceQuestionIds,
+        sourceProjectIds: input.sourceProjectIds
+      },
       auditHistory: [id("audit")],
       integrityHash,
       digitalSignaturePlaceholder: "unsigned-local-development",
@@ -594,7 +694,11 @@ export class LocalSprint4Runtime {
     return asset;
   }
 
-  updateAsset(actorId: string, assetId: string, patch: { readonly summary?: string; readonly version?: string }): SemanticAsset {
+  updateAsset(
+    actorId: string,
+    assetId: string,
+    patch: { readonly summary?: string; readonly version?: string }
+  ): SemanticAsset {
     const asset = this.requireAsset(assetId);
     const manifest = { ...asset.manifest, version: patch.version ?? asset.version };
     const updated: SemanticAsset = {
@@ -614,7 +718,10 @@ export class LocalSprint4Runtime {
   async buildAssetPackage(actorId: string, assetId: string): Promise<AssetPackage> {
     const asset = this.requireAsset(assetId);
     const manifestHash = hash(asset.manifest);
-    const inventory = assetPackageLayout.map((path) => ({ path, hash: hash({ path, assetId, version: asset.version }) }));
+    const inventory = assetPackageLayout.map((path) => ({
+      path,
+      hash: hash({ path, assetId, version: asset.version })
+    }));
     const pkg: AssetPackage = {
       id: id("asset-package"),
       assetId,
@@ -632,11 +739,17 @@ export class LocalSprint4Runtime {
       inventory,
       manifestHash,
       contentHash: hash(inventory),
-      dependencyLock: asset.dependencies.map((dependency) => `${dependency.id}@${dependency.versionRange}`),
+      dependencyLock: asset.dependencies.map(
+        (dependency) => `${dependency.id}@${dependency.versionRange}`
+      ),
       signatureInterface: { signed: false }
     };
     this.packages.set(pkg.id, pkg);
-    this.assets.set(assetId, { ...asset, state: asset.state === "Published" ? "Published" : "Building", auditHistory: [...asset.auditHistory, id("audit")] });
+    this.assets.set(assetId, {
+      ...asset,
+      state: asset.state === "Published" ? "Published" : "Building",
+      auditHistory: [...asset.auditHistory, id("audit")]
+    });
     this.emit("AssetPackaged", actorId, asset.workspaceId, asset, { packageId: pkg.id });
     return pkg;
   }
@@ -652,7 +765,9 @@ export class LocalSprint4Runtime {
       checksumValidation: manifestHashValid && contentHashValid ? "Passed" : "Failed",
       tamperDetected: !(manifestHashValid && contentHashValid),
       unsignedAllowedInLocalMode: !pkg.signatureInterface.signed,
-      findings: pkg.signatureInterface.signed ? [] : ["Package is unsigned and allowed only in local development mode."]
+      findings: pkg.signatureInterface.signed
+        ? []
+        : ["Package is unsigned and allowed only in local development mode."]
     };
   }
 
@@ -674,9 +789,14 @@ export class LocalSprint4Runtime {
       "Publication Approval"
     ];
     const results = stages.map<ValidationResult>((stage) => {
-      const warning = stage === "Security Scan" && asset.digitalSignaturePlaceholder.includes("unsigned");
+      const warning =
+        stage === "Security Scan" && asset.digitalSignaturePlaceholder.includes("unsigned");
       const human = stage === "Human Review" || stage === "Publication Approval";
-      const status: ValidationStatus = human ? "Requires Human Review" : warning ? "Passed with Warnings" : "Passed";
+      const status: ValidationStatus = human
+        ? "Requires Human Review"
+        : warning
+          ? "Passed with Warnings"
+          : "Passed";
       return {
         id: id("validation"),
         assetId,
@@ -696,7 +816,9 @@ export class LocalSprint4Runtime {
     });
     this.validations.set(assetId, results);
     this.assets.set(assetId, { ...asset, state: "Ready for Review", securityStatus: "warning" });
-    this.emit("AssetValidationCompleted", actorId, asset.workspaceId, this.requireAsset(assetId), { stages: results.length });
+    this.emit("AssetValidationCompleted", actorId, asset.workspaceId, this.requireAsset(assetId), {
+      stages: results.length
+    });
     return results;
   }
 
@@ -717,18 +839,54 @@ export class LocalSprint4Runtime {
       "Public benefit",
       "Originality",
       "Provenance quality",
-      ...(asset.type === "Agent Package" ? ["Capability clarity", "Tool safety", "Permission minimality", "Prompt quality", "Failure handling", "Human oversight"] : []),
-      ...(asset.type === "Workflow Template" ? ["Logical correctness", "Recoverability", "Explainability", "Approval design"] : []),
-      ...(asset.type === "Research Pack" ? ["Evidence traceability", "Method clarity", "Reproducibility", "Scientific integrity"] : [])
+      ...(asset.type === "Agent Package"
+        ? [
+            "Capability clarity",
+            "Tool safety",
+            "Permission minimality",
+            "Prompt quality",
+            "Failure handling",
+            "Human oversight"
+          ]
+        : []),
+      ...(asset.type === "Workflow Template"
+        ? ["Logical correctness", "Recoverability", "Explainability", "Approval design"]
+        : []),
+      ...(asset.type === "Research Pack"
+        ? ["Evidence traceability", "Method clarity", "Reproducibility", "Scientific integrity"]
+        : [])
     ];
     const scores = dimensions.map<AssetSemantiqScore>((dimension) => {
-      const score = Math.min(1, 0.55 + asset.documentation.length * 0.05 + asset.examples.length * 0.05 + asset.capabilities.length * 0.02);
-      return { dimension, score, explanation: `${dimension} evaluated from metadata, documentation, provenance, permissions, and package validation.`, recommendations: score < 0.8 ? [`Improve ${dimension.toLowerCase()} before public release.`] : [] };
+      const score = Math.min(
+        1,
+        0.55 +
+          asset.documentation.length * 0.05 +
+          asset.examples.length * 0.05 +
+          asset.capabilities.length * 0.02
+      );
+      return {
+        dimension,
+        score,
+        explanation: `${dimension} evaluated from metadata, documentation, provenance, permissions, and package validation.`,
+        recommendations:
+          score < 0.8 ? [`Improve ${dimension.toLowerCase()} before public release.`] : []
+      };
     });
     const normalizedScore = scores.reduce((sum, score) => sum + score.score, 0) / scores.length;
-    const report: AssetSemantiqReport = { id: id("asset-semantiq"), assetId, assetVersion: asset.version, profile: `${asset.type} profile`, scores, normalizedScore, createdAt: now() };
+    const report: AssetSemantiqReport = {
+      id: id("asset-semantiq"),
+      assetId,
+      assetVersion: asset.version,
+      profile: `${asset.type} profile`,
+      scores,
+      normalizedScore,
+      createdAt: now()
+    };
     this.reports.set(report.id, report);
-    this.assets.set(assetId, { ...asset, semantiqReportIds: [...asset.semantiqReportIds, report.id] });
+    this.assets.set(assetId, {
+      ...asset,
+      semantiqReportIds: [...asset.semantiqReportIds, report.id]
+    });
     return report;
   }
 
@@ -742,8 +900,14 @@ export class LocalSprint4Runtime {
     const asset = this.requireAsset(assetId);
     const results = this.validations.get(assetId) ?? [];
     const report = this.latestReport(assetId);
-    if (!report || results.length === 0) throw new Error("Publication requires validation and Semantiq report");
-    const approved = { ...asset, state: "Published" as const, visibility: "local" as const, securityStatus: asset.securityStatus === "failed" ? "failed" as const : "warning" as const };
+    if (!report || results.length === 0)
+      throw new Error("Publication requires validation and Semantiq report");
+    const approved = {
+      ...asset,
+      state: "Published" as const,
+      visibility: "local" as const,
+      securityStatus: asset.securityStatus === "failed" ? ("failed" as const) : ("warning" as const)
+    };
     this.assets.set(assetId, approved);
     const listing: MarketplaceListing = {
       id: id("listing"),
@@ -764,32 +928,62 @@ export class LocalSprint4Runtime {
       publishedAt: now()
     };
     this.listings.set(listing.id, listing);
-    this.recordWallet(actorId, { publishedAssets: [assetId], licensedAssets: [assetId], licenseGrants: [id("license-grant")] });
+    this.recordWallet(actorId, {
+      publishedAssets: [assetId],
+      licensedAssets: [assetId],
+      licenseGrants: [id("license-grant")]
+    });
     this.emit("AssetApproved", actorId, asset.workspaceId, approved, {});
     this.emit("AssetPublished", actorId, asset.workspaceId, approved, { listingId: listing.id });
-    this.emit("LicenseGranted", actorId, asset.workspaceId, approved, { licenseId: approved.license.id });
+    this.emit("LicenseGranted", actorId, asset.workspaceId, approved, {
+      licenseId: approved.license.id
+    });
     return listing;
   }
 
-  searchAssets(query: string, filters: { readonly localOnly?: boolean; readonly verified?: boolean; readonly freeOpen?: boolean } = {}): readonly MarketplaceListing[] {
+  searchAssets(
+    query: string,
+    filters: {
+      readonly localOnly?: boolean;
+      readonly verified?: boolean;
+      readonly freeOpen?: boolean;
+    } = {}
+  ): readonly MarketplaceListing[] {
     const terms = query.toLowerCase().split(/\s+/).filter(Boolean);
     return [...this.listings.values()]
       .map((listing) => {
         const asset = this.requireAsset(listing.assetId);
-        const haystack = `${asset.title} ${asset.description} ${asset.type} ${asset.capabilities.join(" ")} ${asset.license.type} ${listing.securityStatus}`.toLowerCase();
-        const keywordScore = terms.length === 0 ? 0 : terms.filter((term) => haystack.includes(term)).length / terms.length;
+        const haystack =
+          `${asset.title} ${asset.description} ${asset.type} ${asset.capabilities.join(" ")} ${asset.license.type} ${listing.securityStatus}`.toLowerCase();
+        const keywordScore =
+          terms.length === 0
+            ? 0
+            : terms.filter((term) => haystack.includes(term)).length / terms.length;
         const semanticQuality = listing.semantiqSummary;
         const docsBonus = asset.documentation.length > 0 ? 0.1 : 0;
         return { listing, rank: keywordScore * 0.5 + semanticQuality * 0.4 + docsBonus };
       })
-      .filter(({ listing, rank }) => rank > 0 && (!filters.localOnly || this.requireAsset(listing.assetId).visibility === "local") && (!filters.verified || listing.trustIndicators.includes("human-approved")) && (!filters.freeOpen || !this.requireAsset(listing.assetId).license.type.includes("Commercial")))
+      .filter(
+        ({ listing, rank }) =>
+          rank > 0 &&
+          (!filters.localOnly || this.requireAsset(listing.assetId).visibility === "local") &&
+          (!filters.verified || listing.trustIndicators.includes("human-approved")) &&
+          (!filters.freeOpen ||
+            !this.requireAsset(listing.assetId).license.type.includes("Commercial"))
+      )
       .sort((left, right) => right.rank - left.rank)
       .map(({ listing }) => listing);
   }
 
-  createInstallationPlan(actorId: string, assetId: string, targetWorkspaceId: string): InstallationPlan {
+  createInstallationPlan(
+    actorId: string,
+    assetId: string,
+    targetWorkspaceId: string
+  ): InstallationPlan {
     const asset = this.requireAsset(assetId);
-    const pkg = [...this.packages.values()].find((candidate) => candidate.assetId === assetId && candidate.version === asset.version);
+    const pkg = [...this.packages.values()].find(
+      (candidate) => candidate.assetId === assetId && candidate.version === asset.version
+    );
     if (!pkg) throw new Error(`Package not found for asset ${assetId}`);
     const integrityReport = this.verifyPackage(pkg.id);
     return {
@@ -814,7 +1008,11 @@ export class LocalSprint4Runtime {
   async installAsset(actorId: string, planId: string): Promise<InstallationRecord> {
     const plan = this.findPlan(planId);
     const asset = this.requireAsset(plan.assetId);
-    if (plan.circularDependencyDetected || plan.conflictDetected || plan.integrityReport.tamperDetected) {
+    if (
+      plan.circularDependencyDetected ||
+      plan.conflictDetected ||
+      plan.integrityReport.tamperDetected
+    ) {
       this.emit("AssetInstallationFailed", actorId, plan.targetWorkspaceId, asset, { planId });
       throw new Error("Installation plan failed validation");
     }
@@ -831,22 +1029,44 @@ export class LocalSprint4Runtime {
     };
     this.installations.set(record.id, record);
     this.recordWallet(actorId, { installedAssets: [asset.id] });
-    this.emit("AssetInstalled", actorId, plan.targetWorkspaceId, asset, { installationId: record.id });
+    this.emit("AssetInstalled", actorId, plan.targetWorkspaceId, asset, {
+      installationId: record.id
+    });
     return record;
   }
 
-  updateAssetInstallation(actorId: string, installationId: string, version: string): InstallationRecord {
+  updateAssetInstallation(
+    actorId: string,
+    installationId: string,
+    version: string
+  ): InstallationRecord {
     const installation = this.requireInstallation(installationId);
-    const updated = { ...installation, version, state: "Update Available" as const, history: [...installation.history, `update-available:${version}`] };
+    const updated = {
+      ...installation,
+      version,
+      state: "Update Available" as const,
+      history: [...installation.history, `update-available:${version}`]
+    };
     this.installations.set(installationId, updated);
-    this.emit("AssetUpdated", actorId, installation.workspaceId, this.requireAsset(installation.assetId), { installationId, version });
+    this.emit(
+      "AssetUpdated",
+      actorId,
+      installation.workspaceId,
+      this.requireAsset(installation.assetId),
+      { installationId, version }
+    );
     return updated;
   }
 
   rollbackAsset(actorId: string, installationId: string): InstallationRecord {
     const installation = this.requireInstallation(installationId);
     const asset = this.requireAsset(installation.assetId);
-    const rolledBack = { ...installation, version: asset.version, state: "Rollback Available" as const, history: [...installation.history, `rolled-back:${asset.version}`] };
+    const rolledBack = {
+      ...installation,
+      version: asset.version,
+      state: "Rollback Available" as const,
+      history: [...installation.history, `rolled-back:${asset.version}`]
+    };
     this.installations.set(installationId, rolledBack);
     this.emit("AssetRolledBack", actorId, installation.workspaceId, asset, { installationId });
     return rolledBack;
@@ -854,9 +1074,19 @@ export class LocalSprint4Runtime {
 
   uninstallAsset(actorId: string, installationId: string): InstallationRecord {
     const installation = this.requireInstallation(installationId);
-    const uninstalled = { ...installation, state: "Uninstalled" as const, history: [...installation.history, "uninstalled"] };
+    const uninstalled = {
+      ...installation,
+      state: "Uninstalled" as const,
+      history: [...installation.history, "uninstalled"]
+    };
     this.installations.set(installationId, uninstalled);
-    this.emit("AssetUninstalled", actorId, installation.workspaceId, this.requireAsset(installation.assetId), { installationId });
+    this.emit(
+      "AssetUninstalled",
+      actorId,
+      installation.workspaceId,
+      this.requireAsset(installation.assetId),
+      { installationId }
+    );
     return uninstalled;
   }
 
@@ -868,7 +1098,17 @@ export class LocalSprint4Runtime {
       assetId,
       assetVersion: asset.version,
       usageContext,
-      ratings: { documentation: 4, functionality: 4, security: 3, educationalValue: 4, researchValue: 4, accessibility: 3, compatibility: 4, reliability: 4, maintainability: 4 },
+      ratings: {
+        documentation: 4,
+        functionality: 4,
+        security: 3,
+        educationalValue: 4,
+        researchValue: 4,
+        accessibility: 3,
+        compatibility: 4,
+        reliability: 4,
+        maintainability: 4
+      },
       explanation: "Structured local review; no anonymous untraceable rating.",
       evidence: asset.documentation,
       conflictsOfInterest: [],
@@ -876,15 +1116,33 @@ export class LocalSprint4Runtime {
       editHistory: []
     };
     this.reviews.push(review);
-    this.emit("MarketplaceReviewSubmitted", reviewerId, asset.workspaceId, asset, { reviewId: review.id });
+    this.emit("MarketplaceReviewSubmitted", reviewerId, asset.workspaceId, asset, {
+      reviewId: review.id
+    });
     return review;
   }
 
-  reportAsset(actorId: string, assetId: string, action: ModerationAction["action"], explanation: string): ModerationAction {
+  reportAsset(
+    actorId: string,
+    assetId: string,
+    action: ModerationAction["action"],
+    explanation: string
+  ): ModerationAction {
     const asset = this.requireAsset(assetId);
-    const record: ModerationAction = { id: id("moderation"), assetId, action, explanation, actorId, audited: true, createdAt: now() };
+    const record: ModerationAction = {
+      id: id("moderation"),
+      assetId,
+      action,
+      explanation,
+      actorId,
+      audited: true,
+      createdAt: now()
+    };
     this.moderation.push(record);
-    this.emit("MarketplaceReportCreated", actorId, asset.workspaceId, asset, { moderationId: record.id, action });
+    this.emit("MarketplaceReportCreated", actorId, asset.workspaceId, asset, {
+      moderationId: record.id,
+      action
+    });
     return record;
   }
 
@@ -927,18 +1185,41 @@ export class LocalSprint4Runtime {
 
   registerAgentPackage(actorId: string, assetId: string): void {
     const asset = this.requireAsset(assetId);
-    this.emit("AgentPackageRegistered", actorId, asset.workspaceId, asset, { capabilities: asset.capabilities });
+    this.emit("AgentPackageRegistered", actorId, asset.workspaceId, asset, {
+      capabilities: asset.capabilities
+    });
   }
 
   registerWorkflowTemplate(actorId: string, assetId: string): void {
     const asset = this.requireAsset(assetId);
-    this.emit("WorkflowTemplateRegistered", actorId, asset.workspaceId, asset, { capabilities: asset.capabilities });
+    this.emit("WorkflowTemplateRegistered", actorId, asset.workspaceId, asset, {
+      capabilities: asset.capabilities
+    });
   }
 
-  generateSDK(language: "typescript" | "python"): { readonly language: "typescript" | "python"; readonly modules: readonly string[]; readonly localRuntime: true; readonly remoteApi: true } {
+  generateSDK(language: "typescript" | "python"): {
+    readonly language: "typescript" | "python";
+    readonly modules: readonly string[];
+    readonly localRuntime: true;
+    readonly remoteApi: true;
+  } {
     return {
       language,
-      modules: ["identity", "workspace", "question", "knowledge", "graph", "semantiq", "research", "agent", "workflow", "asset", "registry", "marketplace", "events"],
+      modules: [
+        "identity",
+        "workspace",
+        "question",
+        "knowledge",
+        "graph",
+        "semantiq",
+        "research",
+        "agent",
+        "workflow",
+        "asset",
+        "registry",
+        "marketplace",
+        "events"
+      ],
       localRuntime: true,
       remoteApi: true
     };
@@ -946,7 +1227,9 @@ export class LocalSprint4Runtime {
 
   exportPackage(assetId: string): AssetPackage {
     const asset = this.requireAsset(assetId);
-    const pkg = [...this.packages.values()].find((candidate) => candidate.assetId === asset.id && candidate.version === asset.version);
+    const pkg = [...this.packages.values()].find(
+      (candidate) => candidate.assetId === asset.id && candidate.version === asset.version
+    );
     if (!pkg) throw new Error(`Package not found for asset ${assetId}`);
     return pkg;
   }
@@ -1005,12 +1288,19 @@ export class LocalSprint4Runtime {
   private findPlan(planId: string): InstallationPlan {
     const asset = [...this.assets.values()].find((candidate) => {
       const pkg = [...this.packages.values()].find((item) => item.assetId === candidate.id);
-      return pkg ? this.createInstallationPlan(candidate.ownerId, candidate.id, "workspace:consumer").id === planId : false;
+      return pkg
+        ? this.createInstallationPlan(candidate.ownerId, candidate.id, "workspace:consumer").id ===
+            planId
+        : false;
     });
     if (asset) return this.createInstallationPlan(asset.ownerId, asset.id, "workspace:consumer");
     const pkg = [...this.packages.values()][0];
     if (!pkg) throw new Error(`Installation plan not found: ${planId}`);
-    return this.createInstallationPlan(this.requireAsset(pkg.assetId).ownerId, pkg.assetId, "workspace:consumer");
+    return this.createInstallationPlan(
+      this.requireAsset(pkg.assetId).ownerId,
+      pkg.assetId,
+      "workspace:consumer"
+    );
   }
 
   private recordWallet(identityId: string, patch: Partial<WalletMarketplaceRecord>): void {
@@ -1022,12 +1312,18 @@ export class LocalSprint4Runtime {
       installedAssets: [...new Set([...current.installedAssets, ...(patch.installedAssets ?? [])])],
       licensedAssets: [...new Set([...current.licensedAssets, ...(patch.licensedAssets ?? [])])],
       publishedAssets: [...new Set([...current.publishedAssets, ...(patch.publishedAssets ?? [])])],
-      contributionRecords: [...new Set([...current.contributionRecords, ...(patch.contributionRecords ?? [])])],
+      contributionRecords: [
+        ...new Set([...current.contributionRecords, ...(patch.contributionRecords ?? [])])
+      ],
       credentials: [...new Set([...current.credentials, ...(patch.credentials ?? [])])],
       assetSignatures: [...new Set([...current.assetSignatures, ...(patch.assetSignatures ?? [])])],
-      freeClaimReceipts: [...new Set([...current.freeClaimReceipts, ...(patch.freeClaimReceipts ?? [])])],
+      freeClaimReceipts: [
+        ...new Set([...current.freeClaimReceipts, ...(patch.freeClaimReceipts ?? [])])
+      ],
       licenseGrants: [...new Set([...current.licenseGrants, ...(patch.licenseGrants ?? [])])],
-      publicationHistory: [...new Set([...current.publicationHistory, ...(patch.publicationHistory ?? [])])]
+      publicationHistory: [
+        ...new Set([...current.publicationHistory, ...(patch.publicationHistory ?? [])])
+      ]
     });
   }
 
@@ -1069,7 +1365,13 @@ export class LocalSprint4Runtime {
     return installation;
   }
 
-  private emit(type: Sprint4EventType, actorId: string, workspaceOrRegistryId: string, asset: Pick<SemanticAsset, "id" | "version">, payload: unknown): void {
+  private emit(
+    type: Sprint4EventType,
+    actorId: string,
+    workspaceOrRegistryId: string,
+    asset: Pick<SemanticAsset, "id" | "version">,
+    payload: unknown
+  ): void {
     this.events.push({
       eventId: id("event"),
       type,

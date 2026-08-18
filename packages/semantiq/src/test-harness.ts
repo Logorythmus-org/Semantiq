@@ -1,17 +1,17 @@
 export type TestCategory =
-  | 'unit'
-  | 'integration'
-  | 'contracts'
-  | 'migration'
-  | 'replay'
-  | 'scenarios'
-  | 'boundary'
-  | 'no-egress'
-  | 'cli'
-  | 'smoke'
-  | 'security'
-  | 'packaging'
-  | 'docs';
+  | "unit"
+  | "integration"
+  | "contracts"
+  | "migration"
+  | "replay"
+  | "scenarios"
+  | "boundary"
+  | "no-egress"
+  | "cli"
+  | "smoke"
+  | "security"
+  | "packaging"
+  | "docs";
 
 export interface TestHarnessConfig {
   readonly categories: readonly TestCategory[];
@@ -31,9 +31,19 @@ export interface TestRunReport {
 }
 
 const ALL_CATEGORIES: TestCategory[] = [
-  'unit', 'integration', 'contracts', 'migration',
-  'replay', 'scenarios', 'boundary', 'no-egress',
-  'cli', 'smoke', 'security', 'packaging', 'docs'
+  "unit",
+  "integration",
+  "contracts",
+  "migration",
+  "replay",
+  "scenarios",
+  "boundary",
+  "no-egress",
+  "cli",
+  "smoke",
+  "security",
+  "packaging",
+  "docs"
 ];
 
 /**
@@ -47,7 +57,7 @@ export class TestHarnessEngine {
     this.config = {
       categories: config?.categories ?? ALL_CATEGORIES,
       deterministicSeed: config?.deterministicSeed ?? 42,
-      isolatedTempDir: config?.isolatedTempDir ?? './tmp/test-harness',
+      isolatedTempDir: config?.isolatedTempDir ?? "./tmp/test-harness",
       noNetworkEgress: config?.noNetworkEgress ?? true,
       cleanupOnExit: config?.cleanupOnExit ?? true
     };
@@ -58,14 +68,14 @@ export class TestHarnessEngine {
   }
 
   validateHarness(importList: readonly string[]): TestRunReport {
-    const forbiddenPrefixes = ['sprint', 'civil', 'wallet', 'marketplace'];
-    const hasParentImports = importList.some(imp => {
-      if (!imp.startsWith('@tech-club/')) return false;
-      return forbiddenPrefixes.some(kw => imp.includes(kw));
+    const forbiddenPrefixes = ["sprint", "civil", "wallet", "marketplace"];
+    const hasParentImports = importList.some((imp) => {
+      if (!imp.startsWith("@tech-club/")) return false;
+      return forbiddenPrefixes.some((kw) => imp.includes(kw));
     });
 
     const hasNetworkEgress = importList.some(
-      imp => imp.includes('fetch(') || imp.includes('http.get') || imp.includes('axios')
+      (imp) => imp.includes("fetch(") || imp.includes("http.get") || imp.includes("axios")
     );
 
     return {

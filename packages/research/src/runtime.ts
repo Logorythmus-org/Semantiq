@@ -1,8 +1,19 @@
 import { createKnowledgeObjectAggregate } from "../../core/src/index.js";
-import { createKnowledgeEdge, type KnowledgeNode, LocalKnowledgeGraphRuntime } from "../../graph-runtime/src/index.js";
+import {
+  createKnowledgeEdge,
+  type KnowledgeNode,
+  LocalKnowledgeGraphRuntime
+} from "../../graph-runtime/src/index.js";
 import { ExplainableSemantiqRuntime } from "../../semantiq/src/index.js";
 
-export type ResearchStatus = "draft" | "active" | "evidence" | "experiment" | "review" | "published" | "archived";
+export type ResearchStatus =
+  | "draft"
+  | "active"
+  | "evidence"
+  | "experiment"
+  | "review"
+  | "published"
+  | "archived";
 export type EvidenceType =
   | "observation"
   | "experiment"
@@ -18,9 +29,30 @@ export type EvidenceType =
   | "code"
   | "mathematical-proof"
   | "external-reference";
-export type ExperimentType = "scientific" | "engineering" | "educational" | "social" | "simulation" | "digital" | "community" | "ai" | "hybrid" | "custom";
+export type ExperimentType =
+  | "scientific"
+  | "engineering"
+  | "educational"
+  | "social"
+  | "simulation"
+  | "digital"
+  | "community"
+  | "ai"
+  | "hybrid"
+  | "custom";
 export type ReviewMode = "blind" | "open" | "semantiq" | "community" | "expert";
-export type CommunityRole = "founder" | "administrator" | "moderator" | "researcher" | "student" | "teacher" | "mentor" | "reviewer" | "guest" | "ai-agent" | "observer";
+export type CommunityRole =
+  | "founder"
+  | "administrator"
+  | "moderator"
+  | "researcher"
+  | "student"
+  | "teacher"
+  | "mentor"
+  | "reviewer"
+  | "guest"
+  | "ai-agent"
+  | "observer";
 
 export interface ResearchProjectRuntime {
   readonly id: string;
@@ -207,14 +239,25 @@ export interface ResearchRuntimeEvent {
 
 export interface ResearchRecommendation {
   readonly id: string;
-  readonly type: "researcher" | "community" | "project" | "evidence" | "experiment" | "dataset" | "mentor" | "publication" | "question" | "workflow";
+  readonly type:
+    | "researcher"
+    | "community"
+    | "project"
+    | "evidence"
+    | "experiment"
+    | "dataset"
+    | "mentor"
+    | "publication"
+    | "question"
+    | "workflow";
   readonly targetId: string;
   readonly score: number;
   readonly explanation: string;
   readonly sourceSignals: readonly string[];
 }
 
-const createId = (prefix: string): string => `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+const createId = (prefix: string): string =>
+  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
 const now = (): string => new Date().toISOString();
 
 export class LocalResearchRuntime {
@@ -240,7 +283,10 @@ export class LocalResearchRuntime {
       throw new Error("Research projects must originate from a question");
     }
     this.projects.set(project.id, project);
-    await this.createNode(project.id, "research", project.title, { questionId: project.questionId, scope: project.scope });
+    await this.createNode(project.id, "research", project.title, {
+      questionId: project.questionId,
+      scope: project.scope
+    });
     await this.emit("ResearchCreated", project.id, project.id, { questionId: project.questionId });
     await this.evaluateProject(project);
   }
@@ -248,9 +294,19 @@ export class LocalResearchRuntime {
   async createHypothesis(hypothesis: HypothesisObject): Promise<void> {
     this.requireProject(hypothesis.projectId);
     this.hypotheses.set(hypothesis.id, hypothesis);
-    await this.createNode(hypothesis.id, "research", hypothesis.statement, { type: "hypothesis", confidence: hypothesis.confidence });
-    await this.link(hypothesis.id, hypothesis.projectId, "belongs_to", hypothesis.supportingEvidenceIds);
-    await this.emit("HypothesisCreated", hypothesis.projectId, hypothesis.id, { confidence: hypothesis.confidence });
+    await this.createNode(hypothesis.id, "research", hypothesis.statement, {
+      type: "hypothesis",
+      confidence: hypothesis.confidence
+    });
+    await this.link(
+      hypothesis.id,
+      hypothesis.projectId,
+      "belongs_to",
+      hypothesis.supportingEvidenceIds
+    );
+    await this.emit("HypothesisCreated", hypothesis.projectId, hypothesis.id, {
+      confidence: hypothesis.confidence
+    });
   }
 
   async addEvidence(evidence: EvidenceObject): Promise<void> {
@@ -263,7 +319,10 @@ export class LocalResearchRuntime {
       provenance: evidence.provenance
     });
     await this.link(evidence.id, evidence.projectId, "supports", [evidence.id]);
-    await this.emit("EvidenceAdded", evidence.projectId, evidence.id, { type: evidence.type, confidence: evidence.confidence });
+    await this.emit("EvidenceAdded", evidence.projectId, evidence.id, {
+      type: evidence.type,
+      confidence: evidence.confidence
+    });
   }
 
   async createExperiment(experiment: ExperimentObject): Promise<void> {
@@ -274,9 +333,14 @@ export class LocalResearchRuntime {
       status: experiment.status
     });
     await this.link(experiment.id, experiment.projectId, "belongs_to");
-    await this.emit(experiment.status === "completed" ? "ExperimentCompleted" : "ExperimentStarted", experiment.projectId, experiment.id, {
-      status: experiment.status
-    });
+    await this.emit(
+      experiment.status === "completed" ? "ExperimentCompleted" : "ExperimentStarted",
+      experiment.projectId,
+      experiment.id,
+      {
+        status: experiment.status
+      }
+    );
   }
 
   async addDataset(dataset: DatasetObject): Promise<void> {
@@ -301,9 +365,14 @@ export class LocalResearchRuntime {
       version: publication.version
     });
     await this.link(publication.id, publication.projectId, "generated_by", publication.evidenceIds);
-    await this.emit(publication.status === "published" ? "PublicationPublished" : "PublicationDrafted", publication.projectId, publication.id, {
-      status: publication.status
-    });
+    await this.emit(
+      publication.status === "published" ? "PublicationPublished" : "PublicationDrafted",
+      publication.projectId,
+      publication.id,
+      {
+        status: publication.status
+      }
+    );
   }
 
   async reviewPublication(review: PeerReviewObject): Promise<void> {
@@ -311,7 +380,10 @@ export class LocalResearchRuntime {
       throw new Error(`Publication not found: ${review.publicationId}`);
     }
     this.reviews.set(review.id, review);
-    await this.emit("ReviewCompleted", undefined, review.id, { publicationId: review.publicationId, approved: review.approved });
+    await this.emit("ReviewCompleted", undefined, review.id, {
+      publicationId: review.publicationId,
+      approved: review.approved
+    });
   }
 
   async createCommunity(community: ResearchCommunityRuntime): Promise<void> {
@@ -323,7 +395,11 @@ export class LocalResearchRuntime {
     await this.emit("CommunityCreated", undefined, community.id, { communityId: community.id });
   }
 
-  async joinCommunity(communityId: string, identityId: string, role: CommunityRole): Promise<ResearchCommunityRuntime> {
+  async joinCommunity(
+    communityId: string,
+    identityId: string,
+    role: CommunityRole
+  ): Promise<ResearchCommunityRuntime> {
     const community = this.requireCommunity(communityId);
     const updated: ResearchCommunityRuntime = {
       ...community,
@@ -338,13 +414,18 @@ export class LocalResearchRuntime {
   async createCollaboration(record: CollaborationRecord): Promise<void> {
     this.requireProject(record.projectId);
     this.collaborations.set(record.id, record);
-    await this.emit("KnowledgeExpanded", record.projectId, record.id, { collaborationId: record.id });
+    await this.emit("KnowledgeExpanded", record.projectId, record.id, {
+      collaborationId: record.id
+    });
   }
 
   async assignTask(task: ResearchTask): Promise<void> {
     this.requireProject(task.projectId);
     this.tasks.set(task.id, task);
-    await this.emit("KnowledgeExpanded", task.projectId, task.id, { taskId: task.id, status: task.status });
+    await this.emit("KnowledgeExpanded", task.projectId, task.id, {
+      taskId: task.id,
+      status: task.status
+    });
   }
 
   async recommendResearch(projectId: string): Promise<readonly ResearchRecommendation[]> {
@@ -358,7 +439,9 @@ export class LocalResearchRuntime {
       explanation: recommendation.explanation,
       sourceSignals: recommendation.sourceSignals
     })) satisfies readonly ResearchRecommendation[];
-    await this.emit("RecommendationGenerated", projectId, undefined, { count: recommendations.length });
+    await this.emit("RecommendationGenerated", projectId, undefined, {
+      count: recommendations.length
+    });
     return recommendations;
   }
 
@@ -383,10 +466,18 @@ export class LocalResearchRuntime {
 
   async analytics(projectId: string): Promise<ResearchAnalytics> {
     this.requireProject(projectId);
-    const evidenceCount = [...this.evidence.values()].filter((item) => item.projectId === projectId).length;
-    const experimentCount = [...this.experiments.values()].filter((item) => item.projectId === projectId).length;
-    const publicationCount = [...this.publications.values()].filter((item) => item.projectId === projectId).length;
-    const collaborationCount = [...this.collaborations.values()].filter((item) => item.projectId === projectId).length;
+    const evidenceCount = [...this.evidence.values()].filter(
+      (item) => item.projectId === projectId
+    ).length;
+    const experimentCount = [...this.experiments.values()].filter(
+      (item) => item.projectId === projectId
+    ).length;
+    const publicationCount = [...this.publications.values()].filter(
+      (item) => item.projectId === projectId
+    ).length;
+    const collaborationCount = [...this.collaborations.values()].filter(
+      (item) => item.projectId === projectId
+    ).length;
     return {
       projectId,
       researchVelocity: evidenceCount + experimentCount + publicationCount,
@@ -394,7 +485,10 @@ export class LocalResearchRuntime {
       experimentCount,
       knowledgeGrowth: evidenceCount + experimentCount,
       publicationQuality: publicationCount > 0 ? 0.75 : 0,
-      communityActivity: [...this.communities.values()].reduce((sum, community) => sum + community.memberIds.length, 0),
+      communityActivity: [...this.communities.values()].reduce(
+        (sum, community) => sum + community.memberIds.length,
+        0
+      ),
       collaboration: collaborationCount,
       semantiq: 0.7,
       researchHealth: Math.min(1, (evidenceCount + experimentCount + 1) / 5),
@@ -421,13 +515,32 @@ export class LocalResearchRuntime {
         contextIds: [project.questionId],
         evidenceIds: project.evidenceIds
       },
-      { id: "research-runtime", version: "1.0.0", name: "Research Runtime", weights: { evidence: 2, "scientific-quality": 2 } }
+      {
+        id: "research-runtime",
+        version: "1.0.0",
+        name: "Research Runtime",
+        weights: { evidence: 2, "scientific-quality": 2 }
+      }
     );
-    await this.emit("KnowledgeExpanded", project.id, result.report.id, { semantiqReportId: result.report.id });
+    await this.emit("KnowledgeExpanded", project.id, result.report.id, {
+      semantiqReportId: result.report.id
+    });
   }
 
-  private async createNode(id: string, type: KnowledgeNode["type"], title: string, metadata: Readonly<Record<string, unknown>>): Promise<void> {
-    const object = createKnowledgeObjectAggregate(id, "workspace:research", "identity:research-runtime", type, title, metadata);
+  private async createNode(
+    id: string,
+    type: KnowledgeNode["type"],
+    title: string,
+    metadata: Readonly<Record<string, unknown>>
+  ): Promise<void> {
+    const object = createKnowledgeObjectAggregate(
+      id,
+      "workspace:research",
+      "identity:research-runtime",
+      type,
+      title,
+      metadata
+    );
     const node: KnowledgeNode = {
       id,
       type,
@@ -442,8 +555,15 @@ export class LocalResearchRuntime {
     await this.graph.createNode(node);
   }
 
-  private async link(sourceId: string, targetId: string, relation: Parameters<typeof createKnowledgeEdge>[3], evidenceIds: readonly string[] = []): Promise<void> {
-    await this.graph.createEdge(createKnowledgeEdge(createId("research-edge"), sourceId, targetId, relation, evidenceIds));
+  private async link(
+    sourceId: string,
+    targetId: string,
+    relation: Parameters<typeof createKnowledgeEdge>[3],
+    evidenceIds: readonly string[] = []
+  ): Promise<void> {
+    await this.graph.createEdge(
+      createKnowledgeEdge(createId("research-edge"), sourceId, targetId, relation, evidenceIds)
+    );
   }
 
   private requireProject(projectId: string): ResearchProjectRuntime {
@@ -462,7 +582,12 @@ export class LocalResearchRuntime {
     return community;
   }
 
-  private async emit(type: ResearchRuntimeEventType, projectId: string | undefined, objectId: string | undefined, payload: unknown): Promise<void> {
+  private async emit(
+    type: ResearchRuntimeEventType,
+    projectId: string | undefined,
+    objectId: string | undefined,
+    payload: unknown
+  ): Promise<void> {
     const base: ResearchRuntimeEvent = {
       type,
       version: 1,

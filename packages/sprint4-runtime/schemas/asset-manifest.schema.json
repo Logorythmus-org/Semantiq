@@ -3,7 +3,19 @@
   "$id": "https://tech-club.local/schemas/asset-manifest.schema.json",
   "title": "Tech Club Asset Manifest",
   "type": "object",
-  "required": ["packageVersion", "assetId", "slug", "type", "title", "version", "capabilities", "permissions", "dependencies", "compatibility", "licenseId"],
+  "required": [
+    "packageVersion",
+    "assetId",
+    "slug",
+    "type",
+    "title",
+    "version",
+    "capabilities",
+    "permissions",
+    "dependencies",
+    "compatibility",
+    "licenseId"
+  ],
   "properties": {
     "packageVersion": { "const": "techclub-asset-v1" },
     "assetId": { "type": "string" },

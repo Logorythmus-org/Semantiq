@@ -1,13 +1,13 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type MappingFailureClass =
-  | 'outdated_framework_version'
-  | 'unsupported_mapping'
-  | 'missing_evidence'
-  | 'conflicting_mapping'
-  | 'false_certification_language'
-  | 'historical_mapping_rewrite'
-  | 'hidden_legal_assumptions';
+  | "outdated_framework_version"
+  | "unsupported_mapping"
+  | "missing_evidence"
+  | "conflicting_mapping"
+  | "false_certification_language"
+  | "historical_mapping_rewrite"
+  | "hidden_legal_assumptions";
 
 export interface FrameworkIdentity {
   readonly frameworkId: string;
@@ -50,7 +50,7 @@ export interface EvidenceMapping {
 export interface CoverageRecord {
   readonly coverageId: string;
   readonly requirementId: string;
-  readonly status: 'covered' | 'partial' | 'uncovered';
+  readonly status: "covered" | "partial" | "uncovered";
   readonly mappedEvidenceCount: number;
 }
 
@@ -88,7 +88,7 @@ export class ComplianceMappingEngine {
     if (!frameworkVersion.isSupported) {
       return {
         reportId: `fail_outdated_${mapping.mappingId}`,
-        failureClass: 'outdated_framework_version',
+        failureClass: "outdated_framework_version",
         mappingId: mapping.mappingId,
         description: `Framework version '${frameworkVersion.versionString}' is deprecated or unsupported.`,
         timestamp: mapping.mappedAt
@@ -96,10 +96,14 @@ export class ComplianceMappingEngine {
     }
 
     // 2. Missing Evidence Check
-    if (!hasEvidence || !mapping.evidenceChecksum.hash || mapping.evidenceChecksum.hash.trim() === '') {
+    if (
+      !hasEvidence ||
+      !mapping.evidenceChecksum.hash ||
+      mapping.evidenceChecksum.hash.trim() === ""
+    ) {
       return {
         reportId: `fail_no_ev_${mapping.mappingId}`,
-        failureClass: 'missing_evidence',
+        failureClass: "missing_evidence",
         mappingId: mapping.mappingId,
         description: `Mapping '${mapping.mappingId}' references non-existent or empty evidence hash.`,
         timestamp: mapping.mappedAt
@@ -108,10 +112,14 @@ export class ComplianceMappingEngine {
 
     // 3. False Certification Language Check
     const lowerClaim = mapping.claimText.toLowerCase();
-    if (lowerClaim.includes('certified') || lowerClaim.includes('legal compliance guaranteed') || lowerClaim.includes('fully compliant')) {
+    if (
+      lowerClaim.includes("certified") ||
+      lowerClaim.includes("legal compliance guaranteed") ||
+      lowerClaim.includes("fully compliant")
+    ) {
       return {
         reportId: `fail_cert_${mapping.mappingId}`,
-        failureClass: 'false_certification_language',
+        failureClass: "false_certification_language",
         mappingId: mapping.mappingId,
         description: `Mapping claim '${mapping.claimText}' violates non-certification boundary.`,
         timestamp: mapping.mappedAt
@@ -122,7 +130,7 @@ export class ComplianceMappingEngine {
     if (mapping.confidence.score < 0.2) {
       return {
         reportId: `fail_unsup_${mapping.mappingId}`,
-        failureClass: 'unsupported_mapping',
+        failureClass: "unsupported_mapping",
         mappingId: mapping.mappingId,
         description: `Mapping confidence score ${mapping.confidence.score} is below minimum threshold 0.2.`,
         timestamp: mapping.mappedAt

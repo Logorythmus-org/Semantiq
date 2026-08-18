@@ -1,14 +1,14 @@
-import type { EvidenceChecksum } from './event-schema.js';
+import type { EvidenceChecksum } from "./event-schema.js";
 
 export type DecisionFailureClass =
-  | 'decision_without_authority'
-  | 'stale_policy_use'
-  | 'missing_approval'
-  | 'missing_dissent'
-  | 'unsupported_certainty'
-  | 'post_hoc_policy_attachment'
-  | 'altered_decision_evidence'
-  | 'outcome_inconsistent_with_recorded_basis';
+  | "decision_without_authority"
+  | "stale_policy_use"
+  | "missing_approval"
+  | "missing_dissent"
+  | "unsupported_certainty"
+  | "post_hoc_policy_attachment"
+  | "altered_decision_evidence"
+  | "outcome_inconsistent_with_recorded_basis";
 
 export interface DecisionOption {
   readonly optionId: string;
@@ -66,10 +66,10 @@ export interface DecisionFailureReport {
 export class GovernanceDecisionEngine {
   evaluateDecisionRecord(record: GovernanceDecisionRecord): DecisionFailureReport | undefined {
     // 1. Decision Without Authority Check
-    if (!record.authorityRef || record.authorityRef.trim() === '') {
+    if (!record.authorityRef || record.authorityRef.trim() === "") {
       return {
         reportId: `fail_no_auth_${record.decisionId}`,
-        failureClass: 'decision_without_authority',
+        failureClass: "decision_without_authority",
         decisionId: record.decisionId,
         description: `Decision '${record.decisionId}' lacks required authority reference.`,
         timestamp: record.timestamp
@@ -77,10 +77,10 @@ export class GovernanceDecisionEngine {
     }
 
     // 2. Missing Approval Check when policy requires approval
-    if (!record.approvalRef || record.approvalRef.trim() === '') {
+    if (!record.approvalRef || record.approvalRef.trim() === "") {
       return {
         reportId: `fail_no_app_${record.decisionId}`,
-        failureClass: 'missing_approval',
+        failureClass: "missing_approval",
         decisionId: record.decisionId,
         description: `Decision '${record.decisionId}' executed without human approval reference.`,
         timestamp: record.timestamp
@@ -91,7 +91,7 @@ export class GovernanceDecisionEngine {
     if (record.dissents.length > 0 && record.uncertainty.score === 0) {
       return {
         reportId: `fail_uncert_${record.decisionId}`,
-        failureClass: 'unsupported_certainty',
+        failureClass: "unsupported_certainty",
         decisionId: record.decisionId,
         description: `Decision '${record.decisionId}' claims 0 uncertainty despite ${record.dissents.length} dissenting records.`,
         timestamp: record.timestamp
@@ -102,7 +102,7 @@ export class GovernanceDecisionEngine {
     if (record.observedOutcome && record.observedOutcome !== record.expectedOutcome) {
       return {
         reportId: `fail_incons_${record.decisionId}`,
-        failureClass: 'outcome_inconsistent_with_recorded_basis',
+        failureClass: "outcome_inconsistent_with_recorded_basis",
         decisionId: record.decisionId,
         description: `Observed outcome '${record.observedOutcome}' differs from expected basis '${record.expectedOutcome}'.`,
         timestamp: record.timestamp

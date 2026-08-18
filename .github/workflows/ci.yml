@@ -7,7 +7,8 @@ on:
       - main
 
 jobs:
-  validate:
+  core-validation:
+    name: Core Lint, Typecheck & Boundaries
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -18,8 +19,99 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm format:check
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm test
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Format check
+        run: pnpm format:check
+      - name: ESLint
+        run: pnpm lint
+      - name: TypeScript Typecheck
+        run: pnpm typecheck
+      - name: Package Boundaries & Architecture Test
+        run: pnpm test:boundaries
+
+  python-sdk:
+    name: Python Public Package & Tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.10", "3.11", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install build tools & pytest
+        run: |
+          python -m pip install --upgrade pip
+          pip install hatchling pytest
+      - name: Install SemantIQ Python package
+        run: pip install -e ./packages/python
+      - name: Run Python SDK tests & Fixture Parity
+        run: pytest packages/python/tests/test_contracts.py
+
+  cross-language-contracts:
+    name: Cross-Language Contracts & SDK Parity
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Validate Product Contracts
+        run: pnpm test:contracts:product
+      - name: Validate TypeScript SDK Compatibility
+        run: pnpm test:sdk
+
+  benchmark-regression:
+    name: Benchmark & Full Regression
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: First-Run Doctor
+        run: pnpm doctor
+      - name: Preflight Check
+        run: pnpm preflight
+      - name: Model Connector Check
+        run: pnpm connector
+      - name: Deterministic Smoke Evaluation
+        run: pnpm smoke
+      - name: Reproduction Pipeline
+        run: pnpm reproduce
+      - name: Workspace Export Pipeline
+        run: pnpm export
+      - name: Full Test Suite Regression
+        run: pnpm test
+
+  web-ui-build:
+    name: Web UI Build (Non-Core Dev Client)
+    runs-on: ubuntu-latest
+    continue-on-error: true
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.7.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Build Web Client
+        run: pnpm --filter @tech-club/web-app build

@@ -246,7 +246,13 @@ export interface ToolInvocation {
   readonly timeoutMs: number;
   readonly auditId: string;
   readonly approvalRequired: boolean;
-  readonly errorHandling: "retry" | "fallback-agent" | "rollback" | "checkpoint-restore" | "human-escalation" | "partial-completion";
+  readonly errorHandling:
+    | "retry"
+    | "fallback-agent"
+    | "rollback"
+    | "checkpoint-restore"
+    | "human-escalation"
+    | "partial-completion";
 }
 
 export interface HumanApprovalPolicy {

@@ -3,9 +3,9 @@
  * Capability Discovery Service
  */
 
-import type { ISandboxProvider, EnvironmentSpec } from '../../sandbox-contracts/src/index.js';
-import type { ProviderCapabilitiesManifest, CapabilityNegotiationResult } from './types.js';
-import { CapabilityNegotiator } from './negotiator.js';
+import type { ISandboxProvider, EnvironmentSpec } from "../../sandbox-contracts/src/index.js";
+import type { ProviderCapabilitiesManifest, CapabilityNegotiationResult } from "./types.js";
+import { CapabilityNegotiator } from "./negotiator.js";
 
 export class CapabilityDiscoveryService {
   private readonly manifests: Map<string, ProviderCapabilitiesManifest> = new Map();
@@ -14,13 +14,13 @@ export class CapabilityDiscoveryService {
   async registerProvider(provider: ISandboxProvider): Promise<ProviderCapabilitiesManifest> {
     const caps = await provider.getCapabilities();
     const manifest: ProviderCapabilitiesManifest = {
-      manifestVersion: '1.0.0',
+      manifestVersion: "1.0.0",
       providerId: provider.providerId,
       providerVersion: provider.providerVersion,
       probedAt: new Date().toISOString(),
       isolation: {
-        tier: caps.supportsMicroVM ? 'HARDWARE_MICROVM' : 'ROOTLESS_OCI',
-        mechanism: caps.supportsMicroVM ? 'firecracker' : 'runc',
+        tier: caps.supportsMicroVM ? "HARDWARE_MICROVM" : "ROOTLESS_OCI",
+        mechanism: caps.supportsMicroVM ? "firecracker" : "runc",
         rootless: true,
         seccompHardened: true
       },
@@ -38,12 +38,12 @@ export class CapabilityDiscoveryService {
       },
       browserAutomation: {
         supported: true,
-        engines: ['chromium'],
+        engines: ["chromium"],
         cdpProtocolSupported: true
       },
       mcpBridging: {
         supported: true,
-        transports: ['stdio', 'sse']
+        transports: ["stdio", "sse"]
       },
       stateManagement: {
         nativeSnapshots: caps.supportsSnapshots,

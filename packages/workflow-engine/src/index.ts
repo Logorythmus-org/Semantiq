@@ -60,7 +60,9 @@ export class LocalWorkflowEngineRepository implements WorkflowEngineRepository {
 }
 
 export class LocalWorkflowEngineService implements WorkflowEngineService {
-  constructor(private readonly repository: LocalWorkflowEngineRepository = new LocalWorkflowEngineRepository()) {}
+  constructor(
+    private readonly repository: LocalWorkflowEngineRepository = new LocalWorkflowEngineRepository()
+  ) {}
 
   async createWorkflow(workflow: WorkflowDefinition): Promise<void> {
     const errors = validateDefinition(workflow);
@@ -75,10 +77,28 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
     const workflowId = `${goal.id}:workflow:${goal.version}`;
     const goalNode = createNode(workflowId, "goal", "Goal", 0, goal.description);
     const taskNodes = goal.requirements.map((requirement, index) =>
-      createNode(workflowId, requiresApproval(requirement) ? "approval" : "task", requirement, index + 1, requirement)
+      createNode(
+        workflowId,
+        requiresApproval(requirement) ? "approval" : "task",
+        requirement,
+        index + 1,
+        requirement
+      )
     );
-    const semantiqNode = createNode(workflowId, "semantiq", "Benchmark Workflow", taskNodes.length + 1, "Benchmark output quality");
-    const memoryNode = createNode(workflowId, "memory", "Store Workflow Memory", taskNodes.length + 2, "Persist reusable learning");
+    const semantiqNode = createNode(
+      workflowId,
+      "semantiq",
+      "Benchmark Workflow",
+      taskNodes.length + 1,
+      "Benchmark output quality"
+    );
+    const memoryNode = createNode(
+      workflowId,
+      "memory",
+      "Store Workflow Memory",
+      taskNodes.length + 2,
+      "Persist reusable learning"
+    );
     const nodes = [goalNode, ...taskNodes, semantiqNode, memoryNode];
     const edges = createSequentialEdges(workflowId, nodes);
     const workflow: WorkflowDefinition = {
@@ -117,13 +137,18 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
           reason: "Generated workflow contains a critical action requirement",
           approved: false
         })),
-      generationExplanation: "Generated from goal requirements with Semantiq benchmarking and workflow memory nodes.",
+      generationExplanation:
+        "Generated from goal requirements with Semantiq benchmarking and workflow memory nodes.",
       risks: goal.risks,
       alternatives: ["manual execution", "single-agent execution", "template-based workflow"],
       estimatedCost: 0
     };
     await this.repository.saveWorkflow(workflow);
-    await this.emit("WorkflowGenerated", { goalId: goal.id, nodeCount: workflow.nodes.length }, workflow.id);
+    await this.emit(
+      "WorkflowGenerated",
+      { goalId: goal.id, nodeCount: workflow.nodes.length },
+      workflow.id
+    );
     return workflow;
   }
 
@@ -201,7 +226,10 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
       state: "draft",
       nodes: workflow.nodes.map((node) => ({ ...node, workflowId: cloneId })),
       edges: workflow.edges.map((edge) => ({ ...edge, workflowId: cloneId })),
-      approvalCheckpoints: workflow.approvalCheckpoints.map((checkpoint) => ({ ...checkpoint, workflowId: cloneId }))
+      approvalCheckpoints: workflow.approvalCheckpoints.map((checkpoint) => ({
+        ...checkpoint,
+        workflowId: cloneId
+      }))
     };
     await this.repository.saveWorkflow(clone);
     return clone;
@@ -224,8 +252,24 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
       estimatedCost: workflow.estimatedCost,
       risks: workflow.risks,
       approvalCheckpointIds: workflow.approvalCheckpoints.map((checkpoint) => checkpoint.id),
-      benchmarkCriteria: ["workflow-quality", "execution-quality", "planning-quality", "reasoning-quality", "reusable-value"],
-      graphWriteTargets: ["workflow", "goal", "execution", "agent", "repository", "project", "question", "benchmark", "reflection"]
+      benchmarkCriteria: [
+        "workflow-quality",
+        "execution-quality",
+        "planning-quality",
+        "reasoning-quality",
+        "reusable-value"
+      ],
+      graphWriteTargets: [
+        "workflow",
+        "goal",
+        "execution",
+        "agent",
+        "repository",
+        "project",
+        "question",
+        "benchmark",
+        "reflection"
+      ]
     };
   }
 
@@ -238,10 +282,17 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
       agentUsageFindings: workflow.agentIds.length === 0 ? ["No agents assigned"] : [],
       failureFindings: [],
       costFindings: workflow.estimatedCost === 0 ? ["Cost adapter is not connected"] : [],
-      parallelizationSuggestions: workflow.nodes.length > 3 ? ["Inspect independent task nodes for parallel execution"] : [],
-      knowledgeDensityFindings: workflow.knowledgeLinkIds.length === 0 ? ["No knowledge links attached"] : [],
-      benchmarkHistoryFindings: workflow.benchmarkIds.length === 0 ? ["No benchmark history attached"] : [],
-      recommendations: ["Run simulation before execution", "Benchmark completed executions", "Store workflow memory for reuse"]
+      parallelizationSuggestions:
+        workflow.nodes.length > 3 ? ["Inspect independent task nodes for parallel execution"] : [],
+      knowledgeDensityFindings:
+        workflow.knowledgeLinkIds.length === 0 ? ["No knowledge links attached"] : [],
+      benchmarkHistoryFindings:
+        workflow.benchmarkIds.length === 0 ? ["No benchmark history attached"] : [],
+      recommendations: [
+        "Run simulation before execution",
+        "Benchmark completed executions",
+        "Store workflow memory for reuse"
+      ]
     };
     await this.emit("WorkflowOptimized", { reportId: report.id }, workflow.id);
     return report;
@@ -274,7 +325,12 @@ export class LocalWorkflowEngineService implements WorkflowEngineService {
     await this.repository.saveExecution(execution);
     await this.emit("WorkflowStarted", { state }, workflow.id, execution.id);
     if (state === "completed") {
-      await this.emit("WorkflowCompleted", { executionId: execution.id }, workflow.id, execution.id);
+      await this.emit(
+        "WorkflowCompleted",
+        { executionId: execution.id },
+        workflow.id,
+        execution.id
+      );
     }
     return execution;
   }
@@ -339,7 +395,10 @@ function createNode(
   };
 }
 
-function createSequentialEdges(workflowId: string, nodes: readonly WorkflowNode[]): readonly WorkflowEdge[] {
+function createSequentialEdges(
+  workflowId: string,
+  nodes: readonly WorkflowNode[]
+): readonly WorkflowEdge[] {
   return nodes.slice(1).map((node, index) => ({
     id: `${workflowId}:edge:${index}`,
     workflowId,

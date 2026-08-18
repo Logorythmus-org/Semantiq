@@ -5,15 +5,15 @@
  */
 
 export type LifecycleStage =
-  | 'environment'
-  | 'permissions'
-  | 'context'
-  | 'interpretation'
-  | 'decision'
-  | 'action'
-  | 'result'
-  | 'consequence'
-  | 'recovery';
+  | "environment"
+  | "permissions"
+  | "context"
+  | "interpretation"
+  | "decision"
+  | "action"
+  | "result"
+  | "consequence"
+  | "recovery";
 
 export interface EvidenceReference {
   readonly id: string;
@@ -93,7 +93,7 @@ export interface ResultRecord {
   readonly id: string;
   readonly timestamp: string;
   readonly actionId: string;
-  readonly status: 'success' | 'failure' | 'error' | 'timeout';
+  readonly status: "success" | "failure" | "error" | "timeout";
   readonly exitCode: number;
   readonly outputSummary: string;
   readonly evidenceReferences: readonly EvidenceReference[];
@@ -105,7 +105,7 @@ export interface ConsequenceRecord {
   readonly resultId: string;
   readonly stateChanged: boolean;
   readonly sideEffects: readonly string[];
-  readonly riskLevel: 'none' | 'low' | 'medium' | 'high' | 'critical';
+  readonly riskLevel: "none" | "low" | "medium" | "high" | "critical";
 }
 
 export interface RecoveryRecord {
@@ -148,7 +148,7 @@ export interface BehaviorRun {
   readonly missionId: string;
   readonly agentId: string;
   readonly traceId: string;
-  readonly status: 'running' | 'completed' | 'failed' | 'aborted';
+  readonly status: "running" | "completed" | "failed" | "aborted";
   readonly totalSteps: number;
   readonly createdAt: string;
 }
@@ -158,5 +158,5 @@ export interface BehaviorProfile {
   readonly name: string;
   readonly version: string;
   readonly verbWeights: Readonly<Record<string, number>>;
-  readonly maxRiskTolerance: 'none' | 'low' | 'medium' | 'high';
+  readonly maxRiskTolerance: "none" | "low" | "medium" | "high";
 }

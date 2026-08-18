@@ -3,8 +3,17 @@
  * Universal Provider-Neutral Contract Type Definitions
  */
 
-export type RuntimeType = 'container' | 'microvm' | 'remote_managed' | 'replay';
-export type NetworkMode = 'none' | 'isolated_bridge' | 'whitelisted_egress' | 'full';
+export type RuntimeType = "container" | "microvm" | "remote_managed" | "replay";
+export type NetworkMode = "none" | "isolated_bridge" | "whitelisted_egress" | "full";
+
+export type BehavioralStage =
+  | "CONTEXT"
+  | "INTERPRETATION"
+  | "DECISION"
+  | "ACTION"
+  | "RESULT"
+  | "CONSEQUENCE"
+  | "RECOVERY";
 
 export interface ImageSpec {
   readonly name: string;
@@ -116,10 +125,10 @@ export interface CheckpointMetadata {
   readonly memorySnapshotSizeMb?: number | undefined;
 }
 
-export type ReproducibilityTier = 
-  | 'HERMETIC_DETERMINISTIC' 
-  | 'ISOLATED_REPRODUCIBLE' 
-  | 'BEST_EFFORT_TRANSIENT';
+export type ReproducibilityTier =
+  | "HERMETIC_DETERMINISTIC"
+  | "ISOLATED_REPRODUCIBLE"
+  | "BEST_EFFORT_TRANSIENT";
 
 export interface SandboxProvenance {
   readonly provenanceId: string;
@@ -154,7 +163,7 @@ export interface SandboxCapabilities {
   readonly supportsNetworkPolicy: boolean;
   readonly supportsResourceHardening: boolean;
   readonly maxExecutionTimeoutSeconds: number;
-  readonly supportedArchitectures: readonly ('x86_64' | 'aarch64')[];
+  readonly supportedArchitectures: readonly ("x86_64" | "aarch64")[];
 }
 
 export interface ValidationResult {
@@ -170,7 +179,7 @@ export interface ProviderHealthStatus {
 }
 
 export interface StreamChunkEvent {
-  readonly stream: 'stdout' | 'stderr';
+  readonly stream: "stdout" | "stderr";
   readonly text: string;
   readonly timestamp: string;
 }
@@ -188,7 +197,7 @@ export interface ProcessExitEvent {
 }
 
 export interface FilesystemMutationEvent {
-  readonly action: 'CREATE' | 'MODIFY' | 'DELETE';
+  readonly action: "CREATE" | "MODIFY" | "DELETE";
   readonly path: string;
   readonly timestamp: string;
 }
@@ -207,7 +216,7 @@ export class SandboxRuntimeError extends Error {
 
   constructor(code: string, message: string, providerId: string, isRetryable = false) {
     super(`[${providerId}] ${code}: ${message}`);
-    this.name = 'SandboxRuntimeError';
+    this.name = "SandboxRuntimeError";
     this.code = code;
     this.providerId = providerId;
     this.isRetryable = isRetryable;

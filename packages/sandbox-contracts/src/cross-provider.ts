@@ -3,18 +3,15 @@
  * Cross-Provider Reproducibility and Equivalence Contracts and Interfaces
  */
 
-import type { StateDelta, SandboxProvenance } from './types.js';
+import type { StateDelta, SandboxProvenance } from "./types.js";
 
 export type DivergenceCategory =
-  | 'BENIGN_ENVIRONMENTAL_DRIFT'
-  | 'PERFORMANCE_VARIANCE'
-  | 'BEHAVIORAL_DIVERGENCE'
-  | 'CRITICAL_FAULT';
+  | "BENIGN_ENVIRONMENTAL_DRIFT"
+  | "PERFORMANCE_VARIANCE"
+  | "BEHAVIORAL_DIVERGENCE"
+  | "CRITICAL_FAULT";
 
-export type EquivalenceLevel =
-  | 'EXACT_BYTE_IDENTICAL'
-  | 'SEMANTICALLY_EQUIVALENT'
-  | 'DIVERGENT';
+export type EquivalenceLevel = "EXACT_BYTE_IDENTICAL" | "SEMANTICALLY_EQUIVALENT" | "DIVERGENT";
 
 export interface CrossProviderComparisonRequest {
   readonly comparisonId: string;
@@ -58,10 +55,10 @@ export class CrossProviderEquivalenceEvaluator {
     // 1. Exit code parity check (Critical)
     if (request.baselineExitCode !== request.candidateExitCode) {
       divergences.push({
-        property: 'exitCode',
+        property: "exitCode",
         baselineValue: String(request.baselineExitCode),
         candidateValue: String(request.candidateExitCode),
-        category: 'BEHAVIORAL_DIVERGENCE',
+        category: "BEHAVIORAL_DIVERGENCE",
         description: `Exit codes do not match (${request.baselineExitCode} vs ${request.candidateExitCode}).`
       });
     }
@@ -73,34 +70,37 @@ export class CrossProviderEquivalenceEvaluator {
     if (normBaselineStdout !== normCandidateStdout) {
       const isMinor = this.isMinorDrift(normBaselineStdout, normCandidateStdout);
       divergences.push({
-        property: 'stdout',
+        property: "stdout",
         baselineValue: normBaselineStdout.slice(0, 100),
         candidateValue: normCandidateStdout.slice(0, 100),
-        category: isMinor ? 'BENIGN_ENVIRONMENTAL_DRIFT' : 'BEHAVIORAL_DIVERGENCE',
+        category: isMinor ? "BENIGN_ENVIRONMENTAL_DRIFT" : "BEHAVIORAL_DIVERGENCE",
         description: isMinor
-          ? 'Minor formatting or path differences detected in stdout.'
-          : 'Significant divergence in output text content.'
+          ? "Minor formatting or path differences detected in stdout."
+          : "Significant divergence in output text content."
       });
     }
 
     // 3. Architecture or Provider drift
-    if (request.baselineProvenance.hostArchitecture !== request.candidateProvenance.hostArchitecture) {
+    if (
+      request.baselineProvenance.hostArchitecture !== request.candidateProvenance.hostArchitecture
+    ) {
       divergences.push({
-        property: 'hostArchitecture',
+        property: "hostArchitecture",
         baselineValue: request.baselineProvenance.hostArchitecture,
         candidateValue: request.candidateProvenance.hostArchitecture,
-        category: 'BENIGN_ENVIRONMENTAL_DRIFT',
-        description: 'Execution occurred on different CPU architectures.'
+        category: "BENIGN_ENVIRONMENTAL_DRIFT",
+        description: "Execution occurred on different CPU architectures."
       });
     }
 
     const hasBehavioralDivergence = divergences.some(
-      d => d.category === 'BEHAVIORAL_DIVERGENCE' || d.category === 'CRITICAL_FAULT'
+      (d) => d.category === "BEHAVIORAL_DIVERGENCE" || d.category === "CRITICAL_FAULT"
     );
 
-    let equivalenceLevel: EquivalenceLevel = 'DIVERGENT';
+    let equivalenceLevel: EquivalenceLevel = "DIVERGENT";
     if (!hasBehavioralDivergence) {
-      equivalenceLevel = divergences.length === 0 ? 'EXACT_BYTE_IDENTICAL' : 'SEMANTICALLY_EQUIVALENT';
+      equivalenceLevel =
+        divergences.length === 0 ? "EXACT_BYTE_IDENTICAL" : "SEMANTICALLY_EQUIVALENT";
     }
 
     return {
@@ -115,8 +115,8 @@ export class CrossProviderEquivalenceEvaluator {
 
   private canonicalizeText(text: string): string {
     return text
-      .replace(/\r\n/g, '\n')
-      .replace(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z/g, '[TIMESTAMP]')
+      .replace(/\r\n/g, "\n")
+      .replace(/[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}\.[0-9]{3}Z/g, "[TIMESTAMP]")
       .trim();
   }
 

@@ -169,7 +169,10 @@ export interface Recommendation {
 
 export interface SemantiqEngine {
   evaluate(subject: BenchmarkSubject, profile: ScoringProfile): Promise<BenchmarkReport>;
-  compare(subjects: readonly BenchmarkSubject[], profile: ScoringProfile): Promise<ComparisonResult>;
+  compare(
+    subjects: readonly BenchmarkSubject[],
+    profile: ScoringProfile
+  ): Promise<ComparisonResult>;
   getHistory(subjectId: string): Promise<BenchmarkHistory>;
   recommend(report: BenchmarkReport): Promise<readonly Recommendation[]>;
   explain(reportId: string): Promise<string>;

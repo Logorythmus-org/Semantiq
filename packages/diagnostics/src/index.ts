@@ -1,6 +1,10 @@
 import { existsSync } from "node:fs";
 import { join } from "node:path";
-import { LocalAlphaRuntime, type DiagnosticBundle, type HealthSnapshot } from "../../alpha-runtime/src/index.js";
+import {
+  LocalAlphaRuntime,
+  type DiagnosticBundle,
+  type HealthSnapshot
+} from "../../alpha-runtime/src/index.js";
 
 export { LocalAlphaRuntime, type DiagnosticBundle, type HealthSnapshot };
 
@@ -171,7 +175,9 @@ export class FirstRunDoctor {
         status: hasOpenAI ? "configured" : "unconfigured",
         requiresAuth: true,
         authPresent: hasOpenAI,
-        warning: hasOpenAI ? "Data transmission warning: External API calls require explicit consent." : "OPENAI_API_KEY missing in local .env"
+        warning: hasOpenAI
+          ? "Data transmission warning: External API calls require explicit consent."
+          : "OPENAI_API_KEY missing in local .env"
       },
       {
         id: "anthropic",
@@ -180,7 +186,9 @@ export class FirstRunDoctor {
         status: hasAnthropic ? "configured" : "unconfigured",
         requiresAuth: true,
         authPresent: hasAnthropic,
-        warning: hasAnthropic ? "Data transmission warning: External API calls require explicit consent." : "ANTHROPIC_API_KEY missing in local .env"
+        warning: hasAnthropic
+          ? "Data transmission warning: External API calls require explicit consent."
+          : "ANTHROPIC_API_KEY missing in local .env"
       },
       {
         id: "google-genai",
@@ -189,7 +197,9 @@ export class FirstRunDoctor {
         status: hasGoogle ? "configured" : "unconfigured",
         requiresAuth: true,
         authPresent: hasGoogle,
-        warning: hasGoogle ? "Data transmission warning: External API calls require explicit consent." : "GEMINI_API_KEY missing in local .env"
+        warning: hasGoogle
+          ? "Data transmission warning: External API calls require explicit consent."
+          : "GEMINI_API_KEY missing in local .env"
       }
     ];
   }
