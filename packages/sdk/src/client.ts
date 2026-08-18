@@ -22,7 +22,7 @@ import {
   ClaimAssertionType,
   EpistemicNature,
   PRODUCT_CONTRACTS_SCHEMA_VERSION
-} from "@tech-club/sandbox-contracts";
+} from "../../sandbox-contracts/src/index.js";
 import { SemantiqSdkError, SemantiqValidationError, SemantiqReceiptError } from "./errors.js";
 
 export interface SemantiqClientConfig {

@@ -3,4 +3,4 @@
  * Re-export of canonical product contracts and enums
  */
 
-export * from "@tech-club/sandbox-contracts";
+export * from "../../sandbox-contracts/src/index.js";

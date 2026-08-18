@@ -1,0 +1,71 @@
+{
+  "benchmarkFamily": "smf",
+  "benchmarkId": "bmk_smf_semantic_evaluation_v1",
+  "runId": "run_smf_representative_001",
+  "systemProfile": {
+    "id": "sys_prof_claude_3_5_sonnet",
+    "version": "1.0.0",
+    "name": "Claude 3.5 Sonnet",
+    "modelFamily": "claude",
+    "modelId": "anthropic/claude-3-5-sonnet-20241022",
+    "parameters": {
+      "temperature": 0.0,
+      "max_tokens": 4096
+    },
+    "capabilities": [
+      "tool_calling",
+      "code_execution",
+      "multi_turn"
+    ],
+    "contextWindowTokens": 200000,
+    "createdAt": "2026-08-18T12:00:00.000Z"
+  },
+  "lifecycleStage": "completed",
+  "providerMetadata": {
+    "providerId": "deterministic-mock",
+    "modelId": "anthropic/claude-3-5-sonnet-20241022",
+    "modelFamily": "claude",
+    "isOfflineDeterministic": true,
+    "contextWindowTokens": 200000,
+    "containerImageDigest": "sha256:4a53c3ba2e53e20e5b3f6e243b9ec6e19e7f6e19d40300a7004d75821199a362",
+    "networkPolicy": "none"
+  },
+  "scores": [
+    {
+      "dimensionId": "reasoning-depth",
+      "rawScore": 0.92,
+      "normalizedScore": 0.92,
+      "weight": 0.35,
+      "confidence": 0.95,
+      "explanation": "Deterministic multi-step inference chain validated.",
+      "evidenceIds": ["ev_smf_01"]
+    },
+    {
+      "dimensionId": "evidence-grounding",
+      "rawScore": 0.88,
+      "normalizedScore": 0.88,
+      "weight": 0.35,
+      "confidence": 0.9,
+      "explanation": "Claims backed by verified citations and facts.",
+      "evidenceIds": ["ev_smf_02"]
+    },
+    {
+      "dimensionId": "reflection-quality",
+      "rawScore": 0.95,
+      "normalizedScore": 0.95,
+      "weight": 0.3,
+      "confidence": 0.98,
+      "explanation": "Error introspection and strategy correction validated.",
+      "evidenceIds": ["ev_smf_03"]
+    }
+  ],
+  "overallCompositeScore": 0.915,
+  "status": "completed",
+  "provenance": {
+    "merkleRootHash": "4444444444444444444444444444444444444444444444444444444444444444",
+    "executionReceiptId": "receipt_run_smf_representative_001",
+    "rawTraceDigest": "5555555555555555555555555555555555555555555555555555555555555555",
+    "observerSignatureHex": "6666666666666666666666666666666666666666666666666666666666666666",
+    "generatedTimestamp": "2026-08-18T12:00:00.000Z"
+  }
+}

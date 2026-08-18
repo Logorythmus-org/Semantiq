@@ -1,11 +1,8 @@
-export interface BenchmarkCase {
-  readonly id: string;
-  readonly input: string;
-  readonly expectedSignals: readonly string[];
-}
+/**
+ * @package @semantiq/benchmark
+ * Entry Point for the Canonical SemantIQ Benchmark Engine
+ */
 
-export interface BenchmarkResult {
-  readonly caseId: string;
-  readonly passed: boolean;
-  readonly notes: string;
-}
+export * from "./types.js";
+export * from "./adapter.js";
+export * from "./engine.js";

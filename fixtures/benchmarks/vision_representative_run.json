@@ -1,0 +1,62 @@
+{
+  "benchmarkFamily": "vision",
+  "benchmarkId": "bmk_vision_multimodal_grounding_v1",
+  "runId": "run_vision_representative_001",
+  "systemProfile": {
+    "id": "sys_prof_gemini_1_5_pro",
+    "version": "1.0.0",
+    "name": "Gemini 1.5 Pro Multimodal",
+    "modelFamily": "gemini",
+    "modelId": "google/gemini-1.5-pro",
+    "parameters": {
+      "temperature": 0.0,
+      "max_tokens": 4096
+    },
+    "capabilities": [
+      "tool_calling",
+      "vision",
+      "multi_turn"
+    ],
+    "contextWindowTokens": 1000000,
+    "createdAt": "2026-08-18T12:00:00.000Z"
+  },
+  "lifecycleStage": "completed",
+  "providerMetadata": {
+    "providerId": "deterministic-mock",
+    "modelId": "google/gemini-1.5-pro",
+    "modelFamily": "gemini",
+    "isOfflineDeterministic": true,
+    "contextWindowTokens": 1000000,
+    "containerImageDigest": "sha256:4a53c3ba2e53e20e5b3f6e243b9ec6e19e7f6e19d40300a7004d75821199a362",
+    "networkPolicy": "none"
+  },
+  "scores": [
+    {
+      "dimensionId": "visual-grounding",
+      "rawScore": 0.91,
+      "normalizedScore": 0.91,
+      "weight": 0.5,
+      "confidence": 0.93,
+      "explanation": "Accurate bounding-box and object spatial relation attribution.",
+      "evidenceIds": ["ev_vis_01"]
+    },
+    {
+      "dimensionId": "multimodal-tool-execution",
+      "rawScore": 0.93,
+      "normalizedScore": 0.93,
+      "weight": 0.5,
+      "confidence": 0.95,
+      "explanation": "Interactive visual coordinate crop and OCR pipeline verified.",
+      "evidenceIds": ["ev_vis_02"]
+    }
+  ],
+  "overallCompositeScore": 0.92,
+  "status": "completed",
+  "provenance": {
+    "merkleRootHash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+    "executionReceiptId": "receipt_run_vision_representative_001",
+    "rawTraceDigest": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+    "observerSignatureHex": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+    "generatedTimestamp": "2026-08-18T12:00:00.000Z"
+  }
+}
