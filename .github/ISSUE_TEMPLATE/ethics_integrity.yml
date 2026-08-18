@@ -1,0 +1,26 @@
+name: Ethics, Integrity & Epistemic Challenge
+description: Report a scientific anomaly, causal-language breach, or potential benchmark contamination incident.
+title: "[Integrity Challenge]: "
+labels: ["ethics", "epistemic-integrity", "dispute"]
+body:
+  - type: input
+    id: claim_or_run_id
+    attributes:
+      label: Target Claim, Pattern, or Run ID
+      placeholder: "e.g., claim_001, DP-008, run_9872"
+    validations:
+      required: true
+  - type: textarea
+    id: challenge_description
+    attributes:
+      label: Description of Integrity Issue
+      description: Detail why the claim violates controlled language, misrepresents observations as causal effects, or suffers from benchmark leakage.
+    validations:
+      required: true
+  - type: textarea
+    id: supporting_evidence
+    attributes:
+      label: Empirical Evidence & Audit Trail
+      description: Attach relevant trace logs, Merkle bundle verification output, or replication data.
+    validations:
+      required: true

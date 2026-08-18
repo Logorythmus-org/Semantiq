@@ -1,15 +1,41 @@
-name: Feature
-description: Propose a Spec-Kit backed production feature
+name: Feature Request
+description: Propose a new feature, adapter, or tool for SemantIQ Behavioral Evidence Infrastructure.
+title: "[Feature]: "
+labels: ["enhancement", "needs-triage"]
 body:
   - type: input
-    id: backlog_id
+    id: feature_title
     attributes:
-      label: Backlog ID
+      label: Feature Title
+      placeholder: "e.g., Support CSV Trace Ingestion in Python CLI"
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Target Domain
+      options:
+        - "Core Architecture"
+        - "Benchmark Engine"
+        - "Evidence Engine"
+        - "Research Governance"
+        - "Python SDK"
+        - "TypeScript SDK"
+        - "CLI / HTTP API"
+        - "Documentation"
+    validations:
+      required: true
   - type: textarea
-    id: goal
+    id: user_story
     attributes:
-      label: Goal
+      label: User Story & Value Proposition
+      description: As a researcher/engineer, I want [goal] so that [benefit].
+    validations:
+      required: true
   - type: textarea
-    id: acceptance
+    id: acceptance_criteria
     attributes:
-      label: Acceptance Criteria
+      label: Acceptance Criteria & Tests
+      description: What specific automated tests or behavioral verifications will confirm this feature is complete?
+    validations:
+      required: true

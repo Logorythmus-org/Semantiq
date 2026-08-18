@@ -1,0 +1,34 @@
+name: Research Methodology & Statistical Proposal
+description: Propose improvements to behavioral metrics, statistical contrast estimators, robustness diagnostics, or evidence policies.
+title: "[Methodology]: "
+labels: ["methodology", "evidence-engine", "statistics"]
+body:
+  - type: input
+    id: methodology_title
+    attributes:
+      label: Methodology Title
+      placeholder: "e.g., Extended Bootstrap Estimator for Heavy-Tailed Failure Distributions"
+    validations:
+      required: true
+  - type: textarea
+    id: empirical_grounding
+    attributes:
+      label: Empirical Motivation & Statistical Grounding
+      description: Mathematical rationale and citation references.
+    validations:
+      required: true
+  - type: textarea
+    id: behavioral_impact
+    attributes:
+      label: Impact on Behavioral Evidence & Evidence Graph
+      description: How does this refine E0–E4 evidence levels or matched controls?
+    validations:
+      required: true
+  - type: checkboxes
+    id: invariants_check
+    attributes:
+      label: Invariant Verifications
+      options:
+        - label: "Does NOT treat absence as counterevidence (R0 no_observation preserved)."
+        - label: "Does NOT equate matched association with causal effect."
+        - label: "Preserves visibility of counterevidence in aggregation."

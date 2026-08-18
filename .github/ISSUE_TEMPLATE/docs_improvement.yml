@@ -1,0 +1,24 @@
+name: Documentation Improvement
+description: Propose enhancements, clarifications, or missing guides in repository documentation.
+title: "[Docs]: "
+labels: ["documentation", "docs-quality"]
+body:
+  - type: input
+    id: docs_target
+    attributes:
+      label: Target Document(s)
+      placeholder: "e.g., Docs/PYTHON_USAGE.md, Docs/SCIENTIFIC_GUARDRAILS.md"
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description of Changes Needed
+      description: Explain the missing context, typo, outdated API sample, or conceptual ambiguity.
+    validations:
+      required: true
+  - type: textarea
+    id: suggested_content
+    attributes:
+      label: Suggested Content / Code Snippets
+      description: Provide the proposed replacement text or code examples.

@@ -1,0 +1,34 @@
+name: Partner / Protocol Integration Proposal
+description: Propose an external partner study protocol, execution manifest integration, or replication exchange partnership.
+title: "[Partner Integration]: "
+labels: ["partner-protocol", "replication-exchange"]
+body:
+  - type: input
+    id: org_name
+    attributes:
+      label: Organization / Study Name
+      placeholder: "e.g., Stanford Trust Lab / Longitudinal Context Drift Study"
+    validations:
+      required: true
+  - type: textarea
+    id: protocol_overview
+    attributes:
+      label: Study Protocol Overview
+      description: Target patterns, pre-registration parameters, sample sizes, and negative control strategy.
+    validations:
+      required: true
+  - type: textarea
+    id: eligibility_check
+    attributes:
+      label: External Evidence Eligibility Gate Preparedness
+      description: How will the study satisfy manifest verification, provenance checks, and deviation reporting?
+    validations:
+      required: true
+  - type: checkboxes
+    id: gate_acknowledgments
+    attributes:
+      label: Partner Governance Acknowledgments
+      options:
+        - label: "Acknowledged: No partner attestation alone promotes evidence."
+        - label: "Acknowledged: Preregistration must be frozen before empirical execution."
+        - label: "Acknowledged: Ineligible or deviated submissions are quarantined and auditable."

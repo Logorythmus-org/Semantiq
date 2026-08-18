@@ -1,0 +1,58 @@
+name: Architecture / RFC Proposal
+description: Propose an architectural modification, schema contract change, or core engine evolution.
+title: "[RFC]: "
+labels: ["rfc", "architecture", "needs-review"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please review the [RFC Process Guide](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/governance/rfc_process.md) before submitting.
+  - type: input
+    id: rfc_title
+    attributes:
+      label: RFC Title
+      placeholder: "e.g., Support Continuous Contrast Estimators in Evidence Engine"
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Target Domain
+      options:
+        - "Core Architecture & Contracts"
+        - "Benchmark Engine"
+        - "Evidence Engine"
+        - "Research Governance & Claims"
+        - "Python / TypeScript SDKs"
+        - "Security & Privacy"
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation & Problem Statement
+      description: What limitation or scientific challenge does this proposal resolve?
+    validations:
+      required: true
+  - type: textarea
+    id: specification
+    attributes:
+      label: Proposed Specification & Contract Changes
+      description: Detailed interfaces, data structures, or algorithm changes.
+    validations:
+      required: true
+  - type: textarea
+    id: cross_language
+    attributes:
+      label: Cross-Language & Backward Compatibility Impact
+      description: How does this affect Python and TypeScript SDK contracts?
+    validations:
+      required: true
+  - type: checkboxes
+    id: guardrails
+    attributes:
+      label: Epistemic & Security Guardrail Checklist
+      options:
+        - label: "This proposal upholds all 16 Core Epistemic Invariants."
+        - label: "This proposal preserves controlled language rules (no unhedged causal claims)."
+        - label: "This proposal introduces zero mandatory telemetry or cloud dependencies."
