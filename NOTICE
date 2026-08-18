@@ -1,0 +1,16 @@
+SemantIQ: Behavioral Evidence Infrastructure for AI Systems
+Copyright (c) 2026 SemantIQ Core Contributors and Tech Club Foundation
+
+This product includes software developed by the SemantIQ open-source community
+(https://github.com/Semant-iq/Semantiq).
+
+==============================================================================
+Multi-Tier Licensing Summary:
+- Source Code and SDKs: MIT License (see LICENSE)
+- Documentation and Architecture Specifications: CC-BY-4.0 (see LICENSING.md)
+- Datasets, Prompts, and Synthetic Fixtures: CC0-1.0 Universal (see LICENSING.md)
+==============================================================================
+
+This product depends on open-source libraries licensed under permissive terms
+(MIT, Apache 2.0, BSD-2-Clause, and BSD-3-Clause). No copyleft or proprietary
+dependencies are bundled in the core runtime.
