@@ -1,0 +1,427 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://schemas.semantiq.org/v1/product-contracts.schema.json",
+  "title": "SemantIQ Canonical Product Contracts",
+  "description": "Language-neutral canonical contracts for the Headless SemantIQ Platform v1.0.0",
+  "type": "object",
+  "definitions": {
+    "RunStatus": {
+      "type": "string",
+      "enum": ["pending", "running", "completed", "failed", "degraded", "cancelled", "insufficient_data"]
+    },
+    "TraceStatus": {
+      "type": "string",
+      "enum": ["in_progress", "completed", "error", "timeout", "insufficient_data"]
+    },
+    "TraceEventType": {
+      "type": "string",
+      "enum": ["prompt", "response", "tool_call", "tool_result", "state_change", "observation", "anomaly", "error"]
+    },
+    "TraceEventSource": {
+      "type": "string",
+      "enum": ["system", "agent", "environment", "observer", "human"]
+    },
+    "PatternCategory": {
+      "type": "string",
+      "enum": ["behavioral_anomaly", "anti_gaming_evasion", "degraded_mode_recovery", "consensus_drift", "hallucination_pattern", "capability_emergence"]
+    },
+    "PatternSeverity": {
+      "type": "string",
+      "enum": ["info", "low", "medium", "high", "critical"]
+    },
+    "EvidenceConfidence": {
+      "type": "string",
+      "enum": ["deterministic", "empirical", "inferred", "insufficient_data"]
+    },
+    "EpistemicNature": {
+      "type": "string",
+      "enum": ["observed", "inferred"]
+    },
+    "RelationType": {
+      "type": "string",
+      "enum": ["evaluates", "derives_from", "supports", "refutes", "contradicts", "supersedes", "depends_on", "reproduces"]
+    },
+    "ObservationCategory": {
+      "type": "string",
+      "enum": ["telemetry", "tool_output", "merkle_proof", "behavioral_trace", "anomaly_signal", "human_review"]
+    },
+    "EvaluationStatus": {
+      "type": "string",
+      "enum": ["passed", "failed", "degraded", "insufficient_data", "inconclusive"]
+    },
+    "ClaimAssertionType": {
+      "type": "string",
+      "enum": ["capability_bound", "safety_guarantee", "anti_gaming_resistance", "reproducibility_invariance", "cost_efficiency"]
+    },
+    "ClaimStatus": {
+      "type": "string",
+      "enum": ["verified", "falsified", "unsupported", "insufficient_data"]
+    },
+    "ReviewerRole": {
+      "type": "string",
+      "enum": ["independent_observer", "domain_expert", "automated_auditor", "peer_reviewer"]
+    },
+    "ReviewVerdict": {
+      "type": "string",
+      "enum": ["approved", "rejected", "disputed", "needs_revision", "insufficient_data"]
+    },
+    "PartnerRole": {
+      "type": "string",
+      "enum": ["benchmark_contributor", "evaluation_host", "audit_partner", "academic_collaborator"]
+    },
+    "StudyStatus": {
+      "type": "string",
+      "enum": ["draft", "in_review", "published", "archived"]
+    },
+
+    "SystemProfile": {
+      "type": "object",
+      "required": ["id", "version", "name", "modelFamily", "modelId", "parameters", "capabilities", "contextWindowTokens", "createdAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^sys_prof_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "name": { "type": "string" },
+        "modelFamily": { "type": "string" },
+        "modelId": { "type": "string" },
+        "parameters": { "type": "object" },
+        "capabilities": { "type": "array", "items": { "type": "string" } },
+        "contextWindowTokens": { "type": "integer", "minimum": 1 },
+        "metadata": { "type": "object", "additionalProperties": { "type": "string" } },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Benchmark": {
+      "type": "object",
+      "required": ["id", "version", "name", "description", "domain", "categories", "caseIds", "rubricIds", "versionTag", "createdAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^bmk_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "name": { "type": "string" },
+        "description": { "type": "string" },
+        "domain": { "type": "string" },
+        "categories": { "type": "array", "items": { "type": "string" } },
+        "caseIds": { "type": "array", "items": { "type": "string" } },
+        "rubricIds": { "type": "array", "items": { "type": "string" } },
+        "versionTag": { "type": "string" },
+        "metadata": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Run": {
+      "type": "object",
+      "required": ["id", "version", "benchmarkId", "systemProfileId", "status", "startedAt", "traceIds", "environmentMetadata"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^run_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "benchmarkId": { "type": "string" },
+        "systemProfileId": { "type": "string" },
+        "status": { "$ref": "#/definitions/RunStatus" },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "completedAt": { "type": "string", "format": "date-time" },
+        "traceIds": { "type": "array", "items": { "type": "string" } },
+        "evaluationId": { "type": "string" },
+        "executionReceiptId": { "type": "string" },
+        "environmentMetadata": {
+          "type": "object",
+          "required": ["provider", "platform", "isOfflineDeterministic"],
+          "properties": {
+            "provider": { "type": "string" },
+            "platform": { "type": "string" },
+            "isOfflineDeterministic": { "type": "boolean" }
+          },
+          "additionalProperties": false
+        },
+        "error": {
+          "type": "object",
+          "required": ["code", "message"],
+          "properties": {
+            "code": { "type": "string" },
+            "message": { "type": "string" },
+            "details": { "type": "object" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Trace": {
+      "type": "object",
+      "required": ["id", "version", "runId", "caseId", "status", "events", "tokenUsage", "durationMs", "startedAt", "endedAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^trc_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "runId": { "type": "string" },
+        "caseId": { "type": "string" },
+        "status": { "$ref": "#/definitions/TraceStatus" },
+        "events": { "type": "array", "items": { "$ref": "#/definitions/TraceEvent" } },
+        "tokenUsage": {
+          "type": "object",
+          "required": ["promptTokens", "completionTokens", "totalTokens"],
+          "properties": {
+            "promptTokens": { "type": "integer", "minimum": 0 },
+            "completionTokens": { "type": "integer", "minimum": 0 },
+            "totalTokens": { "type": "integer", "minimum": 0 },
+            "costUsdEstimated": { "type": "number", "minimum": 0 }
+          },
+          "additionalProperties": false
+        },
+        "durationMs": { "type": "number", "minimum": 0 },
+        "startedAt": { "type": "string", "format": "date-time" },
+        "endedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "TraceEvent": {
+      "type": "object",
+      "required": ["id", "traceId", "sequenceIndex", "timestamp", "type", "source", "payload", "sha256Hash"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^evt_[a-zA-Z0-9_.-]+$" },
+        "traceId": { "type": "string" },
+        "sequenceIndex": { "type": "integer", "minimum": 0 },
+        "timestamp": { "type": "string", "format": "date-time" },
+        "type": { "$ref": "#/definitions/TraceEventType" },
+        "source": { "$ref": "#/definitions/TraceEventSource" },
+        "payload": { "type": "object" },
+        "sha256Hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      },
+      "additionalProperties": false
+    },
+
+    "Case": {
+      "type": "object",
+      "required": ["id", "version", "benchmarkId", "title", "prompt", "inputs", "expectedBehavior", "tags"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^case_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "benchmarkId": { "type": "string" },
+        "title": { "type": "string" },
+        "prompt": { "type": "string" },
+        "inputs": { "type": "object" },
+        "expectedBehavior": { "type": "string" },
+        "constraints": {
+          "type": "object",
+          "properties": {
+            "maxTokens": { "type": "integer" },
+            "timeoutMs": { "type": "integer" },
+            "allowedTools": { "type": "array", "items": { "type": "string" } },
+            "forbiddenActions": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": false
+        },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "Pattern": {
+      "type": "object",
+      "required": ["id", "version", "name", "category", "description", "detectionRule", "severity", "confidence"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^pat_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "name": { "type": "string" },
+        "category": { "$ref": "#/definitions/PatternCategory" },
+        "description": { "type": "string" },
+        "detectionRule": {
+          "type": "object",
+          "required": ["kind", "expression"],
+          "properties": {
+            "kind": { "type": "string" },
+            "expression": { "type": "string" },
+            "threshold": { "type": "number" }
+          },
+          "additionalProperties": false
+        },
+        "severity": { "$ref": "#/definitions/PatternSeverity" },
+        "confidence": { "$ref": "#/definitions/EvidenceConfidence" }
+      },
+      "additionalProperties": false
+    },
+
+    "Relation": {
+      "type": "object",
+      "required": ["id", "version", "sourceId", "targetId", "relationType", "weight", "nature", "evidenceIds"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^rel_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "sourceId": { "type": "string" },
+        "targetId": { "type": "string" },
+        "relationType": { "$ref": "#/definitions/RelationType" },
+        "weight": { "type": "number", "minimum": 0, "maximum": 1 },
+        "nature": { "$ref": "#/definitions/EpistemicNature" },
+        "evidenceIds": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": false
+    },
+
+    "EvidenceObservation": {
+      "type": "object",
+      "required": ["id", "version", "nature", "category", "data", "confidence", "sha256Signature", "recordedAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^obs_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "traceId": { "type": "string" },
+        "runId": { "type": "string" },
+        "nature": { "$ref": "#/definitions/EpistemicNature" },
+        "category": { "$ref": "#/definitions/ObservationCategory" },
+        "data": { "type": "object" },
+        "confidence": { "$ref": "#/definitions/EvidenceConfidence" },
+        "sha256Signature": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "recordedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Evaluation": {
+      "type": "object",
+      "required": ["id", "version", "runId", "benchmarkId", "systemProfileId", "status", "overallScore", "scoreBreakdown", "observationIds", "claimIds", "generatedAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^eval_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "runId": { "type": "string" },
+        "benchmarkId": { "type": "string" },
+        "systemProfileId": { "type": "string" },
+        "status": { "$ref": "#/definitions/EvaluationStatus" },
+        "overallScore": { "type": ["number", "null"] },
+        "scoreBreakdown": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "object",
+            "required": ["score", "weight", "status"],
+            "properties": {
+              "score": { "type": ["number", "null"] },
+              "weight": { "type": "number" },
+              "status": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "observationIds": { "type": "array", "items": { "type": "string" } },
+        "claimIds": { "type": "array", "items": { "type": "string" } },
+        "generatedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Claim": {
+      "type": "object",
+      "required": ["id", "version", "evaluationId", "statement", "assertionType", "status", "nature", "supportingObservationIds", "refutingObservationIds", "scope"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^clm_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "evaluationId": { "type": "string" },
+        "statement": { "type": "string" },
+        "assertionType": { "$ref": "#/definitions/ClaimAssertionType" },
+        "status": { "$ref": "#/definitions/ClaimStatus" },
+        "nature": { "$ref": "#/definitions/EpistemicNature" },
+        "supportingObservationIds": { "type": "array", "items": { "type": "string" } },
+        "refutingObservationIds": { "type": "array", "items": { "type": "string" } },
+        "scope": {
+          "type": "object",
+          "required": ["offlineDeterministicOnly", "environmentBounds"],
+          "properties": {
+            "offlineDeterministicOnly": { "type": "boolean" },
+            "environmentBounds": { "type": "array", "items": { "type": "string" } }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+
+    "Review": {
+      "type": "object",
+      "required": ["id", "version", "targetId", "reviewerId", "reviewerRole", "verdict", "comments", "reproducibilityAuditPassed", "reviewedAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^rev_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "targetId": { "type": "string" },
+        "reviewerId": { "type": "string" },
+        "reviewerRole": { "$ref": "#/definitions/ReviewerRole" },
+        "verdict": { "$ref": "#/definitions/ReviewVerdict" },
+        "comments": { "type": "string" },
+        "reproducibilityAuditPassed": { "type": "boolean" },
+        "reviewedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Partner": {
+      "type": "object",
+      "required": ["id", "version", "name", "organization", "role", "contactUri", "registeredAt"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^prt_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "name": { "type": "string" },
+        "organization": { "type": "string" },
+        "role": { "$ref": "#/definitions/PartnerRole" },
+        "contactUri": { "type": "string", "format": "uri" },
+        "publicKey": { "type": "string" },
+        "registeredAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "Study": {
+      "type": "object",
+      "required": ["id", "version", "title", "abstract", "leadAuthor", "partnerIds", "benchmarkIds", "runIds", "evaluationIds", "status"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^std_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "title": { "type": "string" },
+        "abstract": { "type": "string" },
+        "leadAuthor": { "type": "string" },
+        "partnerIds": { "type": "array", "items": { "type": "string" } },
+        "benchmarkIds": { "type": "array", "items": { "type": "string" } },
+        "runIds": { "type": "array", "items": { "type": "string" } },
+        "evaluationIds": { "type": "array", "items": { "type": "string" } },
+        "status": { "$ref": "#/definitions/StudyStatus" },
+        "citation": {
+          "type": "object",
+          "properties": {
+            "cffUri": { "type": "string" },
+            "doi": { "type": "string" },
+            "bibtex": { "type": "string" }
+          },
+          "additionalProperties": false
+        },
+        "publishedAt": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    },
+
+    "ResearchBundle": {
+      "type": "object",
+      "required": ["id", "version", "studyId", "pepArchiveUri", "merkleRootHash", "includedArtifacts", "license", "createdTimestamp"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^bundle_[a-zA-Z0-9_.-]+$" },
+        "version": { "type": "string" },
+        "studyId": { "type": "string" },
+        "pepArchiveUri": { "type": "string", "format": "uri" },
+        "merkleRootHash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "includedArtifacts": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "sha256", "mediaType"],
+            "properties": {
+              "path": { "type": "string" },
+              "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+              "mediaType": { "type": "string" }
+            },
+            "additionalProperties": false
+          }
+        },
+        "license": { "type": "string" },
+        "createdTimestamp": { "type": "string", "format": "date-time" }
+      },
+      "additionalProperties": false
+    }
+  }
+}
