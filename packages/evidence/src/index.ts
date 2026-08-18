@@ -1,7 +1,8 @@
 /**
  * @package @semantiq/evidence
  * Entry Point for the Canonical Evidence Engine, Bridge Adapters, Semantic Trace Mapping,
- * Behavioral Metrics, Immutable Evaluation Ledger, Research/Failure Extraction, and Cross-Run Evidence Graph
+ * Behavioral Metrics, Immutable Evaluation Ledger, Research/Failure Extraction,
+ * Cross-Run Evidence Graph, and Matched Statistical Contrast
  */
 
 export * from "./types.js";
@@ -23,3 +24,6 @@ export * from "./research-evidence/pattern-promotion-engine.js";
 export * from "./research-evidence/failure-evidence-extractor.js";
 export * from "./evidence-graph/types.js";
 export * from "./evidence-graph/evidence-graph-engine.js";
+export * from "./statistical-contrast/types.js";
+export * from "./statistical-contrast/run-profile-matcher.js";
+export * from "./statistical-contrast/statistical-contrast-engine.js";
