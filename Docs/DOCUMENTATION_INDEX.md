@@ -1,71 +1,80 @@
-# Master Documentation Index
+# SemantIQ Master Documentation Index
+
+**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
+**Status**: `NORMATIVE`  
+**License**: [CC-BY-4.0](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSING.md)  
 
 Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation platform.
 
 ---
 
-## 1. Product Architecture & Core Infrastructure
+## 🧭 Audience Navigation Paths
 
-- 📐 **[System Architecture](ARCHITECTURE.md)**: Deep dive into Benchmark Engine, Evidence Engine, and Research Workbench.
-- 🔬 **[Canonical Research Workflow](RESEARCH_WORKFLOW.md)**: 18-stage end-to-end evidence reference pipeline (`DP-008 → FP-002`).
-- 🛡️ **[Scientific Guardrails & Epistemic Invariants](SCIENTIFIC_GUARDRAILS.md)**: The 16 core epistemic boundaries, controlled language rules, and eligibility gating.
-- 📦 **[Package Boundaries](BOUNDED_CONTEXTS.md)**: Monorepo package dependency structure.
-- 🏗️ **[Core Domain Model](DOMAIN_MODEL.md)**: Runs, Traces, Observations, Contrasts, Claims, and Protocols.
+```
+                           ┌───────────────────────────────┐
+                           │   SemantIQ Documentation Hub  │
+                           └──────────────┬────────────────┘
+                                          │
+    ┌───────────────────────────┬─────────┴─────────┬───────────────────────────┐
+    ▼                           ▼                   ▼                           ▼
+┌──────────────┐      ┌──────────────────┐  ┌──────────────┐      ┌────────────────────────┐
+│  🧑‍💻 Users   │      │  🛠️ Developers   │  │🔬 Researchers│      │  🤝 Partners & Insts   │
+│ & Evaluators │      │  & Integrators   │  │& Statisticians│     │  & Replication Hubs    │
+└──────────────┘      └──────────────────┘  └──────────────┘      └────────────────────────┘
+```
 
----
+### 🧑‍💻 1. For Users & Evaluators
+- 🚀 **[Getting Started](getting-started/README.md)**: [Quick Start](QUICK_START.md) • [Installation Matrix](INSTALLATION_MATRIX.md) • [Offline Guide](OFFLINE_GUIDE.md) • [FAQ](FAQ.md)
+- 🧪 **[Benchmarks & Test Batteries](benchmarks/README.md)**: Benchmark Engine • SMF • HACS Long-Horizon • Anti-Gaming Protocols
+- 💻 **[CLI Usage Reference](CLI_USAGE.md)**: `doctor` • `patterns` • `evidence` • `claims` • `reviews` • `studies` • `bundles` • `serve`
 
-## 2. Developer Guides & SDK Usage
+### 🛠️ 2. For Developers & System Integrators
+- 📐 **[System Architecture](architecture/README.md)**: [Architecture Specification](ARCHITECTURE.md) • [Package Boundaries](BOUNDED_CONTEXTS.md) • [Dual-Language SDK Strategy](architecture/dual-language-sdk-strategy.md) • [Core Domain Model](DOMAIN_MODEL.md)
+- 🐍 **[Python SDK Guide (`semantiq`)](PYTHON_USAGE.md)**: Python dataclasses, controlled language validation, and study protocols
+- 📘 **[TypeScript SDK Guide (`@semantiq/sdk`)](TYPESCRIPT_SDK.md)**: Zero-UI client, contract fixtures, and Bootstrap CI evaluation
+- 🌐 **[Headless HTTP API Reference](HTTP_API_REFERENCE.md)**: REST endpoints (`/health`, `/info`, `/api/v1/...`)
+- 🏛️ **[Product Domain Governance](governance/README.md)**: [Governance Model](GOVERNANCE.md) • [RFC Process](governance/rfc_process.md) • [CODEOWNERS](../.github/CODEOWNERS)
+- 🔒 **[Security & Protection](security/README.md)**: [Security Policy](../SECURITY.md) • [Threat Model](security/threat_model.md) • [Data Handling](security/data_handling.md) • [GitHub Protection](security/github_repository_protection.md)
+- 📐 **[Architecture Decision Records (ADRs)](adr/README.md)**: Immutable record of system design decisions
 
-- 🐍 **[Python Usage Guide](PYTHON_USAGE.md)**: `semantiq` Python SDK installation, statistical contrast, and claims workflow.
-- 📘 **[TypeScript SDK Guide](TYPESCRIPT_SDK.md)**: `@semantiq/sdk` TypeScript client and contract fixtures.
-- 💻 **[CLI Usage Guide](CLI_USAGE.md)**: `semantiq` CLI commands (`doctor`, `patterns`, `evidence`, `claims`, `reviews`, `studies`, `serve`).
-- 🌐 **[Headless HTTP API Reference](HTTP_API_REFERENCE.md)**: REST API endpoints reference (`/health`, `/info`, `/api/v1/...`).
-- 📖 **[Quick Start Guide](QUICK_START.md)**: Getting started in under 5 minutes.
-- 💻 **[Installation Matrix](INSTALLATION_MATRIX.md)**: System requirements, platform support, and Docker setup.
-- 🔒 **[Offline Guide](OFFLINE_GUIDE.md)**: Zero-telemetry posture and `--safe-mode` usage.
-- 🌐 **[Remote Provider Guide](REMOTE_PROVIDER_GUIDE.md)**: OpenAI, Anthropic, and Google GenAI connector setup.
-- 🔬 **[Reproduction Walkthrough](REPRODUCTION_WALKTHROUGH.md)**: Step-by-step score reproduction.
-- ❓ **[FAQ](FAQ.md)**: Frequently asked questions.
+### 🔬 3. For Researchers & Data Scientists
+- 🛡️ **[Core Scientific Concepts](concepts/README.md)**: [16 Epistemic Invariants](SCIENTIFIC_GUARDRAILS.md) • [Controlled Language Rules](../trust/PROHIBITED_PUBLIC_CLAIMS.md) • [Pattern-Failure Taxonomy](DOMAIN_MODEL.md)
+- 📊 **[Evidence Engine](evidence/README.md)**: 7D Matched Controls • Bootstrap CI & Exact Sign Test • Robustness & Specification Curves • Evidence Graph
+- 🔬 **[Research Workbench & Governed Claims](research/README.md)**: [18-Stage Research Reference Workflow](RESEARCH_WORKFLOW.md) • Governed Claims • Proposal-Only Evidence Watch • Merkle Research Bundles
 
----
-
-## 3. Quality, Security & Privacy Audits
-
-- ♿ **[Accessibility Audit](ACCESSIBILITY_REPORT.md)**: WCAG 2.2 Level AA compliance audit.
-- ⚡ **[Performance Baseline](PERFORMANCE_REPORT.md)**: Runtime and latency profiling.
-- 🛡️ **[Security Audit](SECURITY_REPORT.md)**: Dependency and secret scanning audit.
-- 🕵️ **[Privacy Audit](PRIVACY_REPORT.md)**: Network egress and data residency verification.
-- 🧹 **[Repository Hygiene](REPOSITORY_HYGIENE_REPORT.md)**: Cleanliness and ignore rules verification.
-- 📋 **[Consolidated Remediation Register](CONSOLIDATED_REMEDIATION_REGISTER.md)**: Quality pass register.
-
----
-
-## 4. Multi-Perspective Audits & Release Readiness
-
-- 👥 **[Stakeholder Audit Reports](STAKEHOLDER_AUDIT_REPORTS.md)**: 9 stakeholder role audits.
-- 🔄 **[Reproduction Attempt Report](REPRODUCTION_ATTEMPT_REPORT.md)**: Independent score reproduction test.
-- ✅ **[Public Claims Verification](PUBLIC_CLAIMS_VERIFICATION_REPORT.md)**: 100% claims verification against code.
-- ⚠️ **[Misuse & Failure Scenarios](MISUSE_AND_FAILURE_SCENARIOS_REPORT.md)**: Error recovery and prompt injection tests.
-- 📋 **[Findings Register](FINDINGS_REGISTER.md)**: Master audit findings matrix.
-- 🛑 **[Release Blocker List](RELEASE_BLOCKER_LIST.md)**: 0 open release blockers tracking.
-- 📊 **[Multi-Perspective Audit Matrix](MULTI_PERSPECTIVE_AUDIT_MATRIX.md)**: Signed-off audit matrix.
+### 🤝 4. For Partners, Institutions & Replication Hubs
+- 📑 **[Partner Protocols & Exchange](partners/README.md)**: Pre-registration • Execution Manifests • External Evidence Eligibility Gate • Cross-Org Replication
+- ⚖️ **[Licensing & Intellectual Property](../LICENSING.md)**: Multi-tier licensing (MIT code, CC0 datasets/prompts, CC-BY-4.0 docs)
+- 🏷️ **[Versioning & Release Policy](VERSIONING_POLICY.md)**: SemVer rules, schema stability, and benchmark preservation
+- 📋 **[Release Readiness Audit](release/core_product_readiness.md)**: 19-dimension audit report for the Headless Milestone
 
 ---
 
-## 5. Persistent Identifiers, Citation & IP
+## 🗂️ Scalable Documentation Directory Structure
 
-- 🏷️ **[Persistent Identifiers Strategy](PERSISTENT_IDENTIFIERS.md)**: Canonical `semantiq:<type>:<slug>:<version>` specification.
-- 🆔 **[Artifact Identity Model](ARTIFACT_IDENTITY_MODEL.md)**: Formal identity separation.
-- 📜 **[Citation Guide](CITATION_GUIDE.md)**: BibTeX & APA citation guidelines.
-- 📑 **[Zenodo DOI Workflow](ZENODO_DOI_WORKFLOW.md)**: GitHub to Zenodo archiving pipeline.
-- ⚖️ **[Intellectual Property Framework](INTELLECTUAL_PROPERTY_FRAMEWORK.md)**: IP, copyright, and provenance rights.
-- 📝 **[Contributor License Agreement](CONTRIBUTOR_LICENSE_AGREEMENT.md)**: Developer Certificate of Origin (DCO 1.1).
+```text
+Docs/
+├── getting-started/      # Quickstart, installation, offline usage, FAQ
+├── concepts/             # Epistemic invariants, scientific guardrails, taxonomy
+├── architecture/         # Three-tier design, package boundaries, dual-SDK strategy
+├── benchmarks/           # Benchmark Engine, SMF, HACS, Vision, anti-gaming
+├── evidence/             # Statistical contrast, 7D matching, robustness diagnostics
+├── research/             # 18-stage reference pipeline, governed claims, bundles
+├── governance/           # Product-domain ownership, RFC process, dispute protocol
+├── partners/             # Pre-registration, execution manifests, eligibility gate
+├── api/                  # Headless HTTP API, REST endpoints, CLI reference
+├── sdk/                  # Python and TypeScript SDK guides and parity tests
+├── security/             # Threat model, data handling, repository protection
+├── releases/             # Versioning policy, readiness audits, checksums
+└── adr/                  # Architecture Decision Records
+```
 
 ---
 
-## 6. Release Reports & Handoffs
+## 🏷️ Document Status Classifications
 
-- 🚀 **[Final Release Candidate Report](FINAL_RELEASE_CANDIDATE_REPORT.md)**: Release candidate verification.
-- 🚥 **[Formal Go/No-Go Decision](GO_NO_GO_DECISION.md)**: **GO** verdict signed off.
-- 📦 **[Artifact Checksums](ARTIFACT_CHECKSUMS.md)**: SHA-256 release file checksums.
-- 🤝 **[Phase 7 Handoff](PHASE_7_HANDOFF.md)**: Publication execution guide.
+Every documentation artifact in this repository carries an explicit status:
+- **`NORMATIVE`**: Authoritative, binding product specifications, mathematical contracts, and security policies.
+- **`REVIEWED`**: Technical guides, walkthroughs, and developer tutorials verified against current codebase.
+- **`DRAFT`**: Active RFCs and preliminary specifications undergoing community review.
+- **`HISTORICAL`**: Archived records, pre-headless audit reports, and legacy migration logs preserved for provenance.
