@@ -1,18 +1,20 @@
 /**
  * @package @tech-club/semantiq
- * Authoritative Studies, Protocol Pre-registration, Execution Manifests, and Partner Exchange Application Service
+ * Authoritative Studies, Protocols, Execution Manifests, and Evidence Eligibility Gate Application Service
  * 
  * Invariants:
  * 1. Counterevidence remains visible in aggregation.
  * 2. Preregistration ensures protocol transparency and guards against p-hacking/post-hoc selective reporting.
  * 3. Material deviations cap evidence level to prevent unhedged claim promotion.
  * 4. Partner attestation alone does not promote evidence.
- * 5. E4 requires genuine context diversity and remains non-causal.
+ * 5. Ineligible evidence (quarantined/rejected) is strictly blocked from Evidence Graph and E-level promotion.
+ * 6. E4 requires genuine context diversity and remains non-causal.
  */
 
 import {
   DatasetCaseRegistry,
   ExchangeRedactionEngine,
+  ExternalEvidenceEligibilityGate,
   PartnerOrganizationRegistry,
   ProtocolDeviationLedger,
   ReplicationRegistryEngine,
@@ -23,6 +25,8 @@ import {
   type CrossOrgReplicationAggregation,
   type DatasetSnapshot,
   type DatasetSource,
+  type ExternalEvidenceEligibilityDecision,
+  type GateEvaluationInput,
   type GenerateProtocolOptions,
   type ManifestExecutionStatus,
   type ManifestIngestionResult,
@@ -48,6 +52,8 @@ export class StudiesService {
   public readonly protocolGenerator = new StudyProtocolGenerator();
   public readonly deviationLedger = new ProtocolDeviationLedger();
   public readonly manifestRegistry = new StudyExecutionManifestRegistry();
+  public readonly eligibilityGate = new ExternalEvidenceEligibilityGate();
+  private readonly eligibilityDecisions = new Map<string, ExternalEvidenceEligibilityDecision>();
 
   // -------------------------------------------------------------
   // Dataset and Case Registry
@@ -134,6 +140,37 @@ export class StudiesService {
     status?: ManifestExecutionStatus | undefined;
   }): Promise<readonly StudyExecutionManifest[]> {
     return this.manifestRegistry.listManifests(filter);
+  }
+
+  // -------------------------------------------------------------
+  // External Evidence Eligibility Gate
+  // -------------------------------------------------------------
+  public async evaluateEvidenceEligibility(
+    input: GateEvaluationInput
+  ): Promise<ExternalEvidenceEligibilityDecision> {
+    const decision = this.eligibilityGate.evaluateSubmission(input);
+    this.eligibilityDecisions.set(decision.decisionId, decision);
+    return decision;
+  }
+
+  public async getEligibilityDecision(
+    decisionId: string
+  ): Promise<ExternalEvidenceEligibilityDecision | undefined> {
+    return this.eligibilityDecisions.get(decisionId);
+  }
+
+  public async listEligibilityDecisions(filter?: {
+    organizationId?: string | undefined;
+    targetClaimId?: string | undefined;
+  }): Promise<readonly ExternalEvidenceEligibilityDecision[]> {
+    let list = Array.from(this.eligibilityDecisions.values());
+    if (filter?.organizationId) {
+      list = list.filter((d) => d.organizationId === filter.organizationId);
+    }
+    if (filter?.targetClaimId) {
+      list = list.filter((d) => d.targetClaimId === filter.targetClaimId);
+    }
+    return Object.freeze(list);
   }
 
   // -------------------------------------------------------------

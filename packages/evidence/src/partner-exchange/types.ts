@@ -73,6 +73,7 @@ export interface ReplicationRecord {
   readonly counterevidenceDetails?: string | undefined;
   readonly conductedAt: string;
   readonly verifiedSignatureHex?: string | undefined;
+  readonly eligibilityVerdict?: "eligible" | "eligible_with_caveats" | "quarantined" | "rejected" | undefined;
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
 
@@ -114,6 +115,8 @@ export type AggregatedReplicationEvidenceGrade =
 export interface CrossOrgReplicationAggregation {
   readonly targetClaimId: string;
   readonly totalReplicationsCount: number;
+  readonly admissibleReplicationsCount: number;
+  readonly ineligibleSubmissionsCount: number;
   readonly independentOrganizationsCount: number;
   readonly supportCount: number;
   readonly counterCount: number;
@@ -126,3 +129,4 @@ export interface CrossOrgReplicationAggregation {
   readonly aggregatedEvidenceGrade: AggregatedReplicationEvidenceGrade;
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
+

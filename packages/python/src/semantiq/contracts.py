@@ -20,6 +20,7 @@ EPISTEMIC_BUNDLE_DISCLAIMER = "Bundle integrity proves provenance/integrity, not
 EPISTEMIC_REPLICATION_DISCLAIMER = "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
 EPISTEMIC_PREREGISTRATION_DISCLAIMER = "Preregistration ensures protocol transparency and guards against p-hacking and post-hoc selective reporting; it does not confer truth."
 EPISTEMIC_MANIFEST_DISCLAIMER = "Execution manifests establish protocol adherence and auditability; partner attestation alone does not establish scientific truth."
+EPISTEMIC_GATE_DISCLAIMER = "Gate eligibility determines evidence admissibility for aggregation; eligibility does not confer scientific truth or causal proof."
 
 
 def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
@@ -828,6 +829,22 @@ class ManifestIngestionResult(_ContractMixin):
     adherence_score: float
     ingested_at: str
     epistemic_disclaimer: str = EPISTEMIC_MANIFEST_DISCLAIMER
+
+
+@dataclass
+class ExternalEvidenceEligibilityDecision(_ContractMixin):
+    decision_id: str
+    study_id: str
+    target_claim_id: str
+    organization_id: str
+    verdict: str
+    is_admissible_for_aggregation: bool
+    reason_codes: List[str]
+    reasons: List[str]
+    caveats: List[str]
+    evaluated_at: str
+    epistemic_disclaimer: str = EPISTEMIC_GATE_DISCLAIMER
+
 
 
 

@@ -47,3 +47,4 @@ export * from "./research-bundles/index.js";
 export * from "./partner-exchange/index.js";
 export * from "./study-protocols/index.js";
 export * from "./execution-manifests/index.js";
+export * from "./external-evidence-gate/index.js";

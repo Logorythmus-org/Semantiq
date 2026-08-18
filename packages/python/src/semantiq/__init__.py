@@ -15,6 +15,7 @@ from .contracts import (
     EPISTEMIC_REPLICATION_DISCLAIMER,
     EPISTEMIC_PREREGISTRATION_DISCLAIMER,
     EPISTEMIC_MANIFEST_DISCLAIMER,
+    EPISTEMIC_GATE_DISCLAIMER,
     Benchmark,
     BootstrapConfidenceInterval,
     BundleComponentArtifact,
@@ -35,6 +36,7 @@ from .contracts import (
     EvidenceConfidence,
     EvidenceObservation,
     ExactSignTestResult,
+    ExternalEvidenceEligibilityDecision,
     GovernedClaimLifecycleStatus,
     GovernedEvidenceClaim,
     ImportBundleResult,
@@ -165,10 +167,11 @@ __all__ = [
     "BundleComponentArtifact",
     "ResearchBundleManifest",
     "BundleVerificationResult",
-    # Partner Exchange, Protocol & Execution Manifest Models
+    # Partner Exchange, Protocol, Manifest & Eligibility Gate Models
     "EPISTEMIC_REPLICATION_DISCLAIMER",
     "EPISTEMIC_PREREGISTRATION_DISCLAIMER",
     "EPISTEMIC_MANIFEST_DISCLAIMER",
+    "EPISTEMIC_GATE_DISCLAIMER",
     "PartnerOrganization",
     "PartnerStudy",
     "ContextDiversityDimension",
@@ -183,6 +186,7 @@ __all__ = [
     "PartnerAttestation",
     "StudyExecutionManifest",
     "ManifestIngestionResult",
+    "ExternalEvidenceEligibilityDecision",
     # Workflow Results
     "EvaluationResult",
     "ImportBundleResult",

@@ -69,10 +69,16 @@ export class ReplicationRegistryEngine {
 
   /**
    * Aggregates multi-organization replication evidence for a given claim.
-   * INVARIANT: Counterevidence remains visible and is never suppressed.
+   * INVARIANT 1: Counterevidence remains visible and is never suppressed.
+   * INVARIANT 2: Ineligible submissions (quarantined/rejected by Gate) cannot alter aggregation.
    */
   public aggregateReplications(claimId: string): CrossOrgReplicationAggregation {
-    const records = this.listReplicationsForClaim(claimId);
+    const allRecords = this.listReplicationsForClaim(claimId);
+
+    const admissibleRecords = allRecords.filter(
+      (r) => r.eligibilityVerdict !== "quarantined" && r.eligibilityVerdict !== "rejected"
+    );
+    const ineligibleCount = allRecords.length - admissibleRecords.length;
 
     let supportCount = 0;
     let counterCount = 0;
@@ -86,7 +92,7 @@ export class ReplicationRegistryEngine {
 
     const visibleCounterevidence: VisibleCounterevidenceEntry[] = [];
 
-    for (const r of records) {
+    for (const r of admissibleRecords) {
       orgSet.add(r.replicatingOrganizationId);
       for (const e of r.contextDiversity.environmentProviders) envSet.add(e);
       for (const m of r.contextDiversity.modelFamilies) modelSet.add(m);
@@ -122,17 +128,17 @@ export class ReplicationRegistryEngine {
       }
     }
 
-    const totalCount = records.length;
+    const totalCount = allRecords.length;
+    const admissibleCount = admissibleRecords.length;
     const independentOrgsCount = orgSet.size;
 
     // Context diversity index computation (0.0 to 1.0)
-    // Factors: distinct orgs, distinct environments, model families, platforms
     const diversityOrgFactor = Math.min(1.0, independentOrgsCount / 3);
     const diversityEnvFactor = Math.min(1.0, envSet.size / 2);
     const diversityModelFactor = Math.min(1.0, modelSet.size / 2);
     const diversityPlatformFactor = Math.min(1.0, platformSet.size / 2);
 
-    const contextDiversityIndex = totalCount === 0
+    const contextDiversityIndex = admissibleCount === 0
       ? 0.0
       : Number(
           (
@@ -148,11 +154,11 @@ export class ReplicationRegistryEngine {
       independentOrgsCount >= 2 && contextDiversityIndex >= 0.70;
 
     let aggregatedGrade: AggregatedReplicationEvidenceGrade;
-    if (totalCount === 0) {
+    if (admissibleCount === 0) {
       aggregatedGrade = "E0_INSUFFICIENT";
-    } else if (counterCount + mixedCount > totalCount * 0.2) {
+    } else if (counterCount + mixedCount > admissibleCount * 0.2) {
       aggregatedGrade = "E1_CONTESTED";
-    } else if (e4ContextDiversitySatisfied && supportCount >= totalCount * 0.8) {
+    } else if (e4ContextDiversitySatisfied && supportCount >= admissibleCount * 0.8) {
       aggregatedGrade = "E4_CROSS_CONTEXT_ROBUST";
     } else if (independentOrgsCount >= 2 && supportCount > 0) {
       aggregatedGrade = "E3_PARTIAL_REPLICATION";
@@ -165,6 +171,8 @@ export class ReplicationRegistryEngine {
     const aggregation: CrossOrgReplicationAggregation = {
       targetClaimId: claimId,
       totalReplicationsCount: totalCount,
+      admissibleReplicationsCount: admissibleCount,
+      ineligibleSubmissionsCount: ineligibleCount,
       independentOrganizationsCount: independentOrgsCount,
       supportCount,
       counterCount,
