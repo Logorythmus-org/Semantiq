@@ -1,6 +1,8 @@
 /**
  * @package @semantiq/sdk
  * SemantIQ SDK Error Hierarchy
+ * 
+ * Provides stable, typed exception models across all TypeScript SDK operations.
  */
 
 export class SemantiqSdkError extends Error {
@@ -41,5 +43,22 @@ export class SemantiqInsufficientDataError extends SemantiqSdkError {
   constructor(message: string, details?: Record<string, unknown> | undefined) {
     super(message, "INSUFFICIENT_DATA_ERROR", details);
     this.name = "SemantiqInsufficientDataError";
+  }
+}
+
+export class SemantiqControlledLanguageError extends SemantiqSdkError {
+  public readonly violations: readonly unknown[];
+
+  constructor(message: string, violations: readonly unknown[] = []) {
+    super(message, "CONTROLLED_LANGUAGE_VIOLATION", { violations });
+    this.name = "SemantiqControlledLanguageError";
+    this.violations = violations;
+  }
+}
+
+export class SemantiqGovernancePolicyError extends SemantiqSdkError {
+  constructor(message: string, details?: Record<string, unknown> | undefined) {
+    super(message, "GOVERNANCE_POLICY_ERROR", details);
+    this.name = "SemantiqGovernancePolicyError";
   }
 }
