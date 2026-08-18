@@ -19,6 +19,7 @@ EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criter
 EPISTEMIC_BUNDLE_DISCLAIMER = "Bundle integrity proves provenance/integrity, not truth."
 EPISTEMIC_REPLICATION_DISCLAIMER = "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
 EPISTEMIC_PREREGISTRATION_DISCLAIMER = "Preregistration ensures protocol transparency and guards against p-hacking and post-hoc selective reporting; it does not confer truth."
+EPISTEMIC_MANIFEST_DISCLAIMER = "Execution manifests establish protocol adherence and auditability; partner attestation alone does not establish scientific truth."
 
 
 def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
@@ -756,6 +757,78 @@ class ProtocolExecutionSummary(_ContractMixin):
     evaluated_at: str
     cap_reason: Optional[str] = None
     epistemic_disclaimer: str = EPISTEMIC_PREREGISTRATION_DISCLAIMER
+
+
+@dataclass
+class MissingDataReport(_ContractMixin):
+    total_expected_observations: int
+    observed_observations: int
+    missing_observations_count: int
+    missing_data_ratio: float
+
+
+@dataclass
+class NegativeControlExecution(_ContractMixin):
+    control_id: str
+    executed: bool
+    delta_observed: float
+    bound_expected: float
+    passed_bound: bool
+
+
+@dataclass
+class PartnerAttestation(_ContractMixin):
+    attested_by: str
+    role: str
+    attestation_statement: str
+    timestamp: str
+    signature_hex: Optional[str] = None
+
+
+@dataclass
+class StudyExecutionManifest(_ContractMixin):
+    manifest_id: str
+    study_id: str
+    organization_id: str
+    protocol_id: str
+    protocol_version: str
+    preregistration_fingerprint: str
+    started_at: str
+    completed_at: str
+    environment_fingerprint: str
+    model_fingerprint: str
+    dataset_fingerprint: str
+    trace_schema_fingerprint: str
+    treatment_runs_count: int
+    control_runs_count: int
+    matched_pairs_count: int
+    evaluation_ids: List[str]
+    matching_dimensions_used: List[str]
+    thresholds_used: Dict[str, float]
+    executed_negative_controls: List[NegativeControlExecution]
+    missing_data_report: MissingDataReport
+    software_version: str
+    partner_attestation: PartnerAttestation
+    manifest_sha256: str
+    epistemic_disclaimer: str = EPISTEMIC_MANIFEST_DISCLAIMER
+
+
+@dataclass
+class ManifestIngestionResult(_ContractMixin):
+    manifest_id: str
+    protocol_id: str
+    status: str
+    preregistration_match: bool
+    matching_dimensions_match: bool
+    negative_controls_passed: bool
+    sample_power_satisfied: bool
+    missing_data_acceptable: bool
+    flags: List[str]
+    violations: List[str]
+    adherence_score: float
+    ingested_at: str
+    epistemic_disclaimer: str = EPISTEMIC_MANIFEST_DISCLAIMER
+
 
 
 

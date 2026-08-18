@@ -46,3 +46,4 @@ export * from "./research-workbench/research-workbench-engine.js";
 export * from "./research-bundles/index.js";
 export * from "./partner-exchange/index.js";
 export * from "./study-protocols/index.js";
+export * from "./execution-manifests/index.js";

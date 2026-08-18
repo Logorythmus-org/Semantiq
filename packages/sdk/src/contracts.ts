@@ -389,5 +389,81 @@ export interface ProtocolExecutionSummary {
   readonly epistemicDisclaimer: typeof EPISTEMIC_PREREGISTRATION_DISCLAIMER;
 }
 
+export const EPISTEMIC_MANIFEST_DISCLAIMER =
+  "Execution manifests establish protocol adherence and auditability; partner attestation alone does not establish scientific truth.";
+
+export type ManifestExecutionStatus =
+  | "accepted"
+  | "flagged"
+  | "quarantined"
+  | "rejected";
+
+export interface MissingDataReport {
+  readonly totalExpectedObservations: number;
+  readonly observedObservations: number;
+  readonly missingObservationsCount: number;
+  readonly missingDataRatio: number;
+}
+
+export interface NegativeControlExecution {
+  readonly controlId: string;
+  readonly executed: boolean;
+  readonly deltaObserved: number;
+  readonly boundExpected: number;
+  readonly passedBound: boolean;
+}
+
+export interface PartnerAttestation {
+  readonly attestedBy: string;
+  readonly role: string;
+  readonly signatureHex?: string | undefined;
+  readonly attestationStatement: string;
+  readonly timestamp: string;
+}
+
+export interface StudyExecutionManifest {
+  readonly manifestId: string;
+  readonly studyId: string;
+  readonly organizationId: string;
+  readonly protocolId: string;
+  readonly protocolVersion: string;
+  readonly preregistrationFingerprint: string;
+  readonly startedAt: string;
+  readonly completedAt: string;
+  readonly environmentFingerprint: string;
+  readonly modelFingerprint: string;
+  readonly datasetFingerprint: string;
+  readonly traceSchemaFingerprint: string;
+  readonly treatmentRunsCount: number;
+  readonly controlRunsCount: number;
+  readonly matchedPairsCount: number;
+  readonly evaluationIds: readonly string[];
+  readonly matchingDimensionsUsed: readonly string[];
+  readonly thresholdsUsed: Readonly<Record<string, number>>;
+  readonly executedNegativeControls: readonly NegativeControlExecution[];
+  readonly missingDataReport: MissingDataReport;
+  readonly softwareVersion: string;
+  readonly partnerAttestation: PartnerAttestation;
+  readonly manifestSha256: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_MANIFEST_DISCLAIMER;
+}
+
+export interface ManifestIngestionResult {
+  readonly manifestId: string;
+  readonly protocolId: string;
+  readonly status: ManifestExecutionStatus;
+  readonly preregistrationMatch: boolean;
+  readonly matchingDimensionsMatch: boolean;
+  readonly negativeControlsPassed: boolean;
+  readonly samplePowerSatisfied: boolean;
+  readonly missingDataAcceptable: boolean;
+  readonly flags: readonly string[];
+  readonly violations: readonly string[];
+  readonly adherenceScore: number;
+  readonly ingestedAt: string;
+  readonly epistemicDisclaimer: typeof EPISTEMIC_MANIFEST_DISCLAIMER;
+}
+
+
 
 

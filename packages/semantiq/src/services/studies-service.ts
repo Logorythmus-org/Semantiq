@@ -1,12 +1,13 @@
 /**
  * @package @tech-club/semantiq
- * Authoritative Studies, Protocol Pre-registration, and Partner Exchange Application Service
+ * Authoritative Studies, Protocol Pre-registration, Execution Manifests, and Partner Exchange Application Service
  * 
  * Invariants:
  * 1. Counterevidence remains visible in aggregation.
  * 2. Preregistration ensures protocol transparency and guards against p-hacking/post-hoc selective reporting.
  * 3. Material deviations cap evidence level to prevent unhedged claim promotion.
- * 4. E4 requires genuine context diversity and remains non-causal.
+ * 4. Partner attestation alone does not promote evidence.
+ * 5. E4 requires genuine context diversity and remains non-causal.
  */
 
 import {
@@ -15,6 +16,7 @@ import {
   PartnerOrganizationRegistry,
   ProtocolDeviationLedger,
   ReplicationRegistryEngine,
+  StudyExecutionManifestRegistry,
   StudyProtocolGenerator,
   type CaseStudy,
   type CreateSnapshotOptions,
@@ -22,6 +24,8 @@ import {
   type DatasetSnapshot,
   type DatasetSource,
   type GenerateProtocolOptions,
+  type ManifestExecutionStatus,
+  type ManifestIngestionResult,
   type PartnerOrganization,
   type PartnerStudy,
   type ProtocolDeviation,
@@ -31,6 +35,7 @@ import {
   type RecordDeviationOptions,
   type RegisterPartnerOptions,
   type ReplicationRecord,
+  type StudyExecutionManifest,
   type StudyProtocol
 } from "../../../evidence/src/index.js";
 import type { PartnerRole } from "../../../sandbox-contracts/src/index.js";
@@ -42,6 +47,7 @@ export class StudiesService {
   public readonly redactionEngine = new ExchangeRedactionEngine();
   public readonly protocolGenerator = new StudyProtocolGenerator();
   public readonly deviationLedger = new ProtocolDeviationLedger();
+  public readonly manifestRegistry = new StudyExecutionManifestRegistry();
 
   // -------------------------------------------------------------
   // Dataset and Case Registry
@@ -103,6 +109,31 @@ export class StudiesService {
 
   public async evaluateProtocolExecution(protocolId: string): Promise<ProtocolExecutionSummary> {
     return this.deviationLedger.evaluateEvidenceCap(protocolId);
+  }
+
+  // -------------------------------------------------------------
+  // Study Execution Manifests
+  // -------------------------------------------------------------
+  public async ingestExecutionManifest(
+    manifest: StudyExecutionManifest,
+    protocol: StudyProtocol
+  ): Promise<ManifestIngestionResult> {
+    return this.manifestRegistry.ingestManifest(manifest, protocol);
+  }
+
+  public async getExecutionManifest(manifestId: string): Promise<StudyExecutionManifest | undefined> {
+    return this.manifestRegistry.getManifest(manifestId);
+  }
+
+  public async getManifestIngestionResult(manifestId: string): Promise<ManifestIngestionResult | undefined> {
+    return this.manifestRegistry.getIngestionResult(manifestId);
+  }
+
+  public async listExecutionManifests(filter?: {
+    organizationId?: string | undefined;
+    status?: ManifestExecutionStatus | undefined;
+  }): Promise<readonly StudyExecutionManifest[]> {
+    return this.manifestRegistry.listManifests(filter);
   }
 
   // -------------------------------------------------------------
