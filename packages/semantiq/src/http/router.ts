@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * Authoritative HTTP API Request Router
- * 
+ *
  * Invariants:
  * 1. UI-independent server/API layer consuming application services.
  * 2. Can run with NO Web UI installed.
@@ -45,7 +45,10 @@ export class SemantiqHttpRouter {
     if (this.enableCors) {
       res.setHeader("Access-Control-Allow-Origin", "*");
       res.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
-      res.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization, x-correlation-id");
+      res.setHeader(
+        "Access-Control-Allow-Headers",
+        "Content-Type, Authorization, x-correlation-id"
+      );
       if (req.method === "OPTIONS") {
         res.writeHead(204);
         res.end();
@@ -60,26 +63,43 @@ export class SemantiqHttpRouter {
 
     // 1. Health and Discovery Top-Level Endpoints
     if (method === "GET" && (pathname === "/health" || pathname === `${this.basePath}/health`)) {
-      this.sendJson(res, 200, {
-        status: "healthy",
-        version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
-        offlineDeterministic: true,
-        timestamp: new Date().toISOString()
-      }, correlationId);
+      this.sendJson(
+        res,
+        200,
+        {
+          status: "healthy",
+          version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          offlineDeterministic: true,
+          timestamp: new Date().toISOString()
+        },
+        correlationId
+      );
       return;
     }
 
     if (method === "GET" && (pathname === "/info" || pathname === `${this.basePath}/info`)) {
-      this.sendJson(res, 200, {
-        product: "SemantIQ",
-        version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
-        services: [
-          "runs", "evaluations", "patterns", "evidence", "comparisons",
-          "claims", "reviews", "studies", "bundles"
-        ],
-        headless: true,
-        staticServing: Boolean(this.staticDir)
-      }, correlationId);
+      this.sendJson(
+        res,
+        200,
+        {
+          product: "SemantIQ",
+          version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          services: [
+            "runs",
+            "evaluations",
+            "patterns",
+            "evidence",
+            "comparisons",
+            "claims",
+            "reviews",
+            "studies",
+            "bundles"
+          ],
+          headless: true,
+          staticServing: Boolean(this.staticDir)
+        },
+        correlationId
+      );
       return;
     }
 
@@ -129,7 +149,13 @@ export class SemantiqHttpRouter {
         if (method === "GET" && resource && resource !== "match" && resource !== "recommend") {
           const pattern = await this.service.patterns.getPattern(resource);
           if (!pattern) {
-            this.sendError(res, 404, "PATTERN_NOT_FOUND", `Pattern '${resource}' not found`, correlationId);
+            this.sendError(
+              res,
+              404,
+              "PATTERN_NOT_FOUND",
+              `Pattern '${resource}' not found`,
+              correlationId
+            );
             return true;
           }
           this.sendJson(res, 200, pattern, correlationId);
@@ -173,7 +199,13 @@ export class SemantiqHttpRouter {
         if (method === "GET" && resource && !subresource) {
           const claim = await this.service.claims.getClaim(resource);
           if (!claim) {
-            this.sendError(res, 404, "CLAIM_NOT_FOUND", `Claim '${resource}' not found`, correlationId);
+            this.sendError(
+              res,
+              404,
+              "CLAIM_NOT_FOUND",
+              `Claim '${resource}' not found`,
+              correlationId
+            );
             return true;
           }
           this.sendJson(res, 200, claim, correlationId);
@@ -191,7 +223,10 @@ export class SemantiqHttpRouter {
       // -------------------------------------------------------------
       if (domain === "evidence") {
         if (method === "POST" && resource === "metrics") {
-          const body = await this.readJsonBody<{ evaluationTargetId: string; inputs: Record<string, Record<string, unknown>> }>(req);
+          const body = await this.readJsonBody<{
+            evaluationTargetId: string;
+            inputs: Record<string, Record<string, unknown>>;
+          }>(req);
           const report = await this.service.evidence.computeBehavioralMetrics(
             body.evaluationTargetId || "eval_default",
             body.inputs || {}
@@ -286,20 +321,39 @@ export class SemantiqHttpRouter {
       // -------------------------------------------------------------
       if (domain === "comparisons") {
         if (method === "POST" && resource === "match") {
-          const body = await this.readJsonBody<{ runs: any[]; targetMetric: string; dimensions?: any[] }>(req);
-          const matched = await this.service.comparisons.matchControls(body.runs, body.targetMetric, body.dimensions);
+          const body = await this.readJsonBody<{
+            runs: any[];
+            targetMetric: string;
+            dimensions?: any[];
+          }>(req);
+          const matched = await this.service.comparisons.matchControls(
+            body.runs,
+            body.targetMetric,
+            body.dimensions
+          );
           this.sendJson(res, 200, matched, correlationId);
           return true;
         }
         if (method === "POST" && resource === "contrast") {
           const body = await this.readJsonBody<{ targetMetric: string; matchedData: any }>(req);
-          const contrast = await this.service.comparisons.computeStatisticalContrast(body.targetMetric, body.matchedData);
+          const contrast = await this.service.comparisons.computeStatisticalContrast(
+            body.targetMetric,
+            body.matchedData
+          );
           this.sendJson(res, 200, contrast, correlationId);
           return true;
         }
         if (method === "POST" && resource === "robustness") {
-          const body = await this.readJsonBody<{ runs: any[]; targetMetric: string; options?: any }>(req);
-          const robustness = await this.service.comparisons.runRobustnessDiagnostics(body.runs, body.targetMetric, body.options);
+          const body = await this.readJsonBody<{
+            runs: any[];
+            targetMetric: string;
+            options?: any;
+          }>(req);
+          const robustness = await this.service.comparisons.runRobustnessDiagnostics(
+            body.runs,
+            body.targetMetric,
+            body.options
+          );
           this.sendJson(res, 200, robustness, correlationId);
           return true;
         }
@@ -406,14 +460,23 @@ export class SemantiqHttpRouter {
           }
           resolve(JSON.parse(raw) as T);
         } catch (err) {
-          reject(new Error(`Malformed JSON request body: ${err instanceof Error ? err.message : String(err)}`));
+          reject(
+            new Error(
+              `Malformed JSON request body: ${err instanceof Error ? err.message : String(err)}`
+            )
+          );
         }
       });
       req.on("error", reject);
     });
   }
 
-  private sendJson<T>(res: ServerResponse, statusCode: number, data: T, correlationId: string): void {
+  private sendJson<T>(
+    res: ServerResponse,
+    statusCode: number,
+    data: T,
+    correlationId: string
+  ): void {
     const payload: ApiResponse<T> = {
       success: statusCode >= 200 && statusCode < 300,
       data,

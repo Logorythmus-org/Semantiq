@@ -41,12 +41,14 @@ export interface DeclarativeMappingProfile {
   readonly eventTypeMappings: readonly EventTypeMappingRule[];
   readonly preserveUnresolvedFields: boolean;
   readonly approvalStatus: MappingApprovalStatus;
-  readonly approvalMetadata?: {
-    readonly approvedBy: string;
-    readonly approvedAt: string;
-    readonly approvalNotes?: string | undefined;
-    readonly immutableSnapshotHash: string; // SHA-256 seal of the approved profile
-  } | undefined;
+  readonly approvalMetadata?:
+    | {
+        readonly approvedBy: string;
+        readonly approvedAt: string;
+        readonly approvalNotes?: string | undefined;
+        readonly immutableSnapshotHash: string; // SHA-256 seal of the approved profile
+      }
+    | undefined;
 }
 
 export interface MappingSuggestion {

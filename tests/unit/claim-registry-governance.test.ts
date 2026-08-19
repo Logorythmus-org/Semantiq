@@ -127,7 +127,10 @@ describe("Governed Claim Registry & Controlled Language Architecture", () => {
     expect(supersededV1?.supersededByClaimId).toBe(claimV2.id);
 
     // 4. Retraction
-    const retracted = registry.retractClaim(claimV2.id, "Superseding experimental design under review.");
+    const retracted = registry.retractClaim(
+      claimV2.id,
+      "Superseding experimental design under review."
+    );
     expect(retracted.status).toBe("retracted");
     expect(retracted.retractionReason).toBe("Superseding experimental design under review.");
     expect(retracted.retractedAt).toBeDefined();

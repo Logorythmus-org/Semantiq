@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * Authoritative Reproducible Research Bundles Application Service
- * 
+ *
  * Invariants:
  * 1. Cryptographic Merkle root computed over sorted component SHA-256 digests.
  * 2. Bundle integrity proves provenance/integrity, not truth.
@@ -83,7 +83,9 @@ export class BundlesService {
     }
 
     const runsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("runs/")).length;
-    const evalsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("evaluations/")).length;
+    const evalsCount = bundle.includedArtifacts.filter((a) =>
+      a.path.startsWith("evaluations/")
+    ).length;
     const claimsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("claims/")).length;
 
     return {

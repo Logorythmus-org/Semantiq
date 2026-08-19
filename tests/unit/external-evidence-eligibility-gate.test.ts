@@ -9,17 +9,14 @@ import {
   EPISTEMIC_MANIFEST_DISCLAIMER,
   type StudyExecutionManifest
 } from "../../packages/evidence/src/execution-manifests/index.js";
-import {
-  StudyProtocolGenerator
-} from "../../packages/evidence/src/study-protocols/index.js";
-import {
-  type BundleVerificationResult
-} from "../../packages/evidence/src/research-bundles/index.js";
-import {
-  type PartnerOrganization
-} from "../../packages/evidence/src/partner-exchange/index.js";
+import { StudyProtocolGenerator } from "../../packages/evidence/src/study-protocols/index.js";
+import { type BundleVerificationResult } from "../../packages/evidence/src/research-bundles/index.js";
+import { type PartnerOrganization } from "../../packages/evidence/src/partner-exchange/index.js";
 import { createSemantiqApplicationService } from "../../packages/semantiq/src/services/index.js";
-import { RelationType, PartnerRole } from "../../packages/sandbox-contracts/src/product-contracts.js";
+import {
+  RelationType,
+  PartnerRole
+} from "../../packages/sandbox-contracts/src/product-contracts.js";
 
 describe("External Evidence Eligibility Gate (Prompt 30)", () => {
   const protocolGenerator = new StudyProtocolGenerator();
@@ -75,7 +72,7 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
     matchedPairsCount: 20,
     evaluationIds: ["eval_001", "eval_002"],
     matchingDimensionsUsed: baseProtocol.matchingDimensions,
-    thresholdsUsed: { accuracy: 0.80 },
+    thresholdsUsed: { accuracy: 0.8 },
     observedInstrumentation: {
       traceCollectionMode: "buffered_event_stream",
       samplingRateHz: 100,
@@ -241,7 +238,7 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         replicatingStudyId: "study_rep_001",
         outcome: "support",
         effectDeltaObserved: 0.25,
-        baselineDeltaTarget: 0.20,
+        baselineDeltaTarget: 0.2,
         contextDiversity: {
           environmentProviders: ["docker_local"],
           modelFamilies: ["gpt-4"],
@@ -251,7 +248,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         counterevidenceObserved: false,
         conductedAt: "2026-08-18T10:00:00.000Z",
         eligibilityVerdict: "eligible",
-        epistemicDisclaimer: "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+        epistemicDisclaimer:
+          "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
       });
 
       // 2. Register an eligible_with_caveats supporting replication record
@@ -263,7 +261,7 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         replicatingStudyId: "study_rep_002",
         outcome: "support",
         effectDeltaObserved: 0.22,
-        baselineDeltaTarget: 0.20,
+        baselineDeltaTarget: 0.2,
         contextDiversity: {
           environmentProviders: ["podman_rootless"],
           modelFamilies: ["claude-3"],
@@ -273,7 +271,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         counterevidenceObserved: false,
         conductedAt: "2026-08-18T11:00:00.000Z",
         eligibilityVerdict: "eligible_with_caveats",
-        epistemicDisclaimer: "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+        epistemicDisclaimer:
+          "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
       });
 
       // 3. Register a QUARANTINED counterevidence record (e.g. material deviation / failed negative control)
@@ -284,8 +283,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         replicatingOrganizationId: "org_unverified_lab",
         replicatingStudyId: "study_rep_003",
         outcome: "counter",
-        effectDeltaObserved: -0.10,
-        baselineDeltaTarget: 0.20,
+        effectDeltaObserved: -0.1,
+        baselineDeltaTarget: 0.2,
         contextDiversity: {
           environmentProviders: ["unverified_cloud"],
           modelFamilies: ["llama-3"],
@@ -296,7 +295,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         counterevidenceDetails: "Failed negative controls and omitted matching dimensions",
         conductedAt: "2026-08-18T12:00:00.000Z",
         eligibilityVerdict: "quarantined",
-        epistemicDisclaimer: "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+        epistemicDisclaimer:
+          "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
       });
 
       // 4. Register a REJECTED counterevidence record (tampered bundle / falsified hash)
@@ -307,8 +307,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         replicatingOrganizationId: "org_malicious",
         replicatingStudyId: "study_rep_004",
         outcome: "counter",
-        effectDeltaObserved: -0.50,
-        baselineDeltaTarget: 0.20,
+        effectDeltaObserved: -0.5,
+        baselineDeltaTarget: 0.2,
         contextDiversity: {
           environmentProviders: ["host_raw"],
           modelFamilies: ["custom_model"],
@@ -319,7 +319,8 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
         counterevidenceDetails: "Tampered bundle Merkle root",
         conductedAt: "2026-08-18T13:00:00.000Z",
         eligibilityVerdict: "rejected",
-        epistemicDisclaimer: "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+        epistemicDisclaimer:
+          "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
       });
 
       // 5. Aggregate Replications
@@ -359,7 +360,9 @@ describe("External Evidence Eligibility Gate (Prompt 30)", () => {
       const fetched = await service.studies.getEligibilityDecision(decision.decisionId);
       expect(fetched?.decisionId).toBe(decision.decisionId);
 
-      const list = await service.studies.listEligibilityDecisions({ organizationId: "org_stanford_nlp" });
+      const list = await service.studies.listEligibilityDecisions({
+        organizationId: "org_stanford_nlp"
+      });
       expect(list.length).toBeGreaterThanOrEqual(1);
     });
   });

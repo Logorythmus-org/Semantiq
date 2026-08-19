@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Metric-Backed Failure Evidence Extractor
- * 
+ *
  * Invariants:
  * 1. Architecture-only facts must produce ZERO failure observations.
  * 2. Observed != Inferred. Failure observations require empirical metric/trace evidence.
@@ -9,10 +9,7 @@
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
 import type { BehavioralMetricsSuiteReport } from "../behavioral-metrics/types.js";
-import type {
-  FailureExtractionResult,
-  MetricBackedFailureObservation
-} from "./types.js";
+import type { FailureExtractionResult, MetricBackedFailureObservation } from "./types.js";
 
 export interface ExtractFailureOptions {
   readonly runId: string;

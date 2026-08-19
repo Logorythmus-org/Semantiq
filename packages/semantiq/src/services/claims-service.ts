@@ -43,10 +43,7 @@ export class ClaimsService {
     return this.registry.releaseClaim(claimId);
   }
 
-  public async retractClaim(
-    claimId: string,
-    reason: string
-  ): Promise<GovernedEvidenceClaim> {
+  public async retractClaim(claimId: string, reason: string): Promise<GovernedEvidenceClaim> {
     return this.registry.retractClaim(claimId, reason);
   }
 

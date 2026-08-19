@@ -1,5 +1,8 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
-import { createSemantiqHttpServer, type SemantiqHttpApplication } from "../../packages/semantiq/src/http/index.js";
+import {
+  createSemantiqHttpServer,
+  type SemantiqHttpApplication
+} from "../../packages/semantiq/src/http/index.js";
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
@@ -197,7 +200,9 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
         const validateRes = await fetch(`${headlessUrl}/api/v1/claims/validate-language`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ statement: "DP-008 is associated with reduced FP-002 context drift." })
+          body: JSON.stringify({
+            statement: "DP-008 is associated with reduced FP-002 context drift."
+          })
         });
         expect(validateRes.status).toBe(200);
         const validateJson = await validateRes.json();

@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * Authoritative Unified SemantIQ Application Service Facade
- * 
+ *
  * Provides unified operations across all 9 domain areas:
  * 1. runs
  * 2. evaluations
@@ -12,7 +12,7 @@
  * 7. reviews
  * 8. studies
  * 9. bundles
- * 
+ *
  * Invariants:
  * - CLI, Python SDK, TypeScript SDK, HTTP API, and future UIs consume these operations.
  * - No transport-specific models in domain services.

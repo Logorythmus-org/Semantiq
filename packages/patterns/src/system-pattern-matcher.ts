@@ -1,18 +1,14 @@
 /**
  * @package @semantiq/patterns
  * System Pattern Matcher & Recommender
- * 
+ *
  * Invariant: Relevance is not probability. Relevance is a deterministic rule-grounded score.
  */
 
 import type { SystemProfile } from "../../sandbox-contracts/src/index.js";
 import type { PatternGraph } from "./pattern-graph.js";
 import type { PatternRegistry } from "./pattern-registry.js";
-import type {
-  PatternDefinition,
-  PatternRecommendation,
-  SystemMatchResult
-} from "./types.js";
+import type { PatternDefinition, PatternRecommendation, SystemMatchResult } from "./types.js";
 
 export class SystemPatternMatcher {
   constructor(
@@ -116,10 +112,7 @@ export class SystemPatternMatcher {
     return score;
   }
 
-  private calculateRiskExposureScore(
-    profile: SystemProfile,
-    pattern: PatternDefinition
-  ): number {
+  private calculateRiskExposureScore(profile: SystemProfile, pattern: PatternDefinition): number {
     let risk = 0.3;
 
     if (pattern.code === "FP-001") {
@@ -132,7 +125,10 @@ export class SystemPatternMatcher {
       if (profile.capabilities.includes("multi_turn")) risk += 0.35;
     } else if (pattern.code === "FP-003") {
       // Tool injection vulnerability risk exists when tool calling is enabled
-      if (profile.capabilities.includes("tool_calling") || profile.capabilities.includes("code_execution")) {
+      if (
+        profile.capabilities.includes("tool_calling") ||
+        profile.capabilities.includes("code_execution")
+      ) {
         risk = 0.85;
       }
     } else if (pattern.code === "FP-006") {
@@ -143,12 +139,10 @@ export class SystemPatternMatcher {
     return Math.min(1.0, risk);
   }
 
-  private calculateTestRelevance(
-    profile: SystemProfile,
-    pattern: PatternDefinition
-  ): number {
+  private calculateTestRelevance(profile: SystemProfile, pattern: PatternDefinition): number {
     if (pattern.code === "TP-001") {
-      return profile.capabilities.includes("tool_calling") || profile.capabilities.includes("multi_turn")
+      return profile.capabilities.includes("tool_calling") ||
+        profile.capabilities.includes("multi_turn")
         ? 0.95
         : 0.7;
     }

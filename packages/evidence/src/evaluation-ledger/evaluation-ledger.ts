@@ -1,17 +1,14 @@
 /**
  * @package @semantiq/evidence
  * Immutable Append-Only Evaluation Ledger
- * 
+ *
  * Invariants:
  * 1. The evaluation ledger is strictly append-only.
  * 2. Every entry is cryptographically state-chained to the previous entry hash.
  * 3. Stable fingerprints prove artifact/config reproducibility, not scientific replication.
  */
 
-import {
-  type EvidenceConfidence,
-  computeSha256
-} from "../../../sandbox-contracts/src/index.js";
+import { type EvidenceConfidence, computeSha256 } from "../../../sandbox-contracts/src/index.js";
 import {
   type EvaluationLedgerEntry,
   type LedgerVerificationResult,
@@ -134,9 +131,7 @@ export class EvaluationLedgerEngine {
       const payloadDigest = computeSha256(
         `${entry.evaluationId}:${entry.runId}:${entry.benchmarkId}:${entry.contentFingerprint}:${entry.configFingerprint}:${entry.overallScore}`
       );
-      const expectedHash = computeSha256(
-        `${prevHash}:${i}:${payloadDigest}:${entry.recordedAt}`
-      );
+      const expectedHash = computeSha256(`${prevHash}:${i}:${payloadDigest}:${entry.recordedAt}`);
 
       if (entry.currentEntryHash !== expectedHash) {
         violations.push(

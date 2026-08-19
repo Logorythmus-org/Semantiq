@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * External Evidence Eligibility Gate Engine
- * 
+ *
  * Invariants:
  * 1. Gate eligibility determines evidence admissibility for aggregation; eligibility does not confer truth.
  * 2. Ineligible evidence (quarantined or rejected) is strictly blocked from Evidence Graph and E-level promotion.
@@ -70,7 +70,10 @@ export class ExternalEvidenceEligibilityGate {
         hasCriticalFailure = true;
         reasonCodes.push("DEVIATION_CRITICAL_REJECTED");
         reasons.push(`Critical protocol deviation recorded: ${dev.description}`);
-      } else if (dev.severity === "material" && (dev.timing === "during_execution" || dev.timing === "post_hoc")) {
+      } else if (
+        dev.severity === "material" &&
+        (dev.timing === "during_execution" || dev.timing === "post_hoc")
+      ) {
         hasMaterialFailure = true;
         reasonCodes.push("DEVIATION_MATERIAL_CAPPED");
         reasons.push(`Material deviation occurred during/post execution: ${dev.description}`);
@@ -100,21 +103,25 @@ export class ExternalEvidenceEligibilityGate {
 
     // 6. Negative Controls Execution
     const allNegControlsPassed = input.protocol.negativeControls.every((ctrl) => {
-      const executed = input.manifest.executedNegativeControls.find((c) => c.controlId === ctrl.controlId);
+      const executed = input.manifest.executedNegativeControls.find(
+        (c) => c.controlId === ctrl.controlId
+      );
       return executed && executed.executed && executed.passedBound;
     });
 
     if (!allNegControlsPassed) {
       hasMaterialFailure = true;
       reasonCodes.push("NEGATIVE_CONTROLS_FAILED");
-      reasons.push("One or more negative controls were omitted or failed expected null-hypothesis bounds.");
+      reasons.push(
+        "One or more negative controls were omitted or failed expected null-hypothesis bounds."
+      );
     } else {
       reasonCodes.push("NEGATIVE_CONTROLS_PASSED");
     }
 
     // 7. Missing Data & Sample Power
     const missingRatio = input.manifest.missingDataReport.missingDataRatio;
-    if (missingRatio > 0.20) {
+    if (missingRatio > 0.2) {
       hasMaterialFailure = true;
       reasonCodes.push("MISSING_DATA_EXCESSIVE");
       reasons.push(`Missing data ratio ${(missingRatio * 100).toFixed(1)}% exceeds 20% tolerance.`);
@@ -130,7 +137,9 @@ export class ExternalEvidenceEligibilityGate {
     if (input.manifest.matchedPairsCount < minPairs) {
       hasMaterialFailure = true;
       reasonCodes.push("SAMPLE_POWER_DEFICIENT");
-      reasons.push(`Matched pairs count ${input.manifest.matchedPairsCount} is below minimum ${minPairs}.`);
+      reasons.push(
+        `Matched pairs count ${input.manifest.matchedPairsCount} is below minimum ${minPairs}.`
+      );
     } else {
       reasonCodes.push("SAMPLE_POWER_SUFFICIENT");
       if (input.manifest.matchedPairsCount < recommendedPairs) {

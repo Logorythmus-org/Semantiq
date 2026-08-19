@@ -13,10 +13,7 @@ import {
   type ScoreOnlyBenchmarkArtifact,
   type TraceMappingResult
 } from "../../../evidence/src/index.js";
-import type {
-  IngestBenchmarkRunRequest,
-  IngestBenchmarkRunResponse
-} from "./types.js";
+import type { IngestBenchmarkRunRequest, IngestBenchmarkRunResponse } from "./types.js";
 
 export class RunsService {
   private readonly runs = new Map<string, Run>();
@@ -34,7 +31,10 @@ export class RunsService {
   ): Promise<IngestBenchmarkRunResponse> {
     const raw = request.rawArtifact;
     const overallScore = Number(raw["overallScore"] ?? raw["overall_score"] ?? 1.0);
-    const rawBreakdown = (raw["scoreBreakdown"] ?? raw["subscores"] ?? {}) as Record<string, unknown>;
+    const rawBreakdown = (raw["scoreBreakdown"] ?? raw["subscores"] ?? {}) as Record<
+      string,
+      unknown
+    >;
 
     const scoreBreakdown: Record<string, { score: number; weight: number; status?: string }> = {};
     const keys = Object.keys(rawBreakdown);
@@ -49,7 +49,8 @@ export class RunsService {
           scoreBreakdown[k] = {
             score: typeof s.score === "number" ? s.score : overallScore,
             weight: typeof s.weight === "number" ? s.weight : 1.0,
-            status: s.status ?? (typeof s.score === "number" && s.score >= 0.7 ? "passed" : "degraded")
+            status:
+              s.status ?? (typeof s.score === "number" && s.score >= 0.7 ? "passed" : "degraded")
           };
         }
       }
@@ -58,7 +59,9 @@ export class RunsService {
     const artifact: ScoreOnlyBenchmarkArtifact = {
       runId: (raw["runId"] || raw["run_id"] || `run_${Date.now()}`) as string,
       benchmarkId: (raw["benchmarkId"] || raw["benchmark_name"] || "benchmark_default") as string,
-      systemProfileId: (raw["systemProfileId"] || raw["model_identifier"] || "system_profile_default") as string,
+      systemProfileId: (raw["systemProfileId"] ||
+        raw["model_identifier"] ||
+        "system_profile_default") as string,
       providerId: (raw["providerId"] || "local_provider") as string,
       overallScore,
       scoreBreakdown,
@@ -101,9 +104,7 @@ export class RunsService {
     return Object.freeze(list);
   }
 
-  public async applyTraceMapping(
-    options: MapTraceOptions
-  ): Promise<TraceMappingResult> {
+  public async applyTraceMapping(options: MapTraceOptions): Promise<TraceMappingResult> {
     return this.traceMapper.mapRawEventsToCanonicalTrace(options);
   }
 }

@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * Unified Application Service Layer Contracts
- * 
+ *
  * Invariants:
  * 1. Authoritative application services over the integrated product domain.
  * 2. Pure domain models with NO transport-specific (HTTP/CLI) artifacts.

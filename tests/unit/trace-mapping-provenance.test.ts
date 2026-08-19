@@ -63,7 +63,11 @@ describe("Semantic Trace Mapping + Provenance Architecture", () => {
     expect(suggestion.confidence).toBeGreaterThanOrEqual(0.8);
     expect(suggestion.suggestedFieldMappings.some((f) => f.targetField === "id")).toBe(true);
     expect(suggestion.suggestedFieldMappings.some((f) => f.targetField === "timestamp")).toBe(true);
-    expect(suggestion.suggestedEventTypeMappings.some((t) => t.canonicalType === TraceEventType.TOOL_CALL)).toBe(true);
+    expect(
+      suggestion.suggestedEventTypeMappings.some(
+        (t) => t.canonicalType === TraceEventType.TOOL_CALL
+      )
+    ).toBe(true);
   });
 
   it("enforces explicit human approval before a draft mapping profile can be used", () => {
@@ -139,7 +143,9 @@ describe("Semantic Trace Mapping + Provenance Architecture", () => {
 
     // Invariant: Unknown/noisy fields remain unresolved in payload without fabrication
     expect(result.unresolvedFieldCount).toBeGreaterThan(0);
-    const event1Payload = result.trace.events[0]?.payload as { unresolvedFields?: Record<string, unknown> };
+    const event1Payload = result.trace.events[0]?.payload as {
+      unresolvedFields?: Record<string, unknown>;
+    };
     expect(event1Payload.unresolvedFields).toBeDefined();
     expect(event1Payload.unresolvedFields?.["noisy_vendor_flag"]).toBe("x-aws-trace-99");
     expect(event1Payload.unresolvedFields?.["custom_metric"]).toBe(42);

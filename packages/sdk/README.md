@@ -12,6 +12,7 @@
 
 `@semantiq/sdk` is the official, standalone TypeScript client for the SemantIQ behavioral evidence platform.
 It is built with **zero Web UI or React dependencies** so that it can be seamlessly consumed by:
+
 - Node.js backend services and microservices
 - Web applications (Next.js, Vite, React, Vue, Svelte)
 - Desktop applications (Electron, Tauri)

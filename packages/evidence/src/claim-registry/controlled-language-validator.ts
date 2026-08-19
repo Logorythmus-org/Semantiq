@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Controlled Language Validator
- * 
+ *
  * Invariants:
  * 1. Block unsupported causal language (e.g. 'causes', 'proves', 'guarantees', 'eliminates').
  * 2. Release controls wording, not truth.

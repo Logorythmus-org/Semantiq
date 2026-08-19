@@ -131,9 +131,7 @@ export interface KnowledgeGraphRuntimeApi {
   createEdge(edge: KnowledgeEdge): Promise<void>;
   neighborhood(nodeId: string, depth?: number): Promise<readonly KnowledgeNode[]>;
   shortestPath(from: string, to: string): Promise<readonly string[]>;
-  subgraph(
-    query: GraphQuery
-  ): Promise<{
+  subgraph(query: GraphQuery): Promise<{
     readonly nodes: readonly KnowledgeNode[];
     readonly edges: readonly KnowledgeEdge[];
   }>;
@@ -263,9 +261,7 @@ export class LocalKnowledgeGraphRuntime implements KnowledgeGraphRuntimeApi {
     return [];
   }
 
-  async subgraph(
-    query: GraphQuery
-  ): Promise<{
+  async subgraph(query: GraphQuery): Promise<{
     readonly nodes: readonly KnowledgeNode[];
     readonly edges: readonly KnowledgeEdge[];
   }> {

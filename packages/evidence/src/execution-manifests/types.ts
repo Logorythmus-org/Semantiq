@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Protocol-Aware Study Execution Manifest Types
- * 
+ *
  * Invariants:
  * 1. Execution manifests establish protocol adherence and auditability.
  * 2. Partner attestation alone does not promote evidence or establish truth.
@@ -11,11 +11,7 @@
 export const EPISTEMIC_MANIFEST_DISCLAIMER =
   "Execution manifests establish protocol adherence and auditability; partner attestation alone does not establish scientific truth.";
 
-export type ManifestExecutionStatus =
-  | "accepted"
-  | "flagged"
-  | "quarantined"
-  | "rejected";
+export type ManifestExecutionStatus = "accepted" | "flagged" | "quarantined" | "rejected";
 
 export interface MissingDataReport {
   readonly totalExpectedObservations: number;

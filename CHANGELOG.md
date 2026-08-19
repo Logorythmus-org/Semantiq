@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [1.0.0] - 2026-08-18 (Headless Milestone Release Candidate)
 
 ### 🚀 Added
+
 - **Core Architecture & Repositioning**:
   - Positioned SemantIQ as **Behavioral Evidence Infrastructure for AI Systems**.
   - Established three-tier decoupled pipeline: `Benchmark Engine → Evidence Engine → Research Workbench`.
@@ -47,6 +48,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0-alpha.1] - 2026-07-31
 
 ### Added
+
 - **Controlled Public Alpha Candidate Release**
 - Added First-Run Doctor diagnostic command (`pnpm doctor`).
 - Added canonical user journey flow (`install → doctor → connector → preflight → smoke → benchmark → export → reproduce`).
@@ -60,6 +62,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [0.1.0-mvp-architecture]
 
 ### Added
+
 - Added Phase 1 foundation architecture.
 - Added Phase 2 product and knowledge system architecture.
 - Added Phase 3 runtime, workflow, workspace, compute, economy, developer platform, and MVP integration architecture.

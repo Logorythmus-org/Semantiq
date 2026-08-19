@@ -48,7 +48,7 @@ describe("Deterministic Behavioral Metrics Engine", () => {
       agentDecisionsAfter: [
         { agentId: "agent_supervisor", decision: "approve" },
         { agentId: "agent_worker_1", decision: "approve" }, // shifted
-        { agentId: "agent_worker_2", decision: "reject" }  // unchanged
+        { agentId: "agent_worker_2", decision: "reject" } // unchanged
       ]
     });
 
@@ -158,9 +158,13 @@ describe("Deterministic Behavioral Metrics Engine", () => {
 
     expect(suiteReport.reportId).toMatch(/^bm_suite_/);
     expect(suiteReport.metrics["norm_drift"]?.status).toBe(MetricEvaluationStatus.COMPUTED);
-    expect(suiteReport.metrics["constraint_compliance"]?.status).toBe(MetricEvaluationStatus.COMPUTED);
+    expect(suiteReport.metrics["constraint_compliance"]?.status).toBe(
+      MetricEvaluationStatus.COMPUTED
+    );
     expect(suiteReport.metrics["mission_viability"]?.status).toBe(MetricEvaluationStatus.COMPUTED);
-    expect(suiteReport.metrics["early_warning_signal"]?.status).toBe(MetricEvaluationStatus.INSUFFICIENT_DATA);
+    expect(suiteReport.metrics["early_warning_signal"]?.status).toBe(
+      MetricEvaluationStatus.INSUFFICIENT_DATA
+    );
     expect(suiteReport.overallComputedRatio).toBe(0.333); // 3 out of 9 computed
   });
 });

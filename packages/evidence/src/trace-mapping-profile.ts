@@ -8,10 +8,7 @@ import {
   type TraceEventType,
   computeSha256
 } from "../../sandbox-contracts/src/index.js";
-import {
-  type DeclarativeMappingProfile,
-  MappingApprovalStatus
-} from "./trace-mapping-types.js";
+import { type DeclarativeMappingProfile, MappingApprovalStatus } from "./trace-mapping-types.js";
 
 export class MappingProfileRegistry {
   private readonly profiles = new Map<string, DeclarativeMappingProfile>();
@@ -110,9 +107,21 @@ export class MappingProfileRegistry {
         { sourceField: "data", targetField: "payload", transform: "to_json" }
       ],
       eventTypeMappings: [
-        { rawEventType: "semantic_parse", canonicalType: "prompt" as TraceEventType, canonicalSource: "system" as TraceEventSource },
-        { rawEventType: "reasoning_step", canonicalType: "response" as TraceEventType, canonicalSource: "agent" as TraceEventSource },
-        { rawEventType: "evidence_retrieval", canonicalType: "tool_call" as TraceEventType, canonicalSource: "agent" as TraceEventSource }
+        {
+          rawEventType: "semantic_parse",
+          canonicalType: "prompt" as TraceEventType,
+          canonicalSource: "system" as TraceEventSource
+        },
+        {
+          rawEventType: "reasoning_step",
+          canonicalType: "response" as TraceEventType,
+          canonicalSource: "agent" as TraceEventSource
+        },
+        {
+          rawEventType: "evidence_retrieval",
+          canonicalType: "tool_call" as TraceEventType,
+          canonicalSource: "agent" as TraceEventSource
+        }
       ],
       preserveUnresolvedFields: true,
       approvalStatus: MappingApprovalStatus.APPROVED,
@@ -137,11 +146,31 @@ export class MappingProfileRegistry {
         { sourceField: "arguments", targetField: "payload", transform: "to_json" }
       ],
       eventTypeMappings: [
-        { rawEventType: "user_input", canonicalType: "prompt" as TraceEventType, canonicalSource: "system" as TraceEventSource },
-        { rawEventType: "tool_invocation", canonicalType: "tool_call" as TraceEventType, canonicalSource: "agent" as TraceEventSource },
-        { rawEventType: "tool_result", canonicalType: "tool_result" as TraceEventType, canonicalSource: "environment" as TraceEventSource },
-        { rawEventType: "assistant_reply", canonicalType: "response" as TraceEventType, canonicalSource: "agent" as TraceEventSource },
-        { rawEventType: "observer_attestation", canonicalType: "observation" as TraceEventType, canonicalSource: "observer" as TraceEventSource }
+        {
+          rawEventType: "user_input",
+          canonicalType: "prompt" as TraceEventType,
+          canonicalSource: "system" as TraceEventSource
+        },
+        {
+          rawEventType: "tool_invocation",
+          canonicalType: "tool_call" as TraceEventType,
+          canonicalSource: "agent" as TraceEventSource
+        },
+        {
+          rawEventType: "tool_result",
+          canonicalType: "tool_result" as TraceEventType,
+          canonicalSource: "environment" as TraceEventSource
+        },
+        {
+          rawEventType: "assistant_reply",
+          canonicalType: "response" as TraceEventType,
+          canonicalSource: "agent" as TraceEventSource
+        },
+        {
+          rawEventType: "observer_attestation",
+          canonicalType: "observation" as TraceEventType,
+          canonicalSource: "observer" as TraceEventSource
+        }
       ],
       preserveUnresolvedFields: true,
       approvalStatus: MappingApprovalStatus.APPROVED,

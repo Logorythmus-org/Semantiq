@@ -62,7 +62,14 @@ describe("Unified SemantIQ Application Service Layer", () => {
     const mapped = await app.runs.applyTraceMapping({
       runId: "smf_run_100",
       caseId: "case_01",
-      rawEvents: [{ id: "ev_1", timestamp: "2026-08-18T12:00:01Z", event_type: "semantic_parse", data: { text: "hello" } }],
+      rawEvents: [
+        {
+          id: "ev_1",
+          timestamp: "2026-08-18T12:00:01Z",
+          event_type: "semantic_parse",
+          data: { text: "hello" }
+        }
+      ],
       profileId: "profile_smf_trace_mapping",
       profileVersion: "1.0.0"
     });
@@ -196,7 +203,12 @@ describe("Unified SemantIQ Application Service Layer", () => {
     const treatRun: RunProfile = {
       runId: "target_1",
       isTreatment: true,
-      environment: { provider: "anthropic", platform: "linux", networkIsolated: true, os: "ubuntu" },
+      environment: {
+        provider: "anthropic",
+        platform: "linux",
+        networkIsolated: true,
+        os: "ubuntu"
+      },
       model: { modelFamily: "claude-3-5", modelId: "sonnet", temperature: 0.0 },
       population: { agentCount: 1, topology: "single" },
       tools: { toolCount: 5, hasBoundaryGuard: true, allowedToolNames: ["bash"] },
@@ -209,14 +221,19 @@ describe("Unified SemantIQ Application Service Layer", () => {
     const ctrlRun: RunProfile = {
       runId: "ctrl_1",
       isTreatment: false,
-      environment: { provider: "anthropic", platform: "linux", networkIsolated: true, os: "ubuntu" },
+      environment: {
+        provider: "anthropic",
+        platform: "linux",
+        networkIsolated: true,
+        os: "ubuntu"
+      },
       model: { modelFamily: "claude-3-5", modelId: "sonnet", temperature: 0.0 },
       population: { agentCount: 1, topology: "single" },
       tools: { toolCount: 5, hasBoundaryGuard: true, allowedToolNames: ["bash"] },
       memory: { contextWindowTokens: 200000, hasMemoryPartitioning: true },
       resourcePressure: { maxSteps: 50, tokenBudget: 100000 },
       horizon: "short",
-      outcomeMetrics: { score: 0.70 }
+      outcomeMetrics: { score: 0.7 }
     };
 
     const matchResult = await app.comparisons.matchControls([treatRun, ctrlRun], "score");

@@ -80,7 +80,9 @@ describe("Research Sources, Pattern Evidence & Failure Evidence Extraction", () 
     expect(candidate.reviewStatus).toBe("under_review");
 
     // Attempting premature promotion throws
-    expect(() => promotionEngine.promoteCandidate(candidate.candidateId)).toThrow(/Must be 'approved'/);
+    expect(() => promotionEngine.promoteCandidate(candidate.candidateId)).toThrow(
+      /Must be 'approved'/
+    );
 
     // Reviewer 1 approves
     promotionEngine.addReview(candidate.candidateId, {
@@ -159,10 +161,14 @@ describe("Research Sources, Pattern Evidence & Failure Evidence Extraction", () 
     expect(normFailure?.associatedFailurePatternCode).toBe("FP-002");
     expect(normFailure?.epistemicNature).toBe("semantiq_observation");
 
-    const complianceFailure = result.failureObservations.find((f) => f.metricId === "constraint_compliance");
+    const complianceFailure = result.failureObservations.find(
+      (f) => f.metricId === "constraint_compliance"
+    );
     expect(complianceFailure?.associatedFailurePatternCode).toBe("FP-003");
 
-    const intentFailure = result.failureObservations.find((f) => f.metricId === "intent_action_gap");
+    const intentFailure = result.failureObservations.find(
+      (f) => f.metricId === "intent_action_gap"
+    );
     expect(intentFailure?.associatedFailurePatternCode).toBe("FP-001");
   });
 });

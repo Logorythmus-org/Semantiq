@@ -14,9 +14,7 @@ import type { RecordEvaluationRequest } from "./types.js";
 export class EvaluationsService {
   private readonly ledger = new EvaluationLedgerEngine();
 
-  public async recordEvaluation(
-    request: RecordEvaluationRequest
-  ): Promise<EvaluationLedgerEntry> {
+  public async recordEvaluation(request: RecordEvaluationRequest): Promise<EvaluationLedgerEntry> {
     return this.ledger.appendEvaluation({
       evaluationId: request.evaluation.id,
       runId: request.evaluation.runId,
@@ -26,9 +24,10 @@ export class EvaluationsService {
       overallScore: request.evaluation.overallScore,
       confidence: EvidenceConfidence.DETERMINISTIC,
       environmentFingerprint: request.reproducibility.environmentFingerprint ?? "sha256:env_local",
-      deterministicSeed: typeof request.reproducibility.deterministicSeed === "number"
-        ? request.reproducibility.deterministicSeed
-        : 42,
+      deterministicSeed:
+        typeof request.reproducibility.deterministicSeed === "number"
+          ? request.reproducibility.deterministicSeed
+          : 42,
       toolchainVersion: request.reproducibility.toolchainVersion ?? "1.0.0"
     });
   }

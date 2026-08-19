@@ -7,10 +7,14 @@ export * from "../../sandbox-contracts/src/index.js";
 
 // Canonical Epistemic Disclaimers
 export const EPISTEMIC_CAUSAL_DISCLAIMER = "Matched association is not proof of causal effect.";
-export const EPISTEMIC_ROBUSTNESS_DISCLAIMER = "Robustness across specifications does not establish causal identification.";
-export const EPISTEMIC_REPRODUCIBILITY_DISCLAIMER = "Stable fingerprints prove artifact/config reproducibility, not scientific replication.";
-export const EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth. All empirical claims are scoped associations.";
-export const EPISTEMIC_GOVERNANCE_DISCLAIMER = "Promotion verdict signifies governance criteria fulfillment, not scientific proof.";
+export const EPISTEMIC_ROBUSTNESS_DISCLAIMER =
+  "Robustness across specifications does not establish causal identification.";
+export const EPISTEMIC_REPRODUCIBILITY_DISCLAIMER =
+  "Stable fingerprints prove artifact/config reproducibility, not scientific replication.";
+export const EPISTEMIC_LANGUAGE_DISCLAIMER =
+  "Release controls wording, not truth. All empirical claims are scoped associations.";
+export const EPISTEMIC_GOVERNANCE_DISCLAIMER =
+  "Promotion verdict signifies governance criteria fulfillment, not scientific proof.";
 
 // Extended Governed Evidence Claim Lifecycle
 export type GovernedClaimLifecycleStatus = "draft" | "active" | "superseded" | "retracted";
@@ -293,11 +297,7 @@ export interface PartnerStudy {
   readonly createdAt: string;
 }
 
-export type ReplicationOutcome =
-  | "support"
-  | "counter"
-  | "mixed"
-  | "inconclusive";
+export type ReplicationOutcome = "support" | "counter" | "mixed" | "inconclusive";
 
 export interface ContextDiversityDimension {
   readonly environmentProviders: readonly string[];
@@ -392,11 +392,7 @@ export interface ProtocolExecutionSummary {
 export const EPISTEMIC_MANIFEST_DISCLAIMER =
   "Execution manifests establish protocol adherence and auditability; partner attestation alone does not establish scientific truth.";
 
-export type ManifestExecutionStatus =
-  | "accepted"
-  | "flagged"
-  | "quarantined"
-  | "rejected";
+export type ManifestExecutionStatus = "accepted" | "flagged" | "quarantined" | "rejected";
 
 export interface MissingDataReport {
   readonly totalExpectedObservations: number;
@@ -467,11 +463,7 @@ export interface ManifestIngestionResult {
 export const EPISTEMIC_GATE_DISCLAIMER =
   "Gate eligibility determines evidence admissibility for aggregation; eligibility does not confer scientific truth or causal proof.";
 
-export type EligibilityVerdict =
-  | "eligible"
-  | "eligible_with_caveats"
-  | "quarantined"
-  | "rejected";
+export type EligibilityVerdict = "eligible" | "eligible_with_caveats" | "quarantined" | "rejected";
 
 export type GateReasonCode =
   | "PREREG_HASH_MATCH"
@@ -506,8 +498,3 @@ export interface ExternalEvidenceEligibilityDecision {
   readonly evaluatedAt: string;
   readonly epistemicDisclaimer: typeof EPISTEMIC_GATE_DISCLAIMER;
 }
-
-
-
-
-

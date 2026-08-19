@@ -23,6 +23,7 @@ SemantIQ follows rigorous engineering and scientific standards. Every production
 ## Licensing & Rights
 
 All contributions are subject to the multi-tier licensing terms defined in [`LICENSING.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSING.md):
+
 - Code contributions are licensed under the **MIT License**.
 - Documentation is licensed under **CC-BY-4.0**.
 - Datasets, prompts, and synthetic fixtures are dedicated to the public domain under **CC0-1.0**.

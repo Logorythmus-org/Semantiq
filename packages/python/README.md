@@ -11,6 +11,7 @@
 ## 🚀 Overview
 
 The `semantiq` Python package provides a clean, stable product interface to the SemantIQ evaluation ecosystem. It allows researchers, data scientists, and ML engineers to:
+
 - Execute offline deterministic behavioral benchmark runs.
 - Enforce controlled language governance (blocking unhedged causal claims).
 - Draft and release governed empirical claims.
@@ -27,6 +28,7 @@ pip install semantiq
 ```
 
 Optional extensions:
+
 ```bash
 pip install semantiq[pandas]   # For pandas DataFrame integration
 pip install semantiq[jupyter]  # For Jupyter Notebook visual widgets
@@ -151,6 +153,7 @@ semantiq info
 ## 🔒 Epistemic Invariants
 
 The Python package strictly maintains the core SemantIQ epistemic invariants:
+
 1. **Observed $\neq$ Inferred**: Empirical observations require recorded trace/metric telemetry.
 2. **Matched Association $\neq$ Causal Effect**: Statistical contrast reports include mandatory epistemic disclaimers.
 3. **Controlled Language**: Unhedged causal verbs (`causes`, `proves`, `guarantees`, `eliminates`, `causal proof`) are rejected.

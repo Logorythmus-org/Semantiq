@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Protocol Deviation Ledger & Evidence Level Capping Engine
- * 
+ *
  * Invariants:
  * 1. Deviation ledger is append-only and cryptographically hash-chained.
  * 2. Material deviations during or post-hoc cap evidence level to prevent false claims of confirmatory replication.

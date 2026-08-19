@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Replication Registry Engine & Cross-Organization Aggregation
- * 
+ *
  * Invariants:
  * 1. Counterevidence remains visible in aggregation.
  * 2. E4 requires genuine context diversity and remains non-causal.
@@ -109,7 +109,9 @@ export class ReplicationRegistryEngine {
             replicatingOrganizationId: r.replicatingOrganizationId,
             outcome: "counter",
             effectDeltaObserved: r.effectDeltaObserved,
-            details: r.counterevidenceDetails || "Replication produced counterevidence against claim target."
+            details:
+              r.counterevidenceDetails ||
+              "Replication produced counterevidence against claim target."
           });
           break;
         case "mixed":
@@ -119,7 +121,9 @@ export class ReplicationRegistryEngine {
             replicatingOrganizationId: r.replicatingOrganizationId,
             outcome: "mixed",
             effectDeltaObserved: r.effectDeltaObserved,
-            details: r.counterevidenceDetails || "Replication produced mixed/inconsistent results across trials."
+            details:
+              r.counterevidenceDetails ||
+              "Replication produced mixed/inconsistent results across trials."
           });
           break;
         case "inconclusive":
@@ -138,20 +142,20 @@ export class ReplicationRegistryEngine {
     const diversityModelFactor = Math.min(1.0, modelSet.size / 2);
     const diversityPlatformFactor = Math.min(1.0, platformSet.size / 2);
 
-    const contextDiversityIndex = admissibleCount === 0
-      ? 0.0
-      : Number(
-          (
-            diversityOrgFactor * 0.4 +
-            diversityEnvFactor * 0.2 +
-            diversityModelFactor * 0.2 +
-            diversityPlatformFactor * 0.2
-          ).toFixed(3)
-        );
+    const contextDiversityIndex =
+      admissibleCount === 0
+        ? 0.0
+        : Number(
+            (
+              diversityOrgFactor * 0.4 +
+              diversityEnvFactor * 0.2 +
+              diversityModelFactor * 0.2 +
+              diversityPlatformFactor * 0.2
+            ).toFixed(3)
+          );
 
     // E4 requires genuine context diversity (index >= 0.70 and >= 2 independent orgs)
-    const e4ContextDiversitySatisfied =
-      independentOrgsCount >= 2 && contextDiversityIndex >= 0.70;
+    const e4ContextDiversitySatisfied = independentOrgsCount >= 2 && contextDiversityIndex >= 0.7;
 
     let aggregatedGrade: AggregatedReplicationEvidenceGrade;
     if (admissibleCount === 0) {

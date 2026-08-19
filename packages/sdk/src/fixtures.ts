@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/sdk
  * Contract Fixtures & Generator Utilities (TypeScript SDK)
- * 
+ *
  * Provides standard mock objects matching canonical Python and contract fixtures.
  */
 
@@ -34,10 +34,7 @@ export function mockSystemProfile(options?: {
   };
 }
 
-export function mockBenchmark(options?: {
-  id?: string;
-  name?: string;
-}): Benchmark {
+export function mockBenchmark(options?: { id?: string; name?: string }): Benchmark {
   return {
     id: options?.id ?? "bmk_anti_gaming_suite_v1",
     version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
@@ -52,11 +49,7 @@ export function mockBenchmark(options?: {
   };
 }
 
-export function mockCase(options?: {
-  id?: string;
-  benchmarkId?: string;
-  title?: string;
-}): Case {
+export function mockCase(options?: { id?: string; benchmarkId?: string; title?: string }): Case {
   return {
     id: options?.id ?? "case_mock_001",
     version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
@@ -118,7 +111,9 @@ export function mockGovernedClaim(options?: {
   statement?: string;
 }): GovernedEvidenceClaim {
   const topic = options?.topic ?? "heartbeat_resilience";
-  const statement = options?.statement ?? "Dynamic heartbeat is associated with an empirical 80% decrease in task timeout frequency under benchmark conditions.";
+  const statement =
+    options?.statement ??
+    "Dynamic heartbeat is associated with an empirical 80% decrease in task timeout frequency under benchmark conditions.";
   const claimFamilyId = `cf_${computeSha256(topic).slice(0, 16)}`;
   return {
     id: options?.id ?? "clm_mock_001",

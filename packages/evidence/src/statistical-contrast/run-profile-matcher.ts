@@ -4,11 +4,7 @@
  */
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
-import type {
-  MatchedRunPair,
-  MatchingDimension,
-  RunProfile
-} from "./types.js";
+import type { MatchedRunPair, MatchingDimension, RunProfile } from "./types.js";
 
 export const ALL_7_MATCHING_DIMENSIONS: readonly MatchingDimension[] = [
   "environment",
@@ -96,10 +92,7 @@ export class RunProfileMatcher {
           }
           break;
         case "model":
-          if (
-            a.model.modelFamily !== b.model.modelFamily ||
-            a.model.modelId !== b.model.modelId
-          ) {
+          if (a.model.modelFamily !== b.model.modelFamily || a.model.modelId !== b.model.modelId) {
             return false;
           }
           break;
@@ -117,9 +110,7 @@ export class RunProfileMatcher {
           }
           break;
         case "memory":
-          if (
-            a.memory.contextWindowTokens !== b.memory.contextWindowTokens
-          ) {
+          if (a.memory.contextWindowTokens !== b.memory.contextWindowTokens) {
             return false;
           }
           break;

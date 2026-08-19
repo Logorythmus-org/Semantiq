@@ -1,18 +1,14 @@
 /**
  * @package @semantiq/evidence
  * Research Source & Claim Store with Epistemic Nature Validation
- * 
+ *
  * Invariants:
  * 1. Observed != Inferred.
  * 2. Claims must accurately reflect their epistemic status.
  */
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
-import type {
-  EpistemicStatus,
-  ResearchClaim,
-  ResearchSource
-} from "./types.js";
+import type { EpistemicStatus, ResearchClaim, ResearchSource } from "./types.js";
 
 export class ResearchClaimStore {
   private readonly sources = new Map<string, ResearchSource>();
@@ -34,14 +30,17 @@ export class ResearchClaimStore {
   public registerClaim(claim: Omit<ResearchClaim, "id"> & { id?: string }): ResearchClaim {
     const source = this.sources.get(claim.researchSourceId);
     if (!source) {
-      throw new Error(`Cannot register claim for unknown ResearchSource: ${claim.researchSourceId}`);
+      throw new Error(
+        `Cannot register claim for unknown ResearchSource: ${claim.researchSourceId}`
+      );
     }
 
     // Validate Epistemic Nature Invariants
     this.validateEpistemicNature(claim.nature, claim.statement);
 
     const claimId =
-      claim.id ?? `claim_${computeSha256(`${claim.researchSourceId}:${claim.statement}`).substring(0, 16)}`;
+      claim.id ??
+      `claim_${computeSha256(`${claim.researchSourceId}:${claim.statement}`).substring(0, 16)}`;
 
     const fullClaim: ResearchClaim = {
       ...claim,

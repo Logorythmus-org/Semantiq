@@ -58,7 +58,7 @@ describe("Matched Controls & Statistical Contrast Architecture", () => {
       createSampleRun("run_treat_01", true, "claude-3-5-sonnet", 0.95),
       createSampleRun("run_treat_02", true, "claude-3-5-sonnet", 0.98),
       createSampleRun("run_treat_03", true, "claude-3-5-haiku", 0.92), // No matching control for haiku
-      createSampleRun("run_ctrl_01", false, "claude-3-5-sonnet", 0.70),
+      createSampleRun("run_ctrl_01", false, "claude-3-5-sonnet", 0.7),
       createSampleRun("run_ctrl_02", false, "claude-3-5-sonnet", 0.75)
     ];
 
@@ -78,15 +78,15 @@ describe("Matched Controls & Statistical Contrast Architecture", () => {
     // Generate 10 matched pairs where treatment systematically outperforms control
     const runs: RunProfile[] = [];
     for (let i = 0; i < 10; i++) {
-      runs.push(createSampleRun(`treat_${i}`, true, "claude-3-5-sonnet", 0.90 + i * 0.01));
-      runs.push(createSampleRun(`ctrl_${i}`, false, "claude-3-5-sonnet", 0.70 + i * 0.01));
+      runs.push(createSampleRun(`treat_${i}`, true, "claude-3-5-sonnet", 0.9 + i * 0.01));
+      runs.push(createSampleRun(`ctrl_${i}`, false, "claude-3-5-sonnet", 0.7 + i * 0.01));
     }
 
     const matched = matcher.matchRuns(runs, "constraint_compliance");
     const report = contrastEngine.evaluateContrast("constraint_compliance", matched);
 
     expect(report.matchedPairsCount).toBe(10);
-    expect(report.meanDelta).toBe(0.20);
+    expect(report.meanDelta).toBe(0.2);
     expect(report.meanTreatmentScore).toBeGreaterThan(report.meanControlScore);
 
     // Bootstrap CI

@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Full Controlled Synthetic Reference Flow: DP-008 (Out-of-Band Observer) → FP-002 (Context Drift)
- * 
+ *
  * Complete End-to-End Headless Vertical Slice:
  * Controlled Run Fixture → Canonical Adapter → Trace → Metric → Failure Evidence →
  * Evidence Graph → Matched Contrast → Robustness → Specification Curve →
@@ -20,50 +20,25 @@ import {
   TraceEventType,
   type Trace
 } from "../../../sandbox-contracts/src/index.js";
-import {
-  BenchmarkEvidenceBridge
-} from "../benchmark-evidence-adapter.js";
-import type {
-  RawBenchmarkStepLog,
-  TraceRichBenchmarkArtifact
-} from "../types.js";
-import {
-  EvidenceGraphEngine
-} from "../evidence-graph/evidence-graph-engine.js";
-import {
-  RunProfileMatcher
-} from "../statistical-contrast/run-profile-matcher.js";
-import {
-  StatisticalContrastEngine
-} from "../statistical-contrast/statistical-contrast-engine.js";
+import { BenchmarkEvidenceBridge } from "../benchmark-evidence-adapter.js";
+import type { RawBenchmarkStepLog, TraceRichBenchmarkArtifact } from "../types.js";
+import { EvidenceGraphEngine } from "../evidence-graph/evidence-graph-engine.js";
+import { RunProfileMatcher } from "../statistical-contrast/run-profile-matcher.js";
+import { StatisticalContrastEngine } from "../statistical-contrast/statistical-contrast-engine.js";
 import type {
   MatchedContrastReport,
   RunProfile as StatisticalRunProfile
 } from "../statistical-contrast/types.js";
-import {
-  RobustnessEngine
-} from "../robustness-diagnostics/robustness-engine.js";
+import { RobustnessEngine } from "../robustness-diagnostics/robustness-engine.js";
 import type {
   RobustnessDiagnosticReport,
   SpecificationCurveReport
 } from "../robustness-diagnostics/types.js";
-import {
-  EvidenceDecisionPolicy
-} from "../governance-policy/evidence-decision-policy.js";
-import {
-  ClaimRegistryEngine
-} from "../claim-registry/claim-registry-engine.js";
-import type {
-  GovernedEvidenceClaim,
-  GovernedClaimReview
-} from "../claim-registry/types.js";
-import {
-  ResearchBundleBuilder,
-  ResearchBundleVerifier
-} from "../research-bundles/index.js";
-import type {
-  ResearchBundleManifest
-} from "../research-bundles/types.js";
+import { EvidenceDecisionPolicy } from "../governance-policy/evidence-decision-policy.js";
+import { ClaimRegistryEngine } from "../claim-registry/claim-registry-engine.js";
+import type { GovernedEvidenceClaim, GovernedClaimReview } from "../claim-registry/types.js";
+import { ResearchBundleBuilder, ResearchBundleVerifier } from "../research-bundles/index.js";
+import type { ResearchBundleManifest } from "../research-bundles/types.js";
 import {
   PartnerOrganizationRegistry,
   ReplicationRegistryEngine
@@ -73,13 +48,8 @@ import type {
   PartnerOrganization,
   PartnerStudy
 } from "../partner-exchange/types.js";
-import {
-  StudyProtocolGenerator,
-  ProtocolDeviationLedger
-} from "../study-protocols/index.js";
-import type {
-  StudyProtocol
-} from "../study-protocols/types.js";
+import { StudyProtocolGenerator, ProtocolDeviationLedger } from "../study-protocols/index.js";
+import type { StudyProtocol } from "../study-protocols/types.js";
 import {
   StudyExecutionManifestValidator,
   EPISTEMIC_MANIFEST_DISCLAIMER
@@ -88,12 +58,8 @@ import type {
   ManifestIngestionResult,
   StudyExecutionManifest
 } from "../execution-manifests/types.js";
-import {
-  ExternalEvidenceEligibilityGate
-} from "../external-evidence-gate/index.js";
-import type {
-  ExternalEvidenceEligibilityDecision
-} from "../external-evidence-gate/types.js";
+import { ExternalEvidenceEligibilityGate } from "../external-evidence-gate/index.js";
+import type { ExternalEvidenceEligibilityDecision } from "../external-evidence-gate/types.js";
 
 export interface ReferenceWorkflowResult {
   readonly adaptedRuns: readonly RawBenchmarkStepLog[];
@@ -293,7 +259,7 @@ export class Dp008ReferenceFlowRunner {
           tokenBudget: 50000
         },
         horizon: "long",
-        outcomeMetrics: { goal_retention_score: 0.70, failure_rate: 0.3 }
+        outcomeMetrics: { goal_retention_score: 0.7, failure_rate: 0.3 }
       });
     }
 
@@ -338,7 +304,8 @@ export class Dp008ReferenceFlowRunner {
       claimFamilyTopic: "anti_gaming_drift_mitigation",
       targetPatternOrRelationId: "rel_08",
       version: "1.0.0",
-      statement: "DP-008 out-of-band observer is associated with a 0.25 observed increase in goal retention and mitigation of FP-002 context drift under matched benchmarking conditions.",
+      statement:
+        "DP-008 out-of-band observer is associated with a 0.25 observed increase in goal retention and mitigation of FP-002 context drift under matched benchmarking conditions.",
       governanceVerdict: decisionResult.verdict,
       evidenceReferences: {
         runIds: ["run_treatment_1", "run_control_1"],
@@ -382,7 +349,10 @@ export class Dp008ReferenceFlowRunner {
       robustnessReport
     });
 
-    const bundleVerification = this.bundleVerifier.verifyBundle(builtBundle.manifest, builtBundle.artifacts);
+    const bundleVerification = this.bundleVerifier.verifyBundle(
+      builtBundle.manifest,
+      builtBundle.artifacts
+    );
 
     // -------------------------------------------------------------
     // Stage 15: Partner Organization & Study Registration
@@ -502,7 +472,7 @@ export class Dp008ReferenceFlowRunner {
       replicatingStudyId: partnerStudy.id,
       outcome: "support",
       effectDeltaObserved: 0.25,
-      baselineDeltaTarget: 0.20,
+      baselineDeltaTarget: 0.2,
       contextDiversity: {
         environmentProviders: ["docker_local", "podman_rootless"],
         modelFamilies: ["gpt-4", "claude-3"],
@@ -512,12 +482,11 @@ export class Dp008ReferenceFlowRunner {
       counterevidenceObserved: false,
       conductedAt: "2026-08-18T11:00:00.000Z",
       eligibilityVerdict: eligibilityDecision.verdict,
-      epistemicDisclaimer: "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
+      epistemicDisclaimer:
+        "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth."
     });
 
-    const replicationAggregation = this.replicationRegistry.aggregateReplications(
-      activeClaim.id
-    );
+    const replicationAggregation = this.replicationRegistry.aggregateReplications(activeClaim.id);
 
     return Object.freeze({
       adaptedRuns,

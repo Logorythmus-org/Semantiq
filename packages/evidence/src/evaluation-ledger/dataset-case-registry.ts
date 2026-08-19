@@ -5,12 +5,7 @@
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
 import { SchemaFingerprint } from "../schema-fingerprint.js";
-import type {
-  CaseStudy,
-  DatasetSnapshot,
-  DatasetSource,
-  DatasetSourceType
-} from "./types.js";
+import type { CaseStudy, DatasetSnapshot, DatasetSource, DatasetSourceType } from "./types.js";
 
 export interface CreateSnapshotOptions {
   readonly datasetSourceId: string;
@@ -104,7 +99,9 @@ export class DatasetCaseRegistry {
   public registerCaseStudy(study: Omit<CaseStudy, "createdAt">): CaseStudy {
     const snapshot = this.snapshots.get(study.datasetSnapshotId);
     if (!snapshot) {
-      throw new Error(`Cannot register CaseStudy with unknown DatasetSnapshot: ${study.datasetSnapshotId}`);
+      throw new Error(
+        `Cannot register CaseStudy with unknown DatasetSnapshot: ${study.datasetSnapshotId}`
+      );
     }
 
     const caseStudy: CaseStudy = {
@@ -137,7 +134,8 @@ export class DatasetCaseRegistry {
       uri: "https://github.com/semantiq/hacs-scenarios.git",
       license: "Apache-2.0",
       defaultBranchOrTag: "v1.2.0",
-      description: "Canonical benchmark scenarios for tool injection, context drift, and memory partitioning",
+      description:
+        "Canonical benchmark scenarios for tool injection, context drift, and memory partitioning",
       createdAt: "2026-08-18T12:00:00.000Z"
     };
 
@@ -147,7 +145,8 @@ export class DatasetCaseRegistry {
       sourceType: "huggingface" as DatasetSourceType,
       uri: "hf://datasets/semantiq/smf-reasoning-v1",
       license: "MIT",
-      description: "Semantic evaluation fixtures for multi-perspective claims and epistemic classification",
+      description:
+        "Semantic evaluation fixtures for multi-perspective claims and epistemic classification",
       createdAt: "2026-08-18T12:00:00.000Z"
     };
 

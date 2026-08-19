@@ -1,8 +1,5 @@
 import { describe, expect, it } from "vitest";
-import {
-  ClaimRegistryEngine,
-  EvidenceWatchEngine
-} from "../../packages/evidence/src/index.js";
+import { ClaimRegistryEngine, EvidenceWatchEngine } from "../../packages/evidence/src/index.js";
 
 describe("Claim Reconciliation & Evidence Watch Architecture", () => {
   const claimRegistry = new ClaimRegistryEngine();
@@ -43,7 +40,7 @@ describe("Claim Reconciliation & Evidence Watch Architecture", () => {
     targetId: "DP-002_FP-002",
     runIds: ["run_01", "run_02"],
     observationCount: 2,
-    meanMetricScore: 0.80,
+    meanMetricScore: 0.8,
     latestGovernanceVerdict: "promote",
     negativeControlFailures: 0
   });
@@ -61,7 +58,7 @@ describe("Claim Reconciliation & Evidence Watch Architecture", () => {
       targetId: "DP-002_FP-002",
       runIds: ["run_01", "run_02"],
       observationCount: 2,
-      meanMetricScore: 0.80,
+      meanMetricScore: 0.8,
       latestGovernanceVerdict: "promote",
       negativeControlFailures: 0
     });
@@ -111,7 +108,7 @@ describe("Claim Reconciliation & Evidence Watch Architecture", () => {
       targetId: "DP-002_FP-002",
       runIds: ["run_01", "run_02", "run_adversarial"],
       observationCount: 3,
-      meanMetricScore: 0.40,
+      meanMetricScore: 0.4,
       latestGovernanceVerdict: "downgrade",
       negativeControlFailures: 1
     });

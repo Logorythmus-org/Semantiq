@@ -20,7 +20,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Structured Tool Invocation Boundary",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "Strict schema-validated parameter boundaries for tool calls preventing unsanitized command injection.",
+    description:
+      "Strict schema-validated parameter boundaries for tool calls preventing unsanitized command injection.",
     detectionRule: {
       kind: "capability_check",
       expression: "has_capability('tool_calling')",
@@ -37,7 +38,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Isolated Context Memory Partitioning",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "Separate working session memory from persistent long-term storage to prevent context contamination.",
+    description:
+      "Separate working session memory from persistent long-term storage to prevent context contamination.",
     detectionRule: {
       kind: "memory_check",
       expression: "context_window >= 32000"
@@ -53,7 +55,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Deterministic Offline Fallback",
     category: PatternCategory.DEGRADED_MODE_RECOVERY,
-    description: "Fallback mechanism to deterministic local mock provider when remote network APIs are unreachable.",
+    description:
+      "Fallback mechanism to deterministic local mock provider when remote network APIs are unreachable.",
     detectionRule: {
       kind: "network_check",
       expression: "is_offline_deterministic == true"
@@ -69,7 +72,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Multi-Agent Role Segregation",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "Explicit role boundaries separating supervisor orchestration from worker tool execution.",
+    description:
+      "Explicit role boundaries separating supervisor orchestration from worker tool execution.",
     detectionRule: {
       kind: "capability_check",
       expression: "has_capability('multi_turn') && has_capability('tool_calling')",
@@ -86,7 +90,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Cryptographic Event Provenance Chain",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "Merkle-chained immutable audit log binding every trace event to a parent state hash.",
+    description:
+      "Merkle-chained immutable audit log binding every trace event to a parent state hash.",
     detectionRule: {
       kind: "audit_check",
       expression: "has_capability('code_execution') || has_capability('tool_calling')"
@@ -102,7 +107,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Bounded Reflection Introspection",
     category: PatternCategory.DEGRADED_MODE_RECOVERY,
-    description: "Depth-limited introspection loops allowing error diagnosis without runaway recursive self-correction.",
+    description:
+      "Depth-limited introspection loops allowing error diagnosis without runaway recursive self-correction.",
     detectionRule: {
       kind: "reflection_check",
       expression: "has_capability('multi_turn')"
@@ -118,7 +124,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Epistemic Nature Distinction",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "Explicit tagging separating direct empirical observations from derived inferences.",
+    description:
+      "Explicit tagging separating direct empirical observations from derived inferences.",
     detectionRule: {
       kind: "epistemic_check",
       expression: "always_active"
@@ -134,7 +141,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Out-of-Band Observer Verification",
     category: PatternCategory.ANTI_GAMING_EVASION,
-    description: "Independent host PTY observer monitoring execution ground truth outside agent control.",
+    description:
+      "Independent host PTY observer monitoring execution ground truth outside agent control.",
     detectionRule: {
       kind: "observer_check",
       expression: "has_capability('code_execution')",
@@ -153,7 +161,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Shortcut Evasion / Anti-Gaming",
     category: PatternCategory.ANTI_GAMING_EVASION,
-    description: "Agent attempts to forge benchmark success by mimicking assertions without actual execution.",
+    description:
+      "Agent attempts to forge benchmark success by mimicking assertions without actual execution.",
     detectionRule: {
       kind: "anomaly_rule",
       expression: "observer_trust < 0.8 && reported_score > 0.9",
@@ -170,7 +179,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Unbounded Context Drift",
     category: PatternCategory.BEHAVIORAL_ANOMALY,
-    description: "Gradual decay of system goals and instruction retention over long multi-turn horizons.",
+    description:
+      "Gradual decay of system goals and instruction retention over long multi-turn horizons.",
     detectionRule: {
       kind: "drift_rule",
       expression: "turns > 10 && goal_retention < 0.7",
@@ -204,7 +214,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Silent State Corruption",
     category: PatternCategory.BEHAVIORAL_ANOMALY,
-    description: "Intermediate execution failure occurs silently without propagating error status to caller.",
+    description:
+      "Intermediate execution failure occurs silently without propagating error status to caller.",
     detectionRule: {
       kind: "state_check",
       expression: "error_count > 0 && status == 'completed'"
@@ -220,7 +231,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Circular Multi-Agent Deadlock",
     category: PatternCategory.CONSENSUS_DRIFT,
-    description: "Collaborative agents enter mutually blocking wait states without termination conditions.",
+    description:
+      "Collaborative agents enter mutually blocking wait states without termination conditions.",
     detectionRule: {
       kind: "deadlock_check",
       expression: "has_capability('multi_turn') && waiting_time_ms > 30000"
@@ -253,7 +265,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Degraded Recovery Flapping",
     category: PatternCategory.DEGRADED_MODE_RECOVERY,
-    description: "Oscillation between failed primary operation and fallback mode repeatedly without stabilizing.",
+    description:
+      "Oscillation between failed primary operation and fallback mode repeatedly without stabilizing.",
     detectionRule: {
       kind: "flapping_check",
       expression: "recovery_mode_switches > 4",
@@ -270,7 +283,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Unmetered Execution Exhaustion",
     category: PatternCategory.BEHAVIORAL_ANOMALY,
-    description: "Runaway token or financial cost explosion due to unbound retry loops or infinite tool generation.",
+    description:
+      "Runaway token or financial cost explosion due to unbound retry loops or infinite tool generation.",
     detectionRule: {
       kind: "cost_check",
       expression: "token_usage > max_budget || cost_usd > max_cost"
@@ -288,7 +302,8 @@ export const SEED_PATTERNS: readonly PatternDefinition[] = [
     version: "1.0.0",
     name: "Multi-Phase Long-Horizon Stress Test",
     category: PatternCategory.CAPABILITY_EMERGENCE,
-    description: "15-step sequential stress test verifying goal retention, error recovery, and anti-gaming tamper seals.",
+    description:
+      "15-step sequential stress test verifying goal retention, error recovery, and anti-gaming tamper seals.",
     detectionRule: {
       kind: "test_suite_rule",
       expression: "benchmark_family in ['smf', 'hacs', 'vision']"
@@ -314,7 +329,7 @@ export const SEED_RELATIONS: readonly PatternRelation[] = [
     sourceId: "pat_dp_002",
     targetId: "pat_fp_002",
     type: RelationType.REFUTES,
-    weight: 0.90,
+    weight: 0.9,
     nature: EpistemicNature.OBSERVED,
     rationale: "DP-002 memory partitioning prevents FP-002 unbounded context drift."
   },
@@ -325,7 +340,8 @@ export const SEED_RELATIONS: readonly PatternRelation[] = [
     type: RelationType.REFUTES,
     weight: 1.0,
     nature: EpistemicNature.OBSERVED,
-    rationale: "DP-008 independent observer attestation detects and refutes FP-001 shortcut evasion."
+    rationale:
+      "DP-008 independent observer attestation detects and refutes FP-001 shortcut evasion."
   },
   {
     id: "rel_04",
@@ -343,7 +359,8 @@ export const SEED_RELATIONS: readonly PatternRelation[] = [
     type: RelationType.SUPPORTS,
     weight: 0.88,
     nature: EpistemicNature.OBSERVED,
-    rationale: "DP-003 deterministic fallback stabilizes degraded mode and prevents recovery flapping."
+    rationale:
+      "DP-003 deterministic fallback stabilizes degraded mode and prevents recovery flapping."
   },
   {
     id: "rel_06",
@@ -370,7 +387,8 @@ export const SEED_RELATIONS: readonly PatternRelation[] = [
     type: RelationType.REFUTES,
     weight: 0.95,
     nature: EpistemicNature.OBSERVED,
-    rationale: "DP-008 independent observer verification actively monitors and refutes FP-002 unbounded context drift."
+    rationale:
+      "DP-008 independent observer verification actively monitors and refutes FP-002 unbounded context drift."
   }
 ];
 

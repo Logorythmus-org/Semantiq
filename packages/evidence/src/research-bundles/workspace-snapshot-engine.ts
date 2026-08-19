@@ -4,10 +4,7 @@
  */
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
-import type {
-  SoftwareFingerprints,
-  WorkspaceSnapshot
-} from "./types.js";
+import type { SoftwareFingerprints, WorkspaceSnapshot } from "./types.js";
 
 export interface CreateWorkspaceSnapshotOptions {
   readonly workspaceName: string;

@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * Authoritative Studies, Protocols, Execution Manifests, and Evidence Eligibility Gate Application Service
- * 
+ *
  * Invariants:
  * 1. Counterevidence remains visible in aggregation.
  * 2. Preregistration ensures protocol transparency and guards against p-hacking/post-hoc selective reporting.
@@ -58,7 +58,9 @@ export class StudiesService {
   // -------------------------------------------------------------
   // Dataset and Case Registry
   // -------------------------------------------------------------
-  public async registerDatasetSource(source: Omit<DatasetSource, "createdAt">): Promise<DatasetSource> {
+  public async registerDatasetSource(
+    source: Omit<DatasetSource, "createdAt">
+  ): Promise<DatasetSource> {
     return this.caseRegistry.registerSource(source);
   }
 
@@ -105,7 +107,9 @@ export class StudiesService {
     return frozen;
   }
 
-  public async recordProtocolDeviation(options: RecordDeviationOptions): Promise<ProtocolDeviation> {
+  public async recordProtocolDeviation(
+    options: RecordDeviationOptions
+  ): Promise<ProtocolDeviation> {
     return this.deviationLedger.recordDeviation(options);
   }
 
@@ -127,11 +131,15 @@ export class StudiesService {
     return this.manifestRegistry.ingestManifest(manifest, protocol);
   }
 
-  public async getExecutionManifest(manifestId: string): Promise<StudyExecutionManifest | undefined> {
+  public async getExecutionManifest(
+    manifestId: string
+  ): Promise<StudyExecutionManifest | undefined> {
     return this.manifestRegistry.getManifest(manifestId);
   }
 
-  public async getManifestIngestionResult(manifestId: string): Promise<ManifestIngestionResult | undefined> {
+  public async getManifestIngestionResult(
+    manifestId: string
+  ): Promise<ManifestIngestionResult | undefined> {
     return this.manifestRegistry.getIngestionResult(manifestId);
   }
 

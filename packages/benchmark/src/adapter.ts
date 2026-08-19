@@ -26,7 +26,8 @@ export class BenchmarkContractAdapter {
     const traceId = `trc_${output.runId}`;
     const evaluationId = `eval_${output.runId}`;
 
-    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> = {};
+    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> =
+      {};
     for (const s of output.scores) {
       scoreBreakdown[s.dimensionId] = {
         score: s.normalizedScore,
@@ -95,7 +96,10 @@ export class BenchmarkContractAdapter {
       runId: output.runId,
       benchmarkId: output.benchmarkId,
       systemProfileId: output.systemProfile.id,
-      status: output.status === ProductRunStatus.COMPLETED ? EvaluationStatus.PASSED : EvaluationStatus.FAILED,
+      status:
+        output.status === ProductRunStatus.COMPLETED
+          ? EvaluationStatus.PASSED
+          : EvaluationStatus.FAILED,
       overallScore: output.overallCompositeScore,
       scoreBreakdown,
       observationIds: [observation.id],

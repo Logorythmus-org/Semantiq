@@ -37,11 +37,15 @@ export class EvidenceService {
     return this.failureExtractor.extractFailureEvidence(options);
   }
 
-  public async recordResearchSource(source: Omit<ResearchSource, "extractedAt">): Promise<ResearchSource> {
+  public async recordResearchSource(
+    source: Omit<ResearchSource, "extractedAt">
+  ): Promise<ResearchSource> {
     return this.claimStore.registerSource(source);
   }
 
-  public async recordResearchClaim(claim: Omit<ResearchClaim, "id"> & { id?: string }): Promise<ResearchClaim> {
+  public async recordResearchClaim(
+    claim: Omit<ResearchClaim, "id"> & { id?: string }
+  ): Promise<ResearchClaim> {
     return this.claimStore.registerClaim(claim);
   }
 
@@ -51,9 +55,7 @@ export class EvidenceService {
     return this.evidenceGraph.addObservation(obs);
   }
 
-  public async queryEvidenceGraph(
-    query: ComparativeQuery
-  ): Promise<ComparativeQueryResult> {
+  public async queryEvidenceGraph(query: ComparativeQuery): Promise<ComparativeQueryResult> {
     return this.evidenceGraph.executeComparativeQuery(query);
   }
 }

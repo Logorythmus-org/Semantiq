@@ -5,10 +5,7 @@
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
 import type { PatternRegistry } from "../../../patterns/src/index.js";
-import type {
-  CandidateReviewStatus,
-  PatternCandidate
-} from "./types.js";
+import type { CandidateReviewStatus, PatternCandidate } from "./types.js";
 
 export interface SubmitCandidateOptions {
   readonly patternDraft: PatternCandidate["patternDraft"];
@@ -43,7 +40,11 @@ export class PatternPromotionEngine {
 
   public addReview(
     candidateId: string,
-    review: { reviewerId: string; decision: "approve" | "reject" | "request_changes"; comments: string }
+    review: {
+      reviewerId: string;
+      decision: "approve" | "reject" | "request_changes";
+      comments: string;
+    }
   ): PatternCandidate {
     const candidate = this.candidates.get(candidateId);
     if (!candidate) {

@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Study Protocol Design, Pre-registration, and Deviation Ledger Types
- * 
+ *
  * Invariants:
  * 1. Preregistration ensures protocol transparency and guards against p-hacking/post-hoc selective reporting.
  * 2. Material deviations cap evidence level to prevent unhedged claim promotion.
@@ -66,11 +66,7 @@ export interface ExportRequirements {
   readonly merkleVerificationRequired: boolean;
 }
 
-export type StudyProtocolStatus =
-  | "draft"
-  | "frozen"
-  | "executed"
-  | "archived";
+export type StudyProtocolStatus = "draft" | "frozen" | "executed" | "archived";
 
 export interface StudyProtocol {
   readonly protocolId: string;
@@ -96,15 +92,12 @@ export interface StudyProtocol {
   readonly epistemicDisclaimer: typeof EPISTEMIC_PREREGISTRATION_DISCLAIMER;
 }
 
-export type ProtocolDeviationTiming =
-  | "pre_execution"
-  | "during_execution"
-  | "post_hoc";
+export type ProtocolDeviationTiming = "pre_execution" | "during_execution" | "post_hoc";
 
 export type ProtocolDeviationSeverity =
-  | "minor"      // Clarification or parameter tweak with no validity impact
-  | "material"   // Alteration of matching dimension, metric, or inclusion rule -> CAPS evidence level
-  | "critical";  // Post-hoc outcome redefinition or severe protocol breach -> CAPS evidence level to E1
+  | "minor" // Clarification or parameter tweak with no validity impact
+  | "material" // Alteration of matching dimension, metric, or inclusion rule -> CAPS evidence level
+  | "critical"; // Post-hoc outcome redefinition or severe protocol breach -> CAPS evidence level to E1
 
 export interface ProtocolDeviation {
   readonly deviationId: string;
@@ -119,10 +112,7 @@ export interface ProtocolDeviation {
   readonly previousDeviationHash?: string | undefined;
 }
 
-export type EvidenceLevelCap =
-  | "NO_CAP"
-  | "CAP_E2_LOCAL_CONSISTENT"
-  | "CAP_E1_CONTESTED";
+export type EvidenceLevelCap = "NO_CAP" | "CAP_E2_LOCAL_CONSISTENT" | "CAP_E1_CONTESTED";
 
 export interface ProtocolExecutionSummary {
   readonly protocolId: string;

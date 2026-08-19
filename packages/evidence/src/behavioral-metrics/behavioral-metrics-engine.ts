@@ -38,14 +38,18 @@ export class BehavioralMetricsEngine {
       governance_diversity: calculateGovernanceDiversity(inputs["governance_diversity"] ?? {}),
       constraint_compliance: calculateConstraintCompliance(inputs["constraint_compliance"] ?? {}),
       mission_viability: calculateMissionViability(inputs["mission_viability"] ?? {}),
-      safety_capability_tension: calculateSafetyCapabilityTension(inputs["safety_capability_tension"] ?? {}),
+      safety_capability_tension: calculateSafetyCapabilityTension(
+        inputs["safety_capability_tension"] ?? {}
+      ),
       boundary_exploration: calculateBoundaryExploration(inputs["boundary_exploration"] ?? {}),
       early_warning_signal: calculateEarlyWarningSignal(inputs["early_warning_signal"] ?? {}),
       intent_action_gap: calculateIntentActionGap(inputs["intent_action_gap"] ?? {})
     };
 
     const metricList = Object.values(metrics);
-    const computedCount = metricList.filter((m) => m.status === MetricEvaluationStatus.COMPUTED).length;
+    const computedCount = metricList.filter(
+      (m) => m.status === MetricEvaluationStatus.COMPUTED
+    ).length;
     const overallComputedRatio = Number((computedCount / metricList.length).toFixed(3));
 
     let flaggedHeuristicCount = 0;

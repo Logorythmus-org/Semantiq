@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Reproducible Research Bundles and Workspace Snapshot Types
- * 
+ *
  * Invariants:
  * 1. Bundle integrity proves provenance/integrity, not truth.
  * 2. Component SHA-256 hashes and Merkle root guarantee cryptographic tamper detection.

@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Persistent Research Workbench Engine
- * 
+ *
  * Invariants:
  * 1. Review decisions may create drafts but must not silently replace the active claim.
  * 2. All queue state changes and reviewer interactions are logged in an append-only hash chain.
@@ -9,7 +9,10 @@
  */
 
 import { computeSha256 } from "../../../sandbox-contracts/src/index.js";
-import type { ClaimRegistryEngine, DraftClaimOptions } from "../claim-registry/claim-registry-engine.js";
+import type {
+  ClaimRegistryEngine,
+  DraftClaimOptions
+} from "../claim-registry/claim-registry-engine.js";
 import type { GovernedEvidenceClaim } from "../claim-registry/types.js";
 import type {
   WorkbenchComment,
@@ -71,11 +74,7 @@ export class ResearchWorkbenchEngine {
   /**
    * Assigns a reviewer, transitioning status to 'in_review'.
    */
-  public assignReviewer(
-    itemId: string,
-    reviewerId: string,
-    actorId: string
-  ): WorkbenchQueueItem {
+  public assignReviewer(itemId: string, reviewerId: string, actorId: string): WorkbenchQueueItem {
     const item = this.items.get(itemId);
     if (!item) {
       throw new Error(`Workbench item not found: ${itemId}`);
@@ -102,11 +101,7 @@ export class ResearchWorkbenchEngine {
   /**
    * Adds a reviewer comment to a workbench item.
    */
-  public addComment(
-    itemId: string,
-    reviewerId: string,
-    content: string
-  ): WorkbenchQueueItem {
+  public addComment(itemId: string, reviewerId: string, content: string): WorkbenchQueueItem {
     const item = this.items.get(itemId);
     if (!item) {
       throw new Error(`Workbench item not found: ${itemId}`);
@@ -219,11 +214,7 @@ export class ResearchWorkbenchEngine {
   /**
    * Dismisses a workbench item without action.
    */
-  public dismissItem(
-    itemId: string,
-    reviewerId: string,
-    notes: string
-  ): WorkbenchQueueItem {
+  public dismissItem(itemId: string, reviewerId: string, notes: string): WorkbenchQueueItem {
     const item = this.items.get(itemId);
     if (!item) {
       throw new Error(`Workbench item not found: ${itemId}`);

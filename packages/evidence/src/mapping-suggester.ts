@@ -3,10 +3,7 @@
  * Trace Mapping Suggester (Inference & Candidate Generation)
  */
 
-import {
-  TraceEventSource,
-  TraceEventType
-} from "../../sandbox-contracts/src/index.js";
+import { TraceEventSource, TraceEventType } from "../../sandbox-contracts/src/index.js";
 import { SchemaFingerprint } from "./schema-fingerprint.js";
 import type {
   EventTypeMappingRule,
@@ -95,13 +92,23 @@ export class MappingSuggester {
           canonicalType: TraceEventType.TOOL_RESULT,
           canonicalSource: TraceEventSource.ENVIRONMENT
         });
-      } else if (lower.includes("user") || lower.includes("prompt") || lower.includes("input") || lower.includes("system")) {
+      } else if (
+        lower.includes("user") ||
+        lower.includes("prompt") ||
+        lower.includes("input") ||
+        lower.includes("system")
+      ) {
         suggestedEventTypeMappings.push({
           rawEventType: rawType,
           canonicalType: TraceEventType.PROMPT,
           canonicalSource: TraceEventSource.SYSTEM
         });
-      } else if (lower.includes("assistant") || lower.includes("reply") || lower.includes("response") || lower.includes("agent")) {
+      } else if (
+        lower.includes("assistant") ||
+        lower.includes("reply") ||
+        lower.includes("response") ||
+        lower.includes("agent")
+      ) {
         suggestedEventTypeMappings.push({
           rawEventType: rawType,
           canonicalType: TraceEventType.RESPONSE,
@@ -116,7 +123,8 @@ export class MappingSuggester {
       }
     }
 
-    const confidence = suggestedFieldMappings.length >= 2 && suggestedEventTypeMappings.length > 0 ? 0.9 : 0.6;
+    const confidence =
+      suggestedFieldMappings.length >= 2 && suggestedEventTypeMappings.length > 0 ? 0.9 : 0.6;
 
     return {
       sourceSchemaName: schemaName,

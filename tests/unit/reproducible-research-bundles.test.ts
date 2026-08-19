@@ -189,7 +189,10 @@ describe("Reproducible Research Bundles & Workspace Snapshot (Prompt 26)", () =>
       const isVerified = await service.bundles.verifyBundle(built.bundle);
       expect(isVerified).toBe(true);
 
-      const detailedAudit = await service.bundles.verifyBundleDetailed(built.manifest, built.artifacts);
+      const detailedAudit = await service.bundles.verifyBundleDetailed(
+        built.manifest,
+        built.artifacts
+      );
       expect(detailedAudit.isValid).toBe(true);
       expect(detailedAudit.merkleRootValid).toBe(true);
     });
