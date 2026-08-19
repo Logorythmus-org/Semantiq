@@ -2,6 +2,7 @@
 Test Python package metadata and build structure.
 """
 from pathlib import Path
+import sys
 try:
     import tomllib
 except ImportError:
