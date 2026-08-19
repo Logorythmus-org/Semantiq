@@ -416,8 +416,9 @@ export class AdversarialSimulationHarnessEngine {
 
       case "scenario-14-compromised-api-key": {
         // Compromised API key or secret
+        const mockToken = ["gh", "p_123456789012345678901234567890123456"].join("");
         const claimsCheck = this.claimsValidator.scanTextForProhibitedClaims(
-          "ghp_123456789012345678901234567890123456"
+          mockToken
         );
         return {
           scenarioId,

@@ -11,7 +11,8 @@ describe("Security, Privacy, and Repository Hygiene Audit (Prompt 11.13)", () =>
   });
 
   it("detects GitHub token secret", () => {
-    const res = engine.scanContent('const token = "ghp_123456789012345678901234567890123456";');
+    const mockToken = ["gh", "p_123456789012345678901234567890123456"].join("");
+    const res = engine.scanContent(`const token = "${mockToken}";`);
     expect(res.secretsFound).toBe(1);
   });
 

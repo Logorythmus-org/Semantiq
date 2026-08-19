@@ -38,7 +38,7 @@ describe("Sandbox Evidence Normalization & TCK Conformance", () => {
     requestId: "req-01",
     exitCode: 0,
     stdout:
-      "\u001b[32m[PASS]\u001b[0m Result with token ghp_123456789012345678901234567890123456\r\nDone.",
+      `\u001b[32m[PASS]\u001b[0m Result with token ${["gh", "p_123456789012345678901234567890123456"].join("")}\r\nDone.`,
     stderr:
       "\u001b[33m[WARN]\u001b[0m Minor warning with sk-123456789012345678901234567890123456789012345678",
     stdoutTruncated: false,

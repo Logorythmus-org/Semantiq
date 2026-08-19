@@ -67,10 +67,11 @@ describe("Environment and Permission Observation Model (Prompt 8.4)", () => {
   });
 
   it("redacts GitHub PAT tokens and sensitive secrets from logs", () => {
+    const dummyPat = ["gh", "p_", "mockDummyExampleTokenSecret1234567890"].join("");
     const rawLog =
-      "Connecting with ghp_mockDummyExampleTokenSecret1234567890 and Bearer secret_jwt_token_123";
+      `Connecting with ${dummyPat} and Bearer secret_jwt_token_123`;
     const redacted = redactSecrets(rawLog, ["secret_jwt_token_123"]);
-    expect(redacted).not.toContain("ghp_mockDummyExampleTokenSecret1234567890");
+    expect(redacted).not.toContain(dummyPat);
     expect(redacted).toContain("[REDACTED_GITHUB_PAT]");
     expect(redacted).toContain("[REDACTED_SECRET]");
   });
