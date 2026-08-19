@@ -104,3 +104,10 @@
 - Public Alpha is not a production SLA service.
 - Update and rollback paths require continued testing with real user data.
 - Some workflows remain experimental.
+
+# Sandbox Subsystem Boundaries & Known Limitations
+
+- **Provider Neutrality & Independence**: SemantIQ Core owns the benchmark contracts and behavioral evaluation protocol; external execution runtimes (Docker, Podman, MicroVMs, OpenSandbox, Cloud Providers) are replaceable providers and own their infrastructure.
+- **Hardware & Latency Variance**: Provider/environment variance is recorded and normalized mathematically ($PVS$ and $PEP$), but physical host hardware differences across diverse cloud environments may not be fully removable.
+- **Local Isolation Dependency**: Workstation rootless container isolation depends on the host OS container engine and security modules.
+- **Subsystem Internal Gate vs Product Authorization**: Sandbox subsystem `INTERNAL GATE PASSED` status certifies contracts and unit tests only; whole-product release authorization requires Phase 11 clean-room extraction and Phase 12 release gates.

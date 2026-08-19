@@ -1,6 +1,7 @@
 # Sprint 2 Performance
 
 Targets:
+
 - Rule-based question analysis under 500 ms.
 - Deterministic Semantiq under 1 second.
 - Similarity search over 10,000 questions under 500 ms.

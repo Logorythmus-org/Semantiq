@@ -37,14 +37,14 @@ Recoverability was established before staging changes began. All three source va
 
 ## Integrity anchors
 
-| Artifact | SHA-256 |
-|---|---|
-| `platform/history.bundle` | `E61874115D42FE15FB96657D4765A3C117EBB3C6DDBDE2077EFBF15B1D172C99` |
-| `platform/working-tree.patch` | `604B89EC4D192C99D10900450B5FDF2D49F126B88FF083F72B348C843F70738D` |
-| `platform/untracked-files.zip` | `F48A66CA0C5EC7AA907AF6D57786C01655F9B8537AD411D3A26647E4C86B606F` |
-| `m-benchmarks/history.bundle` | `DA6765BD265E7F9258817E3AC4D33B53FF4431DAB5286924C1DD202BD4026DAD` |
+| Artifact                          | SHA-256                                                            |
+| --------------------------------- | ------------------------------------------------------------------ |
+| `platform/history.bundle`         | `E61874115D42FE15FB96657D4765A3C117EBB3C6DDBDE2077EFBF15B1D172C99` |
+| `platform/working-tree.patch`     | `604B89EC4D192C99D10900450B5FDF2D49F126B88FF083F72B348C843F70738D` |
+| `platform/untracked-files.zip`    | `F48A66CA0C5EC7AA907AF6D57786C01655F9B8537AD411D3A26647E4C86B606F` |
+| `m-benchmarks/history.bundle`     | `DA6765BD265E7F9258817E3AC4D33B53FF4431DAB5286924C1DD202BD4026DAD` |
 | `m-benchmarks/working-tree.patch` | `0A90BEBCB72B2FAE2D5EA0D1086D1EC2AA62BE45B787622ACBBD84297641D76B` |
-| `sematiq-2/file-manifest.csv` | `58B80CD44779094F9DB3EEF4EBD7EDDE990E1C8A64DFBAEC00CD8A253A61BDAE` |
+| `sematiq-2/file-manifest.csv`     | `58B80CD44779094F9DB3EEF4EBD7EDDE990E1C8A64DFBAEC00CD8A253A61BDAE` |
 
 ## Staging method
 

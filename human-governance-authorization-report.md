@@ -2,18 +2,18 @@
 
 ## 1. Governance Metadata
 
-| Field | Value |
-|---|---|
-| Governance gate | Prompt 4.8 |
-| Decision date | 2026-07-27 |
-| Canonical repository | `C:\Users\Kaveh\Desktop\SemantIQ-canonical` |
-| Branch | `foundation/canonicalize-semantiq` |
-| Sealed commit | `ead68154f29e9521da44386b807fea37a34af327` |
-| Parent | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Intended GitHub repository identified from available context | `Logorythmus/SemantIQ` |
-| Decision basis | Available repository documents, release reports, and read-only GitHub repository metadata |
-| Repository changes made | None |
-| GitHub changes made | None |
+| Field                                                        | Value                                                                                     |
+| ------------------------------------------------------------ | ----------------------------------------------------------------------------------------- |
+| Governance gate                                              | Prompt 4.8                                                                                |
+| Decision date                                                | 2026-07-27                                                                                |
+| Canonical repository                                         | `C:\Users\Kaveh\Desktop\SemantIQ-canonical`                                               |
+| Branch                                                       | `foundation/canonicalize-semantiq`                                                        |
+| Sealed commit                                                | `ead68154f29e9521da44386b807fea37a34af327`                                                |
+| Parent                                                       | `26372470a709d23686ef7c82c77911c6207f207b`                                                |
+| Intended GitHub repository identified from available context | `Logorythmus/SemantIQ`                                                                    |
+| Decision basis                                               | Available repository documents, release reports, and read-only GitHub repository metadata |
+| Repository changes made                                      | None                                                                                      |
+| GitHub changes made                                          | None                                                                                      |
 
 This is a decision-recording gate, not a technical audit. No missing human decision has been inferred from technical metadata, GitHub permissions, or earlier release intent.
 
@@ -184,17 +184,17 @@ GitHub administrative permission and the user's submission of this governance pr
 
 ## 12. Governance Decision Matrix
 
-| Condition | Status | Evidence | Owner | Blocking |
-| ------------------------------------- | ------ | -------- | ----- | -------- |
-| Private security reporting route | BLOCKED | `SECURITY.md` contains a required-route placeholder and says public intake is not ready | Not identified | YES |
-| Private conduct reporting route | BLOCKED | `CODE_OF_CONDUCT.md` contains a required-route placeholder and community-readiness prohibition | Not identified | YES |
-| Maintainer and review ownership | BLOCKED | GitHub capability exists, but no accountable owner, maintainer team, or authority assignment is recorded | Not identified | YES |
-| CC0 authority for synthetic fixture | BLOCKED | Benchmark card records original/CC0 intent but no legally accountable rights declaration | Not identified | YES |
-| History-wide secret/provenance review | BLOCKED | No policy decision, waiver, reviewer, or completed governance result is recorded | Not identified | YES |
-| Canonical remote integration | BLOCKED | Public destination exists, but replacement of `DISABLED`, integration policy, and push are not authorized | Not identified | YES |
-| Release identity and version | BLOCKED | `0.1.0`/`v0.1.0` are candidate values only; no human approval or approved release notes | Not identified | YES |
-| Public repository identity | BLOCKED | Candidate name/license/maturity exist, but public description, topics, affiliation, and identity are unapproved | Not identified | YES |
-| Final publication authority | BLOCKED | No explicit authority or exact-commit publication authorization was supplied | Not identified | YES |
+| Condition                             | Status  | Evidence                                                                                                        | Owner          | Blocking |
+| ------------------------------------- | ------- | --------------------------------------------------------------------------------------------------------------- | -------------- | -------- |
+| Private security reporting route      | BLOCKED | `SECURITY.md` contains a required-route placeholder and says public intake is not ready                         | Not identified | YES      |
+| Private conduct reporting route       | BLOCKED | `CODE_OF_CONDUCT.md` contains a required-route placeholder and community-readiness prohibition                  | Not identified | YES      |
+| Maintainer and review ownership       | BLOCKED | GitHub capability exists, but no accountable owner, maintainer team, or authority assignment is recorded        | Not identified | YES      |
+| CC0 authority for synthetic fixture   | BLOCKED | Benchmark card records original/CC0 intent but no legally accountable rights declaration                        | Not identified | YES      |
+| History-wide secret/provenance review | BLOCKED | No policy decision, waiver, reviewer, or completed governance result is recorded                                | Not identified | YES      |
+| Canonical remote integration          | BLOCKED | Public destination exists, but replacement of `DISABLED`, integration policy, and push are not authorized       | Not identified | YES      |
+| Release identity and version          | BLOCKED | `0.1.0`/`v0.1.0` are candidate values only; no human approval or approved release notes                         | Not identified | YES      |
+| Public repository identity            | BLOCKED | Candidate name/license/maturity exist, but public description, topics, affiliation, and identity are unapproved | Not identified | YES      |
+| Final publication authority           | BLOCKED | No explicit authority or exact-commit publication authorization was supplied                                    | Not identified | YES      |
 
 ## 13. Recorded Risk Acceptances
 

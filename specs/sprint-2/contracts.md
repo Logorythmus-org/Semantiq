@@ -1,6 +1,7 @@
 # Sprint 2 Contracts
 
 Question Intelligence:
+
 - `analyzeQuestion()`
 - `detectIntent()`
 - `detectAmbiguity()`
@@ -13,6 +14,7 @@ Question Intelligence:
 - `rejectSuggestion()`
 
 Semantiq:
+
 - `evaluateQuestion()`
 - `getSemantiqReport()`
 - `compareEvaluations()`
@@ -20,6 +22,7 @@ Semantiq:
 - `explainScore()`
 
 Research:
+
 - `createResearchDraft()`
 - `approveResearchProject()`
 - `getResearchProject()`

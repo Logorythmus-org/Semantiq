@@ -1,15 +1,45 @@
 {
   "version": "1.0.0",
   "principles": [
-    { "id": "no_permanent_emergency_authority", "description": "Emergency powers must expire automatically." },
-    { "id": "no_unreviewable_governance_decision", "description": "All decisions require evidence, appeal paths, and review dates." },
-    { "id": "no_silent_deletion_of_dissent", "description": "Dissenting opinions are append-only records." },
-    { "id": "no_permanent_founder_veto", "description": "No permanent founder veto or scientific authority." },
-    { "id": "no_result_immune_from_challenge", "description": "Every evaluation score can be disputed." },
-    { "id": "no_rubric_immune_from_amendment", "description": "Rubrics remain open to community amendment." },
-    { "id": "no_mandatory_central_service_dependence", "description": "Local-first and provider-neutral architecture." },
-    { "id": "no_governance_rule_without_version_history", "description": "Governance changes are versioned and traceable." },
-    { "id": "no_claim_that_open_source_alone_guarantees_trust", "description": "Trust is earned through empirical reproduction." },
-    { "id": "no_transfer_of_human_responsibility_to_model_or_score", "description": "Final decision responsibility remains with humans." }
+    {
+      "id": "no_permanent_emergency_authority",
+      "description": "Emergency powers must expire automatically."
+    },
+    {
+      "id": "no_unreviewable_governance_decision",
+      "description": "All decisions require evidence, appeal paths, and review dates."
+    },
+    {
+      "id": "no_silent_deletion_of_dissent",
+      "description": "Dissenting opinions are append-only records."
+    },
+    {
+      "id": "no_permanent_founder_veto",
+      "description": "No permanent founder veto or scientific authority."
+    },
+    {
+      "id": "no_result_immune_from_challenge",
+      "description": "Every evaluation score can be disputed."
+    },
+    {
+      "id": "no_rubric_immune_from_amendment",
+      "description": "Rubrics remain open to community amendment."
+    },
+    {
+      "id": "no_mandatory_central_service_dependence",
+      "description": "Local-first and provider-neutral architecture."
+    },
+    {
+      "id": "no_governance_rule_without_version_history",
+      "description": "Governance changes are versioned and traceable."
+    },
+    {
+      "id": "no_claim_that_open_source_alone_guarantees_trust",
+      "description": "Trust is earned through empirical reproduction."
+    },
+    {
+      "id": "no_transfer_of_human_responsibility_to_model_or_score",
+      "description": "Final decision responsibility remains with humans."
+    }
   ]
 }

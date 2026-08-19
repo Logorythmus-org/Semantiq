@@ -3,6 +3,7 @@
 Spec ID: S6-REQ
 
 ## Requirements
+
 - S6-REQ-001: Alpha scope freeze is recorded.
 - S6-REQ-002: Feature flags default conservatively.
 - S6-REQ-003: Safe Mode disables external AI, federation, plugins, publishing and remote execution.
@@ -13,4 +14,5 @@ Spec ID: S6-REQ
 - S6-REQ-008: Release validation blocks on failed critical gates.
 
 ## Validation
+
 Mapped to alpha-runtime tests and release validation gates.

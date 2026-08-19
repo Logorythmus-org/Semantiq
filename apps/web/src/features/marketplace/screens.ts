@@ -12,4 +12,11 @@ export const marketplaceScreens = [
   "Moderation Report"
 ] as const;
 
-export const marketplaceStates = ["loading", "empty", "error", "offline", "permission-required", "ready"] as const;
+export const marketplaceStates = [
+  "loading",
+  "empty",
+  "error",
+  "offline",
+  "permission-required",
+  "ready"
+] as const;

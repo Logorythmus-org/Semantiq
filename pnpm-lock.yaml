@@ -131,7 +131,11 @@ importers:
 
   packages/backup-runtime: {}
 
-  packages/benchmark: {}
+  packages/benchmark:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/beta-readiness: {}
 
@@ -201,7 +205,11 @@ importers:
 
   packages/events: {}
 
-  packages/evidence: {}
+  packages/evidence:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/evidence-normalizer:
     dependencies:
@@ -278,6 +286,12 @@ importers:
   packages/narrative-engine: {}
 
   packages/nodes: {}
+
+  packages/patterns:
+    dependencies:
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/peer-review: {}
 
@@ -362,6 +376,9 @@ importers:
       '@tech-club/core':
         specifier: workspace:*
         version: link:../core
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/search: {}
 
@@ -369,7 +386,20 @@ importers:
 
   packages/semantic-economy: {}
 
-  packages/semantiq: {}
+  packages/semantiq:
+    dependencies:
+      '@tech-club/benchmark':
+        specifier: workspace:*
+        version: link:../benchmark
+      '@tech-club/evidence':
+        specifier: workspace:*
+        version: link:../evidence
+      '@tech-club/patterns':
+        specifier: workspace:*
+        version: link:../patterns
+      '@tech-club/sandbox-contracts':
+        specifier: workspace:*
+        version: link:../sandbox-contracts
 
   packages/semantiq-feedback: {}
 

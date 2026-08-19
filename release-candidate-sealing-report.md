@@ -8,15 +8,15 @@ No tag was created. No remote was changed. No push or publication occurred.
 
 ## Repository State
 
-| Field | Value |
-|---|---|
-| Repository | `C:\Users\Kaveh\Desktop\SemantIQ-canonical` |
-| Branch | `foundation/canonicalize-semantiq` |
-| Previous HEAD | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Sealed commit | `ead68154f29e9521da44386b807fea37a34af327` |
-| Commit parent | `26372470a709d23686ef7c82c77911c6207f207b` |
-| Commit timestamp | `2026-07-27T19:09:41+02:00` |
-| Commit message | `chore(release): seal licensing and security-truth remediation` |
+| Field            | Value                                                           |
+| ---------------- | --------------------------------------------------------------- |
+| Repository       | `C:\Users\Kaveh\Desktop\SemantIQ-canonical`                     |
+| Branch           | `foundation/canonicalize-semantiq`                              |
+| Previous HEAD    | `26372470a709d23686ef7c82c77911c6207f207b`                      |
+| Sealed commit    | `ead68154f29e9521da44386b807fea37a34af327`                      |
+| Commit parent    | `26372470a709d23686ef7c82c77911c6207f207b`                      |
+| Commit timestamp | `2026-07-27T19:09:41+02:00`                                     |
+| Commit message   | `chore(release): seal licensing and security-truth remediation` |
 
 ## Pre-Commit Gate
 
@@ -53,22 +53,22 @@ The committed file list exactly matches the authorized inventory.
 
 ## Validation Summary
 
-| Check | Result |
-|---|---|
-| Targeted dataset-exporter tests | PASS — 2 tests passed |
-| Offline mock benchmark run | PASS — 1 answer produced |
-| Offline mock evaluation | PASS — 1 evaluation produced |
-| Offline dataset export | PASS |
-| Metadata schema | PASS — version `2.0` |
-| Overall export license status | PASS — `NOASSERTION` |
-| Repository-source distinction | PASS — MIT applies to repository source |
-| Benchmark license preservation | PASS — synthetic fixture remains `CC0-1.0` |
-| Generated-response status | PASS — `NOASSERTION` |
-| AI-evaluation status | PASS — `NOASSERTION` |
-| Human-rating absence | PASS — `NOT_INCLUDED` |
-| Generated dataset card | PASS — no blanket license assertion |
-| Current-document stale-claim scan | PASS |
-| Whitespace validation | PASS |
+| Check                             | Result                                     |
+| --------------------------------- | ------------------------------------------ |
+| Targeted dataset-exporter tests   | PASS — 2 tests passed                      |
+| Offline mock benchmark run        | PASS — 1 answer produced                   |
+| Offline mock evaluation           | PASS — 1 evaluation produced               |
+| Offline dataset export            | PASS                                       |
+| Metadata schema                   | PASS — version `2.0`                       |
+| Overall export license status     | PASS — `NOASSERTION`                       |
+| Repository-source distinction     | PASS — MIT applies to repository source    |
+| Benchmark license preservation    | PASS — synthetic fixture remains `CC0-1.0` |
+| Generated-response status         | PASS — `NOASSERTION`                       |
+| AI-evaluation status              | PASS — `NOASSERTION`                       |
+| Human-rating absence              | PASS — `NOT_INCLUDED`                      |
+| Generated dataset card            | PASS — no blanket license assertion        |
+| Current-document stale-claim scan | PASS                                       |
+| Whitespace validation             | PASS                                       |
 
 Validation ran in a disposable copy. It did not add generated exports or validation artifacts to the canonical repository.
 

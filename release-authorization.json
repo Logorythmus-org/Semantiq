@@ -14,9 +14,7 @@
     "self-observation",
     "release-simulation"
   ],
-  "excludedComponents": [
-    "tier_d_protected_challenge_fixtures"
-  ],
+  "excludedComponents": ["tier_d_protected_challenge_fixtures"],
   "conditions": [
     "Maintain local workspace containment until Phase 12 initialization",
     "Keep release-freeze.json active",
@@ -28,9 +26,7 @@
     "Low-resource language human reviewer validation expansion required for Phase 12"
   ],
   "rollbackTrigger": "Discovery of credential leak, unhandled prompt injection, or claim boundary breach",
-  "responsibleMaintainers": [
-    "SemantIQ Core Governance Board"
-  ],
+  "responsibleMaintainers": ["SemantIQ Core Governance Board"],
   "evidenceManifestLinks": [
     "PHASE_11_5_FINAL_READINESS_REPORT.md",
     "PHASE_11_5_9_COMPLETION_REPORT.md",

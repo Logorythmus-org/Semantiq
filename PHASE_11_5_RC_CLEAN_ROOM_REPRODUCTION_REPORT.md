@@ -21,6 +21,7 @@
 ## 2. Files Audit
 
 ### Files Inspected
+
 - `self-observation/INDEPENDENT_REPLICATION_GUIDE.md`
 - `scripts/boundary-validator.mjs`
 - `packages/semantiq/src/clean-room-generator.ts`
@@ -30,12 +31,14 @@
 - `release-candidates/semantiq-v0.1.0-alpha.1/SBOM.json`
 
 ### Files Created
+
 - `schemas/clean-room-replication-record.schema.json`
 - `clean-room-replication-record.json`
 - `tests/unit/clean-room-replication.test.ts`
 - `PHASE_11_5_RC_CLEAN_ROOM_REPRODUCTION_REPORT.md`
 
 ### Files Modified
+
 - `self-observation/INDEPENDENT_REPLICATION_GUIDE.md`
 
 ---
@@ -43,19 +46,21 @@
 ## 3. Commands Executed & Exact Results
 
 1. **Boundary Validator**:
+
    - `node scripts/boundary-validator.mjs`  
-   **Result**: `[BOUNDARY VALIDATION PASSED]: SemantIQ product boundary is clean.` (exit code 0)
+     **Result**: `[BOUNDARY VALIDATION PASSED]: SemantIQ product boundary is clean.` (exit code 0)
 
 2. **TypeScript Typecheck**:
+
    - `pnpm typecheck`  
-   **Result**: `$ tsc -p tsconfig.base.json --noEmit` (0 errors, exit code 0)
+     **Result**: `$ tsc -p tsconfig.base.json --noEmit` (0 errors, exit code 0)
 
 3. **Vitest Test Suite**:
    - `pnpm test`  
-   **Result**:  
-   `Test Files 124 passed | 10 skipped (134)`  
-   `Tests 458 passed | 36 skipped (494)`  
-   `Duration 42.10s` (exit code 0)
+     **Result**:  
+     `Test Files 124 passed | 10 skipped (134)`  
+     `Tests 458 passed | 36 skipped (494)`  
+     `Duration 42.10s` (exit code 0)
 
 ---
 

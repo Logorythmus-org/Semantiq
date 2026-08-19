@@ -30,7 +30,15 @@ export interface GeneratedSpecKit {
 export interface TaskNode {
   readonly id: string;
   readonly parentId?: string;
-  readonly type: "epic" | "feature" | "story" | "task" | "subtask" | "acceptance-test" | "documentation" | "review";
+  readonly type:
+    | "epic"
+    | "feature"
+    | "story"
+    | "task"
+    | "subtask"
+    | "acceptance-test"
+    | "documentation"
+    | "review";
   readonly title: string;
   readonly acceptance: readonly string[];
 }
@@ -107,7 +115,9 @@ const specFiles = [
 
 export class AutonomousEngineeringEngine {
   generateSpecKit(goal: FeatureGoal): GeneratedSpecKit {
-    const files = Object.fromEntries(specFiles.map((file) => [file, this.renderSpecFile(file, goal)]));
+    const files = Object.fromEntries(
+      specFiles.map((file) => [file, this.renderSpecFile(file, goal)])
+    );
     return {
       goal,
       files,
@@ -129,20 +139,68 @@ export class AutonomousEngineeringEngine {
     const storyId = `${goal.id}.1.1`;
     return [
       { id: epicId, type: "epic", title: goal.title, acceptance: goal.acceptance },
-      { id: featureId, parentId: epicId, type: "feature", title: `Implement ${goal.title}`, acceptance: goal.acceptance },
-      { id: storyId, parentId: featureId, type: "story", title: goal.summary, acceptance: goal.acceptance },
-      { id: `${storyId}.1`, parentId: storyId, type: "task", title: "Create or update Spec-Kit files", acceptance: ["Spec-Kit files exist"] },
-      { id: `${storyId}.2`, parentId: storyId, type: "task", title: "Implement production slice", acceptance: goal.acceptance },
-      { id: `${storyId}.3`, parentId: storyId, type: "acceptance-test", title: "Add acceptance tests", acceptance: ["Critical path test passes"] },
-      { id: `${storyId}.4`, parentId: storyId, type: "documentation", title: "Update documentation", acceptance: ["Docs reflect code"] },
-      { id: `${storyId}.5`, parentId: storyId, type: "review", title: "Run automated review", acceptance: ["No blocker findings"] }
+      {
+        id: featureId,
+        parentId: epicId,
+        type: "feature",
+        title: `Implement ${goal.title}`,
+        acceptance: goal.acceptance
+      },
+      {
+        id: storyId,
+        parentId: featureId,
+        type: "story",
+        title: goal.summary,
+        acceptance: goal.acceptance
+      },
+      {
+        id: `${storyId}.1`,
+        parentId: storyId,
+        type: "task",
+        title: "Create or update Spec-Kit files",
+        acceptance: ["Spec-Kit files exist"]
+      },
+      {
+        id: `${storyId}.2`,
+        parentId: storyId,
+        type: "task",
+        title: "Implement production slice",
+        acceptance: goal.acceptance
+      },
+      {
+        id: `${storyId}.3`,
+        parentId: storyId,
+        type: "acceptance-test",
+        title: "Add acceptance tests",
+        acceptance: ["Critical path test passes"]
+      },
+      {
+        id: `${storyId}.4`,
+        parentId: storyId,
+        type: "documentation",
+        title: "Update documentation",
+        acceptance: ["Docs reflect code"]
+      },
+      {
+        id: `${storyId}.5`,
+        parentId: storyId,
+        type: "review",
+        title: "Run automated review",
+        acceptance: ["No blocker findings"]
+      }
     ];
   }
 
   analyzeRepository(inventory: RepositoryInventory): RepositoryAnalysisReport {
-    const missingDocs = inventory.packages.filter((pkg) => !inventory.docs.some((doc) => doc.includes(pkg)));
-    const missingTests = inventory.packages.filter((pkg) => !inventory.tests.some((test) => test.includes(pkg)));
-    const duplicates = inventory.packages.filter((pkg, index) => inventory.packages.indexOf(pkg) !== index);
+    const missingDocs = inventory.packages.filter(
+      (pkg) => !inventory.docs.some((doc) => doc.includes(pkg))
+    );
+    const missingTests = inventory.packages.filter(
+      (pkg) => !inventory.tests.some((test) => test.includes(pkg))
+    );
+    const duplicates = inventory.packages.filter(
+      (pkg, index) => inventory.packages.indexOf(pkg) !== index
+    );
     const securityRisks = inventory.dependencies
       .filter((dependency) => dependency.includes("latest") || dependency.includes("*"))
       .map((dependency) => `Unpinned dependency: ${dependency}`);
@@ -173,7 +231,10 @@ export class AutonomousEngineeringEngine {
         message: "Change should include Spec-Kit or documentation updates."
       });
     }
-    if (changedFiles.some((file) => file.endsWith(".ts")) && !changedFiles.some((file) => file.includes("test"))) {
+    if (
+      changedFiles.some((file) => file.endsWith(".ts")) &&
+      !changedFiles.some((file) => file.includes("test"))
+    ) {
       findings.push({
         id: "review:tests",
         area: "testing",
@@ -225,17 +286,44 @@ export class AutonomousEngineeringEngine {
   planRelease(version: string, goals: readonly FeatureGoal[]): ReleasePlan {
     return {
       version,
-      releaseNotes: [`# Release ${version}`, "", ...goals.map((goal) => `- ${goal.title}: ${goal.summary}`)].join("\n"),
+      releaseNotes: [
+        `# Release ${version}`,
+        "",
+        ...goals.map((goal) => `- ${goal.title}: ${goal.summary}`)
+      ].join("\n"),
       migrationGuide: "No breaking migrations generated by Sprint 0 automation scaffolding.",
       compatibilityMatrix: ["Node 22", "pnpm 11.7.0", "Docker Compose", "Local-first runtime"],
-      artifacts: ["API docs", "Developer guide", "Test report", "Security report", "Performance report"]
+      artifacts: [
+        "API docs",
+        "Developer guide",
+        "Test report",
+        "Security report",
+        "Performance report"
+      ]
     };
   }
 
-  dashboard(inventory: RepositoryInventory, buildStatus: EngineeringDashboardSnapshot["buildStatus"]): EngineeringDashboardSnapshot {
+  dashboard(
+    inventory: RepositoryInventory,
+    buildStatus: EngineeringDashboardSnapshot["buildStatus"]
+  ): EngineeringDashboardSnapshot {
     const analysis = this.analyzeRepository(inventory);
-    const docHealth = inventory.packages.length === 0 ? 100 : Math.round(((inventory.packages.length - analysis.missingDocs.length) / inventory.packages.length) * 100);
-    const testHealth = inventory.packages.length === 0 ? 100 : Math.round(((inventory.packages.length - analysis.missingTests.length) / inventory.packages.length) * 100);
+    const docHealth =
+      inventory.packages.length === 0
+        ? 100
+        : Math.round(
+            ((inventory.packages.length - analysis.missingDocs.length) /
+              inventory.packages.length) *
+              100
+          );
+    const testHealth =
+      inventory.packages.length === 0
+        ? 100
+        : Math.round(
+            ((inventory.packages.length - analysis.missingTests.length) /
+              inventory.packages.length) *
+              100
+          );
     return {
       repositoryHealth: analysis.securityRisks.length === 0 ? 90 : 70,
       packageHealth: analysis.duplicateCandidates.length === 0 ? 90 : 75,
@@ -243,7 +331,10 @@ export class AutonomousEngineeringEngine {
       testingHealth: testHealth,
       securityHealth: analysis.securityRisks.length === 0 ? 90 : 65,
       sprintProgress: 100,
-      technicalDebt: [...analysis.missingDocs.map((item) => `Missing docs for ${item}`), ...analysis.missingTests.map((item) => `Missing tests for ${item}`)],
+      technicalDebt: [
+        ...analysis.missingDocs.map((item) => `Missing docs for ${item}`),
+        ...analysis.missingTests.map((item) => `Missing tests for ${item}`)
+      ],
       buildStatus
     };
   }

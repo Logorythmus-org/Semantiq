@@ -1,12 +1,15 @@
 # Sprint 2 Specification
 
 ## Purpose
+
 Transform a raw question into a structured, evaluated, research-ready knowledge object.
 
 ## Scope
+
 Sprint 2 adds deterministic local Semantiq scoring, question intelligence, human approval, similarity detection, relation suggestions, research project drafts, evidence quality, hypotheses, research tasks, dashboard, AI provider contracts, prompt registry, graph/search/export integration, and audit events.
 
 ## Spec IDs
+
 - S2-AUDIT: Repository audit and compatibility review.
 - S2-SEM: Semantiq MVP question scoring.
 - S2-QI: Question intelligence pipeline.
@@ -23,4 +26,5 @@ Sprint 2 adds deterministic local Semantiq scoring, question intelligence, human
 - S2-TEST: Automated validation.
 
 ## Non-Goals
+
 No autonomous Agent OS execution, marketplace, federation, peer review, distributed compute, unsupervised AI actions, or cloud-only requirements.

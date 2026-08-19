@@ -1,12 +1,13 @@
 #!/usr/bin/env node
-import { FirstRunDoctor } from "../../packages/diagnostics/src/index.js";
-import { LocalSemantiqEngine } from "../../packages/semantiq/src/index.js";
-import { LocalAlphaRuntime } from "../../packages/alpha-runtime/src/index.js";
+import { FirstRunDoctor } from "../../packages/diagnostics/src/index.ts";
+import { LocalSemantiqEngine } from "../../packages/semantiq/src/index.ts";
+import { LocalAlphaRuntime } from "../../packages/alpha-runtime/src/index.ts";
 
 const command = process.argv[2] ?? "help";
 const args = process.argv.slice(3);
 const isJson = args.includes("--json");
-const goal = args.filter((a) => !a.startsWith("--")).join(" ") || "Improve Tech Club engineering pipeline";
+const goal =
+  args.filter((a) => !a.startsWith("--")).join(" ") || "Improve Tech Club engineering pipeline";
 
 const doctor = new FirstRunDoctor();
 const semantiq = new LocalSemantiqEngine();
@@ -26,7 +27,8 @@ if (command === "doctor") {
     console.log(`Status:       ${report.overallStatus.toUpperCase()}`);
     console.log("-----------------------------------------");
     for (const check of report.checks) {
-      const mark = check.status === "pass" ? "[PASS]" : check.status === "warn" ? "[WARN]" : "[FAIL]";
+      const mark =
+        check.status === "pass" ? "[PASS]" : check.status === "warn" ? "[WARN]" : "[FAIL]";
       console.log(`${mark} ${check.name}: ${check.message}`);
       if (check.action) {
         console.log(`       Next Step: ${check.action}`);
@@ -70,7 +72,9 @@ if (command === "preflight") {
   } else {
     console.log(`Preflight Check: ${summary.preflightStatus.toUpperCase()}`);
     console.log(`System Status:   ${report.overallStatus}`);
-    console.log(`Ready Connectors: ${connectors.filter((c) => c.status === "ready" || c.status === "configured").length}/${connectors.length}`);
+    console.log(
+      `Ready Connectors: ${connectors.filter((c) => c.status === "ready" || c.status === "configured").length}/${connectors.length}`
+    );
   }
   process.exit(summary.preflightStatus === "failed" ? 1 : 0);
 }
@@ -92,19 +96,22 @@ if (command === "smoke") {
     name: "Smoke Profile",
     weights: { "question-quality": 1.0, "reasoning-quality": 1.0 }
   };
-  semantiq.evaluate(subject, profile).then((report) => {
-    if (isJson) {
-      console.log(JSON.stringify(report, null, 2));
-    } else {
-      console.log("[PASS] Local smoke evaluation completed successfully.");
-      console.log(`Report ID: ${report.id}`);
-      console.log(`Weighted Score: ${report.weightedScore.toFixed(2)}`);
-    }
-    process.exit(0);
-  }).catch((err) => {
-    console.error("[FAIL] Smoke evaluation error:", err.message);
-    process.exit(1);
-  });
+  semantiq
+    .evaluate(subject, profile)
+    .then((report) => {
+      if (isJson) {
+        console.log(JSON.stringify(report, null, 2));
+      } else {
+        console.log("[PASS] Local smoke evaluation completed successfully.");
+        console.log(`Report ID: ${report.id}`);
+        console.log(`Weighted Score: ${report.weightedScore.toFixed(2)}`);
+      }
+      process.exit(0);
+    })
+    .catch((err) => {
+      console.error("[FAIL] Smoke evaluation error:", err.message);
+      process.exit(1);
+    });
 } else if (command === "security") {
   const findings = alpha.runSecurityAudit();
   if (isJson) {
@@ -152,10 +159,14 @@ if (command === "smoke") {
   }
   process.exit(0);
 } else if (command === "license") {
-  console.log("License command ready: repository source under MIT, documentation under CC-BY-4.0, baselines under CC0-1.0.");
+  console.log(
+    "License command ready: repository source under MIT, documentation under CC-BY-4.0, baselines under CC0-1.0."
+  );
   process.exit(0);
 } else if (command === "audit") {
-  console.log("Repository quality audit passed: docs, accessibility, performance, security, privacy, licenses, hygiene.");
+  console.log(
+    "Repository quality audit passed: docs, accessibility, performance, security, privacy, licenses, hygiene."
+  );
   process.exit(0);
 } else if (command === "export") {
   console.log(`Workspace export queued: JSON and Markdown report format for ${goal}.`);
@@ -197,7 +208,9 @@ if (command === "smoke") {
   };
 
   if (command === "help" || !outputs[command]) {
-    console.log("Tech Club automation commands: doctor, preflight, connector, smoke, export, reproduce, security, privacy, performance, accessibility, compliance, license, audit, sprint, sprint2, sprint3, spec, task, review, benchmark, release, migrate, workspace, graph, search, semantiq, research, asset, registry, marketplace, plugin, package, node, federation, alpha, beta, safe-mode, backup, diagnostics, feedback, architecture, dashboard");
+    console.log(
+      "Tech Club automation commands: doctor, preflight, connector, smoke, export, reproduce, security, privacy, performance, accessibility, compliance, license, audit, sprint, sprint2, sprint3, spec, task, review, benchmark, release, migrate, workspace, graph, search, semantiq, research, asset, registry, marketplace, plugin, package, node, federation, alpha, beta, safe-mode, backup, diagnostics, feedback, architecture, dashboard"
+    );
     process.exit(command === "help" ? 0 : 1);
   }
 

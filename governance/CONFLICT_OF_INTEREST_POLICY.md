@@ -1,7 +1,7 @@
 # Conflict of Interest Policy
 
 **Version**: 1.0.0  
-**Date**: 2026-08-07  
+**Date**: 2026-08-07
 
 ---
 

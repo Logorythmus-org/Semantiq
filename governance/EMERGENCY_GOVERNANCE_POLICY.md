@@ -1,7 +1,7 @@
 # Emergency Governance Policy
 
 **Version**: 1.0.0  
-**Date**: 2026-08-04  
+**Date**: 2026-08-04
 
 ---
 

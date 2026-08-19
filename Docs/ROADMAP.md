@@ -113,3 +113,22 @@
 
 ## Phase 6: Autonomous Engineering Pipeline
 - Sprint 0 automation engine for Spec-Kit generation, task planning, repository analysis, review findings, test plans, documentation plans, release plans, migration notes, dashboard snapshots, CLI commands, engineering agents, and Sprint 1 readiness.
+
+## Sandbox Subsystem Phase (Prompts 01–65) — `INTERNAL GATE PASSED`
+- Universal provider-neutral execution contracts and Draft 2020-12 schemas (`packages/sandbox-contracts/`).
+- SemantIQ Provider Interoperability Standard (SPIS) with L1/L2/L3 conformance tiers.
+- 7-stage behavioral observation sequence (`Context → Interpretation → Decision → Action → Result → Consequence → Recovery`).
+- Out-of-band Independent Observer, anti-gaming anomaly detection, and Merkle trace integrity verification.
+- Provider SDK, certification harness, and provider-neutral routing engine.
+- 37 automated test suites (133 tests passed, 0 failures, 100% typechecked).
+- Subsystem Internal Gate: `INTERNAL GATE PASSED` (ADR-0165).
+
+## Phase 11: Clean-Room Extraction (Planned Pre-Release Milestone)
+- Isolated package packaging and distribution verification without monorepo dependencies.
+- Hermetic container and clean-room reproducibility testing.
+- Dependency license verification and asset hashing.
+
+## Phase 12: Public Alpha Release Authorization (Planned Release Gate)
+- Execution of the authoritative product release checklist under `config/release-freeze.json`.
+- Pre-Release status promotion from `PRE-RELEASE / PUBLIC ALPHA NOT YET AUTHORIZED` to `PUBLIC ALPHA AUTHORIZED`.
+- Release artifact signing and publishing.

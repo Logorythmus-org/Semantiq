@@ -3,7 +3,11 @@ export const mvpScreens = [
   { id: "identity", title: "Identity Setup", route: "/identity" },
   { id: "workspace", title: "Workspace Dashboard", route: "/workspace" },
   { id: "question", title: "Question Composer", route: "/question" },
-  { id: "question-intelligence", title: "Question Intelligence Panel", route: "/question/intelligence" },
+  {
+    id: "question-intelligence",
+    title: "Question Intelligence Panel",
+    route: "/question/intelligence"
+  },
   { id: "semantiq", title: "Semantiq Report View", route: "/semantiq" },
   { id: "graph", title: "Knowledge Graph View", route: "/graph" },
   { id: "research", title: "Research Project View", route: "/research" },
