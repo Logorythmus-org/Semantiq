@@ -39,9 +39,9 @@ dev = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/Semant-iq/Semantiq"
-Documentation = "https://github.com/Semant-iq/Semantiq/tree/main/Docs"
-Repository = "https://github.com/Semant-iq/Semantiq"
+Homepage = "https://github.com/Logorythmus-org/Semantiq"
+Documentation = "https://github.com/Logorythmus-org/Semantiq/tree/main/Docs"
+Repository = "https://github.com/Logorythmus-org/Semantiq"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/semantiq"]

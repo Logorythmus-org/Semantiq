@@ -19,7 +19,7 @@ This structural audit provides a comprehensive, component-by-component verificat
 | :--- | :--- | :---: | :--- |
 | `CITATION.cff` | Canonical Academic Citation | **VERIFIED** | Correct version `1.0.0`, SemantIQ identity, DOI placeholder, CC-BY-4.0 doc license. |
 | `.zenodo.json` | Zenodo Archival Metadata | **VERIFIED** | Matches CITATION.cff, MIT/CC-BY-4.0 dual license definitions, keywords aligned. |
-| `codemeta.json` | Software Metadata Standard | **VERIFIED** | Schema.org/CodeMeta standard, repository URL `https://github.com/Semant-iq/Semantiq`. |
+| `codemeta.json` | Software Metadata Standard | **VERIFIED** | Schema.org/CodeMeta standard, repository URL `https://github.com/Logorythmus-org/Semantiq`. |
 | `LICENSE` / `LICENSING.md` | Multi-Tier Licensing Framework | **VERIFIED** | 6-tier boundary: MIT (Code), CC-BY-4.0 (Docs), CC0-1.0 (Data/Fixtures/Prompts). |
 | `SECURITY.md` | Vulnerability Disclosure Policy | **VERIFIED** | STRIDE threat model links, 90-day embargo policy, operational security reporting. |
 | `CHANGELOG.md` | Root Release Changelog | **VERIFIED** | Version 1.0.0 Headless Release Candidate documented with full feature inventory. |

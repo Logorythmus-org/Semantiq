@@ -1,7 +1,7 @@
 # SemantIQ GitHub Push Record
 
 **Date**: 2026-08-19  
-**Target Repository**: `https://github.com/Semant-iq/Semantiq.git`  
+**Target Repository**: `https://github.com/Logorythmus-org/Semantiq.git`  
 **Branch**: `main`  
 **Status**: `READY_FOR_UPSTREAM_SYNC`  
 
@@ -9,7 +9,7 @@
 
 ## 1. Upstream & Remote Configuration
 
-- **Remote Origin**: `https://github.com/Semant-iq/Semantiq.git`
+- **Remote Origin**: `https://github.com/Logorythmus-org/Semantiq.git`
 - **Active Branch**: `main`
 - **Local HEAD Commit**: `b1432b2` (`chore: align repository governance specs and service descriptors`)
 - **Base Commit**: `59f8eb4` (`chore: audit headless SemantIQ product readiness`)

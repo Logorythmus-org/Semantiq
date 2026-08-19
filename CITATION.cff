@@ -3,7 +3,7 @@ message: "If you use SemantIQ in your research or software, please cite it as be
 title: "SemantIQ: Behavioral Evidence Infrastructure for AI Systems"
 version: "1.0.0"
 date-released: "2026-08-18"
-repository-code: "https://github.com/Semant-iq/Semantiq.git"
+repository-code: "https://github.com/Logorythmus-org/Semantiq.git"
 license: "MIT"
 authors:
   - family-names: "SemantIQ Core Contributors"

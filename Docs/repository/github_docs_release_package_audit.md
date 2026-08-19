@@ -33,7 +33,7 @@ This audit validates all documentation assets, licensing boundaries, academic at
   - `version`: `1.0.0`
   - `title`: `SemantIQ: Behavioral Evidence Infrastructure for AI Systems`
   - `license`: `CC-BY-4.0` (for documentation) / `MIT` (for code)
-  - `repository-code`: `https://github.com/Semant-iq/Semantiq`
+  - `repository-code`: `https://github.com/Logorythmus-org/Semantiq`
 - **Zenodo Archive Metadata (`.zenodo.json`)**:
   - Aligned with `CITATION.cff`, designated DOI placeholder, multi-tier license descriptors, keywords mapped to behavioral evidence and benchmark integrity.
 - **Software Heritage / CodeMeta (`codemeta.json`)**:
