@@ -5,11 +5,8 @@ from pathlib import Path
 import sys
 try:
     import tomllib
-except ImportError:
-    try:
-        import tomli as tomllib
-    except ImportError:
-        tomllib = None
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 src_dir = Path(__file__).resolve().parents[1] / "src"
 if str(src_dir) not in sys.path:
@@ -22,23 +19,16 @@ def test_package_metadata():
     pyproject_path = Path(__file__).resolve().parents[1] / "pyproject.toml"
     assert pyproject_path.exists()
 
-    if tomllib is not None:
-        with open(pyproject_path, "rb") as f:
-            data = tomllib.load(f)
-        project = data["project"]
-        assert project["name"] == "semantiq"
-        assert project["version"] == semantiq.__version__
-        assert project["license"] == "MIT"
-        assert project["requires-python"] == ">=3.10"
-        assert "semantiq" in project["scripts"]
-        assert project["scripts"]["semantiq"] == "semantiq.cli:main"
-    else:
-        content = pyproject_path.read_text(encoding="utf-8")
-        assert 'name = "semantiq"' in content
-        assert f'version = "{semantiq.__version__}"' in content
-        assert 'license = "MIT"' in content
-        assert 'requires-python = ">=3.10"' in content
-        assert 'semantiq = "semantiq.cli:main"' in content
+    with open(pyproject_path, "rb") as f:
+        data = tomllib.load(f)
+    project = data["project"]
+    assert project["name"] == "semantiq"
+    assert project["version"] == semantiq.__version__
+    assert project["license"] == "MIT"
+    assert project["requires-python"] == ">=3.10"
+    assert "semantiq" in project["scripts"]
+    assert project["scripts"]["semantiq"] == "semantiq.cli:main"
+    assert "tomli>=2.0.1; python_version < '3.11'" in project["optional-dependencies"]["dev"]
 
 
 def test_package_all_exports_match():
