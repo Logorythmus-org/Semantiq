@@ -44,12 +44,12 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python-version }}
-      - name: Install build tools & pytest
+      - name: Install Python build frontend
         run: |
           python -m pip install --upgrade pip
-          python -m pip install hatchling build pytest ruff mypy tomli
-      - name: Install SemantIQ Python package
-        run: python -m pip install -e ./packages/python
+          python -m pip install build
+      - name: Install SemantIQ Python package with declared test tools
+        run: python -m pip install -e "./packages/python[dev]"
       - name: Run full Python pytest suite
         run: python -m pytest packages/python/tests/
       - name: Test Python package build (Wheel & Sdist)
