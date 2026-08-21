@@ -8,3 +8,5 @@ allowBuilds:
   esbuild: true
 overrides:
   "read-yaml-file@1.1.0>js-yaml": "3.15.1"
+  "@changesets/parse@0.4.3>js-yaml": "4.3.1"
+  "@eslint/eslintrc@3.3.5>js-yaml": "4.3.1"
