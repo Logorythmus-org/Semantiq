@@ -6,3 +6,5 @@ packages:
   - "examples/*"
 allowBuilds:
   esbuild: true
+overrides:
+  "read-yaml-file@1.1.0>js-yaml": "3.15.1"
