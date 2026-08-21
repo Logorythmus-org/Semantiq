@@ -19,8 +19,7 @@ import type { SemantiqHttpApplication, SemantiqHttpServerOptions } from "./types
 export function createSemantiqHttpServer(
   options: SemantiqHttpServerOptions = {}
 ): SemantiqHttpApplication {
-  const service: SemantiqApplicationService =
-    options.service ?? createSemantiqApplicationService();
+  const service: SemantiqApplicationService = options.service ?? createSemantiqApplicationService();
   const host = options.host ?? "127.0.0.1";
   const configuredPort = options.port ?? 0;
   const basePath = options.basePath ?? "/api/v1";

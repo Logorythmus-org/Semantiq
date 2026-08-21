@@ -3,20 +3,16 @@
  * Cross-Run Evidence Graph, R0–R4 Relation Strength, and Comparative Query Types
  */
 
-import type {
-  EvidenceConfidence,
-  RelationType
-} from "../../../sandbox-contracts/src/index.js";
+import type { EvidenceConfidence, RelationType } from "../../../sandbox-contracts/src/index.js";
 
-export const EPISTEMIC_ABSENCE_DISCLAIMER =
-  "Absence of observation is not counterevidence.";
+export const EPISTEMIC_ABSENCE_DISCLAIMER = "Absence of observation is not counterevidence.";
 
 export enum RelationStrengthLevel {
   R0 = "R0", // Unobserved / No observations (0.0)
   R1 = "R1", // Weak / Single observation (0.25)
   R2 = "R2", // Moderate / Multi-case empirical observation (0.50)
   R3 = "R3", // Strong / Multi-case & Multi-environment verification (0.75)
-  R4 = "R4"  // Deterministic / Cross-model & cross-environment reproducible (1.00)
+  R4 = "R4" // Deterministic / Cross-model & cross-environment reproducible (1.00)
 }
 
 export type RelationEvidenceStatus =
@@ -75,11 +71,13 @@ export interface ComparativeQuery {
   readonly sourceId: string;
   readonly targetId: string;
   readonly relationType?: RelationType | undefined;
-  readonly filters?: {
-    readonly modelIds?: readonly string[] | undefined;
-    readonly environmentIds?: readonly string[] | undefined;
-    readonly caseIds?: readonly string[] | undefined;
-  } | undefined;
+  readonly filters?:
+    | {
+        readonly modelIds?: readonly string[] | undefined;
+        readonly environmentIds?: readonly string[] | undefined;
+        readonly caseIds?: readonly string[] | undefined;
+      }
+    | undefined;
 }
 
 export interface ComparativeQueryResult {

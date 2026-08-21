@@ -5,9 +5,7 @@ import {
   EPISTEMIC_MANIFEST_DISCLAIMER,
   type StudyExecutionManifest
 } from "../../packages/evidence/src/execution-manifests/index.js";
-import {
-  StudyProtocolGenerator
-} from "../../packages/evidence/src/study-protocols/index.js";
+import { StudyProtocolGenerator } from "../../packages/evidence/src/study-protocols/index.js";
 import { createSemantiqApplicationService } from "../../packages/semantiq/src/services/index.js";
 import { RelationType } from "../../packages/sandbox-contracts/src/product-contracts.js";
 
@@ -46,7 +44,7 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
         matchedPairsCount: 20,
         evaluationIds: ["eval_001", "eval_002"],
         matchingDimensionsUsed: baseProtocol.matchingDimensions,
-        thresholdsUsed: { accuracy: 0.80 },
+        thresholdsUsed: { accuracy: 0.8 },
         observedInstrumentation: {
           traceCollectionMode: "buffered_event_stream",
           samplingRateHz: 100,
@@ -72,7 +70,8 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
           attestedBy: "Dr. Lead Investigator",
           role: "academic_collaborator",
           signatureHex: "0x1234567890abcdef",
-          attestationStatement: "I attest that this execution faithfully followed the pre-registered protocol.",
+          attestationStatement:
+            "I attest that this execution faithfully followed the pre-registered protocol.",
           timestamp: "2026-08-18T11:05:00.000Z"
         },
         manifestSha256: "manifest_hash_001",
@@ -108,7 +107,7 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
         matchedPairsCount: 10, // meets minimum 8 but below recommended 20
         evaluationIds: ["eval_003"],
         matchingDimensionsUsed: baseProtocol.matchingDimensions,
-        thresholdsUsed: { accuracy: 0.80 },
+        thresholdsUsed: { accuracy: 0.8 },
         observedInstrumentation: {
           traceCollectionMode: "buffered_event_stream",
           samplingRateHz: 100,
@@ -199,7 +198,9 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
       // Invariant: Attestation alone DOES NOT promote evidence or bypass quarantine
       const result = manifestValidator.validateAndIngestManifest(quarantinedManifest, baseProtocol);
       expect(result.status).toBe("quarantined");
-      expect(result.violations.some((v) => v.includes("Missing required matching dimension"))).toBe(true);
+      expect(result.violations.some((v) => v.includes("Missing required matching dimension"))).toBe(
+        true
+      );
       expect(result.violations.some((v) => v.includes("failed bound"))).toBe(true);
     });
 
@@ -210,7 +211,8 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
         organizationId: "org_untrusted",
         protocolId: baseProtocol.protocolId,
         protocolVersion: baseProtocol.version,
-        preregistrationFingerprint: "falsified_hash_000000000000000000000000000000000000000000000000000000",
+        preregistrationFingerprint:
+          "falsified_hash_000000000000000000000000000000000000000000000000000000",
         startedAt: "2026-08-18T10:00:00.000Z",
         completedAt: "2026-08-18T11:00:00.000Z",
         environmentFingerprint: "env_001",
@@ -316,7 +318,10 @@ describe("Study Execution Manifest & Ingestion (Prompt 29)", () => {
         epistemicDisclaimer: EPISTEMIC_MANIFEST_DISCLAIMER
       };
 
-      const ingestionResult = await service.studies.ingestExecutionManifest(manifest, frozenProtocol);
+      const ingestionResult = await service.studies.ingestExecutionManifest(
+        manifest,
+        frozenProtocol
+      );
       expect(ingestionResult.status).toBe("accepted");
 
       const fetched = await service.studies.getExecutionManifest("man_srv_001");

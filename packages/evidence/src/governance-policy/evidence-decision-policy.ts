@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Deterministic Versioned Evidence Decision Policy
- * 
+ *
  * Invariants:
  * 1. Promotion = evidence-governance strength, not scientific proof.
  * 2. Decision logic is strictly deterministic and version-tracked.
@@ -34,7 +34,7 @@ export class EvidenceDecisionPolicy {
     // Rule 1: Sample Power & Adequacy
     const isSampleAdequate =
       inputs.pairCount >= 5 &&
-      inputs.lowPowerFraction <= 0.40 &&
+      inputs.lowPowerFraction <= 0.4 &&
       inputs.statisticalGrade !== "INSUFFICIENT_POWER";
     rules.push({
       ruleId: "POL-001",
@@ -94,36 +94,42 @@ export class EvidenceDecisionPolicy {
       isHardBlocker: false
     });
     if (!isStatisticallyStrong) {
-      recommendations.push("Increase matched cohort power to achieve statistical GRADE_A or GRADE_B.");
+      recommendations.push(
+        "Increase matched cohort power to achieve statistical GRADE_A or GRADE_B."
+      );
     }
 
     // Rule 5: Robustness & Direction Stability
     const isRobustAndStable =
-      (inputs.robustnessGrade === "ROBUST_GRADE_A" || inputs.robustnessGrade === "ROBUST_GRADE_B") &&
+      (inputs.robustnessGrade === "ROBUST_GRADE_A" ||
+        inputs.robustnessGrade === "ROBUST_GRADE_B") &&
       inputs.specificationStability >= 0.85 &&
       inputs.usableSpecifications >= 2;
     rules.push({
       ruleId: "POL-005",
       ruleName: "Specification Curve Stability",
       passed: isRobustAndStable,
-      requirement: "robustness in ['ROBUST_GRADE_A', 'ROBUST_GRADE_B'], stability >= 0.85, usableSpecs >= 2",
+      requirement:
+        "robustness in ['ROBUST_GRADE_A', 'ROBUST_GRADE_B'], stability >= 0.85, usableSpecs >= 2",
       observed: `robustness=${inputs.robustnessGrade}, stability=${inputs.specificationStability}, usableSpecs=${inputs.usableSpecifications}`,
       isHardBlocker: false
     });
     if (!isRobustAndStable) {
-      recommendations.push("Run additional specification variations to verify stability across configurations.");
+      recommendations.push(
+        "Run additional specification variations to verify stability across configurations."
+      );
     }
 
     // Determine Verdict
     let verdict: EvidenceGovernanceVerdict = "hold";
-    let confidenceScore = 0.50;
+    let confidenceScore = 0.5;
 
     if (!isSampleAdequate) {
       verdict = "insufficient";
-      confidenceScore = 0.10;
+      confidenceScore = 0.1;
     } else if (!passedNegativeControls || !noCounterevidenceDominance) {
       verdict = "downgrade";
-      confidenceScore = 0.80;
+      confidenceScore = 0.8;
     } else if (
       isStatisticallyStrong &&
       isRobustAndStable &&
@@ -137,7 +143,7 @@ export class EvidenceDecisionPolicy {
       confidenceScore = 0.85;
     } else {
       verdict = "hold";
-      confidenceScore = 0.60;
+      confidenceScore = 0.6;
     }
 
     const decisionId = `dec_${computeSha256(`${inputs.targetId}:${this.version}:${verdict}:${Date.now()}`).substring(0, 16)}`;

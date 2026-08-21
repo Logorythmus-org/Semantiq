@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Research Bundle Builder
- * 
+ *
  * Invariants:
  * 1. Cryptographic Merkle root computed over sorted component SHA-256 digests.
  * 2. Bundle integrity proves provenance/integrity, not truth.
@@ -116,10 +116,18 @@ export class ResearchBundleBuilder {
 
     // 5. Add Statistical & Robustness Outputs
     if (options.contrastReport) {
-      addArtifact("statistics/matched_contrast.json", options.contrastReport, "statistical_contrast");
+      addArtifact(
+        "statistics/matched_contrast.json",
+        options.contrastReport,
+        "statistical_contrast"
+      );
     }
     if (options.robustnessReport) {
-      addArtifact("robustness/diagnostics.json", options.robustnessReport, "robustness_diagnostics");
+      addArtifact(
+        "robustness/diagnostics.json",
+        options.robustnessReport,
+        "robustness_diagnostics"
+      );
     }
 
     // 6. Add Governed Claims
@@ -154,7 +162,9 @@ export class ResearchBundleBuilder {
       sourceRunIds: Object.freeze(runs.map((r) => r.id)),
       workspaceSnapshot: snapshot,
       evidenceOutputs: {
-        behavioralMetricsCount: options.metricsReport ? Object.keys(options.metricsReport.metrics).length : 0,
+        behavioralMetricsCount: options.metricsReport
+          ? Object.keys(options.metricsReport.metrics).length
+          : 0,
         failureObservationsCount: options.failureExtraction?.failureObservations.length ?? 0,
         graphRelationsCount: 0
       },
@@ -170,9 +180,13 @@ export class ResearchBundleBuilder {
       robustnessOutputs: options.robustnessReport
         ? {
             robustnessGrade: options.robustnessReport.robustnessGrade,
-            directionStabilityRatio: options.robustnessReport.specificationCurve.directionStabilityRatio,
-            specificationsCount: options.robustnessReport.specificationCurve.totalSpecificationsEvaluated,
-            negativeControlPassed: options.robustnessReport.negativeControls.every((n) => n.passedNullHypothesis)
+            directionStabilityRatio:
+              options.robustnessReport.specificationCurve.directionStabilityRatio,
+            specificationsCount:
+              options.robustnessReport.specificationCurve.totalSpecificationsEvaluated,
+            negativeControlPassed: options.robustnessReport.negativeControls.every(
+              (n) => n.passedNullHypothesis
+            )
           }
         : undefined,
       reconciliationOutputs: {
@@ -185,7 +199,9 @@ export class ResearchBundleBuilder {
       },
       releaseOutputs: {
         activeClaimsCount: claims.filter((c) => c.status === "active").length,
-        releasedClaimsCount: claims.filter((c) => c.status === "active" || c.status === "superseded").length
+        releasedClaimsCount: claims.filter(
+          (c) => c.status === "active" || c.status === "superseded"
+        ).length
       },
       componentArtifacts: Object.freeze(componentArtifacts),
       merkleRootHash,

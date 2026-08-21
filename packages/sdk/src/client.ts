@@ -38,14 +38,8 @@ import type {
   MatchedRunPair,
   RunProfile
 } from "./contracts.js";
-import {
-  EPISTEMIC_CAUSAL_DISCLAIMER,
-  EPISTEMIC_LANGUAGE_DISCLAIMER
-} from "./contracts.js";
-import {
-  SemantiqReceiptError,
-  SemantiqValidationError
-} from "./errors.js";
+import { EPISTEMIC_CAUSAL_DISCLAIMER, EPISTEMIC_LANGUAGE_DISCLAIMER } from "./contracts.js";
+import { SemantiqReceiptError, SemantiqValidationError } from "./errors.js";
 import { ControlledLanguageValidator } from "./controlled-language.js";
 
 export interface SemantiqClientConfig {
@@ -294,7 +288,8 @@ export class SemantiqClient {
     }
 
     const totalTreatments = options.treatmentRuns.length;
-    const coverageRatio = Math.round((matchedPairs.length / Math.max(1, totalTreatments)) * 1000) / 1000;
+    const coverageRatio =
+      Math.round((matchedPairs.length / Math.max(1, totalTreatments)) * 1000) / 1000;
 
     return {
       matchedPairs,
@@ -348,8 +343,10 @@ export class SemantiqClient {
     const treatScores = pairs.map((p) => p.treatmentRun.outcomeMetrics[targetMetric] ?? 0);
     const ctrlScores = pairs.map((p) => p.controlRun.outcomeMetrics[targetMetric] ?? 0);
 
-    const meanTreatmentScore = Math.round((treatScores.reduce((a, b) => a + b, 0) / n) * 10000) / 10000;
-    const meanControlScore = Math.round((ctrlScores.reduce((a, b) => a + b, 0) / n) * 10000) / 10000;
+    const meanTreatmentScore =
+      Math.round((treatScores.reduce((a, b) => a + b, 0) / n) * 10000) / 10000;
+    const meanControlScore =
+      Math.round((ctrlScores.reduce((a, b) => a + b, 0) / n) * 10000) / 10000;
     const meanDelta = Math.round((deltas.reduce((a, b) => a + b, 0) / n) * 10000) / 10000;
 
     const positiveCount = deltas.filter((d) => d > 0).length;
@@ -451,11 +448,15 @@ export class SemantiqClient {
 
   public importBundle(bundle: ResearchBundle): ImportBundleResult {
     if (!this.verifyBundle(bundle)) {
-      throw new SemantiqReceiptError(`ResearchBundle cryptographic verification failed: ${bundle.id}`);
+      throw new SemantiqReceiptError(
+        `ResearchBundle cryptographic verification failed: ${bundle.id}`
+      );
     }
 
     const runsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("runs/")).length;
-    const evalsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("evaluations/")).length;
+    const evalsCount = bundle.includedArtifacts.filter((a) =>
+      a.path.startsWith("evaluations/")
+    ).length;
     const claimsCount = bundle.includedArtifacts.filter((a) => a.path.startsWith("claims/")).length;
 
     return {

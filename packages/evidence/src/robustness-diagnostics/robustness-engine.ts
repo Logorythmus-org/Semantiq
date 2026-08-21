@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Robustness Diagnostics & Specification Curve Engine
- * 
+ *
  * Invariants:
  * 1. Robustness across specifications does not establish causal identification.
  * 2. Balance is measured via Total Variation Distance (TVD).
@@ -14,10 +14,7 @@ import {
   RunProfileMatcher
 } from "../statistical-contrast/run-profile-matcher.js";
 import { StatisticalContrastEngine } from "../statistical-contrast/statistical-contrast-engine.js";
-import type {
-  MatchingDimension,
-  RunProfile
-} from "../statistical-contrast/types.js";
+import type { MatchingDimension, RunProfile } from "../statistical-contrast/types.js";
 import {
   type BalanceDiagnosticResult,
   type LeaveOutSensitivityResult,
@@ -342,7 +339,7 @@ export class RobustnessEngine {
   ): RobustnessGrade {
     const allNegControlsPassed = negControls.every((n) => n.passedNullHypothesis);
 
-    if (sampleSize < 5 || !allNegControlsPassed || directionStability < 0.60) {
+    if (sampleSize < 5 || !allNegControlsPassed || directionStability < 0.6) {
       return "FRAGILE";
     }
 
@@ -350,7 +347,7 @@ export class RobustnessEngine {
       return "ROBUST_GRADE_A";
     }
 
-    if (directionStability >= 0.80 && meanPostMatchTvd <= 0.10) {
+    if (directionStability >= 0.8 && meanPostMatchTvd <= 0.1) {
       return "ROBUST_GRADE_B";
     }
 

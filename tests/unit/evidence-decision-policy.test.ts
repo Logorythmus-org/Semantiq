@@ -38,15 +38,15 @@ describe("Deterministic Evidence Governance Decision Policy", () => {
       statisticalGrade: "GRADE_C",
       pairCount: 6,
       robustnessGrade: "ROBUST_GRADE_B",
-      specificationStability: 0.80,
+      specificationStability: 0.8,
       usableSpecifications: 2,
-      lowPowerFraction: 0.10,
+      lowPowerFraction: 0.1,
       negativeControlFailures: 0,
       relationStatus: "supported"
     });
 
     expect(decision.verdict).toBe("hold");
-    expect(decision.confidenceScore).toBe(0.60);
+    expect(decision.confidenceScore).toBe(0.6);
     expect(decision.recommendations.length).toBeGreaterThan(0);
   });
 
@@ -56,7 +56,7 @@ describe("Deterministic Evidence Governance Decision Policy", () => {
       statisticalGrade: "GRADE_B",
       pairCount: 12,
       robustnessGrade: "FRAGILE",
-      specificationStability: 0.40,
+      specificationStability: 0.4,
       usableSpecifications: 2,
       lowPowerFraction: 0.0,
       negativeControlFailures: 1, // Failed placebo test
@@ -76,12 +76,12 @@ describe("Deterministic Evidence Governance Decision Policy", () => {
       robustnessGrade: "FRAGILE",
       specificationStability: 0.0,
       usableSpecifications: 1,
-      lowPowerFraction: 0.80,
+      lowPowerFraction: 0.8,
       negativeControlFailures: 0
     });
 
     expect(decision.verdict).toBe("insufficient");
-    expect(decision.confidenceScore).toBe(0.10);
+    expect(decision.confidenceScore).toBe(0.1);
     expect(decision.blockingReasons).toContain(
       "Insufficient sample size or power to draw evidence conclusions."
     );

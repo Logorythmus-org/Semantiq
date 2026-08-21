@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/sdk
  * SemantIQ SDK Error Hierarchy
- * 
+ *
  * Provides stable, typed exception models across all TypeScript SDK operations.
  */
 

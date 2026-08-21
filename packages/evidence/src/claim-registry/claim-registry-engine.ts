@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Governed Claim Registry Engine
- * 
+ *
  * Invariants:
  * 1. Block unsupported causal language at drafting and release.
  * 2. Release controls wording, not truth.
@@ -41,9 +41,14 @@ export class ClaimRegistryEngine {
     const validation = this.validator.validate(options.statement);
     if (!validation.isValid) {
       const issues = validation.violations
-        .map((v) => `Prohibited: '${v.prohibitedPhrase}' - ${v.reason} (Use '${v.suggestedAlternative}')`)
+        .map(
+          (v) =>
+            `Prohibited: '${v.prohibitedPhrase}' - ${v.reason} (Use '${v.suggestedAlternative}')`
+        )
         .join("; ");
-      throw new Error(`Controlled Language Violation: Statement contains prohibited wording. Details: ${issues}`);
+      throw new Error(
+        `Controlled Language Violation: Statement contains prohibited wording. Details: ${issues}`
+      );
     }
 
     const claimFamilyId = `fam_${computeSha256(`${options.claimFamilyTopic}:${options.targetPatternOrRelationId}`).substring(0, 16)}`;
@@ -77,7 +82,11 @@ export class ClaimRegistryEngine {
    */
   public addReview(
     claimId: string,
-    review: { reviewerId: string; decision: "approve" | "reject" | "request_changes"; comments: string }
+    review: {
+      reviewerId: string;
+      decision: "approve" | "reject" | "request_changes";
+      comments: string;
+    }
   ): GovernedEvidenceClaim {
     const claim = this.claims.get(claimId);
     if (!claim) {
@@ -120,7 +129,9 @@ export class ClaimRegistryEngine {
     // Re-verify controlled language at release gate
     const validation = this.validator.validate(claim.statement);
     if (!validation.isValid) {
-      throw new Error("Controlled Language Violation: Release blocked due to unsupported causal wording.");
+      throw new Error(
+        "Controlled Language Violation: Release blocked due to unsupported causal wording."
+      );
     }
 
     // Check approval threshold: >= 2 approvals and 0 rejections

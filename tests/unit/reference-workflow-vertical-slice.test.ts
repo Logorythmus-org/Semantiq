@@ -1,7 +1,5 @@
 import { describe, it, expect } from "vitest";
-import {
-  Dp008ReferenceFlowRunner
-} from "../../packages/evidence/src/reference-flow/index.js";
+import { Dp008ReferenceFlowRunner } from "../../packages/evidence/src/reference-flow/index.js";
 import { SemantiqClient } from "../../packages/sdk/src/index.js";
 import { createSemantiqHttpServer } from "../../packages/semantiq/src/http/index.js";
 
@@ -14,24 +12,28 @@ describe("Complete Headless Vertical Slice: DP-008 → FP-002 (Prompt 31)", () =
 
       // Stage 1 & 2: Controlled runs & Canonical Adapter
       expect(result.adaptedRuns.length).toBe(20);
-      expect(result.adaptedRuns.filter((r) => Boolean((r.payload as any)?.hadAnomaly)).length).toBe(5);
+      expect(result.adaptedRuns.filter((r) => Boolean((r.payload as any)?.hadAnomaly)).length).toBe(
+        5
+      );
 
       // Stage 3 & 4: Trace mapping & Metrics
       expect(result.traces.length).toBe(1);
       expect(result.traces[0]!.events.length).toBe(20);
-      expect(result.traces[0]!.events.filter((e) => Boolean((e.payload as any)?.hadAnomaly)).length).toBe(5);
+      expect(
+        result.traces[0]!.events.filter((e) => Boolean((e.payload as any)?.hadAnomaly)).length
+      ).toBe(5);
 
       // Stage 5 & 6: Failure evidence & Evidence Graph
       expect(result.failureObservationsCount).toBe(5);
 
       // Stage 7: Matched contrast (Bootstrap CI & Sign test)
       expect(result.matchedContrastReport.matchedPairsCount).toBe(10);
-      expect(result.matchedContrastReport.meanDelta).toBeGreaterThan(0.20);
+      expect(result.matchedContrastReport.meanDelta).toBeGreaterThan(0.2);
       expect(result.matchedContrastReport.bootstrapCI.confidenceLevel).toBe(0.95);
       expect(result.matchedContrastReport.signTest.pValue).toBeLessThanOrEqual(0.05);
 
       // Stage 8 & 9: Robustness diagnostics & Specification curve
-      expect(result.robustnessReport.meanPostMatchTvd).toBeLessThanOrEqual(0.20);
+      expect(result.robustnessReport.meanPostMatchTvd).toBeLessThanOrEqual(0.2);
       expect(result.specCurveReport.specifications.length).toBeGreaterThan(0);
 
       // Stage 10: Evidence Decision policy
@@ -97,7 +99,12 @@ describe("Complete Headless Vertical Slice: DP-008 → FP-002 (Prompt 31)", () =
           {
             runId: "treat_1",
             isTreatment: true,
-            environment: { platform: "linux", provider: "docker", networkIsolated: true, os: "linux-x86_64" },
+            environment: {
+              platform: "linux",
+              provider: "docker",
+              networkIsolated: true,
+              os: "linux-x86_64"
+            },
             model: { modelFamily: "gpt-4", modelId: "gpt-4", temperature: 0.0 },
             population: { topology: "single", agentCount: 1 },
             tools: { toolCount: 1, hasBoundaryGuard: true, allowedToolNames: ["obs"] },
@@ -111,14 +118,19 @@ describe("Complete Headless Vertical Slice: DP-008 → FP-002 (Prompt 31)", () =
           {
             runId: "ctrl_1",
             isTreatment: false,
-            environment: { platform: "linux", provider: "docker", networkIsolated: true, os: "linux-x86_64" },
+            environment: {
+              platform: "linux",
+              provider: "docker",
+              networkIsolated: true,
+              os: "linux-x86_64"
+            },
             model: { modelFamily: "gpt-4", modelId: "gpt-4", temperature: 0.0 },
             population: { topology: "single", agentCount: 1 },
             tools: { toolCount: 1, hasBoundaryGuard: true, allowedToolNames: ["obs"] },
             memory: { contextWindowTokens: 4096, hasMemoryPartitioning: true },
             resourcePressure: { maxSteps: 10, tokenBudget: 10000 },
             horizon: "long",
-            outcomeMetrics: { score: 0.70 }
+            outcomeMetrics: { score: 0.7 }
           }
         ],
         targetMetric: "score"
@@ -153,7 +165,8 @@ describe("Complete Headless Vertical Slice: DP-008 → FP-002 (Prompt 31)", () =
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
-            statement: "DP-008 out-of-band observer is associated with reduced FP-002 context drift."
+            statement:
+              "DP-008 out-of-band observer is associated with reduced FP-002 context drift."
           })
         });
         expect(valRes.status).toBe(200);
@@ -168,7 +181,8 @@ describe("Complete Headless Vertical Slice: DP-008 → FP-002 (Prompt 31)", () =
             claimFamilyTopic: "anti_gaming_drift_mitigation",
             targetPatternOrRelationId: "rel_08",
             version: "1.0.0",
-            statement: "DP-008 out-of-band observer is associated with reduced FP-002 context drift.",
+            statement:
+              "DP-008 out-of-band observer is associated with reduced FP-002 context drift.",
             governanceVerdict: "promote",
             evidenceReferences: {
               evaluationReportIds: ["eval_1"],

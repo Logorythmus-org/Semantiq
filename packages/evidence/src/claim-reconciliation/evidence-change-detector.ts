@@ -3,10 +3,7 @@
  * Evidence Change Detector
  */
 
-import type {
-  EvidenceDiff,
-  EvidenceStateSnapshot
-} from "./types.js";
+import type { EvidenceDiff, EvidenceStateSnapshot } from "./types.js";
 
 export class EvidenceChangeDetector {
   /**

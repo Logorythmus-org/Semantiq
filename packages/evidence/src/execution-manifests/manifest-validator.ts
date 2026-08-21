@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Protocol-Aware Study Execution Manifest Validator
- * 
+ *
  * Invariants:
  * 1. Execution manifests are compared deterministically against frozen pre-registrations.
  * 2. Partner attestation alone does not promote evidence or bypass protocol violations.
@@ -51,22 +51,25 @@ export class StudyExecutionManifestValidator {
     const matchingDimensionsMatch = missingDims.length === 0;
 
     if (!matchingDimensionsMatch) {
-      violations.push(
-        `Missing required matching dimension(s): [${missingDims.join(", ")}]`
-      );
+      violations.push(`Missing required matching dimension(s): [${missingDims.join(", ")}]`);
     }
 
     // 3. Negative Controls Execution & Bounds
     let negativeControlsPassed = true;
     for (const ctrl of protocol.negativeControls) {
-      const executedCtrl = manifest.executedNegativeControls.find((c) => c.controlId === ctrl.controlId);
+      const executedCtrl = manifest.executedNegativeControls.find(
+        (c) => c.controlId === ctrl.controlId
+      );
       if (!executedCtrl) {
         negativeControlsPassed = false;
         violations.push(`Required negative control '${ctrl.controlId}' was not executed.`);
       } else if (!executedCtrl.executed) {
         negativeControlsPassed = false;
         violations.push(`Negative control '${ctrl.controlId}' marked as unexecuted.`);
-      } else if (!executedCtrl.passedBound || Math.abs(executedCtrl.deltaObserved) > ctrl.expectedDeltaBound) {
+      } else if (
+        !executedCtrl.passedBound ||
+        Math.abs(executedCtrl.deltaObserved) > ctrl.expectedDeltaBound
+      ) {
         negativeControlsPassed = false;
         violations.push(
           `Negative control '${ctrl.controlId}' failed bound: observed |${executedCtrl.deltaObserved}| > expected bound ${ctrl.expectedDeltaBound}`
@@ -91,7 +94,7 @@ export class StudyExecutionManifestValidator {
 
     // 5. Missing Data Evaluation
     const missingRatio = manifest.missingDataReport.missingDataRatio;
-    const missingDataAcceptable = missingRatio <= 0.20;
+    const missingDataAcceptable = missingRatio <= 0.2;
 
     if (!missingDataAcceptable) {
       violations.push(
@@ -111,16 +114,19 @@ export class StudyExecutionManifestValidator {
 
     // 7. Calculate Adherence Score (0.0 to 1.0)
     let score = 1.0;
-    if (!preregistrationMatch) score -= 0.50;
-    if (!matchingDimensionsMatch) score -= 0.20;
-    if (!negativeControlsPassed) score -= 0.20;
-    if (!samplePowerSatisfied) score -= 0.10;
-    if (!missingDataAcceptable) score -= 0.10;
+    if (!preregistrationMatch) score -= 0.5;
+    if (!matchingDimensionsMatch) score -= 0.2;
+    if (!negativeControlsPassed) score -= 0.2;
+    if (!samplePowerSatisfied) score -= 0.1;
+    if (!missingDataAcceptable) score -= 0.1;
     score = Math.max(0.0, Number(score.toFixed(2)));
 
     // 8. Determine Manifest Ingestion Status
     let status: ManifestExecutionStatus;
-    if (!preregistrationMatch || violations.some((v) => v.includes("Preregistration hash mismatch"))) {
+    if (
+      !preregistrationMatch ||
+      violations.some((v) => v.includes("Preregistration hash mismatch"))
+    ) {
       status = "rejected";
     } else if (violations.length > 0) {
       status = "quarantined";

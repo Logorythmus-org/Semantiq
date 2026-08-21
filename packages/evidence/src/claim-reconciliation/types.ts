@@ -32,10 +32,12 @@ export interface EvidenceStateSnapshot {
 export interface EvidenceDiff {
   readonly runCountDelta: number;
   readonly metricDelta: number;
-  readonly governanceShift?: {
-    readonly from: EvidenceGovernanceVerdict;
-    readonly to: EvidenceGovernanceVerdict;
-  } | undefined;
+  readonly governanceShift?:
+    | {
+        readonly from: EvidenceGovernanceVerdict;
+        readonly to: EvidenceGovernanceVerdict;
+      }
+    | undefined;
   readonly newCounterevidenceCount: number;
   readonly negativeControlFailuresDelta: number;
 }

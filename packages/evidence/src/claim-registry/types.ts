@@ -5,14 +5,9 @@
 
 import type { EvidenceGovernanceVerdict } from "../governance-policy/types.js";
 
-export const EPISTEMIC_LANGUAGE_DISCLAIMER =
-  "Release controls wording, not truth.";
+export const EPISTEMIC_LANGUAGE_DISCLAIMER = "Release controls wording, not truth.";
 
-export type ClaimLifecycleStatus =
-  | "draft"
-  | "active"
-  | "superseded"
-  | "retracted";
+export type ClaimLifecycleStatus = "draft" | "active" | "superseded" | "retracted";
 
 export interface ControlledLanguageViolation {
   readonly prohibitedPhrase: string;

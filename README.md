@@ -26,12 +26,14 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 ## The Three Subsystems
 
 ### 1. Benchmark Engine
+
 - **Execution Connectors & Adapters**: Pluggable provider architecture supporting local OCI/Docker, Podman, and external environments.
 - **Cryptographic Trace Capture**: Generates state-chained `Trace` and `TraceEvent` structures with SHA-256 Merkle proofs.
 - **Behavioral Metrics Extraction**: Normalizes step latencies, tool execution successes/failures, token consumption, and domain-specific scores.
 - **Benchmark Suite Families**: Integrates structured evaluation batteries (e.g. SMF, HACS long-horizon, Multimodal Vision) producing canonical run artifacts.
 
 ### 2. Evidence Engine
+
 - **Canonical Observation Normalization**: Translates raw execution anomalies into empirical `EvidenceObservation` items with strict epistemic tagging.
 - **Evidence Graph**: Maintains directed graph structures connecting system patterns (e.g., `DP-008` Out-of-Band Observer) to failure patterns (e.g., `FP-002` Context Drift) with explicit relationship types (`SUPPORTS`, `REFUTES`, `MITIGATES`).
 - **7-Dimensional Matched Statistical Contrast**: Matches treatment and control runs across `environment`, `model`, `population`, `tools`, `memory`, `resource_pressure`, and `horizon`; calculates 1,000-iteration Bootstrap Confidence Intervals and Exact Sign Tests.
@@ -40,6 +42,7 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 - **Evidence Decision Policy**: Evaluates statistical power and robustness metrics against deterministic governance policies to output evidence verdicts (`promote`, `hold`, `downgrade`, `insufficient`).
 
 ### 3. Research Workbench
+
 - **Governed Claim Registry**: Drafts, reviews, and releases formal scientific claims linked directly to underlying runs, observations, and statistical reports.
 - **Controlled Language Rules**: Strictly blocks unhedged, unsupported causal language (e.g. `causes`, `proves`, `guarantees`, `eliminates`).
 - **Two-Party Review & Release Gate**: Requires independent peer approvals before promoting claims to `active` status.
@@ -55,24 +58,24 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 
 SemantIQ enforces 16 epistemic guardrails across code, contracts, and APIs:
 
-| Invariant | Principle | Enforcement Mechanism |
-| :--- | :--- | :--- |
-| **Observed $\neq$ Inferred** | Inferences must never be represented as empirical observations. | Tagged `EpistemicNature.OBSERVED` vs `INFERRED`. |
-| **Zero Architecture Hallucinations** | Architecture-only facts produce 0 failure observations. | Strict bridge verification (`totalFailuresExtracted: 0`). |
-| **Absence $\neq$ Counterevidence** | Unobserved cells remain `no_observation` at $R0$. | Absence does not penalize hypotheses. |
-| **Matched Association $\neq$ Causal Effect** | Matched contrast reflects association, not causal identification. | Attached `EPISTEMIC_CAUSAL_DISCLAIMER`. |
-| **Robustness $\neq$ Causality** | Robustness across specifications does not prove causation. | Attached `EPISTEMIC_ROBUSTNESS_DISCLAIMER`. |
-| **Promotion $\neq$ Proof** | Promotion signifies governance criteria fulfillment, not proof. | Attached `EPISTEMIC_GOVERNANCE_DISCLAIMER`. |
-| **Controlled Scientific Language** | Claims must not contain unhedged causal terms. | Deterministic regex blocklist in `ClaimRegistryEngine`. |
-| **Release Controls Wording, Not Truth** | Governance governs statement phrasing, not universal truth. | Attached `EPISTEMIC_LANGUAGE_DISCLAIMER`. |
-| **No Auto-Claim Mutation** | Evidence Watch generates proposals; claims are never auto-mutated. | Proposals require human review. |
-| **Bundle Integrity $\neq$ Truth** | Merkle verification proves integrity and provenance, not truth. | Attached `EPISTEMIC_BUNDLE_DISCLAIMER`. |
-| **Counterevidence Visible** | Counterevidence is never hidden or filtered from replication views. | Enforced `counterevidencePreserved: true`. |
-| **E4 Context Diversity** | E4 requires $\ge 2$ independent orgs and diversity $\ge 0.70$. | Enforced in `ReplicationRegistryEngine`. |
-| **Preregistration $\neq$ Truth** | Pre-registration guards against p-hacking, not truth. | Attached `EPISTEMIC_PREREGISTRATION_DISCLAIMER`. |
-| **Material Deviations Cap Evidence** | Deviations during/after execution cap maximum evidence tier. | Enforced in `ProtocolDeviationLedger`. |
-| **No Attestation Alone Promotes** | Attestation without verified data cannot promote evidence. | Attached `EPISTEMIC_MANIFEST_DISCLAIMER`. |
-| **Gate Eligibility $\neq$ Truth** | Admissibility determines aggregation rights, not truth. | Attached `EPISTEMIC_GATE_DISCLAIMER`. |
+| Invariant                                    | Principle                                                           | Enforcement Mechanism                                     |
+| :------------------------------------------- | :------------------------------------------------------------------ | :-------------------------------------------------------- |
+| **Observed $\neq$ Inferred**                 | Inferences must never be represented as empirical observations.     | Tagged `EpistemicNature.OBSERVED` vs `INFERRED`.          |
+| **Zero Architecture Hallucinations**         | Architecture-only facts produce 0 failure observations.             | Strict bridge verification (`totalFailuresExtracted: 0`). |
+| **Absence $\neq$ Counterevidence**           | Unobserved cells remain `no_observation` at $R0$.                   | Absence does not penalize hypotheses.                     |
+| **Matched Association $\neq$ Causal Effect** | Matched contrast reflects association, not causal identification.   | Attached `EPISTEMIC_CAUSAL_DISCLAIMER`.                   |
+| **Robustness $\neq$ Causality**              | Robustness across specifications does not prove causation.          | Attached `EPISTEMIC_ROBUSTNESS_DISCLAIMER`.               |
+| **Promotion $\neq$ Proof**                   | Promotion signifies governance criteria fulfillment, not proof.     | Attached `EPISTEMIC_GOVERNANCE_DISCLAIMER`.               |
+| **Controlled Scientific Language**           | Claims must not contain unhedged causal terms.                      | Deterministic regex blocklist in `ClaimRegistryEngine`.   |
+| **Release Controls Wording, Not Truth**      | Governance governs statement phrasing, not universal truth.         | Attached `EPISTEMIC_LANGUAGE_DISCLAIMER`.                 |
+| **No Auto-Claim Mutation**                   | Evidence Watch generates proposals; claims are never auto-mutated.  | Proposals require human review.                           |
+| **Bundle Integrity $\neq$ Truth**            | Merkle verification proves integrity and provenance, not truth.     | Attached `EPISTEMIC_BUNDLE_DISCLAIMER`.                   |
+| **Counterevidence Visible**                  | Counterevidence is never hidden or filtered from replication views. | Enforced `counterevidencePreserved: true`.                |
+| **E4 Context Diversity**                     | E4 requires $\ge 2$ independent orgs and diversity $\ge 0.70$.      | Enforced in `ReplicationRegistryEngine`.                  |
+| **Preregistration $\neq$ Truth**             | Pre-registration guards against p-hacking, not truth.               | Attached `EPISTEMIC_PREREGISTRATION_DISCLAIMER`.          |
+| **Material Deviations Cap Evidence**         | Deviations during/after execution cap maximum evidence tier.        | Enforced in `ProtocolDeviationLedger`.                    |
+| **No Attestation Alone Promotes**            | Attestation without verified data cannot promote evidence.          | Attached `EPISTEMIC_MANIFEST_DISCLAIMER`.                 |
+| **Gate Eligibility $\neq$ Truth**            | Admissibility determines aggregation rights, not truth.             | Attached `EPISTEMIC_GATE_DISCLAIMER`.                     |
 
 ---
 
@@ -92,11 +95,13 @@ SemantIQ is built from the ground up as a **headless infrastructure layer**. It 
 ### 1. Python Public API
 
 Install the Python package:
+
 ```bash
 pip install semantiq
 ```
 
 Draft a governed claim and evaluate controlled language:
+
 ```python
 from semantiq import (
     SemantiqClient,
@@ -131,11 +136,13 @@ For complete Python documentation, see **[Docs/PYTHON_USAGE.md](Docs/PYTHON_USAG
 ### 2. TypeScript SDK
 
 Install the TypeScript package:
+
 ```bash
 pnpm add @semantiq/sdk
 ```
 
 Match controlled runs and evaluate statistical contrast:
+
 ```typescript
 import { SemantiqClient } from "@semantiq/sdk";
 
@@ -164,6 +171,7 @@ For complete TypeScript SDK documentation, see **[Docs/TYPESCRIPT_SDK.md](Docs/T
 ### 3. Command-Line Interface (CLI)
 
 Run doctor diagnostics, execute benchmark workflows, and manage governed claims:
+
 ```bash
 # Diagnostic health check
 semantiq doctor
@@ -188,12 +196,14 @@ For complete CLI documentation, see **[Docs/CLI_USAGE.md](Docs/CLI_USAGE.md)**.
 ### 4. Headless HTTP API
 
 Start the headless server:
+
 ```bash
 pnpm --filter @semantiq/semantiq start
 # Server listening at http://localhost:3000
 ```
 
 Interact with core endpoints:
+
 ```bash
 # Health & readiness
 curl http://localhost:3000/health

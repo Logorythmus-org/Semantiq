@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Provenance-Aware Semantic Trace Mapper Engine
- * 
+ *
  * Invariants:
  * 1. Only approved mapping profiles are permitted for canonical evidence generation.
  * 2. Unknown/noisy fields remain unresolved (collected in unresolvedFields, never fabricated).

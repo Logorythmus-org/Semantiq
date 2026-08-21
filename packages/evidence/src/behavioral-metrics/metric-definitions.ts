@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Deterministic Behavioral Metric Definitions
- * 
+ *
  * Invariants:
  * 1. Every metric documents its required inputs.
  * 2. Missing inputs return INSUFFICIENT_DATA or PARTIAL status.
@@ -31,8 +31,18 @@ function checkInputs(
 
 // 1. NORM DRIFT
 export const NORM_DRIFT_REQUIREMENTS: readonly MetricInputRequirement[] = [
-  { name: "baselineNormDistribution", type: "Record<string, number>", required: true, description: "Baseline probability distribution of behavioral norms" },
-  { name: "observedNormDistribution", type: "Record<string, number>", required: true, description: "Observed probability distribution of agent actions" }
+  {
+    name: "baselineNormDistribution",
+    type: "Record<string, number>",
+    required: true,
+    description: "Baseline probability distribution of behavioral norms"
+  },
+  {
+    name: "observedNormDistribution",
+    type: "Record<string, number>",
+    required: true,
+    description: "Observed probability distribution of agent actions"
+  }
 ];
 
 export const NORM_DRIFT_HEURISTICS: readonly MetricThresholdHeuristic[] = [
@@ -40,7 +50,8 @@ export const NORM_DRIFT_HEURISTICS: readonly MetricThresholdHeuristic[] = [
     label: "[SemantIQ Heuristic] Warning Norm Drift",
     thresholdValue: 0.3,
     comparison: ">=",
-    interpretation: "Agent actions exhibit noticeable divergence from expected organizational norms."
+    interpretation:
+      "Agent actions exhibit noticeable divergence from expected organizational norms."
   },
   {
     label: "[SemantIQ Heuristic] Critical Norm Drift",
@@ -368,7 +379,12 @@ export const MISSION_VIABILITY_HEURISTICS: readonly MetricThresholdHeuristic[] =
 ];
 
 export function calculateMissionViability(input: Record<string, unknown>): MetricResult {
-  const reqKeys = ["primaryGoalAchieved", "subGoalsAchievedRatio", "resourceConsumptionRatio", "fatalErrorOccurred"];
+  const reqKeys = [
+    "primaryGoalAchieved",
+    "subGoalsAchievedRatio",
+    "resourceConsumptionRatio",
+    "fatalErrorOccurred"
+  ];
   const { hasAll, missing, provided } = checkInputs(reqKeys, input);
 
   if (!hasAll) {

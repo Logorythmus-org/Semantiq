@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/sdk
  * Controlled Language Validation Engine (TypeScript SDK)
- * 
+ *
  * Enforces epistemic language standards on empirical claim statements.
  * Invariant: Block unsupported causal language; enforce hedged associative terminology.
  */
@@ -57,7 +57,8 @@ const PROHIBITED_CAUSAL_RULES: readonly ProhibitedRule[] = [
     suggestedAlternative: "robust matched association"
   },
   {
-    regex: /\b(ensures\s+absolute|complete\s+protection|flawless|unhackable|perfect\s+security|completely\s+safe|zero\s+risk)\b/i,
+    regex:
+      /\b(ensures\s+absolute|complete\s+protection|flawless|unhackable|perfect\s+security|completely\s+safe|zero\s+risk)\b/i,
     phrase: "absolutist claim",
     category: "epistemic_absolutism",
     reason: "Hyperbolic or absolutist marketing claims are prohibited in evidence contracts.",

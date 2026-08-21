@@ -9,9 +9,7 @@ import {
 } from "../../packages/evidence/src/partner-exchange/index.js";
 import { createSemantiqApplicationService } from "../../packages/semantiq/src/services/index.js";
 
-import {
-  PartnerRole
-} from "../../packages/sandbox-contracts/src/product-contracts.js";
+import { PartnerRole } from "../../packages/sandbox-contracts/src/product-contracts.js";
 
 describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () => {
   const partnerRegistry = new PartnerOrganizationRegistry();
@@ -30,7 +28,9 @@ describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () 
       expect(org1.id).toContain("org_");
       expect(org1.trustTier).toBe("verified_academic");
 
-      const academicOrgs = partnerRegistry.listOrganizations({ role: PartnerRole.ACADEMIC_COLLABORATOR });
+      const academicOrgs = partnerRegistry.listOrganizations({
+        role: PartnerRole.ACADEMIC_COLLABORATOR
+      });
       expect(academicOrgs.length).toBeGreaterThanOrEqual(1);
       expect(academicOrgs.some((o) => o.name === "Stanford NLP Lab")).toBe(true);
     });
@@ -113,7 +113,7 @@ describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () 
           environmentProviders: ["firecracker", "gcp"],
           modelFamilies: ["claude", "llama"],
           platforms: ["linux", "darwin"],
-          diversityScore: 0.80
+          diversityScore: 0.8
         },
         counterevidenceObserved: false,
         conductedAt: "2026-08-18T12:00:00.000Z",
@@ -138,7 +138,8 @@ describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () 
           diversityScore: 0.65
         },
         counterevidenceObserved: true,
-        counterevidenceDetails: "Mitigation increased latency under strict airgapped resource constraints.",
+        counterevidenceDetails:
+          "Mitigation increased latency under strict airgapped resource constraints.",
         conductedAt: "2026-08-18T13:00:00.000Z",
         epistemicDisclaimer: EPISTEMIC_REPLICATION_DISCLAIMER
       };
@@ -155,11 +156,13 @@ describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () 
       // INVARIANT: Counterevidence preserved and visible
       expect(aggregation.counterevidencePreserved).toBe(true);
       expect(aggregation.visibleCounterevidence.length).toBe(1);
-      expect(aggregation.visibleCounterevidence[0]!.replicatingOrganizationId).toBe("org_eval_auditor_inc");
+      expect(aggregation.visibleCounterevidence[0]!.replicatingOrganizationId).toBe(
+        "org_eval_auditor_inc"
+      );
       expect(aggregation.visibleCounterevidence[0]!.effectDeltaObserved).toBe(-0.15);
 
       // Context diversity index
-      expect(aggregation.contextDiversityIndex).toBeGreaterThanOrEqual(0.70);
+      expect(aggregation.contextDiversityIndex).toBeGreaterThanOrEqual(0.7);
       expect(aggregation.e4ContextDiversitySatisfied).toBe(true);
       expect(aggregation.epistemicDisclaimer).toBe(EPISTEMIC_REPLICATION_DISCLAIMER);
     });
@@ -185,12 +188,12 @@ describe("Partner Replication Exchange & Cross-Org Aggregation (Prompt 27)", () 
         replicatingStudyId: "study_cmu_001",
         outcome: "support",
         effectDeltaObserved: 0.91,
-        baselineDeltaTarget: 0.90,
+        baselineDeltaTarget: 0.9,
         contextDiversity: {
           environmentProviders: ["modal"],
           modelFamilies: ["claude"],
           platforms: ["linux"],
-          diversityScore: 0.70
+          diversityScore: 0.7
         },
         counterevidenceObserved: false,
         conductedAt: new Date().toISOString(),

@@ -105,9 +105,7 @@ describe("Immutable Evaluation Ledger & Dataset/Case Registry", () => {
     expect(entry2.previousEntryHash).toBe(entry1.currentEntryHash);
 
     // Verify Epistemic Disclaimer
-    expect(entry1.reproducibility.epistemicDisclaimer).toBe(
-      EPISTEMIC_REPRODUCIBILITY_DISCLAIMER
-    );
+    expect(entry1.reproducibility.epistemicDisclaimer).toBe(EPISTEMIC_REPRODUCIBILITY_DISCLAIMER);
     expect(entry1.reproducibility.epistemicDisclaimer).toBe(
       "Stable fingerprints prove artifact/config reproducibility, not scientific replication."
     );

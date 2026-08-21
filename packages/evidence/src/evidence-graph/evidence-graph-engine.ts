@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Cross-Run Evidence Graph & Comparative Query Engine
- * 
+ *
  * Invariants:
  * 1. Absence is not counterevidence (unobserved cells remain 'no_observation' at R0).
  * 2. Deterministic R0–R4 strength scale:
@@ -27,8 +27,12 @@ import {
 export class EvidenceGraphEngine {
   private readonly observations: RelationObservation[] = [];
 
-  public addObservation(obs: Omit<RelationObservation, "id" | "recordedAt"> & { id?: string }): RelationObservation {
-    const id = obs.id ?? `rel_obs_${computeSha256(`${obs.relationId}:${obs.runId}:${obs.caseId}:${obs.polarity}:${this.observations.length}`).substring(0, 16)}`;
+  public addObservation(
+    obs: Omit<RelationObservation, "id" | "recordedAt"> & { id?: string }
+  ): RelationObservation {
+    const id =
+      obs.id ??
+      `rel_obs_${computeSha256(`${obs.relationId}:${obs.runId}:${obs.caseId}:${obs.polarity}:${this.observations.length}`).substring(0, 16)}`;
     const fullObs: RelationObservation = {
       ...obs,
       id,
@@ -40,7 +44,10 @@ export class EvidenceGraphEngine {
     return frozen;
   }
 
-  public getObservationsForRelation(sourceId: string, targetId: string): readonly RelationObservation[] {
+  public getObservationsForRelation(
+    sourceId: string,
+    targetId: string
+  ): readonly RelationObservation[] {
     return this.observations.filter((o) => o.sourceId === sourceId && o.targetId === targetId);
   }
 
@@ -111,7 +118,10 @@ export class EvidenceGraphEngine {
     };
   }
 
-  private buildCaseMatrix(relationId: string, observations: readonly RelationObservation[]): CaseMatrix {
+  private buildCaseMatrix(
+    relationId: string,
+    observations: readonly RelationObservation[]
+  ): CaseMatrix {
     const cases = Array.from(new Set(observations.map((o) => o.caseId))).sort();
     const models = Array.from(new Set(observations.map((o) => o.modelId))).sort();
     const environments = Array.from(new Set(observations.map((o) => o.environmentId))).sort();
@@ -180,7 +190,12 @@ export class EvidenceGraphEngine {
     const uniqueEnvs = new Set(observations.map((o) => o.environmentId)).size;
 
     // R4: Cross-model (>=3) & Cross-environment (>=3), with clean status (not mixed)
-    if (uniqueModels >= 3 && uniqueEnvs >= 3 && uniqueCases >= 3 && (status === "supported" || status === "counterevidence_only")) {
+    if (
+      uniqueModels >= 3 &&
+      uniqueEnvs >= 3 &&
+      uniqueCases >= 3 &&
+      (status === "supported" || status === "counterevidence_only")
+    ) {
       return { strength: RelationStrengthLevel.R4, strengthScore: 1.0 };
     }
 

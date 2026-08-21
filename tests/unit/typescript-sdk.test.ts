@@ -65,7 +65,8 @@ describe("First-Class Standalone SemantIQ TypeScript SDK", () => {
   describe("2. Governed Claims & Controlled Language Workflow", () => {
     it("validates compliant associative language", () => {
       const validator = new ControlledLanguageValidator();
-      const statement = "Isolated memory partitions are associated with reduced cross-session prompt leakage.";
+      const statement =
+        "Isolated memory partitions are associated with reduced cross-session prompt leakage.";
       const result = validator.validate(statement);
       expect(result.isValid).toBe(true);
       expect(result.violations.length).toBe(0);
@@ -93,7 +94,8 @@ describe("First-Class Standalone SemantIQ TypeScript SDK", () => {
 
     it("drafts governed claims and rejects prohibited terminology", () => {
       const client = new SemantiqClient();
-      const compliantStatement = "Structured tool invocation is associated with an empirical 90% reduction in injection attacks.";
+      const compliantStatement =
+        "Structured tool invocation is associated with an empirical 90% reduction in injection attacks.";
 
       const claim = client.draftClaim({
         statement: compliantStatement,
@@ -123,10 +125,10 @@ describe("First-Class Standalone SemantIQ TypeScript SDK", () => {
       const client = new SemantiqClient();
 
       const treatmentRuns = Array.from({ length: 4 }, (_, i) =>
-        mockRunProfile({ runId: `treat_${i}`, isTreatment: true, score: 0.90 + i * 0.02 })
+        mockRunProfile({ runId: `treat_${i}`, isTreatment: true, score: 0.9 + i * 0.02 })
       );
       const controlRuns = Array.from({ length: 4 }, (_, i) =>
-        mockRunProfile({ runId: `ctrl_${i}`, isTreatment: false, score: 0.70 + i * 0.01 })
+        mockRunProfile({ runId: `ctrl_${i}`, isTreatment: false, score: 0.7 + i * 0.01 })
       );
 
       const matched = client.matchControls({

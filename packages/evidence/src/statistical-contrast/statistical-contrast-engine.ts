@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Statistical Contrast Engine (Bootstrap CI, Exact Sign Test, Threshold Sensitivity, Evidence Grades)
- * 
+ *
  * Invariants:
  * 1. Matched association is not proof of causal effect.
  * 2. All estimators (bootstrap CI, sign test, sensitivity) are deterministic.
@@ -121,12 +121,26 @@ export class StatisticalContrastEngine {
   ): BootstrapConfidenceInterval {
     const n = deltas.length;
     if (n === 0) {
-      return { lower: 0, upper: 0, meanDelta: 0, confidenceLevel, iterations: 0, isSignificant: false };
+      return {
+        lower: 0,
+        upper: 0,
+        meanDelta: 0,
+        confidenceLevel,
+        iterations: 0,
+        isSignificant: false
+      };
     }
 
     const meanDelta = Number((deltas.reduce((s, v) => s + v, 0) / n).toFixed(4));
     if (n === 1) {
-      return { lower: deltas[0]!, upper: deltas[0]!, meanDelta, confidenceLevel, iterations: 1, isSignificant: deltas[0]! !== 0 };
+      return {
+        lower: deltas[0]!,
+        upper: deltas[0]!,
+        meanDelta,
+        confidenceLevel,
+        iterations: 1,
+        isSignificant: deltas[0]! !== 0
+      };
     }
 
     // Deterministic PRNG Seed: 424242

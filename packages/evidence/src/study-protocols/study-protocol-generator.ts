@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Deterministic Study Protocol Generator
- * 
+ *
  * Invariants:
  * 1. Protocol generation is deterministic based on target relation and pattern inputs.
  * 2. Preregistration hash ensures cryptographic immutability upon freezing.
@@ -55,7 +55,7 @@ export class StudyProtocolGenerator {
       `Does application of pattern ${options.targetPatternId} via relation ${options.targetRelationId} demonstrate a robust, statistically significant delta on target outcome metrics under matched control conditions?`;
 
     const primaryMetric = options.primaryMetric ?? "recovery_success_rate";
-    const targetEffectDelta = options.targetEffectDelta ?? 0.20;
+    const targetEffectDelta = options.targetEffectDelta ?? 0.2;
 
     const exposure: ExposureDefinition = {
       name: `Pattern Application: ${options.targetPatternId}`,
@@ -74,7 +74,10 @@ export class StudyProtocolGenerator {
       requiredCapabilities: Object.freeze(
         options.requiredCapabilities ?? ["tool_call", "multi_turn_reasoning", "state_recovery"]
       ),
-      excludedConfigurations: Object.freeze(["non_deterministic_temperature_high", "unbounded_network_access"])
+      excludedConfigurations: Object.freeze([
+        "non_deterministic_temperature_high",
+        "unbounded_network_access"
+      ])
     };
 
     const matchingDimensions: readonly string[] = Object.freeze([
@@ -90,7 +93,11 @@ export class StudyProtocolGenerator {
     const instrumentation: InstrumentationSpec = {
       traceCollectionMode: "buffered_event_stream",
       samplingRateHz: 100,
-      isolationGuarantees: Object.freeze(["deterministic_seed", "filesystem_sandbox_isolation", "network_mocking"])
+      isolationGuarantees: Object.freeze([
+        "deterministic_seed",
+        "filesystem_sandbox_isolation",
+        "network_mocking"
+      ])
     };
 
     const metrics: readonly ProtocolMetricSpec[] = Object.freeze([
@@ -117,7 +124,8 @@ export class StudyProtocolGenerator {
     const negativeControls: readonly NegativeControlSpec[] = Object.freeze([
       {
         controlId: "neg_ctrl_sham_intervention",
-        nullHypothesisDescription: "Applying a no-op placeholder pattern produces delta within bounds |delta| <= 0.05",
+        nullHypothesisDescription:
+          "Applying a no-op placeholder pattern produces delta within bounds |delta| <= 0.05",
         expectedDeltaBound: 0.05
       },
       {
@@ -136,7 +144,7 @@ export class StudyProtocolGenerator {
     const sampleGuidance: SampleGuidance = {
       minimumPairsRequired: 8,
       recommendedPairsForGradeA: 20,
-      statisticalPowerTarget: 0.80
+      statisticalPowerTarget: 0.8
     };
 
     const exportRequirements: ExportRequirements = {

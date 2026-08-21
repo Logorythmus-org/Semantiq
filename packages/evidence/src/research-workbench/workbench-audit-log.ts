@@ -17,9 +17,10 @@ export class WorkbenchAuditLogEngine {
     payload: unknown
   ): WorkbenchAuditEntry {
     const sequenceNumber = this.entries.length;
-    const prevHash = sequenceNumber === 0
-      ? WorkbenchAuditLogEngine.GENESIS_HASH
-      : this.entries[sequenceNumber - 1]!.hash;
+    const prevHash =
+      sequenceNumber === 0
+        ? WorkbenchAuditLogEngine.GENESIS_HASH
+        : this.entries[sequenceNumber - 1]!.hash;
 
     const payloadDigest = computeSha256(JSON.stringify(payload));
     const timestamp = new Date().toISOString();

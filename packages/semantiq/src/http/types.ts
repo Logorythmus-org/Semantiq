@@ -28,11 +28,13 @@ export interface SemantiqHttpApplication {
 export interface ApiResponse<T = unknown> {
   readonly success: boolean;
   readonly data?: T | undefined;
-  readonly error?: {
-    readonly code: string;
-    readonly message: string;
-    readonly details?: unknown;
-  } | undefined;
+  readonly error?:
+    | {
+        readonly code: string;
+        readonly message: string;
+        readonly details?: unknown;
+      }
+    | undefined;
   readonly meta: {
     readonly timestamp: string;
     readonly version: string;

@@ -52,10 +52,10 @@ export interface SpecificationCurveReport {
 }
 
 export type RobustnessGrade =
-  | "ROBUST_GRADE_A"  // High stability across all specs (direction stability >= 0.95, balanced TVD < 0.05, passed negative control)
-  | "ROBUST_GRADE_B"  // Moderate stability (direction stability >= 0.80, balanced TVD < 0.10)
-  | "ROBUST_GRADE_C"  // Inconclusive / sensitive to spec choices (direction stability >= 0.60)
-  | "FRAGILE";        // Fragile (< 0.60 direction stability or fails negative control)
+  | "ROBUST_GRADE_A" // High stability across all specs (direction stability >= 0.95, balanced TVD < 0.05, passed negative control)
+  | "ROBUST_GRADE_B" // Moderate stability (direction stability >= 0.80, balanced TVD < 0.10)
+  | "ROBUST_GRADE_C" // Inconclusive / sensitive to spec choices (direction stability >= 0.60)
+  | "FRAGILE"; // Fragile (< 0.60 direction stability or fails negative control)
 
 export interface RobustnessDiagnosticReport {
   readonly reportId: string;

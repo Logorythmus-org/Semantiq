@@ -1,7 +1,7 @@
 /**
  * @package @tech-club/semantiq
  * SemantIQ CLI Engine backed by Authoritative Application Services.
- * 
+ *
  * Invariants:
  * 1. CLI is a thin interface over application services.
  * 2. Commands do not own direct file or business-policy logic.
@@ -12,10 +12,7 @@ import {
   createSemantiqApplicationService,
   type SemantiqApplicationService
 } from "./services/index.js";
-import {
-  PRODUCT_CONTRACTS_SCHEMA_VERSION,
-  type SystemProfile
-} from "@tech-club/sandbox-contracts";
+import { PRODUCT_CONTRACTS_SCHEMA_VERSION, type SystemProfile } from "@tech-club/sandbox-contracts";
 
 export type SemantIQCliCommand =
   | "doctor"
@@ -102,9 +99,23 @@ export class SemantIQCliEngine {
         output = `SemantIQ CLI Commands: doctor, smoke, benchmark, inspect, replay, validate, patterns, evidence, claims, reviews, studies, bundles, comparisons, evaluations, runs, version, help`;
         data = {
           availableCommands: [
-            "doctor", "smoke", "benchmark", "inspect", "replay", "validate",
-            "patterns", "evidence", "claims", "reviews", "studies", "bundles",
-            "comparisons", "evaluations", "runs", "version", "help"
+            "doctor",
+            "smoke",
+            "benchmark",
+            "inspect",
+            "replay",
+            "validate",
+            "patterns",
+            "evidence",
+            "claims",
+            "reviews",
+            "studies",
+            "bundles",
+            "comparisons",
+            "evaluations",
+            "runs",
+            "version",
+            "help"
           ]
         };
         break;
@@ -148,7 +159,8 @@ export class SemantIQCliEngine {
       case "claims": {
         const sub = args[0] ?? "validate-language";
         if (sub === "validate-language") {
-          const stmt = args.slice(1).join(" ") || "Pattern DP-001 is associated with reduced failure rates.";
+          const stmt =
+            args.slice(1).join(" ") || "Pattern DP-001 is associated with reduced failure rates.";
           const val = this.service.claims.validateControlledLanguage(stmt);
           success = val.isValid;
           output = val.isValid
@@ -179,7 +191,10 @@ export class SemantIQCliEngine {
   /**
    * Asynchronous command execution routing directly into the unified application services.
    */
-  public async executeCommandAsync(command: string, args: readonly string[] = []): Promise<CliCommandResult> {
+  public async executeCommandAsync(
+    command: string,
+    args: readonly string[] = []
+  ): Promise<CliCommandResult> {
     const isJson = args.includes("--json");
     const filteredArgs = args.filter((a) => a !== "--json");
 
@@ -248,18 +263,27 @@ export class SemantIQCliEngine {
       case "claims": {
         const sub = filteredArgs[0] ?? "validate-language";
         if (sub === "validate-language") {
-          const stmt = filteredArgs.slice(1).join(" ") || "Pattern DP-001 is associated with reduced failure rates.";
+          const stmt =
+            filteredArgs.slice(1).join(" ") ||
+            "Pattern DP-001 is associated with reduced failure rates.";
           const val = this.service.claims.validateControlledLanguage(stmt);
           success = val.isValid;
           data = val;
           output = isJson
             ? JSON.stringify(val, null, 2)
             : val.isValid
-            ? `[CLAIMS VALID]: Statement complies with controlled language standards.`
-            : `[CLAIMS VIOLATION]: Contains ${val.violations.length} prohibited term(s):\n` +
-              val.violations.map((v) => `  - '${v.prohibitedPhrase}': ${v.reason} (suggested: '${v.suggestedAlternative}')`).join("\n");
+              ? `[CLAIMS VALID]: Statement complies with controlled language standards.`
+              : `[CLAIMS VIOLATION]: Contains ${val.violations.length} prohibited term(s):\n` +
+                val.violations
+                  .map(
+                    (v) =>
+                      `  - '${v.prohibitedPhrase}': ${v.reason} (suggested: '${v.suggestedAlternative}')`
+                  )
+                  .join("\n");
         } else if (sub === "draft") {
-          const stmt = filteredArgs.slice(1).join(" ") || "Mitigation DP-001 correlates with reduced recovery latency.";
+          const stmt =
+            filteredArgs.slice(1).join(" ") ||
+            "Mitigation DP-001 correlates with reduced recovery latency.";
           const claim = await this.service.claims.draftClaim({
             statement: stmt,
             claimFamilyTopic: "recovery_latency",

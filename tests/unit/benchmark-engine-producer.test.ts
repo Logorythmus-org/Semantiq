@@ -87,7 +87,10 @@ describe("SemantIQ Benchmark Engine & Producer Layer", () => {
 
   it("validates representative regression fixture for SMF benchmark family", () => {
     const raw = JSON.parse(
-      readFileSync(resolve(process.cwd(), "fixtures/benchmarks/smf_representative_run.json"), "utf8")
+      readFileSync(
+        resolve(process.cwd(), "fixtures/benchmarks/smf_representative_run.json"),
+        "utf8"
+      )
     ) as BenchmarkExecutionOutput;
 
     const adapted = adapter.adaptToCanonical(raw);
@@ -95,12 +98,17 @@ describe("SemantIQ Benchmark Engine & Producer Layer", () => {
     expect(adapted.run.benchmarkId).toBe("bmk_smf_semantic_evaluation_v1");
     expect(adapted.evaluation.overallScore).toBe(0.915);
     expect(adapted.evaluation.status).toBe(EvaluationStatus.PASSED);
-    expect(adapted.provenance.merkleRootHash).toBe("4444444444444444444444444444444444444444444444444444444444444444");
+    expect(adapted.provenance.merkleRootHash).toBe(
+      "4444444444444444444444444444444444444444444444444444444444444444"
+    );
   });
 
   it("validates representative regression fixture for HACS benchmark family", () => {
     const raw = JSON.parse(
-      readFileSync(resolve(process.cwd(), "fixtures/benchmarks/hacs_representative_run.json"), "utf8")
+      readFileSync(
+        resolve(process.cwd(), "fixtures/benchmarks/hacs_representative_run.json"),
+        "utf8"
+      )
     ) as BenchmarkExecutionOutput;
 
     const adapted = adapter.adaptToCanonical(raw);
@@ -112,13 +120,18 @@ describe("SemantIQ Benchmark Engine & Producer Layer", () => {
 
   it("validates representative regression fixture for Vision benchmark family", () => {
     const raw = JSON.parse(
-      readFileSync(resolve(process.cwd(), "fixtures/benchmarks/vision_representative_run.json"), "utf8")
+      readFileSync(
+        resolve(process.cwd(), "fixtures/benchmarks/vision_representative_run.json"),
+        "utf8"
+      )
     ) as BenchmarkExecutionOutput;
 
     const adapted = adapter.adaptToCanonical(raw);
     expect(adapted.run.id).toBe("run_vision_representative_001");
     expect(adapted.run.benchmarkId).toBe("bmk_vision_multimodal_grounding_v1");
     expect(adapted.evaluation.overallScore).toBe(0.92);
-    expect(adapted.provenance.merkleRootHash).toBe("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+    expect(adapted.provenance.merkleRootHash).toBe(
+      "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    );
   });
 });

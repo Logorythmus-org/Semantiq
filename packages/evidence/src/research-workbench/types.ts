@@ -6,11 +6,7 @@
 export const EPISTEMIC_WORKBENCH_DISCLAIMER =
   "Review decisions may create drafts but must not silently replace the active claim.";
 
-export type WorkbenchItemStatus =
-  | "needs_review"
-  | "in_review"
-  | "resolved"
-  | "dismissed";
+export type WorkbenchItemStatus = "needs_review" | "in_review" | "resolved" | "dismissed";
 
 export type WorkbenchItemPriority = "low" | "medium" | "high" | "critical";
 

@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Partner Exchange, Replication Registry, and Cross-Organization Aggregation Types
- * 
+ *
  * Invariants:
  * 1. Counterevidence remains visible and is never suppressed in aggregation.
  * 2. E4 requires genuine context diversity and remains non-causal.
@@ -46,11 +46,7 @@ export interface PartnerStudy {
   readonly publishedAt?: string | undefined;
 }
 
-export type ReplicationOutcome =
-  | "support"
-  | "counter"
-  | "mixed"
-  | "inconclusive";
+export type ReplicationOutcome = "support" | "counter" | "mixed" | "inconclusive";
 
 export interface ContextDiversityDimension {
   readonly environmentProviders: readonly string[]; // e.g. ["modal", "firecracker", "aws"]
@@ -73,7 +69,12 @@ export interface ReplicationRecord {
   readonly counterevidenceDetails?: string | undefined;
   readonly conductedAt: string;
   readonly verifiedSignatureHex?: string | undefined;
-  readonly eligibilityVerdict?: "eligible" | "eligible_with_caveats" | "quarantined" | "rejected" | undefined;
+  readonly eligibilityVerdict?:
+    | "eligible"
+    | "eligible_with_caveats"
+    | "quarantined"
+    | "rejected"
+    | undefined;
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
 
@@ -107,10 +108,10 @@ export interface VisibleCounterevidenceEntry {
 
 export type AggregatedReplicationEvidenceGrade =
   | "E4_CROSS_CONTEXT_ROBUST" // >= 2 independent orgs, context diversity >= 0.7, outcome support >= 80%
-  | "E3_PARTIAL_REPLICATION"   // Replicated across at least 1 independent org with support
-  | "E2_LOCAL_CONSISTENT"      // Replicated internally within single org
-  | "E1_CONTESTED"             // Counterevidence observed (> 20% counter/mixed)
-  | "E0_INSUFFICIENT";         // Insufficient replication data
+  | "E3_PARTIAL_REPLICATION" // Replicated across at least 1 independent org with support
+  | "E2_LOCAL_CONSISTENT" // Replicated internally within single org
+  | "E1_CONTESTED" // Counterevidence observed (> 20% counter/mixed)
+  | "E0_INSUFFICIENT"; // Insufficient replication data
 
 export interface CrossOrgReplicationAggregation {
   readonly targetClaimId: string;
@@ -129,4 +130,3 @@ export interface CrossOrgReplicationAggregation {
   readonly aggregatedEvidenceGrade: AggregatedReplicationEvidenceGrade;
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
-

@@ -2,8 +2,11 @@
 Test Python package metadata and build structure.
 """
 from pathlib import Path
-import tomllib
 import sys
+try:
+    import tomllib
+except ModuleNotFoundError:
+    import tomli as tomllib
 
 src_dir = Path(__file__).resolve().parents[1] / "src"
 if str(src_dir) not in sys.path:
@@ -18,7 +21,6 @@ def test_package_metadata():
 
     with open(pyproject_path, "rb") as f:
         data = tomllib.load(f)
-
     project = data["project"]
     assert project["name"] == "semantiq"
     assert project["version"] == semantiq.__version__
@@ -26,6 +28,7 @@ def test_package_metadata():
     assert project["requires-python"] == ">=3.10"
     assert "semantiq" in project["scripts"]
     assert project["scripts"]["semantiq"] == "semantiq.cli:main"
+    assert "tomli>=2.0.1; python_version < '3.11'" in project["optional-dependencies"]["dev"]
 
 
 def test_package_all_exports_match():

@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * External Evidence Eligibility Gate Types
- * 
+ *
  * Invariants:
  * 1. Gate eligibility determines evidence admissibility for aggregation; eligibility does not confer scientific truth or causal proof.
  * 2. Ineligible evidence (quarantined or rejected) is strictly blocked from Evidence Graph and E-level promotion.
@@ -16,11 +16,7 @@ import type { PartnerOrganization } from "../partner-exchange/types.js";
 export const EPISTEMIC_GATE_DISCLAIMER =
   "Gate eligibility determines evidence admissibility for aggregation; eligibility does not confer scientific truth or causal proof.";
 
-export type EligibilityVerdict =
-  | "eligible"
-  | "eligible_with_caveats"
-  | "quarantined"
-  | "rejected";
+export type EligibilityVerdict = "eligible" | "eligible_with_caveats" | "quarantined" | "rejected";
 
 export type GateReasonCode =
   | "PREREG_HASH_MATCH"

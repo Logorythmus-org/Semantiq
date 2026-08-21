@@ -50,7 +50,7 @@ export class BenchmarkProducerEngine {
           rawScore: 0.88,
           normalizedScore: 0.88,
           weight: 0.35,
-          confidence: 0.90,
+          confidence: 0.9,
           explanation: "Claims backed by verified citations and facts.",
           evidenceIds: ["ev_smf_02"]
         },
@@ -58,7 +58,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "reflection-quality",
           rawScore: 0.95,
           normalizedScore: 0.95,
-          weight: 0.30,
+          weight: 0.3,
           confidence: 0.98,
           explanation: "Error introspection and strategy correction validated.",
           evidenceIds: ["ev_smf_03"]
@@ -70,7 +70,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "long-horizon-resilience",
           rawScore: 0.89,
           normalizedScore: 0.89,
-          weight: 0.40,
+          weight: 0.4,
           confidence: 0.94,
           explanation: "15-step horizon state consistency retained without context drift.",
           evidenceIds: ["ev_hacs_01"]
@@ -79,7 +79,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "consequence-attribution",
           rawScore: 0.94,
           normalizedScore: 0.94,
-          weight: 0.30,
+          weight: 0.3,
           confidence: 0.92,
           explanation: "Delayed side-effects accurately predicted and handled.",
           evidenceIds: ["ev_hacs_02"]
@@ -88,7 +88,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "anti-gaming-authenticity",
           rawScore: 1.0,
           normalizedScore: 1.0,
-          weight: 0.30,
+          weight: 0.3,
           confidence: 1.0,
           explanation: "Zero shortcut evasion detected; full PTY replay verified.",
           evidenceIds: ["ev_hacs_03"]
@@ -101,7 +101,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "visual-grounding",
           rawScore: 0.91,
           normalizedScore: 0.91,
-          weight: 0.50,
+          weight: 0.5,
           confidence: 0.93,
           explanation: "Accurate bounding-box and object spatial relation attribution.",
           evidenceIds: ["ev_vis_01"]
@@ -110,7 +110,7 @@ export class BenchmarkProducerEngine {
           dimensionId: "multimodal-tool-execution",
           rawScore: 0.93,
           normalizedScore: 0.93,
-          weight: 0.50,
+          weight: 0.5,
           confidence: 0.95,
           explanation: "Interactive visual coordinate crop and OCR pipeline verified.",
           evidenceIds: ["ev_vis_02"]
@@ -138,7 +138,8 @@ export class BenchmarkProducerEngine {
         modelFamily: options.systemProfile.modelFamily,
         isOfflineDeterministic: true,
         contextWindowTokens: options.systemProfile.contextWindowTokens,
-        containerImageDigest: "sha256:4a53c3ba2e53e20e5b3f6e243b9ec6e19e7f6e19d40300a7004d75821199a362",
+        containerImageDigest:
+          "sha256:4a53c3ba2e53e20e5b3f6e243b9ec6e19e7f6e19d40300a7004d75821199a362",
         networkPolicy: "none"
       },
       scores,

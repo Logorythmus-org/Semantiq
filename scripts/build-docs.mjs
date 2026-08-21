@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 /**
  * SemantIQ Standalone Documentation Site Generator
- * 
+ *
  * Compiles repository documentation in Docs/ into a static HTML documentation site.
  * Completely decoupled from product UI, requiring zero external UI frameworks.
  */
@@ -14,7 +14,12 @@ const DOCS_DIR = join(process.cwd(), "Docs");
 const OUTPUT_DIR = join(process.cwd(), "dist", "docs");
 
 const SECTIONS = [
-  { id: "getting-started", title: "Getting Started", icon: "🚀", path: "getting-started/README.md" },
+  {
+    id: "getting-started",
+    title: "Getting Started",
+    icon: "🚀",
+    path: "getting-started/README.md"
+  },
   { id: "concepts", title: "Scientific Concepts", icon: "🛡️", path: "concepts/README.md" },
   { id: "architecture", title: "Architecture", icon: "📐", path: "architecture/README.md" },
   { id: "benchmarks", title: "Benchmarks", icon: "🧪", path: "benchmarks/README.md" },
@@ -26,7 +31,7 @@ const SECTIONS = [
   { id: "sdk", title: "SDKs (Python & TS)", icon: "📦", path: "sdk/README.md" },
   { id: "security", title: "Security & Privacy", icon: "🔒", path: "security/README.md" },
   { id: "releases", title: "Releases & Audits", icon: "🏷️", path: "releases/README.md" },
-  { id: "adr", title: "ADRs", icon: "📜", path: "adr/README.md" },
+  { id: "adr", title: "ADRs", icon: "📜", path: "adr/README.md" }
 ];
 
 function escapeHtml(str) {
@@ -43,19 +48,19 @@ function markdownToHtml(md) {
 
   // Code blocks
   html = html.replace(/```([a-zA-Z0-9_-]*)\n([\s\S]*?)```/g, (match, lang, code) => {
-    return `<pre><code class="language-${lang || 'text'}">${escapeHtml(code.trim())}</code></pre>`;
+    return `<pre><code class="language-${lang || "text"}">${escapeHtml(code.trim())}</code></pre>`;
   });
 
   // Inline code
   html = html.replace(/`([^`]+)`/g, (match, code) => `<code>${escapeHtml(code)}</code>`);
 
   // Headers
-  html = html.replace(/^### (.*$)/gim, '<h3>$1</h3>');
-  html = html.replace(/^## (.*$)/gim, '<h2>$1</h2>');
-  html = html.replace(/^# (.*$)/gim, '<h1>$1</h1>');
+  html = html.replace(/^### (.*$)/gim, "<h3>$1</h3>");
+  html = html.replace(/^## (.*$)/gim, "<h2>$1</h2>");
+  html = html.replace(/^# (.*$)/gim, "<h1>$1</h1>");
 
   // Blockquotes / Alerts
-  html = html.replace(/^\> (.*$)/gim, '<blockquote>$1</blockquote>');
+  html = html.replace(/^\> (.*$)/gim, "<blockquote>$1</blockquote>");
 
   // Math blocks (inline and block)
   html = html.replace(/\$\$([\s\S]*?)\$\$/g, '<div class="math-block"><code>$1</code></div>');
@@ -63,55 +68,66 @@ function markdownToHtml(md) {
   html = html.replace(/\\\((.*?)\\\)/g, '<span class="math-inline"><code>$1</code></span>');
 
   // Bold & Italic
-  html = html.replace(/\*\*\*(.*?)\*\*\*/g, '<strong><em>$1</em></strong>');
-  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>');
+  html = html.replace(/\*\*\*(.*?)\*\*\*/g, "<strong><em>$1</em></strong>");
+  html = html.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+  html = html.replace(/\*(.*?)\*/g, "<em>$1</em>");
 
   // Links
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
     // Transform markdown links to relative html links where appropriate
     let target = url;
-    if (target.endsWith('.md')) {
-      target = target.replace(/\.md$/, '.html');
+    if (target.endsWith(".md")) {
+      target = target.replace(/\.md$/, ".html");
     }
     return `<a href="${target}">${text}</a>`;
   });
 
   // Unordered list items
-  html = html.replace(/^\s*-\s+(.*$)/gim, '<li>$1</li>');
-  html = html.replace(/(<li>.*<\/li>)/s, '<ul>$1</ul>');
+  html = html.replace(/^\s*-\s+(.*$)/gim, "<li>$1</li>");
+  html = html.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
 
   // Tables (basic conversion)
   html = html.replace(/\|(.+)\|/g, (match, content) => {
-    const cells = content.split('|').map(c => c.trim());
-    if (cells.every(c => /^:?-+:?$/.test(c))) {
-      return ''; // separator row
+    const cells = content.split("|").map((c) => c.trim());
+    if (cells.every((c) => /^:?-+:?$/.test(c))) {
+      return ""; // separator row
     }
-    const isHeader = !html.includes('<th>');
-    const tag = isHeader ? 'th' : 'td';
-    const row = cells.map(c => `<${tag}>${c}</${tag}>`).join('');
+    const isHeader = !html.includes("<th>");
+    const tag = isHeader ? "th" : "td";
+    const row = cells.map((c) => `<${tag}>${c}</${tag}>`).join("");
     return `<tr>${row}</tr>`;
   });
 
   // Paragraphs
-  html = html.split('\n\n').map(p => {
-    p = p.trim();
-    if (!p) return '';
-    if (p.startsWith('<h') || p.startsWith('<pre') || p.startsWith('<ul') || p.startsWith('<table') || p.startsWith('<tr') || p.startsWith('<blockquote') || p.startsWith('<div')) {
-      return p;
-    }
-    return `<p>${p.replace(/\n/g, '<br>')}</p>`;
-  }).join('\n');
+  html = html
+    .split("\n\n")
+    .map((p) => {
+      p = p.trim();
+      if (!p) return "";
+      if (
+        p.startsWith("<h") ||
+        p.startsWith("<pre") ||
+        p.startsWith("<ul") ||
+        p.startsWith("<table") ||
+        p.startsWith("<tr") ||
+        p.startsWith("<blockquote") ||
+        p.startsWith("<div")
+      ) {
+        return p;
+      }
+      return `<p>${p.replace(/\n/g, "<br>")}</p>`;
+    })
+    .join("\n");
 
   return html;
 }
 
 function generateSiteHtml({ title, content, currentSectionId }) {
-  const navItems = SECTIONS.map(s => {
-    const active = s.id === currentSectionId ? 'active' : '';
-    const href = s.id === 'home' ? 'index.html' : `${s.id}/index.html`;
+  const navItems = SECTIONS.map((s) => {
+    const active = s.id === currentSectionId ? "active" : "";
+    const href = s.id === "home" ? "index.html" : `${s.id}/index.html`;
     return `<li><a href="${href}" class="${active}"><span class="nav-icon">${s.icon}</span> ${escapeHtml(s.title)}</a></li>`;
-  }).join('\n');
+  }).join("\n");
 
   return `<!DOCTYPE html>
 <html lang="en">

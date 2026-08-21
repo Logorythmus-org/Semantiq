@@ -3,21 +3,14 @@
  * Evidence Decision Policy and Deterministic Governance Types
  */
 
-import type {
-  RelationEvidenceStatus,
-  RelationStrengthLevel
-} from "../evidence-graph/types.js";
+import type { RelationEvidenceStatus, RelationStrengthLevel } from "../evidence-graph/types.js";
 import type { RobustnessGrade } from "../robustness-diagnostics/types.js";
 import type { StatisticalEvidenceGrade } from "../statistical-contrast/types.js";
 
 export const EPISTEMIC_GOVERNANCE_DISCLAIMER =
   "Promotion indicates evidence-governance strength, not scientific proof.";
 
-export type EvidenceGovernanceVerdict =
-  | "promote"
-  | "hold"
-  | "downgrade"
-  | "insufficient";
+export type EvidenceGovernanceVerdict = "promote" | "hold" | "downgrade" | "insufficient";
 
 export interface PolicyRuleEvaluation {
   readonly ruleId: string;

@@ -69,8 +69,8 @@ describe("Robustness Diagnostics & Specification Curve Architecture", () => {
     // 15 treatment and 15 control runs
     for (let i = 0; i < 15; i++) {
       const env = envs[i % envs.length]!;
-      runs.push(createSampleRun(`treat_${i}`, true, env, 0.92 + (i % 3) * 0.02, 0.50));
-      runs.push(createSampleRun(`ctrl_${i}`, false, env, 0.72 + (i % 3) * 0.02, 0.50));
+      runs.push(createSampleRun(`treat_${i}`, true, env, 0.92 + (i % 3) * 0.02, 0.5));
+      runs.push(createSampleRun(`ctrl_${i}`, false, env, 0.72 + (i % 3) * 0.02, 0.5));
     }
 
     const report = engine.evaluateRobustnessSuite(runs, "constraint_compliance", {
@@ -94,7 +94,7 @@ describe("Robustness Diagnostics & Specification Curve Architecture", () => {
     // 4. Specification Curve
     expect(report.specificationCurve.totalSpecificationsEvaluated).toBe(3);
     expect(report.specificationCurve.directionStabilityRatio).toBe(1.0); // 100% direction stability
-    expect(report.specificationCurve.medianDelta).toBe(0.20);
+    expect(report.specificationCurve.medianDelta).toBe(0.2);
 
     // 5. Robustness Grade (High stability, TVD = 0, passed negative control -> ROBUST_GRADE_A)
     expect(report.robustnessGrade).toBe("ROBUST_GRADE_A");
@@ -109,8 +109,8 @@ describe("Robustness Diagnostics & Specification Curve Architecture", () => {
 
   it("raises low-power warning and assigns FRAGILE grade for small underpowered sample", () => {
     const runs: RunProfile[] = [
-      createSampleRun("treat_01", true, "docker", 0.90, 0.50),
-      createSampleRun("ctrl_01", false, "docker", 0.70, 0.50)
+      createSampleRun("treat_01", true, "docker", 0.9, 0.5),
+      createSampleRun("ctrl_01", false, "docker", 0.7, 0.5)
     ];
 
     const report = engine.evaluateRobustnessSuite(runs, "constraint_compliance", {

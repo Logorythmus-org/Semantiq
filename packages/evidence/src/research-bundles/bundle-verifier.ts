@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Research Bundle Verifier and Tamper Detection Engine
- * 
+ *
  * Invariants:
  * 1. Bundle integrity proves provenance/integrity, not truth.
  * 2. Deterministic cryptographic verification over all component hashes and Merkle root.
@@ -86,7 +86,8 @@ export class ResearchBundleVerifier {
       );
     }
 
-    const tamperDetected = corruptedArtifacts.length > 0 || missingArtifacts.length > 0 || !merkleRootValid;
+    const tamperDetected =
+      corruptedArtifacts.length > 0 || missingArtifacts.length > 0 || !merkleRootValid;
     const isValid = violations.length === 0 && !tamperDetected;
 
     const result: BundleVerificationResult = {

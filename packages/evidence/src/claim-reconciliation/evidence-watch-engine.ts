@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Evidence Watch & Proposal-Only Claim Reconciliation Engine
- * 
+ *
  * Invariants:
  * 1. No automatic active-claim mutation.
  * 2. All reconciliations are generated as proposals in a review queue.
@@ -71,9 +71,10 @@ export class EvidenceWatchEngine {
 
     // Stale Review Check
     const maxAgeMs = (options.maxReviewAgeDays ?? 90) * 24 * 60 * 60 * 1000;
-    const lastReviewedTime = claim.reviews.length > 0
-      ? new Date(claim.reviews[claim.reviews.length - 1]!.reviewedAt).getTime()
-      : new Date(claim.createdAt).getTime();
+    const lastReviewedTime =
+      claim.reviews.length > 0
+        ? new Date(claim.reviews[claim.reviews.length - 1]!.reviewedAt).getTime()
+        : new Date(claim.createdAt).getTime();
     const isStaleReview = Date.now() - lastReviewedTime > maxAgeMs;
 
     // Determine Action & Severity

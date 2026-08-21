@@ -1,6 +1,7 @@
 ## 1. Summary
 
 <!-- Provide a concise description of the change, motivation, and associated issue/RFC links. -->
+
 - **Type**: `feat` | `fix` | `refactor` | `docs` | `test` | `chore`
 - **Domain**: `Core` | `Benchmark` | `Evidence` | `Governance` | `Python SDK` | `TypeScript SDK` | `Security` | `Docs` | `Release`
 - **Issue / Spec Link**: #
@@ -10,6 +11,7 @@
 ## 2. Tests & Verification
 
 <!-- Describe exact automated tests executed and attach evidence. -->
+
 - [ ] TypeScript Unit / Integration Tests (`pnpm test`)
 - [ ] Python Pytest Battery (`pnpm test:python`)
 - [ ] TypeScript Typecheck (`pnpm typecheck`)

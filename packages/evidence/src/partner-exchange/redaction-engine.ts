@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Exchange Redaction Engine
- * 
+ *
  * Invariants:
  * 1. Strips private tokens, secrets, internal IPs from exchange bundles.
  * 2. Computes new deterministic SHA-256 digests for redacted artifacts.

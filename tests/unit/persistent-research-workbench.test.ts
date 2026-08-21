@@ -10,7 +10,9 @@ describe("Persistent Research Workbench & Hash-Chained Audit Architecture", () =
     const auditLog = new WorkbenchAuditLogEngine();
 
     const e1 = auditLog.recordEvent("ENQUEUE_ITEM", "item_01", "actor_01", { reason: "stale" });
-    const e2 = auditLog.recordEvent("ASSIGN_REVIEWER", "item_01", "actor_admin", { reviewerId: "rev_a" });
+    const e2 = auditLog.recordEvent("ASSIGN_REVIEWER", "item_01", "actor_admin", {
+      reviewerId: "rev_a"
+    });
     const e3 = auditLog.recordEvent("ADD_COMMENT", "item_01", "rev_a", { text: "Investigating" });
 
     expect(e1.sequenceNumber).toBe(0);
@@ -44,8 +46,16 @@ describe("Persistent Research Workbench & Hash-Chained Audit Architecture", () =
         sourceIds: ["src_01"]
       }
     });
-    claimRegistry.addReview(claimV1.id, { reviewerId: "rev_1", decision: "approve", comments: "ok" });
-    claimRegistry.addReview(claimV1.id, { reviewerId: "rev_2", decision: "approve", comments: "ok" });
+    claimRegistry.addReview(claimV1.id, {
+      reviewerId: "rev_1",
+      decision: "approve",
+      comments: "ok"
+    });
+    claimRegistry.addReview(claimV1.id, {
+      reviewerId: "rev_2",
+      decision: "approve",
+      comments: "ok"
+    });
     const activeClaimV1 = claimRegistry.releaseClaim(claimV1.id);
     expect(activeClaimV1.status).toBe("active");
 
@@ -63,7 +73,11 @@ describe("Persistent Research Workbench & Hash-Chained Audit Architecture", () =
     expect(queueItem.priority).toBe("high");
 
     // 2. Assign reviewer
-    const inReviewItem = workbench.assignReviewer(queueItem.id, "senior_reviewer", "lead_investigator");
+    const inReviewItem = workbench.assignReviewer(
+      queueItem.id,
+      "senior_reviewer",
+      "lead_investigator"
+    );
     expect(inReviewItem.status).toBe("in_review");
     expect(inReviewItem.assignedReviewerId).toBe("senior_reviewer");
 

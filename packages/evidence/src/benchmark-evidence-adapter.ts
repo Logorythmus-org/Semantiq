@@ -1,7 +1,7 @@
 /**
  * @package @semantiq/evidence
  * Benchmark Output to Canonical Evidence Adapter
- * 
+ *
  * Translates raw benchmark execution outputs into canonical Run, Evaluation, and Trace models.
  * Invariant: Never fabricates agent, tool, or memory events from score-only benchmark artifacts.
  */
@@ -37,7 +37,8 @@ export class BenchmarkEvidenceBridge {
     const traceId = `trc_${artifact.runId}`;
     const evalId = `eval_${artifact.runId}`;
 
-    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> = {};
+    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> =
+      {};
     for (const [dim, val] of Object.entries(artifact.scoreBreakdown)) {
       scoreBreakdown[dim] = {
         score: val.score,
@@ -129,7 +130,8 @@ export class BenchmarkEvidenceBridge {
     const traceId = `trc_${artifact.runId}`;
     const evalId = `eval_${artifact.runId}`;
 
-    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> = {};
+    const scoreBreakdown: Record<string, { score: number | null; weight: number; status: string }> =
+      {};
     for (const [dim, val] of Object.entries(artifact.scoreBreakdown)) {
       scoreBreakdown[dim] = {
         score: val.score,

@@ -3,8 +3,7 @@
  * Matched Controls and Statistical Contrast Types
  */
 
-export const EPISTEMIC_CAUSAL_DISCLAIMER =
-  "Matched association is not proof of causal effect.";
+export const EPISTEMIC_CAUSAL_DISCLAIMER = "Matched association is not proof of causal effect.";
 
 export type MatchingDimension =
   | "environment"
@@ -83,15 +82,15 @@ export interface BootstrapConfidenceInterval {
 export interface ExactSignTestResult {
   readonly positivePairs: number; // treatment > control
   readonly negativePairs: number; // treatment < control
-  readonly tiedPairs: number;     // treatment == control
+  readonly tiedPairs: number; // treatment == control
   readonly pValue: number;
   readonly isStatisticallySignificant: boolean; // p < 0.05
 }
 
 export type StatisticalEvidenceGrade =
-  | "GRADE_A"            // Robust: High sample power (N >= 20), significant CI, sign test p < 0.01
-  | "GRADE_B"            // Moderate: Moderate sample (N >= 8), significant CI, sign test p < 0.05
-  | "GRADE_C"            // Inconclusive: Wide CI crossing 0 or sign test p >= 0.05
+  | "GRADE_A" // Robust: High sample power (N >= 20), significant CI, sign test p < 0.01
+  | "GRADE_B" // Moderate: Moderate sample (N >= 8), significant CI, sign test p < 0.05
+  | "GRADE_C" // Inconclusive: Wide CI crossing 0 or sign test p >= 0.05
   | "INSUFFICIENT_POWER"; // N < 5 matched pairs
 
 export interface ThresholdSensitivityResult {

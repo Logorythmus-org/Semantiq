@@ -11,10 +11,10 @@ import type { PatternDefinition } from "../../../patterns/src/index.js";
  * Invariant: Observed != Inferred.
  */
 export type EpistemicStatus =
-  | "source_fact"            // Directly cited from authoritative paper/advisory
-  | "semantiq_observation"    // Directly observed from empirical trace/telemetry execution
-  | "inference"              // Derived via deterministic logic or pattern graph rule
-  | "hypothesis";            // Proposed candidate requiring empirical verification
+  | "source_fact" // Directly cited from authoritative paper/advisory
+  | "semantiq_observation" // Directly observed from empirical trace/telemetry execution
+  | "inference" // Derived via deterministic logic or pattern graph rule
+  | "hypothesis"; // Proposed candidate requiring empirical verification
 
 export type ResearchSourceType =
   | "academic_paper"
@@ -51,11 +51,7 @@ export interface ResearchClaim {
   readonly reviewedAt?: string | undefined;
 }
 
-export type CandidateReviewStatus =
-  | "draft"
-  | "under_review"
-  | "approved"
-  | "rejected";
+export type CandidateReviewStatus = "draft" | "under_review" | "approved" | "rejected";
 
 export interface PatternCandidate {
   readonly candidateId: string;
