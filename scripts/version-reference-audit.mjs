@@ -1,4 +1,6 @@
 import { execFileSync } from "node:child_process";
+import { resolve } from "node:path";
+import { pathToFileURL } from "node:url";
 
 export const VERSION_REFERENCE_CATEGORIES = Object.freeze([
   "SOFTWARE_RELEASE_VERSION",
@@ -169,9 +171,6 @@ function runCli() {
   }
 }
 
-if (
-  process.argv[1] &&
-  import.meta.url === new URL(`file:///${process.argv[1].replaceAll("\\", "/")}`).href
-) {
+if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
   runCli();
 }
