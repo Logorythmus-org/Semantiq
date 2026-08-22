@@ -18,6 +18,24 @@ schemas are independently versioned at `1.0.0`, while the HTTP route family is
 `/api/v1`. A schema, API, benchmark, or documentation `1.0.0` does not claim a
 stable SemantIQ software release. See [Versioning & Release Policy](Docs/VERSIONING_POLICY.md).
 
+## Current Maturity and Evidence Status
+
+SemantIQ `0.1.0-alpha.2` is **Public Alpha (Experimental)**. It is intended for
+technical evaluation, local experimentation, and reproducible research workflows.
+It is **not production-ready**, not a certification authority, and not presented as
+an independently validated standard.
+
+| Evidence state            | Current public status                                                                                                                                                                                       |
+| :------------------------ | :---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **IMPLEMENTED**           | The headless TypeScript and Python interfaces, CLI and HTTP surfaces, deterministic validation gates, and evidence/claim workflows are present in the repository and exercised by internal automated tests. |
+| **INTERNALLY VALIDATED**  | Owner-controlled CI, local execution, and documented clean-room exercises provide internal reproducibility evidence. Clean-room execution within the project environment is not independent replication.    |
+| **EXTERNALLY REPLICATED** | Not yet established. No independent third-party replication or audit has been verified; implemented partner and replication mechanisms are capabilities, not external evidence.                             |
+| **NOT YET VALIDATED**     | Production-scale reliability, real-world adoption, ecosystem-scale governance, and resistance to unforeseen public benchmark gaming remain unvalidated.                                                     |
+
+See the [Public Alpha limitations](PHASE_12_PUBLIC_LIMITATIONS.md) and
+[Scientific Guardrails](Docs/SCIENTIFIC_GUARDRAILS.md) for the detailed evidence
+and claim boundaries.
+
 ```
 ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
 │    BENCHMARK ENGINE     │ ──► │     EVIDENCE ENGINE     │ ──► │   RESEARCH WORKBENCH    │
