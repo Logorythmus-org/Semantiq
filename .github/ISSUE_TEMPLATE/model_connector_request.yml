@@ -1,7 +1,7 @@
 name: Model Connector Request
 description: Request a new model backend connector
 title: "[Connector Request]: "
-labels: ["connector", "enhancement"]
+labels: ["enhancement"]
 body:
   - type: input
     id: provider_name

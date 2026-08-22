@@ -2,7 +2,7 @@
 
 **Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
 **Effective Date**: 2026-08-18  
-**Repository**: `https://github.com/Semant-iq/Semantiq`
+**Repository**: `https://github.com/Logorythmus-org/Semantiq`
 
 ---
 
@@ -14,14 +14,14 @@ SemantIQ adopts a clean, permissive multi-tier licensing architecture designed t
 
 ## 2. Explicit Licensing Boundaries
 
-| Asset Tier                                   | Scope & File Formats                                                                                                     |          Governing License           | SPDX Identifier | Rights & Attribution                                                                                                |
-| :------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------: | :-------------: | :------------------------------------------------------------------------------------------------------------------ |
-| **1. Source Code & Libraries**               | TypeScript (`packages/*`), Python (`packages/python`), Node.js scripts, CLI tools, and HTTP servers.                     |           **MIT License**            |      `MIT`      | Permissive commercial and academic use. Full text in [`LICENSE`](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSE). |
-| **2. Benchmark Definitions & Protocols**     | Benchmark DSL schemas, protocol templates, pre-registration specifications (`schemas/*`, `packages/sandbox-contracts/`). |           **MIT License**            |      `MIT`      | Permissive for creating, executing, and modifying benchmark definitions.                                            |
-| **3. Prompts & Evaluator Rubrics**           | Evaluation prompt templates, scenario definitions, rubric guidelines.                                                    |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Public domain dedication. Unrestricted use in third-party model evaluation.                                         |
-| **4. Datasets & Baseline Fixtures**          | Synthetic benchmark run outputs, baseline test vectors, reference ground-truth data.                                     |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Dedicated to the public domain for universal scientific reproducibility.                                            |
-| **5. Documentation & Architectural Specs**   | All technical guides, ADRs, epistemic guardrail specifications in `Docs/`, `specs/`, and `README.md`.                    | **Creative Commons Attribution 4.0** |   `CC-BY-4.0`   | Free to share and adapt with attribution to "SemantIQ Core Contributors".                                           |
-| **6. Generated Examples & Research Bundles** | Synthetic reference flow artifacts (`DP-008 → FP-002`), sample trace event logs, manifest outputs.                       |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Public domain. No restriction on redistribution or training data pipelines.                                         |
+| Asset Tier                                   | Scope & File Formats                                                                                                     |          Governing License           | SPDX Identifier | Rights & Attribution                                                        |
+| :------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------- | :----------------------------------: | :-------------: | :-------------------------------------------------------------------------- |
+| **1. Source Code & Libraries**               | TypeScript (`packages/*`), Python (`packages/python`), Node.js scripts, CLI tools, and HTTP servers.                     |           **MIT License**            |      `MIT`      | Permissive commercial and academic use. Full text in [`LICENSE`](LICENSE).  |
+| **2. Benchmark Definitions & Protocols**     | Benchmark DSL schemas, protocol templates, pre-registration specifications (`schemas/*`, `packages/sandbox-contracts/`). |           **MIT License**            |      `MIT`      | Permissive for creating, executing, and modifying benchmark definitions.    |
+| **3. Prompts & Evaluator Rubrics**           | Evaluation prompt templates, scenario definitions, rubric guidelines.                                                    |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Public domain dedication. Unrestricted use in third-party model evaluation. |
+| **4. Datasets & Baseline Fixtures**          | Synthetic benchmark run outputs, baseline test vectors, reference ground-truth data.                                     |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Dedicated to the public domain for universal scientific reproducibility.    |
+| **5. Documentation & Architectural Specs**   | All technical guides, ADRs, epistemic guardrail specifications in `Docs/`, `specs/`, and `README.md`.                    | **Creative Commons Attribution 4.0** |   `CC-BY-4.0`   | Free to share and adapt with attribution to "SemantIQ Core Contributors".   |
+| **6. Generated Examples & Research Bundles** | Synthetic reference flow artifacts (`DP-008 → FP-002`), sample trace event logs, manifest outputs.                       |    **Creative Commons Zero 1.0**     |    `CC0-1.0`    | Public domain. No restriction on redistribution or training data pipelines. |
 
 ---
 

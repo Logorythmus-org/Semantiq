@@ -41,7 +41,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - **Documentation & Packaging Infrastructure**:
   - Reorganized docs-as-code into 13 scalable functional areas with audience navigation paths.
   - Standalone static documentation site generator (`scripts/build-docs.mjs`).
-  - Multi-tier licensing policy ([`LICENSING.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSING.md)) and STRIDE threat model ([`Docs/security/threat_model.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/security/threat_model.md)).
+  - Multi-tier licensing policy ([`LICENSING.md`](LICENSING.md)) and STRIDE threat model ([`Docs/security/threat_model.md`](Docs/security/threat_model.md)).
 
 ---
 

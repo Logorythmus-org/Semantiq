@@ -308,7 +308,7 @@ function generateSiteHtml({ title, content, currentSectionId }) {
 
     <footer class="site-footer">
       <div>SemantIQ Behavioral Evidence Infrastructure • MIT License</div>
-      <div><a href="https://github.com/Semant-iq/Semantiq">GitHub Repository</a></div>
+      <div><a href="https://github.com/Logorythmus-org/Semantiq">GitHub Repository</a></div>
     </footer>
   </main>
 </body>

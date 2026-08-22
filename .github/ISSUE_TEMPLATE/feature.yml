@@ -1,7 +1,7 @@
 name: Feature Request
 description: Propose a new feature, adapter, or tool for SemantIQ Behavioral Evidence Infrastructure.
 title: "[Feature]: "
-labels: ["enhancement", "needs-triage"]
+labels: ["enhancement"]
 body:
   - type: input
     id: feature_title

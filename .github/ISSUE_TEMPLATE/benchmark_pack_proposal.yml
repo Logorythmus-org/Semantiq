@@ -1,7 +1,7 @@
 name: Benchmark Pack Proposal
 description: Propose a new evaluation benchmark pack for SemantIQ Benchmarks
 title: "[Benchmark Proposal]: "
-labels: ["benchmark-pack", "proposal"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:

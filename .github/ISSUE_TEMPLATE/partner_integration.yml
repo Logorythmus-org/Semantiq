@@ -1,7 +1,7 @@
 name: Partner / Protocol Integration Proposal
 description: Propose an external partner study protocol, execution manifest integration, or replication exchange partnership.
 title: "[Partner Integration]: "
-labels: ["partner-protocol", "replication-exchange"]
+labels: ["enhancement"]
 body:
   - type: input
     id: org_name

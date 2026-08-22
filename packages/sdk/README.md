@@ -1,16 +1,16 @@
 # SemantIQ TypeScript SDK (`@semantiq/sdk`)
 
-> Standalone, typed TypeScript SDK for SemantIQ Behavioral Evidence Infrastructure, Governed Claims, and Reproducibility Verification.
+> Source-workspace TypeScript SDK for SemantIQ Behavioral Evidence Infrastructure, Governed Claims, and Reproducibility Verification.
 
-[![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-blue.svg)](https://npmjs.com/package/@semantiq/sdk)
+[![Version](https://img.shields.io/badge/version-0.1.0--alpha.2-blue.svg)](package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Semant-iq/Semantiq)
+[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Logorythmus-org/Semantiq)
 
 ---
 
 ## 🚀 Overview
 
-`@semantiq/sdk` is the official, standalone TypeScript client for the SemantIQ behavioral evidence platform.
+`@semantiq/sdk` is the typed TypeScript client in the SemantIQ source workspace.
 It is built with **zero Web UI or React dependencies** so that it can be seamlessly consumed by:
 
 - Node.js backend services and microservices
@@ -23,12 +23,12 @@ It is built with **zero Web UI or React dependencies** so that it can be seamles
 
 ## 📦 Installation
 
+The provisional `0.1.0-alpha.2` Public Alpha package is not published on npm. Use the
+SDK from the checked-out pnpm workspace:
+
 ```bash
-pnpm add @semantiq/sdk
-# or
-npm install @semantiq/sdk
-# or
-yarn add @semantiq/sdk
+pnpm install --frozen-lockfile
+pnpm test:sdk
 ```
 
 ---

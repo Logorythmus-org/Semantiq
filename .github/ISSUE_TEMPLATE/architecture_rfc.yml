@@ -1,12 +1,12 @@
 name: Architecture / RFC Proposal
 description: Propose an architectural modification, schema contract change, or core engine evolution.
 title: "[RFC]: "
-labels: ["rfc", "architecture", "needs-review"]
+labels: ["enhancement"]
 body:
   - type: markdown
     attributes:
       value: |
-        Please review the [RFC Process Guide](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/governance/rfc_process.md) before submitting.
+        Please review the [RFC Process Guide](https://github.com/Logorythmus-org/Semantiq/blob/main/Docs/governance/rfc_process.md) before submitting.
   - type: input
     id: rfc_title
     attributes:

@@ -2,7 +2,7 @@
 
 **Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
 **Status**: `NORMATIVE`  
-**License**: [CC-BY-4.0](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSING.md)  
+**License**: [CC-BY-4.0](../LICENSING.md)
 
 Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation platform.
 

@@ -29,8 +29,8 @@ This document details verified execution environments, system prerequisites, cle
 
 ### 1. Fresh Monorepo Checkout
 ```bash
-git clone https://github.com/tech-club/tech-club.git
-cd tech-club
+git clone https://github.com/Logorythmus-org/Semantiq.git
+cd Semantiq
 ```
 
 ### 2. Dependency Installation

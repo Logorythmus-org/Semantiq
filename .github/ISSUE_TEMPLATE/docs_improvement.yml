@@ -1,7 +1,7 @@
 name: Documentation Improvement
 description: Propose enhancements, clarifications, or missing guides in repository documentation.
 title: "[Docs]: "
-labels: ["documentation", "docs-quality"]
+labels: ["documentation"]
 body:
   - type: input
     id: docs_target
