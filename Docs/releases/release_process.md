@@ -90,7 +90,7 @@ Every GitHub Release entry must follow this standardized template:
 ## 5. Zenodo & DOI Archiving Policy
 
 - Every tagged release on `main` (`v*`) automatically triggers the Zenodo integration workflow.
-- Zenodo mints an immutable Digital Object Identifier (DOI) for the release archive using metadata defined in [`.zenodo.json`](file:///c:/Users/Kaveh/Desktop/Tech-Club/.zenodo.json) and [`CITATION.cff`](file:///c:/Users/Kaveh/Desktop/Tech-Club/CITATION.cff).
+- Zenodo mints an immutable Digital Object Identifier (DOI) for the release archive using metadata defined in [`.zenodo.json`](../../.zenodo.json) and [`CITATION.cff`](../../CITATION.cff).
 - The minted DOI is preserved in `Docs/releases/` and referenced in scientific publications.
 
 ---

@@ -19,8 +19,8 @@ This specification establishes the authoritative repository protection baseline 
 | **Branch Rulesets (`main`)** | Require Pull Request before merging | **Enabled** | **VERIFIED ENABLED** | Direct push blocked; all changes require PR workflow. |
 | | Required Approvals count | **$\ge 1$** | **VERIFIED ENABLED** | Requires $\ge 1$ peer approval from maintainers. |
 | | Dismiss stale approvals on push | **Enabled** | **VERIFIED ENABLED** | New commits invalidate prior approval stamps. |
-| | Require Code Owner reviews | **Enabled** | **VERIFIED ENABLED** | Bound to authoritative [`.github/CODEOWNERS`](file:///c:/Users/Kaveh/Desktop/Tech-Club/.github/CODEOWNERS). |
-| | Require Status Checks to pass | **Enabled** | **VERIFIED ENABLED** | Bound to 5 required jobs in [`.github/workflows/ci.yml`](file:///c:/Users/Kaveh/Desktop/Tech-Club/.github/workflows/ci.yml). |
+| | Require Code Owner reviews | **Enabled** | **VERIFIED ENABLED** | Bound to authoritative [`.github/CODEOWNERS`](../../.github/CODEOWNERS). |
+| | Require Status Checks to pass | **Enabled** | **VERIFIED ENABLED** | Bound to 5 required jobs in [`.github/workflows/ci.yml`](../../.github/workflows/ci.yml). |
 | | Require branches to be up to date | **Enabled** | **VERIFIED ENABLED** | Strict merge queue / rebase requirement. |
 | | Block force pushes (`--force`) | **Enabled** | **VERIFIED ENABLED** | Prevents history rewriting on `main`. |
 | | Block branch deletion | **Enabled** | **VERIFIED ENABLED** | Prevents accidental deletion of primary release branch. |
@@ -33,8 +33,8 @@ This specification establishes the authoritative repository protection baseline 
 | **Dependency Security** | Dependency Graph | **Enabled** | **VERIFIED ENABLED** | Tracks npm (`pnpm-lock.yaml`) and Python dependencies. |
 | | Dependabot Alerts | **Enabled** | **VERIFIED ENABLED** | Automated CVE alerts on transitive dependencies. |
 | | Dependabot Security Updates | **Enabled** | **VERIFIED ENABLED** | Automated PR generation for vulnerable dependencies. |
-| | Dependency Review Action | **Enabled** | **VERIFIED ENABLED** | Enforced on every PR via [`.github/workflows/security.yml`](file:///c:/Users/Kaveh/Desktop/Tech-Club/.github/workflows/security.yml). |
-| **Vulnerability Reporting** | Private Vulnerability Reporting | **Enabled** | **VERIFIED ENABLED** | Private advisory channel enabled + [`SECURITY.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/SECURITY.md) SLA. |
+| | Dependency Review Action | **Enabled** | **VERIFIED ENABLED** | Enforced on every PR via [`.github/workflows/security.yml`](../../.github/workflows/security.yml). |
+| **Vulnerability Reporting** | Private Vulnerability Reporting | **Enabled** | **VERIFIED ENABLED** | Private advisory channel enabled + [`SECURITY.md`](../../SECURITY.md) SLA. |
 | **Environments & Pages** | Deployment Environments | **N/A** | **NOT APPLICABLE** | Headless core milestone; no automated cloud cluster deploy. |
 | | GitHub Pages Permissions | **Disabled** | **NOT APPLICABLE / DISABLED** | Documentation delivered as repository files in `Docs/`. |
 

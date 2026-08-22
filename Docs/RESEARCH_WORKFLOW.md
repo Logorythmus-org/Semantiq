@@ -4,7 +4,7 @@
 
 SemantIQ provides an end-to-end reference implementation demonstrating how raw agent execution telemetry progresses through statistical contrast, governance decision-making, pre-registration, external execution, and eligibility gating.
 
-This document details the canonical reference flow: **`DP-008` (Out-of-Band Observer)** refuting **`FP-002` (Context Drift)** implemented in [`packages/evidence/src/reference-flow/dp008-reference-flow.ts`](file:///c:/Users/Kaveh/Desktop/Tech-Club/packages/evidence/src/reference-flow/dp008-reference-flow.ts).
+This document details the canonical reference flow: **`DP-008` (Out-of-Band Observer)** refuting **`FP-002` (Context Drift)** implemented in [`packages/evidence/src/reference-flow/dp008-reference-flow.ts`](../packages/evidence/src/reference-flow/dp008-reference-flow.ts).
 
 ---
 

@@ -104,5 +104,5 @@ Why is this change necessary? What problem or limitation does it address?
 
 ## 5. Decision & Governance Consensus
 
-- **Domain Approval**: Requires sign-off from designated Domain Owners ([`.github/CODEOWNERS`](file:///c:/Users/Kaveh/Desktop/Tech-Club/.github/CODEOWNERS)).
+- **Domain Approval**: Requires sign-off from designated Domain Owners ([`.github/CODEOWNERS`](../../.github/CODEOWNERS)).
 - **Epistemic Changes**: Changes to scientific invariants require **unanimous approval** from the Maintainers Council.
