@@ -113,6 +113,8 @@ jobs:
         run: pnpm install --frozen-lockfile
       - name: Build Static Documentation Site
         run: node scripts/build-docs.mjs
+      - name: Validate Public Documentation Links & Identity
+        run: pnpm docs:validate
       - name: Verify Documentation Validation Tests
         run: pnpm vitest run tests/unit/documentation-validation.test.ts
 

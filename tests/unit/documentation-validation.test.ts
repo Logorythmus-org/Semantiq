@@ -9,6 +9,7 @@ describe("Prompt 7.2 — Documentation Validation Verification", () => {
     expect(existsSync("Docs/QUICK_START.md")).toBe(true);
     expect(existsSync("Docs/FAQ.md")).toBe(true);
     expect(existsSync("scripts/build-docs.mjs")).toBe(true);
+    expect(existsSync("scripts/validate-public-docs.mjs")).toBe(true);
   });
 
   it("verifies all 13 scalable documentation areas exist", () => {
@@ -41,5 +42,9 @@ describe("Prompt 7.2 — Documentation Validation Verification", () => {
     expect(existsSync("dist/docs/architecture/index.html")).toBe(true);
     expect(existsSync("dist/docs/evidence/index.html")).toBe(true);
     expect(existsSync("dist/docs/sdk/index.html")).toBe(true);
+  });
+
+  it("rejects broken active-documentation and generated-site links", () => {
+    execSync("node scripts/validate-public-docs.mjs", { stdio: "pipe" });
   });
 });
