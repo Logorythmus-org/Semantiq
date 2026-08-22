@@ -14,7 +14,7 @@ This guide provides instructions for citing **SemantIQ Benchmarks** in academic 
   year         = {2026},
   publisher    = {Zenodo},
   doi          = {10.5281/zenodo.EXAMPLE_VERSION},
-  url          = {https://github.com/tech-club/tech-club}
+  url          = {https://github.com/Logorythmus-org/Semantiq}
 }
 ```
 

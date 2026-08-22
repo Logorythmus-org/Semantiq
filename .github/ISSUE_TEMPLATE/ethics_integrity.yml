@@ -1,7 +1,7 @@
 name: Ethics, Integrity & Epistemic Challenge
 description: Report a scientific anomaly, causal-language breach, or potential benchmark contamination incident.
 title: "[Integrity Challenge]: "
-labels: ["ethics", "epistemic-integrity", "dispute"]
+labels: ["question"]
 body:
   - type: input
     id: claim_or_run_id

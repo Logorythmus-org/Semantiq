@@ -8,4 +8,4 @@ This guide details how to create and submit third-party **Benchmark Packs**, **D
 
 1. Use JSON/YAML benchmark pack specification (`examples/identifiers/benchmark-pack.json`).
 2. Release under open license (**CC0-1.0** or **MIT**).
-3. Submit a PR or open a [Benchmark Pack Proposal](https://github.com/Semant-iq/Semantiq/issues/new?template=benchmark_pack_proposal.yml).
+3. Submit a PR or open a [Benchmark Pack Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=benchmark_pack_proposal.yml).

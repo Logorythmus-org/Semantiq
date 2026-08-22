@@ -8,10 +8,12 @@ The `@semantiq/sdk` package provides first-class, type-safe TypeScript bindings 
 
 ## Installation
 
+The provisional `0.1.0-alpha.2` Public Alpha package is not published on npm. Use the
+SDK from the checked-out pnpm workspace:
+
 ```bash
-pnpm add @semantiq/sdk
-# or
-npm install @semantiq/sdk
+pnpm install --frozen-lockfile
+pnpm test:sdk
 ```
 
 ---

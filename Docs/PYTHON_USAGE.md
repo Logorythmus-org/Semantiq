@@ -8,8 +8,11 @@ The `semantiq` Python package provides first-class, type-safe bindings for inter
 
 ## Installation
 
+The provisional `0.1.0-alpha.2` Public Alpha package is not published on PyPI. Install
+it from a repository checkout:
+
 ```bash
-pip install semantiq
+python -m pip install -e "./packages/python"
 ```
 
 ---

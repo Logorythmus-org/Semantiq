@@ -32,7 +32,7 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
       title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
       version: "0.1.0-alpha.1",
       dateReleased: "2026-07-31",
-      repositoryCode: "https://github.com/tech-club/tech-club",
+      repositoryCode: "https://github.com/Logorythmus-org/Semantiq",
       license: "MIT",
       authors: [{ name: "Tech Club Foundation" }]
     };

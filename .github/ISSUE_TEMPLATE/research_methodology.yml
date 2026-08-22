@@ -1,7 +1,7 @@
 name: Research Methodology & Statistical Proposal
 description: Propose improvements to behavioral metrics, statistical contrast estimators, robustness diagnostics, or evidence policies.
 title: "[Methodology]: "
-labels: ["methodology", "evidence-engine", "statistics"]
+labels: ["enhancement"]
 body:
   - type: input
     id: methodology_title

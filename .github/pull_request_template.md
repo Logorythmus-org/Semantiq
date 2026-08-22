@@ -33,7 +33,7 @@
 - [ ] Zero credential or private token leakage in traces or test fixtures
 - [ ] All inputs sanitized against path traversal (`..` sanitization)
 - [ ] Local-first execution preserved (no unapproved network egress)
-- [ ] Threat model implications reviewed ([`Docs/security/threat_model.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/security/threat_model.md))
+- [ ] Threat model implications reviewed ([`Docs/security/threat_model.md`](https://github.com/Logorythmus-org/Semantiq/blob/main/Docs/security/threat_model.md))
 
 ---
 

@@ -2,15 +2,15 @@
 
 > First-class, typed Python SDK for SemantIQ Behavioral Evidence Infrastructure, Governed Claims, and Reproducibility Verification.
 
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](https://pypi.org/project/semantiq/)
+[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](pyproject.toml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
-[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Semant-iq/Semantiq)
+[![Schema Version](https://img.shields.io/badge/Schema-v1.0.0-orange.svg)](https://github.com/Logorythmus-org/Semantiq)
 
 ---
 
 ## 🚀 Overview
 
-The `semantiq` Python package provides a clean, stable product interface to the SemantIQ evaluation ecosystem. It allows researchers, data scientists, and ML engineers to:
+The `semantiq` Python package provides a typed, experimental Public Alpha interface to the SemantIQ evaluation ecosystem. It allows researchers, data scientists, and ML engineers to:
 
 - Execute offline deterministic behavioral benchmark runs.
 - Enforce controlled language governance (blocking unhedged causal claims).
@@ -23,16 +23,19 @@ The `semantiq` Python package provides a clean, stable product interface to the 
 
 ## 📦 Installation
 
+The provisional `0.1.0-alpha.2` Public Alpha package is not published on PyPI. Install
+it from a repository checkout:
+
 ```bash
-pip install semantiq
+python -m pip install -e "./packages/python"
 ```
 
 Optional extensions:
 
 ```bash
-pip install semantiq[pandas]   # For pandas DataFrame integration
-pip install semantiq[jupyter]  # For Jupyter Notebook visual widgets
-pip install semantiq[kaggle]   # For Kaggle dataset submission tools
+python -m pip install -e "./packages/python[pandas]"   # pandas integration
+python -m pip install -e "./packages/python[jupyter]"  # Jupyter widgets
+python -m pip install -e "./packages/python[kaggle]"   # Kaggle tools
 ```
 
 ---

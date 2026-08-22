@@ -4,13 +4,13 @@
     "title": "Synthetic Baseline Smoke Benchmark Pack",
     "version": "1.0.0",
     "author": "Tech Club Foundation",
-    "url": "https://github.com/Semant-iq/Semantiq.git"
+    "url": "https://github.com/Logorythmus-org/Semantiq.git"
   },
   {
     "id": "external-reasoning-pack",
     "title": "External Ecosystem Reasoning Benchmark Pack",
     "version": "1.0.0",
     "author": "Ecosystem Community",
-    "url": "https://github.com/Semant-iq/Semantiq.git"
+    "url": "https://github.com/Logorythmus-org/Semantiq.git"
   }
 ]

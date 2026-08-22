@@ -60,6 +60,6 @@ We appreciate responsible disclosure. If you discover a security vulnerability i
 
 ## 4. Security Documentation References
 
-- **Threat Model**: [`Docs/security/threat_model.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/security/threat_model.md)
-- **Data Handling & Privacy Guide**: [`Docs/security/data_handling.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/Docs/security/data_handling.md)
-- **Licensing & Rights Boundary**: [`LICENSING.md`](file:///c:/Users/Kaveh/Desktop/Tech-Club/LICENSING.md)
+- **Threat Model**: [`Docs/security/threat_model.md`](Docs/security/threat_model.md)
+- **Data Handling & Privacy Guide**: [`Docs/security/data_handling.md`](Docs/security/data_handling.md)
+- **Licensing & Rights Boundary**: [`LICENSING.md`](LICENSING.md)

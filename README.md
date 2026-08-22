@@ -94,10 +94,11 @@ SemantIQ is built from the ground up as a **headless infrastructure layer**. It 
 
 ### 1. Python Public API
 
-Install the Python package:
+The provisional `0.1.0-alpha.2` Public Alpha is experimental and is not published on
+PyPI. From a repository checkout, install the Python package in editable mode:
 
 ```bash
-pip install semantiq
+python -m pip install -e "./packages/python"
 ```
 
 Draft a governed claim and evaluate controlled language:
@@ -135,10 +136,12 @@ For complete Python documentation, see **[Docs/PYTHON_USAGE.md](Docs/PYTHON_USAG
 
 ### 2. TypeScript SDK
 
-Install the TypeScript package:
+The provisional `0.1.0-alpha.2` Public Alpha is experimental and is not published on
+npm. Use the SDK from the checked-out pnpm workspace:
 
 ```bash
-pnpm add @semantiq/sdk
+pnpm install --frozen-lockfile
+pnpm test:sdk
 ```
 
 Match controlled runs and evaluate statistical contrast:

@@ -14,5 +14,5 @@ This document provides multi-channel launch announcement templates for promoting
 > 🔹 Reproducible Execution Manifests
 > 🔹 DOI-Ready Citation Metadata
 > 
-> 📖 Explore on GitHub: https://github.com/Semant-iq/Semantiq.git
+> 📖 Explore on GitHub: https://github.com/Logorythmus-org/Semantiq
 > #AIEvaluation #OpenSource #MachineLearning #ReproducibleScience
