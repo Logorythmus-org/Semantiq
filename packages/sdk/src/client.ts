@@ -41,6 +41,7 @@ import type {
 import { EPISTEMIC_CAUSAL_DISCLAIMER, EPISTEMIC_LANGUAGE_DISCLAIMER } from "./contracts.js";
 import { SemantiqReceiptError, SemantiqValidationError } from "./errors.js";
 import { ControlledLanguageValidator } from "./controlled-language.js";
+import { SDK_VERSION } from "./version.js";
 
 export interface SemantiqClientConfig {
   readonly baseUrl?: string | undefined;
@@ -84,7 +85,16 @@ export class SemantiqClient {
     this.languageValidator = new ControlledLanguageValidator();
   }
 
+  /** @deprecated Use getSchemaVersion() for the contract schema or getReleaseVersion(). */
   public getVersion(): string {
+    return PRODUCT_CONTRACTS_SCHEMA_VERSION;
+  }
+
+  public getReleaseVersion(): string {
+    return SDK_VERSION;
+  }
+
+  public getSchemaVersion(): string {
     return PRODUCT_CONTRACTS_SCHEMA_VERSION;
   }
 

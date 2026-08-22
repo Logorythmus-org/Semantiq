@@ -16,6 +16,7 @@ import { join, extname } from "node:path";
 import { randomUUID } from "node:crypto";
 import { PRODUCT_CONTRACTS_SCHEMA_VERSION } from "@tech-club/sandbox-contracts";
 import type { SemantiqApplicationService } from "../services/index.js";
+import { SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION } from "../version.js";
 import type { ApiResponse } from "./types.js";
 
 const MIME_TYPES: Record<string, string> = {
@@ -69,6 +70,10 @@ export class SemantiqHttpRouter {
         {
           status: "healthy",
           version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          versionKind: "schema",
+          releaseVersion: SEMANTIQ_RELEASE_VERSION,
+          schemaVersion: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          maturity: SEMANTIQ_MATURITY,
           offlineDeterministic: true,
           timestamp: new Date().toISOString()
         },
@@ -84,6 +89,10 @@ export class SemantiqHttpRouter {
         {
           product: "SemantIQ",
           version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          versionKind: "schema",
+          releaseVersion: SEMANTIQ_RELEASE_VERSION,
+          schemaVersion: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+          maturity: SEMANTIQ_MATURITY,
           services: [
             "runs",
             "evaluations",
@@ -483,6 +492,10 @@ export class SemantiqHttpRouter {
       meta: {
         timestamp: new Date().toISOString(),
         version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+        versionKind: "schema",
+        releaseVersion: SEMANTIQ_RELEASE_VERSION,
+        schemaVersion: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+        maturity: SEMANTIQ_MATURITY,
         correlationId
       }
     };
@@ -512,6 +525,10 @@ export class SemantiqHttpRouter {
       meta: {
         timestamp: new Date().toISOString(),
         version: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+        versionKind: "schema",
+        releaseVersion: SEMANTIQ_RELEASE_VERSION,
+        schemaVersion: PRODUCT_CONTRACTS_SCHEMA_VERSION,
+        maturity: SEMANTIQ_MATURITY,
         correlationId
       }
     };

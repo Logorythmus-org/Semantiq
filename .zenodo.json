@@ -22,8 +22,8 @@
     "reproducible research",
     "open-source"
   ],
-  "notes": "SemantIQ Behavioral Evidence Infrastructure 1.0.0 headless release candidate.",
-  "version": "1.0.0",
+  "notes": "SemantIQ 0.1.0-alpha.2 Public Alpha (Experimental). Product contract and schema versions remain independently versioned at 1.0.0.",
+  "version": "0.1.0-alpha.2",
   "language": "eng",
   "related_identifiers": []
 }

@@ -1,8 +1,8 @@
 cff-version: 1.2.0
 message: "If you use SemantIQ in your research or software, please cite it as below."
 title: "SemantIQ: Behavioral Evidence Infrastructure for AI Systems"
-version: "1.0.0"
-date-released: "2026-08-18"
+version: "0.1.0-alpha.2"
+date-released: "2026-08-17"
 repository-code: "https://github.com/Logorythmus-org/Semantiq.git"
 license: "MIT"
 authors:
@@ -15,4 +15,4 @@ keywords:
   - "governed-claims"
   - "reproducible-science"
   - "benchmarking"
-abstract: "SemantIQ is an open-source, local-first behavioral evidence infrastructure for measuring empirical observations, matched statistical contrasts, governed claims, and reproducible research bundles across AI systems."
+abstract: "SemantIQ is an experimental Public Alpha, open-source, local-first behavioral evidence infrastructure for measuring empirical observations, matched statistical contrasts, governed claims, and reproducible research bundles across AI systems."

@@ -38,6 +38,10 @@ export interface ApiResponse<T = unknown> {
   readonly meta: {
     readonly timestamp: string;
     readonly version: string;
+    readonly versionKind: "schema";
+    readonly releaseVersion: string;
+    readonly schemaVersion: string;
+    readonly maturity: string;
     readonly correlationId: string;
   };
 }

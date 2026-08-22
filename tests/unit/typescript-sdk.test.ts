@@ -14,6 +14,7 @@ import {
   EvaluationStatus,
   TraceStatus,
   ReviewVerdict,
+  SDK_VERSION,
   PRODUCT_CONTRACTS_SCHEMA_VERSION,
   EPISTEMIC_CAUSAL_DISCLAIMER,
   EPISTEMIC_LANGUAGE_DISCLAIMER
@@ -23,6 +24,8 @@ describe("First-Class Standalone SemantIQ TypeScript SDK", () => {
   it("initializes SemantiqClient with default and custom configs", () => {
     const client = new SemantiqClient({ isOfflineDeterministic: true });
     expect(client.getVersion()).toBe(PRODUCT_CONTRACTS_SCHEMA_VERSION);
+    expect(client.getReleaseVersion()).toBe(SDK_VERSION);
+    expect(client.getSchemaVersion()).toBe(PRODUCT_CONTRACTS_SCHEMA_VERSION);
     expect(client.isOfflineMode()).toBe(true);
   });
 

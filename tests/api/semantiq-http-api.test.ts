@@ -40,7 +40,14 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(json.success).toBe(true);
       expect(json.data.status).toBe("healthy");
       expect(json.data.offlineDeterministic).toBe(true);
+      expect(json.data.versionKind).toBe("schema");
+      expect(json.data.releaseVersion).toBe("0.1.0-alpha.2");
+      expect(json.data.schemaVersion).toBe("1.0.0");
+      expect(json.data.maturity).toBe("Public Alpha (Experimental)");
       expect(json.meta.version).toBe("1.0.0");
+      expect(json.meta.versionKind).toBe("schema");
+      expect(json.meta.releaseVersion).toBe("0.1.0-alpha.2");
+      expect(json.meta.schemaVersion).toBe("1.0.0");
       expect(res.headers.get("access-control-allow-origin")).toBe("*");
     });
 
@@ -50,6 +57,8 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       const json = await res.json();
       expect(json.success).toBe(true);
       expect(json.data.headless).toBe(true);
+      expect(json.data.releaseVersion).toBe("0.1.0-alpha.2");
+      expect(json.data.schemaVersion).toBe("1.0.0");
       expect(json.data.services).toContain("patterns");
       expect(json.data.services).toContain("claims");
       expect(json.data.services).toContain("reviews");

@@ -1,6 +1,7 @@
 # SemantIQ Headless HTTP API Catalog
 
-**Version**: 1.0.0  
+**Document Version**: 1.0.0
+**Software Release**: `0.1.0-alpha.2` — Public Alpha (Experimental)
 **Schema Version**: `1.0.0`  
 **Base Path**: `/api/v1`  
 **Deployment Boundary**: Headless & UI-Independent (Can execute with NO Web UI installed; optional static hosting)
@@ -18,6 +19,10 @@ All requests and responses use JSON and return the canonical `ApiResponse<T>` en
   "meta": {
     "timestamp": "2026-08-18T20:20:00.000Z",
     "version": "1.0.0",
+    "versionKind": "schema",
+    "releaseVersion": "0.1.0-alpha.2",
+    "schemaVersion": "1.0.0",
+    "maturity": "Public Alpha (Experimental)",
     "correlationId": "uuid-or-provided-correlation-id"
   }
 }
@@ -29,7 +34,7 @@ All requests and responses use JSON and return the canonical `ApiResponse<T>` en
 
 ### System & Health
 - `GET /health` / `GET /api/v1/health`
-  - Health check endpoint returning `{ status: "healthy", version: "1.0.0", offlineDeterministic: true, timestamp: "..." }`.
+  - Health check endpoint returning separate `releaseVersion` and `schemaVersion` values. The compatibility `version` field is marked with `versionKind: "schema"`.
 - `GET /info` / `GET /api/v1/info`
   - Product runtime metadata and active service registry.
 

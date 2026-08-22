@@ -11,6 +11,7 @@ from typing import List, Optional
 from .client import SemantiqClient
 from .contracts import PRODUCT_CONTRACTS_SCHEMA_VERSION
 from .fixtures import mock_benchmark, mock_case, mock_system_profile
+from .version import SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION
 
 
 def create_parser() -> argparse.ArgumentParser:
@@ -18,7 +19,14 @@ def create_parser() -> argparse.ArgumentParser:
         prog="semantiq",
         description="SemantIQ Autonomous Agent Behavioral Benchmark & Evidence Platform"
     )
-    parser.add_argument("--version", action="version", version=f"semantiq {PRODUCT_CONTRACTS_SCHEMA_VERSION}")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version=(
+            f"semantiq {SEMANTIQ_RELEASE_VERSION} ({SEMANTIQ_MATURITY}); "
+            f"schema {PRODUCT_CONTRACTS_SCHEMA_VERSION}"
+        ),
+    )
 
     subparsers = parser.add_subparsers(dest="command", help="Available subcommands")
 
@@ -88,6 +96,8 @@ def main(args: Optional[List[str]] = None) -> int:
 
     elif parsed.command == "info":
         print(f"SemantIQ Platform Python CLI")
+        print(f"Release Version: {SEMANTIQ_RELEASE_VERSION}")
+        print(f"Maturity: {SEMANTIQ_MATURITY}")
         print(f"Schema Version: {PRODUCT_CONTRACTS_SCHEMA_VERSION}")
         print(f"Supported Modes: offline_deterministic, connected")
         return 0

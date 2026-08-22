@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ---
 
-## [1.0.0] - 2026-08-18 (Headless Milestone Release Candidate)
+## [Unreleased]
+
+The work recorded below reached the Headless `1.0.0` documentation and contract
+milestone on 2026-08-18. It was not a stable SemantIQ software release. The
+current provisional software identity remains `0.1.0-alpha.2` Public Alpha
+(Experimental).
 
 ### 🚀 Added
 

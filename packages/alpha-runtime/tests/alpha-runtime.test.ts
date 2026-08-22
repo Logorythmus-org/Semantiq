@@ -34,7 +34,7 @@ describe("Public Alpha runtime", () => {
     expect(result.diagnostics.redacted).toBe(true);
     expect(result.feedback.status).toBe("Submitted");
     expect(result.validation.releaseable).toBe(true);
-    expect(result.release.version).toBe("0.1.0-alpha.1");
+    expect(result.release.version).toBe("0.1.0-alpha.2");
     expect(result.health.telemetryStatus).toBe("disabled");
   });
 

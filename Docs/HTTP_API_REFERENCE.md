@@ -17,7 +17,9 @@ http://localhost:3000
 ## System Endpoints
 
 ### 1. Health & Readiness (`GET /health`)
-Returns service health, version, and active subsystem statuses.
+Returns service health, software maturity, release version, schema version, and
+active subsystem statuses. The legacy-compatible `version` field is explicitly
+identified as a schema version.
 
 ```bash
 curl http://localhost:3000/health
@@ -26,15 +28,22 @@ curl http://localhost:3000/health
 **Response (`200 OK`)**:
 ```json
 {
-  "status": "healthy",
-  "version": "1.0.0",
-  "uptimeSeconds": 124.5,
-  "timestamp": "2026-08-18T12:00:00.000Z"
+  "success": true,
+  "data": {
+    "status": "healthy",
+    "version": "1.0.0",
+    "versionKind": "schema",
+    "releaseVersion": "0.1.0-alpha.2",
+    "schemaVersion": "1.0.0",
+    "maturity": "Public Alpha (Experimental)",
+    "offlineDeterministic": true
+  }
 }
 ```
 
 ### 2. Platform Information (`GET /info`)
-Returns metadata, capability descriptor, and epistemic disclaimer.
+Returns metadata, capability descriptor, epistemic disclaimer, and separate
+software-release and contract-schema versions.
 
 ```bash
 curl http://localhost:3000/info
