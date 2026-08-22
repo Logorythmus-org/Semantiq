@@ -4,13 +4,14 @@
   "identifier": "semantiq",
   "name": "SemantIQ",
   "description": "Behavioral Evidence Infrastructure for AI Systems.",
-  "version": "1.0.0",
+  "version": "0.1.0-alpha.2",
   "codeRepository": "https://github.com/Logorythmus-org/Semantiq.git",
   "issueTracker": "https://github.com/Logorythmus-org/Semantiq/issues",
   "license": "https://spdx.org/licenses/MIT",
   "programmingLanguage": ["TypeScript", "JavaScript", "Python"],
   "runtimePlatform": ["Node.js >= 20.0.0", "Python >= 3.10"],
   "developmentStatus": "active",
+  "keywords": ["public-alpha", "experimental", "behavioral-evidence"],
   "author": [
     {
       "@type": "Organization",

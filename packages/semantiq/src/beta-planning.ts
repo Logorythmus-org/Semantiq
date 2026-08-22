@@ -1,3 +1,5 @@
+import { SEMANTIQ_RELEASE_VERSION } from "./version.js";
+
 export interface BetaReadinessScore {
   readonly alphaVersion: string;
   readonly targetBetaVersion: string;
@@ -15,7 +17,7 @@ export interface BetaMilestone {
 
 export function evaluateBetaReadiness(): BetaReadinessScore {
   return {
-    alphaVersion: "0.1.0-alpha.1",
+    alphaVersion: SEMANTIQ_RELEASE_VERSION,
     targetBetaVersion: "0.2.0-beta.1",
     readinessScore: 100,
     status: "ready",

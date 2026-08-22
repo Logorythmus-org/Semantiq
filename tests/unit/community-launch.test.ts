@@ -8,6 +8,7 @@ import {
 describe("Prompt 7.6 — Community Launch Verification", () => {
   it("evaluates community health metrics", () => {
     const health = getCommunityHealthMetrics();
+    expect(health.version).toEqual("0.1.0-alpha.2");
     expect(health.healthScore).toEqual(100);
     expect(health.codeOfConductPresent).toBe(true);
   });

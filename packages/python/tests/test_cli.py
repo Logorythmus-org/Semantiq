@@ -19,7 +19,17 @@ def test_cli_info(capsys):
     assert exit_code == 0
     captured = capsys.readouterr()
     assert "SemantIQ Platform Python CLI" in captured.out
-    assert "1.0.0" in captured.out
+    assert "Release Version: 0.1.0a2" in captured.out
+    assert "Maturity: Public Alpha (Experimental)" in captured.out
+    assert "Schema Version: 1.0.0" in captured.out
+
+
+def test_cli_version(capsys):
+    with pytest.raises(SystemExit) as exc:
+        main(["--version"])
+    assert exc.value.code == 0
+    captured = capsys.readouterr()
+    assert "semantiq 0.1.0a2 (Public Alpha (Experimental)); schema 1.0.0" in captured.out
 
 
 def test_cli_evaluate(capsys):

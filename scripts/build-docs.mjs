@@ -293,7 +293,7 @@ function generateSiteHtml({ title, content, currentSectionId }) {
 <body>
   <aside class="sidebar">
     <div class="brand">
-      <h1>🔬 SemantIQ <span class="badge">v1.0.0</span></h1>
+      <h1>🔬 SemantIQ <span class="badge">Public Alpha 0.1.0-alpha.2</span></h1>
       <p style="font-size: 0.75rem; color: #8b949e; margin-top: 4px;">Behavioral Evidence Infrastructure</p>
     </div>
     <nav class="nav-menu">

@@ -106,11 +106,16 @@ from .fixtures import (
     mock_system_profile,
 )
 from .runner import LocalDeterministicRunner
+from .version import SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION
 
-__version__ = "0.1.0a2"
+__version__ = SEMANTIQ_RELEASE_VERSION
+__maturity__ = SEMANTIQ_MATURITY
 
 __all__ = [
     "__version__",
+    "__maturity__",
+    "SEMANTIQ_RELEASE_VERSION",
+    "SEMANTIQ_MATURITY",
     "PRODUCT_CONTRACTS_SCHEMA_VERSION",
     "EPISTEMIC_CAUSAL_DISCLAIMER",
     "EPISTEMIC_ROBUSTNESS_DISCLAIMER",

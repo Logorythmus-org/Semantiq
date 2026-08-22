@@ -53,6 +53,13 @@ def test_schema_version():
     assert PRODUCT_CONTRACTS_SCHEMA_VERSION == "1.0.0"
 
 
+def test_release_and_schema_versions_are_distinct():
+    client = SemantiqClient()
+    assert client.release_version == "0.1.0a2"
+    assert client.schema_version == "1.0.0"
+    assert client.version == client.schema_version
+
+
 def test_system_profile_fixture(canonical_fixtures):
     raw = canonical_fixtures["systemProfile"]
     profile = SystemProfile(

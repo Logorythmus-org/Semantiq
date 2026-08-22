@@ -31,6 +31,7 @@ from .contracts import (
 from .controlled_language import ControlledLanguageValidator
 from .errors import ControlledLanguageError, ReceiptVerificationError, ValidationError
 from .runner import LocalDeterministicRunner
+from .version import SEMANTIQ_RELEASE_VERSION
 
 
 class SemantiqClient:
@@ -52,7 +53,17 @@ class SemantiqClient:
 
     @property
     def version(self) -> str:
-        """Returns the canonical SemantIQ schema contract version."""
+        """Compatibility alias for the canonical schema contract version."""
+        return PRODUCT_CONTRACTS_SCHEMA_VERSION
+
+    @property
+    def release_version(self) -> str:
+        """Returns the Python distribution release version."""
+        return SEMANTIQ_RELEASE_VERSION
+
+    @property
+    def schema_version(self) -> str:
+        """Returns the canonical product-contract schema version."""
         return PRODUCT_CONTRACTS_SCHEMA_VERSION
 
     # ==========================================

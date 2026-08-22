@@ -1,3 +1,5 @@
+import { SEMANTIQ_RELEASE_VERSION } from "./version.js";
+
 export interface CommunityHealthMetrics {
   readonly version: string;
   readonly codeOfConductPresent: boolean;
@@ -8,7 +10,7 @@ export interface CommunityHealthMetrics {
 
 export function getCommunityHealthMetrics(): CommunityHealthMetrics {
   return {
-    version: "0.1.0-alpha.1",
+    version: SEMANTIQ_RELEASE_VERSION,
     codeOfConductPresent: true,
     issueTemplatesPresent: true,
     licenseType: "MIT",

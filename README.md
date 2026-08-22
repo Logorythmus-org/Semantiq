@@ -1,7 +1,7 @@
 # SemantIQ: Behavioral Evidence Infrastructure for AI Systems
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Version: 1.0.0](https://img.shields.io/badge/Version-1.0.0-green.svg)](CHANGELOG.md)
+[![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
 [![TypeScript SDK](https://img.shields.io/badge/TypeScript%20SDK-%40semantiq%2Fsdk-blue.svg)](Docs/TYPESCRIPT_SDK.md)
 [![Python SDK](https://img.shields.io/badge/Python%20SDK-semantiq-blue.svg)](Docs/PYTHON_USAGE.md)
 [![API: Headless HTTP](https://img.shields.io/badge/HTTP%20API-v1-orange.svg)](Docs/HTTP_API_REFERENCE.md)
@@ -10,6 +10,13 @@
 **SemantIQ is Behavioral Evidence Infrastructure for AI Systems.**
 
 SemantIQ transforms raw execution traces and benchmark logs into verifiable empirical observations, matched statistical contrasts, robustness evaluations, governed evidence claims, and cryptographically sealed research bundles for cross-organization replication.
+
+**Version model:** the current software identity is `0.1.0-alpha.2`, with
+**Public Alpha (Experimental)** maturity. The TypeScript SDK uses the same SemVer
+spelling and Python uses the PEP 440 equivalent `0.1.0a2`. Contract and payload
+schemas are independently versioned at `1.0.0`, while the HTTP route family is
+`/api/v1`. A schema, API, benchmark, or documentation `1.0.0` does not claim a
+stable SemantIQ software release. See [Versioning & Release Policy](Docs/VERSIONING_POLICY.md).
 
 ```
 ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
@@ -230,6 +237,9 @@ curl -X POST http://localhost:3000/api/v1/claims/draft \
     "runIds": ["run_1", "run_2"]
   }'
 ```
+
+The claim object's `version` above is its contract/schema version, not the
+SemantIQ software release version.
 
 For complete API documentation, see **[Docs/HTTP_API_REFERENCE.md](Docs/HTTP_API_REFERENCE.md)**.
 

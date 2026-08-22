@@ -428,7 +428,7 @@ export class LocalAlphaRuntime {
     this.profilePerformance();
     this.auditAccessibility();
     const validation = this.runReleaseValidation();
-    const release = this.createReleaseCandidate("0.1.0-alpha.1");
+    const release = this.createReleaseCandidate("0.1.0-alpha.2");
     this.emit("PublicAlphaReleased", "release-engineer", "public-alpha", {
       releaseCandidateId: release.id
     });
@@ -981,7 +981,7 @@ export class LocalAlphaRuntime {
       consentStatus: [...this.consents.values()],
       telemetryStatus: this.isEnabled("telemetryEnabled") ? "enabled-with-consent" : "disabled",
       featureFlags: this.getFeatureFlags(),
-      releaseVersion: "0.1.0-alpha.1",
+      releaseVersion: "0.1.0-alpha.2",
       knownLimitations: this.listKnownLimitations()
     };
   }

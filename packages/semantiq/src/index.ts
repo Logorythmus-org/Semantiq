@@ -1,4 +1,5 @@
 export type * from "./contracts.js";
+export * from "./version.js";
 export * from "./runtime.js";
 export * from "./identifiers.js";
 export * from "./citation.js";

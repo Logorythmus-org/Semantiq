@@ -1,6 +1,6 @@
 {
   "name": "tech-club",
-  "version": "0.1.0-alpha.1",
+  "version": "0.1.0-alpha.2",
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.7.0",
@@ -38,6 +38,7 @@
     "export": "tsx tools/automation/cli.mjs export",
     "semantiq": "tsx tools/automation/cli.mjs semantiq",
     "health": "node scripts/repository-health.mjs",
+    "version:audit": "node scripts/version-reference-audit.mjs",
     "config:check": "tsx scripts/config-check.mjs",
     "config:init": "tsx scripts/config-init.mjs",
     "graph": "node scripts/techclub.mjs graph",
