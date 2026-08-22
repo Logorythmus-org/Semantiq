@@ -7,6 +7,7 @@ import {
   SEMANTIQ_RELEASE_VERSION
 } from "../../packages/semantiq/src/version.js";
 import { SDK_MATURITY, SDK_VERSION } from "../../packages/sdk/src/version.js";
+import { classifyVersionReference } from "../../scripts/version-reference-audit.mjs";
 
 describe("SemantIQ version and maturity truth", () => {
   it("separates software, SDK, and schema versions", () => {
@@ -37,11 +38,45 @@ describe("SemantIQ version and maturity truth", () => {
     expect(changelog).not.toMatch(/^## \[1\.0\.0\]/m);
   });
 
-  it("classifies every 1.0.0 reference without stale public claims", () => {
+  it("classifies every target reference without stale public claims", () => {
     const output = execFileSync(process.execPath, ["scripts/version-reference-audit.mjs"], {
       encoding: "utf8"
     });
     expect(output).toContain("UNCLASSIFIED: 0");
     expect(output).toContain("STALE_OR_INCORRECT_PUBLIC_CLAIM: 0");
+  });
+
+  it("rejects ambiguous source, documentation, and public metadata references", () => {
+    const target = ["1", "0", "0"].join(".");
+
+    expect(
+      classifyVersionReference("packages/example/src/index.ts", `const VERSION = "${target}";`)
+    ).toBeNull();
+    expect(classifyVersionReference("Docs/active-guide.md", `Current version: ${target}`)).toBe(
+      "STALE_OR_INCORRECT_PUBLIC_CLAIM"
+    );
+    expect(
+      classifyVersionReference("public-metadata.json", `"unrecognizedPublicField": "${target}"`)
+    ).toBeNull();
+  });
+
+  it("retains narrow semantic allow-rules", () => {
+    const target = ["1", "0", "0"].join(".");
+
+    expect(
+      classifyVersionReference(
+        "schemas/product-contracts.schema.json",
+        `"schemaVersion": "${target}"`
+      )
+    ).toBe("API_SCHEMA_VERSION");
+    expect(classifyVersionReference("package.json", `"version": "${target}"`)).toBe(
+      "PACKAGE_VERSION"
+    );
+    expect(classifyVersionReference("Docs/sandbox/EXAMPLE_SPEC.md", `**Version**: ${target}`)).toBe(
+      "DOCUMENTATION_MILESTONE"
+    );
+    expect(
+      classifyVersionReference("release-candidates/example.json", `"version": "${target}"`)
+    ).toBe("HISTORICAL_RELEASE_RECORD");
   });
 });
