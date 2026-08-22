@@ -6,12 +6,13 @@
  * Completely decoupled from product UI, requiring zero external UI frameworks.
  */
 
-import { readdir, readFile, writeFile, mkdir, copyFile } from "node:fs/promises";
+import { readFile, writeFile, mkdir } from "node:fs/promises";
 import { existsSync } from "node:fs";
-import { join, dirname, relative, basename } from "node:path";
+import { join, posix } from "node:path";
 
 const DOCS_DIR = join(process.cwd(), "Docs");
 const OUTPUT_DIR = join(process.cwd(), "dist", "docs");
+const CANONICAL_REPOSITORY_URL = "https://github.com/Logorythmus-org/Semantiq";
 
 const SECTIONS = [
   {
@@ -43,7 +44,39 @@ function escapeHtml(str) {
     .replace(/'/g, "&#039;");
 }
 
-function markdownToHtml(md) {
+function splitLinkTarget(url) {
+  const hashIndex = url.indexOf("#");
+  if (hashIndex === -1) {
+    return { path: url, fragment: "" };
+  }
+  return { path: url.slice(0, hashIndex), fragment: url.slice(hashIndex) };
+}
+
+function publicLinkTarget(url, sourcePath, currentSectionId) {
+  if (/^(?:[a-z][a-z0-9+.-]*:|#|\/)/i.test(url)) {
+    return url;
+  }
+
+  const { path, fragment } = splitLinkTarget(url);
+  const repositoryPath = posix.normalize(posix.join(posix.dirname(sourcePath), path));
+  const depthPrefix = currentSectionId === "home" ? "" : "../";
+
+  if (repositoryPath === "Docs/DOCUMENTATION_INDEX.md") {
+    return `${depthPrefix}index.html${fragment}`;
+  }
+
+  const section = SECTIONS.find(({ path: sectionPath }) => {
+    return repositoryPath === posix.join("Docs", sectionPath);
+  });
+  if (section) {
+    return `${depthPrefix}${section.id}/index.html${fragment}`;
+  }
+
+  const targetKind = path === "." || path.endsWith("/") ? "tree" : "blob";
+  return `${CANONICAL_REPOSITORY_URL}/${targetKind}/main/${repositoryPath}${fragment}`;
+}
+
+function markdownToHtml(md, { sourcePath, currentSectionId }) {
   let html = md;
 
   // Code blocks
@@ -74,11 +107,7 @@ function markdownToHtml(md) {
 
   // Links
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, (match, text, url) => {
-    // Transform markdown links to relative html links where appropriate
-    let target = url;
-    if (target.endsWith(".md")) {
-      target = target.replace(/\.md$/, ".html");
-    }
+    const target = publicLinkTarget(url, sourcePath, currentSectionId);
     return `<a href="${target}">${text}</a>`;
   });
 
@@ -123,11 +152,16 @@ function markdownToHtml(md) {
 }
 
 function generateSiteHtml({ title, content, currentSectionId }) {
+  const depthPrefix = currentSectionId === "home" ? "" : "../";
+  const homeItem = `<li><a href="${depthPrefix}index.html" class="${
+    currentSectionId === "home" ? "active" : ""
+  }"><span class="nav-icon">🏠</span> Documentation Home</a></li>`;
   const navItems = SECTIONS.map((s) => {
     const active = s.id === currentSectionId ? "active" : "";
-    const href = s.id === "home" ? "index.html" : `${s.id}/index.html`;
+    const href = `${depthPrefix}${s.id}/index.html`;
     return `<li><a href="${href}" class="${active}"><span class="nav-icon">${s.icon}</span> ${escapeHtml(s.title)}</a></li>`;
-  }).join("\n");
+  });
+  navItems.unshift(homeItem);
 
   return `<!DOCTYPE html>
 <html lang="en">
@@ -135,7 +169,6 @@ function generateSiteHtml({ title, content, currentSectionId }) {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>${escapeHtml(title)} — SemantIQ Documentation</title>
-  <link rel="stylesheet" href="../style.css">
   <style>
     :root {
       --bg: #0d1117;
@@ -174,6 +207,7 @@ function generateSiteHtml({ title, content, currentSectionId }) {
       padding: 20px;
       border-bottom: 1px solid var(--border);
     }
+    .brand a { color: inherit; text-decoration: none; }
     .brand h1 {
       font-size: 1.2rem;
       color: var(--heading);
@@ -293,12 +327,12 @@ function generateSiteHtml({ title, content, currentSectionId }) {
 <body>
   <aside class="sidebar">
     <div class="brand">
-      <h1>🔬 SemantIQ <span class="badge">Public Alpha 0.1.0-alpha.2</span></h1>
+      <a href="${depthPrefix}index.html"><h1>🔬 SemantIQ <span class="badge">Public Alpha 0.1.0-alpha.2</span></h1></a>
       <p style="font-size: 0.75rem; color: #8b949e; margin-top: 4px;">Behavioral Evidence Infrastructure</p>
     </div>
     <nav class="nav-menu">
       <ul>
-        ${navItems}
+        ${navItems.join("\n")}
       </ul>
     </nav>
   </aside>
@@ -326,7 +360,10 @@ async function buildDocs() {
   const masterIndexPath = join(DOCS_DIR, "DOCUMENTATION_INDEX.md");
   if (existsSync(masterIndexPath)) {
     const rawMd = await readFile(masterIndexPath, "utf-8");
-    const htmlBody = markdownToHtml(rawMd);
+    const htmlBody = markdownToHtml(rawMd, {
+      sourcePath: "Docs/DOCUMENTATION_INDEX.md",
+      currentSectionId: "home"
+    });
     const fullHtml = generateSiteHtml({
       title: "Master Documentation Index",
       content: htmlBody,
@@ -344,7 +381,10 @@ async function buildDocs() {
     const secFilePath = join(DOCS_DIR, sec.path);
     if (existsSync(secFilePath)) {
       const rawMd = await readFile(secFilePath, "utf-8");
-      const htmlBody = markdownToHtml(rawMd);
+      const htmlBody = markdownToHtml(rawMd, {
+        sourcePath: posix.join("Docs", sec.path),
+        currentSectionId: sec.id
+      });
       const fullHtml = generateSiteHtml({
         title: sec.title,
         content: htmlBody,
