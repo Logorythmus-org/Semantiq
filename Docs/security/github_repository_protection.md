@@ -1,7 +1,7 @@
 # GitHub Repository Protection & Security Governance Baseline
 
 **Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Target Repository**: `https://github.com/Semant-iq/Semantiq`  
+**Target Repository**: `https://github.com/Logorythmus-org/Semantiq`
 **Audit Date**: 2026-08-18  
 
 ---

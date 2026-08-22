@@ -34,7 +34,7 @@ describe("Persistent Identifiers Strategy (Prompt 6.16)", () => {
       title: "SemantIQ Benchmarks Controlled Public Alpha Release Candidate",
       version: "0.1.0-alpha.1",
       createdAt: "2026-07-31T12:00:00Z",
-      repositoryUrl: "https://github.com/tech-club/tech-club",
+      repositoryUrl: "https://github.com/Logorythmus-org/Semantiq",
       gitCommit: "a1b2c3d4e5f67890123456789abcdef012345678",
       contentHash: "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       hashAlgorithm: "sha256",
