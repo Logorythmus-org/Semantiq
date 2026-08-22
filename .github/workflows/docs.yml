@@ -17,6 +17,8 @@ jobs:
           node-version: 22
       - name: Build Static Documentation Site
         run: node scripts/build-docs.mjs
+      - name: Validate Public Documentation Links & Identity
+        run: node scripts/validate-public-docs.mjs
       - name: Verify Generated Documentation Artifacts
         run: |
           test -f dist/docs/index.html
