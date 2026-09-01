@@ -1,29 +1,16 @@
-# Contributing
+# Contributing to SemantIQ
 
-Tech Club uses specification-driven development.
+The canonical contributor guide is [`CONTRIBUTING.md`](../CONTRIBUTING.md).
 
-## Workflow
-1. Goal
-2. Requirements
-3. Specification
-4. Architecture
-5. Repository analysis
-6. Compatibility review
-7. Implementation plan
-8. Implementation
-9. Validation
-10. Documentation
+Choose the **Fast contribution path** for bounded documentation, example, typo,
+link, small-test, reproduction, compatibility-report, or non-semantic fixes. These
+changes do not require a Spec-Kit record, backlog ID, RFC, or prior issue.
 
-No implementation should begin before the relevant specification exists.
+Choose the **Core change path** for architecture, benchmark semantics, scoring or
+evidence logic, scientific claims, governance, security-sensitive behavior,
+release-critical contracts, or breaking APIs. Core changes retain the applicable
+specification, RFC, compatibility, security, validation, and CODEOWNER requirements.
 
-## Standards
-- TypeScript strict mode.
-- pnpm.
-- ESLint and Prettier.
-- Conventional Commits.
-- Vitest for unit and contract tests.
-- Playwright for end-to-end tests.
-- Changesets for versioning.
-
-## Commits
-Use Conventional Commits, for example `feat(core): add module contract` or `docs(architecture): record storage boundary`.
+Both paths use a fork and focused branch, relevant local tests, the pull request
+template, protected-branch CI, and maintainer review. See the canonical guide for the
+exact newcomer workflow and validation commands.

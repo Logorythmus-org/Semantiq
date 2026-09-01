@@ -29,6 +29,7 @@ Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation pla
 - 💻 **[CLI Usage Reference](CLI_USAGE.md)**: `doctor` • `patterns` • `evidence` • `claims` • `reviews` • `studies` • `bundles` • `serve`
 
 ### 🛠️ 2. For Developers & System Integrators
+- 🤝 **[Contributor Guide](../CONTRIBUTING.md)**: Choose the Fast contribution path for bounded low-risk work or the Core change path for semantic, scientific, security, architecture, governance, and release-critical changes
 - 📐 **[System Architecture](architecture/README.md)**: [Architecture Specification](ARCHITECTURE.md) • [Package Boundaries](BOUNDED_CONTEXTS.md) • [Dual-Language SDK Strategy](architecture/dual-language-sdk-strategy.md) • [Core Domain Model](DOMAIN_MODEL.md)
 - 🐍 **[Python SDK Guide (`semantiq`)](PYTHON_USAGE.md)**: Python dataclasses, controlled language validation, and study protocols
 - 📘 **[TypeScript SDK Guide (`@semantiq/sdk`)](TYPESCRIPT_SDK.md)**: Zero-UI client, contract fixtures, and Bootstrap CI evaluation

@@ -1,0 +1,55 @@
+name: Reproduction or Compatibility Report
+description: Report a reproducible defect or bounded integration compatibility problem without preparing a specification first.
+title: "[Reproduction]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this Fast-path report for reproducible defects and integration compatibility observations. Do not include credentials, private data, or proprietary inputs.
+  - type: dropdown
+    id: report_type
+    attributes:
+      label: Report type
+      options:
+        - Reproducible defect
+        - Integration or connector compatibility
+        - Documentation or example mismatch
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: Include SemantIQ commit/version, operating system, runtime versions, and relevant local integration versions.
+      placeholder: "SemantIQ commit: ...; OS: ...; Node/Python: ...; integration: ..."
+    validations:
+      required: true
+  - type: textarea
+    id: reproduction
+    attributes:
+      label: Minimal reproduction
+      description: Provide the smallest commands, fixture, or repository link needed to reproduce the behavior.
+    validations:
+      required: true
+  - type: textarea
+    id: observed
+    attributes:
+      label: Observed behavior
+      description: State what happened and include sanitized logs when useful.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      description: State what you expected and why.
+    validations:
+      required: true
+  - type: checkboxes
+    id: safety
+    attributes:
+      label: Safety check
+      options:
+        - label: I removed credentials, private data, and proprietary inputs from this report.
+          required: true

@@ -320,6 +320,7 @@ pnpm verify
 - 🌐 **[Headless HTTP API Reference](Docs/HTTP_API_REFERENCE.md)**: REST API endpoint reference.
 - 🛡️ **[Scientific Guardrails & Epistemic Invariants](Docs/SCIENTIFIC_GUARDRAILS.md)**: Formal guardrails specification.
 - 📚 **[Documentation Index](Docs/DOCUMENTATION_INDEX.md)**: Master documentation index.
+- 🤝 **[Contributing](CONTRIBUTING.md)**: Choose the fast path for bounded work or the rigorous core-change path for semantic, scientific, security, and governance changes.
 
 ---
 
