@@ -59,7 +59,11 @@ describe("Prompt 7.7 — External Benchmark Ecosystem Verification", () => {
     expect(existsSync("Docs/ECOSYSTEM_INTEGRATION_REPORT.md")).toBe(true);
 
     const jsonStr = readFileSync("examples/ecosystem/external-benchmark-pack.json", "utf-8");
-    const json = JSON.parse(jsonStr) as { id: string };
+    const json = JSON.parse(jsonStr) as ExternalBenchmarkPack;
     expect(json.id).toEqual("external-reasoning-pack");
+
+    const result = validateExternalBenchmarkPack(json);
+    expect(result.valid).toBe(true);
+    expect(result.errors).toEqual([]);
   });
 });
