@@ -32,6 +32,7 @@
     "benchmark": "node scripts/techclub.mjs benchmark",
     "benchmark:question-discovery": "node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs scripts/question-discovery-performance.ts",
     "doctor": "tsx tools/automation/cli.mjs doctor",
+    "first-result": "tsx tools/automation/first-result.ts",
     "preflight": "tsx tools/automation/cli.mjs preflight",
     "connector": "tsx tools/automation/cli.mjs connector",
     "smoke": "tsx tools/automation/cli.mjs smoke",

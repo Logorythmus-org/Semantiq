@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { FirstRunDoctor } from "../../packages/diagnostics/src/index.ts";
-import { LocalSemantiqEngine } from "../../packages/semantiq/src/index.ts";
 import { LocalAlphaRuntime } from "../../packages/alpha-runtime/src/index.ts";
+import { evaluateLocalScaffold } from "./first-result.ts";
 
 const command = process.argv[2] ?? "help";
 const args = process.argv.slice(3);
@@ -10,7 +10,6 @@ const goal =
   args.filter((a) => !a.startsWith("--")).join(" ") || "Improve Tech Club engineering pipeline";
 
 const doctor = new FirstRunDoctor();
-const semantiq = new LocalSemantiqEngine();
 const alpha = new LocalAlphaRuntime();
 
 if (command === "doctor") {
@@ -81,23 +80,7 @@ if (command === "preflight") {
 
 if (command === "smoke") {
   console.log("Executing canonical local smoke test...");
-  const subject = {
-    id: "smoke_subject_001",
-    kind: "question",
-    version: "1.0.0",
-    title: "How does explainable scoring ensure reproducibility?",
-    content: "Explainable scoring relies on deterministic weights and clear evidence citations.",
-    contextIds: [],
-    evidenceIds: ["ev_001"]
-  };
-  const profile = {
-    id: "profile_smoke",
-    version: "1.0.0",
-    name: "Smoke Profile",
-    weights: { "question-quality": 1.0, "reasoning-quality": 1.0 }
-  };
-  semantiq
-    .evaluate(subject, profile)
+  evaluateLocalScaffold()
     .then((report) => {
       if (isJson) {
         console.log(JSON.stringify(report, null, 2));
