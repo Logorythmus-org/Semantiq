@@ -36,6 +36,12 @@ See the [Public Alpha limitations](PHASE_12_PUBLIC_LIMITATIONS.md) and
 [Scientific Guardrails](Docs/SCIENTIFIC_GUARDRAILS.md) for the detailed evidence
 and claim boundaries.
 
+Independent third parties can follow the
+[replication guide](Docs/REPRODUCTION_WALKTHROUGH.md) and submit an
+[Independent Replication Report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=independent_replication_report.yml).
+A submitted or successful reproduction attempt is not verified external replication until its
+provenance and independence are reviewed and explicitly accepted.
+
 ```
 ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
 │    BENCHMARK ENGINE     │ ──► │     EVIDENCE ENGINE     │ ──► │   RESEARCH WORKBENCH    │

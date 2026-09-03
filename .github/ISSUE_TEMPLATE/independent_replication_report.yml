@@ -1,0 +1,152 @@
+name: Independent Replication Report
+description: Submit a third-party reproduction attempt for provenance and outcome review.
+title: "[Replication]: "
+labels: []
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use this form only for a run performed outside SemantIQ owner-controlled infrastructure. A submission, including a successful one, is an external reproduction attempt until maintainers complete the documented provenance and independence review. Do not include secrets, proprietary prompts, private datasets, or personal data.
+
+  - type: dropdown
+    id: reproduction_status
+    attributes:
+      label: Reproduction outcome
+      description: Select the outcome actually observed; divergent, partial, and blocked results are welcome.
+      options:
+        - SUCCESSFUL_REPRODUCTION
+        - PARTIAL_REPRODUCTION
+        - DIVERGENT_RESULT
+        - BLOCKED_REPRODUCTION
+    validations:
+      required: true
+
+  - type: input
+    id: target_revision
+    attributes:
+      label: Exact SemantIQ revision
+      description: Provide the full commit SHA and release tag, if a tag was used.
+      placeholder: "Commit SHA: ...; release tag: none"
+    validations:
+      required: true
+
+  - type: input
+    id: version_identity
+    attributes:
+      label: Software and schema versions
+      description: Record the SemantIQ software release version separately from the product-contract schema version.
+      placeholder: "Software: 0.1.0-alpha.2; schema: 1.0.0"
+    validations:
+      required: true
+
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment and isolation
+      description: Include OS, architecture, isolation method, timestamp with time zone, Node, pnpm, and Python when applicable.
+      placeholder: |
+        OS/architecture:
+        Isolation and administrator:
+        Timestamp/time zone:
+        Node:
+        pnpm:
+        Python or not applicable:
+    validations:
+      required: true
+
+  - type: textarea
+    id: runtime_configuration
+    attributes:
+      label: Runtime, provider, and model configuration
+      description: Record adapter/runtime versions, network conditions, and external services. If a model is involved, include provider, exact model version, prompt-set identifier or hash, temperature, and seed. Use “not applicable” where appropriate; do not paste proprietary prompts.
+      placeholder: |
+        Adapter/runtime:
+        Network/external services:
+        Provider/model/version:
+        System prompt or prompt-set identifier/hash:
+        Temperature/seed/configuration:
+    validations:
+      required: true
+
+  - type: dropdown
+    id: input_classification
+    attributes:
+      label: Input classification
+      options:
+        - synthetic
+        - public
+        - private-redacted
+        - other-explained-in-report
+    validations:
+      required: true
+
+  - type: textarea
+    id: command_transcript
+    attributes:
+      label: Sanitized command transcript
+      description: Include the exact source-checkout, installation, health, and execution commands with exit codes.
+      render: shell
+    validations:
+      required: true
+
+  - type: textarea
+    id: artifact
+    attributes:
+      label: Result artifact
+      description: Attach artifacts/first-result/semantiq-result.json or provide a stable public retrieval link. Do not upload confidential material.
+      placeholder: "Attachment or public URL, plus any access limitations"
+    validations:
+      required: true
+
+  - type: textarea
+    id: checksums
+    attributes:
+      label: Artifact checksums
+      description: Provide SHA-256 for the submitted artifact and the second-run artifact when byte determinism was tested.
+      placeholder: |
+        First run SHA-256:
+        Second run SHA-256 or not tested:
+      render: text
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected_observed
+    attributes:
+      label: Expected result, observed result, and divergences
+      description: Describe what matched, what differed, the first material divergence, retries, and any blocked or omitted step.
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant sanitized logs
+      description: Include only logs needed to review the result. Remove credentials, private paths, personal data, and proprietary content.
+      render: text
+    validations:
+      required: false
+
+  - type: checkboxes
+    id: independence
+    attributes:
+      label: Independence declaration
+      options:
+        - label: I am not submitting from a SemantIQ owner account on behalf of the project.
+          required: true
+        - label: This run occurred outside project-controlled CI and owner-controlled clean-room infrastructure.
+          required: true
+        - label: This is not a bot rerun or the same project environment presented as external.
+          required: true
+
+  - type: checkboxes
+    id: submission_attestation
+    attributes:
+      label: Submission attestation
+      options:
+        - label: I recorded all material deviations, including partial, divergent, or blocked steps.
+          required: true
+        - label: I removed credentials, private data, proprietary prompts, and private datasets from this report.
+          required: true
+        - label: I understand that submission and SUCCESSFUL_REPRODUCTION do not automatically mean VERIFIED_EXTERNAL_REPLICATION.
+          required: true
