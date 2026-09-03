@@ -2,102 +2,68 @@
 
 Welcome to **SemantIQ**, Behavioral Evidence Infrastructure for AI Systems.
 
-This guide walks you through setting up SemantIQ and running your first evidence workflows using the CLI, TypeScript SDK, and Python API.
+This source-checkout path produces one deterministic local result without relying on an npm or
+PyPI publication.
 
----
+## 1. Install from source
 
-## 1. Setup & Installation
-
-Clone the repository and install dependencies:
+Clone the repository and install its locked dependencies:
 
 ```bash
 git clone https://github.com/Logorythmus-org/Semantiq.git
 cd Semantiq
-pnpm install
-pnpm build
+pnpm install --frozen-lockfile
 ```
 
-Verify your environment with the doctor tool:
+Setup and download time depends on the network and checkout size. It is separate from the
+time-to-first-result after dependencies are available; this guide does not promise a five-minute
+wall-clock setup.
+
+You can check the local environment independently:
+
 ```bash
 pnpm doctor
 ```
 
----
+## 2. Generate your first result
 
-## 2. Fast CLI Workflow
-
-Validate claim statements and discover registered failure modes:
+Run the canonical source-checkout command:
 
 ```bash
-# Validate claim statement phrasing
-node tools/automation/cli.mjs claims validate "DP-008 is associated with reduced FP-002 context drift."
-
-# Inspect pattern catalog
-node tools/automation/cli.mjs patterns list
-
-# Inspect evidence graph
-node tools/automation/cli.mjs evidence graph
+pnpm first-result
 ```
 
----
+On success, the command prints the generated path and writes:
 
-## 3. TypeScript SDK Quick Start
+`artifacts/first-result/semantiq-result.json`
 
-```typescript
-import { SemantiqClient } from "@semantiq/sdk";
+The generated `artifacts/` directory is ignored by Git and remains local to the checkout.
 
-const client = new SemantiqClient({ isOfflineDeterministic: true });
+## 3. How to interpret your first result
 
-// Validate language
-const validation = client.validateClaimLanguage(
-  "DP-008 out-of-band observer is associated with reduced FP-002 drift."
-);
-console.log("Valid Language:", validation.isValid);
+The JSON file contains:
 
-// Propose governed claim
-const claim = client.draftClaim({
-  topic: "anti_gaming_drift_mitigation",
-  targetPatternOrRelationId: "rel_08",
-  statement: "DP-008 out-of-band observer is associated with reduced FP-002 drift.",
-  version: "1.0.0",
-  runIds: ["run_1", "run_2"]
-});
-console.log("Drafted Claim ID:", claim.id);
-```
+- the SemantIQ release version, Public Alpha maturity, and compatible product-contract schema
+  version;
+- deterministic run metadata and the existing local scaffold result;
+- an evidence classification of `internal`, `synthetic`, and
+  `not-independent-replication`;
+- explicit limitations that travel with the result.
 
----
+This demonstrates that the checked-out source can execute the deterministic local SemantIQ
+scaffold and persist a parseable result. It does **not** demonstrate external replication,
+benchmark validation, scientific validation, certification, adoption, production evidence, or
+production usage. Production scoring logic is not implemented in this scaffold.
 
-## 4. Python API Quick Start
+The artifact omits the runtime-generated report ID and timestamp so repeated runs with the same
+source and fixture produce identical JSON bytes. No network access or external evidence is used by
+the first-result command.
 
-```python
-from semantiq import SemantiqClient, validate_claim_language
+## 4. Continue exploring
 
-# Validate language
-validation = validate_claim_language(
-    "DP-008 out-of-band observer is associated with reduced FP-002 drift."
-)
-print("Valid Language:", validation["is_valid"])
-
-# Propose claim
-client = SemantiqClient(is_offline_deterministic=True)
-claim = client.draft_claim(
-    topic="anti_gaming_drift_mitigation",
-    target_pattern_id="rel_08",
-    statement=validation["sanitized_statement"],
-    run_ids=["run_1", "run_2"],
-)
-print("Drafted Claim ID:", claim.id)
-```
-
----
-
-## 5. Starting the Headless HTTP API Server
-
-```bash
-node packages/semantiq/dist/cli/index.js serve --port 3000
-```
-
-Verify server status:
-```bash
-curl http://localhost:3000/health
-```
+- Review the [version and release policy](VERSIONING_POLICY.md) before interpreting software and
+  schema versions.
+- Read the [Public Alpha evidence boundary](../README.md#evidence-status) before making claims from
+  repository-controlled results.
+- Use the [documentation index](DOCUMENTATION_INDEX.md) to find SDK, API, benchmark, and evidence
+  references. Those references are not package-publication claims.
