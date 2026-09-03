@@ -35,7 +35,7 @@ body:
     attributes:
       label: Software and schema versions
       description: Record the SemantIQ software release version separately from the product-contract schema version.
-      placeholder: "Software: 0.1.0-alpha.2; schema: 1.0.0"
+      placeholder: "Software: <software-version>; schema: <schema-version>"
     validations:
       required: true
 
