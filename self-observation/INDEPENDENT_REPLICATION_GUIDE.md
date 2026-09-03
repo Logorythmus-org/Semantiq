@@ -1,13 +1,22 @@
-# Independent Replication Guide
+# Owner-Controlled Clean-Room Verification Guide
 
-**Version**: 1.1.0  
+**Version**: 1.1.0
+
 **Date**: 2026-08-07
+
+**Status**: `HISTORICAL / INTERNAL`
+
+This self-observation guide records the repository's owner-controlled clean-room procedure. It is
+not the public independent-replication submission path and cannot establish external replication.
+Third parties should use the current
+[Independent Replication Guide](../Docs/REPRODUCTION_WALKTHROUGH.md).
 
 ---
 
 ## 1. Objective
 
-This guide provides deterministic, step-by-step instructions for any external or internal developer to reproduce the SemantIQ build, validation, and benchmark test results in a clean-room environment from documented sources alone.
+This guide provides deterministic steps for the project's internal clean-room verification of the
+SemantIQ build, validation, and benchmark test results.
 
 ---
 
@@ -69,6 +78,11 @@ Execute the following verification steps in sequence:
 
 ---
 
-## 5. Logging Replication Results
+## 5. Logging Internal Results
 
-External and internal replicators should record execution results in a JSON record matching `schemas/clean-room-replication-record.schema.json` with `reproducibilityStatus` set to `internal_clean_room_reproduction` or `external_independent_reproduction`.
+Record this owner-controlled execution against
+`schemas/clean-room-replication-record.schema.json` with `reproducibilityStatus` set to
+`internal_clean_room_reproduction`. The historical schema also contains an
+`external_independent_reproduction` enum value, but a submitter-selected value cannot grant
+independent status. External attempts require the public guide, structured submission, and
+maintainer provenance review.
