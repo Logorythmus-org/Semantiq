@@ -42,6 +42,9 @@ Independent third parties can follow the
 A submitted or successful reproduction attempt is not verified external replication until its
 provenance and independence are reviewed and explicitly accepted.
 
+See the [Integration Graph](Docs/ecosystem/INTEGRATION_GRAPH.md) for evidence-backed runtime,
+storage, execution, exchange, and experimental ecosystem relationships.
+
 ```
 ┌─────────────────────────┐     ┌─────────────────────────┐     ┌─────────────────────────┐
 │    BENCHMARK ENGINE     │ ──► │     EVIDENCE ENGINE     │ ──► │   RESEARCH WORKBENCH    │

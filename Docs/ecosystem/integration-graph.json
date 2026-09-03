@@ -1,0 +1,219 @@
+{
+  "graphVersion": "0.1",
+  "generatedFrom": {
+    "repository": "https://github.com/Logorythmus-org/Semantiq",
+    "revision": "302927cfd071285bbbe38961a08a0c58d77aa923"
+  },
+  "evidenceBoundary": {
+    "purpose": "Repository-evidence map of SemantIQ runtime, storage, execution, API, SDK, exchange, and validation relationships.",
+    "notA": [
+      "partnership map",
+      "endorsement map",
+      "adoption map",
+      "certification map",
+      "proof of production use",
+      "proof of external scientific validation"
+    ],
+    "externalReplicationStatus": "NOT_YET_VERIFIED",
+    "packagePublicationStatus": "UNPUBLISHED"
+  },
+  "statusDefinitions": {
+    "VERIFIED_IMPLEMENTATION": "Working implementation exists and repository tests meaningfully exercise the represented behavior.",
+    "IMPLEMENTED_PARTIAL": "Implementation exists, but important runtime, conformance, or external evidence is missing.",
+    "CONTRACT_ONLY": "Schemas or interfaces exist without demonstrated operational integration.",
+    "SIMULATED": "Behavior is intentionally simulated instead of executed against the external system.",
+    "DOCS_ONLY": "Documentation describes the relationship without corresponding implementation evidence.",
+    "SCAFFOLD": "Configuration, topology, or descriptors exist primarily for future implementation.",
+    "HISTORICAL": "The relationship is retained as history, legacy identity, or migration debt."
+  },
+  "confidenceDefinitions": {
+    "HIGH": "Implementation, tests, and current documentation or CI provide strong repository evidence.",
+    "MEDIUM": "Implementation or tests exist, but runtime or conformance coverage is incomplete.",
+    "LOW": "Evidence is documentation, configuration, simulation, ambiguity, or historical record only."
+  },
+  "nodes": [
+    { "id": "semantiq", "label": "SemantIQ", "kind": "system", "layer": "central" },
+    { "id": "nodejs", "label": "Node.js 22", "kind": "runtime", "layer": "primary" },
+    { "id": "typescript-sdk", "label": "SemantIQ TypeScript SDK", "kind": "sdk", "layer": "primary" },
+    { "id": "python-sdk", "label": "SemantIQ Python SDK", "kind": "sdk", "layer": "primary" },
+    { "id": "postgresql", "label": "PostgreSQL 16", "kind": "storage", "layer": "primary" },
+    { "id": "docker-engine", "label": "Docker Engine", "kind": "execution-runtime", "layer": "primary" },
+    { "id": "oci-contract", "label": "OCI Environment Contract", "kind": "contract", "layer": "primary" },
+    { "id": "replay-adapter", "label": "Deterministic Replay Adapter", "kind": "reproduction-runtime", "layer": "primary" },
+    { "id": "http-rest", "label": "HTTP/REST API", "kind": "api", "layer": "primary" },
+    { "id": "json-schema", "label": "JSON Schema Draft 2020-12", "kind": "format", "layer": "primary" },
+    { "id": "evidence-package", "label": "Canonical JSON / SHA-256 Evidence Package", "kind": "exchange-format", "layer": "primary" },
+    { "id": "research-bundle", "label": "ResearchBundle / Partner Exchange", "kind": "exchange-interface", "layer": "primary" },
+    { "id": "replication-interface", "label": "Independent Replication Report", "kind": "validation-interface", "layer": "primary" },
+    { "id": "benchmark-exchange", "label": "External Benchmark Pack Format", "kind": "exchange-format", "layer": "primary" },
+    { "id": "mcp", "label": "Model Context Protocol", "kind": "provider-contract", "layer": "primary" },
+    { "id": "hugging-face", "label": "Hugging Face Dataset Format", "kind": "export-format", "layer": "primary" },
+    { "id": "kaggle", "label": "Kaggle Dataset Format", "kind": "export-format", "layer": "primary" },
+    { "id": "research-metadata", "label": "CFF / CodeMeta / DataCite", "kind": "research-metadata", "layer": "primary" },
+    { "id": "pnpm", "label": "pnpm", "kind": "development-infrastructure", "layer": "supporting" },
+    { "id": "node-postgres", "label": "node-postgres (pg)", "kind": "dependency", "layer": "supporting" },
+    { "id": "github-actions", "label": "GitHub Actions", "kind": "development-infrastructure", "layer": "supporting" },
+    { "id": "js-toolchain", "label": "JS Quality and Release Toolchain", "kind": "development-infrastructure", "layer": "supporting" },
+    { "id": "opensandbox", "label": "OpenSandbox", "kind": "execution-provider", "layer": "evidence-gap" },
+    { "id": "browser-gui", "label": "Browser / GUI Provider", "kind": "provider-contract", "layer": "evidence-gap" },
+    { "id": "podman", "label": "Podman", "kind": "execution-runtime", "layer": "evidence-gap" },
+    { "id": "e2b", "label": "E2B", "kind": "execution-provider", "layer": "evidence-gap" },
+    { "id": "openai", "label": "OpenAI API", "kind": "model-provider", "layer": "evidence-gap" },
+    { "id": "anthropic", "label": "Anthropic API", "kind": "model-provider", "layer": "evidence-gap" },
+    { "id": "google-genai", "label": "Google GenAI", "kind": "model-provider", "layer": "evidence-gap" },
+    { "id": "ollama", "label": "Ollama", "kind": "model-runtime", "layer": "evidence-gap" },
+    { "id": "redis", "label": "Redis", "kind": "storage", "layer": "evidence-gap" },
+    { "id": "neo4j", "label": "Neo4j", "kind": "storage", "layer": "evidence-gap" },
+    { "id": "minio", "label": "MinIO", "kind": "storage", "layer": "evidence-gap" },
+    { "id": "opentelemetry", "label": "OpenTelemetry", "kind": "observability", "layer": "evidence-gap" },
+    { "id": "prometheus", "label": "Prometheus", "kind": "observability", "layer": "evidence-gap" },
+    { "id": "grafana", "label": "Grafana", "kind": "observability", "layer": "evidence-gap" },
+    { "id": "mailhog", "label": "MailHog", "kind": "development-service", "layer": "evidence-gap" },
+    { "id": "npm", "label": "npm Registry", "kind": "package-registry", "layer": "evidence-gap" },
+    { "id": "pypi", "label": "PyPI", "kind": "package-registry", "layer": "evidence-gap" },
+    { "id": "zenodo", "label": "Zenodo", "kind": "research-archive", "layer": "evidence-gap" },
+    { "id": "github-pages", "label": "GitHub Pages Deployment", "kind": "documentation-host", "layer": "evidence-gap" },
+    { "id": "tech-club-root", "label": "tech-club / techclub", "kind": "legacy-identity", "layer": "historical" },
+    { "id": "tech-club-packages", "label": "@tech-club/*", "kind": "legacy-namespace", "layer": "historical" },
+    { "id": "techclub-kaggle", "label": "techclub/* Kaggle IDs", "kind": "legacy-namespace", "layer": "historical" },
+    { "id": "semant-iq", "label": "Semant-iq Repository Identity", "kind": "historical-identity", "layer": "historical" },
+    { "id": "publication-reports", "label": "Historical Publication Verification Reports", "kind": "historical-record", "layer": "historical" }
+  ],
+  "edges": [
+    {
+      "source": "semantiq", "target": "nodejs", "relation": "runs-on", "domain": "Runtime", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "runtime and development", "implementationEvidence": ["package.json", "Dockerfile", "services/api/src/server.ts"], "testEvidence": [".github/workflows/ci.yml", "tests/unit/first-result-path.test.ts"], "documentationEvidence": ["Docs/INSTALLATION_MATRIX.md", "Docs/QUICK_START.md"], "missingEvidence": ["cross-OS required CI matrix"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Report a minimized runtime compatibility defect only if one is reproduced.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Current required CI executes Node 22 on Linux."
+    },
+    {
+      "source": "semantiq", "target": "typescript-sdk", "relation": "provides-sdk-for", "domain": "SDK / API", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "source-checkout SDK", "implementationEvidence": ["packages/sdk/src/client.ts", "packages/sdk/src/contracts.ts", "packages/sdk/package.json"], "testEvidence": ["tests/unit/typescript-sdk.test.ts", "tests/unit/sdk-compatibility.test.ts"], "documentationEvidence": ["packages/sdk/README.md", "Docs/TYPESCRIPT_SDK.md"], "missingEvidence": ["published-package consumer validation"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Add a clean external-consumer installation and contract-parity harness.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "The package is source-checkout only and is not published to npm."
+    },
+    {
+      "source": "semantiq", "target": "python-sdk", "relation": "provides-sdk-for", "domain": "SDK / API", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "Python 3.10-3.12 source-checkout SDK", "implementationEvidence": ["packages/python/src/semantiq/client.py", "packages/python/src/semantiq/cli.py", "packages/python/pyproject.toml"], "testEvidence": ["packages/python/tests/test_client_workflows.py", "packages/python/tests/test_contracts.py", ".github/workflows/ci.yml"], "documentationEvidence": ["packages/python/README.md", "Docs/PYTHON_USAGE.md"], "missingEvidence": ["published-wheel consumer validation"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Add built-wheel console-script and clean consumer smoke tests.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "The package is source-checkout only and is not published to PyPI."
+    },
+    {
+      "source": "semantiq", "target": "postgresql", "relation": "stores-in", "domain": "Storage", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "DEEP", "confidence": "HIGH", "scope": "optional persistent Question runtime", "implementationEvidence": ["packages/persistence/src/client.ts", "packages/persistence/src/migrations.ts", "packages/persistence/src/questions.ts", "services/api/src/docker-server.ts"], "testEvidence": ["tests/integration/postgres-real.test.ts", "tests/integration/question-runtime-full-postgres.test.ts", "tests/api/question-postgres-api.test.ts"], "documentationEvidence": ["Docs/adr/ADR-0005-primary-database.md", "Docs/backend/question-runtime-architecture.md"], "missingEvidence": ["live PostgreSQL is not provisioned as a required main-CI service"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish minimized concurrency, JSONB, and pg_trgm compatibility fixtures after a real defect is found.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Real opt-in suites exist but may skip without REAL_POSTGRES_TEST."
+    },
+    {
+      "source": "semantiq", "target": "docker-engine", "relation": "executes-through", "domain": "Execution", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "HIGH", "scope": "optional local container execution", "implementationEvidence": ["packages/adapter-oci/src/docker-client.ts", "packages/adapter-oci/src/oci-adapter.ts", "Dockerfile", "docker-compose.yml"], "testEvidence": ["tests/unit/sandbox-adapters.test.ts", "tests/smoke/repository-health.test.ts"], "documentationEvidence": ["Docs/DOCKER_SETUP.md", "Docs/backend/phase-a-local-runbook.md"], "missingEvidence": ["live daemon create-exec-terminate lifecycle test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Create a live-daemon lifecycle and hardening conformance fixture.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Stream framing and Compose syntax are tested; daemon behavior is not a required gate."
+    },
+    {
+      "source": "semantiq", "target": "oci-contract", "relation": "validates-with", "domain": "Execution", "implementationStatus": "CONTRACT_ONLY", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "provider-neutral execution contract", "implementationEvidence": ["packages/sandbox-contracts/src/execution-api.ts", "packages/sandbox-contracts/src/schemas.ts"], "testEvidence": ["tests/contracts/sandbox-contracts.test.ts"], "documentationEvidence": ["Docs/sandbox/EXECUTION_API_SPEC.md"], "missingEvidence": ["cross-engine OCI conformance suite"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish portable conformance fixtures across container engines.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "The operational adapter is currently Docker-specific."
+    },
+    {
+      "source": "semantiq", "target": "replay-adapter", "relation": "reproduces-with", "domain": "Reproduction & Validation", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "internal deterministic runtime", "implementationEvidence": ["packages/adapter-replay/src/replay-adapter.ts", "packages/adapter-replay/src/replay-instance.ts"], "testEvidence": ["tests/unit/sandbox-adapters.test.ts"], "documentationEvidence": ["Docs/REPRODUCTION_WALKTHROUGH.md"], "missingEvidence": ["independent consumer conformance case"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish neutral replay traces and conformance expectations.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Internal reproducibility capability is not external replication."
+    },
+    {
+      "source": "semantiq", "target": "http-rest", "relation": "exposes", "domain": "SDK / API", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "local headless API", "implementationEvidence": ["services/api/src/server.ts", "packages/semantiq/src/http/server.ts", "packages/semantiq/src/http/router.ts"], "testEvidence": ["tests/api/semantiq-http-api.test.ts", "tests/api/api-foundation.test.ts"], "documentationEvidence": ["Docs/HTTP_API_REFERENCE.md", "Docs/backend/semantiq-api-catalog.md"], "missingEvidence": ["external client conformance fixture"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Provide a stable machine-readable API contract and language-neutral conformance tests.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "This is a real local API, not a hosted service."
+    },
+    {
+      "source": "semantiq", "target": "json-schema", "relation": "serializes-as", "domain": "Contracts & Schemas", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "product and evidence contracts", "implementationEvidence": ["schemas/product-contracts.schema.json", "packages/sandbox-contracts/src/schemas.ts", "packages/core/src/schemas/contracts.ts"], "testEvidence": ["tests/contracts/sandbox-contracts.test.ts", "tests/unit/sdk-compatibility.test.ts", "packages/python/tests/test_contracts.py"], "documentationEvidence": ["Docs/architecture/dual-language-sdk-strategy.md"], "missingEvidence": ["independent validator conformance"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish cross-language schema conformance vectors.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Schema version 1.0.0 is distinct from the software release version."
+    },
+    {
+      "source": "semantiq", "target": "evidence-package", "relation": "serializes-as", "domain": "Evidence & Research Exchange", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "portable evidence integrity", "implementationEvidence": ["packages/sandbox-contracts/src/evidence-package.ts", "packages/sandbox-contracts/src/crypto-utils.ts"], "testEvidence": ["tests/unit/evidence-package.test.ts", "tests/unit/evidence-provenance.test.ts"], "documentationEvidence": ["Docs/evidence/README.md", "Docs/sandbox/EVIDENCE_PROVENANCE_SPEC.md"], "missingEvidence": ["independent cross-language verifier"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish canonical byte and SHA-256 test vectors.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Integrity and provenance do not prove truth."
+    },
+    {
+      "source": "semantiq", "target": "research-bundle", "relation": "exchanges-evidence-through", "domain": "Evidence & Research Exchange", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "research artifact exchange", "implementationEvidence": ["packages/evidence/src/research-bundles/bundle-builder.ts", "packages/evidence/src/research-bundles/bundle-verifier.ts", "packages/evidence/src/partner-exchange/replication-registry.ts"], "testEvidence": ["tests/unit/reproducible-research-bundles.test.ts", "tests/unit/partner-replication-exchange.test.ts"], "documentationEvidence": ["packages/evidence/README.md", "Docs/partners/README.md"], "missingEvidence": ["third-party bundle consumption"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Publish stable bundle fixtures and an independent verifier.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "No partnership or external adoption is implied."
+    },
+    {
+      "source": "semantiq", "target": "replication-interface", "relation": "exchanges-evidence-through", "domain": "Reproduction & Validation", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "GitHub issue submission and review", "implementationEvidence": [".github/ISSUE_TEMPLATE/independent_replication_report.yml"], "testEvidence": ["tests/unit/independent-replication-surface.test.ts"], "documentationEvidence": ["Docs/REPRODUCTION_WALKTHROUGH.md", "README.md"], "missingEvidence": ["genuine independent submission and maintainer acceptance"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Collect real usability evidence before proposing issue-form improvements.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Submission or SUCCESSFUL_REPRODUCTION is not VERIFIED_EXTERNAL_REPLICATION."
+    },
+    {
+      "source": "semantiq", "target": "benchmark-exchange", "relation": "imports-from", "domain": "Data / Benchmark Exchange", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "local JSON benchmark mapping", "implementationEvidence": ["packages/semantiq/src/ecosystem.ts", "examples/ecosystem/external-benchmark-pack.json"], "testEvidence": ["tests/unit/ecosystem.test.ts"], "documentationEvidence": ["Docs/EXTERNAL_BENCHMARK_ECOSYSTEM.md"], "missingEvidence": ["format-specific semantics", "schema validation", "license and provenance validation", "Big-Bench implementation"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Add authentic upstream-format fixtures and explicit provenance validation.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "The checked-in external fixture is repository-owned and does not demonstrate adoption."
+    },
+    {
+      "source": "semantiq", "target": "mcp", "relation": "normalizes", "domain": "Execution", "implementationStatus": "CONTRACT_ONLY", "depth": "MODERATE", "confidence": "HIGH", "scope": "tool-call contracts and evidence normalization", "implementationEvidence": ["packages/sandbox-contracts/src/mcp.ts"], "testEvidence": ["tests/unit/mcp-provider-integration.test.ts"], "documentationEvidence": ["Docs/MCP_INTEGRATION.md", "Docs/sandbox/MCP_PROVIDER_INTEGRATION_SPEC.md"], "missingEvidence": ["actual stdio, SSE, or HTTP JSON-RPC server execution"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Run the contracts against a real reference server and publish conformance fixtures.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Current tests normalize constructed request and result objects."
+    },
+    {
+      "source": "semantiq", "target": "hugging-face", "relation": "exports-to", "domain": "Data / Benchmark Exchange", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "local dataset record and card generation", "implementationEvidence": ["packages/semantiq/src/huggingface.ts", "Docs/HUGGINGFACE_DATASET_CARD.md"], "testEvidence": ["tests/unit/huggingface.test.ts"], "documentationEvidence": ["Docs/HUGGINGFACE_GUIDE.md", "Docs/HUGGINGFACE_PUBLICATION_REPORT.md"], "missingEvidence": ["Hub API or CLI round trip", "verified publication"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Validate generated records and cards with official local tooling before publication.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Local export support is real; Hub publication is not verified."
+    },
+    {
+      "source": "semantiq", "target": "kaggle", "relation": "exports-to", "domain": "Data / Benchmark Exchange", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "local dataset metadata and starter script", "implementationEvidence": ["packages/semantiq/src/kaggle.ts", "examples/kaggle/dataset-metadata.json", "examples/kaggle/semantiq_starter.py"], "testEvidence": ["tests/unit/kaggle.test.ts"], "documentationEvidence": ["Docs/KAGGLE_GUIDE.md", "Docs/KAGGLE_INTEGRATION_REPORT.md"], "missingEvidence": ["namespace migration", "official-tool validation", "verified publication"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Validate a non-publishing dataset package with official tooling after namespace review.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Local export support is real; Kaggle publication is not verified."
+    },
+    {
+      "source": "semantiq", "target": "research-metadata", "relation": "serializes-as", "domain": "Evidence & Research Exchange", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "HIGH", "scope": "citation and research metadata", "implementationEvidence": ["CITATION.cff", "codemeta.json", "examples/citation/datacite.json"], "testEvidence": ["tests/unit/citation-metadata.test.ts", "tests/unit/persistent-identifiers.test.ts"], "documentationEvidence": ["Docs/CITATION_GUIDE.md", "Docs/PERSISTENT_IDENTIFIERS.md"], "missingEvidence": ["official external validator results", "registered DOI"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "Add official schema-validation evidence and deterministic metadata fixtures.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Metadata presence is not registration or archiving."
+    },
+    {
+      "source": "semantiq", "target": "pnpm", "relation": "builds-with", "domain": "Development Infrastructure", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "development and source-checkout setup", "implementationEvidence": ["package.json", "pnpm-workspace.yaml", "pnpm-lock.yaml"], "testEvidence": [".github/workflows/ci.yml"], "documentationEvidence": ["Docs/QUICK_START.md"], "missingEvidence": [], "externalUserRelevance": "HIGH", "contributionOpportunity": "None identified without a minimized package-manager defect.", "outreachReadiness": "DEPENDENCY_ONLY_NO_OUTREACH", "notes": "Supporting infrastructure, not a strategic product integration."
+    },
+    {
+      "source": "semantiq", "target": "node-postgres", "relation": "depends-on", "domain": "Development Infrastructure", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "MODERATE", "confidence": "HIGH", "scope": "PostgreSQL runtime dependency", "implementationEvidence": ["packages/persistence/package.json", "packages/persistence/src/client.ts"], "testEvidence": ["tests/integration/postgres-real.test.ts"], "documentationEvidence": ["Docs/backend/dependency-rules.md"], "missingEvidence": [], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None identified without a minimized driver defect.", "outreachReadiness": "DEPENDENCY_ONLY_NO_OUTREACH", "notes": "Dependency enabling the PostgreSQL relationship."
+    },
+    {
+      "source": "semantiq", "target": "github-actions", "relation": "validates-with", "domain": "Development Infrastructure", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "CI, documentation and security", "implementationEvidence": [".github/workflows/ci.yml", ".github/workflows/docs.yml", ".github/workflows/security.yml"], "testEvidence": [".github/workflows/ci.yml"], "documentationEvidence": ["CONTRIBUTING.md"], "missingEvidence": [], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None identified without a minimized action defect.", "outreachReadiness": "DEPENDENCY_ONLY_NO_OUTREACH", "notes": "Supporting infrastructure, not ecosystem adoption."
+    },
+    {
+      "source": "semantiq", "target": "js-toolchain", "relation": "builds-with", "domain": "Development Infrastructure", "implementationStatus": "VERIFIED_IMPLEMENTATION", "depth": "DEEP", "confidence": "HIGH", "scope": "dev-only", "implementationEvidence": ["package.json", "eslint.config.mjs", "vitest.config.mjs", ".prettierrc", "turbo.json", "commitlint.config.cjs"], "testEvidence": [".github/workflows/ci.yml"], "documentationEvidence": ["CONTRIBUTING.md"], "missingEvidence": [], "externalUserRelevance": "LOW", "contributionOpportunity": "Only minimized upstream bug reports.", "outreachReadiness": "DEPENDENCY_ONLY_NO_OUTREACH", "notes": "TypeScript, Vitest, ESLint, Prettier, Turbo, Changesets, Commitlint and Husky are grouped as supporting tools."
+    },
+    {
+      "source": "semantiq", "target": "opensandbox", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "IMPLEMENTED_PARTIAL", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "optional remote sandbox", "implementationEvidence": ["packages/adapter-opensandbox/src/opensandbox-client.ts", "packages/adapter-opensandbox/src/opensandbox-adapter.ts"], "testEvidence": ["tests/unit/sandbox-adapters.test.ts"], "documentationEvidence": ["Docs/adr/ADR-0179-provider-neutrality-opensandbox-optionality-gate.md"], "missingEvidence": ["canonical upstream identity", "live daemon protocol conformance"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Run the client against an identified canonical daemon and document protocol deltas.", "outreachReadiness": "LATER_NEEDS_MORE_EVIDENCE", "notes": "Fallback daemon information can allow tests to pass when the endpoint is unreachable."
+    },
+    {
+      "source": "semantiq", "target": "browser-gui", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "CONTRACT_ONLY", "depth": "MODERATE", "confidence": "MEDIUM", "scope": "experimental observation contract", "implementationEvidence": ["packages/sandbox-contracts/src/browser-gui.ts", "playwright.config.mjs"], "testEvidence": ["tests/unit/browser-gui-provider.test.ts"], "documentationEvidence": ["Docs/sandbox/BROWSER_AND_GUI_PROVIDER_SPEC.md", "tests/e2e/README.md"], "missingEvidence": ["provider adapter", "real browser journey"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "Implement one genuine browser journey before external engagement.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Unit tests normalize constructed results; Playwright E2E is not implemented."
+    },
+    {
+      "source": "semantiq", "target": "podman", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "claimed optional execution", "implementationEvidence": [], "testEvidence": [], "documentationEvidence": ["README.md", "Docs/KNOWN_LIMITATIONS.md"], "missingEvidence": ["Podman-specific client compatibility", "execution test"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "First establish a passing Podman execution fixture.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Do not present as verified runtime support."
+    },
+    {
+      "source": "semantiq", "target": "e2b", "relation": "executes-through", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SIMULATED", "depth": "MODERATE", "confidence": "LOW", "scope": "simulated cloud execution", "implementationEvidence": ["packages/adapter-cloud-base/src/e2b-adapter.ts"], "testEvidence": ["tests/unit/sandbox-adapters.test.ts"], "documentationEvidence": ["Docs/sandbox/OPEN_AND_COMMERCIAL_PROVIDER_MODEL_SPEC.md"], "missingEvidence": ["real E2B client/API execution"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "Replace simulation with an opt-in real API conformance test.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "The source explicitly labels execution as simulated."
+    },
+    {
+      "source": "semantiq", "target": "openai", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "claimed remote model provider", "implementationEvidence": [], "testEvidence": ["tests/unit/settings.test.ts"], "documentationEvidence": ["Docs/REMOTE_PROVIDER_GUIDE.md", "Docs/ADAPTER_GUIDE.md"], "missingEvidence": ["functional connector", "opt-in safety and network test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None until a bounded connector exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Disabled configuration flags and documentation are not provider support."
+    },
+    {
+      "source": "semantiq", "target": "anthropic", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "claimed remote model provider", "implementationEvidence": [], "testEvidence": [], "documentationEvidence": ["Docs/REMOTE_PROVIDER_GUIDE.md", "Docs/ADAPTER_GUIDE.md"], "missingEvidence": ["functional connector", "opt-in safety and network test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None until a bounded connector exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Provider names in fixtures do not demonstrate execution."
+    },
+    {
+      "source": "semantiq", "target": "google-genai", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "claimed remote model provider", "implementationEvidence": [], "testEvidence": [], "documentationEvidence": ["Docs/REMOTE_PROVIDER_GUIDE.md", "Docs/ADAPTER_GUIDE.md"], "missingEvidence": ["functional connector", "opt-in safety and network test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None until a bounded connector exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Provider names in fixtures do not demonstrate execution."
+    },
+    {
+      "source": "semantiq", "target": "ollama", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "claimed local model runtime", "implementationEvidence": ["packages/diagnostics/src/index.ts"], "testEvidence": ["tests/unit/doctor.test.ts"], "documentationEvidence": ["Docs/LOCAL_AI_PROVIDERS.md", "Docs/INSTALLATION_MATRIX.md"], "missingEvidence": ["request/response adapter", "fallback execution test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Implement and validate an opt-in local connector before engagement.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Diagnostics mention the endpoint; no LLM execution path was found."
+    },
+    {
+      "source": "semantiq", "target": "redis", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "optional cache/state topology", "implementationEvidence": ["docker-compose.yml", ".env.example"], "testEvidence": [], "documentationEvidence": ["Docs/adr/ADR-0005-primary-database.md"], "missingEvidence": ["consumer implementation", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until a real consumer exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Explicitly future, not current storage support."
+    },
+    {
+      "source": "semantiq", "target": "neo4j", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "optional graph topology", "implementationEvidence": ["docker-compose.yml", "packages/adapters/src/index.ts"], "testEvidence": [], "documentationEvidence": ["Docs/adr/ADR-0005-primary-database.md"], "missingEvidence": ["repository adapter", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until an operational adapter exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "PostgreSQL adjacency is the current implementation."
+    },
+    {
+      "source": "semantiq", "target": "minio", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "optional object-store topology", "implementationEvidence": ["docker-compose.yml", ".env.test.example"], "testEvidence": [], "documentationEvidence": ["Docs/LOCAL_DEVELOPMENT.md"], "missingEvidence": ["object-store consumer", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until an operational consumer exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Configuration presence only."
+    },
+    {
+      "source": "semantiq", "target": "opentelemetry", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "optional telemetry", "implementationEvidence": [".env.test.example"], "testEvidence": [], "documentationEvidence": [], "missingEvidence": ["SDK/exporter implementation", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until telemetry export exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Only an OTLP endpoint variable is present."
+    },
+    {
+      "source": "semantiq", "target": "prometheus", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "Compose observability topology", "implementationEvidence": ["docker-compose.yml"], "testEvidence": [], "documentationEvidence": ["Docs/DOCKER_SETUP.md"], "missingEvidence": ["metrics endpoint", "scrape configuration", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until metrics exist.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Container declaration only."
+    },
+    {
+      "source": "semantiq", "target": "grafana", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "Compose observability topology", "implementationEvidence": ["docker-compose.yml"], "testEvidence": [], "documentationEvidence": ["Docs/DOCKER_SETUP.md"], "missingEvidence": ["datasource", "dashboard", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until dashboards exist.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Container declaration only."
+    },
+    {
+      "source": "semantiq", "target": "mailhog", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "Compose development topology", "implementationEvidence": ["docker-compose.yml"], "testEvidence": [], "documentationEvidence": [], "missingEvidence": ["mail producer", "integration test"], "externalUserRelevance": "LOW", "contributionOpportunity": "None until a mail workflow exists.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Container declaration only."
+    },
+    {
+      "source": "semantiq", "target": "npm", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "prospective package distribution", "implementationEvidence": ["packages/sdk/package.json"], "testEvidence": ["tests/unit/typescript-sdk.test.ts"], "documentationEvidence": ["Docs/architecture/dual-language-sdk-strategy.md"], "missingEvidence": ["authorized registry publication", "registry install test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None before publication authorization.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "@semantiq/sdk is not published."
+    },
+    {
+      "source": "semantiq", "target": "pypi", "relation": "configured-for", "domain": "Evidence-Gap / Experimental", "implementationStatus": "SCAFFOLD", "depth": "SHALLOW", "confidence": "LOW", "scope": "prospective package distribution", "implementationEvidence": ["packages/python/pyproject.toml"], "testEvidence": ["packages/python/tests/test_package_build.py", ".github/workflows/ci.yml"], "documentationEvidence": ["packages/python/README.md", "Docs/architecture/dual-language-sdk-strategy.md"], "missingEvidence": ["authorized registry publication", "registry install test"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None before publication authorization.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "semantiq is not published on PyPI."
+    },
+    {
+      "source": "semantiq", "target": "zenodo", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "prospective research archive", "implementationEvidence": [".zenodo.json"], "testEvidence": ["tests/unit/citation-metadata.test.ts"], "documentationEvidence": ["Docs/CITATION_GUIDE.md", "Docs/releases/release_process.md"], "missingEvidence": ["configured deposition", "real DOI", "release webhook evidence"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None before an authorized release and verified deposition.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Metadata does not prove Zenodo integration."
+    },
+    {
+      "source": "semantiq", "target": "github-pages", "relation": "documents", "domain": "Evidence-Gap / Experimental", "implementationStatus": "DOCS_ONLY", "depth": "SHALLOW", "confidence": "LOW", "scope": "prospective documentation deployment", "implementationEvidence": ["scripts/build-docs.mjs", ".github/workflows/docs.yml"], "testEvidence": ["tests/unit/documentation-validation.test.ts"], "documentationEvidence": ["Docs/repository/github_post_push_verification.md"], "missingEvidence": ["Pages upload/deploy action", "live site verification"], "externalUserRelevance": "HIGH", "contributionOpportunity": "Add deployment only with explicit repository-setting authorization.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Current workflow builds and validates; it does not deploy."
+    },
+    {
+      "source": "semantiq", "target": "tech-club-root", "relation": "historically-referenced", "domain": "Historical / Migration", "implementationStatus": "HISTORICAL", "depth": "DEEP", "confidence": "HIGH", "scope": "legacy root commands and environment names", "implementationEvidence": ["package.json", "scripts/techclub.mjs", ".env.test.example"], "testEvidence": [], "documentationEvidence": ["logorythmus-migration-manifest.md"], "missingEvidence": ["human-authorized namespace migration"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None in Prompt 11.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Migration debt, not an external ecosystem organization."
+    },
+    {
+      "source": "semantiq", "target": "tech-club-packages", "relation": "historically-referenced", "domain": "Historical / Migration", "implementationStatus": "HISTORICAL", "depth": "DEEP", "confidence": "HIGH", "scope": "legacy workspace namespace", "implementationEvidence": ["packages/adapter-oci/package.json", "packages/persistence/package.json", "packages/semantiq/package.json"], "testEvidence": ["tests/architecture/package-boundaries.test.ts"], "documentationEvidence": ["logorythmus-migration-manifest.md"], "missingEvidence": ["human-authorized package namespace migration"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None until migration scope is approved.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Do not present @tech-club/* as an external integration."
+    },
+    {
+      "source": "semantiq", "target": "techclub-kaggle", "relation": "historically-referenced", "domain": "Historical / Migration", "implementationStatus": "HISTORICAL", "depth": "SHALLOW", "confidence": "HIGH", "scope": "legacy export identifier", "implementationEvidence": ["packages/semantiq/src/kaggle.ts", "examples/kaggle/dataset-metadata.json"], "testEvidence": ["tests/unit/kaggle.test.ts"], "documentationEvidence": ["Docs/KAGGLE_GUIDE.md"], "missingEvidence": ["approved canonical dataset owner/slug"], "externalUserRelevance": "HIGH", "contributionOpportunity": "None until namespace ownership is decided.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Migration-bound identity, not publication evidence."
+    },
+    {
+      "source": "semantiq", "target": "semant-iq", "relation": "historically-referenced", "domain": "Historical / Migration", "implementationStatus": "HISTORICAL", "depth": "SHALLOW", "confidence": "HIGH", "scope": "preserved repository history", "implementationEvidence": [], "testEvidence": [], "documentationEvidence": ["Docs/governance/organization_migration.md", "Docs/PUBLIC_ALPHA_RELEASE_REPORT.md"], "missingEvidence": ["human decision on archival labeling"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "The current canonical repository is Logorythmus-org/Semantiq."
+    },
+    {
+      "source": "semantiq", "target": "publication-reports", "relation": "historically-referenced", "domain": "Historical / Migration", "implementationStatus": "HISTORICAL", "depth": "SHALLOW", "confidence": "LOW", "scope": "preserved publication records", "implementationEvidence": [], "testEvidence": [], "documentationEvidence": ["Docs/HUGGINGFACE_PUBLICATION_REPORT.md", "Docs/KAGGLE_INTEGRATION_REPORT.md", "Docs/PLATFORM_SYNCHRONIZATION_MATRIX.md"], "missingEvidence": ["external platform verification"], "externalUserRelevance": "MEDIUM", "contributionOpportunity": "None until records are explicitly reconciled.", "outreachReadiness": "NOT_CURRENTLY_APPROPRIATE", "notes": "Local metadata verification must not be read as external publication."
+    }
+  ]
+}
