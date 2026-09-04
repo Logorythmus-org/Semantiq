@@ -44,8 +44,8 @@ importers:
         specifier: 9.18.0
         version: 9.18.0(jiti@2.6.1)
       globals:
-        specifier: 15.14.0
-        version: 15.14.0
+        specifier: 17.12.0
+        version: 17.12.0
       husky:
         specifier: 9.1.7
         version: 9.1.7
@@ -1357,8 +1357,8 @@ packages:
   argparse@2.0.1:
     resolution: {integrity: sha512-8+9WqebbFzpX9OR+Wa6O29asIogeRMzcGtAINdpMHHyAg10f05aSFVBbcEqGf/PXw1EjAZ+q2/bEBg3DvurK3Q==}
 
-  argue-cli@3.1.0:
-    resolution: {integrity: sha512-DhBpBfXL4SS2uC0N922MMajKR3CdrTG0u2or1PNYgXMsrSzViJrbtvT0nCLlLGUI0plam/ZZCs7aAauHtW9thw==}
+  argue-cli@3.2.0:
+    resolution: {integrity: sha512-VipTB0gXgGIFO2Rg9yEVN5wLt2AurJcZqDbgmYSwPwsykhLrQhs240/bfceev4w68lI8JshoOJIk9uW7tFzROw==}
     engines: {node: '>=22'}
 
   array-ify@1.0.0:
@@ -1724,8 +1724,8 @@ packages:
     resolution: {integrity: sha512-oahGvuMGQlPw/ivIYBjVSrWAfWLBeku5tpPE2fOPLi+WHffIWbuh2tCjhyQhTBPMf5E9jDEH4FOmTYgYwbKwtQ==}
     engines: {node: '>=18'}
 
-  globals@15.14.0:
-    resolution: {integrity: sha512-OkToC372DtlQeje9/zHIo5CT8lRP/FUgEOKBEhU4e0abL7J7CD24fD9ohiLN5hagG/kWCYj4K5oaxxtj2Z0Dig==}
+  globals@17.12.0:
+    resolution: {integrity: sha512-cezEd/DTyyht9cvSSURyygXPfy04GtWO/5e6ZPvH7fCtjKz9PYOmuawphw1Ctd1f6C+5JypXfGD7ahNMXvevBA==}
     engines: {node: '>=18'}
 
   globby@11.1.0:
@@ -3321,7 +3321,7 @@ snapshots:
 
   argparse@2.0.1: {}
 
-  argue-cli@3.1.0: {}
+  argue-cli@3.2.0: {}
 
   array-ify@1.0.0: {}
 
@@ -3423,7 +3423,7 @@ snapshots:
   conventional-commits-parser@7.1.2:
     dependencies:
       '@simple-libs/stream-utils': 2.0.0
-      argue-cli: 3.1.0
+      argue-cli: 3.2.0
 
   cosmiconfig-typescript-loader@6.3.0(@types/node@22.10.7)(cosmiconfig@9.0.2(typescript@5.7.3))(typescript@5.7.3):
     dependencies:
@@ -3700,7 +3700,7 @@ snapshots:
 
   globals@14.0.0: {}
 
-  globals@15.14.0: {}
+  globals@17.12.0: {}
 
   globby@11.1.0:
     dependencies:
