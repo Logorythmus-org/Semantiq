@@ -4,12 +4,21 @@ This document details the third-party **External Benchmark Ecosystem Architectur
 
 ---
 
-## 1. Third-Party Benchmark Support
+## 1. Experimental benchmark-pack contract
 
-SemantIQ supports importing external benchmark formats (MMLU, GSM8K, HELM, Big-Bench) via `importExternalBenchmark()` and registering custom packs in `examples/ecosystem/benchmark-registry.json`.
+SemantIQ implements a generic external benchmark-pack mapper through `importExternalBenchmark()`
+and validates the checked-in generic fixture with `validateExternalBenchmarkPack()`.
+
+`MMLU`, `GSM8K`, and `HELM` are accepted source identifiers for shallow field mapping. This does
+not establish format-specific schema compatibility, semantic equivalence, or successful execution
+of an upstream benchmark. Big-Bench is a compatibility target and has no format-specific
+implementation in the current mapper.
 
 ---
 
 ## 2. Benchmark Pack Validation
 
-Every external benchmark pack is verified using `validateExternalBenchmarkPack()` to ensure schema compliance and open data licensing (**CC0-1.0** / **MIT**).
+`validateExternalBenchmarkPack()` checks required local fields and returns validation errors for
+missing or malformed pack structure. A supplied license or provenance string is recorded metadata:
+it is not legal validation, ownership verification, redistribution-rights verification, or
+independent provenance verification.

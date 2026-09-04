@@ -1,6 +1,8 @@
-# Kaggle Dataset & Notebook Integration Guide
+# Kaggle Local Export Guide
 
-This guide details how to publish **SemantIQ Benchmarks** evaluation datasets and starter notebooks to Kaggle under **CC0-1.0** open licenses.
+SemantIQ contains a local Kaggle-shaped metadata fixture, exporter, and starter script. Repository
+tests cover local generation only. Official-tool validation, authenticated upload, namespace
+ownership, Kaggle compatibility, and publication have not been established.
 
 ---
 
@@ -18,7 +20,13 @@ Use `examples/kaggle/dataset-metadata.json`:
 
 ---
 
-## 2. Publish to Kaggle Datasets
+The checked-in `techclub/*` identifier is migration-bound metadata and is not proof of an owned or
+published Kaggle dataset.
+
+## 2. Optional manual publication preparation
+
+The following is an operator-controlled future workflow. It is not publication evidence. Validate
+the generated files, licensing, provenance, and an authorized namespace before use.
 
 ```bash
 pip install kaggle

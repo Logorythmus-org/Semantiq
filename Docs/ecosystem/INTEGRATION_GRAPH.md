@@ -6,6 +6,8 @@
 
 **Machine-readable graph:** [`integration-graph.json`](integration-graph.json)
 
+**Active claim decisions:** [`PUBLIC_CLAIM_STATUS.md`](PUBLIC_CLAIM_STATUS.md)
+
 ## 1. Purpose
 
 This graph records what SemantIQ actually runs on, stores in, executes through, exposes, imports,
