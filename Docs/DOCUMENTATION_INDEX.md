@@ -41,6 +41,7 @@ Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation pla
 ### 🔬 3. For Researchers & Data Scientists
 - 🛡️ **[Core Scientific Concepts](concepts/README.md)**: [16 Epistemic Invariants](SCIENTIFIC_GUARDRAILS.md) • [Controlled Language Rules](../trust/PROHIBITED_PUBLIC_CLAIMS.md) • [Pattern-Failure Taxonomy](DOMAIN_MODEL.md)
 - 📊 **[Evidence Engine](evidence/README.md)**: 7D Matched Controls • Bootstrap CI & Exact Sign Test • Robustness & Specification Curves • Evidence Graph
+- 🧩 **[JSON Schema Conformance](evidence/JSON_SCHEMA_CONFORMANCE.md)**: Internal Draft 2020-12 portability evidence across three pinned validator implementations
 - 🔬 **[Research Workbench & Governed Claims](research/README.md)**: [18-Stage Research Reference Workflow](RESEARCH_WORKFLOW.md) • Governed Claims • Proposal-Only Evidence Watch • Merkle Research Bundles
 - 🔁 **[Independent Replication Guide](REPRODUCTION_WALKTHROUGH.md)**: Source-checkout run • provenance capture • divergence reporting • reviewed classification
 - 🕸️ **[Integration Graph](ecosystem/INTEGRATION_GRAPH.md)**: Evidence-backed runtime • storage • execution • exchange • experimental and migration boundaries
