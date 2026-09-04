@@ -86,7 +86,11 @@ from .contracts import (
     TraceEventType,
     TraceStatus,
     WorkspaceSnapshot,
+    LEGACY_PYTHON_CANONICALIZATION_PROFILE,
+    SHARED_CANONICALIZATION_PROFILE,
+    canonicalize_v1,
     compute_sha256,
+    hash_canonical,
 )
 from .controlled_language import ControlledLanguageValidator
 from .errors import (
@@ -127,6 +131,10 @@ __all__ = [
     "LocalDeterministicRunner",
     "ControlledLanguageValidator",
     "compute_sha256",
+    "canonicalize_v1",
+    "hash_canonical",
+    "LEGACY_PYTHON_CANONICALIZATION_PROFILE",
+    "SHARED_CANONICALIZATION_PROFILE",
     # Error Hierarchy
     "SemantiqError",
     "ValidationError",

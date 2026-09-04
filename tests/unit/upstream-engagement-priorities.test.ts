@@ -194,4 +194,17 @@ describe("upstream engagement priority map", () => {
     ]);
     expect(jsonSchema?.allowedNextAction).toBe("INTERNAL_FINDING_REVIEW");
   });
+
+  it("records canonical JSON V1 evidence without authorizing outreach", () => {
+    const canonical = artifact.candidates.find(({ target }) =>
+      target.startsWith("Canonical JSON / SHA-256")
+    );
+    expect(canonical?.readiness).toBe("NEAR_READY_ONE_EVIDENCE_GAP");
+    expect(canonical?.existingEvidence).toContain("tools/conformance/canonical-json/results.json");
+    expect(canonical?.missingEvidence).toEqual([
+      "externally relevant consumer need",
+      "natural upstream discussion surface"
+    ]);
+    expect(canonical?.allowedNextAction).toBe("INTERNAL_FINDING_REVIEW");
+  });
 });

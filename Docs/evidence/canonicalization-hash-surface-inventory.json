@@ -1,0 +1,50 @@
+{
+  "inventoryVersion": "0.1",
+  "inventoryUnit": "active hash surface family",
+  "scope": ["packages/**/*.ts", "packages/python/**/*.py", "services/**/*", "tools/**/*"],
+  "classificationCounts": {
+    "IDENTITY_CRITICAL": 9,
+    "INTEGRITY_ONLY": 5,
+    "CACHE_KEY": 3,
+    "DIAGNOSTIC": 5,
+    "TEST_ONLY": 2,
+    "UNKNOWN_REQUIRES_REVIEW": 5
+  },
+  "surfaces": [
+    { "id": "sandbox-canonical-json", "classification": "IDENTITY_CRITICAL", "paths": ["packages/sandbox-contracts/src/crypto-utils.ts", "packages/sandbox-contracts/src/*.ts"], "use": "canonical evidence, receipt, provenance, manifest, and audit digests" },
+    { "id": "typescript-sdk-bundles", "classification": "IDENTITY_CRITICAL", "paths": ["packages/sdk/src/client.ts"], "use": "artifact hashes and ResearchBundle roots" },
+    { "id": "python-sdk-bundles", "classification": "IDENTITY_CRITICAL", "paths": ["packages/python/src/semantiq/contracts.py", "packages/python/src/semantiq/client.py"], "use": "canonical dictionary hashes and ResearchBundle roots" },
+    { "id": "research-bundle-core", "classification": "IDENTITY_CRITICAL", "paths": ["packages/evidence/src/research-bundles/bundle-builder.ts", "packages/evidence/src/research-bundles/bundle-verifier.ts"], "use": "component hashes and Merkle roots" },
+    { "id": "study-preregistration", "classification": "IDENTITY_CRITICAL", "paths": ["packages/evidence/src/study-protocols/study-protocol-generator.ts"], "use": "frozen preregistration identity" },
+    { "id": "evaluation-ledger", "classification": "IDENTITY_CRITICAL", "paths": ["packages/evidence/src/evaluation-ledger/evaluation-ledger.ts"], "use": "append-only entry identity" },
+    { "id": "trace-evidence", "classification": "IDENTITY_CRITICAL", "paths": ["packages/evidence/src/trace-mapper-engine.ts", "packages/evidence/src/benchmark-evidence-adapter.ts"], "use": "trace and transformation digests" },
+    { "id": "partner-exchange-package", "classification": "IDENTITY_CRITICAL", "paths": ["packages/evidence/src/partner-exchange/redaction-engine.ts"], "use": "exchange artifact hashes and package roots" },
+    { "id": "shared-v1-profile", "classification": "IDENTITY_CRITICAL", "paths": ["packages/sandbox-contracts/src/canonicalization-profiles.ts", "packages/python/src/semantiq/contracts.py"], "use": "explicit profile-tagged prospective hashes" },
+
+    { "id": "adapter-file-digests", "classification": "INTEGRITY_ONLY", "paths": ["packages/adapter-oci/src/oci-instance.ts", "packages/adapter-replay/src/replay-instance.ts"], "use": "captured file and replay integrity" },
+    { "id": "environment-files", "classification": "INTEGRITY_ONLY", "paths": ["packages/environment-compiler/src/compiler.ts"], "use": "compiled workspace file integrity" },
+    { "id": "workspace-snapshots", "classification": "INTEGRITY_ONLY", "paths": ["packages/evidence/src/research-bundles/workspace-snapshot-engine.ts"], "use": "environment snapshot integrity" },
+    { "id": "trace-profile-snapshots", "classification": "INTEGRITY_ONLY", "paths": ["packages/evidence/src/trace-mapping-profile.ts"], "use": "immutable mapping snapshot checks" },
+    { "id": "workbench-audit-chain", "classification": "INTEGRITY_ONLY", "paths": ["packages/evidence/src/research-workbench/workbench-audit-log.ts"], "use": "audit-log tamper detection" },
+
+    { "id": "question-persistence-fingerprints", "classification": "CACHE_KEY", "paths": ["packages/persistence/src/question-*.ts", "packages/persistence/src/questions.ts"], "use": "question persistence lookup identity" },
+    { "id": "question-domain-fingerprints", "classification": "CACHE_KEY", "paths": ["packages/questions/src/*.ts"], "use": "derived question and relation identifiers" },
+    { "id": "schema-fingerprint", "classification": "CACHE_KEY", "paths": ["packages/evidence/src/schema-fingerprint.ts"], "use": "schema-shape lookup fingerprint" },
+
+    { "id": "generated-entity-identifiers", "classification": "DIAGNOSTIC", "paths": ["packages/evidence/src/**/*engine.ts", "packages/sdk/src/fixtures.ts"], "use": "human-readable deterministic identifier prefixes" },
+    { "id": "benchmark-run-labels", "classification": "DIAGNOSTIC", "paths": ["packages/benchmark/src/engine.ts"], "use": "synthetic run trace labels" },
+    { "id": "adapter-handles", "classification": "DIAGNOSTIC", "paths": ["packages/sandbox-contracts/src/provider-sdk.ts"], "use": "provider handle identifiers" },
+    { "id": "pattern-report-identifiers", "classification": "DIAGNOSTIC", "paths": ["packages/patterns/src/architecture-analysis-pipeline.ts"], "use": "report identifier" },
+    { "id": "python-runner-observation-signatures", "classification": "DIAGNOSTIC", "paths": ["packages/python/src/semantiq/runner.py", "packages/python/src/semantiq/fixtures.py"], "use": "deterministic local fixture identifiers" },
+
+    { "id": "typescript-hash-regressions", "classification": "TEST_ONLY", "paths": ["tests/**/*.ts", "packages/*/tests/**/*.ts"], "use": "test expectations" },
+    { "id": "python-hash-regressions", "classification": "TEST_ONLY", "paths": ["packages/python/tests/**/*.py"], "use": "test expectations" },
+
+    { "id": "evidence-normalizer-top-level-replacer", "classification": "UNKNOWN_REQUIRES_REVIEW", "paths": ["packages/evidence-normalizer/src/normalizer.ts"], "use": "evidence digest uses a distinct top-level replacer serialization" },
+    { "id": "alpha-runtime-json-hashes", "classification": "UNKNOWN_REQUIRES_REVIEW", "paths": ["packages/alpha-runtime/src/index.ts", "packages/alpha-operations/src/index.ts"], "use": "ordinary JSON.stringify hashes; identity intent needs review" },
+    { "id": "sprint-runtime-json-hashes", "classification": "UNKNOWN_REQUIRES_REVIEW", "paths": ["packages/sprint4-runtime/src/index.ts", "packages/sprint5-runtime/src/index.ts"], "use": "ordinary JSON.stringify hashes; historical compatibility unknown" },
+    { "id": "replication-registry", "classification": "UNKNOWN_REQUIRES_REVIEW", "paths": ["packages/evidence/src/partner-exchange/replication-registry.ts"], "use": "imported record hash semantics require contract review" },
+    { "id": "identifier-package", "classification": "UNKNOWN_REQUIRES_REVIEW", "paths": ["packages/semantiq/src/identifiers.ts"], "use": "content-derived public identifiers require migration analysis" }
+  ],
+  "migrationBoundary": "Only the shared-v1 profile APIs and conformance artifacts are introduced in Prompt 15B; all pre-existing surfaces remain on their historical behavior pending explicit migration review."
+}
