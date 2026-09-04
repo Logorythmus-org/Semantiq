@@ -8,6 +8,9 @@
 
 **Active claim decisions:** [`PUBLIC_CLAIM_STATUS.md`](PUBLIC_CLAIM_STATUS.md)
 
+**Evidence-first priorities:**
+[`UPSTREAM_ENGAGEMENT_PRIORITIES.md`](UPSTREAM_ENGAGEMENT_PRIORITIES.md)
+
 ## 1. Purpose
 
 This graph records what SemantIQ actually runs on, stores in, executes through, exposes, imports,
