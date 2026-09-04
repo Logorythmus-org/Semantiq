@@ -43,6 +43,7 @@ Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation pla
 - 📊 **[Evidence Engine](evidence/README.md)**: 7D Matched Controls • Bootstrap CI & Exact Sign Test • Robustness & Specification Curves • Evidence Graph
 - 🔬 **[Research Workbench & Governed Claims](research/README.md)**: [18-Stage Research Reference Workflow](RESEARCH_WORKFLOW.md) • Governed Claims • Proposal-Only Evidence Watch • Merkle Research Bundles
 - 🔁 **[Independent Replication Guide](REPRODUCTION_WALKTHROUGH.md)**: Source-checkout run • provenance capture • divergence reporting • reviewed classification
+- 🕸️ **[Integration Graph](ecosystem/INTEGRATION_GRAPH.md)**: Evidence-backed runtime • storage • execution • exchange • experimental and migration boundaries
 
 ### 🤝 4. For Partners, Institutions & Replication Hubs
 - 📑 **[Partner Protocols & Exchange](partners/README.md)**: Pre-registration • Execution Manifests • External Evidence Eligibility Gate • Cross-Org Replication
