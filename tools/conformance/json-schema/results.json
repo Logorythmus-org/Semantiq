@@ -1,0 +1,213 @@
+{
+  "version": "0.1",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "formatPolicy": "annotation-only",
+  "schemaCount": 3,
+  "caseCount": 12,
+  "validators": [
+    {
+      "validator": "ajv",
+      "version": "8.20.0",
+      "runtime": "node",
+      "runtimeVersion": "22.15.0",
+      "results": [
+        {
+          "case": "claim-scope-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-optional-fields-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-missing-required-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "claim-scope-noninteger-repetition-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "replication-record-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-discrepancy-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-missing-id-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "replication-record-success-string-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-zero-tests-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-release-level-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-typecheck-errors-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        }
+      ]
+    },
+    {
+      "validator": "hyperjump-json-schema",
+      "version": "1.17.8",
+      "runtime": "node",
+      "runtimeVersion": "22.15.0",
+      "results": [
+        {
+          "case": "claim-scope-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-optional-fields-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-missing-required-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "claim-scope-noninteger-repetition-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "replication-record-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-discrepancy-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-missing-id-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "replication-record-success-string-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-zero-tests-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-release-level-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-typecheck-errors-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        }
+      ]
+    },
+    {
+      "validator": "python-jsonschema",
+      "version": "4.26.0",
+      "runtimeVersion": "3.12.14",
+      "results": [
+        {
+          "case": "claim-scope-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-optional-fields-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "claim-scope-missing-required-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "claim-scope-noninteger-repetition-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "replication-record-minimal-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-discrepancy-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "replication-record-missing-id-invalid",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "replication-record-success-string-invalid",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-zero-tests-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "public-alpha-manifest-release-level-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "public-alpha-manifest-typecheck-errors-invalid",
+          "valid": false,
+          "category": "const-mismatch"
+        }
+      ],
+      "runtime": "python"
+    }
+  ]
+}

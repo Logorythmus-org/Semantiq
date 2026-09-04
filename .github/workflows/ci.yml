@@ -90,8 +90,15 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
+      - name: Install pinned Python conformance validator
+        run: python -m pip install -r tools/conformance/json-schema/requirements.txt
+      - name: Run JSON Schema multi-validator conformance
+        run: pnpm conformance:json-schema
       - name: Validate Product Contracts
         run: pnpm test:contracts:product
       - name: Validate Shared Contract Schemas

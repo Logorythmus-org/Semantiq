@@ -1,0 +1,268 @@
+{
+  "version": "0.1",
+  "dialect": "https://json-schema.org/draft/2020-12/schema",
+  "formatPolicy": "annotation-only",
+  "schemas": [
+    {
+      "id": "claim-scope",
+      "path": "schemas/claim-scope.schema.json",
+      "why": "Public claim-boundary metadata shared across evidence workflows."
+    },
+    {
+      "id": "replication-record",
+      "path": "schemas/replication-record.schema.json",
+      "why": "Portable record for reproduction outcomes and discrepancies."
+    },
+    {
+      "id": "public-alpha-evidence-manifest",
+      "path": "schemas/public-alpha-evidence-manifest.schema.json",
+      "why": "Public Alpha evidence and maturity boundary manifest."
+    }
+  ],
+  "cases": [
+    {
+      "id": "claim-scope-minimal-valid",
+      "schema": "claim-scope",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "modelId": "fixture-model",
+        "modelVersion": "fixture-v1",
+        "provider": "synthetic",
+        "executionTimestamp": "2026-01-01T00:00:00Z",
+        "benchmarkVersion": "fixture-1",
+        "scenarioVersion": "fixture-1",
+        "evaluatorVersion": "fixture-1",
+        "repetitionCount": 1,
+        "variance": 0,
+        "scope": "Synthetic conformance fixture only.",
+        "uncertaintyStatement": "No external or scientific claim is made."
+      }
+    },
+    {
+      "id": "claim-scope-optional-fields-valid",
+      "schema": "claim-scope",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "modelId": "fixture-model",
+        "modelVersion": "fixture-v2",
+        "provider": "synthetic",
+        "executionTimestamp": "not-format-asserted",
+        "benchmarkVersion": "fixture-2",
+        "scenarioVersion": "fixture-2",
+        "evaluatorVersion": "fixture-2",
+        "configuration": { "temperature": 0 },
+        "enabledTools": ["none"],
+        "language": "en",
+        "repetitionCount": 2,
+        "variance": 0.25,
+        "knownExclusions": ["external provider execution"],
+        "scope": "Internal portability check.",
+        "prohibitedInterpretations": ["external validation"],
+        "uncertaintyStatement": "Synthetic data cannot establish deployment behavior."
+      }
+    },
+    {
+      "id": "claim-scope-missing-required-invalid",
+      "schema": "claim-scope",
+      "expectedValid": false,
+      "expectedCategory": "missing-required",
+      "instance": {
+        "modelId": "fixture-model",
+        "modelVersion": "fixture-v1",
+        "provider": "synthetic",
+        "executionTimestamp": "2026-01-01T00:00:00Z",
+        "benchmarkVersion": "fixture-1",
+        "scenarioVersion": "fixture-1",
+        "evaluatorVersion": "fixture-1",
+        "repetitionCount": 1,
+        "variance": 0,
+        "uncertaintyStatement": "The required scope field is intentionally absent."
+      }
+    },
+    {
+      "id": "claim-scope-noninteger-repetition-invalid",
+      "schema": "claim-scope",
+      "expectedValid": false,
+      "expectedCategory": "type-mismatch",
+      "instance": {
+        "modelId": "fixture-model",
+        "modelVersion": "fixture-v1",
+        "provider": "synthetic",
+        "executionTimestamp": "2026-01-01T00:00:00Z",
+        "benchmarkVersion": "fixture-1",
+        "scenarioVersion": "fixture-1",
+        "evaluatorVersion": "fixture-1",
+        "repetitionCount": 1.5,
+        "variance": 0,
+        "scope": "Synthetic conformance fixture only.",
+        "uncertaintyStatement": "A fractional repetition count is invalid."
+      }
+    },
+    {
+      "id": "replication-record-minimal-valid",
+      "schema": "replication-record",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "replicationId": "fixture-replication-1",
+        "replicatorName": "Synthetic Fixture",
+        "targetBenchmarkVersion": "fixture-1",
+        "isSuccessful": false,
+        "executionTimestamp": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "replication-record-discrepancy-valid",
+      "schema": "replication-record",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "replicationId": "fixture-replication-2",
+        "replicatorName": "Synthetic Fixture",
+        "targetBenchmarkVersion": "fixture-1",
+        "isSuccessful": false,
+        "executionTimestamp": "not-format-asserted",
+        "discrepancyNotes": "Intentional synthetic divergence."
+      }
+    },
+    {
+      "id": "replication-record-missing-id-invalid",
+      "schema": "replication-record",
+      "expectedValid": false,
+      "expectedCategory": "missing-required",
+      "instance": {
+        "replicatorName": "Synthetic Fixture",
+        "targetBenchmarkVersion": "fixture-1",
+        "isSuccessful": false,
+        "executionTimestamp": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "replication-record-success-string-invalid",
+      "schema": "replication-record",
+      "expectedValid": false,
+      "expectedCategory": "type-mismatch",
+      "instance": {
+        "replicationId": "fixture-replication-3",
+        "replicatorName": "Synthetic Fixture",
+        "targetBenchmarkVersion": "fixture-1",
+        "isSuccessful": "false",
+        "executionTimestamp": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "public-alpha-manifest-valid",
+      "schema": "public-alpha-evidence-manifest",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "releaseLevel": "2-public-alpha",
+        "status": "experimental",
+        "commit": "fixture-commit",
+        "tag": "none",
+        "testFiles": 1,
+        "tests": 1,
+        "typecheckErrors": 0,
+        "criticalInternalBlockers": 0,
+        "externalReplication": "not-yet-established",
+        "independentAudit": "not-yet-established",
+        "certification": false,
+        "productionSafetyGuarantee": false,
+        "repository": "Logorythmus-org/Semantiq",
+        "branch": "fixture",
+        "semanticVersion": "0.1.0-alpha.2",
+        "nodeVersion": "22",
+        "pnpmVersion": "11.7.0",
+        "operatingSystem": "synthetic",
+        "buildEnvironment": "conformance fixture",
+        "timestamp": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "public-alpha-manifest-zero-tests-valid",
+      "schema": "public-alpha-evidence-manifest",
+      "expectedValid": true,
+      "expectedCategory": null,
+      "instance": {
+        "releaseLevel": "2-public-alpha",
+        "status": "experimental",
+        "commit": "fixture-commit",
+        "tag": "none",
+        "testFiles": 0,
+        "tests": 0,
+        "typecheckErrors": 0,
+        "criticalInternalBlockers": 0,
+        "externalReplication": "not-yet-established",
+        "independentAudit": "not-yet-established",
+        "certification": false,
+        "productionSafetyGuarantee": false,
+        "repository": "Logorythmus-org/Semantiq",
+        "branch": "fixture",
+        "semanticVersion": "0.1.0-alpha.2",
+        "nodeVersion": "22",
+        "pnpmVersion": "11.7.0",
+        "operatingSystem": "synthetic",
+        "buildEnvironment": "conformance fixture",
+        "timestamp": "not-format-asserted"
+      }
+    },
+    {
+      "id": "public-alpha-manifest-release-level-invalid",
+      "schema": "public-alpha-evidence-manifest",
+      "expectedValid": false,
+      "expectedCategory": "const-mismatch",
+      "instance": {
+        "releaseLevel": "production",
+        "status": "experimental",
+        "commit": "fixture-commit",
+        "tag": "none",
+        "testFiles": 1,
+        "tests": 1,
+        "typecheckErrors": 0,
+        "criticalInternalBlockers": 0,
+        "externalReplication": "not-yet-established",
+        "independentAudit": "not-yet-established",
+        "certification": false,
+        "productionSafetyGuarantee": false,
+        "repository": "Logorythmus-org/Semantiq",
+        "branch": "fixture",
+        "semanticVersion": "0.1.0-alpha.2",
+        "nodeVersion": "22",
+        "pnpmVersion": "11.7.0",
+        "operatingSystem": "synthetic",
+        "buildEnvironment": "conformance fixture",
+        "timestamp": "2026-01-01T00:00:00Z"
+      }
+    },
+    {
+      "id": "public-alpha-manifest-typecheck-errors-invalid",
+      "schema": "public-alpha-evidence-manifest",
+      "expectedValid": false,
+      "expectedCategory": "const-mismatch",
+      "instance": {
+        "releaseLevel": "2-public-alpha",
+        "status": "experimental",
+        "commit": "fixture-commit",
+        "tag": "none",
+        "testFiles": 1,
+        "tests": 1,
+        "typecheckErrors": 1,
+        "criticalInternalBlockers": 0,
+        "externalReplication": "not-yet-established",
+        "independentAudit": "not-yet-established",
+        "certification": false,
+        "productionSafetyGuarantee": false,
+        "repository": "Logorythmus-org/Semantiq",
+        "branch": "fixture",
+        "semanticVersion": "0.1.0-alpha.2",
+        "nodeVersion": "22",
+        "pnpmVersion": "11.7.0",
+        "operatingSystem": "synthetic",
+        "buildEnvironment": "conformance fixture",
+        "timestamp": "2026-01-01T00:00:00Z"
+      }
+    }
+  ]
+}

@@ -74,7 +74,7 @@ The Top 10 are strategic relationships, not organizations to contact now.
 
 | Rank | Target | Candidate type | Readiness | Score | Why it matters | Give-first artifact | Missing evidence | Earliest justified interaction |
 |---:|---|---|---|---:|---|---|---|---|
-| 1 | JSON Schema Draft 2020-12 | `FORMAT_CONFORMANCE` | `NEAR_READY_ONE_EVIDENCE_GAP` | 43.5 | Cross-language contracts expose a distinctive, standards-oriented surface | Portable pass/fail vectors | Pinned independent-validator comparison | After a validator-relevant discrepancy is reproduced |
+| 1 | JSON Schema Draft 2020-12 | `FORMAT_CONFORMANCE` | `NEAR_READY_ONE_EVIDENCE_GAP` | 43.5 | Cross-language contracts expose a distinctive, standards-oriented surface | Portable pass/fail vectors | Externally relevant minimized finding or demonstrated upstream need | After a validator-relevant discrepancy is reproduced |
 | 2 | Canonical JSON / SHA-256 | `FORMAT_CONFORMANCE` | `NEAR_READY_ONE_EVIDENCE_GAP` | 42.5 | Byte-exact evidence verification is central to reproducibility | Canonical bytes, digests, and negative cases | Independent cross-language verifier | After neutral vectors pass both SDKs and an independent implementation |
 | 3 | CFF / CodeMeta / DataCite | `FORMAT_CONFORMANCE` | `NEAR_READY_ONE_EVIDENCE_GAP` | 37.5 | Research metadata has official local validators and low promotional risk | Minimal validator/conversion discrepancy | Pinned official-tool results | Only if official tools reveal a reproducible issue |
 | 4 | ResearchBundle | `EXTERNAL_CONSUMER_VALIDATION` | `LATER_NEEDS_MORE_EVIDENCE` | 35.5 | Evidence exchange exposes SemantIQ's core differentiator | Neutral bundle and standalone verifier | Genuine third-party consumption | After a consumer reports a concrete interoperability issue |
@@ -91,7 +91,10 @@ The Top 10 are strategic relationships, not organizations to contact now.
 
 These are the most natural evidence-first surfaces because they are language-neutral, reproducible,
 small enough for bounded review, and closely tied to SemantIQ's cross-language evidence contracts.
-Neither is ready for external contact: first produce pinned validator results and standalone vectors.
+The JSON Schema vectors now pass three pinned validators across Node.js and Python. Neither surface
+is ready for external contact: JSON Schema still lacks an externally relevant discrepancy or
+demonstrated upstream need, while deterministic evidence packaging still lacks an independent
+cross-language verifier.
 
 ### ResearchBundle, replay, and SDK consumers
 
@@ -115,7 +118,7 @@ These candidates stay internal-first or inappropriate.
 
 | Rank | Target | Evidence-building action |
 |---:|---|---|
-| 1 | JSON Schema | Build pinned multi-validator cross-language conformance vectors |
+| 1 | JSON Schema | Review future validator disagreements for a minimized, upstream-relevant finding; the internal multi-validator vectors now pass |
 | 2 | Canonical JSON / SHA-256 | Publish repository-local language-neutral byte/digest vectors |
 | 3 | PostgreSQL | Make real-service tests a reliable dedicated or required CI gate |
 | 4 | Docker Engine | Run create/execute/terminate/failure-cleanup against a live daemon |
@@ -126,9 +129,10 @@ These candidates stay internal-first or inappropriate.
 | 9 | OpenSandbox | Resolve canonical upstream identity, then run live-daemon conformance |
 | 10 | Independent replication | Wait for and rigorously classify genuine independent evidence |
 
-The first evidence-building candidate is **JSON Schema Draft 2020-12 conformance vectors**. It has
-the highest strategic score, one bounded evidence gap, strong repository implementation, and a
-well-defined language-agnostic fixture surface. The action is internal validation, not outreach.
+The first evidence-building action, **JSON Schema Draft 2020-12 conformance vectors**, is now
+complete as internal evidence. All three validators agree, so no upstream issue or contribution is
+justified. The candidate remains near-ready only for a future externally relevant discrepancy or a
+clearly demonstrated upstream need; additional green owner-controlled runs do not close that gap.
 
 ## 9. Give-First Contribution Queue
 
@@ -172,7 +176,8 @@ Read-only research was limited to official project surfaces; no interaction occu
 
 ## 12. Human decision points
 
-1. Approve or reject JSON Schema multi-validator vectors as the next bounded evidence-building task.
+1. Review the JSON Schema conformance evidence and preserve the no-outreach boundary unless a
+   minimized, externally relevant discrepancy is later reproduced.
 2. Decide later whether live PostgreSQL should become required main CI or a separately required gate;
    this map does not change CI.
 3. Keep namespace, package publication, release, Pages, and external-service credentials behind their

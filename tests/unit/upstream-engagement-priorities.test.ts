@@ -72,7 +72,7 @@ describe("upstream engagement priority map", () => {
     expect(artifact.version).toBe("0.1");
     expect(artifact.generatedFrom).toEqual({
       repository: "Logorythmus-org/Semantiq",
-      revision: "d27ef4dd57030606cb63a8921accb02df956bfe3"
+      revision: "a8fd8d6c11ae3469cc0f095d6cbaa10534b1f51d"
     });
     expect(artifact.candidates).toHaveLength(30);
     expect(new Set(artifact.candidates.map(({ target }) => target)).size).toBe(30);
@@ -180,5 +180,18 @@ describe("upstream engagement priority map", () => {
     expect(priorities).toContain("upstream-engagement-priorities.json");
     expect(graphDoc).toContain("UPSTREAM_ENGAGEMENT_PRIORITIES.md");
     expect(index).toContain("ecosystem/UPSTREAM_ENGAGEMENT_PRIORITIES.md");
+  });
+
+  it("records JSON Schema conformance without auto-promoting outreach readiness", () => {
+    const jsonSchema = artifact.candidates.find(({ target }) =>
+      target.startsWith("JSON Schema Draft 2020-12")
+    );
+    expect(jsonSchema?.readiness).toBe("NEAR_READY_ONE_EVIDENCE_GAP");
+    expect(jsonSchema?.existingEvidence).toContain("tools/conformance/json-schema/results.json");
+    expect(jsonSchema?.missingEvidence).toEqual([
+      "externally relevant minimized validator discrepancy",
+      "demonstrated upstream need"
+    ]);
+    expect(jsonSchema?.allowedNextAction).toBe("INTERNAL_FINDING_REVIEW");
   });
 });
