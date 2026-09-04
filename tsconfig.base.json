@@ -19,6 +19,7 @@
     "services/**/*.ts",
     "apps/**/*.ts",
     "tests/**/*.ts",
+    "tools/conformance/**/*.ts",
     "tooling/**/*.ts",
     "scripts/**/*.ts"
   ],

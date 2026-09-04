@@ -1,0 +1,59 @@
+{
+  "profileRegistryVersion": "0.1",
+  "defaultForExistingEvidence": null,
+  "profiles": [
+    {
+      "id": "legacy-ts-v0",
+      "status": "legacy-verification",
+      "language": "TypeScript",
+      "generation": "preserved-not-recommended-for-new-cross-language-evidence",
+      "contract": {
+        "objectOrdering": "recursive String.localeCompare",
+        "whitespace": "none",
+        "unicodeEscaping": "JSON.stringify",
+        "numbers": "JSON.stringify number semantics",
+        "undefinedObjectProperties": "omitted"
+      }
+    },
+    {
+      "id": "legacy-python-v0",
+      "status": "legacy-verification",
+      "language": "Python",
+      "generation": "preserved-not-recommended-for-new-cross-language-evidence",
+      "contract": {
+        "objectOrdering": "recursive json.dumps sort_keys=True",
+        "whitespace": "default separators include spaces",
+        "unicodeEscaping": "ensure_ascii=True",
+        "numbers": "Python json encoder semantics"
+      }
+    },
+    {
+      "id": "semantiq-canonical-json-v1",
+      "status": "opt-in-internal",
+      "language": "cross-language",
+      "rfc8785Jcs": "not-compliant-narrower-project-profile",
+      "contract": {
+        "values": ["null", "boolean", "string", "safe-integer", "array", "object"],
+        "objectOrdering": "ascending Unicode scalar value sequence",
+        "whitespace": "none",
+        "encoding": "UTF-8",
+        "unicodeNormalization": "none",
+        "unicodeEscaping": "JSON escaping only for quotation mark, reverse solidus, and controls",
+        "integerMinimum": -9007199254740991,
+        "integerMaximum": 9007199254740991,
+        "floatingPoint": "unsupported",
+        "negativeZero": "unsupported",
+        "nonFiniteNumbers": "unsupported",
+        "arrayOrdering": "preserved",
+        "hashAlgorithm": "sha256",
+        "hashRepresentation": "lowercase-hex"
+      }
+    }
+  ],
+  "verificationPolicy": {
+    "profileRequired": true,
+    "unknownProfile": "fail-closed",
+    "fallback": "forbidden",
+    "hashMatchProfileInference": "forbidden"
+  }
+}

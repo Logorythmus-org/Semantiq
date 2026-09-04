@@ -19,6 +19,7 @@
     "test:contracts": "vitest run tests/contracts/",
     "test:contracts:product": "vitest run tests/unit/product-contracts.test.ts",
     "conformance:json-schema": "node tools/conformance/json-schema/run.mjs",
+    "conformance:canonical-json": "tsx tools/conformance/canonical-json/run.ts",
     "test:sdk": "vitest run tests/unit/sdk-compatibility.test.ts",
     "test:boundaries": "vitest run tests/architecture/package-boundaries.test.ts",
     "test:python": "pytest packages/python/tests/",

@@ -1,0 +1,258 @@
+{
+  "evidenceVersion": "0.1",
+  "profile": "semantiq-canonical-json-v1",
+  "hashAlgorithm": "sha256",
+  "inputDomain": {
+    "values": ["null", "boolean", "string", "safe-integer", "array", "object"],
+    "floats": "OUT_OF_DOMAIN",
+    "unicodeNormalization": "NONE",
+    "keyOrdering": "UNICODE_SCALAR_VALUE"
+  },
+  "implementations": [
+    {
+      "id": "typescript-production-v1",
+      "role": "production",
+      "language": "TypeScript"
+    },
+    {
+      "id": "python-reference-v1",
+      "role": "independent-reference",
+      "language": "Python"
+    },
+    {
+      "id": "node-crypto-sha256",
+      "role": "independent-digest-check",
+      "language": "Node.js"
+    }
+  ],
+  "summary": {
+    "vectors": 27,
+    "supportedVectors": 20,
+    "outOfDomainVectors": 7,
+    "canonicalByteMatches": 40,
+    "digestMatches": 60,
+    "crossLanguageDivergences": 0
+  },
+  "legacy": {
+    "typescriptV0Preserved": true,
+    "pythonV0Preserved": true
+  },
+  "results": [
+    {
+      "id": "null",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "boolean-false",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "boolean-true",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "empty-string",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "ascii",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "persian",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "emoji",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "escaped",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "unicode-nfc",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "unicode-nfd",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "unicode-key-order",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "empty-object",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "empty-array",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "nested",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "order-a",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "order-b",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "mixed-array",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "safe-min",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "safe-max",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "evidence-like",
+      "status": "SUPPORTED",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "negative-zero",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "float",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "nan",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "positive-infinity",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "negative-infinity",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "unsafe-positive-integer",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    },
+    {
+      "id": "unsafe-negative-integer",
+      "status": "OUT_OF_DOMAIN",
+      "byteMatch": true,
+      "digestMatch": true,
+      "crossLanguageMatch": true,
+      "divergence": "NO_DIVERGENCE"
+    }
+  ]
+}

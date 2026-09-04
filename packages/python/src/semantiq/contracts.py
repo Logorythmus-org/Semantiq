@@ -34,6 +34,93 @@ def compute_sha256(payload: Union[str, bytes, Dict[str, Any]]) -> str:
     return hashlib.sha256(data).hexdigest()
 
 
+LEGACY_PYTHON_CANONICALIZATION_PROFILE = "legacy-python-v0"
+SHARED_CANONICALIZATION_PROFILE = "semantiq-canonical-json-v1"
+_MAX_SAFE_INTEGER = 9_007_199_254_740_991
+
+
+def _assert_valid_unicode(value: str) -> None:
+    try:
+        value.encode("utf-8")
+    except UnicodeEncodeError as error:
+        raise TypeError(
+            "semantiq-canonical-json-v1 rejects unpaired Unicode surrogates"
+        ) from error
+
+
+def _canonicalize_v1(value: Any, ancestors: set[int]) -> str:
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, str):
+        _assert_valid_unicode(value)
+        return json.dumps(value, ensure_ascii=False, separators=(",", ":"))
+    if isinstance(value, int):
+        if value < -_MAX_SAFE_INTEGER or value > _MAX_SAFE_INTEGER:
+            raise TypeError(
+                "semantiq-canonical-json-v1 accepts only integers from "
+                f"-{_MAX_SAFE_INTEGER} to {_MAX_SAFE_INTEGER}"
+            )
+        return str(value)
+    if isinstance(value, float):
+        raise TypeError("semantiq-canonical-json-v1 rejects floating-point values")
+    if isinstance(value, list):
+        identity = id(value)
+        if identity in ancestors:
+            raise TypeError("semantiq-canonical-json-v1 rejects cyclic values")
+        ancestors.add(identity)
+        try:
+            return "[" + ",".join(_canonicalize_v1(item, ancestors) for item in value) + "]"
+        finally:
+            ancestors.remove(identity)
+    if isinstance(value, dict):
+        identity = id(value)
+        if identity in ancestors:
+            raise TypeError("semantiq-canonical-json-v1 rejects cyclic values")
+        if not all(isinstance(key, str) for key in value):
+            raise TypeError("semantiq-canonical-json-v1 requires string object keys")
+        for key in value:
+            _assert_valid_unicode(key)
+        ancestors.add(identity)
+        try:
+            entries = (
+                json.dumps(key, ensure_ascii=False, separators=(",", ":"))
+                + ":"
+                + _canonicalize_v1(value[key], ancestors)
+                for key in sorted(value)
+            )
+            return "{" + ",".join(entries) + "}"
+        finally:
+            ancestors.remove(identity)
+    raise TypeError(
+        f"semantiq-canonical-json-v1 rejects {type(value).__name__} values"
+    )
+
+
+def canonicalize_v1(value: Any) -> str:
+    """Serialize the bounded semantiq-canonical-json-v1 value domain."""
+    return _canonicalize_v1(value, set())
+
+
+def hash_canonical(value: Any, *, profile: str) -> Dict[str, Any]:
+    """Hash with an explicit profile; unknown profiles fail closed."""
+    if profile == SHARED_CANONICALIZATION_PROFILE:
+        canonical_utf8 = canonicalize_v1(value)
+    elif profile == LEGACY_PYTHON_CANONICALIZATION_PROFILE:
+        canonical_utf8 = json.dumps(value, sort_keys=True)
+    else:
+        raise ValueError(f"Unknown canonicalization profile: {profile}")
+
+    encoded = canonical_utf8.encode("utf-8")
+    return {
+        "canonicalization": {"profile": profile, "hashAlgorithm": "sha256"},
+        "canonicalUtf8": canonical_utf8,
+        "canonicalUtf8Hex": encoded.hex(),
+        "sha256": hashlib.sha256(encoded).hexdigest(),
+    }
+
+
 # ==========================================
 # Core Enums
 # ==========================================
@@ -844,7 +931,6 @@ class ExternalEvidenceEligibilityDecision(_ContractMixin):
     caveats: List[str]
     evaluated_at: str
     epistemic_disclaimer: str = EPISTEMIC_GATE_DISCLAIMER
-
 
 
 

@@ -1,0 +1,6 @@
+{
+  "profile": "legacy-python-v0",
+  "input": { "b": 2, "a": 1 },
+  "expectedCanonicalUtf8": "{\"a\": 1, \"b\": 2}",
+  "expectedSha256": "d8497d9d82770a70729261095aa98f7ef5154d7af499f8037b6ca250296785a6"
+}
