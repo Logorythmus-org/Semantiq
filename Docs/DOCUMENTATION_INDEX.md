@@ -45,6 +45,7 @@ Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation pla
 - 🔁 **[Independent Replication Guide](REPRODUCTION_WALKTHROUGH.md)**: Source-checkout run • provenance capture • divergence reporting • reviewed classification
 - 🕸️ **[Integration Graph](ecosystem/INTEGRATION_GRAPH.md)**: Evidence-backed runtime • storage • execution • exchange • experimental and migration boundaries
 - 🧭 **[Public Claim Status](ecosystem/PUBLIC_CLAIM_STATUS.md)**: Active ecosystem wording • evidence levels • publication and compatibility boundaries
+- 🧱 **[Upstream Engagement Priorities](ecosystem/UPSTREAM_ENGAGEMENT_PRIORITIES.md)**: Give-first readiness • evidence-debt queue • explicit no-contact boundaries
 
 ### 🤝 4. For Partners, Institutions & Replication Hubs
 - 📑 **[Partner Protocols & Exchange](partners/README.md)**: Pre-registration • Execution Manifests • External Evidence Eligibility Gate • Cross-Org Replication
