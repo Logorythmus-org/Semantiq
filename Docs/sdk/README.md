@@ -14,9 +14,9 @@ SemantIQ provides first-class, standalone SDKs for TypeScript/JavaScript and Pyt
 ## SDKs in this Section
 
 - 🐍 **[Python SDK Guide (`semantiq`)](../PYTHON_USAGE.md)** (`NORMATIVE`):
-  - Installation via `pip install semantiq`.
+  - Unpublished package; use the source-checkout editable-install instructions in the guide.
   - Type-safe dataclasses, client workflows, controlled language checking, matched contrast, and study protocols.
 - 📘 **[TypeScript SDK Guide (`@semantiq/sdk`)](../TYPESCRIPT_SDK.md)** (`NORMATIVE`):
-  - Installation via `pnpm add @semantiq/sdk` / `npm install @semantiq/sdk`.
+  - Unpublished package; use the source-checkout workspace instructions in the guide.
   - Zero-UI dependencies, client initialization, matched controls, Bootstrap CI evaluation, and claim drafting.
 - 🌐 **[Dual-Language SDK Strategy](../architecture/dual-language-sdk-strategy.md)** (`REVIEWED`): Cross-language contract testing architecture.

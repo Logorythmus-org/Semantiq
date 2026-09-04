@@ -1,6 +1,8 @@
-# Hugging Face Hub Integration & Publishing Guide
+# Hugging Face Local Export Guide
 
-This guide details how to publish **SemantIQ Benchmarks** datasets and benchmark packs to Hugging Face Hub under the **CC0-1.0** open data license.
+SemantIQ can generate local records and dataset-card metadata shaped for later Hugging Face review.
+Repository tests cover local generation only. Official-tool validation, authenticated upload, Hub
+compatibility, and publication have not been established.
 
 ---
 
@@ -15,7 +17,11 @@ const hfRecords = formatHuggingFaceDataset(subjects);
 
 ---
 
-## 2. Publish to Hugging Face Hub
+## 2. Optional manual publication preparation
+
+The following commands are an operator-controlled future workflow, not evidence that a SemantIQ
+dataset has been published. Review generated data, licensing, provenance, namespace ownership, and
+the current Hugging Face tooling before attempting it.
 
 ```bash
 pip install huggingface_hub

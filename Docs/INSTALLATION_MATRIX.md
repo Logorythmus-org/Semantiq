@@ -8,11 +8,11 @@ This document details verified execution environments, system prerequisites, cle
 
 | Environment | Supported Status | Node.js | Package Manager | Docker Required? | Notes |
 |---|---|---|---|---|---|
-| **Linux (Ubuntu 22.04+)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Baseline CI environment |
-| **Windows 10/11 (PowerShell/WSL2)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Native PowerShell & WSL2 verified |
-| **macOS (Apple Silicon & Intel)** | Fully Supported | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Verified on macOS 14+ |
-| **Docker Container** | Fully Supported | Containerized | Pre-packaged | Yes | Clean isolated execution |
-| **Clean Node Environment** | Fully Supported | `>= 22.0.0` | `pnpm` / `npm` | No | Zero external system dependencies |
+| **Linux (GitHub-hosted runner)** | `VERIFIED_IN_REQUIRED_CI` | `22` | `pnpm 11.7.0` | Optional | Required CI baseline |
+| **Windows 10/11 (PowerShell/WSL2)** | `BEST_EFFORT` | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Useful instructions exist; not a required CI target |
+| **macOS (Apple Silicon & Intel)** | `UNVERIFIED` | `>= 22.0.0` | `pnpm 11.7.0` | Optional | Not exercised by required CI |
+| **Docker Container** | `IMPLEMENTED_PARTIAL` | Containerized | Workspace install | Yes | Image/build surfaces exist; live lifecycle is not required CI |
+| **Clean Node Environment** | `BEST_EFFORT` | `>= 22.0.0` | `pnpm 11.7.0` | No | Source-checkout path; environment-specific compatibility varies |
 
 ---
 
@@ -35,7 +35,7 @@ cd Semantiq
 
 ### 2. Dependency Installation
 ```bash
-pnpm install
+pnpm install --frozen-lockfile
 ```
 
 ### 3. Verification & Doctor Diagnostic
@@ -49,8 +49,9 @@ pnpm verify
 ## Platform-Specific Limitations
 
 1. **Local Ollama Daemon**:
-   - Local LLM execution via Ollama requires Ollama daemon running on `http://localhost:11434`.
-   - If Ollama is unavailable, SemantIQ automatically falls back to deterministic mock evaluation.
+   - Diagnostics may inspect the conventional `http://localhost:11434` endpoint.
+   - Ollama request/response execution and automatic fallback are not implemented or verified.
 
 2. **Docker Compose Profile**:
-   - Database integration tests require Docker Desktop or daemon running when exercising PostgreSQL real tests (`VERIFY_DOCKER=1`).
+   - Opt-in real PostgreSQL tests require a compatible database service; they are skipped by the
+     default Node test run and are not a required cross-platform compatibility claim.

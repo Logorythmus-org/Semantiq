@@ -1,6 +1,7 @@
 # Zenodo GitHub Integration Workflow
 
-This document records the automated integration workflow between GitHub Releases and Zenodo for assigning DOIs to **SemantIQ Benchmarks**.
+This document records a prospective Zenodo integration design. Metadata exists, but no verified
+deposition, webhook execution, minted DOI, or automatic GitHub-to-Zenodo workflow is established.
 
 ---
 
@@ -17,8 +18,8 @@ GitHub Release Created (Tag: v0.1.0-alpha.1)
 
 ---
 
-## Dry-Run Readiness Verification
+## Local metadata readiness
 
-- `CITATION.cff` validated format compliance.
-- `.zenodo.json` contains complete metadata (title, description, license, keywords).
+- `CITATION.cff` and `.zenodo.json` are checked-in metadata inputs.
+- Local metadata presence is not Zenodo validation, registration, deposition, or DOI evidence.
 - Zero paid subscription requirements; completely open and free.

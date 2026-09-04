@@ -61,7 +61,7 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 
 ### 1. Benchmark Engine
 
-- **Execution Connectors & Adapters**: Pluggable provider architecture supporting local OCI/Docker, Podman, and external environments.
+- **Execution Connectors & Adapters**: Docker Engine execution is implemented with partial live-daemon validation. OCI contracts are available; Podman and named cloud-provider compatibility are not verified.
 - **Cryptographic Trace Capture**: Generates state-chained `Trace` and `TraceEvent` structures with SHA-256 Merkle proofs.
 - **Behavioral Metrics Extraction**: Normalizes step latencies, tool execution successes/failures, token consumption, and domain-specific scores.
 - **Benchmark Suite Families**: Integrates structured evaluation batteries (e.g. SMF, HACS long-horizon, Multimodal Vision) producing canonical run artifacts.

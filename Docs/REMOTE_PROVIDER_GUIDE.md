@@ -1,31 +1,34 @@
 # Remote Provider Setup & Safety Guide
 
-While **SemantIQ Benchmarks** defaults to local-first execution, authorized remote provider connectors (OpenAI, Anthropic, Google GenAI, custom HTTP) can be configured for model evaluation when explicitly requested.
+SemantIQ defaults to local-first execution. OpenAI, Anthropic, Google GenAI, and custom-provider
+configuration names are documented integration targets; this repository does not currently contain
+verified runtime connectors that authenticate, issue provider requests, or parse provider responses.
 
 ---
 
 ## Safety & Privacy Disclosure
 
 > [!WARNING]
-> Remote provider connectors transmit benchmark prompts and evaluation targets to external third-party API endpoints. Before configuring remote connectors:
+> A future remote connector would transmit benchmark prompts and evaluation targets to an external
+> endpoint. Before implementing or enabling such a connector:
 > 1. Ensure you have user consent for data transmission.
 > 2. Never commit API keys or secrets to Git repository files.
 > 3. Store credentials in local `.env` files (which are git-ignored).
 
 ---
 
-## Supported Remote Connectors
+## Documented provider surfaces
 
-| Provider ID | Provider Name | Environment Variable | Auth Required | Data Transmission |
-|---|---|---|---|---|
-| `openai` | OpenAI API | `OPENAI_API_KEY` | Yes | Remote HTTPS |
-| `anthropic` | Anthropic Claude | `ANTHROPIC_API_KEY` | Yes | Remote HTTPS |
-| `google-genai` | Google Gemini | `GEMINI_API_KEY` | Yes | Remote HTTPS |
-| `custom-http` | Custom Provider | `CUSTOM_PROVIDER_URL` | Optional | Custom HTTPS |
+| Provider ID | Provider name | Configuration reference | Current status |
+|---|---|---|---|
+| `openai` | OpenAI API | `OPENAI_API_KEY` | Documented/config-diagnostic only; no verified connector |
+| `anthropic` | Anthropic API | `ANTHROPIC_API_KEY` | Documented/config-diagnostic only; no verified connector |
+| `google-genai` | Google GenAI | `GEMINI_API_KEY` | Documented target only; no verified connector |
+| `custom-http` | Custom provider | `CUSTOM_PROVIDER_URL` | Planned surface; no verified connector |
 
 ---
 
-## Setup Instructions
+## Configuration preparation
 
 1. Copy `.env.example` to `.env`:
    ```bash
@@ -41,15 +44,18 @@ While **SemantIQ Benchmarks** defaults to local-first execution, authorized remo
    GEMINI_API_KEY=AIza...
    ```
 
-3. Run connector verification:
+3. Inspect configuration diagnostics:
    ```bash
-   node tools/automation/cli.mjs connector
+   pnpm connector
    ```
 
 ---
 
-## Error Handling & Recovery
+This diagnostic does not perform provider authentication, a network request, response parsing, or a
+compatibility test. Do not add real credentials unless a reviewed opt-in connector implementation
+requires them.
 
-- **Missing Credential**: If an API key is missing, SemantIQ halts execution with a clear error code (`ERR_MISSING_CREDENTIAL`) and points to `.env` configuration instructions.
-- **Quota Exhaustion**: If HTTP 429 / Quota Limit is received, SemantIQ logs `ERR_QUOTA_EXHAUSTED` and suggests retrying later or falling back to local evaluation.
-- **Network Disconnection**: Interrupted remote calls trigger automatic retry with exponential backoff before reporting `ERR_NETWORK_DISCONNECTED`.
+## Target error behavior
+
+- Missing-credential, quota, retry, and provider-specific recovery behavior are requirements for a
+  future connector, not verified current runtime behavior.
