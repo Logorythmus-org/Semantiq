@@ -919,6 +919,15 @@ export const verifiableBenchmarkExecutionReceiptSchema = {
         scenarioId: { type: "string" }
       }
     },
+    canonicalization: {
+      type: "object",
+      required: ["profile", "hashAlgorithm"],
+      additionalProperties: false,
+      properties: {
+        profile: { type: "string", enum: ["semantiq-canonical-json-v1"] },
+        hashAlgorithm: { type: "string", enum: ["sha256"] }
+      }
+    },
     provenance: {
       type: "object",
       required: [

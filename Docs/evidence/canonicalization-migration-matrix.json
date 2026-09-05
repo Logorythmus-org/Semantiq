@@ -6,7 +6,7 @@
   "productionMigrationComplete": false,
   "hashAlgorithmVocabulary": ["sha256"],
   "classVocabulary": ["IDENTITY_CRITICAL", "INTEGRITY_ONLY", "CACHE_KEY", "DIAGNOSTIC", "TEST_ONLY", "UNKNOWN_REQUIRES_REVIEW"],
-  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
+  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
   "historicalArtifactVocabulary": ["HISTORICAL_ARTIFACTS_PRESENT", "HISTORICAL_ARTIFACTS_NOT_FOUND", "UNKNOWN"],
   "scoreModel": {
     "direction": "All A-J dimensions score 1 (low) through 5 (high). A,C,D,J increase value; B and H increase risk; E,F,G,I reduce risk when high.",
@@ -38,8 +38,8 @@
     {
       "id": "sandbox-execution-receipt-digest", "sourceInventoryId": "sandbox-canonical-json", "surface": "Verifiable benchmark execution receipt digest", "class": "IDENTITY_CRITICAL",
       "producer": ["TypeScript BenchmarkExecutionReceiptIssuer"], "consumer": ["TypeScript BenchmarkExecutionReceiptIssuer.verifyReceipt"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "receipt identity has receiptVersion; optional canonicalization metadata is safely addable", "crossLanguage": false,
-      "migrationStrategy": "V1_WITH_LEGACY_VERIFICATION", "scores": {"A":5,"B":3,"C":3,"D":5,"E":4,"F":5,"G":5,"H":2,"I":5,"J":5}, "migrationValue": 18, "migrationRisk": 10, "firstMigrationSuitability": 26, "firstMigrationCandidate": true,
-      "requiredEvidence": ["legacy receipt fixture", "V1 exact-byte fixture", "optional metadata schema proof"], "compatibilityRisks": ["profile substitution", "signature/digest coupling"], "testRequirements": ["legacy verification", "V1 generation", "metadata round-trip", "unknown/downgrade rejection", "tamper detection"], "notes": "Single issuer/verifier pair, explicit format identity, no checked-in historical receipts, and isolated digest boundary make this the first migration."
+      "migrationStrategy": "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "scores": {"A":5,"B":3,"C":3,"D":5,"E":4,"F":5,"G":5,"H":2,"I":5,"J":5}, "migrationValue": 18, "migrationRisk": 10, "firstMigrationSuitability": 26, "firstMigrationCandidate": true,
+      "requiredEvidence": ["legacy receipt fixture", "V1 exact-byte fixture", "optional metadata schema proof"], "compatibilityRisks": ["profile substitution", "signature/digest coupling"], "testRequirements": ["legacy verification", "V1 generation", "metadata round-trip", "unknown/downgrade rejection", "tamper detection"], "notes": "Implemented for explicitly requested new V1 receipts with fixed legacy and V1 fixtures, additive metadata, explicit verifier dispatch, and downgrade rejection. Existing default issuance remains legacy under the approved rollback boundary."
     },
     {
       "id": "sandbox-evidence-package-root", "sourceInventoryId": "sandbox-canonical-json", "surface": "Portable EvidencePackage Merkle root and package seal", "class": "IDENTITY_CRITICAL",

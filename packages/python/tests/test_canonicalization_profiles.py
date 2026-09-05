@@ -1,3 +1,6 @@
+import json
+from pathlib import Path
+
 import pytest
 
 from semantiq.contracts import (
@@ -49,3 +52,22 @@ def test_legacy_python_digest_is_unchanged():
 def test_unknown_profile_fails_closed():
     with pytest.raises(ValueError, match="Unknown canonicalization profile"):
         hash_canonical({}, profile="unknown-profile")
+
+
+def test_execution_receipt_fixture_has_reference_parity_only():
+    """Check generic V1 bytes/hash parity; this is not a Python receipt implementation."""
+    repository_root = Path(__file__).resolve().parents[3]
+    fixture_directory = (
+        repository_root / "tests" / "fixtures" / "execution-receipts" / "v1"
+    )
+    fixture_paths = list(fixture_directory.glob("receipt-*-canonical-v1.json"))
+    assert len(fixture_paths) == 1
+    fixture_path = fixture_paths[0]
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+    unsigned = dict(fixture["receipt"])
+    unsigned.pop("receiptDigestSha256")
+    unsigned.pop("signatureHex")
+
+    result = hash_canonical(unsigned, profile=SHARED_CANONICALIZATION_PROFILE)
+    assert result["canonicalUtf8"] == fixture["expectedCanonicalUtf8"]
+    assert result["sha256"] == fixture["expectedDigest"]
