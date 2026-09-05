@@ -43,6 +43,7 @@ New artifacts must contain explicit canonicalization metadata and unknown profil
 - `NO_MIGRATION_REQUIRED`: canonical JSON is irrelevant or the current byte contract is intentional.
 - `V1_NEW_ARTIFACTS_ONLY`: V1 applies only to a newly defined artifact family.
 - `V1_WITH_LEGACY_VERIFICATION`: new writes use V1; explicitly identified legacy artifacts retain verification.
+- `IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION`: the selected surface now has an explicit V1 write path while its bounded historical format retains exact legacy verification.
 - `DUAL_WRITE_TEMPORARY`: two hashes are written for a bounded transition; not selected here.
 - `VERSIONED_CONTAINER_MIGRATION`: component and root rules change atomically under container metadata.
 - `REQUIRES_SCHEMA_CHANGE`: metadata cannot be represented safely in the current schema.
@@ -118,6 +119,8 @@ Execution receipt is the bounded candidate: a single TypeScript issuer/verifier 
 ## 17. First migration candidate
 
 Exactly one candidate is selected: `sandbox-execution-receipt-digest`.
+
+Prompt 17 implemented that row as `IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION`. The implementation record is [Execution-Receipt Canonicalization Migration](EXECUTION_RECEIPT_CANONICALIZATION_MIGRATION.md). No other row changed migration state, and Phase 2 is not globally complete.
 
 It wins with suitability 26 because the hashed unsigned body and verifier are colocated, the receipt already has format identity, optional profile metadata can be added without rehashing legacy receipts, tests can cover the full boundary, and no scoring, benchmark, registry publication, package release, or external coordination is involved.
 

@@ -116,7 +116,9 @@ describe("canonicalization migration decision matrix", () => {
     expect(selected[0]?.id).toBe(matrix.selectedFirstMigrationId);
     expect(selected[0]?.id).toBe("sandbox-execution-receipt-digest");
     expect(selected[0]?.class).toBe("IDENTITY_CRITICAL");
-    expect(selected[0]?.migrationStrategy).toBe("V1_WITH_LEGACY_VERIFICATION");
+    expect(selected[0]?.migrationStrategy).toBe(
+      "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION"
+    );
     expect(selected[0]?.profileMetadata).toContain("safely addable");
     expect(selected[0]?.historicalArtifacts).toBe("HISTORICAL_ARTIFACTS_NOT_FOUND");
     expect(selected[0]?.testRequirements).toEqual(

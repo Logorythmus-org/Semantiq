@@ -6,6 +6,7 @@
 import type { ReproducibilityTier } from "./types.js";
 import type { ComplianceGrade } from "./terms-attribution.js";
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
+import { hashCanonical, SHARED_CANONICALIZATION_PROFILE } from "./canonicalization-profiles.js";
 
 export type BenchmarkEvaluationOutcome =
   | "PASSED"
@@ -79,6 +80,7 @@ export interface ReceiptComplianceSummary {
 
 export interface VerifiableBenchmarkExecutionReceipt {
   readonly identity: ReceiptExecutionIdentity;
+  readonly canonicalization?: ReceiptCanonicalizationMetadata;
   readonly provenance: ReceiptProviderProvenance;
   readonly model: ReceiptModelConfiguration;
   readonly artifacts: ReceiptArtifactManifest;
@@ -90,6 +92,25 @@ export interface VerifiableBenchmarkExecutionReceipt {
   readonly receiptDigestSha256: string;
   readonly signatureHex: string;
 }
+
+export interface ReceiptCanonicalizationMetadata {
+  readonly profile: typeof SHARED_CANONICALIZATION_PROFILE;
+  readonly hashAlgorithm: "sha256";
+}
+
+export interface ReceiptIssuanceOptions {
+  /** Explicit opt-in for new V1 receipts. Omission preserves historical issuance semantics. */
+  readonly canonicalizationProfile: typeof SHARED_CANONICALIZATION_PROFILE;
+}
+
+export const RECEIPT_VERIFICATION_FAILURE = {
+  UNKNOWN_CANONICALIZATION_PROFILE: "UNKNOWN_CANONICALIZATION_PROFILE",
+  MALFORMED_CANONICALIZATION_METADATA: "MALFORMED_CANONICALIZATION_METADATA",
+  UNSUPPORTED_HASH_ALGORITHM: "UNSUPPORTED_HASH_ALGORITHM",
+  UNSUPPORTED_CANONICALIZATION_VALUE: "UNSUPPORTED_CANONICALIZATION_VALUE",
+  RECEIPT_DIGEST_MISMATCH: "RECEIPT_DIGEST_MISMATCH",
+  LEGACY_RECEIPT_UNSUPPORTED: "LEGACY_RECEIPT_UNSUPPORTED"
+} as const;
 
 export interface ReceiptVerificationResult {
   readonly isValid: boolean;
@@ -107,21 +128,32 @@ export interface ReceiptVerificationResult {
  * and performs end-to-end mathematical verification of receipt provenance and hashes.
  */
 export class BenchmarkExecutionReceiptIssuer {
-  issueReceipt(params: {
-    identity: ReceiptExecutionIdentity;
-    provenance: ReceiptProviderProvenance;
-    model: ReceiptModelConfiguration;
-    artifacts: ReceiptArtifactManifest;
-    observation: ReceiptBehavioralObservation;
-    financial: ReceiptFinancialSummary;
-    compliance: ReceiptComplianceSummary;
-    issuerPublicKeyHex: string;
-    privateSigningKeyHex?: string;
-  }): VerifiableBenchmarkExecutionReceipt {
+  issueReceipt(
+    params: {
+      identity: ReceiptExecutionIdentity;
+      provenance: ReceiptProviderProvenance;
+      model: ReceiptModelConfiguration;
+      artifacts: ReceiptArtifactManifest;
+      observation: ReceiptBehavioralObservation;
+      financial: ReceiptFinancialSummary;
+      compliance: ReceiptComplianceSummary;
+      issuerPublicKeyHex: string;
+      privateSigningKeyHex?: string;
+    },
+    options?: ReceiptIssuanceOptions
+  ): VerifiableBenchmarkExecutionReceipt {
     const issuedAt = new Date().toISOString();
+
+    const canonicalization = options
+      ? {
+          profile: options.canonicalizationProfile,
+          hashAlgorithm: "sha256" as const
+        }
+      : undefined;
 
     const unsignedBody = {
       identity: params.identity,
+      ...(canonicalization ? { canonicalization } : {}),
       provenance: params.provenance,
       model: params.model,
       artifacts: params.artifacts,
@@ -132,7 +164,9 @@ export class BenchmarkExecutionReceiptIssuer {
       issuerPublicKeyHex: params.issuerPublicKeyHex
     };
 
-    const receiptDigestSha256 = computeSha256(canonicalJson(unsignedBody));
+    const receiptDigestSha256 = canonicalization
+      ? hashCanonical(unsignedBody, { profile: canonicalization.profile }).sha256
+      : computeSha256(canonicalJson(unsignedBody));
     const signatureHex = `3045022100${receiptDigestSha256.substring(0, 32)}0220${receiptDigestSha256.substring(32, 64)}`;
 
     return {
@@ -146,9 +180,64 @@ export class BenchmarkExecutionReceiptIssuer {
     const errors: string[] = [];
     const warnings: string[] = [];
 
+    const rawReceipt = receipt as unknown as Record<string, unknown>;
+    const hasCanonicalization = Object.prototype.hasOwnProperty.call(
+      rawReceipt,
+      "canonicalization"
+    );
+    const metadata = rawReceipt.canonicalization;
+
+    let profile: "legacy" | typeof SHARED_CANONICALIZATION_PROFILE | undefined;
+    if (!hasCanonicalization) {
+      if (receipt.identity?.receiptVersion === "1.0.0") {
+        profile = "legacy";
+      } else {
+        errors.push(
+          `${RECEIPT_VERIFICATION_FAILURE.LEGACY_RECEIPT_UNSUPPORTED}: missing canonicalization metadata is allowed only for receipt version 1.0.0`
+        );
+      }
+    } else if (metadata === null || typeof metadata !== "object" || Array.isArray(metadata)) {
+      errors.push(
+        `${RECEIPT_VERIFICATION_FAILURE.MALFORMED_CANONICALIZATION_METADATA}: canonicalization must be an object`
+      );
+    } else {
+      const record = metadata as Record<string, unknown>;
+      const keys = Object.keys(record).sort();
+      if (
+        keys.length !== 2 ||
+        keys[0] !== "hashAlgorithm" ||
+        keys[1] !== "profile" ||
+        typeof record.profile !== "string" ||
+        record.profile.length === 0 ||
+        typeof record.hashAlgorithm !== "string" ||
+        record.hashAlgorithm.length === 0
+      ) {
+        errors.push(
+          `${RECEIPT_VERIFICATION_FAILURE.MALFORMED_CANONICALIZATION_METADATA}: profile and hashAlgorithm are required and no additional fields are allowed`
+        );
+      } else if (record.profile !== SHARED_CANONICALIZATION_PROFILE) {
+        errors.push(
+          `${RECEIPT_VERIFICATION_FAILURE.UNKNOWN_CANONICALIZATION_PROFILE}: ${record.profile}`
+        );
+      } else if (record.hashAlgorithm !== "sha256") {
+        errors.push(
+          `${RECEIPT_VERIFICATION_FAILURE.UNSUPPORTED_HASH_ALGORITHM}: ${record.hashAlgorithm}`
+        );
+      } else if (receipt.identity?.receiptVersion !== "1.0.0") {
+        errors.push(
+          `${RECEIPT_VERIFICATION_FAILURE.MALFORMED_CANONICALIZATION_METADATA}: profile conflicts with unsupported receipt version`
+        );
+      } else {
+        profile = SHARED_CANONICALIZATION_PROFILE;
+      }
+    }
+
     // 1. Reconstruct unsigned body
     const unsignedBody = {
       identity: receipt.identity,
+      ...(profile === SHARED_CANONICALIZATION_PROFILE
+        ? { canonicalization: receipt.canonicalization }
+        : {}),
       provenance: receipt.provenance,
       model: receipt.model,
       artifacts: receipt.artifacts,
@@ -160,11 +249,24 @@ export class BenchmarkExecutionReceiptIssuer {
     };
 
     // 2. Validate Digest SHA256
-    const expectedDigest = computeSha256(canonicalJson(unsignedBody));
-    const isDigestValid = expectedDigest === receipt.receiptDigestSha256;
-    if (!isDigestValid) {
+    let expectedDigest: string | undefined;
+    try {
+      expectedDigest =
+        profile === SHARED_CANONICALIZATION_PROFILE
+          ? hashCanonical(unsignedBody, { profile }).sha256
+          : profile === "legacy"
+            ? computeSha256(canonicalJson(unsignedBody))
+            : undefined;
+    } catch (error) {
       errors.push(
-        `Receipt digest mismatch: expected ${expectedDigest}, received ${receipt.receiptDigestSha256}`
+        `${RECEIPT_VERIFICATION_FAILURE.UNSUPPORTED_CANONICALIZATION_VALUE}: ${error instanceof Error ? error.message : String(error)}`
+      );
+    }
+    const isDigestValid =
+      expectedDigest !== undefined && expectedDigest === receipt.receiptDigestSha256;
+    if (expectedDigest !== undefined && !isDigestValid) {
+      errors.push(
+        `${RECEIPT_VERIFICATION_FAILURE.RECEIPT_DIGEST_MISMATCH}: Receipt digest mismatch; expected ${expectedDigest}, received ${receipt.receiptDigestSha256}`
       );
     }
 

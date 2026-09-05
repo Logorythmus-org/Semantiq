@@ -1,0 +1,59 @@
+{
+  "reason": "Synthetic representative receipt explicitly issued with semantiq-canonical-json-v1.",
+  "expectedCanonicalUtf8": "{\"artifacts\":{\"artifacts\":[],\"evidenceBundleDigest\":\"sha256:d\",\"filesMerkleRoot\":\"sha256:c\"},\"canonicalization\":{\"hashAlgorithm\":\"sha256\",\"profile\":\"semantiq-canonical-json-v1\"},\"compliance\":{\"complianceGrade\":\"FULLY_COMPLIANT\",\"compliancePackageDigest\":\"sha256:1\"},\"financial\":{\"costLedgerDigest\":\"sha256:f\",\"currency\":\"USD\",\"totalGrossCostUsd\":0,\"totalNetCostUsd\":0},\"identity\":{\"benchmarkId\":\"synthetic-benchmark\",\"evaluationRunId\":\"v1-run-001\",\"receiptId\":\"v1-receipt-001\",\"receiptVersion\":\"1.0.0\",\"scenarioId\":\"v1-scenario\"},\"issuedAt\":\"2026-01-17T00:00:00.000Z\",\"issuerPublicKeyHex\":\"04abcdef\",\"model\":{\"modelId\":\"synthetic-model\",\"modelProvider\":\"fixture\"},\"observation\":{\"behavioralChainHash\":\"sha256:e\",\"eventCount\":1,\"metrics\":{\"cases\":1},\"outcome\":\"PASSED\",\"score\":1},\"provenance\":{\"deterministicSeed\":\"17\",\"environmentSpecHash\":\"sha256:a\",\"imageDigest\":\"sha256:b\",\"isolationMechanism\":\"FIXTURE\",\"providerId\":\"local-fixture\",\"providerVersion\":\"1\",\"reproducibilityTier\":\"HERMETIC_DETERMINISTIC\",\"runtimeType\":\"fixture\"}}",
+  "expectedDigest": "660d159215dc242b4725cd4f21fd102be440631cbc2183f1057bca2349314bd0",
+  "expectedVerification": true,
+  "receipt": {
+    "identity": {
+      "receiptId": "v1-receipt-001",
+      "receiptVersion": "1.0.0",
+      "evaluationRunId": "v1-run-001",
+      "benchmarkId": "synthetic-benchmark",
+      "scenarioId": "v1-scenario"
+    },
+    "canonicalization": {
+      "profile": "semantiq-canonical-json-v1",
+      "hashAlgorithm": "sha256"
+    },
+    "provenance": {
+      "providerId": "local-fixture",
+      "providerVersion": "1",
+      "runtimeType": "fixture",
+      "environmentSpecHash": "sha256:a",
+      "imageDigest": "sha256:b",
+      "isolationMechanism": "FIXTURE",
+      "reproducibilityTier": "HERMETIC_DETERMINISTIC",
+      "deterministicSeed": "17"
+    },
+    "model": {
+      "modelId": "synthetic-model",
+      "modelProvider": "fixture"
+    },
+    "artifacts": {
+      "filesMerkleRoot": "sha256:c",
+      "evidenceBundleDigest": "sha256:d",
+      "artifacts": []
+    },
+    "observation": {
+      "behavioralChainHash": "sha256:e",
+      "eventCount": 1,
+      "outcome": "PASSED",
+      "score": 1,
+      "metrics": { "cases": 1 }
+    },
+    "financial": {
+      "costLedgerDigest": "sha256:f",
+      "totalGrossCostUsd": 0,
+      "totalNetCostUsd": 0,
+      "currency": "USD"
+    },
+    "compliance": {
+      "compliancePackageDigest": "sha256:1",
+      "complianceGrade": "FULLY_COMPLIANT"
+    },
+    "issuedAt": "2026-01-17T00:00:00.000Z",
+    "issuerPublicKeyHex": "04abcdef",
+    "receiptDigestSha256": "660d159215dc242b4725cd4f21fd102be440631cbc2183f1057bca2349314bd0",
+    "signatureHex": "3045022100660d159215dc242b4725cd4f21fd102b0220e440631cbc2183f1057bca2349314bd0"
+  }
+}
