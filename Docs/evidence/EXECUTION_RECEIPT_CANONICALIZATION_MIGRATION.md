@@ -31,7 +31,7 @@ The optional property is adjacent to `identity`:
 }
 ```
 
-It is optional in the schema solely so version `1.0.0` legacy receipts remain valid. New V1 receipts always include both fields; extra, missing, empty, or malformed fields fail closed.
+It is optional in the schema solely so schema version `1.0.0` legacy receipts remain valid. New V1 receipts always include both fields; extra, missing, empty, or malformed fields fail closed.
 
 ## 6. Digest coverage
 
