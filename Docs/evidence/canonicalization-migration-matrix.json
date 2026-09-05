@@ -6,7 +6,7 @@
   "productionMigrationComplete": false,
   "hashAlgorithmVocabulary": ["sha256"],
   "classVocabulary": ["IDENTITY_CRITICAL", "INTEGRITY_ONLY", "CACHE_KEY", "DIAGNOSTIC", "TEST_ONLY", "UNKNOWN_REQUIRES_REVIEW"],
-  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "SELECTED_SECOND_MIGRATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
+  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "SELECTED_SECOND_MIGRATION", "SELECTED_THIRD_MIGRATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
   "historicalArtifactVocabulary": ["HISTORICAL_ARTIFACTS_PRESENT", "HISTORICAL_ARTIFACTS_NOT_FOUND", "UNKNOWN"],
   "scoreModel": {
     "direction": "All A-J dimensions score 1 (low) through 5 (high). A,C,D,J increase value; B and H increase risk; E,F,G,I reduce risk when high.",
@@ -16,7 +16,7 @@
   },
   "inventoryReconciliation": {
     "sourceInventorySurfaceCount": 29,
-    "activeDecisionRows": 38,
+    "activeDecisionRows": 40,
     "removedNonSurfaces": [
       { "id": "replication-registry", "reason": "No active digest is produced or consumed; computeSha256 is imported but unused." },
       { "id": "shared-v1-profile", "reason": "This is the profile capability introduced by Prompt 15B, not an artifact hash surface." }
@@ -31,6 +31,8 @@
   "selectedFirstMigrationId": "sandbox-execution-receipt-digest",
   "selectedSecondMigrationId": "research-bundle-core-workspace-snapshot-component",
   "secondMigrationImplementationAuthorized": true,
+  "selectedThirdMigrationId": "research-bundle-core-run-components",
+  "thirdMigrationImplementationAuthorized": false,
   "rows": [
     {
       "id": "sandbox-benchmark-manifest-digests", "sourceInventoryId": "sandbox-canonical-json", "surface": "Benchmark manifest, fixture-root, and assertion digests", "class": "IDENTITY_CRITICAL",
@@ -111,10 +113,22 @@
       "requiredEvidence": ["fixed legacy workspace snapshot component", "fixed profile-bound V1 workspace snapshot component", "fixed stripped-profile attack vector", "optional per-component profile schema proof", "unchanged root framing proof"], "compatibilityRisks": ["parent root changes for newly generated V1 bundles while framing remains unchanged"], "testRequirements": ["legacy component verification", "V1 component generation", "mixed-profile root verification", "unknown/downgrade rejection", "historical root preservation"], "notes": "Implemented for explicitly opted-in new Core workspace snapshot components. Prompt 19 initially exposed metadata-only downgrade ambiguity; Prompt 19B corrected it by binding profile, algorithm, path, and payload into the V1 digest preimage. Legacy defaults and roots remain byte-identical."
     },
     {
-      "id": "research-bundle-core-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle non-workspace component artifact hashes", "class": "IDENTITY_CRITICAL",
-      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "manifest version exists; component profile absent", "crossLanguage": false,
+      "id": "research-bundle-core-run-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle runs/<id>.json component hashes", "class": "IDENTITY_CRITICAL",
+      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "component metadata capacity exists after Migration 2; run profile absent", "crossLanguage": false,
+      "migrationStrategy": "SELECTED_THIRD_MIGRATION", "scores": {"A":5,"B":3,"C":4,"D":5,"E":4,"F":5,"G":4,"H":3,"I":4,"J":5}, "migrationValue": 19, "migrationRisk": 13, "firstMigrationSuitability": 25, "firstMigrationCandidate": false,
+      "requiredEvidence": ["fixed successful-run legacy and V1 fixtures", "dynamic path binding", "unsupported-value rejection"], "compatibilityRisks": ["run path replay", "new parent root value for opted-in bundles"], "testRequirements": ["legacy run verification", "V1 run generation", "multi-run path substitution", "unchanged root framing"], "notes": "Selected for Prompt 21 planning only. V1 is explicit opt-in, binds profile/algorithm/path/payload, and rejects run payloads outside the bounded V1 domain rather than coercing them."
+    },
+    {
+      "id": "research-bundle-core-evaluation-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle evaluations/<id>.json component hashes", "class": "IDENTITY_CRITICAL",
+      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "component metadata capacity exists after Migration 2; evaluation profile absent", "crossLanguage": false,
       "migrationStrategy": "VERSIONED_CONTAINER_MIGRATION", "scores": {"A":5,"B":4,"C":4,"D":5,"E":2,"F":5,"G":2,"H":5,"I":3,"J":5}, "migrationValue": 19, "migrationRisk": 21, "firstMigrationSuitability": 17, "firstMigrationCandidate": false,
-      "requiredEvidence": ["per-component profile metadata", "artifact encoding contract", "portable numeric-domain policy"], "compatibilityRisks": ["component/root ambiguity", "floating-point evaluations are outside the current V1 domain"], "testRequirements": ["component byte fixtures", "legacy bundle verification"], "notes": "Workspace snapshot is now represented separately. Runs, evaluations, claims, and evidence outputs remain deferred; they must not inherit the selected component's profile."
+      "requiredEvidence": ["portable numeric-domain policy", "fixed evaluation fixtures"], "compatibilityRisks": ["floating-point scores are outside V1", "component/root ambiguity"], "testRequirements": ["float boundary", "legacy evaluation verification"], "notes": "Deferred because ordinary evaluation scores and weights are floating point and V1 numeric semantics must not change."
+    },
+    {
+      "id": "research-bundle-core-other-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle evidence, statistics, robustness, claims, queue, and audit component hashes", "class": "IDENTITY_CRITICAL",
+      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "component metadata capacity exists after Migration 2; per-type profiles absent", "crossLanguage": false,
+      "migrationStrategy": "VERSIONED_CONTAINER_MIGRATION", "scores": {"A":5,"B":4,"C":4,"D":5,"E":2,"F":5,"G":2,"H":5,"I":3,"J":5}, "migrationValue": 19, "migrationRisk": 21, "firstMigrationSuitability": 17, "firstMigrationCandidate": false,
+      "requiredEvidence": ["per-type payload inventory", "portable numeric-domain policy", "type binding design"], "compatibilityRisks": ["extensible and floating-point payloads", "cross-type replay", "component/root ambiguity"], "testRequirements": ["per-type fixed fixtures", "legacy verification", "type substitution"], "notes": "Deferred; these heterogeneous payload families must not inherit the selected run-component profile implicitly."
     },
     {
       "id": "research-bundle-core-root", "sourceInventoryId": "research-bundle-core", "surface": "Evidence package ResearchBundle Merkle root", "class": "IDENTITY_CRITICAL",
