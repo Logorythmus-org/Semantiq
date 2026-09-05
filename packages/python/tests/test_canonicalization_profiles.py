@@ -71,3 +71,24 @@ def test_execution_receipt_fixture_has_reference_parity_only():
     result = hash_canonical(unsigned, profile=SHARED_CANONICALIZATION_PROFILE)
     assert result["canonicalUtf8"] == fixture["expectedCanonicalUtf8"]
     assert result["sha256"] == fixture["expectedDigest"]
+
+
+def test_workspace_component_profile_bound_preimage_has_reference_parity_only():
+    """Check the V1 identity envelope; this is not Python ResearchBundle support."""
+    repository_root = Path(__file__).resolve().parents[3]
+    fixture_path = (
+        repository_root
+        / "tests"
+        / "fixtures"
+        / "research-bundle"
+        / "workspace"
+        / "v1"
+        / "workspace-component.json"
+    )
+    fixture = json.loads(fixture_path.read_text(encoding="utf-8"))
+
+    result = hash_canonical(
+        fixture["identityPreimage"], profile=SHARED_CANONICALIZATION_PROFILE
+    )
+    assert result["canonicalUtf8"] == fixture["expectedIdentityCanonicalUtf8"]
+    assert result["sha256"] == fixture["expectedDigest"]

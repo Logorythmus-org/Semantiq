@@ -394,6 +394,10 @@ export interface ResearchBundle {
     path: string;
     sha256: string;
     mediaType: string;
+    canonicalization?: {
+      profile: "semantiq-canonical-json-v1";
+      hashAlgorithm: "sha256";
+    };
   }>;
   license: string;
   createdTimestamp: string;

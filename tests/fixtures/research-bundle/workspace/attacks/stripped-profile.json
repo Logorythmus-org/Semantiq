@@ -1,0 +1,7 @@
+{
+  "source": "valid-v1-workspace-component",
+  "mutation": "remove only component.canonicalization",
+  "component": {"path":"workspace/snapshot.json","sha256":"5972394e67ffca5923edf2fa42475cb5e7f3af49410d4b68ab04b4adb0c1fffa","mediaType":"application/json"},
+  "expectedVerification": false,
+  "expectedFailure": "COMPONENT_DIGEST_MISMATCH"
+}

@@ -105,7 +105,7 @@ Question persistence/domain fingerprints and schema-shape fingerprints are opera
 
 ResearchBundle has independently meaningful component hashes and root hashes. The TS SDK and Core builder serialize object components with legacy TypeScript canonical JSON; Python uses legacy Python canonical JSON. The Core root sorts `path:digest` strings, while the TypeScript and Python SDK implementations preserve their constructed order. Component entries and roots lack canonicalization-profile metadata; `version` currently denotes the product-contract schema, not the profile.
 
-The Core `workspace/snapshot.json` component is separable from run, evaluation, claim, statistical, and other components. Its normal payload stays inside the current V1 domain, and the Core verifier recomputes its digest from the stored payload. A component-only migration is safe when each component entry identifies its profile and the existing sorted root framing remains unchanged. The root value for a new mixed bundle changes as a consequence of the child digest, but the root algorithm does not migrate. Whole-bundle and SDK migrations remain deferred because they combine multiple producer paths, floating-point or unconstrained payloads, cross-language divergence, and different root ordering.
+The Core `workspace/snapshot.json` component is separable from run, evaluation, claim, statistical, and other components. Its normal payload stays inside the current V1 domain. Prompt 19 initially proved that optional metadata alone allowed profile stripping whenever legacy and V1 payload bytes coincided. Prompt 19B corrected this by hashing a V1 identity envelope that binds profile, algorithm, component path, and payload. The Core verifier now dispatches once and recomputes that identity from the stored payload. The existing sorted root framing remains unchanged. The root value for a new mixed bundle changes as a consequence of the child digest, but the root algorithm does not migrate. Whole-bundle and SDK migrations remain deferred.
 
 ## 15. EvidencePackage analysis
 
@@ -125,7 +125,7 @@ Prompt 17 implemented that row as `IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERI
 
 It remains the reference implementation because the hashed unsigned body and verifier are colocated, the receipt already has format identity, legacy artifacts remain byte-identical, and all dispatch failures are fail-closed. It is excluded from the second selection.
 
-Exactly one second candidate is selected for planning: `research-bundle-core-workspace-snapshot-component`. It advances to component-level mixed-profile handling while retaining a payload-aware verifier, an integer-safe value domain, bounded additive metadata, unchanged root framing, and reversible opt-in generation. It is not implemented.
+The selected second candidate, `research-bundle-core-workspace-snapshot-component`, is implemented for explicitly opted-in new artifacts with bounded legacy verification. Its V1 digest is profile- and path-bound; mixed-profile child handling is explicit, the payload domain remains integer-safe, root framing is unchanged, and generation is reversible by omitting the option. No third migration is authorized.
 
 ## 18. Rejected/deferred candidates
 
