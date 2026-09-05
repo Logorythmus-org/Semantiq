@@ -289,16 +289,17 @@
     "public-artifact-content-hash"
   ],
   "selectedSecondMigration": "research-bundle-core-workspace-snapshot-component",
+  "secondMigrationImplementationStatus": "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION",
   "selectionContract": {
     "currentBehavior": "ResearchBundleBuilder serializes workspace/snapshot.json with legacy TypeScript canonicalJson, hashes those UTF-8 bytes with SHA-256, stores the digest in component entries, and includes path:digest in the sorted root framing.",
-    "targetV1Behavior": "Only an explicitly requested new workspace snapshot component uses semantiq-canonical-json-v1. Other component categories and root framing remain unchanged.",
+    "targetV1Behavior": "Only an explicitly requested new workspace snapshot component uses semantiq-canonical-json-v1 over a profile-, algorithm-, and path-bound identity envelope. Other component categories and root framing remain unchanged.",
     "identityPayload": "The exact WorkspaceSnapshot object stored as workspace/snapshot.json.",
     "profileMetadataLocation": "An optional canonicalization object on the workspace snapshot component entry in both manifest.componentArtifacts and bundle.includedArtifacts.",
     "hashAlgorithm": "sha256",
     "legacyIdentificationRule": "A ResearchBundle artifact version 1.0.0 workspace snapshot component without canonicalization metadata is legacy-typescript-v0 only.",
     "legacyVerificationPath": "Recompute the component from its stored payload with legacy TypeScript canonicalJson; do not add metadata to the payload and do not probe profiles.",
     "newGenerationPath": "An additive builder option explicitly requests semantiq-canonical-json-v1 for workspace/snapshot.json and writes profile metadata before calculating the component digest and parent root.",
-    "downgradeProtection": "Removing or substituting component profile metadata selects different bytes or fails before digest comparison; verification never tries a second profile.",
+    "downgradeProtection": "The V1 digest binds canonicalization metadata and component path inside its preimage. Removing metadata selects the one legacy digest calculation, which cannot match the envelope-bound V1 digest; verification never tries a second profile.",
     "unknownProfileFailure": "Fail closed with a normalized unsupported-profile violation.",
     "malformedProfileFailure": "Fail closed before hashing.",
     "mixedProfileRule": "YES: every component identifies its own profile; components without metadata remain bounded legacy, and the parent continues to hash recorded path:digest entries without inferring child profiles.",
@@ -358,7 +359,7 @@
     "historical fixtures remain unchanged",
     "clean-checkout focused reproduction"
   ],
-  "implementationAuthorized": false,
+  "implementationAuthorized": true,
   "historicalRehashAuthorized": false,
   "externalOutreachAuthorized": false,
   "productionMigrationComplete": false

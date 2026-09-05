@@ -28,6 +28,7 @@ interface MatrixRow {
 
 interface Matrix {
   planningOnly: boolean;
+  secondMigrationImplementationAuthorized: boolean;
   historicalRehashAuthorized: boolean;
   outreachAuthorized: boolean;
   productionMigrationComplete: boolean;
@@ -130,8 +131,9 @@ describe("canonicalization migration decision matrix", () => {
     );
   });
 
-  it("authorizes planning only, never history rewriting, outreach, or a completed migration", () => {
+  it("records the authorized second implementation without authorizing history rewriting or completion", () => {
     expect(matrix.planningOnly).toBe(true);
+    expect(matrix.secondMigrationImplementationAuthorized).toBe(true);
     expect(matrix.historicalRehashAuthorized).toBe(false);
     expect(matrix.outreachAuthorized).toBe(false);
     expect(matrix.productionMigrationComplete).toBe(false);

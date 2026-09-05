@@ -47,6 +47,7 @@ const selectionDocument = readJson<{
   candidateVocabulary: { classes: string[]; dispositions: string[] };
   remainingCandidates: Candidate[];
   selectedSecondMigration: string;
+  secondMigrationImplementationStatus: string;
   implementationAuthorized: boolean;
   historicalRehashAuthorized: boolean;
   externalOutreachAuthorized: boolean;
@@ -108,7 +109,12 @@ describe("second canonicalization migration selection", () => {
     );
     expect(matrix.selectedSecondMigrationId).toBe(selection.selectedSecondMigration);
     expect(selectedMatrixRow?.class).toBe("IDENTITY_CRITICAL");
-    expect(selectedMatrixRow?.migrationStrategy).toBe("SELECTED_SECOND_MIGRATION");
+    expect(selectedMatrixRow?.migrationStrategy).toBe(
+      "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION"
+    );
+    expect(selection.secondMigrationImplementationStatus).toBe(
+      "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION"
+    );
   });
 
   it("retains separate A-R value, risk, and readiness scores and exact formulas", () => {
@@ -164,13 +170,13 @@ describe("second canonicalization migration selection", () => {
     );
   });
 
-  it("authorizes planning only and contains no machine-local or temporal state", () => {
+  it("records the authorized implementation without authorizing completion or historical rehash", () => {
     expect(selection.planningOnly).toBe(true);
-    expect(selection.implementationAuthorized).toBe(false);
+    expect(selection.implementationAuthorized).toBe(true);
     expect(selection.historicalRehashAuthorized).toBe(false);
     expect(selection.externalOutreachAuthorized).toBe(false);
     expect(selection.productionMigrationComplete).toBe(false);
-    expect(matrix.secondMigrationImplementationAuthorized).toBe(false);
+    expect(matrix.secondMigrationImplementationAuthorized).toBe(true);
     expect(matrix.productionMigrationComplete).toBe(false);
 
     const deterministicText = `${selectionDocument.raw}\n${graphDocument.raw}`;

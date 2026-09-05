@@ -345,3 +345,18 @@ Prompt 19 must include:
 Prompt 18 does not authorize Prompt-19 implementation, historical rehash, public schema edits, SDK behavior changes, default changes, package publication, a release or tag, namespace migration, repository settings, outreach, scoring changes, benchmark changes, or external-validation claims.
 
 `productionMigrationComplete`, `implementationAuthorized`, `historicalRehashAuthorized`, and `externalOutreachAuthorized` all remain `false`.
+
+## 25. Prompt-19B implementation outcome
+
+The preceding sections preserve the Prompt-18 selection record and the boundary that existed
+before implementation. Prompt 19 initially stopped after proving that metadata-only profile
+dispatch permitted a stripped V1 component to verify through the legacy path. Prompt 19B
+corrected that design by hashing a V1 identity envelope that binds the profile, SHA-256
+algorithm, exact `workspace/snapshot.json` path, and payload.
+
+The selected `research-bundle-core-workspace-snapshot-component` is now
+`IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION`, and
+`implementationAuthorized` is now `true`. Legacy issuance remains the default, legacy bytes
+and roots remain unchanged, the ResearchBundle root still uses its existing sorted
+`path:digest` framing, and all other candidate surfaces remain deferred. Historical rehash,
+external outreach, and production migration completion remain unauthorized.

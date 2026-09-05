@@ -9,8 +9,10 @@
 
 import {
   canonicalJson,
+  canonicalizeV1,
   computeSha256,
   PRODUCT_CONTRACTS_SCHEMA_VERSION,
+  SHARED_CANONICALIZATION_PROFILE,
   type Evaluation,
   type ResearchBundle,
   type Run
@@ -29,6 +31,11 @@ import type { BehavioralMetricsSuiteReport } from "../behavioral-metrics/types.j
 import type { FailureExtractionResult } from "../research-evidence/types.js";
 import type { WorkbenchAuditEntry, WorkbenchQueueItem } from "../research-workbench/types.js";
 import { WorkspaceSnapshotEngine } from "./workspace-snapshot-engine.js";
+import {
+  hashWorkspaceComponentV1,
+  WORKSPACE_COMPONENT_HASH_ALGORITHM,
+  WORKSPACE_SNAPSHOT_COMPONENT_PATH
+} from "./workspace-component-canonicalization.js";
 
 export interface BuildResearchBundleOptions {
   readonly bundleId: string;
@@ -46,6 +53,8 @@ export interface BuildResearchBundleOptions {
   readonly robustnessReport?: RobustnessDiagnosticReport | undefined;
   readonly reviewQueue?: readonly WorkbenchQueueItem[] | undefined;
   readonly auditLog?: readonly WorkbenchAuditEntry[] | undefined;
+  /** Explicit opt-in. Omission preserves byte-identical legacy workspace component generation. */
+  readonly workspaceSnapshotCanonicalization?: typeof SHARED_CANONICALIZATION_PROFILE | undefined;
 }
 
 export interface BuiltBundleResult {
@@ -91,8 +100,32 @@ export class ResearchBundleBuilder {
       });
     };
 
-    // 1. Add Workspace Snapshot
-    addArtifact("workspace/snapshot.json", snapshot, "workspace_snapshot");
+    // 1. Add Workspace Snapshot. V1 binds profile, algorithm, and path into the digest preimage.
+    if (options.workspaceSnapshotCanonicalization === undefined) {
+      addArtifact(WORKSPACE_SNAPSHOT_COMPONENT_PATH, snapshot, "workspace_snapshot");
+    } else {
+      if (options.workspaceSnapshotCanonicalization !== SHARED_CANONICALIZATION_PROFILE) {
+        throw new TypeError(
+          `Unknown workspace snapshot canonicalization profile: ${String(options.workspaceSnapshotCanonicalization)}`
+        );
+      }
+      const jsonStr = canonicalizeV1(snapshot);
+      const identity = hashWorkspaceComponentV1(snapshot);
+      const canonicalization = {
+        profile: SHARED_CANONICALIZATION_PROFILE,
+        hashAlgorithm: WORKSPACE_COMPONENT_HASH_ALGORITHM
+      } as const;
+
+      artifactsMap.set(WORKSPACE_SNAPSHOT_COMPONENT_PATH, jsonStr);
+      componentArtifacts.push({
+        path: WORKSPACE_SNAPSHOT_COMPONENT_PATH,
+        sha256: identity.sha256,
+        mediaType: "application/json",
+        sizeBytes: Buffer.byteLength(jsonStr, "utf8"),
+        category: "workspace_snapshot",
+        canonicalization
+      });
+    }
 
     // 2. Add Runs
     const runs = options.runs ?? [];
@@ -218,7 +251,8 @@ export class ResearchBundleBuilder {
       includedArtifacts: componentArtifacts.map((a) => ({
         path: a.path,
         sha256: a.sha256,
-        mediaType: a.mediaType
+        mediaType: a.mediaType,
+        ...(a.canonicalization ? { canonicalization: a.canonicalization } : {})
       })),
       license,
       createdTimestamp: createdAt

@@ -51,6 +51,10 @@ export interface BundleComponentArtifact {
   readonly mediaType: string;
   readonly sizeBytes: number;
   readonly category: BundleArtifactCategory;
+  readonly canonicalization?: {
+    readonly profile: "semantiq-canonical-json-v1";
+    readonly hashAlgorithm: "sha256";
+  };
 }
 
 export interface BundleEvidenceSummary {

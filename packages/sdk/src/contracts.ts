@@ -231,6 +231,12 @@ export interface BundleComponentArtifact {
   readonly mediaType: string;
   readonly sizeBytes: number;
   readonly category: string;
+  readonly canonicalization?:
+    | {
+        readonly profile: "semantiq-canonical-json-v1";
+        readonly hashAlgorithm: "sha256";
+      }
+    | undefined;
 }
 
 export interface ResearchBundleManifest {

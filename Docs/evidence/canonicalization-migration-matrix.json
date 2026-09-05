@@ -30,7 +30,7 @@
   },
   "selectedFirstMigrationId": "sandbox-execution-receipt-digest",
   "selectedSecondMigrationId": "research-bundle-core-workspace-snapshot-component",
-  "secondMigrationImplementationAuthorized": false,
+  "secondMigrationImplementationAuthorized": true,
   "rows": [
     {
       "id": "sandbox-benchmark-manifest-digests", "sourceInventoryId": "sandbox-canonical-json", "surface": "Benchmark manifest, fixture-root, and assertion digests", "class": "IDENTITY_CRITICAL",
@@ -106,9 +106,9 @@
     },
     {
       "id": "research-bundle-core-workspace-snapshot-component", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle workspace/snapshot.json component hash", "class": "IDENTITY_CRITICAL",
-      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "component entries can receive additive optional canonicalization metadata", "crossLanguage": false,
-      "migrationStrategy": "SELECTED_SECOND_MIGRATION", "scores": {"A":5,"B":2,"C":3,"D":4,"E":4,"F":5,"G":4,"H":3,"I":4,"J":5}, "migrationValue": 17, "migrationRisk": 12, "firstMigrationSuitability": 22, "firstMigrationCandidate": false,
-      "requiredEvidence": ["fixed legacy workspace snapshot component", "fixed V1 workspace snapshot component", "per-component profile schema proof", "unchanged root framing proof"], "compatibilityRisks": ["parent root changes for newly generated V1 bundles", "profile stripping", "mixed-profile component ambiguity"], "testRequirements": ["legacy component verification", "V1 component generation", "mixed-profile root verification", "unknown/downgrade rejection", "historical root preservation"], "notes": "Selected for Prompt 19 planning only. It is the only standard Core ResearchBundle component whose payload is fully inside the current integer-only V1 domain; the path:digest root framing remains unchanged."
+      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0 by default; profile-bound semantiq-canonical-json-v1 by explicit opt-in", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "optional closed metadata on the workspace component entry; V1 profile, algorithm, path, and payload are bound inside the digest preimage", "crossLanguage": false,
+      "migrationStrategy": "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "scores": {"A":5,"B":2,"C":3,"D":4,"E":4,"F":5,"G":4,"H":3,"I":4,"J":5}, "migrationValue": 17, "migrationRisk": 12, "firstMigrationSuitability": 22, "firstMigrationCandidate": false,
+      "requiredEvidence": ["fixed legacy workspace snapshot component", "fixed profile-bound V1 workspace snapshot component", "fixed stripped-profile attack vector", "optional per-component profile schema proof", "unchanged root framing proof"], "compatibilityRisks": ["parent root changes for newly generated V1 bundles while framing remains unchanged"], "testRequirements": ["legacy component verification", "V1 component generation", "mixed-profile root verification", "unknown/downgrade rejection", "historical root preservation"], "notes": "Implemented for explicitly opted-in new Core workspace snapshot components. Prompt 19 initially exposed metadata-only downgrade ambiguity; Prompt 19B corrected it by binding profile, algorithm, path, and payload into the V1 digest preimage. Legacy defaults and roots remain byte-identical."
     },
     {
       "id": "research-bundle-core-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle non-workspace component artifact hashes", "class": "IDENTITY_CRITICAL",

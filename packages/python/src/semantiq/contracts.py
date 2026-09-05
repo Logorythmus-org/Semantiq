@@ -692,6 +692,7 @@ class BundleComponentArtifact(_ContractMixin):
     media_type: str
     size_bytes: int
     category: str
+    canonicalization: Optional[Dict[str, str]] = None
 
 
 @dataclass
@@ -931,7 +932,6 @@ class ExternalEvidenceEligibilityDecision(_ContractMixin):
     caveats: List[str]
     evaluated_at: str
     epistemic_disclaimer: str = EPISTEMIC_GATE_DISCLAIMER
-
 
 
 
