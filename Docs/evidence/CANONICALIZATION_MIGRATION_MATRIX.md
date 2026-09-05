@@ -2,7 +2,7 @@
 
 ## 1. Purpose
 
-This document converts the Prompt-15B hash inventory into a Phase-2 migration decision. It identifies which active digests carry durable evidence identity, how they are produced and consumed, and which single surface is suitable for the first implementation. The machine-readable authority is [`canonicalization-migration-matrix.json`](canonicalization-migration-matrix.json).
+This document tracks Phase-2 migration decisions after the first production identity migration. It identifies which active digests carry durable evidence identity, how they are produced and consumed, and which single surface is selected for the second implementation. The machine-readable authority is [`canonicalization-migration-matrix.json`](canonicalization-migration-matrix.json); the post-first-migration reassessment is [Second Canonicalization Migration Selection](SECOND_CANONICALIZATION_MIGRATION_SELECTION.md).
 
 ## 2. Phase-1 boundary
 
@@ -14,11 +14,11 @@ A deterministic profile answers how a value becomes bytes. It does not answer wh
 
 ## 4. Hash-surface classification
 
-The current audit produces 37 decision rows: 20 `IDENTITY_CRITICAL`, 5 `INTEGRITY_ONLY`, 3 `CACHE_KEY`, 5 `DIAGNOSTIC`, 2 `TEST_ONLY`, and 2 `UNKNOWN_REQUIRES_REVIEW`.
+The current audit produces 38 decision rows: 21 `IDENTITY_CRITICAL`, 5 `INTEGRITY_ONLY`, 3 `CACHE_KEY`, 6 `DIAGNOSTIC`, 2 `TEST_ONLY`, and 1 `UNKNOWN_REQUIRES_REVIEW`.
 
 Prompt 15B's broad `sandbox-canonical-json`, TypeScript SDK, Python SDK, and ResearchBundle families are split where component and container/root identities have different compatibility consequences. Two former inventory entries are not active hash surfaces: `replication-registry` has an unused hash import but produces no digest, and `shared-v1-profile` is a capability rather than an artifact hash.
 
-Two unknowns are resolved. The normalizer digest is identity-critical because it is persisted on `ObservationEvidence`; the public artifact `contentHash` is identity-critical because it is part of `SemantiqArtifactMetadata` and can feed an artifact identifier. Alpha and Sprint runtime families remain unknown because repository evidence does not establish persistence, external consumption, or intentional ordering semantics.
+Three earlier unknowns are resolved. The normalizer digest is identity-critical because it is persisted on `ObservationEvidence`; the public artifact `contentHash` is identity-critical because it is part of `SemantiqArtifactMetadata` and can feed an artifact identifier. Alpha runtime hashes are diagnostic because their current consumers do not recompute content identity. Sprint runtime hashes remain unknown because the family mixes incompatible validation and persistence semantics.
 
 ## 5. Producer/consumer model
 
@@ -44,6 +44,7 @@ New artifacts must contain explicit canonicalization metadata and unknown profil
 - `V1_NEW_ARTIFACTS_ONLY`: V1 applies only to a newly defined artifact family.
 - `V1_WITH_LEGACY_VERIFICATION`: new writes use V1; explicitly identified legacy artifacts retain verification.
 - `IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION`: the selected surface now has an explicit V1 write path while its bounded historical format retains exact legacy verification.
+- `SELECTED_SECOND_MIGRATION`: planning-only selection for Prompt 19; no production behavior has changed.
 - `DUAL_WRITE_TEMPORARY`: two hashes are written for a bounded transition; not selected here.
 - `VERSIONED_CONTAINER_MIGRATION`: component and root rules change atomically under container metadata.
 - `REQUIRES_SCHEMA_CHANGE`: metadata cannot be represented safely in the current schema.
@@ -98,13 +99,13 @@ Question persistence/domain fingerprints and schema-shape fingerprints are opera
 
 ## 13. Unknown surfaces
 
-`alpha-runtime-json-hashes` lacks an evidenced consumer/persistence lifecycle and ordering contract. `sprint-runtime-json-hashes` has local validators, but historical Sprint artifact availability and external-reader compatibility are unknown. Both require characterization before classification; neither may migrate.
+`alpha-runtime-json-hashes` is now `DIAGNOSTIC`: backup verification returns the stored hash while hard-coding `valid: true`, and invitation token hashes have no content-verification consumer. `sprint-runtime-json-hashes` remains unknown because local recomputation, length-only checks, placeholders, federation references, and event manifests do not establish one common identity contract. The Sprint family requires characterization and may not migrate.
 
 ## 14. ResearchBundle analysis
 
-ResearchBundle has independently meaningful component hashes and root hashes. The TS SDK and core builder serialize object components with legacy TypeScript canonical JSON; Python uses legacy Python canonical JSON. TS and core roots sort `path:digest` strings, while Python preserves insertion order. Component entries and roots lack canonicalization-profile metadata; `version` currently denotes the product-contract schema, not the profile.
+ResearchBundle has independently meaningful component hashes and root hashes. The TS SDK and Core builder serialize object components with legacy TypeScript canonical JSON; Python uses legacy Python canonical JSON. The Core root sorts `path:digest` strings, while the TypeScript and Python SDK implementations preserve their constructed order. Component entries and roots lack canonicalization-profile metadata; `version` currently denotes the product-contract schema, not the profile.
 
-Components and roots must migrate together inside a versioned container. Mixed profiles are prohibited for newly generated bundles because a root alone cannot reveal each component's byte rules. Legacy bundles may be verified only through an explicit legacy container mapping. ResearchBundle is deferred because it combines three producer paths, a proven cross-language divergence, root framing outside canonical JSON, and a downstream eligibility gate.
+The Core `workspace/snapshot.json` component is separable from run, evaluation, claim, statistical, and other components. Its normal payload stays inside the current V1 domain, and the Core verifier recomputes its digest from the stored payload. A component-only migration is safe when each component entry identifies its profile and the existing sorted root framing remains unchanged. The root value for a new mixed bundle changes as a consequence of the child digest, but the root algorithm does not migrate. Whole-bundle and SDK migrations remain deferred because they combine multiple producer paths, floating-point or unconstrained payloads, cross-language divergence, and different root ordering.
 
 ## 15. EvidencePackage analysis
 
@@ -118,31 +119,33 @@ Execution receipt is the bounded candidate: a single TypeScript issuer/verifier 
 
 ## 17. First migration candidate
 
-Exactly one candidate is selected: `sandbox-execution-receipt-digest`.
+The first candidate remains implemented: `sandbox-execution-receipt-digest`.
 
 Prompt 17 implemented that row as `IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION`. The implementation record is [Execution-Receipt Canonicalization Migration](EXECUTION_RECEIPT_CANONICALIZATION_MIGRATION.md). No other row changed migration state, and Phase 2 is not globally complete.
 
-It wins with suitability 26 because the hashed unsigned body and verifier are colocated, the receipt already has format identity, optional profile metadata can be added without rehashing legacy receipts, tests can cover the full boundary, and no scoring, benchmark, registry publication, package release, or external coordination is involved.
+It remains the reference implementation because the hashed unsigned body and verifier are colocated, the receipt already has format identity, legacy artifacts remain byte-identical, and all dispatch failures are fail-closed. It is excluded from the second selection.
+
+Exactly one second candidate is selected for planning: `research-bundle-core-workspace-snapshot-component`. It advances to component-level mixed-profile handling while retaining a payload-aware verifier, an integer-safe value domain, bounded additive metadata, unchanged root framing, and reversible opt-in generation. It is not implemented.
 
 ## 18. Rejected/deferred candidates
 
-Public artifact hashes rank second but require a public API decision and have ambiguous string-versus-object behavior. ResearchBundle variants offer higher cross-language value but need atomic component/root migration and a shared root framing contract. EvidencePackage embeds other identity surfaces. Benchmark manifests bind scoring assertions. Chains, provenance, preregistration, audits, and release gates carry forensic continuity risk. Normalized evidence lacks a verifier and currently uses a top-level replacer with surprising nested-key behavior.
+Benchmark manifests scored highly but normal assertion weights contain floating-point values outside V1. Non-workspace ResearchBundle and SDK variants need a wider value-domain policy plus explicit per-component and root-order contracts. EvidencePackage embeds other identity surfaces and does not fully reverify its seal. Public artifact hashes require a public API decision and have ambiguous string-versus-object behavior. Chains, provenance, preregistration, audits, and release gates carry forensic continuity risk. Normalized evidence lacks a verifier and currently uses a top-level replacer with surprising nested-key behavior.
 
-## 19. Required tests for first migration
+## 19. Required tests for second migration
 
-Prompt 17 must add exact-byte legacy and V1 receipt fixtures; deterministic repeated V1 generation; metadata round-trip; TypeScript V1 conformance reuse; unknown-profile, malformed-metadata, profile-substitution, and downgrade rejection; legacy digest preservation; tamper detection; missing-metadata legacy mapping; mixed-profile/container rejection; schema compatibility; and clean-checkout reproduction. Python parity is not required for the TS-only receipt today, but any Python receipt consumer discovered before implementation reopens that decision.
+Prompt 19 must add fixed legacy and V1 workspace-component vectors; exact bytes and SHA-256; deterministic generation; insertion-order, Unicode, safe-integer, and rejected numeric-domain cases; bounded legacy verification; unknown, malformed, substituted, stripped, and unsupported profile rejection; payload, metadata, digest, and root tamper detection; mixed legacy/V1 component verification; unchanged sorted root framing; byte-identical non-workspace digests; schema/API compatibility; independent Python V1 reference parity without Python product-support claims; historical fixture preservation; and clean-checkout reproduction.
 
 ## 20. Rollback/compatibility requirements
 
-Legacy receipt verification remains read-only and byte-identical. New V1 generation is activated only through an explicit profile-aware path; implementation must not silently change the existing default until separately authorized. Rollback disables new generation while retaining both explicit V1 and legacy verification. Already emitted V1 receipts remain verifiable after rollback.
+Legacy ResearchBundle workspace components remain read-only and byte-identical. New V1 component generation may be activated only through an explicit profile-aware builder option; the existing default remains unchanged. Each component entry must identify its own profile, allowing explicit legacy and V1 children to coexist while the root continues to hash lexically sorted `path:digest` strings. Rollback disables new V1 generation while retaining both verification paths and never rewrites existing bundles.
 
 ## 21. Security/forensic boundary
 
-The profile id is part of the unsigned receipt body and therefore covered by the digest. Unknown, malformed, or unsupported profiles fail closed. A V1-marked receipt may not be verified with legacy bytes, and a metadata-free legacy receipt may not be upgraded by inference. New mixed-profile receipts are invalid. Verification never tries profiles until one matches. Historical artifacts are not rewritten, normalized, or relabeled.
+The profile id must travel with the component digest entry and be covered by the enclosing manifest/root identity. Unknown, malformed, or unsupported component profiles fail closed. A V1-marked component may not verify with legacy bytes; stripping or substituting metadata must invalidate the bundle. Missing metadata maps to legacy only through the bounded historical Core component rule. Verification never tries profiles until one matches. Historical artifacts are not rewritten, normalized, or relabeled.
 
-## 22. Phase-2 implementation gate
+## 22. Second-migration implementation gate
 
-Prompt 17 may proceed only after maintainers approve the selected surface, optional backward-compatible metadata shape, legacy mapping, unchanged-default policy, and fail-closed behavior. Any discovered external receipt consumer, checked-in production artifact, Python receipt verifier, or required breaking schema change sends the work back to Prompt 16B.
+Prompt 19 may proceed only after maintainers approve the selected component boundary, optional backward-compatible component metadata, legacy mapping, unchanged-default policy, mixed-profile rule, unchanged root framing, and fail-closed behavior. Any discovered historical production bundle, external consumer constraint, unsupported ordinary workspace value, ambiguous legacy profile, or required breaking schema/API change sends the work back for selection revision.
 
 ## 23. What this planning does NOT authorize
 

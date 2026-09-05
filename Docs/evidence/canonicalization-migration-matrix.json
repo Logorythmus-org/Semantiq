@@ -6,7 +6,7 @@
   "productionMigrationComplete": false,
   "hashAlgorithmVocabulary": ["sha256"],
   "classVocabulary": ["IDENTITY_CRITICAL", "INTEGRITY_ONLY", "CACHE_KEY", "DIAGNOSTIC", "TEST_ONLY", "UNKNOWN_REQUIRES_REVIEW"],
-  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
+  "strategyVocabulary": ["NO_MIGRATION_REQUIRED", "V1_NEW_ARTIFACTS_ONLY", "V1_WITH_LEGACY_VERIFICATION", "IMPLEMENTED_V1_NEW_ARTIFACTS_WITH_LEGACY_VERIFICATION", "SELECTED_SECOND_MIGRATION", "DUAL_WRITE_TEMPORARY", "VERSIONED_CONTAINER_MIGRATION", "REQUIRES_SCHEMA_CHANGE", "REQUIRES_PUBLIC_API_CHANGE", "REQUIRES_HISTORICAL_COMPATIBILITY_DESIGN", "DEFER_UNTIL_EXTERNAL_CONSUMER_EVIDENCE", "NOT_SAFE_TO_MIGRATE_YET", "UNKNOWN_REQUIRES_REVIEW"],
   "historicalArtifactVocabulary": ["HISTORICAL_ARTIFACTS_PRESENT", "HISTORICAL_ARTIFACTS_NOT_FOUND", "UNKNOWN"],
   "scoreModel": {
     "direction": "All A-J dimensions score 1 (low) through 5 (high). A,C,D,J increase value; B and H increase risk; E,F,G,I reduce risk when high.",
@@ -16,18 +16,21 @@
   },
   "inventoryReconciliation": {
     "sourceInventorySurfaceCount": 29,
-    "activeDecisionRows": 37,
+    "activeDecisionRows": 38,
     "removedNonSurfaces": [
       { "id": "replication-registry", "reason": "No active digest is produced or consumed; computeSha256 is imported but unused." },
       { "id": "shared-v1-profile", "reason": "This is the profile capability introduced by Prompt 15B, not an artifact hash surface." }
     ],
     "resolvedUnknowns": [
       { "id": "evidence-normalizer-top-level-replacer", "resolution": "IDENTITY_CRITICAL", "reason": "evidenceDigest is persisted on ObservationEvidence and therefore identifies the normalized evidence payload, despite lacking a verifier." },
-      { "id": "identifier-package", "resolution": "IDENTITY_CRITICAL", "reason": "contentHash is part of public SemantiqArtifactMetadata and can feed artifactId versionOrHash identity." }
+      { "id": "identifier-package", "resolution": "IDENTITY_CRITICAL", "reason": "contentHash is part of public SemantiqArtifactMetadata and can feed artifactId versionOrHash identity." },
+      { "id": "alpha-runtime-json-hashes", "resolution": "DIAGNOSTIC", "reason": "The backup verifier returns a stored digest while hard-coding valid=true, and the invitation token hash has no content-verification consumer; neither currently proves durable evidence identity." }
     ],
-    "remainingUnknowns": ["alpha-runtime-json-hashes", "sprint-runtime-json-hashes"]
+    "remainingUnknowns": ["sprint-runtime-json-hashes"]
   },
   "selectedFirstMigrationId": "sandbox-execution-receipt-digest",
+  "selectedSecondMigrationId": "research-bundle-core-workspace-snapshot-component",
+  "secondMigrationImplementationAuthorized": false,
   "rows": [
     {
       "id": "sandbox-benchmark-manifest-digests", "sourceInventoryId": "sandbox-canonical-json", "surface": "Benchmark manifest, fixture-root, and assertion digests", "class": "IDENTITY_CRITICAL",
@@ -102,10 +105,16 @@
       "requiredEvidence": ["shared root framing", "ordering rule"], "compatibilityRisks": ["TS sorts while Python preserves insertion order", "partial migration"], "testRequirements": ["cross-language root vectors", "legacy root verification"], "notes": "Root behavior is already cross-language divergent."
     },
     {
-      "id": "research-bundle-core-components", "sourceInventoryId": "research-bundle-core", "surface": "Evidence package ResearchBundle component artifact hashes", "class": "IDENTITY_CRITICAL",
+      "id": "research-bundle-core-workspace-snapshot-component", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle workspace/snapshot.json component hash", "class": "IDENTITY_CRITICAL",
+      "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "component entries can receive additive optional canonicalization metadata", "crossLanguage": false,
+      "migrationStrategy": "SELECTED_SECOND_MIGRATION", "scores": {"A":5,"B":2,"C":3,"D":4,"E":4,"F":5,"G":4,"H":3,"I":4,"J":5}, "migrationValue": 17, "migrationRisk": 12, "firstMigrationSuitability": 22, "firstMigrationCandidate": false,
+      "requiredEvidence": ["fixed legacy workspace snapshot component", "fixed V1 workspace snapshot component", "per-component profile schema proof", "unchanged root framing proof"], "compatibilityRisks": ["parent root changes for newly generated V1 bundles", "profile stripping", "mixed-profile component ambiguity"], "testRequirements": ["legacy component verification", "V1 component generation", "mixed-profile root verification", "unknown/downgrade rejection", "historical root preservation"], "notes": "Selected for Prompt 19 planning only. It is the only standard Core ResearchBundle component whose payload is fully inside the current integer-only V1 domain; the path:digest root framing remains unchanged."
+    },
+    {
+      "id": "research-bundle-core-components", "sourceInventoryId": "research-bundle-core", "surface": "Core ResearchBundle non-workspace component artifact hashes", "class": "IDENTITY_CRITICAL",
       "producer": ["TypeScript ResearchBundleBuilder"], "consumer": ["TypeScript ResearchBundleVerifier"], "currentProfile": "legacy-typescript-v0", "hashAlgorithm": "sha256", "historicalArtifacts": "HISTORICAL_ARTIFACTS_NOT_FOUND", "profileMetadata": "manifest version exists; component profile absent", "crossLanguage": false,
       "migrationStrategy": "VERSIONED_CONTAINER_MIGRATION", "scores": {"A":5,"B":4,"C":4,"D":5,"E":2,"F":5,"G":2,"H":5,"I":3,"J":5}, "migrationValue": 19, "migrationRisk": 21, "firstMigrationSuitability": 17, "firstMigrationCandidate": false,
-      "requiredEvidence": ["manifest profile metadata", "artifact encoding contract"], "compatibilityRisks": ["component/root ambiguity"], "testRequirements": ["component byte fixtures", "legacy bundle verification"], "notes": "Must migrate atomically with the ResearchBundle root."
+      "requiredEvidence": ["per-component profile metadata", "artifact encoding contract", "portable numeric-domain policy"], "compatibilityRisks": ["component/root ambiguity", "floating-point evaluations are outside the current V1 domain"], "testRequirements": ["component byte fixtures", "legacy bundle verification"], "notes": "Workspace snapshot is now represented separately. Runs, evaluations, claims, and evidence outputs remain deferred; they must not inherit the selected component's profile."
     },
     {
       "id": "research-bundle-core-root", "sourceInventoryId": "research-bundle-core", "surface": "Evidence package ResearchBundle Merkle root", "class": "IDENTITY_CRITICAL",
@@ -169,7 +178,7 @@
     {"id":"typescript-hash-regressions","sourceInventoryId":"typescript-hash-regressions","surface":"TypeScript hash test expectations","class":"TEST_ONLY","producer":["Vitest fixtures"],"consumer":["Vitest"],"currentProfile":"mixed profiles under test","hashAlgorithm":"sha256","historicalArtifacts":"HISTORICAL_ARTIFACTS_PRESENT","profileMetadata":"fixture-specific","crossLanguage":false,"migrationStrategy":"NO_MIGRATION_REQUIRED","migrationValue":0,"migrationRisk":0,"firstMigrationSuitability":0,"firstMigrationCandidate":false,"requiredEvidence":[],"compatibilityRisks":[],"testRequirements":["preserve regression vectors"],"notes":"Tests are evidence for behavior, not production surfaces."},
     {"id":"python-hash-regressions","sourceInventoryId":"python-hash-regressions","surface":"Python hash test expectations","class":"TEST_ONLY","producer":["pytest fixtures"],"consumer":["pytest"],"currentProfile":"mixed profiles under test","hashAlgorithm":"sha256","historicalArtifacts":"HISTORICAL_ARTIFACTS_PRESENT","profileMetadata":"fixture-specific","crossLanguage":false,"migrationStrategy":"NO_MIGRATION_REQUIRED","migrationValue":0,"migrationRisk":0,"firstMigrationSuitability":0,"firstMigrationCandidate":false,"requiredEvidence":[],"compatibilityRisks":[],"testRequirements":["preserve regression vectors"],"notes":"Tests are evidence for behavior, not production surfaces."},
 
-    {"id":"alpha-runtime-json-hashes","sourceInventoryId":"alpha-runtime-json-hashes","surface":"Alpha runtime and operations ordinary JSON hashes","class":"UNKNOWN_REQUIRES_REVIEW","producer":["TypeScript alpha-runtime and alpha-operations"],"consumer":["runtime package consumers not evidenced"],"currentProfile":"ordinary JSON.stringify","hashAlgorithm":"sha256","historicalArtifacts":"UNKNOWN","profileMetadata":"none","crossLanguage":false,"migrationStrategy":"UNKNOWN_REQUIRES_REVIEW","migrationValue":0,"migrationRisk":0,"firstMigrationSuitability":0,"firstMigrationCandidate":false,"requiredEvidence":["call-site consumer trace","persistence/export evidence","order-sensitivity intent"],"compatibilityRisks":["unknown durable identity semantics"],"testRequirements":["consumer characterization"],"notes":"Insufficient evidence to distinguish identity from operational hashing."},
+    {"id":"alpha-runtime-json-hashes","sourceInventoryId":"alpha-runtime-json-hashes","surface":"Alpha backup and invitation ordinary JSON hashes","class":"DIAGNOSTIC","producer":["TypeScript alpha-runtime and alpha-operations"],"consumer":["backup status and invitation records"],"currentProfile":"ordinary JSON.stringify","hashAlgorithm":"sha256","historicalArtifacts":"UNKNOWN","profileMetadata":"none","crossLanguage":false,"migrationStrategy":"NO_MIGRATION_REQUIRED","migrationValue":0,"migrationRisk":0,"firstMigrationSuitability":0,"firstMigrationCandidate":false,"requiredEvidence":[],"compatibilityRisks":["future verifier introduction could promote the classification"],"testRequirements":["classification regression"],"notes":"The current backup check does not recompute the digest and hard-codes valid=true; invitation tokenHash is an opaque operational value. Neither is a verified evidence identity today."},
     {"id":"sprint-runtime-json-hashes","sourceInventoryId":"sprint-runtime-json-hashes","surface":"Sprint 4/5 package and manifest hashes","class":"UNKNOWN_REQUIRES_REVIEW","producer":["TypeScript sprint4-runtime and sprint5-runtime"],"consumer":["runtime validators and unknown external readers"],"currentProfile":"ordinary JSON.stringify","hashAlgorithm":"sha256","historicalArtifacts":"UNKNOWN","profileMetadata":"partial manifest versions","crossLanguage":false,"migrationStrategy":"UNKNOWN_REQUIRES_REVIEW","migrationValue":0,"migrationRisk":0,"firstMigrationSuitability":0,"firstMigrationCandidate":false,"requiredEvidence":["historical artifact search outside repository","runtime lifecycle classification"],"compatibilityRisks":["historical sprint package reinterpretation"],"testRequirements":["manifest/package fixture characterization"],"notes":"Internal validators exist, but archival and external compatibility are unknown."}
   ]
 }
