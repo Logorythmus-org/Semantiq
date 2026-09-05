@@ -269,7 +269,7 @@ An additive builder option explicitly selects V1 only for `workspace/snapshot.js
 ### Historical compatibility
 
 - `LEGACY_PROFILE_KNOWN`: yes.
-- `LEGACY_PROFILE_DERIVABLE`: only from ResearchBundle version `1.0.0`, exact path `workspace/snapshot.json`, and absent component metadata.
+- `LEGACY_PROFILE_DERIVABLE`: only from ResearchBundle artifact version `1.0.0`, exact path `workspace/snapshot.json`, and absent component metadata.
 - `LEGACY_PROFILE_AMBIGUOUS`: no within that bounded rule.
 
 Existing bundles are never rewritten, rehashed, relabeled, or supplemented with metadata.
@@ -292,7 +292,7 @@ Existing bundles are never rewritten, rehashed, relabeled, or supplemented with 
 - **Identity payload:** the exact `WorkspaceSnapshot` stored as `workspace/snapshot.json`.
 - **Profile metadata:** optional closed `{ profile, hashAlgorithm }` on the corresponding manifest and Product Contract component entry.
 - **Algorithm:** SHA-256.
-- **Legacy path:** version `1.0.0` + exact component path + absent metadata selects `legacy-typescript-v0` once.
+- **Legacy path:** ResearchBundle artifact version `1.0.0` + exact component path + absent metadata selects `legacy-typescript-v0` once.
 - **V1 path:** explicit builder option selects `semantiq-canonical-json-v1`, writes metadata, and hashes V1 UTF-8 bytes.
 - **Unknown/malformed metadata:** fail closed before hashing.
 - **Mixed profiles:** allowed only per-entry; root framing remains sorted `path:digest` strings.
