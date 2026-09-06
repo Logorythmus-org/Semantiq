@@ -1,14 +1,14 @@
 {
-  "graphVersion": "0.1",
+  "graphVersion": "0.2",
   "direction": "child identity feeds parent identity",
   "nodes": [
-    { "id": "sandbox-execution-receipt-digest", "state": "REFERENCE_IMPLEMENTATION" },
+    { "id": "sandbox-execution-receipt-digest", "state": "IMPLEMENTED_REFERENCE" },
     { "id": "benchmark-manifest-digest", "state": "DEFERRED" },
     { "id": "benchmark-author-signature", "state": "DEFERRED" },
     { "id": "benchmark-fixtures-digest", "state": "DEFERRED" },
     { "id": "benchmark-assertions-digest", "state": "DEFERRED" },
-    { "id": "research-bundle-core-workspace-snapshot-component", "state": "SELECTED_SECOND_MIGRATION" },
-    { "id": "research-bundle-core-run-components", "state": "DEFERRED" },
+    { "id": "research-bundle-core-workspace-snapshot-component", "state": "IMPLEMENTED_REFERENCE" },
+    { "id": "research-bundle-core-run-components", "state": "SELECTED_THIRD_MIGRATION" },
     { "id": "research-bundle-core-evaluation-components", "state": "DEFERRED" },
     { "id": "research-bundle-core-other-components", "state": "DEFERRED" },
     { "id": "research-bundle-core-root", "state": "DEFERRED_FRAMING_UNCHANGED" },
@@ -61,6 +61,15 @@
     "parentValueChangesForNewBundles": true,
     "parentFramingMigrates": false,
     "requiredParentInvariant": "The root remains SHA-256 over lexically sorted path:digest strings.",
+    "unresolvedChildrenMayMigrate": false
+  },
+  "thirdSelectedBoundary": {
+    "selectedNode": "research-bundle-core-run-components",
+    "complexityLevel": "LEVEL_2_COMPONENT_IDENTITY",
+    "parentValueChangesForNewBundles": true,
+    "parentFramingMigrates": false,
+    "requiredParentInvariant": "The root remains SHA-256 over lexically sorted path:digest strings joined by a pipe.",
+    "dynamicPathBindingRequired": true,
     "unresolvedChildrenMayMigrate": false
   }
 }
