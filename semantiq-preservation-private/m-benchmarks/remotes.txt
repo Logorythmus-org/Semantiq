@@ -1,2 +1,0 @@
-origin	https://github.com/kaveh8866/SemantIQ.git (fetch)
-origin	https://github.com/kaveh8866/SemantIQ.git (push)
