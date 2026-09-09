@@ -4,7 +4,7 @@ Status: local containment candidate prepared as a normal Git change under the ap
 
 Legacy preservation artifacts were identified in the active repository. They represented archival and recovery material rather than assets required for SemantIQ runtime, API, SDK, build, or packaging operation.
 
-After byte-integrity verification and controlled private retention, the approved 17-artifact set was removed from the active public tree. Active SemantIQ product functionality was unaffected. No Git history rewrite was performed, and historical copies may remain reachable through earlier Git history.
+This change removes the approved 17-artifact set from the active repository tree after byte-integrity verification and controlled private retention. Active SemantIQ product functionality is unaffected. No Git history rewrite is performed, and historical copies may remain reachable through earlier Git history.
 
 This containment reduces unnecessary archival and provenance exposure. Ongoing provenance and rights review is handled separately and is not represented here as a public rights determination.
 
