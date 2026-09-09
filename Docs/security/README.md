@@ -15,5 +15,6 @@ SemantIQ enforces a zero-trust, local-first default posture with automated secre
 
 - 🔒 **[Operational Security Policy](../../SECURITY.md)** (`NORMATIVE`): Vulnerability reporting channel (`security@semantiq.org`), response SLAs, and supported versions.
 - 🛡️ **[Threat Model](threat_model.md)** (`NORMATIVE`): STRIDE analysis covering 7 key attack vectors (secret exfiltration, path traversal, tampered bundles, forged provenance).
+- 📦 **[Legacy preservation payload containment](legacy-preservation-containment.md)** (`AUDIT RECORD`): Sanitized record of the approved removal from the active public tree, with historical and private-evidence boundaries.
 - 🕵️ **[Data Handling & Privacy Guide](data_handling.md)** (`NORMATIVE`): 5-tier data classification, quarantine protocol, and zero-telemetry boundary.
 - 🏰 **[GitHub Repository Protection Baseline](github_repository_protection.md)** (`NORMATIVE`): Branch rulesets, required status checks, Actions token permissions, and Dependabot configuration.
