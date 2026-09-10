@@ -17,3 +17,4 @@ SemantIQ operates under a decentralized **Product-Domain Ownership Model** cover
 - 📋 **[Request for Comments (RFC) Process](rfc_process.md)** (`NORMATIVE`): 6-stage RFC lifecycle (`Draft → Under Review → Accepted → Implemented`), required triggers, and review templates.
 - 👥 **[Code Ownership Mappings](../../.github/CODEOWNERS)** (`NORMATIVE`): Authoritative path-to-team review rules.
 - ⚖️ **[Dispute & Contradiction Policies](../../disputes/SCORE_DISPUTE_PROTOCOL.md)** (`REVIEWED`): Formal procedures for scientific score dispute resolution and result annotations.
+- 🧭 **[Prospective IP Architecture](ip-architecture.md)** (`PROPOSED`): Public, research-prepublication, and protected boundaries for future development; not a rights determination.

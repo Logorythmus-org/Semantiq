@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.1.0",
+  "policy_kind": "prospective_architecture_not_rights_determination",
+  "classes": ["PUBLIC", "RESEARCH_PREPUBLICATION", "PROTECTED"],
+  "overlays": ["HOSTED_ENTERPRISE", "BRAND_CERTIFICATION"],
+  "default_new_strategic_rnd": "RESEARCH_PREPUBLICATION",
+  "allowed_dependency_directions": [
+    "RESEARCH_PREPUBLICATION -> PUBLIC",
+    "PROTECTED -> PUBLIC",
+    "HOSTED_ENTERPRISE -> PUBLIC"
+  ],
+  "forbidden_dependency_directions": ["PUBLIC -> PROTECTED", "PUBLIC -> RESEARCH_PREPUBLICATION"],
+  "public_repository_policy": {
+    "allowed_classes": ["PUBLIC"],
+    "protected_implementation_allowed": false,
+    "research_prepublication_implementation_allowed": false,
+    "private_repository_access_required_for_build_test_release": false,
+    "forbidden_source_directories": ["private", "protected", "research-prepublication"]
+  },
+  "topology_reference": "governance/ip-topology.json",
+  "intake_template_reference": "governance/ip-intake-template.json",
+  "directory_checks_are_defense_in_depth": true,
+  "publication_gate_reference": "Docs/governance/ip-architecture.md#publication-gate",
+  "publication_gate": [
+    "PROVENANCE_CLEAR",
+    "RIGHTS_CLEAR_OR_ACCEPTED",
+    "SECURITY_REVIEW",
+    "IP_VALUE_REVIEW",
+    "LICENSE_COMPATIBILITY",
+    "THIRD_PARTY_REVIEW",
+    "SECRET_SCAN",
+    "PUBLICATION_APPROVAL",
+    "TESTS",
+    "DOCUMENTATION"
+  ]
+}

@@ -43,6 +43,7 @@
     "semantiq": "tsx tools/automation/cli.mjs semantiq",
     "health": "node scripts/repository-health.mjs",
     "version:audit": "node scripts/version-reference-audit.mjs",
+    "ip:validate": "node scripts/validate-ip-boundaries.mjs",
     "config:check": "tsx scripts/config-check.mjs",
     "config:init": "tsx scripts/config-init.mjs",
     "graph": "node scripts/techclub.mjs graph",

@@ -1,0 +1,20 @@
+{
+  "schema_version": "0.1.0",
+  "id": "FEATURE-ID",
+  "title": "Short feature or research title",
+  "description": "Non-sensitive description sufficient for classification",
+  "proposed_class": "RESEARCH_PREPUBLICATION",
+  "interoperability_need": false,
+  "reproducibility_need": false,
+  "strategic_disclosure_risk": "UNKNOWN",
+  "unpublished_research": true,
+  "proprietary_asset_dependency": false,
+  "third_party_inputs": [],
+  "rights_status": "UNRESOLVED",
+  "ai_assistance": "DISCLOSE_AS_APPLICABLE",
+  "public_contract_required": false,
+  "public_repository_implementation": false,
+  "publication_requested": false,
+  "decision": "HOLD_RIGHTS_REVIEW",
+  "decision_rationale": "Complete classification and rights review before implementation or publication"
+}
