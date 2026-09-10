@@ -86,6 +86,44 @@ No license changes are authorized. MIT, Apache-2.0, MPL-2.0, AGPL, and source-av
 
 Future use of “SemantIQ Verified”, “SemantIQ Certified”, official benchmark results, or official implementations requires separate trademark-usage, criteria, verification, correction/revocation, and version-specific policies. Open-source implementation does not confer certification authority, and no trademark registration is claimed.
 
+## Operational topology and restricted workspaces
+
+`governance/ip-topology.json` is the machine-readable logical topology. Its identifiers are not remote names or URLs. Each surface defines permitted and forbidden classes, dependency and contract directions, build/CI/secrets boundaries, contribution and publication policy, artifact export, access control, and backup expectations.
+
+A controlled research workspace records intake, experiments, evaluations, fixtures, contracts, evidence, provenance, AI/tool assistance, third-party inputs, and promotion decisions. It consumes versioned PUBLIC contracts, remains independently access-controlled, and is never required by public CI. This is a bootstrap specification—not a public `research/` implementation directory.
+
+A protected implementation surface uses least privilege, protected branches, mandatory review, isolated secrets, security scanning, tested recovery, internal versioning, and signing where useful. It exposes only reviewed APIs/RPC, schemas, provider/plugin interfaces, and artifact formats. PUBLIC never imports restricted source directly.
+
+## Cross-boundary contracts and artifact flow
+
+Schema, API, package, capability-manifest, and evidence/artifact format versions evolve independently where appropriate. Restricted consumers must pass compatibility checks before adopting a new PUBLIC contract. PUBLIC contracts remain testable without restricted code, and public releases do not follow a restricted release cadence.
+
+- `RESEARCH -> PUBLIC`: provenance, rights, security, value, license, third-party, secret, approval, test, and documentation gates.
+- `RESEARCH -> PROTECTED`: recorded rationale, provenance, restrictions, interfaces, security, access, and internal version.
+- `PROTECTED -> PUBLIC CONTRACT UPDATE`: publish only the reviewed contract and safe conformance material, never arbitrary source copying.
+- `PUBLIC -> RESTRICTED`: prefer released/versioned packages, schemas, APIs, fixtures, tests, and evidence contracts. Optional local links may not become public build requirements.
+
+## Intake classification
+
+Copy `governance/ip-intake-template.json` before substantial strategic work and complete every field without private implementation detail. A publication request is input to review, not approval. Unresolved rights route to `HOLD_RIGHTS_REVIEW`; unpublished or high-disclosure-risk research cannot silently become PUBLIC. Directory-name checks are defense in depth only—the primary controls are classification, dependency direction, review, CI, and repository separation.
+
+## Development landing zones
+
+| Capability | PUBLIC contract candidate | Default implementation landing zone |
+|---|---|---|
+| Cyber benchmark protocol, task/environment/permission/trajectory schemas, evidence package, scoring contract, safe fixtures | Yes, after intake and publication gates | PUBLIC for approved contracts/fixtures only |
+| Capability inference, adaptive evaluation, exploit/patch intelligence, containment intelligence, capability-containment-gap analysis | Stable interfaces where safe | RESEARCH_PREPUBLICATION; PROTECTED only after explicit review |
+| Computational Representation/serialization, Execution Graph, Runtime IR, Computational Package, isolated-execution, path/state/risk and repair-validation contracts | Consider PUBLIC where strategically safe | RESEARCH_PREPUBLICATION by default |
+| Representation construction, runtime analysis, path/state/risk, automated repair, lossless reconstruction intelligence | Contract only where approved | RESEARCH_PREPUBLICATION; possible PROTECTED promotion |
+
+No implementation of these capabilities is introduced by this architecture.
+
+## Cyber start prerequisites
+
+The architectural prerequisites are: enforceable IP policy and public-repository boundary; defined research and protected workspace models; available intake classification; defined public contract and Cyber landing zones; no PUBLIC-to-restricted dependency; and a separate rights track. These prerequisites are satisfied by the A-01/A-02 governance candidate, so `CYBER_ARCHITECTURE_PREREQUISITES_READY` may be recorded after adoption. This does not authorize Cyber implementation.
+
+Unresolved relicensing, trademark, certification, or general external-contribution policy does not by itself block controlled internal research. It can block publication, relicensing, certification, or external contributions. Feature-specific unresolved rights remain a research-start blocker only when the proposed feature depends on them.
+
 ## Roadmap
 
 1. **A-02:** bootstrap repository topology and research/protected workspace boundaries without publishing protected source.

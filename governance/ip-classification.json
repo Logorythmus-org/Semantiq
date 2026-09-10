@@ -17,6 +17,9 @@
     "private_repository_access_required_for_build_test_release": false,
     "forbidden_source_directories": ["private", "protected", "research-prepublication"]
   },
+  "topology_reference": "governance/ip-topology.json",
+  "intake_template_reference": "governance/ip-intake-template.json",
+  "directory_checks_are_defense_in_depth": true,
   "publication_gate_reference": "Docs/governance/ip-architecture.md#publication-gate",
   "publication_gate": [
     "PROVENANCE_CLEAR",

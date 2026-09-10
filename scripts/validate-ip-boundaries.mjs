@@ -9,6 +9,38 @@ export const REQUIRED_FORBIDDEN_DIRECTIONS = [
   "PUBLIC -> PROTECTED",
   "PUBLIC -> RESEARCH_PREPUBLICATION"
 ];
+export const ALLOWED_DECISIONS = [
+  "PUBLIC",
+  "RESEARCH_PREPUBLICATION",
+  "PROTECTED",
+  "HOLD_RIGHTS_REVIEW"
+];
+export const REQUIRED_INTAKE_FIELDS = [
+  "id",
+  "title",
+  "description",
+  "proposed_class",
+  "interoperability_need",
+  "reproducibility_need",
+  "strategic_disclosure_risk",
+  "unpublished_research",
+  "proprietary_asset_dependency",
+  "third_party_inputs",
+  "rights_status",
+  "ai_assistance",
+  "public_contract_required",
+  "public_repository_implementation",
+  "publication_requested",
+  "decision",
+  "decision_rationale"
+];
+export const REQUIRED_TOPOLOGY_SURFACES = [
+  "PUBLIC_REPOSITORY",
+  "RESEARCH_WORKSPACE",
+  "PROTECTED_IMPLEMENTATION",
+  "HOSTED_ENTERPRISE",
+  "BRAND_CERTIFICATION_GOVERNANCE"
+];
 
 export function parsePolicy(text) {
   try {
@@ -67,6 +99,77 @@ export function validatePolicy(policy, repositoryEntries = []) {
   return errors;
 }
 
+export function validateIntake(intake) {
+  const errors = [];
+  if (!intake || typeof intake !== "object" || Array.isArray(intake)) {
+    return ["intake document must contain an object"];
+  }
+  for (const field of REQUIRED_INTAKE_FIELDS) {
+    if (!(field in intake)) errors.push(`required intake field is missing: ${field}`);
+  }
+  if (intake.proposed_class && !REQUIRED_CLASSES.includes(intake.proposed_class)) {
+    errors.push(`invalid proposed class: ${intake.proposed_class}`);
+  }
+  if (intake.decision && !ALLOWED_DECISIONS.includes(intake.decision)) {
+    errors.push(`invalid intake decision: ${intake.decision}`);
+  }
+  const strategic =
+    intake.unpublished_research === true || intake.strategic_disclosure_risk === "HIGH";
+  if (strategic && (intake.proposed_class === "PUBLIC" || intake.decision === "PUBLIC")) {
+    errors.push("strategic R&D cannot silently default to PUBLIC");
+  }
+  if (intake.rights_status === "UNRESOLVED" && intake.decision !== "HOLD_RIGHTS_REVIEW") {
+    errors.push("unresolved rights must produce HOLD_RIGHTS_REVIEW");
+  }
+  if (
+    intake.public_repository_implementation === true &&
+    ["PROTECTED", "RESEARCH_PREPUBLICATION"].includes(intake.proposed_class)
+  ) {
+    errors.push(
+      `${intake.proposed_class} implementation cannot be assigned to the public repository`
+    );
+  }
+  if (
+    intake.publication_requested === true &&
+    intake.decision === "PUBLIC" &&
+    intake.rights_status !== "CLEAR"
+  ) {
+    errors.push("publication request cannot bypass classification and rights review");
+  }
+  return errors;
+}
+
+export function validateTopology(topology) {
+  const errors = [];
+  if (!topology || typeof topology !== "object" || !Array.isArray(topology.surfaces)) {
+    return ["topology document must define surfaces"];
+  }
+  const ids = new Set(topology.surfaces.map((surface) => surface.id));
+  for (const id of REQUIRED_TOPOLOGY_SURFACES) {
+    if (!ids.has(id)) errors.push(`required topology surface is missing: ${id}`);
+  }
+  const publicSurface = topology.surfaces.find((surface) => surface.id === "PUBLIC_REPOSITORY");
+  if (
+    !publicSurface ||
+    !publicSurface.forbidden_classes?.includes("PROTECTED") ||
+    !publicSurface.forbidden_classes?.includes("RESEARCH_PREPUBLICATION") ||
+    publicSurface.build_boundary !== "PUBLIC_SOURCE_ONLY"
+  ) {
+    errors.push(
+      "public topology surface must exclude restricted classes and restricted build inputs"
+    );
+  }
+  const versioning = topology.contract_versioning;
+  if (
+    !versioning?.restricted_consumer_compatibility_check_required ||
+    !versioning?.public_contracts_testable_without_restricted_code ||
+    versioning?.public_release_coupled_to_restricted_release !== false
+  ) {
+    errors.push("cross-repository contract versioning boundary is incomplete");
+  }
+  return errors;
+}
+
 export function validateRepository(repositoryRoot = process.cwd()) {
   const policyPath = join(repositoryRoot, "governance", "ip-classification.json");
   if (!existsSync(policyPath)) {
@@ -77,7 +180,19 @@ export function validateRepository(repositoryRoot = process.cwd()) {
   const repositoryEntries = readdirSync(repositoryRoot, { withFileTypes: true })
     .filter((entry) => entry.isDirectory())
     .map((entry) => entry.name);
-  return validatePolicy(parsed.policy, repositoryEntries);
+  const errors = validatePolicy(parsed.policy, repositoryEntries);
+  for (const [reference, validator] of [
+    [parsed.policy.topology_reference, validateTopology],
+    [parsed.policy.intake_template_reference, validateIntake]
+  ]) {
+    if (!reference || !existsSync(join(repositoryRoot, reference))) {
+      errors.push(`referenced governance document is missing: ${reference ?? "undefined"}`);
+      continue;
+    }
+    const document = parsePolicy(readFileSync(join(repositoryRoot, reference), "utf8"));
+    errors.push(...document.errors, ...(document.policy ? validator(document.policy) : []));
+  }
+  return errors;
 }
 
 const invokedPath = process.argv[1] ? resolve(process.argv[1]) : "";
