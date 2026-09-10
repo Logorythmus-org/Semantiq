@@ -18,3 +18,4 @@ SemantIQ operates under a decentralized **Product-Domain Ownership Model** cover
 - 👥 **[Code Ownership Mappings](../../.github/CODEOWNERS)** (`NORMATIVE`): Authoritative path-to-team review rules.
 - ⚖️ **[Dispute & Contradiction Policies](../../disputes/SCORE_DISPUTE_PROTOCOL.md)** (`REVIEWED`): Formal procedures for scientific score dispute resolution and result annotations.
 - 🧭 **[Prospective IP Architecture](ip-architecture.md)** (`PROPOSED`): Public, research-prepublication, and protected boundaries for future development; not a rights determination.
+- 🔬 **[Controlled Research-Start Governance](research-start-governance.md)** (`PROPOSED`): Minimum provenance, input, Cyber-sensitivity, and publication controls for restricted strategic research.
