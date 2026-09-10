@@ -33,6 +33,8 @@ jobs:
         run: pnpm typecheck
       - name: Package Boundaries & Architecture Rules
         run: pnpm test:boundaries
+      - name: Prospective IP Boundary Policy
+        run: pnpm ip:validate
       - name: Build all workspace packages
         run: pnpm build
 
