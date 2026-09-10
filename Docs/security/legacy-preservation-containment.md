@@ -1,6 +1,6 @@
 # Legacy preservation payload containment
 
-Status: local containment candidate prepared as a normal Git change under the approved containment plan; public review and publication remain pending.
+Status: Containment completed and verified on protected `main` through PR #50. The approved legacy preservation payload is no longer present in the active repository tree; historical Git history remains unchanged.
 
 Legacy preservation artifacts were identified in the active repository. They represented archival and recovery material rather than assets required for SemantIQ runtime, API, SDK, build, or packaging operation.
 
