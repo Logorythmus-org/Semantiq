@@ -1,0 +1,64 @@
+{
+  "schema_version": "0.1.0",
+  "policy_kind": "prospective_controlled_research_governance",
+  "provenance_classes": [
+    "HUMAN_DIRECTION",
+    "AI_ASSISTED",
+    "AI_GENERATED",
+    "THIRD_PARTY_SOURCE",
+    "PROJECT_EXISTING_SOURCE",
+    "MIXED"
+  ],
+  "provenance_facts": [
+    "tool_provider_if_known",
+    "model_if_known",
+    "date_or_session_reference_if_practical",
+    "human_research_direction",
+    "human_architectural_decisions",
+    "human_selection_modification_review",
+    "external_source_inputs",
+    "generated_implementation_role",
+    "verification_performed"
+  ],
+  "legal_conclusions_prohibited": true,
+  "third_party_input_classes": [
+    "FIRST_PARTY_OR_PROJECT",
+    "OPEN_CLEARED",
+    "PUBLIC_REFERENCE_ONLY",
+    "RESTRICTED_REVIEW_REQUIRED",
+    "UNKNOWN_RIGHTS",
+    "PROHIBITED"
+  ],
+  "cyber_sensitivity_classes": ["CYBER_SAFE", "CYBER_CONTROLLED", "CYBER_HIGH_SENSITIVITY"],
+  "default_strategic_cyber_class": "RESEARCH_PREPUBLICATION",
+  "publication_requires_separate_gate": true,
+  "completed_or_tested_is_publication_approval": false,
+  "high_sensitivity_auto_publication_allowed": false,
+  "external_contribution_rules": {
+    "silent_entry_to_restricted_research_allowed": false,
+    "identity_and_provenance_required": true,
+    "third_party_material_declaration_required": true,
+    "material_ai_assistance_disclosure_required": true,
+    "research_acceptance_authorizes_publication": false,
+    "final_dco_or_cla_model": "HUMAN_LEGAL_DECISION_REQUIRED"
+  },
+  "license_rules": {
+    "current_public_license_change": "NOT_AUTHORIZED",
+    "research_start_requires_relicensing": false,
+    "research_adjacency_makes_public": false,
+    "protected_implementation_in_public_repository_allowed": false,
+    "public_promotion_requires_license_and_rights_review": true,
+    "existing_distributed_mit_rights_preserved": true
+  },
+  "rights_track": {
+    "D-01": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_RELICENSING"],
+    "D-02": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_RELICENSING"],
+    "D-03": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_EXTERNAL_CONTRIBUTION"],
+    "D-04": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION"],
+    "D-05": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION"],
+    "D-06": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_RELICENSING"],
+    "D-07": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_EXTERNAL_CONTRIBUTION"],
+    "D-08": ["BLOCKS_FEATURE_IF_DEPENDENT", "BLOCKS_PUBLICATION", "BLOCKS_CERTIFICATION"]
+  },
+  "rights_status": "UNRESOLVED_CARRIED_FORWARD"
+}

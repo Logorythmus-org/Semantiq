@@ -41,6 +41,39 @@ export const REQUIRED_TOPOLOGY_SURFACES = [
   "HOSTED_ENTERPRISE",
   "BRAND_CERTIFICATION_GOVERNANCE"
 ];
+export const REQUIRED_RESEARCH_FIELDS = [
+  "research_id",
+  "title",
+  "objective",
+  "research_class",
+  "strategic_relevance",
+  "public_contract_dependency",
+  "planned_outputs",
+  "planned_repository_surface",
+  "input_sources",
+  "third_party_inputs",
+  "dataset_or_benchmark_inputs",
+  "license_or_terms_known",
+  "provenance_status",
+  "provenance_classification",
+  "rights_status",
+  "ai_assistance",
+  "human_direction",
+  "external_code_inputs",
+  "external_model_outputs",
+  "security_sensitivity",
+  "cyber_dual_use_level",
+  "publication_intent",
+  "publication_requested",
+  "publication_approved",
+  "protected_value_risk",
+  "promotion_target",
+  "required_approvals",
+  "decision",
+  "decision_reason",
+  "created_at",
+  "review_status"
+];
 
 export function parsePolicy(text) {
   try {
@@ -170,6 +203,107 @@ export function validateTopology(topology) {
   return errors;
 }
 
+export function validateResearchPolicy(policy) {
+  const errors = [];
+  const requiredProvenance = [
+    "HUMAN_DIRECTION",
+    "AI_ASSISTED",
+    "AI_GENERATED",
+    "THIRD_PARTY_SOURCE",
+    "PROJECT_EXISTING_SOURCE",
+    "MIXED"
+  ];
+  const requiredInputs = [
+    "FIRST_PARTY_OR_PROJECT",
+    "OPEN_CLEARED",
+    "PUBLIC_REFERENCE_ONLY",
+    "RESTRICTED_REVIEW_REQUIRED",
+    "UNKNOWN_RIGHTS",
+    "PROHIBITED"
+  ];
+  const requiredSensitivity = ["CYBER_SAFE", "CYBER_CONTROLLED", "CYBER_HIGH_SENSITIVITY"];
+  for (const [field, values] of [
+    ["provenance_classes", requiredProvenance],
+    ["third_party_input_classes", requiredInputs],
+    ["cyber_sensitivity_classes", requiredSensitivity]
+  ]) {
+    for (const value of values) {
+      if (!policy?.[field]?.includes(value))
+        errors.push(`research policy ${field} is missing: ${value}`);
+    }
+  }
+  if (policy?.default_strategic_cyber_class !== "RESEARCH_PREPUBLICATION") {
+    errors.push("strategic Cyber research must default RESEARCH_PREPUBLICATION");
+  }
+  if (
+    policy?.publication_requires_separate_gate !== true ||
+    policy?.completed_or_tested_is_publication_approval !== false ||
+    policy?.high_sensitivity_auto_publication_allowed !== false
+  ) {
+    errors.push("research publication separation is not enforceable");
+  }
+  if (
+    policy?.license_rules?.current_public_license_change !== "NOT_AUTHORIZED" ||
+    policy?.license_rules?.research_start_requires_relicensing !== false
+  ) {
+    errors.push("research-start license boundary is invalid");
+  }
+  return errors;
+}
+
+export function validateResearchIntake(intake) {
+  const errors = [];
+  if (!intake || typeof intake !== "object" || Array.isArray(intake)) {
+    return ["research intake must contain an object"];
+  }
+  for (const field of REQUIRED_RESEARCH_FIELDS) {
+    if (!(field in intake)) errors.push(`required research intake field is missing: ${field}`);
+  }
+  if (
+    intake.strategic_relevance === "STRATEGIC" &&
+    intake.research_class !== "RESEARCH_PREPUBLICATION" &&
+    intake.research_class !== "PROTECTED"
+  ) {
+    errors.push("strategic research cannot silently default to PUBLIC");
+  }
+  if (!intake.provenance_classification) {
+    errors.push("strategic research requires a provenance classification");
+  }
+  if (
+    ["RESEARCH_PREPUBLICATION", "PROTECTED"].includes(intake.research_class) &&
+    intake.planned_repository_surface === "PUBLIC_REPOSITORY"
+  ) {
+    errors.push(
+      `${intake.research_class} implementation cannot be placed in the public repository`
+    );
+  }
+  for (const input of intake.third_party_inputs ?? []) {
+    const classification = typeof input === "string" ? input : input.classification;
+    if (classification === "PROHIBITED")
+      errors.push("PROHIBITED third-party input cannot be accepted");
+    if (
+      ["RESTRICTED_REVIEW_REQUIRED", "UNKNOWN_RIGHTS"].includes(classification) &&
+      (typeof input === "string" || input.required !== false) &&
+      intake.decision !== "HOLD_RIGHTS_REVIEW"
+    ) {
+      errors.push("required unresolved third-party input must produce HOLD_RIGHTS_REVIEW");
+    }
+  }
+  if (intake.publication_approved === true) {
+    errors.push("research intake cannot infer publication approval from implementation or testing");
+  }
+  if (intake.publication_requested === true && intake.publication_approved === true) {
+    errors.push("publication requested cannot be treated as publication approved");
+  }
+  if (
+    intake.cyber_dual_use_level === "CYBER_HIGH_SENSITIVITY" &&
+    intake.promotion_target === "PUBLIC"
+  ) {
+    errors.push("Cyber high-sensitivity research cannot be automatically marked PUBLIC");
+  }
+  return errors;
+}
+
 export function validateRepository(repositoryRoot = process.cwd()) {
   const policyPath = join(repositoryRoot, "governance", "ip-classification.json");
   if (!existsSync(policyPath)) {
@@ -183,7 +317,10 @@ export function validateRepository(repositoryRoot = process.cwd()) {
   const errors = validatePolicy(parsed.policy, repositoryEntries);
   for (const [reference, validator] of [
     [parsed.policy.topology_reference, validateTopology],
-    [parsed.policy.intake_template_reference, validateIntake]
+    [parsed.policy.intake_template_reference, validateIntake],
+    [parsed.policy.research_policy_reference, validateResearchPolicy],
+    [parsed.policy.research_intake_template_reference, validateResearchIntake],
+    [parsed.policy.cyber_bootstrap_intake_reference, validateResearchIntake]
   ]) {
     if (!reference || !existsSync(join(repositoryRoot, reference))) {
       errors.push(`referenced governance document is missing: ${reference ?? "undefined"}`);

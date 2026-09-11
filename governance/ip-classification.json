@@ -19,7 +19,16 @@
   },
   "topology_reference": "governance/ip-topology.json",
   "intake_template_reference": "governance/ip-intake-template.json",
+  "research_policy_reference": "governance/research-governance.json",
+  "research_intake_template_reference": "governance/research-intake-template.json",
+  "cyber_bootstrap_intake_reference": "governance/intake/CYBER-BOOTSTRAP-001.json",
   "directory_checks_are_defense_in_depth": true,
+  "publication_state_invariants": [
+    "IMPLEMENTED != PUBLIC",
+    "TESTED != PUBLIC",
+    "RESEARCH_COMPLETE != PUBLIC",
+    "PUBLICATION_REQUESTED != PUBLICATION_APPROVED"
+  ],
   "publication_gate_reference": "Docs/governance/ip-architecture.md#publication-gate",
   "publication_gate": [
     "PROVENANCE_CLEAR",

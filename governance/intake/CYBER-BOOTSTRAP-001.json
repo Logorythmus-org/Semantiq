@@ -1,0 +1,81 @@
+{
+  "schema_version": "0.1.0",
+  "research_id": "CYBER-BOOTSTRAP-001",
+  "title": "SemantIQ Cyber Agent Behavioral Benchmark Bootstrap",
+  "objective": "Bootstrap controlled behavioral-security research while preserving public and restricted boundaries",
+  "research_class": "RESEARCH_PREPUBLICATION",
+  "strategic_relevance": "STRATEGIC",
+  "architectural_layers": [
+    "Cyber Intelligence Evaluation",
+    "Agent Safety & Containment",
+    "Computational Software Intelligence"
+  ],
+  "first_phase_priority": "Cyber Agent Behavioral Benchmark",
+  "public_contract_dependency": ["versioned public schemas and evidence contracts"],
+  "planned_outputs": [
+    "behavioral task model",
+    "agent/environment interaction model",
+    "permission/budget model",
+    "trajectory and containment-event recording",
+    "evidence capture",
+    "initial behavioral scoring research",
+    "reproducibility harness"
+  ],
+  "public_contract_candidates": [
+    "task schema",
+    "environment schema",
+    "permission/budget schema",
+    "trajectory schema",
+    "evidence package",
+    "scoring contract",
+    "safe synthetic fixtures"
+  ],
+  "restricted_research_candidates": [
+    "capability inference",
+    "adaptive evaluation",
+    "exploit/patch intelligence",
+    "advanced scoring",
+    "containment intelligence",
+    "capability-containment-gap analysis"
+  ],
+  "planned_repository_surface": "RESEARCH_WORKSPACE",
+  "input_sources": ["PROJECT_EXISTING_SOURCE", "SAFE_SYNTHETIC_INPUTS"],
+  "third_party_inputs": [],
+  "dataset_or_benchmark_inputs": ["SAFE_SYNTHETIC_FIXTURES_ONLY_FOR_BOOTSTRAP"],
+  "license_or_terms_known": true,
+  "provenance_status": "PROSPECTIVE_CONTROLS_DEFINED",
+  "provenance_classification": "MIXED",
+  "rights_status": "NO_REQUIRED_UNCLEARED_INPUT_IDENTIFIED",
+  "ai_assistance": {
+    "classification": "AI_ASSISTED",
+    "tool_provider_if_known": "RECORD_AT_EXECUTION",
+    "model_if_known": "RECORD_AT_EXECUTION",
+    "session_reference_if_practical": "RECORD_AT_EXECUTION"
+  },
+  "human_direction": "Research objectives, architecture, selection, modification, and review must be recorded",
+  "external_code_inputs": [],
+  "external_model_outputs": [],
+  "security_sensitivity": "CONTROLLED",
+  "cyber_dual_use_level": "CYBER_CONTROLLED",
+  "publication_intent": "SEPARATE_REVIEW_ONLY",
+  "publication_requested": false,
+  "publication_approved": false,
+  "protected_value_risk": "REVIEW_REQUIRED",
+  "promotion_target": "UNDECIDED",
+  "required_approvals": ["RESEARCH_LEAD", "SECURITY_REVIEW"],
+  "decision": "CONTROLLED_RESEARCH_APPROVED",
+  "decision_reason": "The bootstrap uses project source and safe synthetic inputs; no required uncleared third-party input is identified",
+  "created_at": "2026-09-10",
+  "review_status": "GOVERNANCE_GATE_READY",
+  "research_start_blockers": [],
+  "computational_software_intelligence_status": "PARALLEL_FUTURE_TRACK",
+  "excluded_activities": [
+    "real-world exploitation",
+    "target-specific intrusion",
+    "credential acquisition",
+    "malware deployment",
+    "public exploit intelligence release",
+    "protected algorithm publication",
+    "proprietary benchmark publication"
+  ]
+}
