@@ -1,4 +1,5 @@
 {
+  "inventory_version_kind": "Governance artifact format version",
   "inventory_version": "1.0.0",
   "baseline_sha": "d61fbb67a307c9070a2e1e2fb229cdabe2097da3",
   "baseline_tree": "53663cb07f5b85924789ad0ff6ee73658aaca8cd",

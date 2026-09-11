@@ -28,6 +28,9 @@
     "maturity_model"
   ],
   "properties": {
+    "inventory_version_kind": {
+      "const": "Governance artifact format version"
+    },
     "inventory_version": {
       "type": "string",
       "pattern": "^\\d+\\.\\d+\\.\\d+$"
