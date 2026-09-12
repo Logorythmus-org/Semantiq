@@ -212,35 +212,70 @@ const humanJudgeContract: CanonicalEvaluatorDefinition = {
   versionScope: "EVALUATOR",
   name: "Human judge contract",
   description:
-    "Schema-only contract for future human judgments; no recruitment, assignment, or review system is implemented here.",
+    "S-06 governed Human-as-Judge adapter from pseudonymous ratings to canonical evaluator executions.",
   kind: "HUMAN_JUDGE",
-  bindingStatus: "SUPPORTED_BY_SCHEMA",
+  bindingStatus: "IMPLEMENTED_AND_BOUND",
+  implementationId: "HumanRaterSystem.toEvaluatorExecution",
   authority: ["PRODUCE_JUDGMENT", "RECOMMEND_RATING"],
   scientificAuthority: "NONE",
   benchmarkBindings: [],
   metricBindings: [],
+  studyDeclaredBindingPolicy: { benchmark: "ALLOWED", metric: "ALLOWED" },
   inputs: {
     inputKinds: ["EVIDENCE_BUNDLE"],
     minimumInputs: 1,
     subjectKinds: ["EVALUATION_SUBJECT"]
   },
   outputs: {
-    kinds: ["STRUCTURED_JUDGMENT", "CATEGORICAL_DECISION"],
+    kinds: ["METRIC_RESULT", "STRUCTURED_JUDGMENT", "CATEGORICAL_DECISION"],
     numericOutputRequiresMetricResult: true
   },
   rubric: { requirement: "OPTIONAL" },
   modelRequirement: "FORBIDDEN",
   determinism: "UNKNOWN",
   judgeIndependence: "HUMAN",
-  parameters: [],
-  evidenceReferences: [],
+  parameters: [
+    {
+      parameterId: "presentationMode",
+      type: "STRING",
+      required: true,
+      description: "S-06 presentation mode fixed by the Human Rating Study."
+    },
+    {
+      parameterId: "blindingPolicy",
+      type: "STRING",
+      required: true,
+      description: "Declared S-06 metadata-blinding policy."
+    },
+    {
+      parameterId: "ratingScale",
+      type: "STRING",
+      required: true,
+      description: "Canonical S-06 output-contract kind."
+    },
+    {
+      parameterId: "comparisonPolicy",
+      type: "STRING",
+      required: true,
+      description: "Study-declared comparison policy; it carries no validity claim."
+    }
+  ],
+  evidenceReferences: [
+    "packages/benchmark/src/human-rater.ts",
+    "tests/unit/human-rater-system.test.ts"
+  ],
   provenance: {
     origin: "S-04 canonical contract",
     provenanceClass: "HUMAN_DIRECTION",
-    sourceReferences: ["Docs/research/core/S04_EVALUATOR_LABORATORY.md"],
+    sourceReferences: [
+      "Docs/research/core/S04_EVALUATOR_LABORATORY.md",
+      "Docs/research/core/S06_HUMAN_RATER_SYSTEM.md"
+    ],
     introducedIn: "S04"
   },
-  limitations: ["Contract only; S-04 adds no human-subject workflow or S-06 review system."]
+  limitations: [
+    "S-06 implements Human-as-Judge record conversion only; it does not implement Human-as-Subject, Human-AI comparison, rater-quality scoring, or scientific validation."
+  ]
 };
 
 export const CANONICAL_EVALUATOR_REGISTRY: CanonicalEvaluatorRegistrySnapshot = {

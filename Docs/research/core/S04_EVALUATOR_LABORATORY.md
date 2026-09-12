@@ -140,7 +140,7 @@ signatures. S-04 does not average, overwrite, select a winner, or conceal failed
 | `long_horizon_rule_evaluator@0.1.0` | `LongHorizonTestingEngine.evaluateLongHorizonTrajectory` | `RULE_BASED` | `long_horizon@0.1.0` / `long_horizon_resilience`; `long_horizon_resilience_index@0.1.0` | implemented and bound |
 | `matched_statistical_contrast@0.1.0` | `StatisticalContrastEngine.evaluateContrast` | `DETERMINISTIC` | benchmark-independent `matched_pair_mean_delta@0.1.0` | implemented and bound |
 | `behavioral_metrics_legacy_suite@0.1.0` | `BehavioralMetricsEngine.evaluate` | `RULE_BASED` | legacy artifact reference only | implemented, no S-03 metric claim |
-| `human_judge_contract@0.1.0` | none | `HUMAN_JUDGE` | none | schema support only |
+| `human_judge_contract@0.1.0` | `HumanRaterSystem.toEvaluatorExecution` (S-06) | `HUMAN_JUDGE` | exact S-06 study-declared binding | implemented Human-as-Judge adapter after S-06 |
 
 Validation compares every implemented benchmark binding with the exact S-02 evaluator requirement
 and every metric binding with the exact S-03 evaluator dependency. Substitution is rejected.
@@ -195,10 +195,10 @@ calibration. S-04 supplies no reliability statistic or threshold.
 
 ## S-06 human-judge handoff
 
-S-06 can instantiate the existing `HUMAN_JUDGE` definition/execution contract and add governed rater
-identity, assignment, blinding, randomized presentation, training provenance, review state, and user
-interfaces. The S-04 contract already preserves rubrics, abstention, subject identity, input evidence,
-and individual judgments, so S-06 does not need to replace evaluator identity or execution records.
+S-06 instantiates the existing `HUMAN_JUDGE` identity through a governed, pseudonymous rater,
+assignment, presentation, rating, and conversion layer. It adds a narrowly scoped study-declared
+binding policy so exact S-06 benchmark/metric bindings can pass through S-04 without claiming that
+the Human Judge is universally bound to every registry entry. No user interface is introduced.
 
 ## Implementation references
 

@@ -307,7 +307,12 @@ describe("S-05 benchmark reliability laboratory", () => {
     const human = { evaluatorId: "human_judge_contract", evaluatorVersion: "0.1.0" } as const;
     const humanConfig = evaluators.createConfiguration({
       evaluatorIdentity: human,
-      parameters: {}
+      parameters: {
+        presentationMode: "SINGLE",
+        blindingPolicy: "NONE",
+        ratingScale: "CATEGORICAL",
+        comparisonPolicy: "NONE"
+      }
     });
     const study: ReliabilityStudyDefinition = {
       ...definition("CATEGORICAL_AGREEMENT"),
@@ -483,12 +488,22 @@ describe("S-05 negative validation", () => {
     const human = { evaluatorId: "human_judge_contract", evaluatorVersion: "0.1.0" } as const;
     const base = evaluators.createConfiguration({
       evaluatorIdentity: human,
-      parameters: {},
+      parameters: {
+        presentationMode: "SINGLE",
+        blindingPolicy: "NONE",
+        ratingScale: "CATEGORICAL",
+        comparisonPolicy: "NONE"
+      },
       contextReferences: ["context:1"]
     });
     const changed = evaluators.createConfiguration({
       evaluatorIdentity: human,
-      parameters: {},
+      parameters: {
+        presentationMode: "SINGLE",
+        blindingPolicy: "NONE",
+        ratingScale: "CATEGORICAL",
+        comparisonPolicy: "NONE"
+      },
       contextReferences: ["context:2"]
     });
     const study: ReliabilityStudyDefinition = {
