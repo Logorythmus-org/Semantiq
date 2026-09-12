@@ -1,0 +1,757 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SemantIQ Core capability inventory v1",
+  "description": "PUBLIC-safe state inventory. Status does not confer scientific validity. Stable IDs support later gate updates; record extensions are permitted. Counts and path existence require semantic validation.",
+  "type": "object",
+  "required": [
+    "inventory_version",
+    "baseline_sha",
+    "baseline_tree",
+    "generated_at",
+    "classification",
+    "provenance",
+    "scope",
+    "counts",
+    "final_classification",
+    "next_gate",
+    "capabilities",
+    "benchmarks",
+    "metrics",
+    "evaluators",
+    "human_components",
+    "measurement_science",
+    "architecture_layers",
+    "known_gaps",
+    "roadmap",
+    "historical_reconciliation",
+    "evidence_reproducibility",
+    "maturity_model"
+  ],
+  "properties": {
+    "inventory_version_kind": {
+      "const": "Governance artifact format version"
+    },
+    "inventory_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$"
+    },
+    "baseline_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "baseline_tree": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "generated_at": {
+      "type": "string",
+      "pattern": "^\\d{4}-\\d{2}-\\d{2}T"
+    },
+    "classification": {
+      "const": "PUBLIC"
+    },
+    "provenance": {
+      "type": "object"
+    },
+    "scope": {
+      "type": "object"
+    },
+    "counts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer",
+        "minimum": 0
+      }
+    },
+    "final_classification": {
+      "enum": ["S01_CORE_STATE_RECONCILED", "S01_INSUFFICIENT_EVIDENCE"]
+    },
+    "next_gate": {
+      "type": ["string", "null"]
+    },
+    "capabilities": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/capability"
+      }
+    },
+    "benchmarks": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/benchmark"
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/metric"
+      }
+    },
+    "evaluators": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/evaluator"
+      }
+    },
+    "human_components": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/human"
+      }
+    },
+    "measurement_science": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/science"
+      }
+    },
+    "architecture_layers": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/layer"
+      }
+    },
+    "known_gaps": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/gap"
+      }
+    },
+    "roadmap": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/roadmap"
+      }
+    },
+    "historical_reconciliation": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/historical"
+      }
+    },
+    "evidence_reproducibility": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/repro"
+      }
+    },
+    "maturity_model": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "$ref": "#/definitions/maturity"
+      }
+    }
+  },
+  "additionalProperties": false,
+  "definitions": {
+    "capability": {
+      "type": "object",
+      "required": [
+        "capability_id",
+        "name",
+        "category",
+        "evidence_strength",
+        "finding",
+        "engineering_maturity",
+        "scientific_maturity",
+        "strategic_importance",
+        "gap",
+        "recommended_destination_phase",
+        "source_paths",
+        "test_paths",
+        "schema_paths",
+        "documentation_paths",
+        "public_interfaces",
+        "runtime_status"
+      ],
+      "properties": {
+        "capability_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "evidence_strength": {
+          "type": "string"
+        },
+        "finding": {
+          "type": "string"
+        },
+        "engineering_maturity": {
+          "type": "string"
+        },
+        "scientific_maturity": {
+          "type": "string"
+        },
+        "strategic_importance": {
+          "type": "string"
+        },
+        "gap": {
+          "type": "string"
+        },
+        "recommended_destination_phase": {
+          "type": "string"
+        },
+        "source_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "test_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "schema_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "documentation_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "public_interfaces": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "runtime_status": {
+          "enum": [
+            "IMPLEMENTED",
+            "PARTIAL",
+            "SCAFFOLDED",
+            "DOCUMENTED_ONLY",
+            "HISTORICAL_ONLY",
+            "RESEARCH_CANDIDATE",
+            "DEPRECATED",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "benchmark": {
+      "type": "object",
+      "required": [
+        "benchmark_id",
+        "name",
+        "family",
+        "expected_output",
+        "reproducible",
+        "counting_unit",
+        "scope",
+        "maturity",
+        "limitations",
+        "schema",
+        "fixtures",
+        "tests",
+        "documentation",
+        "version",
+        "implementation_path",
+        "runner",
+        "metric",
+        "evaluator",
+        "executable",
+        "scorable",
+        "tested",
+        "documented",
+        "status"
+      ],
+      "properties": {
+        "benchmark_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "family": {
+          "type": "string"
+        },
+        "expected_output": {
+          "type": "string"
+        },
+        "reproducible": {
+          "type": "string"
+        },
+        "counting_unit": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "maturity": {
+          "type": "string"
+        },
+        "limitations": {
+          "type": "string"
+        },
+        "schema": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "fixtures": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "tests": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "documentation": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "version": {
+          "type": ["string", "null"]
+        },
+        "implementation_path": {
+          "type": ["string", "null"]
+        },
+        "runner": {
+          "type": ["string", "null"]
+        },
+        "metric": {
+          "type": ["string", "null"]
+        },
+        "evaluator": {
+          "type": ["string", "null"]
+        },
+        "executable": {
+          "type": "boolean"
+        },
+        "scorable": {
+          "type": "boolean"
+        },
+        "tested": {
+          "type": "boolean"
+        },
+        "documented": {
+          "type": "boolean"
+        },
+        "status": {
+          "enum": [
+            "IMPLEMENTED",
+            "PARTIAL",
+            "SCAFFOLDED",
+            "DOCUMENTED_ONLY",
+            "HISTORICAL_ONLY",
+            "RESEARCH_CANDIDATE",
+            "DEPRECATED",
+            "UNKNOWN"
+          ]
+        },
+        "case_count": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "case_ids": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "additionalProperties": true
+    },
+    "metric": {
+      "type": "object",
+      "required": [
+        "metric_id",
+        "construct_claim",
+        "implementation",
+        "scale",
+        "aggregation",
+        "evaluator_dependency",
+        "determinism",
+        "calibration_status",
+        "validation_status",
+        "known_limitations",
+        "classification"
+      ],
+      "properties": {
+        "metric_id": {
+          "type": "string"
+        },
+        "construct_claim": {
+          "type": "string"
+        },
+        "implementation": {
+          "type": "string"
+        },
+        "scale": {
+          "type": "string"
+        },
+        "aggregation": {
+          "type": "string"
+        },
+        "evaluator_dependency": {
+          "type": "string"
+        },
+        "determinism": {
+          "type": "string"
+        },
+        "calibration_status": {
+          "type": "string"
+        },
+        "validation_status": {
+          "type": "string"
+        },
+        "known_limitations": {
+          "type": "string"
+        },
+        "classification": {
+          "enum": ["COMPUTED_METRIC", "SYNTHETIC_CONSTANT", "SCIENTIFICALLY_VALIDATED_MEASURE"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "evaluator": {
+      "type": "object",
+      "required": [
+        "evaluator_id",
+        "input",
+        "rubric",
+        "output",
+        "model_provider_dependency",
+        "repeatability",
+        "evidence_recording",
+        "calibration",
+        "agreement_measurement",
+        "failure_handling",
+        "source_paths",
+        "status"
+      ],
+      "properties": {
+        "evaluator_id": {
+          "type": "string"
+        },
+        "input": {
+          "type": "string"
+        },
+        "rubric": {
+          "type": "string"
+        },
+        "output": {
+          "type": "string"
+        },
+        "model_provider_dependency": {
+          "type": "string"
+        },
+        "repeatability": {
+          "type": "string"
+        },
+        "evidence_recording": {
+          "type": "string"
+        },
+        "calibration": {
+          "type": "string"
+        },
+        "agreement_measurement": {
+          "type": "string"
+        },
+        "failure_handling": {
+          "type": "string"
+        },
+        "source_paths": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": ["IMPLEMENTED", "PARTIAL", "DESIGNED", "ABSENT"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "human": {
+      "type": "object",
+      "required": ["component_id", "evidence", "limitation", "role", "status"],
+      "properties": {
+        "component_id": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "limitation": {
+          "type": "string"
+        },
+        "role": {
+          "enum": ["HUMAN_AS_JUDGE", "HUMAN_AS_SUBJECT", "HUMAN_AI_COMPARISON"]
+        },
+        "status": {
+          "enum": [
+            "IMPLEMENTED",
+            "PARTIAL",
+            "SCAFFOLDED",
+            "DOCUMENTED_ONLY",
+            "HISTORICAL_ONLY",
+            "RESEARCH_CANDIDATE",
+            "DEPRECATED",
+            "UNKNOWN"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "science": {
+      "type": "object",
+      "required": ["dimension", "evidence", "limitation", "status"],
+      "properties": {
+        "dimension": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "limitation": {
+          "type": "string"
+        },
+        "status": {
+          "enum": ["SUPPORTED", "PARTIAL", "ABSENT", "NOT_APPLICABLE"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "layer": {
+      "type": "object",
+      "required": ["layer_id", "name", "gap", "capabilities", "status"],
+      "properties": {
+        "layer_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "gap": {
+          "type": "string"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "status": {
+          "enum": ["ALREADY_PRESENT", "PARTIALLY_PRESENT", "MISSING"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "gap": {
+      "type": "object",
+      "required": [
+        "gap_id",
+        "group",
+        "what_is_missing",
+        "why_it_matters",
+        "existing_foundation",
+        "dependency",
+        "research_required",
+        "engineering_required",
+        "risk",
+        "recommended_priority",
+        "destination_phase"
+      ],
+      "properties": {
+        "gap_id": {
+          "type": "string"
+        },
+        "group": {
+          "type": "string"
+        },
+        "what_is_missing": {
+          "type": "string"
+        },
+        "why_it_matters": {
+          "type": "string"
+        },
+        "existing_foundation": {
+          "type": "string"
+        },
+        "dependency": {
+          "type": "string"
+        },
+        "research_required": {
+          "type": "string"
+        },
+        "engineering_required": {
+          "type": "string"
+        },
+        "risk": {
+          "type": "string"
+        },
+        "recommended_priority": {
+          "type": "string"
+        },
+        "destination_phase": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "roadmap": {
+      "type": "object",
+      "required": [
+        "phase_id",
+        "gate",
+        "objective",
+        "inputs",
+        "deliverables",
+        "exit_criteria",
+        "dependencies"
+      ],
+      "properties": {
+        "phase_id": {
+          "type": "string"
+        },
+        "gate": {
+          "type": "string"
+        },
+        "objective": {
+          "type": "string"
+        },
+        "inputs": {
+          "type": "string"
+        },
+        "deliverables": {
+          "type": "string"
+        },
+        "exit_criteria": {
+          "type": "string"
+        },
+        "dependencies": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "repro": {
+      "type": "object",
+      "required": ["field", "evidence", "missing", "status"],
+      "properties": {
+        "field": {
+          "type": "string"
+        },
+        "evidence": {
+          "type": "string"
+        },
+        "missing": {
+          "type": "string"
+        },
+        "status": {
+          "enum": ["SUPPORTED", "PARTIAL", "ABSENT", "NOT_APPLICABLE"]
+        }
+      },
+      "additionalProperties": true
+    },
+    "maturity": {
+      "type": "object",
+      "required": ["level", "name", "promotion_requirements"],
+      "properties": {
+        "level": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "promotion_requirements": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "historical": {
+      "type": "object",
+      "required": [
+        "historical_id",
+        "name",
+        "source",
+        "rationale",
+        "current_descendant",
+        "status",
+        "decision",
+        "pages"
+      ],
+      "properties": {
+        "historical_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "source": {
+          "type": "string"
+        },
+        "rationale": {
+          "type": "string"
+        },
+        "current_descendant": {
+          "type": ["string", "null"]
+        },
+        "status": {
+          "enum": [
+            "IMPLEMENTED",
+            "PARTIAL",
+            "SCAFFOLDED",
+            "DOCUMENTED_ONLY",
+            "HISTORICAL_ONLY",
+            "RESEARCH_CANDIDATE",
+            "DEPRECATED",
+            "UNKNOWN"
+          ]
+        },
+        "decision": {
+          "enum": [
+            "CURRENT_IMPLEMENTATION",
+            "PARTIAL_DESCENDANT",
+            "STILL_RELEVANT_RESEARCH",
+            "NEEDS_REDESIGN",
+            "OBSOLETE_OR_LOW_PRIORITY",
+            "INSUFFICIENT_EVIDENCE"
+          ]
+        },
+        "pages": {
+          "type": "array",
+          "minItems": 1,
+          "items": {
+            "type": "integer",
+            "minimum": 1
+          }
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}
