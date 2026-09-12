@@ -14,6 +14,7 @@ The Research Workbench manages the complete lifecycle of governed evidence claim
 ## Documents in this Section
 
 - [S-01 Core State Reconciliation](core/S01_CORE_STATE_RECONCILIATION.md) (`EVIDENCE MAP`): Protected-main capability inventory, historical benchmark reconciliation, measurement limits and the next Core gate. Includes the [capability matrix](core/S01_CORE_CAPABILITY_MATRIX.md), [gap register](core/S01_CORE_GAP_REGISTER.md), [machine-readable inventory](../../governance/core-capability-inventory.json) and [inventory schema](../../schemas/core-capability-inventory.schema.json).
+- [S-02 Benchmark Registry and Lifecycle](core/S02_BENCHMARK_REGISTRY_AND_LIFECYCLE.md) (`ARCHITECTURE`): Canonical benchmark identity, orthogonal status axes, evidence-gated maturity, lifecycle transitions and representative S-01 migration.
 - 🔬 **[Canonical Research Workflow Walkthrough](../RESEARCH_WORKFLOW.md)** (`NORMATIVE`): Complete 18-stage reference pipeline from raw execution logs to cross-organization replication (`DP-008 → FP-002`).
 - 📜 **[Governed Claim Lifecycle & Controlled Language](../RESEARCH_WORKFLOW.md#phase-7-governed-claims--controlled-language)** (`NORMATIVE`): Claim statuses (`DRAFT`, `PROPOSED`, `REVIEWED`, `RELEASED`, `REJECTED`) and required epistemic disclaimers.
 - 👁️ **[Evidence Watch & Active-Claim Reconciliation](../RESEARCH_WORKFLOW.md#phase-9-evidence-watch--reconciliation)** (`NORMATIVE`): Proposal-only review queue; zero automatic mutation of active released claims.
