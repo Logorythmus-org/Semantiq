@@ -113,9 +113,6 @@ describe("S-04 evaluator definition layer", () => {
       "HUMAN_JUDGE",
       "HYBRID"
     ]);
-    expect(evaluators.list().some((item) => item.bindingStatus === "SUPPORTED_BY_SCHEMA")).toBe(
-      true
-    );
     expect(evaluators.list().some((item) => item.bindingStatus === "IMPLEMENTED_AND_BOUND")).toBe(
       true
     );
@@ -136,7 +133,7 @@ describe("S-04 evaluator definition layer", () => {
     expect(metrics.get(providerMetric)).toEqual(metricBefore);
   });
 
-  it("registers four representative current migrations and a schema-only human contract", () => {
+  it("registers four representative current migrations and the S-06 human adapter", () => {
     expect(evaluators.list().map((item) => item.identity.evaluatorId)).toEqual(
       expect.arrayContaining([
         "sandbox_tck_suite",
@@ -149,7 +146,7 @@ describe("S-04 evaluator definition layer", () => {
     expect(
       evaluators.get({ evaluatorId: "human_judge_contract", evaluatorVersion: "0.1.0" })
         ?.bindingStatus
-    ).toBe("SUPPORTED_BY_SCHEMA");
+    ).toBe("IMPLEMENTED_AND_BOUND");
   });
 
   it("binds implemented evaluators to exact S-02 and S-03 implementation IDs", () => {
@@ -357,6 +354,8 @@ describe("S-04 evaluator configuration", () => {
     modelDefinition.kind = "LLM_AS_JUDGE";
     modelDefinition.modelRequirement = "REQUIRED";
     modelDefinition.judgeIndependence = "CROSS_MODEL";
+    modelDefinition.parameters = [];
+    delete modelDefinition.studyDeclaredBindingPolicy;
     snapshot.definitions.push(modelDefinition);
     const registry = new EvaluatorRegistry(snapshot, benchmarks, metrics);
     expect(() =>

@@ -14,6 +14,7 @@ import type {
   CanonicalConfigurationValue,
   CanonicalEvaluatorDefinition,
   CanonicalEvaluatorRegistrySnapshot,
+  CanonicalRubricDefinition,
   ComparableEvaluatorExecutionGroup,
   EvaluatorConfiguration,
   EvaluatorConfigurationInput,
@@ -377,6 +378,24 @@ export function validateEvaluatorRegistry(
         path,
         "Human judge contracts must forbid model provenance and declare HUMAN independence."
       );
+    if (definition.studyDeclaredBindingPolicy && definition.kind !== "HUMAN_JUDGE")
+      push(
+        violations,
+        "INVALID_STUDY_DECLARED_BINDING_POLICY",
+        `${path}.studyDeclaredBindingPolicy`,
+        "Only a governed human-judge adapter may accept exact study-declared bindings."
+      );
+    if (
+      definition.studyDeclaredBindingPolicy &&
+      (definition.studyDeclaredBindingPolicy.benchmark !== "ALLOWED" ||
+        definition.studyDeclaredBindingPolicy.metric !== "ALLOWED")
+    )
+      push(
+        violations,
+        "INVALID_STUDY_DECLARED_BINDING_POLICY",
+        `${path}.studyDeclaredBindingPolicy`,
+        "The S-06 human adapter must validate both benchmark and metric bindings through its exact study contract."
+      );
     if (
       ["DETERMINISTIC", "RULE_BASED"].includes(definition.kind) &&
       definition.judgeIndependence !== "NON_MODEL"
@@ -481,6 +500,11 @@ export class EvaluatorRegistry {
 
   get(identity: EvaluatorIdentity): CanonicalEvaluatorDefinition | undefined {
     return this.definitions.get(identityKey(identity));
+  }
+  getRubric(identity: RubricIdentity): CanonicalRubricDefinition | undefined {
+    return this.snapshot.rubrics.find(
+      (rubric) => rubricKey(rubric.identity) === rubricKey(identity)
+    );
   }
   list(): readonly CanonicalEvaluatorDefinition[] {
     return [...this.definitions.values()];
@@ -797,6 +821,7 @@ export class EvaluatorRegistry {
             "Execution and MetricResult must use the same metric identity."
           );
         if (
+          definition.studyDeclaredBindingPolicy?.metric !== "ALLOWED" &&
           !definition.metricBindings.some(
             (identity) => metricKey(identity) === metricKey(result.metricIdentity)
           )
@@ -835,11 +860,14 @@ export class EvaluatorRegistry {
       }
     }
     if (definition && execution.benchmarkBinding) {
-      const supported = definition.benchmarkBindings.some(
-        (binding) =>
-          benchmarkKey(binding.benchmark) === benchmarkKey(execution.benchmarkBinding!.benchmark) &&
-          binding.constructIds.includes(execution.benchmarkBinding!.constructId)
-      );
+      const supported =
+        definition.studyDeclaredBindingPolicy?.benchmark === "ALLOWED" ||
+        definition.benchmarkBindings.some(
+          (binding) =>
+            benchmarkKey(binding.benchmark) ===
+              benchmarkKey(execution.benchmarkBinding!.benchmark) &&
+            binding.constructIds.includes(execution.benchmarkBinding!.constructId)
+        );
       if (!supported)
         push(
           violations,

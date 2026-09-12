@@ -106,6 +106,12 @@ export interface CanonicalEvaluatorDefinition {
     readonly constructIds: readonly string[];
   }[];
   readonly metricBindings: readonly MetricIdentity[];
+  readonly studyDeclaredBindingPolicy?:
+    | {
+        readonly benchmark: "FORBIDDEN" | "ALLOWED";
+        readonly metric: "FORBIDDEN" | "ALLOWED";
+      }
+    | undefined;
   readonly inputs: EvaluatorInputContract;
   readonly outputs: EvaluatorOutputContract;
   readonly rubric: {

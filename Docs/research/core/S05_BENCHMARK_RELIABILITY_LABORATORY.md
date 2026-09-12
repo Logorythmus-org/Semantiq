@@ -26,8 +26,8 @@ the pair `reliabilityStudyId + reliabilityStudyVersion`; its version scope is al
 The schema supports exact targets for `METRIC`, `EVALUATOR`, `EVALUATOR_CONFIGURATION`,
 `BENCHMARK_METRIC_BINDING`, and `HUMAN_RATER_SET`. Metric targets resolve to S-03 identities;
 evaluator targets resolve to S-04 identities; benchmark bindings preserve exact S-02 benchmark and
-construct versions. Human-rater-set support is contractual only until S-06 supplies governed rater
-identity, recruitment, assignment, blinding, and review operations.
+construct versions. S-06 supplies governed pseudonymous rater, assignment, blinding, presentation,
+and rating records for this target. S-05's inter-/intra-rater estimators remain schema-only.
 
 Every study names dimensions held constant and dimensions deliberately varied. The vocabulary
 covers benchmark version/input, metric version, evaluator version/configuration, rubric version,
