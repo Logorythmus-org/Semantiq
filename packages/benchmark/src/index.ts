@@ -12,3 +12,6 @@ export * from "./registry-definitions.js";
 export * from "./metric-types.js";
 export * from "./metric-definitions.js";
 export * from "./metrics.js";
+export * from "./evaluator-types.js";
+export * from "./evaluator-definitions.js";
+export * from "./evaluators.js";
