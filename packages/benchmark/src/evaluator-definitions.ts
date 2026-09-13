@@ -278,9 +278,72 @@ const humanJudgeContract: CanonicalEvaluatorDefinition = {
   ]
 };
 
+export const HIB_OBJECTIVE_RULE_EVALUATOR_IDENTITY = {
+  evaluatorId: "hib_objective_rule",
+  evaluatorVersion: "0.1.0"
+} as const;
+
+const hibObjectiveRule: CanonicalEvaluatorDefinition = {
+  identity: HIB_OBJECTIVE_RULE_EVALUATOR_IDENTITY,
+  versionScope: "EVALUATOR",
+  name: "HIB objective categorical rule evaluator",
+  description:
+    "Applies an item-declared exact categorical rule to a submitted Human-as-Subject response.",
+  kind: "RULE_BASED",
+  bindingStatus: "IMPLEMENTED_AND_BOUND",
+  implementationId: "HumanBenchmarkSystem.scoreObjectiveResponse",
+  authority: ["PRODUCE_OBSERVATION"],
+  scientificAuthority: "NONE",
+  benchmarkBindings: [
+    {
+      benchmark: { benchmarkId: "hib_research_candidate", benchmarkVersion: "0.1.0" },
+      constructIds: ["meaning_context_behavior"]
+    }
+  ],
+  metricBindings: [],
+  inputs: {
+    inputKinds: ["HUMAN_SUBJECT_RESPONSE"],
+    minimumInputs: 1,
+    subjectKinds: ["HUMAN_SUBJECT"]
+  },
+  outputs: { kinds: ["CATEGORICAL_DECISION"], numericOutputRequiresMetricResult: true },
+  rubric: { requirement: "FORBIDDEN" },
+  modelRequirement: "FORBIDDEN",
+  determinism: "DETERMINISTIC",
+  judgeIndependence: "NON_MODEL",
+  parameters: [
+    {
+      parameterId: "ruleReference",
+      type: "STRING",
+      required: true,
+      description: "Exact candidate-item rule reference used for categorical evaluation."
+    }
+  ],
+  evidenceReferences: [
+    "packages/benchmark/src/human-benchmark.ts",
+    "tests/unit/human-benchmark-reconstruction.test.ts"
+  ],
+  provenance: {
+    origin: "S-07 synthetic HIB research-candidate architecture",
+    provenanceClass: "HUMAN_DIRECTION",
+    sourceReferences: ["Docs/research/core/S07_HIB_HUMAN_BENCHMARK_RECONSTRUCTION.md"],
+    introducedIn: "S07"
+  },
+  limitations: [
+    "Categorical correctness on one synthetic item is not a numeric metric, human ability estimate, calibration result, or validity claim."
+  ]
+};
+
 export const CANONICAL_EVALUATOR_REGISTRY: CanonicalEvaluatorRegistrySnapshot = {
   evaluatorRegistrySchemaVersion: "0.1.0",
   supportedKinds: BENCHMARK_EVALUATOR_MECHANISMS,
   rubrics: [longHorizonRubric],
-  definitions: [providerTck, longHorizon, statisticalContrast, behavioralLegacy, humanJudgeContract]
+  definitions: [
+    providerTck,
+    longHorizon,
+    statisticalContrast,
+    behavioralLegacy,
+    humanJudgeContract,
+    hibObjectiveRule
+  ]
 };

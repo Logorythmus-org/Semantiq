@@ -4,6 +4,7 @@ import type {
   CanonicalBenchmarkDefinition,
   CanonicalBenchmarkRegistrySnapshot
 } from "./registry-types.js";
+import { HIB_RESEARCH_CANDIDATE_IDENTITY } from "./human-benchmark-definitions.js";
 
 const noEvidence: BenchmarkEvidenceReferences = {
   implementation: [],
@@ -213,6 +214,83 @@ const historicalHacs: CanonicalBenchmarkDefinition = {
   ]
 };
 
+const hibResearchCandidate: CanonicalBenchmarkDefinition = {
+  identity: HIB_RESEARCH_CANDIDATE_IDENTITY,
+  versionScope: "BENCHMARK",
+  familyId: "human_benchmark_research",
+  name: "HIB human-subject research candidate",
+  description:
+    "A small synthetic Human-as-Subject architecture candidate reconstructed after item-level audit of the historical HIB material.",
+  constructIds: [
+    "meaning_context_behavior",
+    "bias_mechanism_reasoning",
+    "uncertainty_evidence_boundary",
+    "response_revision_behavior",
+    "long_form_constraint_retention"
+  ],
+  provenance: {
+    origin: "S-07 reconstruction with historical source audit and new synthetic candidate items",
+    sourceType: "CURRENT_IMPLEMENTATION",
+    temporalStatus: "CURRENT",
+    provenanceClass: "MIXED",
+    sourceReferences: [
+      "packages/benchmark/src/human-benchmark-definitions.ts",
+      "Docs/research/core/S07_HIB_HUMAN_BENCHMARK_RECONSTRUCTION.md",
+      "Docs/SemantIQ-Benchmarks.pdf"
+    ],
+    datasetCaseProvenance: {
+      status: "REPOSITORY_REFERENCED",
+      references: ["packages/benchmark/src/human-benchmark-definitions.ts"]
+    },
+    rightsClass: "FIRST_PARTY_OR_PROJECT",
+    introducedIn: "S07"
+  },
+  implementationState: "SCAFFOLDED",
+  scientificMaturity: "CALIBRATION_REQUIRED",
+  lifecycleState: "DRAFT",
+  evaluatorRequirements: [
+    {
+      mechanism: "RULE_BASED",
+      bindingStatus: "IMPLEMENTED_AND_BOUND",
+      evaluatorId: "HumanBenchmarkSystem.scoreObjectiveResponse",
+      evidenceReferences: ["packages/benchmark/src/human-benchmark.ts"]
+    },
+    {
+      mechanism: "HUMAN_JUDGE",
+      bindingStatus: "SUPPORTED_BY_SCHEMA",
+      evidenceReferences: [
+        "packages/benchmark/src/human-benchmark.ts",
+        "packages/benchmark/src/human-rater.ts"
+      ]
+    }
+  ],
+  humanRoles: [
+    {
+      role: "HUMAN_AS_SUBJECT",
+      status: "IMPLEMENTED",
+      evidenceReferences: ["packages/benchmark/src/human-benchmark.ts"]
+    }
+  ],
+  evidence: {
+    ...noEvidence,
+    implementation: [
+      "packages/benchmark/src/human-benchmark.ts",
+      "packages/benchmark/src/human-benchmark-definitions.ts"
+    ],
+    tests: ["tests/unit/human-benchmark-reconstruction.test.ts"]
+  },
+  aliases: [
+    { value: "HIB", kind: "LEGACY_ID", collidesWith: [] },
+    { value: "HIB 1.0", kind: "LEGACY_ID", collidesWith: [] }
+  ],
+  supersedes: [],
+  corePromotion: "NOT_PROMOTED",
+  limitations: [
+    "Candidate items are synthetic and do not reproduce the historical prompts as an executable test.",
+    "No calibration, reliability, validity, norm, diagnostic use, or Human-AI comparability is established."
+  ]
+};
+
 export const CANONICAL_BENCHMARK_REGISTRY: CanonicalBenchmarkRegistrySnapshot = {
   registrySchemaVersion: "0.1.0",
   families: [
@@ -230,6 +308,12 @@ export const CANONICAL_BENCHMARK_REGISTRY: CanonicalBenchmarkRegistrySnapshot = 
       familyId: "historical_research",
       name: "Historical research concepts",
       description: "Addressable research concepts that do not imply current implementation."
+    },
+    {
+      familyId: "human_benchmark_research",
+      name: "Human benchmark research",
+      description:
+        "Governed Human-as-Subject research candidates without diagnostic or comparative authority."
     }
   ],
   constructs: [
@@ -266,7 +350,42 @@ export const CANONICAL_BENCHMARK_REGISTRY: CanonicalBenchmarkRegistrySnapshot = 
       description:
         "Historical intended comparison construct with no established current measurement model.",
       claimStrength: "INTENDED"
+    },
+    {
+      constructId: "meaning_context_behavior",
+      name: "Meaning and context behavior",
+      description:
+        "Intended observable preservation and disambiguation of supplied meaning and context.",
+      claimStrength: "INTENDED"
+    },
+    {
+      constructId: "bias_mechanism_reasoning",
+      name: "Bias-mechanism reasoning",
+      description:
+        "Intended identification of reasoning mechanisms that can distort a supplied inference.",
+      claimStrength: "INTENDED"
+    },
+    {
+      constructId: "uncertainty_evidence_boundary",
+      name: "Uncertainty and evidence boundary",
+      description:
+        "Intended separation of supported statements, uncertainty, and missing evidence.",
+      claimStrength: "INTENDED"
+    },
+    {
+      constructId: "response_revision_behavior",
+      name: "Response revision behavior",
+      description:
+        "Intended observable revision after an error or missing constraint is disclosed.",
+      claimStrength: "INTENDED"
+    },
+    {
+      constructId: "long_form_constraint_retention",
+      name: "Long-form constraint retention",
+      description:
+        "Intended retention of explicit semantic constraints across an extended response.",
+      claimStrength: "INTENDED"
     }
   ],
-  benchmarks: [providerTck, longHorizon, currentHacs, historicalHacs]
+  benchmarks: [providerTck, longHorizon, currentHacs, historicalHacs, hibResearchCandidate]
 };

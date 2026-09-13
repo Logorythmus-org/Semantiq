@@ -12,10 +12,11 @@ blinded, auditable SemantIQ evaluation record. The lineage is Human Rater → Hu
 Assignment → Presentation → Rating → S-04 `HUMAN_JUDGE` execution → optional S-03 result → S-05
 reliability evidence.
 
-The implemented role is `HUMAN_AS_JUDGE`: a human evaluates an AI, model, system, or other
-evaluation subject output. `HUMAN_AS_SUBJECT` remains S-07 work. `HUMAN_AI_COMPARISON` remains
-S-08 work. The registry rejects either role when substituted into an S-06 study, and no Human Judge
-record is silently reinterpreted as a benchmark response from a human subject.
+The implemented S-06 role is `HUMAN_AS_JUDGE`: a human evaluates an AI, model, system, or other
+evaluation subject output. S-07 implements `HUMAN_AS_SUBJECT` through separate records;
+`HUMAN_AI_COMPARISON` remains S-08 work. The registry rejects either role when substituted into an
+S-06 study, and no Human Judge record is silently reinterpreted as a benchmark response from a
+human subject.
 
 ## Existing capability reconciliation
 
@@ -180,8 +181,9 @@ dependency, restricted input, or scientific-validation claim.
 
 ## S-07 and S-08 handoff
 
-S-07 must separately reconstruct HIB and establish which benchmarks, constructs, tasks,
-instructions, and metrics are appropriate for humans as subjects. S-06 does not make that decision.
+S-07 separately reconstructs HIB and records which candidate constructs, tasks, instructions, and
+scoring paths may proceed to research review for humans as subjects. S-06 does not make that
+decision.
 
 S-08 can later combine governed human-subject and AI-subject outputs under compatible identities,
 controlled presentation, judge provenance, reliability evidence, and prespecified comparison rules.

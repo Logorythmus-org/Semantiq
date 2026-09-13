@@ -1,4 +1,5 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
+import { seededCanonicalOrder } from "./deterministic-randomization.js";
 import type { BenchmarkRegistry } from "./registry.js";
 import type { EvaluatorRegistry } from "./evaluators.js";
 import { EVALUATOR_ABSTENTION_REASONS } from "./evaluator-types.js";
@@ -367,23 +368,6 @@ export class HumanRaterRecordValidationError extends Error {
   }
 }
 
-function seededOrder<T>(items: readonly T[], seed: number): T[] {
-  let state = seed >>> 0;
-  const random = (): number => {
-    state += 0x6d2b79f5;
-    let value = state;
-    value = Math.imul(value ^ (value >>> 15), value | 1);
-    value ^= value + Math.imul(value ^ (value >>> 7), value | 61);
-    return ((value ^ (value >>> 14)) >>> 0) / 4294967296;
-  };
-  const ordered = [...items];
-  for (let index = ordered.length - 1; index > 0; index--) {
-    const swapIndex = Math.floor(random() * (index + 1));
-    [ordered[index], ordered[swapIndex]] = [ordered[swapIndex]!, ordered[index]!];
-  }
-  return ordered;
-}
-
 function visibleCandidate(
   candidate: HumanPresentationCandidateInput,
   policy: HumanRatingStudyDefinition["blindingPolicy"]
@@ -654,7 +638,7 @@ export class HumanRaterSystem {
     if (violations.length > 0 || !study) throw new HumanRaterRecordValidationError(violations);
     const orderedInputs =
       study.randomizationPolicy.method === "SEEDED_FISHER_YATES"
-        ? seededOrder(input.candidates, input.randomizationSeed!)
+        ? seededCanonicalOrder(input.candidates, input.randomizationSeed!)
         : [...input.candidates];
     const visible = orderedInputs.map((candidate) =>
       visibleCandidate(candidate, study.blindingPolicy)
