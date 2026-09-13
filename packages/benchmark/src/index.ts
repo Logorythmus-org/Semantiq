@@ -25,3 +25,6 @@ export * from "./deterministic-randomization.js";
 export * from "./human-benchmark-types.js";
 export * from "./human-benchmark-definitions.js";
 export * from "./human-benchmark.js";
+export * from "./human-ai-comparison-types.js";
+export * from "./human-ai-comparison-definitions.js";
+export * from "./human-ai-comparison.js";
