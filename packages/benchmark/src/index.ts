@@ -21,3 +21,7 @@ export * from "./reliability.js";
 export * from "./human-rater-types.js";
 export * from "./human-rater-definitions.js";
 export * from "./human-rater.js";
+export * from "./deterministic-randomization.js";
+export * from "./human-benchmark-types.js";
+export * from "./human-benchmark-definitions.js";
+export * from "./human-benchmark.js";

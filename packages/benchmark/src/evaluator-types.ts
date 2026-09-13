@@ -40,7 +40,7 @@ export interface EvaluatorProvenance {
   readonly origin: string;
   readonly provenanceClass: "PROJECT_EXISTING_SOURCE" | "HUMAN_DIRECTION" | "MIXED";
   readonly sourceReferences: readonly string[];
-  readonly introducedIn: "S04";
+  readonly introducedIn: "S04" | "S07";
 }
 
 export interface RubricIdentity {

@@ -42,8 +42,8 @@ describe("canonical benchmark registry", () => {
     const first = new BenchmarkRegistry(CANONICAL_BENCHMARK_REGISTRY);
     const second = new BenchmarkRegistry(cloneRegistry());
 
-    expect(first.list()).toHaveLength(4);
-    expect(new Set(first.list().map((entry) => benchmarkIdentityKey(entry.identity))).size).toBe(4);
+    expect(first.list()).toHaveLength(5);
+    expect(new Set(first.list().map((entry) => benchmarkIdentityKey(entry.identity))).size).toBe(5);
     expect(first.serialize()).toBe(second.serialize());
     expect(first.digest()).toBe(second.digest());
     expect(first.digest()).toMatch(/^[a-f0-9]{64}$/);
