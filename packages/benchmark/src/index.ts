@@ -28,3 +28,6 @@ export * from "./human-benchmark.js";
 export * from "./human-ai-comparison-types.js";
 export * from "./human-ai-comparison-definitions.js";
 export * from "./human-ai-comparison.js";
+export * from "./evidence-types.js";
+export * from "./evidence-definitions.js";
+export * from "./evidence.js";
