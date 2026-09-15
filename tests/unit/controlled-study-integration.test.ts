@@ -231,7 +231,7 @@ function plan(definition = study()): ControlledExecutionPlan {
     toolPolicy: "NO_EXTERNAL_TOOLS",
     modelProviderRequirement: "NONE",
     seedPolicy: "NOT_APPLICABLE",
-    environmentRequirement: "environment:s11-local-synthetic@1.0.0",
+    environmentRequirement: `environment:s11-local-synthetic@${version}`,
     expectedEvidenceScopes: ["METRIC_S03", "EVALUATOR_S04", "EXECUTION_S09", "RESULT"],
     scientificAuthority: "NONE"
   });

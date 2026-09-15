@@ -27,6 +27,7 @@ import type {
 } from "./study-types.js";
 
 const SEMVER = /^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
+const S11_EVIDENCE_RECORD_VERSION = "1.0.0";
 const SUPPORTED_SYNTHETIC_EXECUTION_STATUSES = [
   "SUCCEEDED",
   "FAILED",
@@ -492,7 +493,11 @@ export class ControlledStudyIntegration {
     const environmentManifest = this.evidenceSystem.createEnvironmentManifest(input.environment);
     const records = this.createEvidenceRecords(input.definition, metricResult, evaluatorExecution);
     const recordReferences = records.map((record) => record.referenceId);
-    const resultReference = this.referenceFor("result", metricResult.resultId, "1.0.0");
+    const resultReference = this.referenceFor(
+      "result",
+      metricResult.resultId,
+      S11_EVIDENCE_RECORD_VERSION
+    );
     const studyReference = this.referenceFor(
       "study",
       input.definition.identity.studyId,
@@ -790,17 +795,17 @@ export class ControlledStudyIntegration {
         semanticDigest(evaluator)
       ),
       available(
-        this.referenceFor("result", metricResult.resultId, "1.0.0"),
+        this.referenceFor("result", metricResult.resultId, S11_EVIDENCE_RECORD_VERSION),
         "RESULT",
         metricResult.resultId,
-        "1.0.0",
+        S11_EVIDENCE_RECORD_VERSION,
         semanticDigest(metricResult)
       ),
       available(
-        this.referenceFor("execution", evaluatorExecution.executionId, "1.0.0"),
+        this.referenceFor("execution", evaluatorExecution.executionId, S11_EVIDENCE_RECORD_VERSION),
         "EXECUTION_S09",
         evaluatorExecution.executionId,
-        "1.0.0",
+        S11_EVIDENCE_RECORD_VERSION,
         semanticDigest(evaluatorExecution)
       )
     ];
