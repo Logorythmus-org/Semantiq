@@ -15,7 +15,12 @@ import type {
   SourceRevisionEvidence
 } from "./evidence-types.js";
 import type { MetricAggregationContext } from "./metrics.js";
-import type { MetricIdentity, MetricObservation, MetricResult } from "./metric-types.js";
+import type {
+  MetricIdentity,
+  MetricMissingReason,
+  MetricObservation,
+  MetricResult
+} from "./metric-types.js";
 import type { BenchmarkIdentity } from "./registry-types.js";
 import type { ReliabilityStudyIdentity } from "./reliability-types.js";
 import type {
@@ -130,6 +135,7 @@ export interface SyntheticEvaluatorExecutionInput {
   readonly inputReferences: readonly string[];
   readonly status: "SUCCEEDED" | "FAILED" | "ABSTAINED" | "NOT_APPLICABLE";
   readonly failure?: { readonly code: string; readonly detail: string } | undefined;
+  readonly metricMissingReason?: MetricMissingReason | undefined;
   readonly abstention?: EvaluatorExecution["abstention"];
   readonly evidenceReferences: readonly string[];
   readonly provenanceReference: string;
@@ -146,6 +152,8 @@ export interface SyntheticExecutionIngestionInput {
   readonly environment: EnvironmentManifestInput;
   readonly observedConditions: ExecutionConditionEvidence;
   readonly artifacts: readonly ArtifactReference[];
+  readonly observedOutputArtifactIds?: readonly string[] | undefined;
+  readonly additionalEvidenceRecords?: readonly EvidenceRecordReference[] | undefined;
   readonly sourceRevision: SourceRevisionEvidence;
   readonly evidencePackageIdentity: {
     readonly packageId: string;

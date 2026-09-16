@@ -421,10 +421,10 @@ export class ControlledStudyIntegration {
         }
       ]);
     const artifactIds = new Set(input.artifacts.map((artifact) => artifact.artifactId));
-    const requiredArtifacts = [
-      ...input.plan.inputArtifactIds,
-      ...(input.execution.status === "SUCCEEDED" ? input.plan.expectedOutputArtifactIds : [])
-    ];
+    const observedOutputArtifactIds =
+      input.observedOutputArtifactIds ??
+      (input.execution.status === "SUCCEEDED" ? input.plan.expectedOutputArtifactIds : []);
+    const requiredArtifacts = [...input.plan.inputArtifactIds, ...observedOutputArtifactIds];
     const missingArtifacts = requiredArtifacts.filter((artifactId) => !artifactIds.has(artifactId));
     if (missingArtifacts.length)
       throw new StudyIntegrationValidationError([
@@ -437,8 +437,9 @@ export class ControlledStudyIntegration {
     const metricDefinition = this.metricRegistry.get(binding.metricIdentity)!;
     let metricResult: MetricResult;
     let evaluatorExecution: EvaluatorExecution;
+    const { metricMissingReason, ...executionInput } = input.execution;
     const executionBase: EvaluatorExecution = {
-      ...input.execution,
+      ...executionInput,
       evaluatorIdentity: binding.evaluatorIdentity,
       configurationDigest: input.configuration.configurationDigest,
       benchmarkBinding: metricDefinition.benchmarkBinding,
@@ -476,6 +477,14 @@ export class ControlledStudyIntegration {
         evidenceReferences: input.metricAggregation.evidenceReferences,
         provenanceReference: input.metricAggregation.provenanceReference
       });
+      if (metricMissingReason && metricResult.outcome.kind === "MISSING")
+        metricResult = {
+          ...metricResult,
+          outcome: {
+            ...metricResult.outcome,
+            reason: metricMissingReason
+          }
+        };
       const validation = this.metricRegistry.validateResult(metricResult);
       if (!validation.valid)
         throw new StudyIntegrationValidationError(
@@ -491,7 +500,18 @@ export class ControlledStudyIntegration {
       input.configuration
     );
     const environmentManifest = this.evidenceSystem.createEnvironmentManifest(input.environment);
-    const records = this.createEvidenceRecords(input.definition, metricResult, evaluatorExecution);
+    const records = [
+      ...this.createEvidenceRecords(input.definition, metricResult, evaluatorExecution),
+      ...(input.additionalEvidenceRecords ?? [])
+    ];
+    if (new Set(records.map((record) => record.referenceId)).size !== records.length)
+      throw new StudyIntegrationValidationError([
+        {
+          code: "DUPLICATE_EVIDENCE_REFERENCE",
+          path: "additionalEvidenceRecords",
+          message: "Additional execution evidence must use unique references."
+        }
+      ]);
     const recordReferences = records.map((record) => record.referenceId);
     const resultReference = this.referenceFor(
       "result",
@@ -530,8 +550,7 @@ export class ControlledStudyIntegration {
       sourceRevision: input.sourceRevision,
       inputArtifactIds: input.plan.inputArtifactIds,
       expectedOutputArtifactIds: input.plan.expectedOutputArtifactIds,
-      observedOutputArtifactIds:
-        input.execution.status === "SUCCEEDED" ? input.plan.expectedOutputArtifactIds : [],
+      observedOutputArtifactIds,
       evidenceReferences: recordReferences,
       ...(input.execution.failure
         ? {
@@ -660,10 +679,7 @@ export class ControlledStudyIntegration {
     }));
   }
 
-  private validatePlanBinding(
-    definition: ControlledStudyDefinition,
-    plan: ControlledExecutionPlan
-  ): void {
+  validatePlanBinding(definition: ControlledStudyDefinition, plan: ControlledExecutionPlan): void {
     const material = planMaterial(plan);
     const expectedPlanDigest = semanticDigest(material);
     const violations: StudyIntegrationViolation[] = [];
