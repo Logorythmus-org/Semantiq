@@ -252,3 +252,125 @@ should be part of controlled execution rather than a separate evidence system.
    path and decide whether a controlled empirical pilot can begin.
 
 S-11/01 is an integration foundation, not completion of S-11 and not pilot authorization.
+
+## S-11/02 controlled execution adapter
+
+S-11/02 adds the missing provider-neutral boundary between a frozen `ControlledExecutionPlan` and
+the S-11/01 ingestion path. It is an engineering execution adapter only. It does not add a provider
+SDK, invoke a model, mutate a registry, assess scientific evidence, or admit a benchmark to Core.
+
+The execution path remains layered:
+
+```text
+ControlledStudyDefinition + ControlledExecutionPlan
+  -> ControlledExecutionRequest
+  -> ControlledExecutionAdapter
+  -> ControlledExecutionObservation
+  -> separate S-04 evaluator bridge
+  -> S-03 MetricResult
+  -> S-09 EnvironmentManifest + ExecutionManifest + EvidencePackage
+  -> S-10 handoff(PRESENT_NOT_ASSESSED / NOT_PERFORMED / NOT_SET)
+```
+
+### Discovery and reuse
+
+| Existing abstraction | Classification | Existing purpose | Coupling and failure semantics | S-09 compatibility | S-11/02 decision |
+| --- | --- | --- | --- | --- | --- |
+| `ControlledStudyIntegration` | `CANONICAL_CURRENT` | Exact S-02/S-03/S-04/S-09 study spine | Provider/model neutral; fail-closed validation | Native | Extend only its ingestion inputs for observed output IDs and explicit missingness |
+| `MetricRegistry` / `MetricResult` | `CANONICAL_CURRENT` | S-03 value, aggregation, and missingness semantics | No provider coupling | Native | Reuse unchanged |
+| `EvaluatorRegistry` / `EvaluatorExecution` | `CANONICAL_CURRENT` | S-04 evaluator configuration and execution records | Optional model provenance; explicit failure/abstention | Native | Reuse unchanged after adapter execution |
+| S-09 `EvidenceSystem` | `CANONICAL_CURRENT` | Environment, execution, artifact, package, and verification records | Provider-neutral; explicit unknown/unavailable states | Native | Reuse unchanged |
+| `ISandboxProvider` / `ISandboxInstance` | `COMPATIBLE_CURRENT` | Provider-neutral sandbox lifecycle and command execution | Sandbox-provider coupled; runtime errors and termination | Adaptable | May sit behind a future adapter; not called here |
+| `SemantiqProviderAdapter` | `ENGINEERING_ONLY` | Provider SDK for provision/command/destroy | Runtime-provider coupled; thrown errors | Partial | Keep behind the S-11 adapter boundary |
+| `SandboxTCK` | `ENGINEERING_ONLY` | Provider contract conformance execution | Sandbox-provider coupled; per-check failures | Artifact input | Reuse only as a deterministic evaluator fixture |
+| `CLIRunnerEngine` / `ExecutionAPIService` | `PARTIAL` | Local run lifecycle and execution routing | Local provider IDs, generated timestamps, mutable in-memory state | Partial | Do not treat as canonical study execution |
+| `BenchmarkProducerEngine` | `COMPATIBLE_LEGACY` | Synthetic benchmark output generation | Fixed mock provider/model output | Legacy bridge only | No automatic S-09 promotion |
+| `BenchmarkContractAdapter` | `COMPATIBLE_LEGACY` | Legacy product `Run`/`Trace`/`Evaluation` adaptation | Copies legacy provider metadata; synthetic timing/token values | Not native | Do not reuse for canonical S-11 evidence |
+| `StudyExecutionManifest` | `COMPATIBLE_LEGACY` | Protocol-adherence and partner-study record | Model/environment fingerprints; adherence result | Loss-aware mapping required | `LEGACY_EXECUTION_ADAPTER = DEFERRED` |
+| SDK run/profile contracts | `PARTIAL` | Client and comparative research profiles | Product/API oriented | Referential | Preserve outside the canonical adapter contract |
+
+No existing abstraction validates the exact controlled study and plan before execution while also
+separating intended conditions from observed conditions. The new adapter fills only that gap.
+
+### Request and identity binding
+
+`ControlledExecutionRequest` contains the controlled study and plan, required input artifact
+references, an optional timeout, engineering authority, and a semantic request digest. The digest
+binds the exact study identity/digest, plan identity/digest, benchmark, metric, evaluator, artifacts,
+intended conditions, environment requirement, tool policy, seed policy, and execution policy.
+
+The coordinator validates these bindings and registry membership before calling an adapter. A
+mutated request, stale plan digest, stale identity version, or missing input artifact fails closed.
+Adapter identity is not a new canonical identity; observed provider information uses an evidence
+value and existing provider/model provenance vocabulary.
+
+### Observation and provider provenance
+
+`ControlledExecutionObservation` records the actual run and execution references, status, provider
+observation, independently recorded conditions, canonical S-09 environment input, artifact
+references, explicit attempts, timing/resource evidence values, failure, limitations, and a semantic
+observation digest. Raw provider output is not embedded in the record. Outputs, logs, traces, and
+configuration remain S-09 `ArtifactReference` values with digests, rights, availability, and
+redaction metadata.
+
+Provider version and model snapshot may be `UNKNOWN` or `UNAVAILABLE`. A provider-managed alias is
+not upgraded to an immutable snapshot, and a synthetic deterministic adapter does not establish
+replayability for a real provider.
+
+### Intended and observed conditions
+
+The adapter must return a distinct observed-conditions record. Reusing the plan's intended object is
+rejected. The coordinator compares configuration, language, tool policy, model, sampling, and
+randomization values and separately compares the observed environment identity with the plan's
+requirement.
+
+Known unequal observations produce `DEVIATES`; unavailable observations produce `UNKNOWN` when no
+known deviation exists. A mismatch remains evidence. The coordinator does not normalize it into the
+planned value and does not assign scientific meaning. The focused fixture demonstrates that planned
+`NO_EXTERNAL_TOOLS` and observed `EXTERNAL_TOOL_AVAILABLE` remain different in the S-09 manifest.
+
+### Failure, missingness, timing, and retries
+
+The bounded adapter failure vocabulary is `REQUEST_INVALID`, `PLAN_MISMATCH`, `ARTIFACT_MISSING`,
+`ADAPTER_FAILURE`, `EXECUTION_FAILURE`, `TIMEOUT`, `OUTPUT_INVALID`, `EVALUATOR_FAILURE`,
+`ENVIRONMENT_MISMATCH`, and `UNSUPPORTED_OPERATION`. Adapter exceptions fail closed. Returned
+failures remain observable and skip evaluation.
+
+Adapter/input failures map to S-03 `INVALID_INPUT` or `NOT_OBSERVED`; evaluator failures retain
+`EVALUATOR_FAILURE`. No failure, timeout, missing output, abstention, partial result, or unknown state
+becomes numeric zero. S-04 evaluation is a separate callback and remains the only path from a valid
+execution output to an S-03 observation.
+
+Timing, token usage, and numeric resource usage are evidence values. Unknown values remain unknown.
+Attempts are ordered explicitly; a successful retry retains preceding failures. The coordinator does
+not implement retry policy or a cost/accounting framework.
+
+### Deterministic synthetic trace
+
+The focused S-11/02 fixture is first-party, synthetic, non-human, offline, and non-empirical. Its
+adapter returns one artifact reference and one observed condition set. A separate deterministic
+evaluator emits one S-03 observation, after which the existing S-11/01 path creates the S-04 record,
+S-09 manifests/package, internal-consistency result, and bounded S-10 handoff.
+
+The fixture performs no network call, external inference, credential resolution, provider billing,
+Human data collection, HIB/HACS execution, or scientific assessment.
+
+### Authority and remaining work
+
+S-11/02 authority is `CONTROLLED_EXECUTION_ADAPTER_ONLY`; scientific authority is `NONE`. Execution
+success does not imply scientific validity. Adapter determinism does not imply empirical
+reliability. Provider identity does not imply reproducible provider state. Observed output does not
+imply a valid metric. Metric output does not establish construct validity. S-09 verification does
+not establish scientific truth. Evidence presence does not satisfy S-10, and run completion does not
+permit S-02 Core admission.
+
+CCP-06 is addressed at the provider-neutral adapter layer, not at a live-provider or empirical
+validation layer. CCP-01 is more strongly partially addressed. CCP-02 and CCP-03 remain deferred.
+The remaining decomposition still holds:
+
+1. **S-11/03 Typed Evidence Resolution and Promotion Gates** — add typed, bounded resolution without
+   automatic sufficiency decisions.
+2. **S-11/04 Governed S-10 to S-02 Mutation Bridge** — require exact assessment, Human decision,
+   lineage, and separate mutation authorization.
+3. **S-11/05 End-to-End Core Conformance and Pilot Readiness** — evaluate complete engineering
+   conformance before any separately authorized pilot.
