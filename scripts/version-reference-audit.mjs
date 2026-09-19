@@ -70,7 +70,7 @@ const historicalSandboxTagPattern = /\bv1\.0\.0-sandbox\b/i;
 const versioningPolicyDeclarationPattern =
   /\bVersioning Policy\b.*\bSemantic versioning\b.*\b1\.0\.0\b/i;
 const explicitApiCompatibilityPattern =
-  /\b(?:client\.version|json\.meta\.version|options\.version|versionTag|version_tag|versionHistory|toolVersions|protocolCompatibility|supportedVersions|negotiatedVersion|versionOrHash|profile\.version|statementText|immutableSnapshotHash|changelog|schema 1\.0\.0|canonical JSON schemas|product-contracts\.schema\.json|SemantIQ Benchmarks v1\.0\.0|Governance evidence specification v1\.0\.0)\b/i;
+  /\b(?:client\.version|json\.meta\.version|options\.version|versionTag|version_tag|versionHistory|toolVersions|protocolCompatibility|supportedVersions|negotiatedVersion|versionOrHash|profile\.version|authorizationVersion|recordDecision|assessmentReference|statementText|immutableSnapshotHash|changelog|schema 1\.0\.0|canonical JSON schemas|product-contracts\.schema\.json|SemantIQ Benchmarks v1\.0\.0|Governance evidence specification v1\.0\.0)\b/i;
 const claimLifecycleFixturePattern =
   /\b(?:active claim|Draft valid claim|Release v?1\.\d+\.\d+ (?:to|->))/i;
 const packageDependencyContextPattern =
