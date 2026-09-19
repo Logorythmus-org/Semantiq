@@ -10,6 +10,8 @@ import {
   ControlledStudyIntegration,
   EvaluatorRegistry,
   MetricRegistry,
+  PromotionEvidenceResolver,
+  promotionEvidenceRecordDigest,
   ResearchPromotionSystem,
   S11_02_ANTI_OVERCLAIM_INVARIANTS,
   S11_02_AUTHORITY,
@@ -21,10 +23,13 @@ import {
   type ControlledExecutionRequestInput,
   type ControlledStudyDefinition,
   type EnvironmentManifestInput,
+  type EvidencePackage,
   type EvidenceValue,
   type ExecutionConditionEvidence,
   type ModelReference,
   type Operationalization,
+  type PromotionAssessmentInput,
+  type PromotionEvidenceRecord,
   type ResearchIntake,
   type ConstructAssessment,
   type SourceRevisionEvidence
@@ -59,6 +64,7 @@ const integration = new ControlledStudyIntegration(
 );
 const coordinator = new ControlledExecutionCoordinator(integration);
 const promotion = new ResearchPromotionSystem();
+const evidenceResolver = new PromotionEvidenceResolver();
 const configuration = evaluatorRegistry.createConfiguration({ evaluatorIdentity, parameters: {} });
 
 const hash = (value: string) => computeSha256(`s11-02:${value}`);
@@ -429,6 +435,294 @@ describe("S-11/02 provider-neutral controlled execution adapter", () => {
     expect(result.trace.verification.outcome).toBe("VERIFIED_INTERNAL_CONSISTENCY");
     expect(result.trace.verification.authority).toBe("INTERNAL_CONSISTENCY_ONLY");
     expect(result.scientificAuthority).toBe("NONE");
+  });
+
+  it("resolves exact S-11/02 evidence without treating it as scientific sufficiency", async () => {
+    const result = await execute();
+    const executionRecord = result.trace.evidenceRecords.find(
+      (record) => record.scope === "EXECUTION_S09"
+    );
+    expect(executionRecord).toBeDefined();
+    const resolution = evidenceResolver.resolve({
+      resolutionId: "resolution:controlled-adapter",
+      resolutionVersion: version,
+      request: {
+        requestId: "request:controlled-adapter-promotion",
+        requestVersion: version,
+        benchmarkIdentity: known(benchmarkIdentity),
+        intakeIdentity: {
+          researchIntakeId: "intake:controlled-adapter",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "Synthetic resolver fixture."
+      },
+      requiredGateIds: ["S09_EVIDENCE_PACKAGE", "VALIDITY", "CALIBRATION", "RELIABILITY"],
+      requirements: [
+        {
+          requirementId: "requirement:synthetic-execution",
+          gateId: "S09_EVIDENCE_PACKAGE",
+          expectedPackage: {
+            packageId: result.trace.evidencePackage.packageId,
+            packageVersion: result.trace.evidencePackage.packageVersion,
+            packageDigest: result.trace.evidencePackage.packageDigest
+          },
+          expectedBindings: { benchmarkIdentity, metricIdentity, evaluatorIdentity },
+          expectedRecord: executionRecord!,
+          critical: true
+        }
+      ],
+      evidencePackages: [result.trace.evidencePackage],
+      evidenceRecords: [],
+      callerGateAssertions: [
+        {
+          gateId: "VALIDITY",
+          status: "SATISFIED",
+          evidenceReferences: ["caller:assertion"],
+          rationale: "Ignored compatibility assertion."
+        }
+      ],
+      scientificAuthority: "NONE",
+      decisionAuthority: "NONE"
+    });
+    expect(resolution.findings).toContainEqual(
+      expect.objectContaining({
+        requirementId: "requirement:synthetic-execution",
+        state: "PRESENT"
+      })
+    );
+    expect(
+      resolution.gateInputs.find((gate) => gate.gateId === "S09_EVIDENCE_PACKAGE")?.status
+    ).toBe("SATISFIED");
+    expect(resolution.gateInputs.find((gate) => gate.gateId === "VALIDITY")?.status).toBe(
+      "UNKNOWN"
+    );
+    expect(resolution.ignoredCallerGateAssertionIds).toEqual(["VALIDITY"]);
+  });
+
+  it("fails closed when a legacy evidence package omits optional records", () => {
+    const resolution = evidenceResolver.resolve({
+      resolutionId: "resolution:legacy-package",
+      resolutionVersion: version,
+      request: {
+        requestId: "request:legacy-package",
+        requestVersion: version,
+        benchmarkIdentity: { state: "UNKNOWN", reason: "Legacy package fixture." },
+        intakeIdentity: {
+          researchIntakeId: "intake:legacy-package",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "Compatibility fixture."
+      },
+      requiredGateIds: ["S09_EVIDENCE_PACKAGE"],
+      requirements: [],
+      evidencePackages: [
+        { packageId: "legacy:package", packageVersion: version } as unknown as EvidencePackage
+      ],
+      evidenceRecords: [],
+      callerGateAssertions: [],
+      scientificAuthority: "NONE",
+      decisionAuthority: "NONE"
+    });
+    expect(resolution.findings).toEqual([]);
+    expect(resolution.gateInputs[0]?.evidenceState).toBe("UNKNOWN");
+  });
+
+  it("fails closed on missing, mismatched, and unknown typed evidence identities", async () => {
+    const result = await execute();
+    const requirement = {
+      requirementId: "requirement:typed",
+      gateId: "S09_EVIDENCE_PACKAGE" as const,
+      expectedPackage: {
+        packageId: result.trace.evidencePackage.packageId,
+        packageVersion: result.trace.evidencePackage.packageVersion,
+        packageDigest: result.trace.evidencePackage.packageDigest
+      },
+      expectedBindings: { metricIdentity: { ...metricIdentity, metricVersion: "9.9.9" } },
+      critical: true
+    };
+    const input = {
+      resolutionId: "resolution:typed",
+      resolutionVersion: version,
+      request: {
+        requestId: "request:typed",
+        requestVersion: version,
+        benchmarkIdentity: known(benchmarkIdentity),
+        intakeIdentity: {
+          researchIntakeId: "intake:controlled-adapter",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED" as const,
+        candidateKind: "GENERAL" as const,
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "Synthetic resolver fixture."
+      },
+      requiredGateIds: ["S09_EVIDENCE_PACKAGE" as const],
+      requirements: [requirement],
+      evidencePackages: [result.trace.evidencePackage],
+      evidenceRecords: [],
+      callerGateAssertions: [],
+      scientificAuthority: "NONE" as const,
+      decisionAuthority: "NONE" as const
+    };
+    expect(evidenceResolver.resolve(input).findings[0]?.state).toBe("INVALID");
+    expect(
+      evidenceResolver.resolve({
+        ...input,
+        requirements: [
+          {
+            ...requirement,
+            expectedBindings: {
+              evaluatorIdentity: { ...evaluatorIdentity, evaluatorVersion: "9.9.9" }
+            }
+          }
+        ]
+      }).findings[0]?.state
+    ).toBe("INVALID");
+    expect(evidenceResolver.resolve({ ...input, evidencePackages: [] }).findings[0]?.state).toBe(
+      "ABSENT"
+    );
+    expect(
+      evidenceResolver.resolve({
+        ...input,
+        request: {
+          ...input.request,
+          benchmarkIdentity: { state: "UNKNOWN", reason: "Not resolved." }
+        }
+      }).findings[0]?.state
+    ).toBe("UNKNOWN");
+  });
+
+  it("feeds only mechanically resolved evidence into the S-10 assessment", async () => {
+    const result = await execute();
+    const executionRecord = result.trace.evidenceRecords.find(
+      (record) => record.scope === "EXECUTION_S09"
+    )!;
+    const input: PromotionAssessmentInput = {
+      assessmentId: "assessment:typed-resolution",
+      assessmentVersion: version,
+      schemaVersion: "1.0.0",
+      request: {
+        requestId: "request:typed-resolution",
+        requestVersion: version,
+        benchmarkIdentity: known(benchmarkIdentity),
+        intakeIdentity: {
+          researchIntakeId: "intake:controlled-adapter",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "S-10 integration fixture."
+      },
+      evidenceRequirements: [
+        {
+          requirementId: "requirement:s09",
+          gateId: "S09_EVIDENCE_PACKAGE",
+          expectedPackage: {
+            packageId: result.trace.evidencePackage.packageId,
+            packageVersion: result.trace.evidencePackage.packageVersion,
+            packageDigest: result.trace.evidencePackage.packageDigest
+          },
+          expectedRecord: executionRecord,
+          expectedBindings: { benchmarkIdentity, metricIdentity, evaluatorIdentity },
+          critical: true
+        }
+      ],
+      gateEvidence: [
+        {
+          gateId: "VALIDITY",
+          status: "SATISFIED",
+          evidenceReferences: ["legacy:caller-assertion"],
+          rationale: "Must be ignored by S-11/03."
+        }
+      ],
+      evidenceRecords: [],
+      evidencePackages: [result.trace.evidencePackage],
+      knownConfounds: [],
+      unresolvedMethodologicalCriticism: [],
+      limitations: ["Synthetic only."],
+      scientificAuthority: "NONE"
+    };
+    const assessment = promotion.assessPromotion(input);
+    expect(
+      assessment.gateAssessments.find((gate) => gate.gateId === "S09_EVIDENCE_PACKAGE")?.status
+    ).toBe("SATISFIED");
+    expect(assessment.gateAssessments.find((gate) => gate.gateId === "VALIDITY")?.status).toBe(
+      "UNKNOWN"
+    );
+    expect(assessment.recommendation).toBe("INSUFFICIENT_EVIDENCE");
+  });
+
+  it("preserves backed contradiction and negative evidence without deriving promotion", async () => {
+    const result = await execute();
+    const contradictory: PromotionEvidenceRecord = {
+      evidenceId: "evidence:contradiction",
+      evidenceVersion: version,
+      category: "CONTRADICTORY",
+      disposition: "CONTRADICTORY",
+      targetReference: "candidate:synthetic",
+      evidencePackageReferences: [result.trace.evidencePackage.packageId],
+      sourceReferences: ["source:synthetic"],
+      finding: "Synthetic contradictory finding.",
+      materiality: "MATERIAL",
+      resolution: "OPEN",
+      rightsClass: "FIRST_PARTY_OR_PROJECT",
+      limitations: [],
+      scientificAuthority: "NONE"
+    };
+    const resolution = evidenceResolver.resolve({
+      resolutionId: "resolution:contradiction",
+      resolutionVersion: version,
+      request: {
+        requestId: "request:contradiction",
+        requestVersion: version,
+        benchmarkIdentity: known(benchmarkIdentity),
+        intakeIdentity: {
+          researchIntakeId: "intake:controlled-adapter",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "Synthetic resolver fixture."
+      },
+      requiredGateIds: ["S09_EVIDENCE_PACKAGE"],
+      requirements: [],
+      evidencePackages: [
+        {
+          ...result.trace.evidencePackage,
+          records: [
+            ...result.trace.evidencePackage.records,
+            {
+              referenceId: `promotion-evidence:evidence:contradiction@${version}`,
+              scope: "EXECUTION_S09",
+              recordId: contradictory.evidenceId,
+              recordVersion: contradictory.evidenceVersion,
+              semanticDigest: promotionEvidenceRecordDigest(contradictory),
+              availability: "AVAILABLE",
+              provenanceReferences: ["source:synthetic"]
+            }
+          ]
+        }
+      ],
+      evidenceRecords: [contradictory],
+      callerGateAssertions: [],
+      scientificAuthority: "NONE",
+      decisionAuthority: "NONE"
+    });
+    expect(resolution.contradictoryEvidenceIds).toEqual(["evidence:contradiction"]);
+    expect(resolution.negativeEvidenceIds).toEqual([]);
   });
 
   it("creates a deterministic request digest over exact study, plan, and artifact bindings", () => {

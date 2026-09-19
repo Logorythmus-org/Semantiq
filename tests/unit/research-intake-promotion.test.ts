@@ -363,14 +363,14 @@ describe("S-10 research intake and promotion governance", () => {
     );
     expect(value.blockingGateIds).toContain("RIGHTS_CLEARANCE");
   });
-  it("keeps Core eligible candidates at human review without governance", () => {
+  it("keeps Core candidates at human review when typed evidence is absent", () => {
     const value = system.assessPromotion(
       assessment({
         request: { ...assessment().request, requestedStage: "CORE" },
         gateEvidence: gates("CORE")
       })
     );
-    expect(value.recommendation).toBe("ELIGIBLE_FOR_REVIEW");
+    expect(value.recommendation).toBe("INSUFFICIENT_EVIDENCE");
     expect(value.mutatesBenchmarkRegistry).toBe(false);
   });
   it("cannot grant Core with a pure evaluator", () => {
@@ -381,7 +381,7 @@ describe("S-10 research intake and promotion governance", () => {
       })
     );
     const decision = system.recordDecision(value, "decision:pending", researchIntakeRecordVersion);
-    expect(decision.outcome).toBe("ELIGIBLE_FOR_REVIEW");
+    expect(decision.outcome).toBe("INSUFFICIENT_EVIDENCE");
     expect(decision.benchmarkRegistryMutated).toBe(false);
   });
   it("records explicit human governance while leaving S-02 mutation separate", () => {
@@ -404,7 +404,7 @@ describe("S-10 research intake and promotion governance", () => {
         rationale: "Synthetic governance fixture."
       }
     );
-    expect(decision.outcome).toBe("APPROVED_BY_GOVERNANCE");
+    expect(decision.outcome).toBe("INSUFFICIENT_EVIDENCE");
     expect(decision.benchmarkRegistryMutationRequired).toBe(true);
     expect(decision.benchmarkRegistryMutated).toBe(false);
   });
@@ -447,7 +447,7 @@ describe("S-10 research intake and promotion governance", () => {
       )
     ).toThrow(/NOT_APPLICABLE_JUSTIFICATION_REQUIRED/);
   });
-  it("retains a justified NOT_APPLICABLE gate without treating it as unknown", () => {
+  it("does not allow legacy NOT_APPLICABLE assertions to bypass typed resolution", () => {
     const gateEvidence = gates("VALIDATED").map((gate) =>
       gate.gateId === "ROBUSTNESS"
         ? {
@@ -458,9 +458,9 @@ describe("S-10 research intake and promotion governance", () => {
         : gate
     );
     const value = system.assessPromotion(assessment({ gateEvidence }));
-    expect(value.recommendation).toBe("ELIGIBLE_FOR_REVIEW");
+    expect(value.recommendation).toBe("INSUFFICIENT_EVIDENCE");
     expect(value.gateAssessments.find((gate) => gate.gateId === "ROBUSTNESS")?.status).toBe(
-      "NOT_APPLICABLE"
+      "UNKNOWN"
     );
   });
   it("rejects private paths, credentials, PII fields, and forbidden claims", () => {

@@ -1,5 +1,9 @@
 import type { EvidencePackage, EvidenceValue, SemanticDigest } from "./evidence-types.js";
 import type {
+  EvidenceResolutionRequirement,
+  PromotionEvidenceResolution
+} from "./study-evidence-resolution.js";
+import type {
   BenchmarkIdentity,
   RegistryInputRightsClass,
   RegistryProvenanceClass
@@ -287,6 +291,9 @@ export interface PromotionAssessmentInput {
   readonly assessmentVersion: string;
   readonly schemaVersion: "1.0.0";
   readonly request: PromotionRequest;
+  /** Exact S-09 identities resolved mechanically by S-11/03. */
+  readonly evidenceRequirements?: readonly EvidenceResolutionRequirement[] | undefined;
+  /** Retained for audit compatibility; supplied statuses do not determine gates. */
   readonly gateEvidence: readonly PromotionGateEvidence[];
   readonly evidenceRecords: readonly PromotionEvidenceRecord[];
   readonly evidencePackages: readonly EvidencePackage[];
@@ -315,6 +322,7 @@ export interface PromotionGateAssessment extends PromotionGateEvidence {
 
 export interface PromotionAssessment extends PromotionAssessmentInput {
   readonly assessmentDigest: SemanticDigest;
+  readonly evidenceResolution: PromotionEvidenceResolution;
   readonly gateAssessments: readonly PromotionGateAssessment[];
   readonly recommendation: PromotionRecommendation;
   readonly blockingGateIds: readonly PromotionGateId[];
