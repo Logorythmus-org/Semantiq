@@ -306,7 +306,7 @@ export class PromotionEvidenceResolver {
         };
       const expectedRecord = requirement.expectedRecord;
       if (expectedRecord) {
-        const actual = pkg.records.find(
+        const actual = (pkg.records ?? []).find(
           (record) => record.referenceId === expectedRecord.referenceId
         );
         if (!actual || !recordMatches(actual, expectedRecord))
@@ -347,7 +347,7 @@ export class PromotionEvidenceResolver {
 
     const backed = input.evidenceRecords.filter((record) =>
       input.evidencePackages.some((pkg) =>
-        pkg.records.some(
+        (pkg.records ?? []).some(
           (reference) =>
             reference.recordId === record.evidenceId &&
             reference.recordVersion === record.evidenceVersion &&

@@ -23,6 +23,7 @@ import {
   type ControlledExecutionRequestInput,
   type ControlledStudyDefinition,
   type EnvironmentManifestInput,
+  type EvidencePackage,
   type EvidenceValue,
   type ExecutionConditionEvidence,
   type ModelReference,
@@ -500,6 +501,38 @@ describe("S-11/02 provider-neutral controlled execution adapter", () => {
       "UNKNOWN"
     );
     expect(resolution.ignoredCallerGateAssertionIds).toEqual(["VALIDITY"]);
+  });
+
+  it("fails closed when a legacy evidence package omits optional records", () => {
+    const resolution = evidenceResolver.resolve({
+      resolutionId: "resolution:legacy-package",
+      resolutionVersion: version,
+      request: {
+        requestId: "request:legacy-package",
+        requestVersion: version,
+        benchmarkIdentity: { state: "UNKNOWN", reason: "Legacy package fixture." },
+        intakeIdentity: {
+          researchIntakeId: "intake:legacy-package",
+          researchIntakeVersion: version
+        },
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: [],
+        rationale: "Compatibility fixture."
+      },
+      requiredGateIds: ["S09_EVIDENCE_PACKAGE"],
+      requirements: [],
+      evidencePackages: [
+        { packageId: "legacy:package", packageVersion: version } as unknown as EvidencePackage
+      ],
+      evidenceRecords: [],
+      callerGateAssertions: [],
+      scientificAuthority: "NONE",
+      decisionAuthority: "NONE"
+    });
+    expect(resolution.findings).toEqual([]);
+    expect(resolution.gateInputs[0]?.evidenceState).toBe("UNKNOWN");
   });
 
   it("fails closed on missing, mismatched, and unknown typed evidence identities", async () => {

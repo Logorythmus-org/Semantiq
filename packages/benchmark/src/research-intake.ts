@@ -468,16 +468,16 @@ export class ResearchPromotionSystem {
       ["NEGATIVE_RESULT", "FAILED_REPRODUCTION", "FAILED_REPLICATION"].includes(e.disposition)
     );
     const blockingGateIds = gateAssessments.filter((g) => g.blocking).map((g) => g.gateId);
+    const nonGovernanceBlocking = gateAssessments.filter(
+      (gate) => gate.blocking && gate.gateId !== "GOVERNANCE_APPROVAL"
+    );
     let recommendation: PromotionAssessment["recommendation"] = "ELIGIBLE_FOR_REVIEW";
     if (contradictions.length) recommendation = "BLOCKED_BY_CONTRADICTION";
-    else if (blockingGateIds.includes("GOVERNANCE_APPROVAL") && blockingGateIds.length === 1)
+    else if (nonGovernanceBlocking.some((gate) => gate.status === "UNKNOWN"))
+      recommendation = "INSUFFICIENT_EVIDENCE";
+    else if (nonGovernanceBlocking.length) recommendation = "NOT_ELIGIBLE";
+    else if (blockingGateIds.includes("GOVERNANCE_APPROVAL"))
       recommendation = "ELIGIBLE_FOR_REVIEW";
-    else if (blockingGateIds.some((g) => g === "GOVERNANCE_APPROVAL"))
-      recommendation = "BLOCKED_BY_GOVERNANCE";
-    else if (blockingGateIds.length)
-      recommendation = gateAssessments.some((g) => g.blocking && g.status === "UNKNOWN")
-        ? "INSUFFICIENT_EVIDENCE"
-        : "NOT_ELIGIBLE";
     return {
       ...input,
       assessmentDigest: digest(assessmentMaterial(input)),
