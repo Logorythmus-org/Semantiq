@@ -156,8 +156,10 @@ describe("canonical benchmark registry", () => {
       expect.arrayContaining(["CORE_REQUIRES_VALIDATION", "MISSING_PROMOTION_EVIDENCE"])
     );
 
-    const registry = new BenchmarkRegistry(CANONICAL_BENCHMARK_REGISTRY);
-    expect(() => registry.promoteToCore(providerTck, ["governance/core-promotion.json"])).toThrow(
+    const promotedWithoutValidation = cloneRegistry() as any;
+    promotedWithoutValidation.benchmarks[0].corePromotion = "PROMOTED";
+    promotedWithoutValidation.benchmarks[0].evidence.promotion = ["governance/core-promotion.json"];
+    expect(() => new BenchmarkRegistry(promotedWithoutValidation)).toThrow(
       BenchmarkRegistryValidationError
     );
   });

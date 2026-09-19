@@ -403,3 +403,35 @@ This layer adds no canonical registry, evidence system, execution manifest, depe
 program, human data, Human-AI experiment, or authority. HIB remains
 `hib_research_candidate@0.1.0` in `SCAFFOLDED / CALIBRATION_REQUIRED / DRAFT / NOT_PROMOTED` with
 AI suitability `UNASSESSED`; historical HACS records remain separate and historical.
+
+## S-11/04 governed Core admission boundary
+
+S-11/04 closes the remaining S-10 to S-02 mutation gap. The public unguarded
+`BenchmarkRegistry.promoteToCore(identity, evidence)` method is removed. Core promotion now requires
+an exact `PromotionAssessment`, an `APPROVED_BY_GOVERNANCE` `PromotionDecision`, explicit approved
+`HUMAN_GOVERNANCE` evidence, a deterministic decision digest, and a
+`GovernedCoreAdmissionAuthorization` bound to the exact benchmark and source-registry digest.
+
+Authorization fails closed when the assessment identity or digest differs, the requested stage is
+not `CORE`, the benchmark identity is unknown or mismatched, the recommendation is not
+`ELIGIBLE_FOR_REVIEW`, a non-governance gate remains blocking, a material contradiction remains
+open, the S-11/03 resolution is absent or inconsistent, the target is missing, or the benchmark is
+not already `VALIDATED`. `VALIDATED` is a prerequisite; governance does not create scientific
+maturity.
+
+Applying a valid authorization creates a new immutable `BenchmarkRegistry`, changes only the exact
+target's `corePromotion` to `PROMOTED`, appends two bounded authorization/decision evidence
+references, and reruns S-02 registry validation. Implementation state, scientific maturity,
+lifecycle state, unrelated evidence, and every unrelated benchmark remain unchanged. Replay fails
+with `ALREADY_PROMOTED` and appends no duplicate evidence.
+
+The deterministic `CoreAdmissionMutationReceipt` proves only that this bounded mutation occurred.
+It has scientific authority `NONE`: governance approval is not scientific validation, approval is
+not automatic admission, a promotion decision is not a mutation, an authorization is not
+scientific evidence, and a mutation receipt is not scientific validation. S-09 remains
+`INTERNAL_CONSISTENCY_ONLY`; S-10 remains `ASSESSMENT_RECOMMENDATION_ONLY`.
+
+All S-11/04 promotion tests use synthetic registry entries. HIB remains non-Core, current HACS and
+historical HACS remain distinct, and no real benchmark is promoted. CCP-02 is addressed at the
+governed mutation boundary. CCP-01 remains partially addressed pending separately authorized
+end-to-end conformance and pilot-readiness work.

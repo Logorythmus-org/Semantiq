@@ -198,6 +198,10 @@ function assessmentMaterial(input: PromotionAssessmentInput | PromotionAssessmen
   };
 }
 
+export function promotionAssessmentDigest(input: PromotionAssessmentInput | PromotionAssessment) {
+  return digest(assessmentMaterial(input));
+}
+
 function validateIdentity(
   id: string,
   version: string,
@@ -480,7 +484,7 @@ export class ResearchPromotionSystem {
       recommendation = "ELIGIBLE_FOR_REVIEW";
     return {
       ...input,
-      assessmentDigest: digest(assessmentMaterial(input)),
+      assessmentDigest: promotionAssessmentDigest(input),
       evidenceResolution,
       gateAssessments,
       recommendation,
