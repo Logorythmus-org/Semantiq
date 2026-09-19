@@ -494,21 +494,6 @@ export class BenchmarkRegistry {
     return this.withEntry({ ...benchmark, scientificMaturity: target, evidence });
   }
 
-  promoteToCore(
-    identity: BenchmarkIdentity,
-    promotionEvidence: readonly string[]
-  ): BenchmarkRegistry {
-    const benchmark = this.requireEntry(identity);
-    return this.withEntry({
-      ...benchmark,
-      corePromotion: "PROMOTED",
-      evidence: {
-        ...benchmark.evidence,
-        promotion: [...benchmark.evidence.promotion, ...promotionEvidence]
-      }
-    });
-  }
-
   serialize(): string {
     return canonicalJson({
       ...this.snapshot,

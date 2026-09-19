@@ -77,6 +77,24 @@ describe("SemantIQ version and maturity truth", () => {
       classifyReference("schemas/product-contracts.schema.json", `"schemaVersion": "${target}"`)
     ).toBe("API_SCHEMA_VERSION");
     expect(classifyReference("package.json", `"version": "${target}"`)).toBe("PACKAGE_VERSION");
+    expect(
+      classifyReference(
+        "packages/benchmark/src/governed-core-admission.ts",
+        `authorization.authorizationVersion !== "${target}"`
+      )
+    ).toBe("API_SCHEMA_VERSION");
+    expect(
+      classifyReference(
+        "tests/unit/governed-core-admission.test.ts",
+        `recordDecision(value, "decision:synthetic", "${target}", {`
+      )
+    ).toBe("API_SCHEMA_VERSION");
+    expect(
+      classifyReference(
+        "tests/unit/governed-core-admission.test.ts",
+        `assessmentReference: "assessment:other@${target}"`
+      )
+    ).toBe("API_SCHEMA_VERSION");
     expect(classifyReference("Docs/sandbox/EXAMPLE_SPEC.md", `**Version**: ${target}`)).toBe(
       "DOCUMENTATION_MILESTONE"
     );

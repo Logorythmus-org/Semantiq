@@ -149,6 +149,10 @@ const material = (value: PromotionEvidenceResolutionInput | PromotionEvidenceRes
   decisionAuthority: value.decisionAuthority
 });
 
+export const promotionEvidenceResolutionDigest = (
+  value: PromotionEvidenceResolutionInput | PromotionEvidenceResolution
+): SemanticDigest => digest(material(value));
+
 const evidenceRecordMaterial = (record: PromotionEvidenceRecord) => ({
   evidenceId: record.evidenceId,
   evidenceVersion: record.evidenceVersion,
@@ -450,6 +454,6 @@ export class PromotionEvidenceResolver {
         input.callerGateAssertions.map((assertion) => assertion.gateId)
       )
     };
-    return { ...base, resolutionDigest: digest(material(base)) };
+    return { ...base, resolutionDigest: promotionEvidenceResolutionDigest(base) };
   }
 }
