@@ -374,3 +374,32 @@ The remaining decomposition still holds:
    lineage, and separate mutation authorization.
 3. **S-11/05 End-to-End Core Conformance and Pilot Readiness** — evaluate complete engineering
    conformance before any separately authorized pilot.
+
+## S-11/03 typed evidence resolution
+
+S-11/03 adds `PromotionEvidenceResolver` as a narrow mechanical boundary between canonical S-09
+packages and S-10 recommendation inputs. Each requirement names an exact package identity and may
+bind the existing benchmark, metric, evaluator, execution, and S-09 record identities. Package
+version, package digest, record scope, record identity, record version, and record digest are checked
+before a finding can be `PRESENT`. Unknown identities remain `UNKNOWN`; missing packages remain
+`ABSENT`; mismatches and failed verification remain `INVALID` or `INCOMPLETE`.
+
+The resolver reuses the S-09 verifier with its `INTERNAL_CONSISTENCY_ONLY` authority. A verified
+package is engineering evidence only. Presence, completeness, execution success, reliability
+evidence, calibration evidence, or a successful S-09 check do not establish validity, calibration,
+reliability, comparability, or Core eligibility. The resolver can derive `SATISFIED` only for the
+technical `S09_EVIDENCE_PACKAGE` input when an exact package and internally consistent requirements
+resolve. Other gates remain `UNKNOWN`, `NOT_APPLICABLE`, or an explicit blocking state for S-10 to
+assess.
+
+The public `gateEvidence` field remains for compatibility and audit lineage. Its statuses are
+ignored by the resolver and cannot satisfy a gate. Material contradictory and negative records are
+retained, with unresolved material contradiction preventing an automatic satisfied input. The
+result is attached to `PromotionAssessment` as recommendation input; it does not call
+`assessPromotion()` recursively, mutate S-02, invoke `promoteToCore()`, or create a governance
+decision. S-11/01 and S-11/02 handoffs retain `PRESENT_NOT_ASSESSED`, `NOT_PERFORMED`, and `NOT_SET`.
+
+This layer adds no canonical registry, evidence system, execution manifest, dependency, scientific
+program, human data, Human-AI experiment, or authority. HIB remains
+`hib_research_candidate@0.1.0` in `SCAFFOLDED / CALIBRATION_REQUIRED / DRAFT / NOT_PROMOTED` with
+AI suitability `UNASSESSED`; historical HACS records remain separate and historical.

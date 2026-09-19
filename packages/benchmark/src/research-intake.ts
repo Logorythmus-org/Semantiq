@@ -1,5 +1,6 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import { S10_STAGE_GATES } from "./research-intake-definitions.js";
+import { PromotionEvidenceResolver } from "./study-evidence-resolution.js";
 import {
   PROMOTION_EVIDENCE_CATEGORIES,
   PROMOTION_GATE_IDS,
@@ -160,6 +161,7 @@ function assessmentMaterial(input: PromotionAssessmentInput | PromotionAssessmen
   const value = withoutAudit(input);
   Reflect.deleteProperty(value as { assessmentDigest?: unknown }, "assessmentDigest");
   Reflect.deleteProperty(value as { gateAssessments?: unknown }, "gateAssessments");
+  Reflect.deleteProperty(value as { evidenceResolution?: unknown }, "evidenceResolution");
   Reflect.deleteProperty(value as { recommendation?: unknown }, "recommendation");
   Reflect.deleteProperty(value as { blockingGateIds?: unknown }, "blockingGateIds");
   Reflect.deleteProperty(
@@ -173,6 +175,9 @@ function assessmentMaterial(input: PromotionAssessmentInput | PromotionAssessmen
   );
   return {
     ...value,
+    evidenceRequirements: [...(value.evidenceRequirements ?? [])]
+      .map((requirement) => ({ ...requirement }))
+      .sort((a, b) => a.requirementId.localeCompare(b.requirementId)),
     gateEvidence: [...value.gateEvidence]
       .map((g) => ({ ...g, evidenceReferences: sorted(g.evidenceReferences) }))
       .sort((a, b) => a.gateId.localeCompare(b.gateId)),
@@ -242,6 +247,8 @@ const blocks = (status: PromotionGateStatus, critical: boolean): boolean =>
   (critical && status === "PARTIALLY_SATISFIED");
 
 export class ResearchPromotionSystem {
+  private readonly evidenceResolver = new PromotionEvidenceResolver();
+
   createIntake(input: ResearchIntakeInput): ResearchIntake {
     const v: ResearchPromotionViolation[] = [];
     validateIdentity(
@@ -405,18 +412,28 @@ export class ResearchPromotionSystem {
     });
     scan(input, "assessment", v);
     throwIf(v);
-    const byGate = new Map(input.gateEvidence.map((g) => [g.gateId, g]));
-    const gateAssessments: PromotionGateAssessment[] = requiredGates(
-      input.request.requestedStage,
-      input.request.candidateKind
-    ).map((gateId) => {
-      const supplied = byGate.get(gateId) ?? {
+    const requestedGates = requiredGates(input.request.requestedStage, input.request.candidateKind);
+    const evidenceResolution = this.evidenceResolver.resolve({
+      resolutionId: `resolution:${input.assessmentId}`,
+      resolutionVersion: input.assessmentVersion,
+      request: input.request,
+      requiredGateIds: requestedGates,
+      requirements: input.evidenceRequirements ?? [],
+      evidencePackages: input.evidencePackages,
+      evidenceRecords: input.evidenceRecords,
+      callerGateAssertions: input.gateEvidence,
+      scientificAuthority: "NONE",
+      decisionAuthority: "NONE"
+    });
+    const byGate = new Map(evidenceResolution.gateInputs.map((gate) => [gate.gateId, gate]));
+    const gateAssessments: PromotionGateAssessment[] = requestedGates.map((gateId) => {
+      const resolved = byGate.get(gateId) ?? {
         gateId,
         status: "UNKNOWN" as const,
         evidenceReferences: [],
-        rationale: "No gate evidence supplied."
+        rationale: "No typed evidence resolution is available."
       };
-      let status = supplied.status;
+      let status = resolved.status;
       if (gateId === "GOVERNANCE_APPROVAL") status = "UNSATISFIED";
       if (gateId === "S09_EVIDENCE_PACKAGE" && !input.evidencePackages.length) status = "UNKNOWN";
       if (
@@ -427,7 +444,17 @@ export class ResearchPromotionSystem {
       )
         status = "UNSATISFIED";
       const critical = criticalGate(gateId);
-      return { ...supplied, status, critical, blocking: blocks(status, critical) };
+      return {
+        gateId: resolved.gateId,
+        status,
+        evidenceReferences: resolved.evidenceReferences,
+        rationale: resolved.rationale,
+        ...("notApplicableJustification" in resolved && resolved.notApplicableJustification
+          ? { notApplicableJustification: resolved.notApplicableJustification }
+          : {}),
+        critical,
+        blocking: blocks(status, critical)
+      };
     });
     const contradictions = input.evidenceRecords.filter(
       (e) =>
@@ -454,6 +481,7 @@ export class ResearchPromotionSystem {
     return {
       ...input,
       assessmentDigest: digest(assessmentMaterial(input)),
+      evidenceResolution,
       gateAssessments,
       recommendation,
       blockingGateIds,

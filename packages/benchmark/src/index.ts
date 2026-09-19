@@ -38,3 +38,4 @@ export * from "./study-types.js";
 export * from "./study-definitions.js";
 export * from "./study-integration.js";
 export * from "./study-execution-adapter.js";
+export * from "./study-evidence-resolution.js";
