@@ -435,3 +435,29 @@ All S-11/04 promotion tests use synthetic registry entries. HIB remains non-Core
 historical HACS remain distinct, and no real benchmark is promoted. CCP-02 is addressed at the
 governed mutation boundary. CCP-01 remains partially addressed pending separately authorized
 end-to-end conformance and pilot-readiness work.
+
+## S-11/05 thin end-to-end composition
+
+S-11/05 adds `CoreStudyComposer` as the single composition root over the existing S-10, S-11/01,
+S-11/02, S-09, S-11/03, and S-10 assessment contracts. It constructs no replacement workflow,
+execution, evidence, identity, registry, or promotion system. The composer validates exact source,
+study, plan, benchmark, metric, evaluator, intake, package, record, and digest bindings before
+returning the canonical execution and assessment results.
+
+The normal path ends at an explicit governance state and always reports
+`registryMutationPerformed: false`. A synthetic conformance run produces an internally consistent
+S-09 package but remains `INSUFFICIENT_EVIDENCE`; caller gate assertions cannot change that result.
+`continueWithGovernance` accepts an already explicit `PromotionDecision` and
+`GovernedCoreAdmissionAuthorization` and delegates unchanged to S-11/04. It does not create,
+approve, or repair governance material.
+
+The composition trace contains only bounded identifiers, versions, digests, and completion states.
+It contains no hidden reasoning. The S-11/05 authority is `NONE`: verified is not validated,
+complete is not sufficient, reproducible is not valid, governance approval is not scientific
+validation, and Core promotion is not universal validity.
+
+With the canonical synthetic path and governed continuation composed, CCP-01 is addressed at the
+software-architecture boundary. CCP-02 remains addressed by S-11/04. SG-01 remains open: no
+empirical reliability, calibration, construct validity, external validation, replication,
+population sampling, Human-study ethics, contamination, leakage, or gaming-robustness claim is
+created by S-11/05.

@@ -6,6 +6,7 @@ import {
   S10_STAGE_GATES,
   S11_04_ANTI_OVERCLAIM_INVARIANTS,
   applyGovernedCoreAdmission,
+  continueWithGovernance,
   createGovernedCoreAdmissionAuthorization,
   promotionAssessmentDigest,
   promotionDecisionDigest,
@@ -197,6 +198,37 @@ describe("S-11/04 governed Core admission boundary", () => {
       registryMutationPerformed: true,
       scientificAuthority: "NONE"
     });
+  });
+
+  it("S-11/05 continuation delegates an explicit synthetic authorization to S-11/04", () => {
+    const source = registry();
+    const assessed = assessment();
+    const decision = approvedDecision(assessed);
+    const authorization = createGovernedCoreAdmissionAuthorization(
+      source,
+      targetIdentity,
+      assessed,
+      decision
+    );
+    const result = continueWithGovernance(
+      { benchmarkIdentity: targetIdentity, promotionAssessment: assessed },
+      source,
+      decision,
+      authorization
+    );
+
+    expect(result.registry.get(targetIdentity)?.corePromotion).toBe("PROMOTED");
+    expect(result.receipt).toMatchObject({
+      registryMutationPerformed: true,
+      scientificMaturityChanged: false,
+      lifecycleChanged: false,
+      scientificAuthority: "NONE"
+    });
+    expect(
+      CANONICAL_BENCHMARK_REGISTRY.benchmarks.every(
+        (entry) => entry.corePromotion === "NOT_PROMOTED"
+      )
+    ).toBe(true);
   });
 
   it.each([

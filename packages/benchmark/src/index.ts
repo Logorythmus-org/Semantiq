@@ -40,3 +40,4 @@ export * from "./study-integration.js";
 export * from "./study-execution-adapter.js";
 export * from "./study-evidence-resolution.js";
 export * from "./governed-core-admission.js";
+export * from "./core-composition.js";

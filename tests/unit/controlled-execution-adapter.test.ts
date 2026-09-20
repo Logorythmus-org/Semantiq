@@ -5,6 +5,7 @@ import {
   CANONICAL_BENCHMARK_REGISTRY,
   CANONICAL_EVALUATOR_REGISTRY,
   CANONICAL_METRIC_REGISTRY,
+  CoreStudyComposer,
   ControlledExecutionAdapterValidationError,
   ControlledExecutionCoordinator,
   ControlledStudyIntegration,
@@ -15,6 +16,8 @@ import {
   ResearchPromotionSystem,
   S11_02_ANTI_OVERCLAIM_INVARIANTS,
   S11_02_AUTHORITY,
+  S11_05_ANTI_OVERCLAIM_INVARIANTS,
+  S11_05_AUTHORITY,
   type ArtifactReference,
   type ControlledExecutionAdapter,
   type ControlledExecutionEvaluator,
@@ -32,6 +35,8 @@ import {
   type PromotionEvidenceRecord,
   type ResearchIntake,
   type ConstructAssessment,
+  type CoreStudyCompositionInput,
+  type ControlledStudyDefinitionInput,
   type SourceRevisionEvidence
 } from "../../packages/benchmark/src/index.js";
 
@@ -192,34 +197,35 @@ function sourceRecords(): {
 
 function study(): ControlledStudyDefinition {
   const sources = sourceRecords();
-  return integration.createStudyDefinition(
-    {
-      identity: { studyId: "study:controlled-adapter", studyVersion: version },
-      schemaVersion: "1.0.0",
-      studyMode: "SYNTHETIC_CONFORMANCE",
-      researchIntakeIdentity: sources.researchIntake.identity,
-      constructBridge: {
-        researchConstructIdentity: constructIdentity,
-        registryConstructId: "provider_contract_conformance",
-        relationship: "EXPLICIT_VERSIONED_COMPATIBILITY",
-        compatibilityEvidenceReferences: ["review:s11-02-construct-bridge"],
-        sameIdDoesNotImplySameVersion: true
-      },
-      operationalizationBinding: {
-        role: "NON_HUMAN",
-        operationalizationIdentity,
-        constructIdentity,
-        benchmarkIdentity,
-        metricIdentity,
-        evaluatorIdentity
-      },
-      evidenceReferences: ["synthetic:adapter"],
-      limitations: ["Provider-neutral adapter conformance only."],
-      authority: "ORCHESTRATION_AND_INTEGRATION_ONLY",
-      scientificAuthority: "NONE"
+  return integration.createStudyDefinition(studyInput(sources), sources);
+}
+
+function studyInput(sources: ReturnType<typeof sourceRecords>): ControlledStudyDefinitionInput {
+  return {
+    identity: { studyId: "study:controlled-adapter", studyVersion: version },
+    schemaVersion: "1.0.0",
+    studyMode: "SYNTHETIC_CONFORMANCE",
+    researchIntakeIdentity: sources.researchIntake.identity,
+    constructBridge: {
+      researchConstructIdentity: constructIdentity,
+      registryConstructId: "provider_contract_conformance",
+      relationship: "EXPLICIT_VERSIONED_COMPATIBILITY",
+      compatibilityEvidenceReferences: ["review:s11-02-construct-bridge"],
+      sameIdDoesNotImplySameVersion: true
     },
-    sources
-  );
+    operationalizationBinding: {
+      role: "NON_HUMAN",
+      operationalizationIdentity,
+      constructIdentity,
+      benchmarkIdentity,
+      metricIdentity,
+      evaluatorIdentity
+    },
+    evidenceReferences: ["synthetic:adapter"],
+    limitations: ["Provider-neutral adapter conformance only."],
+    authority: "ORCHESTRATION_AND_INTEGRATION_ONLY",
+    scientificAuthority: "NONE"
+  };
 }
 
 function artifact(artifactId: string, kind: "INPUT" | "OUTPUT" | "LOG"): ArtifactReference {
@@ -413,6 +419,76 @@ async function execute(
     evaluator,
     recording
   );
+}
+
+function compositionInput(): CoreStudyCompositionInput {
+  const sources = sourceRecords();
+  return {
+    compositionId: "composition:controlled-adapter",
+    compositionVersion: version,
+    sourceRecords: sources,
+    study: studyInput(sources),
+    plan: {
+      planId: "plan:controlled-composition",
+      planVersion: version,
+      inputArtifactIds: ["artifact:adapter-input"],
+      expectedOutputArtifactIds: ["artifact:adapter-output"],
+      intendedConditions: conditions(),
+      executionPolicy: "SYNTHETIC_INGESTION_ONLY",
+      toolPolicy: "NO_EXTERNAL_TOOLS",
+      modelProviderRequirement: "NONE",
+      seedPolicy: "NOT_APPLICABLE",
+      environmentRequirement: `environment:s11-02-local@${version}`,
+      expectedEvidenceScopes: ["METRIC_S03", "EVALUATOR_S04", "EXECUTION_S09", "RESULT"],
+      scientificAuthority: "NONE"
+    },
+    execution: {
+      requestId: "request:controlled-composition",
+      inputArtifacts: [artifact("artifact:adapter-input", "INPUT")],
+      timeoutMs: 5_000,
+      adapter: new FixtureAdapter((request) => observation(request)),
+      evaluator: successfulEvaluator,
+      recording: {
+        ...recording,
+        evidencePackageIdentity: {
+          packageId: "evidence:controlled-composition",
+          packageVersion: version
+        }
+      }
+    },
+    promotion: {
+      assessmentId: "assessment:controlled-composition",
+      assessmentVersion: version,
+      schemaVersion: "1.0.0",
+      request: {
+        requestId: "promotion-request:controlled-composition",
+        requestVersion: version,
+        benchmarkIdentity: known(benchmarkIdentity),
+        intakeIdentity: sources.researchIntake.identity,
+        requestedStage: "VALIDATED",
+        candidateKind: "GENERAL",
+        requestedByGovernance: false,
+        evidenceReferences: ["synthetic:composition"],
+        rationale: "Exercise canonical composition without a scientific claim."
+      },
+      gateEvidence: [
+        {
+          gateId: "VALIDITY",
+          status: "SATISFIED",
+          evidenceReferences: ["caller:non-authoritative"],
+          rationale: "Caller assertions remain non-authoritative."
+        }
+      ],
+      knownConfounds: [],
+      unresolvedMethodologicalCriticism: [],
+      limitations: ["Synthetic composition fixture only."],
+      scientificAuthority: "NONE"
+    },
+    benchmarkRegistry,
+    metricRegistry,
+    evaluatorRegistry,
+    authority: S11_05_AUTHORITY
+  };
 }
 
 describe("S-11/02 provider-neutral controlled execution adapter", () => {
@@ -967,5 +1043,120 @@ describe("S-11/02 provider-neutral controlled execution adapter", () => {
         { code: "REQUEST_INVALID", path: "request", message: "Synthetic invalid request." }
       ])
     ).toBeInstanceOf(Error);
+  });
+});
+
+describe("S-11/05 thin Core composition", () => {
+  it("composes the canonical synthetic path through S-10 without scientific overclaim", async () => {
+    const result = await new CoreStudyComposer().compose(compositionInput());
+
+    expect(result.benchmarkIdentity).toEqual(benchmarkIdentity);
+    expect(result.metricResult.outcome).toEqual({ kind: "VALUE", value: 1 });
+    expect(result.execution.trace.verification).toMatchObject({
+      outcome: "VERIFIED_INTERNAL_CONSISTENCY",
+      authority: "INTERNAL_CONSISTENCY_ONLY"
+    });
+    expect(result.evidenceResolution.findings).toContainEqual(
+      expect.objectContaining({ gateId: "S09_EVIDENCE_PACKAGE", state: "PRESENT" })
+    );
+    expect(result.promotionAssessment.recommendation).toBe("INSUFFICIENT_EVIDENCE");
+    expect(
+      result.promotionAssessment.gateAssessments.find((gate) => gate.gateId === "VALIDITY")?.status
+    ).toBe("UNKNOWN");
+    expect(result.governanceState).toBe("INSUFFICIENT_EVIDENCE");
+    expect(result.registryMutationPerformed).toBe(false);
+    expect(result.authority).toBe("NONE");
+    expect(result.trace.steps.map((step) => step.phase)).toEqual([
+      "S10_RESEARCH",
+      "S11_01_STUDY",
+      "S11_02_EXECUTION",
+      "S09_EVIDENCE",
+      "S11_03_RESOLUTION",
+      "S10_ASSESSMENT"
+    ]);
+    expect(benchmarkRegistry.get(benchmarkIdentity)?.corePromotion).toBe("NOT_PROMOTED");
+  });
+
+  it("fails closed on a supplied canonical binding mismatch", async () => {
+    const input = compositionInput();
+    await expect(
+      new CoreStudyComposer().compose({
+        ...input,
+        plan: {
+          ...input.plan,
+          metricIdentity: { ...metricIdentity, metricVersion: "9.9.9" }
+        }
+      })
+    ).rejects.toMatchObject({ code: "IDENTITY_MISMATCH" });
+  });
+
+  it("fails closed on a supplied study digest mismatch", async () => {
+    const input = compositionInput();
+    await expect(
+      new CoreStudyComposer().compose({
+        ...input,
+        plan: {
+          ...input.plan,
+          studyDigest: {
+            algorithm: "SHA_256",
+            value: hash("wrong-study"),
+            canonicalizationProfile: "semantiq-canonical-json-v1"
+          }
+        }
+      })
+    ).rejects.toMatchObject({ code: "DIGEST_MISMATCH" });
+  });
+
+  it("retains missing additional evidence as unresolved", async () => {
+    const input = compositionInput();
+    const result = await new CoreStudyComposer().compose({
+      ...input,
+      additionalEvidenceRequirements: [
+        {
+          requirementId: "requirement:missing-validity",
+          gateId: "VALIDITY",
+          expectedPackage: {
+            packageId: "evidence:missing",
+            packageVersion: version,
+            packageDigest: hash("missing-package")
+          },
+          critical: true
+        }
+      ]
+    });
+    expect(result.evidenceResolution.findings).toContainEqual(
+      expect.objectContaining({ requirementId: "requirement:missing-validity", state: "ABSENT" })
+    );
+    expect(result.governanceState).toBe("INSUFFICIENT_EVIDENCE");
+  });
+
+  it("keeps material contradiction blocked and exposes only bounded trace references", async () => {
+    const input = compositionInput();
+    const result = await new CoreStudyComposer().compose({
+      ...input,
+      promotionEvidenceRecords: [
+        {
+          evidenceId: "evidence:composition-contradiction",
+          evidenceVersion: version,
+          category: "CONTRADICTORY",
+          disposition: "CONTRADICTORY",
+          targetReference: "candidate:controlled-composition",
+          evidencePackageReferences: ["evidence:controlled-composition"],
+          sourceReferences: ["synthetic:contradiction"],
+          finding: "Synthetic material contradiction.",
+          materiality: "MATERIAL",
+          resolution: "OPEN",
+          rightsClass: "FIRST_PARTY_OR_PROJECT",
+          limitations: [],
+          scientificAuthority: "NONE"
+        }
+      ]
+    });
+    expect(result.promotionAssessment.recommendation).toBe("BLOCKED_BY_CONTRADICTION");
+    expect(result.governanceState).toBe("BLOCKED_BY_CONTRADICTION");
+    expect(result.trace.steps.every((step) => step.inputReference && step.outputReference)).toBe(
+      true
+    );
+    expect(S11_05_ANTI_OVERCLAIM_INVARIANTS).toHaveLength(5);
   });
 });
