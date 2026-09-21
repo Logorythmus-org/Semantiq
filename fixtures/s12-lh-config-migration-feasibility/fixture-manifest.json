@@ -1,6 +1,6 @@
 {
   "scenarioId": "s12_lh_config_migration_feasibility",
-  "scenarioVersion": "0.1.0",
+  "scenarioVersion": "0.1.1",
   "benchmark": "long_horizon@0.1.0",
   "metric": "long_horizon_resilience_index@0.1.0",
   "runtime": "node@22",

@@ -29,7 +29,7 @@ tool results, and errors contain no credential field.
 
 ## Fixture
 
-`s12_lh_config_migration_feasibility@0.1.0` is a first-party TypeScript repository containing a
+`s12_lh_config_migration_feasibility@0.1.1` is a first-party TypeScript repository containing a
 deliberately unfinished v1-to-v2 configuration migration. The task requires schema validation,
 migration, preservation and immutability, CLI behavior, integration checks, and documentation.
 The fixture is synthetic and contains no PII, credentials, private code, production code, or
@@ -39,11 +39,41 @@ The frozen identity is:
 
 | Field | SHA-256 |
 | --- | --- |
-| Canonical manifest | `b6c0d6abfcd3ead4370281097c95086210b91a84f010501dc735819c801fb970` |
-| Starting tree | `c668c6d13e359b9297116098ea15a461dd81861a9c03d3a5aa4c8832d2fbb12b` |
-| Task instruction | `567efd69acfe12b73eefa3b25fe8203bfcca6bfede089ae357d5d3c51cf0c109` |
-| Verifier | `4fd78161d7aa20e6a73d27d16b080cc629133c5596837f751647e07083804fea` |
-| Fixture | `a53583cb69399dbf2038918b8ba70925699eefc0a8a0f1eea2a21c8c703710be` |
+| Canonical manifest | `70992947ba6906be50bbb4ecca006cdc7a899b36df823c3eda857081e6981eef` |
+| Starting tree | `d53a14ebfb99abd9592f24b7d18418ef450a714f5469e8dfba7bf17e7db043fb` |
+| Task instruction | `354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c` |
+| Verifier | `4c421830e18947701bacc01c921addb62c62077a455698193e4af074200fc298` |
+| Fixture | `47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63` |
+
+The starting-tree digest covers every subject-visible starting file except the derived
+`fixture-identity.json`; verifier material is excluded from that tree and independently binds the
+parsed verifier specification plus the verifier test source. The fixture digest binds those
+materials through `computeS12FixtureIdentity`.
+
+### Prospective fixture supersession
+
+Fixture `0.1.0` is `SUPERSEDED_BEFORE_EMPIRICAL_USE` because of
+`INTERNAL_SPECIFICATION_CONTRADICTION`. It received zero subject observations. Its frozen digests
+were manifest `b6c0d6abfcd3ead4370281097c95086210b91a84f010501dc735819c801fb970`,
+starting tree `c668c6d13e359b9297116098ea15a461dd81861a9c03d3a5aa4c8832d2fbb12b`, task
+`567efd69acfe12b73eefa3b25fe8203bfcca6bfede089ae357d5d3c51cf0c109`, verifier
+`4fd78161d7aa20e6a73d27d16b080cc629133c5596837f751647e07083804fea`, and fixture
+`a53583cb69399dbf2038918b8ba70925699eefc0a8a0f1eea2a21c8c703710be`.
+
+The task and M3 required environment preservation, while its expected output replaced `MODE` with
+unexplained `LOG_LEVEL`/`REGION` values and changed source commands to `dist` commands. Version
+`0.1.1` removes those unexplained example mutations, explicitly freezes byte-identical command and
+environment preservation, strengthens M3 accordingly, and changes only `TASK.md`,
+`examples/expected-v2.json`, manifest/package/readme version declarations, verifier specification
+and assertions, and the derived identity record.
+
+| Requirement | Source and authority | 0.1.0 conflict | 0.1.1 resolution |
+| --- | --- | --- | --- |
+| Preserve environment entries | `TASK.md`, M3; construct/milestone | Expected output replaced `MODE` and introduced unexplained values | Expected output copies every entry unchanged |
+| Preserve command identity | Schema-v1 plus migration preservation; schema contract | Expected output inserted `dist/` without a migration rule | Commands are copied byte-for-byte |
+| Preserve identifiers and order | `TASK.md`, M3; construct/milestone | No conflict | Retained and explicitly verified |
+| Keep input immutable | `TASK.md`, M3; construct/milestone | No conflict | Retained and verified |
+| Exact canonical v2 output | M2 and expected example | Could not coexist with M3 | Expected example now represents the authoritative preservation rules |
 
 ## Independent verification
 
@@ -85,7 +115,13 @@ qualification runner defaults to `DRY_RUN`; live mode fails closed unless its ca
 explicit authorization flag. One attempt can contain several model request identities while
 retaining one run and attempt identity.
 
-The authoritative `s12_config_migration_final_state_verifier@0.2.0` executes schema, migration,
+The authoritative `s12_config_migration_final_state_verifier@0.3.0` executes schema, migration,
 preservation, CLI, build, typecheck, verifier-suite, and documentation checks against final fixture
 state. Its trusted material digest is checked before execution. An integrity mismatch yields
 `UNVERIFIABLE` and `VERIFIER_FAILURE`, never a subject-task failure.
+
+The production qualification path is exposed by `pnpm s12:qualification`. It defaults to the
+safe dry-run mode, requires an explicit fixture workspace, and requires both `--mode live` and
+`--authorize-live` before the concrete transport can be selected. Canonical post-processing is
+owned by `S12CanonicalQualificationRunner`: callers can supply a transport but cannot replace the
+long-horizon evaluator, metric identity, S05 mapper, or S09 `EvidenceSystem` implementation.

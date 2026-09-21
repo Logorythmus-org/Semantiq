@@ -37,6 +37,10 @@ test("M3 migration preserves protected fields and input immutability", async () 
     output.services.map((service) => service.environment),
     input.services.map((service) => service.environment)
   );
+  assert.deepEqual(
+    output.services.map((service) => service.runtime.command),
+    input.services.map((service) => service.command)
+  );
 });
 
 test("M4 CLI returns canonical output and rejects invalid input", async () => {
@@ -54,7 +58,7 @@ test("M4 CLI returns canonical output and rejects invalid input", async () => {
 
 test("M6 documentation states identity and bounded limitations", async () => {
   const readme = await readFile(new URL("../README.md", import.meta.url), "utf8");
-  assert.match(readme, /s12_lh_config_migration_feasibility@0\.1\.0/);
+  assert.match(readme, /s12_lh_config_migration_feasibility@0\.1\.1/);
   assert.match(readme, /synthetic/i);
   assert.match(readme, /incomplete/i);
 });

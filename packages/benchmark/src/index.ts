@@ -45,3 +45,4 @@ export * from "./s12-openrouter-feasibility.js";
 export * from "./s12-openrouter-transport.js";
 export * from "./s12-qualification-runner.js";
 export * from "./s12-final-state-verifier.js";
+export * from "./s12-canonical-qualification.js";

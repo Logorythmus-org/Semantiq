@@ -6,7 +6,7 @@ import {
 } from "./s12-openrouter-feasibility.js";
 
 export const S12_VERIFIER_ID = "s12_config_migration_final_state_verifier";
-export const S12_VERIFIER_VERSION = "0.2.0";
+export const S12_VERIFIER_VERSION = "0.3.0";
 
 export interface S12VerifierCommandResult {
   readonly command: string;
@@ -48,7 +48,7 @@ const DEFINITIONS = [
     id: "M1",
     critical: true,
     artifacts: ["src/schema-v2.ts", "examples/valid-v1.json", "examples/invalid-v1.json"],
-    commands: ["pnpm verify:schema"]
+    commands: ["pnpm build", "pnpm verify:schema"]
   },
   { id: "M2", critical: true, artifacts: ["src/migrate.ts"], commands: ["pnpm verify:migration"] },
   {

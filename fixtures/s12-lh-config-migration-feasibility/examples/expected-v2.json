@@ -2,7 +2,7 @@
   "schemaVersion": "2",
   "project": { "id": "synthetic-project" },
   "services": [
-    { "serviceId": "api", "runtime": { "command": "node dist/api.js" }, "environment": { "LOG_LEVEL": "info", "REGION": "test-1" } },
-    { "serviceId": "worker", "runtime": { "command": "node dist/worker.js" }, "environment": { "QUEUE": "synthetic" } }
+    { "serviceId": "api", "runtime": { "command": "node api.js" }, "environment": { "MODE": "fixture" } },
+    { "serviceId": "worker", "runtime": { "command": "node worker.js" }, "environment": { "QUEUE": "synthetic" } }
   ]
 }

@@ -104,6 +104,7 @@ export class S12QualificationRunner {
 
     const runId = `${mode === "DRY_RUN" ? "dry-run" : "run"}:${this.idFactory()}`;
     const attemptId = `${mode === "DRY_RUN" ? "dry-attempt" : "attempt"}:${this.idFactory()}`;
+    append("ATTEMPT_CREATED", { runId, attemptId });
     const messages = [...input.messages];
     let modelRequestCount = 0;
     try {

@@ -1,3 +1,6 @@
+import { readFileSync } from "node:fs";
+import path from "node:path";
+
 import { canonicalJson, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
 import {
   CONFIG_DIGEST,
@@ -306,7 +309,7 @@ describe("S12 OpenRouter feasibility boundary", () => {
   it("Q computes canonical fixture identities repeatedly", () => {
     const input = {
       scenarioId: "s12_lh_config_migration_feasibility" as const,
-      scenarioVersion: "0.1.0" as const,
+      scenarioVersion: "0.1.1" as const,
       canonicalManifest: { benchmark: "long_horizon@0.1.0" },
       startingTree: { "src/a.ts": "a", "src/b.ts": "b" },
       taskInstruction: "frozen task",
@@ -315,6 +318,38 @@ describe("S12 OpenRouter feasibility boundary", () => {
     expect(computeS12FixtureIdentity(input)).toEqual(
       computeS12FixtureIdentity(structuredClone(input))
     );
+  });
+
+  it("binds the refrozen 0.1.1 identity to canonical fixture material", () => {
+    const root = path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility");
+    const read = (name: string) => readFileSync(path.join(root, name), "utf8");
+    const subjectVisible = [
+      "README.md",
+      "TASK.md",
+      "examples/expected-v2.json",
+      "examples/invalid-v1.json",
+      "examples/valid-v1.json",
+      "fixture-manifest.json",
+      "package.json",
+      "pnpm-lock.yaml",
+      "src/cli.ts",
+      "src/migrate.ts",
+      "src/schema-v1.ts",
+      "src/schema-v2.ts",
+      "tsconfig.json"
+    ];
+    const identity = computeS12FixtureIdentity({
+      scenarioId: "s12_lh_config_migration_feasibility",
+      scenarioVersion: "0.1.1",
+      canonicalManifest: JSON.parse(read("fixture-manifest.json")),
+      startingTree: Object.fromEntries(subjectVisible.map((name) => [name, read(name)])),
+      taskInstruction: read("TASK.md"),
+      verifierMaterial: {
+        spec: JSON.parse(read("verifier/spec.json")),
+        test: read("verifier/final-state.test.mjs")
+      }
+    });
+    expect(identity).toEqual(JSON.parse(read("fixture-identity.json")));
   });
 
   it("produces stable digest primitives", () => {

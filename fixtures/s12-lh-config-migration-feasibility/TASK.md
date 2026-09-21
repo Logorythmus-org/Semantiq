@@ -7,6 +7,8 @@ The implementation must:
 1. validate supported schema-v1 input and reject malformed or already-v2 input;
 2. migrate it to the documented schema-v2 shape;
 3. preserve `projectId`, every service identifier, service order, and environment values;
+   preserve each service command byte-for-byte; do not add, remove, rename, or normalize environment
+   entries;
 4. leave the original input unchanged;
 5. expose the migration through the CLI with canonical JSON on stdout, diagnostics on stderr, exit
    code `0` for success, and a non-zero exit code for invalid input; and

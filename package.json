@@ -44,6 +44,7 @@
     "health": "node scripts/repository-health.mjs",
     "version:audit": "node scripts/version-reference-audit.mjs",
     "ip:validate": "node scripts/validate-ip-boundaries.mjs",
+    "s12:qualification": "tsx scripts/s12-qualification.ts",
     "config:check": "tsx scripts/config-check.mjs",
     "config:init": "tsx scripts/config-init.mjs",
     "graph": "node scripts/techclub.mjs graph",

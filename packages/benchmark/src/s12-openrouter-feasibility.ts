@@ -712,7 +712,7 @@ export function packageS12Evidence(
 
 export interface S12FixtureIdentityInput {
   readonly scenarioId: "s12_lh_config_migration_feasibility";
-  readonly scenarioVersion: "0.1.0";
+  readonly scenarioVersion: "0.1.1";
   readonly canonicalManifest: unknown;
   readonly startingTree: Readonly<Record<string, string>>;
   readonly taskInstruction: string;
