@@ -173,6 +173,7 @@ export interface OpenRouterMessage {
   readonly role: "system" | "user" | "assistant" | "tool";
   readonly content: string;
   readonly toolCallId?: string | undefined;
+  readonly toolCalls?: readonly OpenRouterToolCall[] | undefined;
 }
 
 export interface OpenRouterToolCall {
@@ -410,7 +411,7 @@ export async function runOpenRouterToolLoop(
   const messages = [...initialMessages];
   for (let attempt = 1; attempt <= S12_SUBJECT.maxAttempts; attempt++) {
     const response = await adapter.generateAfterFreshPreflight(messages);
-    messages.push(response.message);
+    messages.push({ ...response.message, toolCalls: response.toolCalls });
     if (response.toolCalls.length === 0) return { messages, attempts: attempt };
     for (const call of response.toolCalls) {
       if (!S12_TOOL_DECLARATIONS.some((declaration) => declaration.name === call.name))

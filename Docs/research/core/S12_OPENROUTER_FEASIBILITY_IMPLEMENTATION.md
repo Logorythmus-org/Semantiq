@@ -40,10 +40,10 @@ The frozen identity is:
 | Field | SHA-256 |
 | --- | --- |
 | Canonical manifest | `b6c0d6abfcd3ead4370281097c95086210b91a84f010501dc735819c801fb970` |
-| Starting tree | `66bbf3d5b3efd929fc6079101ab146ea68e1fd7a1cc7831a3e2420ffeb0d6e64` |
-| Task instruction | `0205eb37fedec53645aba1ac59827c39732554ea2b12a5388dccd9e49b7613c2` |
-| Verifier | `f6394d5afbfe894271f0e5bbbaea7e2942c65505cbb4c2ef9f519ad2e1a06464` |
-| Fixture | `0d538e5aa046d40d74074ebff40f21e8380628079dbfb6bc7f2248520ca888e6` |
+| Starting tree | `c668c6d13e359b9297116098ea15a461dd81861a9c03d3a5aa4c8832d2fbb12b` |
+| Task instruction | `567efd69acfe12b73eefa3b25fe8203bfcca6bfede089ae357d5d3c51cf0c109` |
+| Verifier | `4fd78161d7aa20e6a73d27d16b080cc629133c5596837f751647e07083804fea` |
+| Fixture | `a53583cb69399dbf2038918b8ba70925699eefc0a8a0f1eea2a21c8c703710be` |
 
 ## Independent verification
 
@@ -75,3 +75,17 @@ maturity, promotion, Core eligibility, or external validity.
 OpenRouter remains an optional adapter. The subject and evidence contracts above it remain
 provider-independent and can later be implemented for direct providers or local runtimes without
 changing scientific authority.
+
+## Qualification readiness repair
+
+The concrete transport uses the runtime HTTP implementation without an SDK dependency. It maps
+the frozen declarations deterministically to OpenRouter function schemas and parses assistant,
+tool-call, provider, request, and usage metadata without retaining authorization material. The
+qualification runner defaults to `DRY_RUN`; live mode fails closed unless its caller supplies an
+explicit authorization flag. One attempt can contain several model request identities while
+retaining one run and attempt identity.
+
+The authoritative `s12_config_migration_final_state_verifier@0.2.0` executes schema, migration,
+preservation, CLI, build, typecheck, verifier-suite, and documentation checks against final fixture
+state. Its trusted material digest is checked before execution. An integrity mismatch yields
+`UNVERIFIABLE` and `VERIFIER_FAILURE`, never a subject-task failure.
