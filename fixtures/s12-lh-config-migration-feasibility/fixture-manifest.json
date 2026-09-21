@@ -1,0 +1,13 @@
+{
+  "scenarioId": "s12_lh_config_migration_feasibility",
+  "scenarioVersion": "0.1.0",
+  "benchmark": "long_horizon@0.1.0",
+  "metric": "long_horizon_resilience_index@0.1.0",
+  "runtime": "node@22",
+  "packageManager": "pnpm@11.7.0",
+  "network": "FORBIDDEN",
+  "dataClassification": "SYNTHETIC_FIRST_PARTY_NON_SENSITIVE",
+  "taskInstruction": "TASK.md",
+  "verifier": "verifier/spec.json",
+  "milestones": ["M1", "M2", "M3", "M4", "M5", "M6"]
+}

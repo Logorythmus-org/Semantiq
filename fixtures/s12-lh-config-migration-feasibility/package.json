@@ -1,0 +1,16 @@
+{
+  "name": "s12-lh-config-migration-feasibility",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test verifier/*.test.mjs",
+    "verify": "pnpm build && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "typescript": "5.7.3"
+  }
+}

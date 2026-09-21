@@ -1,0 +1,16 @@
+{
+  "schemaVersion": "1",
+  "projectId": "synthetic-project",
+  "services": [
+    {
+      "id": "api",
+      "command": "node api.js",
+      "environment": { "MODE": "fixture" }
+    },
+    {
+      "id": "worker",
+      "command": "node worker.js",
+      "environment": { "QUEUE": "synthetic" }
+    }
+  ]
+}
