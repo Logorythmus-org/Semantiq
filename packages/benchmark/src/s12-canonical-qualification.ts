@@ -41,6 +41,11 @@ import {
 } from "./s12-qualification-runner.js";
 
 const execFileAsync = promisify(execFile);
+type S12CommandRunner = (
+  program: string,
+  args: string[],
+  options: { cwd: string; timeout: number; windowsHide: boolean }
+) => Promise<{ stdout: string; stderr: string }>;
 export const S12_CANONICAL_EVALUATOR = {
   evaluatorId: "LongHorizonTestingEngine.evaluateLongHorizonTrajectory",
   evaluatorVersion: "0.1.0"
@@ -78,7 +83,10 @@ export interface S12CanonicalQualificationSummary {
 }
 
 export class S12CanonicalQualificationRunner {
-  constructor(private readonly transport: OpenRouterTransport) {}
+  constructor(
+    private readonly transport: OpenRouterTransport,
+    private readonly commandRunner: S12CommandRunner = execFileAsync
+  ) {}
 
   async run(input: {
     readonly mode?: S12QualificationMode;
@@ -132,7 +140,7 @@ export class S12CanonicalQualificationRunner {
       this.transport,
       (input.mode ?? "DRY_RUN") === "DRY_RUN" ? () => "dry-run-non-secret" : undefined
     );
-    const executor = new S12LocalToolExecutor(nodeToolOperations());
+    const executor = new S12LocalToolExecutor(nodeToolOperations(this.commandRunner));
     const runner = new S12QualificationRunner(adapter, executor, {
       verifyFinalState: async () =>
         new S12FinalStateVerifier(S12_AUTHORITATIVE_VERIFIER_DIGEST).verify(
@@ -284,13 +292,18 @@ function captureFromEvents(
       const args = (requested.payload["arguments"] ?? {}) as Record<string, unknown>;
       const filePath = typeof args["path"] === "string" ? args["path"] : undefined;
       if (!filePath) return [];
-      const content = typeof args["content"] === "string" ? args["content"] : undefined;
+      const contentDigest =
+        typeof args["contentDigest"] === "string"
+          ? args["contentDigest"]
+          : typeof args["content"] === "string"
+            ? computeSha256(args["content"])
+            : undefined;
       return [
         {
           sequence: event.sequence,
           path: filePath,
           operation: "UPDATE" as const,
-          ...(content === undefined ? {} : { contentDigest: computeSha256(content) })
+          ...(contentDigest === undefined ? {} : { contentDigest })
         }
       ];
     }),
@@ -572,13 +585,7 @@ function createCanonicalS09Package(input: {
   };
 }
 
-export function nodeToolOperations(
-  commandRunner: (
-    program: string,
-    args: string[],
-    options: { cwd: string; timeout: number; windowsHide: boolean }
-  ) => Promise<{ stdout: string; stderr: string }> = execFileAsync
-) {
+export function nodeToolOperations(commandRunner: S12CommandRunner = execFileAsync) {
   return {
     pathType: async (target: string) => {
       const value = await stat(target);

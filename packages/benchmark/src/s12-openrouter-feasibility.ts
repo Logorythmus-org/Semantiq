@@ -134,7 +134,7 @@ export function verifyOpenRouterPreflight(
 ): OpenRouterPreflightResult {
   if (!model || model.id !== S12_SUBJECT.modelId)
     return failure("SUBJECT_IDENTITY_DRIFT", "The exact frozen OpenRouter model is unavailable.");
-  if (Number(model.pricing.prompt) !== 0 || Number(model.pricing.completion) !== 0)
+  if (!verifiedZeroPrice(model.pricing.prompt) || !verifiedZeroPrice(model.pricing.completion))
     return failure(
       "FREE_TIER_UNAVAILABLE",
       "The model catalog no longer reports zero token prices."
@@ -146,13 +146,16 @@ export function verifyOpenRouterPreflight(
     endpoint.modelId !== S12_SUBJECT.modelId ||
     endpoint.providerName !== S12_SUBJECT.upstreamProvider ||
     endpoint.tag !== S12_SUBJECT.endpointTag ||
-    !endpoint.name.includes(S12_SUBJECT.upstreamModelId)
+    endpoint.name !== `${S12_SUBJECT.upstreamProvider} | ${S12_SUBJECT.upstreamModelId}`
   )
     return failure(
       "PROVIDER_ROUTE_DRIFT",
       "The upstream provider or dated endpoint identity changed."
     );
-  if (Number(endpoint.pricing.prompt) !== 0 || Number(endpoint.pricing.completion) !== 0)
+  if (
+    !verifiedZeroPrice(endpoint.pricing.prompt) ||
+    !verifiedZeroPrice(endpoint.pricing.completion)
+  )
     return failure("FREE_TIER_UNAVAILABLE", "The selected endpoint is no longer free.");
   const required = ["tools", "tool_choice", "temperature", "top_p", "max_tokens", "seed"];
   if (required.some((item) => !model.supportedParameters.includes(item)))
@@ -170,6 +173,14 @@ const failure = (code: S12PreflightFailureCode, detail: string): OpenRouterPrefl
   freeStatusAtExecution: "NOT_VERIFIED",
   failure: { code, detail }
 });
+
+function verifiedZeroPrice(value: unknown): boolean {
+  if (typeof value !== "string") return false;
+  const decimal = value.trim();
+  if (!/^0(?:\.0+)?(?:[eE][+-]?\d+)?$/.test(decimal)) return false;
+  const parsed = Number(decimal);
+  return Number.isFinite(parsed) && parsed === 0;
+}
 
 export interface OpenRouterMessage {
   readonly role: "system" | "user" | "assistant" | "tool";
@@ -204,7 +215,8 @@ export interface OpenRouterTransport {
   generate(
     request: Readonly<Record<string, unknown>>,
     apiKey: string,
-    signal: AbortSignal
+    signal: AbortSignal,
+    wireRequestPrepared?: (evidence: { readonly wireRequestDigest: string }) => void
   ): Promise<OpenRouterGenerationResponse>;
 }
 
@@ -215,6 +227,7 @@ export interface OpenRouterGenerationLifecycle {
     readonly requestDigest: string;
   }): void;
   generationInvoked?(): void;
+  wireRequestPrepared?(evidence: { readonly wireRequestDigest: string }): void;
 }
 
 export class OpenRouterSubjectError extends Error {
@@ -290,7 +303,9 @@ export class OpenRouterSubjectAdapter {
     );
     try {
       lifecycle.generationInvoked?.();
-      return await this.transport.generate(request, apiKey, controller.signal);
+      return await this.transport.generate(request, apiKey, controller.signal, (digest) =>
+        lifecycle.wireRequestPrepared?.(digest)
+      );
     } catch (error) {
       if (controller.signal.aborted) throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
       throw error;
@@ -486,6 +501,7 @@ export class S12LocalToolExecutor {
     const resolvedPath = validated.resolvedPath!;
     if (validated.name === "read_file") {
       const type = await this.pathType(resolvedPath);
+      if (typeof type !== "string") return type;
       if (type === "DIRECTORY") return recoverableToolError(systemError("EISDIR"))!;
       if (type !== "FILE") return recoverableToolError(systemError("ENOENT"))!;
       let content: string;
@@ -506,6 +522,7 @@ export class S12LocalToolExecutor {
     }
     if (validated.name === "list_files") {
       const type = await this.pathType(resolvedPath);
+      if (typeof type !== "string") return type;
       if (type !== "DIRECTORY")
         return recoverableToolError(systemError(type === "FILE" ? "ENOTDIR" : "ENOENT"))!;
       let files: string[];
@@ -546,14 +563,16 @@ export class S12LocalToolExecutor {
     };
   }
 
-  private async pathType(resolvedPath: string): Promise<"FILE" | "DIRECTORY" | "OTHER"> {
+  private async pathType(
+    resolvedPath: string
+  ): Promise<"FILE" | "DIRECTORY" | "OTHER" | S12ToolExecutionResult> {
     try {
       return await this.operations.pathType(resolvedPath);
     } catch (error) {
       const recoverable = recoverableToolError(error);
       if (recoverable) {
         if (recoverable.error?.code === "PATH_NOT_FOUND") return "OTHER";
-        throw error;
+        return recoverable;
       }
       throw new S12ToolInstrumentationError(
         "UNEXPECTED_IO_FAILURE",

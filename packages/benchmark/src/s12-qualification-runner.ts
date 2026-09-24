@@ -1,4 +1,5 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
+import path from "node:path";
 import {
   CONFIG_DIGEST,
   S12_SUBJECT,
@@ -132,6 +133,8 @@ export class S12QualificationRunner {
             },
             requestPrepared: (evidence) =>
               append("REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
+            wireRequestPrepared: (evidence) =>
+              append("WIRE_REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
             generationInvoked: () => {
               modelRequestCount++;
               append("GENERATION_INVOKED", {
@@ -201,7 +204,11 @@ export class S12QualificationRunner {
           };
         }
         for (const call of response.toolCalls) {
-          append("TOOL_REQUESTED", { callId: call.id, name: call.name, arguments: call.arguments });
+          append("TOOL_REQUESTED", {
+            callId: call.id,
+            name: isToolName(call.name) ? call.name : "UNKNOWN_TOOL",
+            ...capturedToolArguments(input.workspaceRoot, call)
+          });
           if (!isToolName(call.name)) throw new S12ToolPolicyError("INVALID_TOOL");
           const toolRequest = { name: call.name, arguments: call.arguments } as const;
           try {
@@ -361,6 +368,48 @@ function preflightEvidence(result: OpenRouterPreflightResult, metadataObservedAt
     fallbackPolicy: { model: "NONE", provider: "NONE", allowFallbacks: false },
     metadataObservedAt
   } as const;
+}
+
+function capturedToolArguments(
+  workspaceRoot: string,
+  call: { readonly name: string; readonly arguments: Readonly<Record<string, unknown>> }
+) {
+  let argumentsForCapture: Record<string, unknown> = { redacted: true };
+  let argumentCapture = "INVALID_REDACTED";
+  if (isToolName(call.name)) {
+    try {
+      const validated = validateToolRequest(workspaceRoot, {
+        name: call.name,
+        arguments: call.arguments
+      });
+      if (validated.name === "run_command") {
+        argumentsForCapture = {
+          command: validated.arguments["command"],
+          timeoutMs: validated.timeoutMs
+        };
+      } else {
+        argumentsForCapture = {
+          path: path
+            .relative(path.resolve(workspaceRoot), validated.resolvedPath!)
+            .split(path.sep)
+            .join("/")
+        };
+        if (validated.name === "write_file") {
+          const content = validated.arguments["content"];
+          if (typeof content !== "string") throw new S12ToolPolicyError("INVALID_TOOL");
+          argumentsForCapture["contentDigest"] = computeSha256(content);
+        }
+      }
+      argumentCapture = "VALIDATED_REDACTED";
+    } catch {
+      // The following TOOL_VALIDATION event records a safe rejection code.
+    }
+  }
+  return {
+    arguments: argumentsForCapture,
+    argumentCapture,
+    argumentDigest: computeSha256(canonicalJson(argumentsForCapture))
+  };
 }
 
 function isToolName(value: string): value is S12ToolName {

@@ -128,6 +128,59 @@ describe("S12 OpenRouter feasibility boundary", () => {
     });
   });
 
+  it("rejects missing, empty, whitespace, malformed, and non-finite model prices", () => {
+    for (const value of [
+      undefined,
+      null,
+      "",
+      "   ",
+      "NaN",
+      "Infinity",
+      "-Infinity",
+      "1e-999",
+      "0x0",
+      "not-a-price"
+    ]) {
+      const result = verifyOpenRouterPreflight(
+        model({ pricing: { prompt: value as string, completion: "0" } }),
+        [endpoint()]
+      );
+      expect(result.failure?.code).toBe("FREE_TIER_UNAVAILABLE");
+    }
+    expect(
+      verifyOpenRouterPreflight(model({ pricing: { prompt: "0.0", completion: "0e0" } }), [
+        endpoint()
+      ]).ok
+    ).toBe(true);
+  });
+
+  it("rejects missing, empty, malformed, and nonzero endpoint prices", () => {
+    for (const value of [undefined, null, "", "\t", "NaN", "Infinity", "0.01"]) {
+      const result = verifyOpenRouterPreflight(model(), [
+        endpoint({ pricing: { prompt: "0", completion: value as string } })
+      ]);
+      expect(result.failure?.code).toBe("FREE_TIER_UNAVAILABLE");
+    }
+  });
+
+  it("requires the exact frozen endpoint name and provider", () => {
+    const exact = `Cohere | ${S12_SUBJECT.upstreamModelId}`;
+    expect(verifyOpenRouterPreflight(model(), [endpoint({ name: exact })]).ok).toBe(true);
+    for (const name of [
+      `${exact} | suffix`,
+      `prefix | ${exact}`,
+      `embedded-${S12_SUBJECT.upstreamModelId}-route`,
+      "Cohere | cohere/north-mini-code-20260618:free"
+    ]) {
+      expect(verifyOpenRouterPreflight(model(), [endpoint({ name })]).failure?.code).toBe(
+        "PROVIDER_ROUTE_DRIFT"
+      );
+    }
+    expect(
+      verifyOpenRouterPreflight(model(), [endpoint({ providerName: "Other" })]).failure?.code
+    ).toBe("PROVIDER_ROUTE_DRIFT");
+  });
+
   it("B blocks non-zero input price before generation", async () => {
     const transport = new FakeTransport([model({ pricing: { prompt: "0.1", completion: "0" } })]);
     const adapter = new OpenRouterSubjectAdapter(transport, () => "test-credential");
@@ -300,6 +353,44 @@ describe("S12 OpenRouter feasibility boundary", () => {
     );
     expect(result.attempts).toBe(1);
     expect(transport.generateCalls).toBe(1);
+  });
+
+  it("keeps ENOTDIR and EISDIR path mistakes recoverable while unexpected path faults fail", async () => {
+    for (const code of ["ENOTDIR", "EISDIR"] as const) {
+      const executor = new S12LocalToolExecutor({
+        pathType: async () => {
+          throw Object.assign(new Error("synthetic host detail"), { code });
+        },
+        readFile: async () => "",
+        writeFile: async () => undefined,
+        listFiles: async () => [],
+        runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+      });
+      const result = await executor.execute("C:/fixture", {
+        name: "read_file",
+        arguments: { path: "file/child" }
+      });
+      expect(result).toMatchObject({
+        status: "ERROR",
+        error: {
+          code: code === "ENOTDIR" ? "PATH_IS_NOT_DIRECTORY" : "PATH_IS_DIRECTORY",
+          recoverable: true
+        }
+      });
+      expect(JSON.stringify(result)).not.toContain("synthetic host detail");
+    }
+    const unexpected = new S12LocalToolExecutor({
+      pathType: async () => {
+        throw Object.assign(new Error("private infrastructure detail"), { code: "EIO" });
+      },
+      readFile: async () => "",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+    });
+    await expect(
+      unexpected.execute("C:/fixture", { name: "read_file", arguments: { path: "file" } })
+    ).rejects.toMatchObject({ code: "UNEXPECTED_IO_FAILURE" });
   });
 
   it("maps a recoverable tool error to recovery evidence", () => {
