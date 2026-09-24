@@ -98,7 +98,7 @@ export function serializeOpenRouterRequestBody(
 }
 
 export function localWireRequestDigest(body: Readonly<Record<string, unknown>>): string {
-  return computeSha256(JSON.stringify(body));
+  return computeSha256(canonicalJson(body));
 }
 
 export interface S12FetchResponse {

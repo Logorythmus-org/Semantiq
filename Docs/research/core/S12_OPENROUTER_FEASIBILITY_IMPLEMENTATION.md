@@ -157,3 +157,7 @@ request body sent to the chat completions endpoint. It is separate from the adap
 `requestDigest` and does not include the authorization header. The digest attests to local
 serialization only; it is not a provider receipt or proof of remote execution. Transport doubles
 without a serialized HTTP body do not emit this event.
+The wire digest uses the existing `semantiq-canonical-json-v1` representation of the final local
+body: object key order is normalized recursively while array order is preserved. The transport
+still sends its original JSON serialization of that same body; canonicalization changes evidence
+construction, not the provider-facing request.

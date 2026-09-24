@@ -196,9 +196,35 @@ describe("S12 qualification readiness repair", () => {
     };
     const body = serializeOpenRouterRequestBody(request);
     const digest = localWireRequestDigest(body);
+    const originalBody = structuredClone(body);
+    const reverseObjectKeys = (value: unknown): unknown =>
+      Array.isArray(value)
+        ? value.map(reverseObjectKeys)
+        : value !== null && typeof value === "object"
+          ? Object.fromEntries(
+              Object.entries(value)
+                .reverse()
+                .map(([key, nested]) => [key, reverseObjectKeys(nested)])
+            )
+          : value;
+    const reorderedBody = reverseObjectKeys(body) as Record<string, unknown>;
+    expect(JSON.stringify(reorderedBody)).not.toBe(JSON.stringify(body));
+    expect(localWireRequestDigest(reorderedBody)).toBe(digest);
+    expect(body).toEqual(originalBody);
     expect(localWireRequestDigest(serializeOpenRouterRequestBody(structuredClone(request)))).toBe(
       digest
     );
+    expect(
+      localWireRequestDigest(
+        serializeOpenRouterRequestBody({
+          ...request,
+          messages: [...request.messages].reverse()
+        })
+      )
+    ).not.toBe(digest);
+    expect(
+      localWireRequestDigest(serializeOpenRouterRequestBody({ ...request, model: "other/model" }))
+    ).not.toBe(digest);
     expect(
       localWireRequestDigest(
         serializeOpenRouterRequestBody({
@@ -210,6 +236,17 @@ describe("S12 qualification readiness repair", () => {
     expect(
       localWireRequestDigest(serializeOpenRouterRequestBody({ ...request, temperature: 0.5 }))
     ).not.toBe(digest);
+    expect(
+      localWireRequestDigest(serializeOpenRouterRequestBody({ ...request, tool_choice: "none" }))
+    ).not.toBe(digest);
+    expect(
+      localWireRequestDigest(
+        serializeOpenRouterRequestBody({
+          ...request,
+          provider: { ...request.provider, max_price: { prompt: 0, completion: 1 } }
+        })
+      )
+    ).not.toBe(digest);
     const changedTools = serializeOpenRouterTools().map((tool, index) =>
       index === 0
         ? { ...tool, function: { ...tool.function, description: "changed provider schema" } }
@@ -218,20 +255,29 @@ describe("S12 qualification readiness repair", () => {
     expect(localWireRequestDigest(serializeOpenRouterRequestBody(request, changedTools))).not.toBe(
       digest
     );
+    expect(
+      localWireRequestDigest(
+        serializeOpenRouterRequestBody(request, [...serializeOpenRouterTools()].reverse())
+      )
+    ).not.toBe(digest);
     expect(canonicalJson(body)).not.toContain("Authorization");
     const wireDigests: string[] = [];
-    const fakeFetch: S12Fetch = async () => ({
-      ok: true,
-      status: 200,
-      headers: { get: () => null },
-      json: async () => ({
-        id: "synthetic",
-        model: S12_SUBJECT.modelId,
-        provider: "Cohere",
-        choices: [{ message: { role: "assistant", content: "done" } }],
-        usage: {}
-      })
-    });
+    const sentBodies: string[] = [];
+    const fakeFetch: S12Fetch = async (_url, init) => {
+      sentBodies.push(String(init["body"]));
+      return {
+        ok: true,
+        status: 200,
+        headers: { get: () => null },
+        json: async () => ({
+          id: "synthetic",
+          model: S12_SUBJECT.modelId,
+          provider: "Cohere",
+          choices: [{ message: { role: "assistant", content: "done" } }],
+          usage: {}
+        })
+      };
+    };
     const transport = new OpenRouterHttpTransport(fakeFetch);
     for (const secret of ["synthetic-secret-one", "synthetic-secret-two"]) {
       await transport.generate(request, secret, new AbortController().signal, (evidence) =>
@@ -239,6 +285,11 @@ describe("S12 qualification readiness repair", () => {
       );
     }
     expect(wireDigests).toEqual([digest, digest]);
+    expect(sentBodies).toEqual([JSON.stringify(body), JSON.stringify(body)]);
+    expect(localWireRequestDigest(JSON.parse(sentBodies[0]!) as Record<string, unknown>)).toBe(
+      digest
+    );
+    expect(sentBodies.join("")).not.toContain("synthetic-secret");
   });
 
   it("records the concrete HTTP body digest in ordered request evidence", async () => {
