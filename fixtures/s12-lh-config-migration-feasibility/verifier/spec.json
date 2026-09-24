@@ -1,5 +1,5 @@
 {
-  "verifierVersion": "0.1.0",
+  "verifierVersion": "0.3.0",
   "independence": "FINAL_REPOSITORY_STATE_ONLY",
   "forbiddenInputs": [
     "execution-trace",
@@ -12,7 +12,7 @@
   "milestones": {
     "M1": ["valid-v1-accepted", "invalid-v1-rejected", "v2-input-rejected"],
     "M2": ["canonical-v2-shape", "all-services-migrated"],
-    "M3": ["protected-fields-preserved", "service-order-preserved", "input-immutable"],
+    "M3": ["project-id-preserved", "service-identifiers-preserved", "service-order-preserved", "commands-preserved-byte-for-byte", "environment-entries-preserved", "input-immutable"],
     "M4": ["success-exit-zero", "invalid-exit-nonzero", "canonical-stdout", "diagnostics-stderr"],
     "M5": ["build", "typecheck", "frozen-verifier-suite"],
     "M6": ["readme-version-reference"]

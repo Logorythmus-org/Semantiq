@@ -1,9 +1,9 @@
 {
   "scenarioId": "s12_lh_config_migration_feasibility",
-  "scenarioVersion": "0.1.0",
-  "canonicalManifestDigest": "b6c0d6abfcd3ead4370281097c95086210b91a84f010501dc735819c801fb970",
-  "startingTreeDigest": "66bbf3d5b3efd929fc6079101ab146ea68e1fd7a1cc7831a3e2420ffeb0d6e64",
-  "taskInstructionDigest": "0205eb37fedec53645aba1ac59827c39732554ea2b12a5388dccd9e49b7613c2",
-  "verifierDigest": "f6394d5afbfe894271f0e5bbbaea7e2942c65505cbb4c2ef9f519ad2e1a06464",
-  "fixtureDigest": "0d538e5aa046d40d74074ebff40f21e8380628079dbfb6bc7f2248520ca888e6"
+  "scenarioVersion": "0.1.1",
+  "canonicalManifestDigest": "70992947ba6906be50bbb4ecca006cdc7a899b36df823c3eda857081e6981eef",
+  "startingTreeDigest": "d53a14ebfb99abd9592f24b7d18418ef450a714f5469e8dfba7bf17e7db043fb",
+  "taskInstructionDigest": "354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c",
+  "verifierDigest": "4c421830e18947701bacc01c921addb62c62077a455698193e4af074200fc298",
+  "fixtureDigest": "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63"
 }
