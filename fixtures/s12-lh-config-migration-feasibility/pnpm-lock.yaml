@@ -1,0 +1,21 @@
+lockfileVersion: '9.0'
+
+settings:
+  autoInstallPeers: true
+  excludeLinksFromLockfile: false
+
+importers:
+  .:
+    devDependencies:
+      typescript:
+        specifier: 5.7.3
+        version: 5.7.3
+
+packages:
+  typescript@5.7.3:
+    resolution: {integrity: sha512-84MVSjMEHP+FQ+2DHOu4dBpCmcDRNf/GU6W8A5BrLC/s6d23E/CodYQwPzGKbDVZrBbGyfd5PhhFAgX5hSgB4w==}
+    engines: {node: '>=14.17'}
+    hasBin: true
+
+snapshots:
+  typescript@5.7.3: {}
