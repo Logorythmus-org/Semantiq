@@ -429,9 +429,33 @@ describe("S12 canonical temporary-fixture qualification", () => {
       const temp = await workspace();
       try {
         const transport = new ScriptedTransport([
-          response({ toolCalls: [{ id: "schema", name: "write_file", arguments: { path: "src/schema-v2.ts", content: variant.schema } }] }),
-          response({ toolCalls: [{ id: "migration", name: "write_file", arguments: { path: "src/migrate.ts", content: variant.migration } }] }),
-          response({ toolCalls: [{ id: "cli", name: "write_file", arguments: { path: "src/cli.ts", content: variant.cli } }] }),
+          response({
+            toolCalls: [
+              {
+                id: "schema",
+                name: "write_file",
+                arguments: { path: "src/schema-v2.ts", content: variant.schema }
+              }
+            ]
+          }),
+          response({
+            toolCalls: [
+              {
+                id: "migration",
+                name: "write_file",
+                arguments: { path: "src/migrate.ts", content: variant.migration }
+              }
+            ]
+          }),
+          response({
+            toolCalls: [
+              {
+                id: "cli",
+                name: "write_file",
+                arguments: { path: "src/cli.ts", content: variant.cli }
+              }
+            ]
+          }),
           response()
         ]);
         const output = await new S12CanonicalQualificationRunner(transport).run({
