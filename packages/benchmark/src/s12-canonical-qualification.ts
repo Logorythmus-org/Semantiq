@@ -18,7 +18,13 @@ import {
 import {
   CONFIG_DIGEST,
   S12_SUBJECT,
+  S12_SUBJECT_CONFIGURATION,
+  S12_TASK_INSTRUCTION_DIGEST,
+  S12_TOOL_DECLARATIONS,
+  SYSTEM_PROMPT_DIGEST,
+  TOOL_DEFINITION_DIGEST,
   S12LocalToolExecutor,
+  S12ToolInstrumentationError,
   mapExactRepeatabilityToS05,
   type OpenRouterMessage,
   type OpenRouterTransport,
@@ -53,6 +59,10 @@ export const S12_FIXTURE_IDENTITY = {
 
 export interface S12CanonicalQualificationSummary {
   readonly qualification: S12QualificationResult;
+  readonly systemInstructionDigest?: string;
+  readonly taskInstructionDigest?: string;
+  readonly toolDefinitionDigest?: string;
+  readonly initialMessageSequenceDigest?: string;
   readonly traceDigest?: string;
   readonly evaluator?: typeof S12_CANONICAL_EVALUATOR;
   readonly metric?: typeof S12_CANONICAL_METRIC & { readonly value: number };
@@ -78,10 +88,24 @@ export class S12CanonicalQualificationRunner {
     readonly environmentDigest: string;
     readonly implementationSha: string;
     readonly implementationTree: string;
-    readonly messages: readonly OpenRouterMessage[];
+    readonly configurationDigest: string;
+    readonly taskInstruction: string;
   }): Promise<S12CanonicalQualificationSummary> {
+    const messages: readonly OpenRouterMessage[] = [
+      { role: "system", content: S12_SUBJECT_CONFIGURATION.systemInstruction.value },
+      { role: "user", content: input.taskInstruction }
+    ];
+    const identityEvidence = {
+      systemInstructionDigest: computeSha256(
+        canonicalJson(S12_SUBJECT_CONFIGURATION.systemInstruction.value)
+      ),
+      taskInstructionDigest: computeSha256(canonicalJson(input.taskInstruction)),
+      toolDefinitionDigest: computeSha256(canonicalJson(S12_TOOL_DECLARATIONS)),
+      initialMessageSequenceDigest: computeSha256(canonicalJson(messages))
+    };
     if (input.fixtureDigest !== S12_FIXTURE_IDENTITY.fixtureDigest)
       return {
+        ...identityEvidence,
         qualification: {
           mode: input.mode ?? "DRY_RUN",
           modelRequestCount: 0,
@@ -95,7 +119,15 @@ export class S12CanonicalQualificationRunner {
           scientificAuthority: "NONE"
         }
       };
-    let canonical: Omit<S12CanonicalQualificationSummary, "qualification"> = {};
+    if (
+      input.configurationDigest !== CONFIG_DIGEST ||
+      identityEvidence.systemInstructionDigest !== SYSTEM_PROMPT_DIGEST ||
+      identityEvidence.toolDefinitionDigest !== TOOL_DEFINITION_DIGEST
+    )
+      return blockedQualification(input.mode, identityEvidence, "CONFIG_IDENTITY_DRIFT");
+    if (identityEvidence.taskInstructionDigest !== S12_TASK_INSTRUCTION_DIGEST)
+      return blockedQualification(input.mode, identityEvidence, "FIXTURE_IDENTITY_DRIFT");
+    let canonical: Omit<S12CanonicalQualificationSummary, "qualification"> = identityEvidence;
     const adapter = new OpenRouterSubjectAdapter(
       this.transport,
       (input.mode ?? "DRY_RUN") === "DRY_RUN" ? () => "dry-run-non-secret" : undefined
@@ -107,10 +139,10 @@ export class S12CanonicalQualificationRunner {
           nodeVerifierRuntime(input.workspaceRoot)
         ),
       evaluate: async (events) => {
-        canonical = evaluateCanonical(events, input);
+        canonical = { ...canonical, ...evaluateCanonical(events, input) };
         return canonical;
       },
-      packageEvidence: async ({ runId, attemptId, verification, evaluation }) => {
+      packageEvidence: async ({ runId, attemptId, verification, evaluation, events }) => {
         const packaged = createCanonicalS09Package({
           runId: String(runId),
           attemptId: String(attemptId),
@@ -119,15 +151,35 @@ export class S12CanonicalQualificationRunner {
           implementationSha: input.implementationSha,
           implementationTree: input.implementationTree,
           verification,
+          events: events as readonly S12OrderedCaptureEvent[],
           evaluation: evaluation as Omit<S12CanonicalQualificationSummary, "qualification">
         });
         canonical = { ...canonical, s09: packaged };
         return packaged;
       }
     });
-    const qualification = await runner.run(input);
+    const qualification = await runner.run({ ...input, messages });
     return { qualification, ...canonical };
   }
+}
+
+function blockedQualification(
+  mode: S12QualificationMode | undefined,
+  identityEvidence: Omit<S12CanonicalQualificationSummary, "qualification">,
+  code: string
+): S12CanonicalQualificationSummary {
+  return {
+    ...identityEvidence,
+    qualification: {
+      mode: mode ?? "DRY_RUN",
+      modelRequestCount: 0,
+      terminalStatus: "PREFLIGHT_BLOCKED",
+      events: [],
+      structuredFailure: { code, detail: "Frozen execution input identity mismatch." },
+      configDigest: CONFIG_DIGEST,
+      scientificAuthority: "NONE"
+    }
+  };
 }
 
 function evaluateCanonical(
@@ -177,7 +229,7 @@ function captureFromEvents(
       .filter((event) => event.type === "TOOL_REQUESTED")
       .map((event) => [String(event.payload["callId"]), event] as const)
   );
-  const toolEnds = events.filter((event) => event.type === "TOOL_EXECUTION_END");
+  const toolEnds = events.filter((event) => event.type === "TOOL_EXECUTION_RESULT");
   return {
     runId: String(attempt?.payload["runId"] ?? "qualification-capture"),
     attemptId: String(attempt?.payload["attemptId"] ?? "qualification-attempt"),
@@ -210,7 +262,11 @@ function captureFromEvents(
           | "list_files"
           | "run_command",
         arguments: (requested?.payload["arguments"] ?? {}) as Record<string, unknown>,
-        result: (event.payload["result"] ?? {}) as Record<string, unknown>,
+        result: {
+          status: event.payload["status"],
+          ...((event.payload["result"] ?? {}) as Record<string, unknown>),
+          ...(event.payload["error"] ? { error: event.payload["error"] } : {})
+        },
         durationMs: Number(event.payload["durationMs"] ?? 0),
         exitStatus: (event.payload["exitStatus"] ?? "NOT_APPLICABLE") as
           | number
@@ -223,7 +279,8 @@ function captureFromEvents(
     }),
     artifactMutations: toolEnds.flatMap((event) => {
       const requested = requests.get(String(event.payload["callId"]));
-      if (requested?.payload["name"] !== "write_file") return [];
+      if (requested?.payload["name"] !== "write_file" || event.payload["status"] !== "SUCCESS")
+        return [];
       const args = (requested.payload["arguments"] ?? {}) as Record<string, unknown>;
       const filePath = typeof args["path"] === "string" ? args["path"] : undefined;
       if (!filePath) return [];
@@ -254,6 +311,7 @@ function createCanonicalS09Package(input: {
   readonly implementationSha: string;
   readonly implementationTree: string;
   readonly verification: unknown;
+  readonly events: readonly S12OrderedCaptureEvent[];
   readonly evaluation: Omit<S12CanonicalQualificationSummary, "qualification">;
 }) {
   const known = <T>(value: T): EvidenceValue<T> => ({
@@ -354,6 +412,10 @@ function createCanonicalS09Package(input: {
     value: computeSha256(canonicalJson(value)),
     canonicalizationProfile: "semantiq-canonical-json-v1" as const
   });
+  const qualificationResult = {
+    verification: input.verification,
+    orderedCaptureDigest: computeSha256(canonicalJson(input.events))
+  };
   const records = [
     [
       "benchmark:long-horizon",
@@ -383,7 +445,7 @@ function createCanonicalS09Package(input: {
       "0.1.0",
       input.evaluation.s05
     ],
-    [`result:${input.runId}`, "RESULT", "s12_qualification_result", "0.1.0", input.verification]
+    [`result:${input.runId}`, "RESULT", "s12_qualification_result", "0.1.0", qualificationResult]
   ].map(([referenceId, scope, recordId, recordVersion, value]) => ({
     referenceId: String(referenceId),
     scope,
@@ -396,7 +458,7 @@ function createCanonicalS09Package(input: {
   const artifacts = [
     {
       artifactId: "fixture:s12",
-      artifactVersion: "0.1.0",
+      artifactVersion: "0.1.1",
       kind: "FIXTURE",
       contentDigest: {
         algorithm: "SHA_256",
@@ -421,12 +483,12 @@ function createCanonicalS09Package(input: {
       kind: "REPORT",
       contentDigest: {
         algorithm: "SHA_256",
-        value: computeSha256(canonicalJson(input.verification)),
+        value: computeSha256(canonicalJson(qualificationResult)),
         representation: "CANONICAL_JSON"
       },
       observedContentDigest: {
         algorithm: "SHA_256",
-        value: computeSha256(canonicalJson(input.verification)),
+        value: computeSha256(canonicalJson(qualificationResult)),
         representation: "CANONICAL_JSON"
       },
       mediaType: "application/json",
@@ -510,8 +572,22 @@ function createCanonicalS09Package(input: {
   };
 }
 
-function nodeToolOperations() {
+export function nodeToolOperations(
+  commandRunner: (
+    program: string,
+    args: string[],
+    options: { cwd: string; timeout: number; windowsHide: boolean }
+  ) => Promise<{ stdout: string; stderr: string }> = execFileAsync
+) {
   return {
+    pathType: async (target: string) => {
+      const value = await stat(target);
+      return value.isFile()
+        ? ("FILE" as const)
+        : value.isDirectory()
+          ? ("DIRECTORY" as const)
+          : ("OTHER" as const);
+    },
     readFile: (file: string) => readFile(file, "utf8"),
     writeFile: (file: string, content: string) => writeFile(file, content, "utf8"),
     listFiles: async (directory: string) => (await readdir(directory)).sort(),
@@ -523,19 +599,58 @@ function nodeToolOperations() {
             ? [process.env["COMSPEC"] ?? "cmd.exe", "/d", "/s", "/c", `pnpm ${command.slice(5)}`]
             : ["pnpm", command.slice(5)];
       try {
-        const output = await execFileAsync(program, args, {
+        const output = await commandRunner(program, args, {
           cwd: workspaceRoot,
           timeout: timeoutMs,
           windowsHide: true
         });
         return { exitCode: 0, stdout: output.stdout, stderr: output.stderr };
       } catch (error) {
-        const value = error as { code?: number; stdout?: string; stderr?: string };
-        return {
-          exitCode: typeof value.code === "number" ? value.code : 1,
-          stdout: value.stdout ?? "",
-          stderr: value.stderr ?? ""
+        const value = error as {
+          code?: unknown;
+          killed?: unknown;
+          signal?: unknown;
+          stdout?: unknown;
+          stderr?: unknown;
         };
+        // A launched allowlisted command may exit non-zero (for example, failing tests).
+        if (typeof value.code === "number" && value.killed !== true && !value.signal)
+          return {
+            exitCode: value.code,
+            stdout: typeof value.stdout === "string" ? value.stdout : "",
+            stderr: typeof value.stderr === "string" ? value.stderr : ""
+          };
+        const diagnostics = {
+          ...(typeof value.stdout === "string"
+            ? { stdoutDigest: computeSha256(value.stdout.slice(0, 4096)) }
+            : {}),
+          ...(typeof value.stderr === "string"
+            ? { stderrDigest: computeSha256(value.stderr.slice(0, 4096)) }
+            : {})
+        };
+        if (value.killed === true || value.code === "ETIMEDOUT")
+          throw new S12ToolInstrumentationError(
+            "COMMAND_TIMEOUT",
+            "The controlled command exceeded its execution bound.",
+            diagnostics
+          );
+        if (value.signal || value.code === "ERR_CHILD_PROCESS_STDIO_MAXBUFFER")
+          throw new S12ToolInstrumentationError(
+            "COMMAND_RESOURCE_LIMIT",
+            "The controlled command exceeded an execution resource bound.",
+            diagnostics
+          );
+        if (typeof value.code === "string" && ["ENOENT", "EACCES", "EPERM"].includes(value.code))
+          throw new S12ToolInstrumentationError(
+            "COMMAND_PROCESS_FAILURE",
+            "The controlled command process could not start.",
+            diagnostics
+          );
+        throw new S12ToolInstrumentationError(
+          "TOOL_RUNTIME_INTERNAL_ERROR",
+          "The controlled command runtime failed unexpectedly.",
+          diagnostics
+        );
       }
     }
   };

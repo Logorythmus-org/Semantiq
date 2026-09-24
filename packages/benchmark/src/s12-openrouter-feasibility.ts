@@ -92,6 +92,8 @@ export const CONFIG_DIGEST = digestHex({
   systemPromptDigest: SYSTEM_PROMPT_DIGEST,
   toolDefinitionDigest: TOOL_DEFINITION_DIGEST
 });
+export const S12_TASK_INSTRUCTION_DIGEST =
+  "354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c";
 
 export const S12_PREFLIGHT_FAILURES = [
   "FREE_TIER_UNAVAILABLE",
@@ -206,6 +208,15 @@ export interface OpenRouterTransport {
   ): Promise<OpenRouterGenerationResponse>;
 }
 
+export interface OpenRouterGenerationLifecycle {
+  preflightPassed?(result: OpenRouterPreflightResult): void;
+  requestPrepared?(evidence: {
+    readonly messageSequenceDigest: string;
+    readonly requestDigest: string;
+  }): void;
+  generationInvoked?(): void;
+}
+
 export class OpenRouterSubjectError extends Error {
   constructor(
     readonly code: S12PreflightFailureCode | "CREDENTIAL_UNAVAILABLE" | "TIMEOUT",
@@ -237,7 +248,8 @@ export class OpenRouterSubjectAdapter {
 
   async generateAfterFreshPreflight(
     messages: readonly OpenRouterMessage[],
-    timeoutMs = S12_SUBJECT.maxWallTimePerRunMs
+    timeoutMs = S12_SUBJECT.maxWallTimePerRunMs,
+    lifecycle: OpenRouterGenerationLifecycle = {}
   ): Promise<OpenRouterGenerationResponse> {
     const apiKey = this.credentialReader();
     if (!apiKey)
@@ -248,33 +260,37 @@ export class OpenRouterSubjectAdapter {
     );
     if (!result.ok) throw new OpenRouterSubjectError(result.failure!.code, result.failure!.detail);
 
+    lifecycle.preflightPassed?.(result);
+    const request = {
+      model: S12_SUBJECT.modelId,
+      messages: structuredClone(messages),
+      temperature: S12_SUBJECT_CONFIGURATION.temperature.value,
+      top_p: S12_SUBJECT_CONFIGURATION.topP.value,
+      max_tokens: S12_SUBJECT_CONFIGURATION.maxOutput.value,
+      seed: S12_SUBJECT_CONFIGURATION.seed.value,
+      tools: S12_TOOL_DECLARATIONS,
+      tool_choice: S12_SUBJECT_CONFIGURATION.toolChoice.value,
+      provider: {
+        only: [S12_SUBJECT.endpointTag],
+        order: [S12_SUBJECT.endpointTag],
+        allow_fallbacks: false,
+        require_parameters: true,
+        max_price: { prompt: 0, completion: 0 }
+      }
+    } as const;
+    lifecycle.requestPrepared?.({
+      messageSequenceDigest: digestHex(request.messages),
+      requestDigest: digestHex(request)
+    });
+
     const controller = new AbortController();
     const timeout = setTimeout(
       () => controller.abort(),
       Math.min(timeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
     );
     try {
-      return await this.transport.generate(
-        {
-          model: S12_SUBJECT.modelId,
-          messages,
-          temperature: S12_SUBJECT_CONFIGURATION.temperature.value,
-          top_p: S12_SUBJECT_CONFIGURATION.topP.value,
-          max_tokens: S12_SUBJECT_CONFIGURATION.maxOutput.value,
-          seed: S12_SUBJECT_CONFIGURATION.seed.value,
-          tools: S12_TOOL_DECLARATIONS,
-          tool_choice: S12_SUBJECT_CONFIGURATION.toolChoice.value,
-          provider: {
-            only: [S12_SUBJECT.endpointTag],
-            order: [S12_SUBJECT.endpointTag],
-            allow_fallbacks: false,
-            require_parameters: true,
-            max_price: { prompt: 0, completion: 0 }
-          }
-        },
-        apiKey,
-        controller.signal
-      );
+      lifecycle.generationInvoked?.();
+      return await this.transport.generate(request, apiKey, controller.signal);
     } catch (error) {
       if (controller.signal.aborted) throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
       throw error;
@@ -297,6 +313,7 @@ export interface ValidatedToolRequest extends S12ToolRequest {
 }
 
 export interface S12ToolOperations {
+  pathType(path: string): Promise<"FILE" | "DIRECTORY" | "OTHER">;
   readFile(path: string): Promise<string>;
   writeFile(path: string, content: string): Promise<void>;
   listFiles(path: string): Promise<readonly string[]>;
@@ -308,7 +325,13 @@ export interface S12ToolOperations {
 }
 
 export interface S12ToolExecutionResult {
+  readonly status: "SUCCESS" | "ERROR";
   readonly result: Readonly<Record<string, unknown>>;
+  readonly error?: {
+    readonly code: S12RecoverableToolErrorCode;
+    readonly explanation: string;
+    readonly recoverable: true;
+  };
   readonly exitStatus: number | "NOT_APPLICABLE";
   readonly provenance: readonly string[];
 }
@@ -331,19 +354,89 @@ export class S12ToolPolicyError extends Error {
   }
 }
 
+export type S12ToolFailureCode =
+  | "COMMAND_TIMEOUT"
+  | "COMMAND_RESOURCE_LIMIT"
+  | "COMMAND_PROCESS_FAILURE"
+  | "TOOL_RUNTIME_INTERNAL_ERROR"
+  | "UNEXPECTED_IO_FAILURE";
+
+export class S12ToolInstrumentationError extends Error {
+  constructor(
+    readonly code: S12ToolFailureCode,
+    message: string,
+    readonly diagnostics?: { readonly stdoutDigest?: string; readonly stderrDigest?: string }
+  ) {
+    super(message);
+    this.name = "S12ToolInstrumentationError";
+  }
+}
+
+export type S12RecoverableToolErrorCode =
+  | "PATH_NOT_FOUND"
+  | "PATH_IS_DIRECTORY"
+  | "PATH_IS_NOT_DIRECTORY"
+  | "INVALID_ARGUMENT"
+  | "PATH_OUTSIDE_WORKSPACE"
+  | "FORBIDDEN_PATH"
+  | "COMMAND_NOT_ALLOWED";
+
+const SAFE_TOOL_ERROR_EXPLANATIONS: Record<S12RecoverableToolErrorCode, string> = {
+  PATH_NOT_FOUND: "The requested workspace-relative path does not exist.",
+  PATH_IS_DIRECTORY:
+    "The requested path is a directory; choose list_files explicitly to inspect it.",
+  PATH_IS_NOT_DIRECTORY: "The requested path is not a directory.",
+  INVALID_ARGUMENT: "The tool arguments are invalid.",
+  PATH_OUTSIDE_WORKSPACE: "The requested path is outside the controlled workspace.",
+  FORBIDDEN_PATH: "The requested path is protected by the tool policy.",
+  COMMAND_NOT_ALLOWED: "The requested command is not allowlisted."
+};
+
+export function recoverableToolError(error: unknown): S12ToolExecutionResult | undefined {
+  let code: S12RecoverableToolErrorCode | undefined;
+  if (error instanceof S12ToolPolicyError) {
+    code = {
+      PATH_ESCAPE: "PATH_OUTSIDE_WORKSPACE",
+      FORBIDDEN_PATH: "FORBIDDEN_PATH",
+      FORBIDDEN_COMMAND: "COMMAND_NOT_ALLOWED",
+      INVALID_TOOL: "INVALID_ARGUMENT"
+    }[error.code] as S12RecoverableToolErrorCode;
+  } else if (isErrorWithCode(error)) {
+    code = {
+      ENOENT: "PATH_NOT_FOUND",
+      EISDIR: "PATH_IS_DIRECTORY",
+      ENOTDIR: "PATH_IS_NOT_DIRECTORY"
+    }[error.code] as S12RecoverableToolErrorCode | undefined;
+  }
+  if (!code) return undefined;
+  return {
+    status: "ERROR",
+    result: {},
+    error: { code, explanation: SAFE_TOOL_ERROR_EXPLANATIONS[code], recoverable: true },
+    exitStatus: "NOT_APPLICABLE",
+    provenance: ["s12-controlled-tool-error@0.1.0"]
+  };
+}
+
 export function validateToolRequest(
   workspaceRoot: string,
   request: S12ToolRequest
 ): ValidatedToolRequest {
   if (request.name === "run_command") {
-    const command = String(request.arguments["command"] ?? "");
+    const commandValue = request.arguments["command"];
+    if (typeof commandValue !== "string" || commandValue.length === 0)
+      throw new S12ToolPolicyError("INVALID_TOOL");
+    const command = commandValue;
     const timeoutMs = Number(request.arguments["timeoutMs"] ?? 60_000);
     if (!ALLOWED_COMMANDS.has(command)) throw new S12ToolPolicyError("FORBIDDEN_COMMAND");
     if (!Number.isInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > 10 * 60_000)
       throw new S12ToolPolicyError("INVALID_TOOL");
     return { ...request, timeoutMs };
   }
-  const supplied = String(request.arguments["path"] ?? "");
+  const suppliedValue = request.arguments["path"];
+  if (typeof suppliedValue !== "string" || suppliedValue.length === 0)
+    throw new S12ToolPolicyError("INVALID_TOOL");
+  const supplied = suppliedValue;
   const root = path.resolve(workspaceRoot);
   const resolved = path.resolve(root, supplied);
   const relative = path.relative(root, resolved);
@@ -359,11 +452,28 @@ export class S12LocalToolExecutor {
   constructor(private readonly operations: S12ToolOperations) {}
 
   async execute(workspaceRoot: string, request: S12ToolRequest): Promise<S12ToolExecutionResult> {
-    const validated = validateToolRequest(workspaceRoot, request);
+    let validated: ValidatedToolRequest;
+    try {
+      validated = validateToolRequest(workspaceRoot, request);
+    } catch (error) {
+      const recoverable = recoverableToolError(error);
+      if (recoverable) return recoverable;
+      throw error;
+    }
     if (validated.name === "run_command") {
       const command = String(validated.arguments["command"]);
-      const output = await this.operations.runCommand(workspaceRoot, command, validated.timeoutMs!);
+      let output: Awaited<ReturnType<S12ToolOperations["runCommand"]>>;
+      try {
+        output = await this.operations.runCommand(workspaceRoot, command, validated.timeoutMs!);
+      } catch (error) {
+        if (error instanceof S12ToolInstrumentationError) throw error;
+        throw new S12ToolInstrumentationError(
+          "TOOL_RUNTIME_INTERNAL_ERROR",
+          "The controlled command runtime failed unexpectedly."
+        );
+      }
       return {
+        status: "SUCCESS",
         result: {
           stdoutDigest: digestHex(output.stdout),
           stderrDigest: digestHex(output.stderr)
@@ -375,16 +485,40 @@ export class S12LocalToolExecutor {
 
     const resolvedPath = validated.resolvedPath!;
     if (validated.name === "read_file") {
-      const content = await this.operations.readFile(resolvedPath);
+      const type = await this.pathType(resolvedPath);
+      if (type === "DIRECTORY") return recoverableToolError(systemError("EISDIR"))!;
+      if (type !== "FILE") return recoverableToolError(systemError("ENOENT"))!;
+      let content: string;
+      try {
+        content = await this.operations.readFile(resolvedPath);
+      } catch {
+        throw new S12ToolInstrumentationError(
+          "UNEXPECTED_IO_FAILURE",
+          "The controlled filesystem failed after validating a regular file."
+        );
+      }
       return {
+        status: "SUCCESS",
         result: { content, contentDigest: digestHex(content) },
         exitStatus: "NOT_APPLICABLE",
         provenance: ["s12-controlled-filesystem@0.1.0"]
       };
     }
     if (validated.name === "list_files") {
-      const files = [...(await this.operations.listFiles(resolvedPath))].sort();
+      const type = await this.pathType(resolvedPath);
+      if (type !== "DIRECTORY")
+        return recoverableToolError(systemError(type === "FILE" ? "ENOTDIR" : "ENOENT"))!;
+      let files: string[];
+      try {
+        files = [...(await this.operations.listFiles(resolvedPath))].sort();
+      } catch {
+        throw new S12ToolInstrumentationError(
+          "UNEXPECTED_IO_FAILURE",
+          "The controlled filesystem failed after validating a directory."
+        );
+      }
       return {
+        status: "SUCCESS",
         result: { files, listingDigest: digestHex(files) },
         exitStatus: "NOT_APPLICABLE",
         provenance: ["s12-controlled-filesystem@0.1.0"]
@@ -392,14 +526,53 @@ export class S12LocalToolExecutor {
     }
 
     const content = validated.arguments["content"];
-    if (typeof content !== "string") throw new S12ToolPolicyError("INVALID_TOOL");
-    await this.operations.writeFile(resolvedPath, content);
+    if (typeof content !== "string")
+      return recoverableToolError(new S12ToolPolicyError("INVALID_TOOL"))!;
+    try {
+      await this.operations.writeFile(resolvedPath, content);
+    } catch (error) {
+      const recoverable = recoverableToolError(error);
+      if (recoverable) return recoverable;
+      throw new S12ToolInstrumentationError(
+        "UNEXPECTED_IO_FAILURE",
+        "The controlled filesystem failed while writing an allowed path."
+      );
+    }
     return {
+      status: "SUCCESS",
       result: { contentDigest: digestHex(content) },
       exitStatus: "NOT_APPLICABLE",
       provenance: ["s12-controlled-filesystem@0.1.0"]
     };
   }
+
+  private async pathType(resolvedPath: string): Promise<"FILE" | "DIRECTORY" | "OTHER"> {
+    try {
+      return await this.operations.pathType(resolvedPath);
+    } catch (error) {
+      const recoverable = recoverableToolError(error);
+      if (recoverable) {
+        if (recoverable.error?.code === "PATH_NOT_FOUND") return "OTHER";
+        throw error;
+      }
+      throw new S12ToolInstrumentationError(
+        "UNEXPECTED_IO_FAILURE",
+        "The controlled filesystem could not determine the requested path type."
+      );
+    }
+  }
+}
+
+function isErrorWithCode(error: unknown): error is { readonly code: string } {
+  return (
+    typeof error === "object" &&
+    error !== null &&
+    typeof (error as { code?: unknown }).code === "string"
+  );
+}
+
+function systemError(code: "ENOENT" | "EISDIR" | "ENOTDIR"): { readonly code: string } {
+  return { code };
 }
 
 export async function runOpenRouterToolLoop(
@@ -501,7 +674,8 @@ export function mapCaptureToBehavioralTrace(
     ...capture.toolCalls.map((call) => ({
       sequence: call.sequence,
       timestamp: call.completedAt,
-      stage: (call.exitStatus === 0 || call.exitStatus === "NOT_APPLICABLE"
+      stage: (call.result["status"] !== "ERROR" &&
+      (call.exitStatus === 0 || call.exitStatus === "NOT_APPLICABLE")
         ? "RESULT"
         : "RECOVERY") as "RESULT" | "RECOVERY",
       actionType: call.name,

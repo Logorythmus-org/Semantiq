@@ -5,8 +5,12 @@ import {
   OpenRouterSubjectAdapter,
   OpenRouterSubjectError,
   S12LocalToolExecutor,
+  S12ToolInstrumentationError,
   S12ToolPolicyError,
+  recoverableToolError,
+  validateToolRequest,
   type OpenRouterMessage,
+  type OpenRouterPreflightResult,
   type S12ToolName
 } from "./s12-openrouter-feasibility.js";
 
@@ -91,7 +95,11 @@ export class S12QualificationRunner {
     } catch (error) {
       return this.failure(mode, events, 0, "PREFLIGHT_BLOCKED", code(error), safeDetail(error));
     }
-    append("PREFLIGHT_RESULT", { ok: preflight.ok, freeStatus: preflight.freeStatusAtExecution });
+    const initialPreflight = preflightEvidence(preflight, this.clock());
+    append("PREFLIGHT_RESULT", {
+      ...initialPreflight,
+      preflightDigest: computeSha256(canonicalJson(initialPreflight))
+    });
     if (!preflight.ok)
       return this.failure(
         mode,
@@ -110,9 +118,30 @@ export class S12QualificationRunner {
     try {
       for (let turn = 1; turn <= S12_SUBJECT.maxAttempts; turn++) {
         const modelRequestId = `model-request:${turn}`;
-        append("MODEL_REQUEST", { modelRequestId, attemptId, model: S12_SUBJECT.modelId });
-        modelRequestCount++;
-        const response = await this.adapter.generateAfterFreshPreflight(messages);
+        const response = await this.adapter.generateAfterFreshPreflight(
+          messages,
+          S12_SUBJECT.maxWallTimePerRunMs,
+          {
+            preflightPassed: (result) => {
+              const evidence = preflightEvidence(result, this.clock());
+              append("TURN_PREFLIGHT_PASSED", {
+                modelRequestId,
+                ...evidence,
+                preflightDigest: computeSha256(canonicalJson(evidence))
+              });
+            },
+            requestPrepared: (evidence) =>
+              append("REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
+            generationInvoked: () => {
+              modelRequestCount++;
+              append("GENERATION_INVOKED", {
+                modelRequestId,
+                attemptId,
+                requestedModelId: S12_SUBJECT.modelId
+              });
+            }
+          }
+        );
         append("MODEL_RESPONSE", {
           modelRequestId,
           responseId: response.responseId,
@@ -174,21 +203,74 @@ export class S12QualificationRunner {
         for (const call of response.toolCalls) {
           append("TOOL_REQUESTED", { callId: call.id, name: call.name, arguments: call.arguments });
           if (!isToolName(call.name)) throw new S12ToolPolicyError("INVALID_TOOL");
-          append("TOOL_VALIDATED", { callId: call.id, accepted: true });
+          const toolRequest = { name: call.name, arguments: call.arguments } as const;
+          try {
+            validateToolRequest(input.workspaceRoot, toolRequest);
+          } catch (error) {
+            const rejected = recoverableToolError(error);
+            if (!rejected) throw error;
+            append("TOOL_VALIDATION", { callId: call.id, accepted: false, error: rejected.error });
+            append("TOOL_EXECUTION_RESULT", {
+              callId: call.id,
+              durationMs: 0,
+              status: rejected.status,
+              exitStatus: rejected.exitStatus,
+              result: rejected.result,
+              error: rejected.error,
+              provenance: rejected.provenance
+            });
+            messages.push({
+              role: "tool",
+              toolCallId: call.id,
+              content: canonicalJson({ toolCallId: call.id, tool: call.name, ...rejected })
+            });
+            append("MODEL_CONTINUATION", { callId: call.id });
+            continue;
+          }
+          append("TOOL_VALIDATION", { callId: call.id, accepted: true });
           const started = Date.now();
-          append("TOOL_EXECUTION_START", { callId: call.id });
-          const result = await this.executor.execute(input.workspaceRoot, {
-            name: call.name,
-            arguments: call.arguments
-          });
-          append("TOOL_EXECUTION_END", {
+          append("TOOL_EXECUTION_STARTED", { callId: call.id });
+          let result;
+          try {
+            result = await this.executor.execute(input.workspaceRoot, toolRequest);
+          } catch (error) {
+            const failure =
+              error instanceof S12ToolInstrumentationError
+                ? error
+                : new S12ToolInstrumentationError(
+                    "TOOL_RUNTIME_INTERNAL_ERROR",
+                    "The controlled tool runtime failed unexpectedly."
+                  );
+            append("TOOL_EXECUTION_RESULT", {
+              callId: call.id,
+              durationMs: Date.now() - started,
+              status: "ERROR",
+              exitStatus: failure.code === "COMMAND_TIMEOUT" ? "TIMED_OUT" : "NOT_APPLICABLE",
+              result: {},
+              error: {
+                code: failure.code,
+                recoverable: false,
+                explanation: safeInstrumentationDetail(failure.code),
+                ...(failure.diagnostics ? { diagnostics: failure.diagnostics } : {})
+              },
+              provenance: ["s12-controlled-tool-failure@0.1.0"]
+            });
+            throw failure;
+          }
+          append("TOOL_EXECUTION_RESULT", {
             callId: call.id,
             durationMs: Date.now() - started,
+            status: result.status,
             exitStatus: result.exitStatus,
             result: result.result,
+            ...(result.error ? { error: result.error } : {}),
             provenance: result.provenance
           });
-          messages.push({ role: "tool", toolCallId: call.id, content: canonicalJson(result) });
+          messages.push({
+            role: "tool",
+            toolCallId: call.id,
+            content: canonicalJson({ toolCallId: call.id, tool: call.name, ...result })
+          });
           append("MODEL_CONTINUATION", { callId: call.id });
         }
       }
@@ -208,9 +290,12 @@ export class S12QualificationRunner {
         mode,
         events,
         modelRequestCount,
-        error instanceof OpenRouterSubjectError && error.code === "TIMEOUT"
+        (error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
+          (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")
           ? "TIMEOUT"
-          : "INSTRUMENTATION_FAILURE",
+          : error instanceof S12ToolInstrumentationError && error.code === "COMMAND_RESOURCE_LIMIT"
+            ? "RESOURCE_LIMIT"
+            : "INSTRUMENTATION_FAILURE",
         code(error),
         safeDetail(error),
         runId,
@@ -243,20 +328,68 @@ export class S12QualificationRunner {
   }
 }
 
+function preflightEvidence(result: OpenRouterPreflightResult, metadataObservedAt: string) {
+  const model = result.model;
+  const endpoint = result.endpoint;
+  const required = ["tools", "tool_choice", "temperature", "top_p", "max_tokens", "seed"];
+  return {
+    ok: result.ok,
+    freeStatus: result.freeStatusAtExecution,
+    requestedModelId: S12_SUBJECT.modelId,
+    observedModelId: model?.id ?? "UNKNOWN",
+    expectedUpstreamModelId: S12_SUBJECT.upstreamModelId,
+    observedUpstreamModelId:
+      endpoint?.name.includes(S12_SUBJECT.upstreamModelId) === true
+        ? S12_SUBJECT.upstreamModelId
+        : "UNKNOWN",
+    expectedProvider: S12_SUBJECT.upstreamProvider,
+    observedProvider: endpoint?.providerName ?? "UNKNOWN",
+    expectedEndpointIdentity: `${S12_SUBJECT.upstreamProvider} | ${S12_SUBJECT.upstreamModelId}`,
+    observedEndpointIdentity: endpoint?.name ?? "UNKNOWN",
+    endpointTag: endpoint?.tag ?? "UNKNOWN",
+    inputPrice: endpoint?.pricing.prompt ?? model?.pricing.prompt ?? "UNKNOWN",
+    outputPrice: endpoint?.pricing.completion ?? model?.pricing.completion ?? "UNKNOWN",
+    toolsSupported: endpoint?.supportedParameters.includes("tools") ?? false,
+    toolChoiceSupported: endpoint?.supportedParameters.includes("tool_choice") ?? false,
+    requiredParametersStatus:
+      model &&
+      endpoint &&
+      required.every((value) => model.supportedParameters.includes(value)) &&
+      required.every((value) => endpoint.supportedParameters.includes(value))
+        ? "SUPPORTED"
+        : "UNAVAILABLE",
+    fallbackPolicy: { model: "NONE", provider: "NONE", allowFallbacks: false },
+    metadataObservedAt
+  } as const;
+}
+
 function isToolName(value: string): value is S12ToolName {
   return ["read_file", "write_file", "list_files", "run_command"].includes(value);
 }
 function code(error: unknown): string {
-  return error instanceof OpenRouterSubjectError || error instanceof S12ToolPolicyError
+  return error instanceof OpenRouterSubjectError ||
+    error instanceof S12ToolPolicyError ||
+    error instanceof S12ToolInstrumentationError
     ? error.code
     : error instanceof Error
       ? error.name
       : "UNKNOWN";
 }
 function safeDetail(error: unknown): string {
-  return error instanceof Error
-    ? error.message.replace(/Bearer\s+\S+/gi, "Bearer [REDACTED]")
-    : "Unknown failure.";
+  return error instanceof S12ToolInstrumentationError
+    ? safeInstrumentationDetail(error.code)
+    : error instanceof OpenRouterSubjectError
+      ? error.message
+      : "Unexpected controlled runtime failure.";
+}
+function safeInstrumentationDetail(code: S12ToolInstrumentationError["code"]): string {
+  return {
+    COMMAND_TIMEOUT: "The controlled command exceeded its execution bound.",
+    COMMAND_RESOURCE_LIMIT: "The controlled command exceeded an execution resource bound.",
+    COMMAND_PROCESS_FAILURE: "The controlled command process could not start.",
+    TOOL_RUNTIME_INTERNAL_ERROR: "The controlled tool runtime failed unexpectedly.",
+    UNEXPECTED_IO_FAILURE: "The controlled filesystem failed unexpectedly."
+  }[code];
 }
 function isUnverifiable(value: unknown): boolean {
   return (

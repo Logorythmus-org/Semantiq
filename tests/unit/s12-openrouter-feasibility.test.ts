@@ -283,6 +283,7 @@ describe("S12 OpenRouter feasibility boundary", () => {
       usage: { reportedCostUsd: 0 }
     });
     const executor = new S12LocalToolExecutor({
+      pathType: async () => "DIRECTORY",
       readFile: async () => "content",
       writeFile: async () => undefined,
       listFiles: async () => ["b", "a"],
@@ -299,6 +300,22 @@ describe("S12 OpenRouter feasibility boundary", () => {
     );
     expect(result.attempts).toBe(1);
     expect(transport.generateCalls).toBe(1);
+  });
+
+  it("maps a recoverable tool error to recovery evidence", () => {
+    const input = capture();
+    const tool = input.toolCalls[0]!;
+    const trace = mapCaptureToBehavioralTrace({
+      ...input,
+      toolCalls: [
+        {
+          ...tool,
+          result: { status: "ERROR", error: { code: "PATH_NOT_FOUND", recoverable: true } },
+          exitStatus: "NOT_APPLICABLE"
+        }
+      ]
+    });
+    expect(trace.find((event) => event.actionType === "run_command")?.stage).toBe("RECOVERY");
   });
 
   it("P keeps S09 packaging authority internal-consistency-only", () => {

@@ -125,3 +125,23 @@ safe dry-run mode, requires an explicit fixture workspace, and requires both `--
 `--authorize-live` before the concrete transport can be selected. Canonical post-processing is
 owned by `S12CanonicalQualificationRunner`: callers can supply a transport but cannot replace the
 long-horizon evaluator, metric identity, S05 mapper, or S09 `EvidenceSystem` implementation.
+
+## Reconciled provider and tool boundary
+
+The canonical runner constructs the initial request from the frozen system instruction and the
+exact fixture `TASK.md` bytes. It blocks configuration, fixture, and task digest drift before an
+attempt or generation call. Each fresh preflight records the exact model, provider endpoint,
+zero-price status, supported parameters, fallback policy, observation time, and a digest. The
+prepared request and message sequence have separate digests; generation count increases only
+when the transport is invoked. The provider route remains Cohere only, with paid and provider
+fallback disabled.
+
+Expected subject tool mistakes return bounded, redacted results with `status: ERROR` and
+`recoverable: true`. The next model turn can use these results to correct its request. A command
+that launches and exits with a numeric nonzero code still yields an ordinary command result, so
+failing tests remain visible as task evidence. A command timeout, resource termination, spawn
+failure, or unexpected executor fault instead ends the attempt with a typed failure. Ordered
+capture retains the tool call identity and non-success status; only bounded output digests are
+retained. Terminal tool failures do not enter canonical evaluation, S05 mapping, or S09 packaging.
+The qualification result retains the structured failure and ordered capture so missing downstream
+evidence stays explicit. This is an engineering correction and adds no scientific authority.

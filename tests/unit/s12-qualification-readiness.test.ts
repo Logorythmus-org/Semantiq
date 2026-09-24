@@ -1,5 +1,9 @@
 import {
   CONFIG_DIGEST,
+  S12_SUBJECT_CONFIGURATION,
+  S12_TASK_INSTRUCTION_DIGEST,
+  SYSTEM_PROMPT_DIGEST,
+  TOOL_DEFINITION_DIGEST,
   OpenRouterHttpError,
   OpenRouterHttpTransport,
   OpenRouterSubjectAdapter,
@@ -7,7 +11,9 @@ import {
   S12CanonicalQualificationRunner,
   S12LocalToolExecutor,
   S12QualificationRunner,
+  S12ToolInstrumentationError,
   S12_SUBJECT,
+  nodeToolOperations,
   canonicalProviderTools,
   serializeOpenRouterTools,
   type OpenRouterEndpointMetadata,
@@ -17,8 +23,15 @@ import {
   type S12Fetch,
   type S12VerifierRuntime
 } from "../../packages/benchmark/src/index.js";
+import { canonicalJson, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
 import { cp, mkdir, mkdtemp, rm } from "node:fs/promises";
+import { readFileSync } from "node:fs";
 import path from "node:path";
+
+const frozenTaskInstruction = readFileSync(
+  path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility", "TASK.md"),
+  "utf8"
+);
 
 const supported = ["tools", "tool_choice", "temperature", "top_p", "max_tokens", "seed"];
 const model = (pricing = { prompt: "0", completion: "0" }): OpenRouterModelMetadata => ({
@@ -37,8 +50,9 @@ const endpoint = (): OpenRouterEndpointMetadata => ({
 
 class ScriptedTransport implements OpenRouterTransport {
   generationCalls = 0;
+  readonly requests: Readonly<Record<string, unknown>>[] = [];
   constructor(
-    private readonly responses: readonly OpenRouterGenerationResponse[],
+    private readonly responses: readonly (OpenRouterGenerationResponse | Error)[],
     private readonly currentModel: OpenRouterModelMetadata = model()
   ) {}
   async listModels() {
@@ -47,8 +61,11 @@ class ScriptedTransport implements OpenRouterTransport {
   async listEndpoints() {
     return [endpoint()];
   }
-  async generate() {
-    return this.responses[this.generationCalls++]!;
+  async generate(request: Readonly<Record<string, unknown>>) {
+    this.requests.push(request);
+    const value = this.responses[this.generationCalls++]!;
+    if (value instanceof Error) throw value;
+    return value;
   }
 }
 
@@ -66,6 +83,7 @@ const response = (
 
 const executor = () =>
   new S12LocalToolExecutor({
+    pathType: async (target) => (target.endsWith("src") ? "DIRECTORY" : "FILE"),
     readFile: async () => "content",
     writeFile: async () => undefined,
     listFiles: async () => ["src"],
@@ -86,6 +104,238 @@ const hooks = (criterion: "SATISFIED" | "NOT_SATISFIED" | "UNVERIFIABLE") => ({
 });
 
 describe("S12 qualification readiness repair", () => {
+  it("returns bounded recoverable results for subject tool mistakes", async () => {
+    const local = new S12LocalToolExecutor({
+      pathType: async (target) => {
+        if (target.endsWith("missing"))
+          throw Object.assign(new Error("host private detail"), { code: "ENOENT" });
+        return target.endsWith("folder") ? "DIRECTORY" : "FILE";
+      },
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+    });
+    const cases = [
+      { name: "read_file", arguments: { path: "missing" }, code: "PATH_NOT_FOUND" },
+      { name: "read_file", arguments: { path: "folder" }, code: "PATH_IS_DIRECTORY" },
+      { name: "read_file", arguments: { path: "../secret" }, code: "PATH_OUTSIDE_WORKSPACE" },
+      { name: "read_file", arguments: { path: "verifier/spec.json" }, code: "FORBIDDEN_PATH" },
+      { name: "run_command", arguments: { command: "whoami" }, code: "COMMAND_NOT_ALLOWED" },
+      { name: "read_file", arguments: {}, code: "INVALID_ARGUMENT" }
+    ] as const;
+    for (const item of cases) {
+      const output = await local.execute("C:/fixture", item);
+      expect(output).toMatchObject({
+        status: "ERROR",
+        error: { code: item.code, recoverable: true }
+      });
+      expect(JSON.stringify(output)).not.toContain("host private detail");
+      expect(JSON.stringify(output)).not.toContain("C:/fixture");
+    }
+  });
+
+  it("classifies canonical command exits, timeouts, spawn failures, and executor faults", async () => {
+    const cases = [
+      { fault: { code: 1, stdout: "failed tests", stderr: "" }, expected: "NONZERO" },
+      {
+        fault: { code: "ETIMEDOUT", killed: true, stdout: "secret-output", stderr: "" },
+        expected: "COMMAND_TIMEOUT"
+      },
+      {
+        fault: { code: "ENOENT", stdout: "", stderr: "private-path" },
+        expected: "COMMAND_PROCESS_FAILURE"
+      },
+      {
+        fault: { code: "ERR_CHILD_PROCESS_STDIO_MAXBUFFER", stdout: "", stderr: "" },
+        expected: "COMMAND_RESOURCE_LIMIT"
+      },
+      {
+        fault: { code: "ERR_UNKNOWN", stdout: "", stderr: "private-environment" },
+        expected: "TOOL_RUNTIME_INTERNAL_ERROR"
+      }
+    ] as const;
+    for (const item of cases) {
+      const operations = nodeToolOperations(async () => {
+        throw Object.assign(new Error("Bearer hidden-token C:/private"), item.fault);
+      });
+      if (item.expected === "NONZERO") {
+        await expect(operations.runCommand("C:/fixture", "pnpm test", 10)).resolves.toMatchObject({
+          exitCode: 1
+        });
+      } else {
+        await expect(operations.runCommand("C:/fixture", "pnpm test", 10)).rejects.toMatchObject({
+          code: item.expected
+        });
+      }
+    }
+  });
+
+  it("propagates timeout with call identity and no successful tool or evaluation", async () => {
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [
+          {
+            id: "timed-call",
+            name: "run_command",
+            arguments: { command: "pnpm test", timeoutMs: 10 }
+          }
+        ]
+      })
+    ]);
+    const local = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        throw new S12ToolInstrumentationError(
+          "COMMAND_TIMEOUT",
+          "Bearer secret-token C:/host/private"
+        );
+      }
+    });
+    let evaluated = false;
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      local,
+      {
+        verifyFinalState: async () => ({}),
+        evaluate: async () => {
+          evaluated = true;
+          return {};
+        },
+        packageEvidence: async () => ({})
+      },
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result).toMatchObject({
+      terminalStatus: "TIMEOUT",
+      attemptId: "dry-attempt:id",
+      structuredFailure: { code: "COMMAND_TIMEOUT" }
+    });
+    expect(
+      result.events.find((event) => event.type === "TOOL_EXECUTION_RESULT")?.payload
+    ).toMatchObject({
+      callId: "timed-call",
+      status: "ERROR",
+      exitStatus: "TIMED_OUT",
+      error: { code: "COMMAND_TIMEOUT", recoverable: false }
+    });
+    expect(
+      result.events.some(
+        (event) => event.type === "TOOL_EXECUTION_RESULT" && event.payload["status"] === "SUCCESS"
+      )
+    ).toBe(false);
+    expect(evaluated).toBe(false);
+    expect(result.evidence).toBeUndefined();
+    expect(JSON.stringify(result)).not.toContain("secret-token");
+    expect(JSON.stringify(result)).not.toContain("C:/host/private");
+  });
+
+  it("keeps unexpected executor failures terminal and typed", async () => {
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [{ id: "fault-call", name: "run_command", arguments: { command: "pnpm test" } }]
+      })
+    ]);
+    const local = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        throw new Error("private executor detail");
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      local,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result).toMatchObject({
+      terminalStatus: "INSTRUMENTATION_FAILURE",
+      structuredFailure: { code: "TOOL_RUNTIME_INTERNAL_ERROR" }
+    });
+    expect(
+      result.events.find((event) => event.type === "TOOL_EXECUTION_RESULT")?.payload
+    ).toMatchObject({
+      callId: "fault-call",
+      status: "ERROR",
+      error: { code: "TOOL_RUNTIME_INTERNAL_ERROR", recoverable: false }
+    });
+    expect(JSON.stringify(result)).not.toContain("private executor detail");
+  });
+
+  it("keeps recoverable validation errors visible to the next model turn", async () => {
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [{ id: "bad-command", name: "run_command", arguments: { command: "whoami" } }]
+      }),
+      response()
+    ]);
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result.terminalStatus).toBe("COMPLETED");
+    expect(
+      result.events.find((event) => event.type === "TOOL_EXECUTION_RESULT")?.payload
+    ).toMatchObject({
+      callId: "bad-command",
+      status: "ERROR",
+      error: { code: "COMMAND_NOT_ALLOWED", recoverable: true }
+    });
+    const messages = transport.requests[1]?.["messages"] as Array<{
+      role: string;
+      content: string;
+    }>;
+    expect(messages.find((message) => message.role === "tool")?.content).toContain(
+      "COMMAND_NOT_ALLOWED"
+    );
+  });
+
+  it("propagates spawn failure as instrumentation failure without a success event", async () => {
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [{ id: "spawn-call", name: "run_command", arguments: { command: "pnpm test" } }]
+      })
+    ]);
+    const operations = nodeToolOperations(async () => {
+      throw Object.assign(new Error("C:/secret/location"), {
+        code: "ENOENT",
+        stderr: "Bearer private"
+      });
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      new S12LocalToolExecutor(operations),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result).toMatchObject({
+      terminalStatus: "INSTRUMENTATION_FAILURE",
+      structuredFailure: { code: "COMMAND_PROCESS_FAILURE" }
+    });
+    expect(
+      result.events.find((event) => event.type === "TOOL_EXECUTION_RESULT")?.payload
+    ).toMatchObject({
+      callId: "spawn-call",
+      status: "ERROR",
+      error: { code: "COMMAND_PROCESS_FAILURE", recoverable: false }
+    });
+    expect(JSON.stringify(result)).not.toContain("Bearer private");
+    expect(JSON.stringify(result)).not.toContain("C:/secret/location");
+    expect(result.evaluation).toBeUndefined();
+    expect(result.evidence).toBeUndefined();
+  });
   it("serializes frozen tools deterministically into OpenRouter function schemas", () => {
     expect(canonicalProviderTools()).toBe(canonicalProviderTools());
     expect(serializeOpenRouterTools()).toHaveLength(4);
@@ -314,7 +564,8 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        messages: [{ role: "user", content: "frozen task" }]
+        configurationDigest: CONFIG_DIGEST,
+        taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
       expect(output.qualification.verification).toMatchObject({ criterion: "SATISFIED" });
@@ -333,6 +584,27 @@ describe("S12 canonical temporary-fixture qualification", () => {
         authority: "INTERNAL_CONSISTENCY_ONLY",
         scientificAuthority: "NONE"
       });
+      const firstRequest = transport.requests[0]!;
+      expect(firstRequest["messages"]).toEqual([
+        { role: "system", content: S12_SUBJECT_CONFIGURATION.systemInstruction.value },
+        { role: "user", content: frozenTaskInstruction }
+      ]);
+      expect(output).toMatchObject({
+        systemInstructionDigest: SYSTEM_PROMPT_DIGEST,
+        taskInstructionDigest: S12_TASK_INSTRUCTION_DIGEST,
+        toolDefinitionDigest: TOOL_DEFINITION_DIGEST,
+        initialMessageSequenceDigest: computeSha256(canonicalJson(firstRequest["messages"]))
+      });
+      expect(firstRequest["provider"]).toMatchObject({
+        only: ["cohere"],
+        order: ["cohere"],
+        allow_fallbacks: false,
+        require_parameters: true,
+        max_price: { prompt: 0, completion: 0 }
+      });
+      expect(output.qualification.events.some((event) => event.type === "REQUEST_PREPARED")).toBe(
+        true
+      );
       expect(transport.generationCalls).toBe(4);
     } finally {
       await rm(temp.parent, { recursive: true, force: true });
@@ -361,7 +633,8 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        messages: [{ role: "user", content: "frozen task" }]
+        configurationDigest: CONFIG_DIGEST,
+        taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
       expect(output.qualification.verification).toMatchObject({ criterion: "NOT_SATISFIED" });
@@ -383,7 +656,8 @@ describe("S12 canonical temporary-fixture qualification", () => {
       environmentDigest: "e".repeat(64),
       implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
       implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-      messages: [{ role: "user", content: "must not execute" }]
+      configurationDigest: CONFIG_DIGEST,
+      taskInstruction: frozenTaskInstruction
     });
     expect(output.qualification).toMatchObject({
       terminalStatus: "PREFLIGHT_BLOCKED",
@@ -391,6 +665,53 @@ describe("S12 canonical temporary-fixture qualification", () => {
       structuredFailure: { code: "FIXTURE_IDENTITY_DRIFT" }
     });
     expect(transport.generationCalls).toBe(0);
+  });
+
+  it("blocks task and configuration drift before attempt or generation", async () => {
+    for (const drift of [
+      { configurationDigest: CONFIG_DIGEST, taskInstruction: "changed task" },
+      { configurationDigest: "0".repeat(64), taskInstruction: frozenTaskInstruction }
+    ]) {
+      const transport = new ScriptedTransport([response()]);
+      const output = await new S12CanonicalQualificationRunner(transport).run({
+        mode: "LIVE_QUALIFICATION",
+        liveAuthorized: true,
+        workspaceRoot: "C:/not-reached",
+        fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+        environmentDigest: "e".repeat(64),
+        implementationSha: "5473c687e82ce2cf5c125e4f7bbe4f750eb6a236",
+        implementationTree: "7b90883405e4b085419c3f4489d6450bfccddf65",
+        ...drift
+      });
+      expect(output.qualification.terminalStatus).toBe("PREFLIGHT_BLOCKED");
+      expect(output.qualification.attemptId).toBeUndefined();
+      expect(output.qualification.modelRequestCount).toBe(0);
+      expect(transport.generationCalls).toBe(0);
+    }
+  });
+
+  it("counts an invoked generation even when transport rejects", async () => {
+    const transport = new ScriptedTransport([new Error("provider unavailable")]);
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({
+      workspaceRoot: "C:/fixture",
+      fixtureDigest: "fixture",
+      messages: [],
+      mode: "LIVE_QUALIFICATION",
+      liveAuthorized: true
+    });
+    expect(result).toMatchObject({
+      terminalStatus: "INSTRUMENTATION_FAILURE",
+      modelRequestCount: 1,
+      runId: "run:id",
+      attemptId: "attempt:id"
+    });
+    expect(transport.generationCalls).toBe(1);
   });
 
   it("distinguishes preservation, immutability, CLI, and build negative witnesses", async () => {
@@ -465,7 +786,8 @@ describe("S12 canonical temporary-fixture qualification", () => {
           environmentDigest: "e".repeat(64),
           implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
           implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-          messages: [{ role: "user", content: variant.name }]
+          configurationDigest: CONFIG_DIGEST,
+          taskInstruction: frozenTaskInstruction
         });
         const verification = output.qualification.verification as {
           milestones: readonly { milestoneId: string; outcome: string }[];
