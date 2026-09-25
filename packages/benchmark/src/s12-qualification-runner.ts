@@ -1,5 +1,6 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import path from "node:path";
+import { performance } from "node:perf_hooks";
 import {
   S12_EXECUTION_STRATA,
   s12ProspectiveConfigDigest,
@@ -10,6 +11,7 @@ import {
   OpenRouterSubjectError,
   S12LocalToolExecutor,
   S12ToolInstrumentationError,
+  S12AttemptDeadlineExceeded,
   S12ToolPolicyError,
   recoverableToolError,
   validateToolRequest,
@@ -63,7 +65,8 @@ export class S12QualificationRunner {
     private readonly hooks: S12QualificationHooks,
     private readonly clock: () => string = () => new Date().toISOString(),
     private readonly idFactory: () => string = () => crypto.randomUUID(),
-    private readonly executionContract: S12ExecutionContract = S12_EXECUTION_STRATA.S12_10_TURNS
+    private readonly executionContract: S12ExecutionContract = S12_EXECUTION_STRATA.S12_10_TURNS,
+    private readonly monotonicNow: () => number = () => performance.now()
   ) {}
 
   async run(input: {
@@ -118,6 +121,13 @@ export class S12QualificationRunner {
         preflight.failure!.detail
       );
 
+    const attemptStartedAt = this.monotonicNow();
+    const attemptDeadline = attemptStartedAt + contract.maxAttemptWallTimeMs;
+    const remainingAttemptMs = () => {
+      const remaining = attemptDeadline - this.monotonicNow();
+      if (remaining <= 0) throw new S12AttemptDeadlineExceeded();
+      return remaining;
+    };
     const runId = `${mode === "DRY_RUN" ? "dry-run" : "run"}:${this.idFactory()}`;
     const attemptId = `${mode === "DRY_RUN" ? "dry-attempt" : "attempt"}:${this.idFactory()}`;
     append("ATTEMPT_CREATED", { runId, attemptId, subjectAttempt: 1 });
@@ -125,6 +135,7 @@ export class S12QualificationRunner {
     let modelRequestCount = 0;
     try {
       for (let turn = 1; turn <= contract.maxModelTurns; turn++) {
+        remainingAttemptMs();
         const modelRequestId = `model-request:${turn}`;
         const response = await this.adapter.generateAfterFreshPreflight(
           messages,
@@ -142,16 +153,21 @@ export class S12QualificationRunner {
               append("REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
             wireRequestPrepared: (evidence) =>
               append("WIRE_REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
-            generationInvoked: () => {
+            operationTimeoutMs: (configuredTimeoutMs) =>
+              Math.min(configuredTimeoutMs, remainingAttemptMs()),
+            attemptDeadlineReached: () => this.monotonicNow() >= attemptDeadline,
+            generationInvoked: (effectiveTimeoutMs) => {
               modelRequestCount++;
               append("GENERATION_INVOKED", {
                 modelRequestId,
                 attemptId,
-                requestedModelId: S12_SUBJECT.modelId
+                requestedModelId: S12_SUBJECT.modelId,
+                effectiveTimeoutMs
               });
             }
           }
         );
+        remainingAttemptMs();
         append("MODEL_RESPONSE", {
           modelRequestId,
           responseId: response.responseId,
@@ -211,6 +227,7 @@ export class S12QualificationRunner {
           };
         }
         for (const call of response.toolCalls) {
+          remainingAttemptMs();
           append("TOOL_REQUESTED", {
             callId: call.id,
             name: isToolName(call.name) ? call.name : "UNKNOWN_TOOL",
@@ -242,12 +259,18 @@ export class S12QualificationRunner {
             continue;
           }
           append("TOOL_VALIDATION", { callId: call.id, accepted: true });
+          remainingAttemptMs();
           const started = Date.now();
           append("TOOL_EXECUTION_STARTED", { callId: call.id });
           let result;
           try {
-            result = await this.executor.execute(input.workspaceRoot, toolRequest);
+            result = await this.executor.execute(
+              input.workspaceRoot,
+              toolRequest,
+              remainingAttemptMs
+            );
           } catch (error) {
+            if (error instanceof S12AttemptDeadlineExceeded) throw error;
             const failure =
               error instanceof S12ToolInstrumentationError
                 ? error
@@ -303,19 +326,31 @@ export class S12QualificationRunner {
         attemptId
       );
     } catch (error) {
-      append("STRUCTURED_FAILURE", { code: code(error), detail: safeDetail(error) });
+      const cumulativeDeadlineExceeded =
+        error instanceof S12AttemptDeadlineExceeded ||
+        (((error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
+          (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")) &&
+          this.monotonicNow() >= attemptDeadline);
+      const failureCode = cumulativeDeadlineExceeded ? "MAX_ATTEMPT_WALL_TIME" : code(error);
+      const failureDetail = cumulativeDeadlineExceeded
+        ? "The cumulative subject-attempt wall-time limit was reached."
+        : safeDetail(error);
+      append("STRUCTURED_FAILURE", { code: failureCode, detail: failureDetail });
       return this.failure(
         mode,
         events,
         modelRequestCount,
-        (error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
-          (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")
-          ? "TIMEOUT"
-          : error instanceof S12ToolInstrumentationError && error.code === "COMMAND_RESOURCE_LIMIT"
-            ? "RESOURCE_LIMIT"
-            : "INSTRUMENTATION_FAILURE",
-        code(error),
-        safeDetail(error),
+        cumulativeDeadlineExceeded
+          ? "RESOURCE_LIMIT"
+          : (error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
+              (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")
+            ? "TIMEOUT"
+            : error instanceof S12ToolInstrumentationError &&
+                error.code === "COMMAND_RESOURCE_LIMIT"
+              ? "RESOURCE_LIMIT"
+              : "INSTRUMENTATION_FAILURE",
+        failureCode,
+        failureDetail,
         runId,
         attemptId
       );

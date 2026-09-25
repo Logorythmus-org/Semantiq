@@ -304,8 +304,19 @@ export interface OpenRouterGenerationLifecycle {
     readonly messageSequenceDigest: string;
     readonly requestDigest: string;
   }): void;
-  generationInvoked?(): void;
+  operationTimeoutMs?(configuredTimeoutMs: number): number;
+  attemptDeadlineReached?(): boolean;
+  generationInvoked?(effectiveTimeoutMs: number): void;
   wireRequestPrepared?(evidence: { readonly wireRequestDigest: string }): void;
+}
+
+export class S12AttemptDeadlineExceeded extends Error {
+  readonly code = "MAX_ATTEMPT_WALL_TIME" as const;
+
+  constructor() {
+    super("The cumulative subject-attempt wall-time limit was reached.");
+    this.name = "S12AttemptDeadlineExceeded";
+  }
 }
 
 export class OpenRouterSubjectError extends Error {
@@ -374,18 +385,25 @@ export class OpenRouterSubjectAdapter {
       requestDigest: digestHex(request)
     });
 
+    const effectiveTimeoutMs = lifecycle.operationTimeoutMs?.(timeoutMs) ?? timeoutMs;
+    if (!Number.isFinite(effectiveTimeoutMs) || effectiveTimeoutMs <= 0)
+      throw new S12AttemptDeadlineExceeded();
+
     const controller = new AbortController();
     const timeout = setTimeout(
       () => controller.abort(),
-      Math.min(timeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
+      Math.min(effectiveTimeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
     );
     try {
-      lifecycle.generationInvoked?.();
+      lifecycle.generationInvoked?.(effectiveTimeoutMs);
       return await this.transport.generate(request, apiKey, controller.signal, (digest) =>
         lifecycle.wireRequestPrepared?.(digest)
       );
     } catch (error) {
-      if (controller.signal.aborted) throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
+      if (controller.signal.aborted) {
+        if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+        throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
+      }
       throw error;
     } finally {
       clearTimeout(timeout);
@@ -554,7 +572,16 @@ export function validateToolRequest(
 export class S12LocalToolExecutor {
   constructor(private readonly operations: S12ToolOperations) {}
 
-  async execute(workspaceRoot: string, request: S12ToolRequest): Promise<S12ToolExecutionResult> {
+  async execute(
+    workspaceRoot: string,
+    request: S12ToolRequest,
+    attemptBudgetMs?: number | (() => number)
+  ): Promise<S12ToolExecutionResult> {
+    const remainingAttemptMs = () =>
+      typeof attemptBudgetMs === "function" ? attemptBudgetMs() : attemptBudgetMs;
+    const initialBudget = remainingAttemptMs();
+    if (initialBudget !== undefined && (!Number.isFinite(initialBudget) || initialBudget <= 0))
+      throw new S12AttemptDeadlineExceeded();
     let validated: ValidatedToolRequest;
     try {
       validated = validateToolRequest(workspaceRoot, request);
@@ -563,11 +590,21 @@ export class S12LocalToolExecutor {
       if (recoverable) return recoverable;
       throw error;
     }
+    const operationBudget = remainingAttemptMs();
+    if (
+      operationBudget !== undefined &&
+      (!Number.isFinite(operationBudget) || operationBudget <= 0)
+    )
+      throw new S12AttemptDeadlineExceeded();
     if (validated.name === "run_command") {
       const command = String(validated.arguments["command"]);
+      const timeoutMs =
+        operationBudget === undefined
+          ? validated.timeoutMs!
+          : Math.min(validated.timeoutMs!, operationBudget);
       let output: Awaited<ReturnType<S12ToolOperations["runCommand"]>>;
       try {
-        output = await this.operations.runCommand(workspaceRoot, command, validated.timeoutMs!);
+        output = await this.operations.runCommand(workspaceRoot, command, timeoutMs);
       } catch (error) {
         if (error instanceof S12ToolInstrumentationError) throw error;
         throw new S12ToolInstrumentationError(
@@ -588,11 +625,13 @@ export class S12LocalToolExecutor {
 
     const resolvedPath = validated.resolvedPath!;
     if (validated.name === "read_file") {
+      remainingAttemptMs();
       const type = await this.pathType(resolvedPath);
       if (typeof type !== "string") return type;
       if (type === "DIRECTORY") return recoverableToolError(systemError("EISDIR"))!;
       if (type !== "FILE") return recoverableToolError(systemError("ENOENT"))!;
       let content: string;
+      remainingAttemptMs();
       try {
         content = await this.operations.readFile(resolvedPath);
       } catch {
@@ -609,11 +648,13 @@ export class S12LocalToolExecutor {
       };
     }
     if (validated.name === "list_files") {
+      remainingAttemptMs();
       const type = await this.pathType(resolvedPath);
       if (typeof type !== "string") return type;
       if (type !== "DIRECTORY")
         return recoverableToolError(systemError(type === "FILE" ? "ENOTDIR" : "ENOENT"))!;
       let files: string[];
+      remainingAttemptMs();
       try {
         files = [...(await this.operations.listFiles(resolvedPath))].sort();
       } catch {
@@ -633,6 +674,7 @@ export class S12LocalToolExecutor {
     const content = validated.arguments["content"];
     if (typeof content !== "string")
       return recoverableToolError(new S12ToolPolicyError("INVALID_TOOL"))!;
+    remainingAttemptMs();
     try {
       await this.operations.writeFile(resolvedPath, content);
     } catch (error) {

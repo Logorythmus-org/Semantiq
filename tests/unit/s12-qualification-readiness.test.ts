@@ -59,7 +59,8 @@ class ScriptedTransport implements OpenRouterTransport {
   readonly requests: Readonly<Record<string, unknown>>[] = [];
   constructor(
     private readonly responses: readonly (OpenRouterGenerationResponse | Error)[],
-    private readonly currentModel: OpenRouterModelMetadata = model()
+    private readonly currentModel: OpenRouterModelMetadata = model(),
+    private readonly afterGeneration?: (requestIndex: number) => void
   ) {}
   async listModels() {
     return [this.currentModel];
@@ -69,7 +70,9 @@ class ScriptedTransport implements OpenRouterTransport {
   }
   async generate(request: Readonly<Record<string, unknown>>) {
     this.requests.push(request);
-    const value = this.responses[this.generationCalls++]!;
+    const requestIndex = this.generationCalls++;
+    this.afterGeneration?.(requestIndex);
+    const value = this.responses[requestIndex]!;
     if (value instanceof Error) throw value;
     return value;
   }
@@ -842,6 +845,200 @@ describe("S12 qualification readiness repair", () => {
     );
     expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
     expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+  });
+
+  it("shrinks generation and command timeouts to the remaining cumulative attempt budget", async () => {
+    let monotonicNow = 0;
+    const commandTimeouts: number[] = [];
+    const transport = new ScriptedTransport(
+      [
+        response({
+          toolCalls: [
+            {
+              id: "command-1",
+              name: "run_command",
+              arguments: { command: "pnpm test", timeoutMs: 600_000 }
+            }
+          ]
+        }),
+        response()
+      ],
+      model(),
+      (requestIndex) => {
+        if (requestIndex === 0) monotonicNow += 1_500_000;
+      }
+    );
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async (_root, _command, timeoutMs) => {
+        commandTimeouts.push(timeoutMs);
+        monotonicNow += 100_000;
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    const generationTimeouts = result.events
+      .filter((event) => event.type === "GENERATION_INVOKED")
+      .map((event) => event.payload["effectiveTimeoutMs"]);
+    expect(generationTimeouts).toEqual([1_800_000, 200_000]);
+    expect(commandTimeouts).toEqual([300_000]);
+    expect(result.terminalStatus).toBe("COMPLETED");
+  });
+
+  it("terminates before generation when tool work exhausts the attempt budget", async () => {
+    let monotonicNow = 0;
+    const toolCalls = Array.from({ length: 3 }, (_, index) => ({
+      id: `command-${index + 1}`,
+      name: "run_command",
+      arguments: { command: "pnpm test", timeoutMs: 600_000 }
+    }));
+    const transport = new ScriptedTransport([
+      response({ toolCalls: toolCalls as OpenRouterGenerationResponse["toolCalls"] })
+    ]);
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        monotonicNow += 600_000;
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(transport.generationCalls).toBe(1);
+    expect(result.modelRequestCount).toBe(1);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(result.events.filter((event) => event.type === "ATTEMPT_CREATED")).toHaveLength(1);
+    expect(result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT")).toHaveLength(3);
+    expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+    expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+  });
+
+  it("does not start a requested tool after the attempt deadline", async () => {
+    let monotonicNow = 0;
+    let commandStarts = 0;
+    const transport = new ScriptedTransport(
+      [
+        response({
+          toolCalls: [
+            {
+              id: "late-command",
+              name: "run_command",
+              arguments: { command: "pnpm test" }
+            }
+          ]
+        })
+      ],
+      model(),
+      () => {
+        monotonicNow = 1_800_000;
+      }
+    );
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        commandStarts++;
+        return { exitCode: 0, stdout: "unexpected", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(commandStarts).toBe(0);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(result.events.some((event) => event.type === "MODEL_RESPONSE")).toBe(false);
+    expect(result.events.some((event) => event.type === "TOOL_EXECUTION_STARTED")).toBe(false);
+    expect(result.events.some((event) => event.type === "TOOL_EXECUTION_RESULT")).toBe(false);
+  });
+
+  it("keeps a stricter command timeout and preserves ordinary operation timeouts", async () => {
+    const observed: number[] = [];
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async (_root, _command, timeoutMs) => {
+        observed.push(timeoutMs);
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    await commandExecutor.execute(
+      "C:/fixture",
+      { name: "run_command", arguments: { command: "pnpm test", timeoutMs: 80 } },
+      50
+    );
+    await commandExecutor.execute(
+      "C:/fixture",
+      { name: "run_command", arguments: { command: "pnpm test", timeoutMs: 20 } },
+      50
+    );
+    expect(observed).toEqual([50, 20]);
+
+    let monotonicNow = 0;
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [
+          {
+            id: "short-timeout",
+            name: "run_command",
+            arguments: { command: "pnpm test", timeoutMs: 20 }
+          }
+        ]
+      })
+    ]);
+    const timingOutExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        monotonicNow = 100;
+        throw new S12ToolInstrumentationError("COMMAND_TIMEOUT", "Synthetic operation timeout.");
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      timingOutExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result.terminalStatus).toBe("TIMEOUT");
+    expect(result.structuredFailure?.code).toBe("COMMAND_TIMEOUT");
   });
 
   it("Case B preserves genuine subject failure while completing metric and evidence", async () => {
