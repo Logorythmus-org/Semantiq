@@ -31,18 +31,24 @@ The attempt clock starts monotonically when the subject attempt is created,
 after the initial metadata preflight succeeds. Initial preflight is outside the
 attempt; fresh per-turn preflight is inside it. The 30-minute limit is cumulative
 across generation, tool execution, and inter-turn work. Before generation and
-tool execution, the runner checks the remaining budget. Generation timeout and
-command timeout are clamped to that remaining budget, while stricter command
-limits remain in force. If the cumulative deadline is exhausted, the attempt
-ends as `RESOURCE_LIMIT` with `MAX_ATTEMPT_WALL_TIME`; an operation timeout
-before the attempt deadline remains `TIMEOUT`. No subsequent operation or
-replacement attempt is started after exhaustion.
+tool execution, the runner checks the remaining budget. In-attempt metadata
+requests (`listModels` and `listEndpoints`) receive an abort signal bounded by
+the remaining budget; the budget is recomputed between those requests and
+before generation. Generation timeout and command timeout are likewise clamped
+to the remaining budget, while stricter command limits remain in force. After
+a successful tool operation, its result is captured and the deadline is checked
+before continuation or turn-limit classification. If the cumulative deadline
+is exhausted, the attempt ends as `RESOURCE_LIMIT` with
+`MAX_ATTEMPT_WALL_TIME`; an operation timeout before the attempt deadline
+remains `TIMEOUT`. No subsequent subject operation or replacement attempt is
+started after exhaustion.
 
 The filesystem adapter has no cancellation or timeout hook. Its operations
 check the remaining budget before each filesystem sub-operation, and the
-runner checks again before another model or tool operation. An already-running
-filesystem call can therefore return after the deadline; the deadline is
-enforced at operation boundaries rather than by interrupting that call.
+runner checks again immediately after a successful tool result is captured.
+An already-running filesystem call can therefore return after the deadline;
+the deadline is enforced at operation boundaries rather than by interrupting
+that call.
 
 
 S12 adds one prospective, synthetic feasibility path for `long_horizon@0.1.0`. It does not execute

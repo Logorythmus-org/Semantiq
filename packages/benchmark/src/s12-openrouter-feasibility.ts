@@ -288,8 +288,15 @@ export interface OpenRouterGenerationResponse {
 }
 
 export interface OpenRouterTransport {
-  listModels(apiKey: string): Promise<readonly OpenRouterModelMetadata[]>;
-  listEndpoints(modelId: string, apiKey: string): Promise<readonly OpenRouterEndpointMetadata[]>;
+  listModels(
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<readonly OpenRouterModelMetadata[]>;
+  listEndpoints(
+    modelId: string,
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<readonly OpenRouterEndpointMetadata[]>;
   generate(
     request: Readonly<Record<string, unknown>>,
     apiKey: string,
@@ -356,9 +363,15 @@ export class OpenRouterSubjectAdapter {
     const apiKey = this.credentialReader();
     if (!apiKey)
       throw new OpenRouterSubjectError("CREDENTIAL_UNAVAILABLE", "Credential unavailable.");
+    const models = await this.attemptBoundedMetadata(timeoutMs, lifecycle, (signal) =>
+      this.transport.listModels(apiKey, signal ? { signal } : undefined)
+    );
+    const endpoints = await this.attemptBoundedMetadata(timeoutMs, lifecycle, (signal) =>
+      this.transport.listEndpoints(S12_SUBJECT.modelId, apiKey, signal ? { signal } : undefined)
+    );
     const result = verifyOpenRouterPreflight(
-      (await this.transport.listModels(apiKey)).find((model) => model.id === S12_SUBJECT.modelId),
-      await this.transport.listEndpoints(S12_SUBJECT.modelId, apiKey)
+      models.find((model) => model.id === S12_SUBJECT.modelId),
+      endpoints
     );
     if (!result.ok) throw new OpenRouterSubjectError(result.failure!.code, result.failure!.detail);
 
@@ -404,6 +417,35 @@ export class OpenRouterSubjectAdapter {
         if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
         throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
       }
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  private async attemptBoundedMetadata<T>(
+    configuredTimeoutMs: number,
+    lifecycle: OpenRouterGenerationLifecycle,
+    operation: (signal: AbortSignal | undefined) => Promise<T>
+  ): Promise<T> {
+    const effectiveTimeoutMs = lifecycle.operationTimeoutMs?.(configuredTimeoutMs);
+    if (effectiveTimeoutMs === undefined) return operation(undefined);
+    if (!Number.isFinite(effectiveTimeoutMs) || effectiveTimeoutMs <= 0)
+      throw new S12AttemptDeadlineExceeded();
+
+    const controller = new AbortController();
+    const timeout = setTimeout(
+      () => controller.abort(),
+      Math.min(effectiveTimeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
+    );
+    try {
+      const value = await operation(controller.signal);
+      if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+      return value;
+    } catch (error) {
+      if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+      if (controller.signal.aborted)
+        throw new OpenRouterSubjectError("TIMEOUT", "Metadata preflight timed out.");
       throw error;
     } finally {
       clearTimeout(timeout);

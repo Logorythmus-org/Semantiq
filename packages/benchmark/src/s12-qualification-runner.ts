@@ -125,7 +125,7 @@ export class S12QualificationRunner {
     const attemptDeadline = attemptStartedAt + contract.maxAttemptWallTimeMs;
     const remainingAttemptMs = () => {
       const remaining = attemptDeadline - this.monotonicNow();
-      if (remaining <= 0) throw new S12AttemptDeadlineExceeded();
+      if (!Number.isFinite(remaining) || remaining <= 0) throw new S12AttemptDeadlineExceeded();
       return remaining;
     };
     const runId = `${mode === "DRY_RUN" ? "dry-run" : "run"}:${this.idFactory()}`;
@@ -303,6 +303,7 @@ export class S12QualificationRunner {
             ...(result.error ? { error: result.error } : {}),
             provenance: result.provenance
           });
+          remainingAttemptMs();
           messages.push({
             role: "tool",
             toolCallId: call.id,

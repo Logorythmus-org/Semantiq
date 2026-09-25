@@ -30,6 +30,7 @@ import {
   type S12VerifierRuntime
 } from "../../packages/benchmark/src/index.js";
 import { canonicalJson, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
+import { vi } from "vitest";
 import { cp, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -60,13 +61,25 @@ class ScriptedTransport implements OpenRouterTransport {
   constructor(
     private readonly responses: readonly (OpenRouterGenerationResponse | Error)[],
     private readonly currentModel: OpenRouterModelMetadata = model(),
-    private readonly afterGeneration?: (requestIndex: number) => void
+    private readonly afterGeneration?: (requestIndex: number) => void,
+    private readonly metadataOperations?: {
+      readonly listModels?: (
+        signal: AbortSignal | undefined
+      ) => Promise<readonly OpenRouterModelMetadata[]>;
+      readonly listEndpoints?: (
+        signal: AbortSignal | undefined
+      ) => Promise<readonly OpenRouterEndpointMetadata[]>;
+    }
   ) {}
-  async listModels() {
-    return [this.currentModel];
+  async listModels(_apiKey: string, options?: { readonly signal?: AbortSignal }) {
+    return (await this.metadataOperations?.listModels?.(options?.signal)) ?? [this.currentModel];
   }
-  async listEndpoints() {
-    return [endpoint()];
+  async listEndpoints(
+    _modelId: string,
+    _apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ) {
+    return (await this.metadataOperations?.listEndpoints?.(options?.signal)) ?? [endpoint()];
   }
   async generate(request: Readonly<Record<string, unknown>>) {
     this.requests.push(request);
@@ -1040,6 +1053,208 @@ describe("S12 qualification readiness repair", () => {
     expect(result.terminalStatus).toBe("TIMEOUT");
     expect(result.structuredFailure?.code).toBe("COMMAND_TIMEOUT");
   });
+
+  it("aborts a hanging in-attempt listModels call at the cumulative deadline", async () => {
+    vi.useFakeTimers();
+    let monotonicNow = 0;
+    let modelCalls = 0;
+    let endpointCalls = 0;
+    let aborted = false;
+    let signalWasProvided = false;
+    let markFreshStarted!: () => void;
+    const freshStarted = new Promise<void>((resolve) => {
+      markFreshStarted = resolve;
+    });
+    const transport = new ScriptedTransport([], model(), undefined, {
+      listModels: (signal) => {
+        modelCalls++;
+        if (modelCalls === 1) return Promise.resolve([model()]);
+        signalWasProvided = signal !== undefined;
+        markFreshStarted();
+        return new Promise((_resolve, reject) => {
+          signal?.addEventListener(
+            "abort",
+            () => {
+              aborted = true;
+              reject(new DOMException("Aborted", "AbortError"));
+            },
+            { once: true }
+          );
+        });
+      },
+      listEndpoints: async () => {
+        endpointCalls++;
+        return [endpoint()];
+      }
+    });
+    const runner = new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    );
+    try {
+      const running = runner.run({
+        workspaceRoot: "C:/fixture",
+        fixtureDigest: "fixture",
+        messages: []
+      });
+      await freshStarted;
+      monotonicNow = 1_800_000;
+      await vi.advanceTimersByTimeAsync(1_800_000);
+      const result = await running;
+      expect(signalWasProvided).toBe(true);
+      expect(aborted).toBe(true);
+      expect(modelCalls).toBe(2);
+      expect(endpointCalls).toBe(1);
+      expect(transport.generationCalls).toBe(0);
+      expect(result.modelRequestCount).toBe(0);
+      expect(result.events.some((event) => event.type === "GENERATION_INVOKED")).toBe(false);
+      expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+      expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("recomputes the same budget between metadata calls and generation", async () => {
+    let monotonicNow = 0;
+    const effectiveBudgets: number[] = [];
+    const metadataSignals: (AbortSignal | undefined)[] = [];
+    const transport = new ScriptedTransport([response()], model(), undefined, {
+      listModels: async (signal) => {
+        metadataSignals.push(signal);
+        monotonicNow += 60;
+        return [model()];
+      },
+      listEndpoints: async (signal) => {
+        metadataSignals.push(signal);
+        return [endpoint()];
+      }
+    });
+    const result = await new OpenRouterSubjectAdapter(
+      transport,
+      () => "fake"
+    ).generateAfterFreshPreflight([], 100, {
+      operationTimeoutMs: (configured) => {
+        const remaining = 100 - monotonicNow;
+        effectiveBudgets.push(Math.min(configured, remaining));
+        return Math.min(configured, remaining);
+      },
+      attemptDeadlineReached: () => monotonicNow >= 100,
+      generationInvoked: (timeoutMs) => effectiveBudgets.push(timeoutMs)
+    });
+    expect(metadataSignals).toHaveLength(2);
+    expect(metadataSignals.every((signal) => signal instanceof AbortSignal)).toBe(true);
+    expect(effectiveBudgets).toEqual([100, 40, 40, 40]);
+    expect(result.responseId).toBe("response-1");
+    expect(transport.generationCalls).toBe(1);
+  });
+
+  it("does not call listEndpoints or generation when listModels consumes the remaining budget", async () => {
+    let monotonicNow = 0;
+    let endpointCalls = 0;
+    let generationInvocations = 0;
+    const transport = new ScriptedTransport([response()], model(), undefined, {
+      listModels: async () => {
+        monotonicNow = 100;
+        return [model()];
+      },
+      listEndpoints: async () => {
+        endpointCalls++;
+        return [endpoint()];
+      }
+    });
+    await expect(
+      new OpenRouterSubjectAdapter(transport, () => "fake").generateAfterFreshPreflight([], 100, {
+        operationTimeoutMs: () => 100 - monotonicNow,
+        attemptDeadlineReached: () => monotonicNow >= 100,
+        generationInvoked: () => generationInvocations++
+      })
+    ).rejects.toMatchObject({ code: "MAX_ATTEMPT_WALL_TIME" });
+    expect(endpointCalls).toBe(0);
+    expect(generationInvocations).toBe(0);
+    expect(transport.generationCalls).toBe(0);
+  });
+
+  it("preserves an ordinary fresh-preflight failure while attempt time remains", async () => {
+    let modelCalls = 0;
+    let monotonicNow = 0;
+    const transport = new ScriptedTransport([], model(), undefined, {
+      listModels: async () => {
+        modelCalls++;
+        return [model(modelCalls === 1 ? undefined : { prompt: "0.01", completion: "0" })];
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(monotonicNow).toBe(0);
+    expect(result.terminalStatus).toBe("INSTRUMENTATION_FAILURE");
+    expect(result.structuredFailure?.code).toBe("FREE_TIER_UNAVAILABLE");
+    expect(result.structuredFailure?.code).not.toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(transport.generationCalls).toBe(0);
+  });
+
+  it.each([
+    { turn: 10, expires: true, expected: "MAX_ATTEMPT_WALL_TIME" },
+    { turn: 10, expires: false, expected: "MAX_MODEL_TURNS" },
+    { turn: 1, expires: true, expected: "MAX_ATTEMPT_WALL_TIME" }
+  ] as const)(
+    "checks the deadline after a successful tool on turn $turn (expires=$expires)",
+    async ({ turn, expires, expected }) => {
+      let monotonicNow = 0;
+      const turnLimit = S12_EXECUTION_STRATA.S12_10_TURNS.maxModelTurns;
+      const transport = new ScriptedTransport(
+        Array.from({ length: turnLimit }, (_, index) =>
+          response({
+            toolCalls: [
+              { id: `read-${index + 1}`, name: "read_file", arguments: { path: "input.json" } }
+            ]
+          })
+        )
+      );
+      const fileExecutor = new S12LocalToolExecutor({
+        pathType: async () => "FILE",
+        readFile: async () => {
+          if (expires && transport.generationCalls === turn) monotonicNow = 1_800_000;
+          return "synthetic contents";
+        },
+        writeFile: async () => undefined,
+        listFiles: async () => [],
+        runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+      });
+      const result = await new S12QualificationRunner(
+        new OpenRouterSubjectAdapter(transport, () => "fake"),
+        fileExecutor,
+        hooks("SATISFIED"),
+        () => "2026-09-21T00:00:00Z",
+        () => "id",
+        S12_EXECUTION_STRATA.S12_10_TURNS,
+        () => monotonicNow
+      ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+      expect(transport.generationCalls).toBe(expires ? turn : turnLimit);
+      expect(result.modelRequestCount).toBe(transport.generationCalls);
+      expect(result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT")).toHaveLength(
+        turn
+      );
+      const toolResults = result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT");
+      expect(toolResults.at(-1)?.payload["status"]).toBe("SUCCESS");
+      expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+      expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+      expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+      expect(result.structuredFailure?.code).toBe(expected);
+    }
+  );
 
   it("Case B preserves genuine subject failure while completing metric and evidence", async () => {
     const result = await new S12QualificationRunner(
