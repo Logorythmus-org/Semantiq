@@ -2,6 +2,32 @@
 
 ## Scope
 
+### Boundary D-C1 execution contract decision
+
+The historical `S12_SUBJECT.maxAttempts = 10` and
+`retryPolicy.maximumAttempts = 10` were used as a model-generation ceiling in
+the pre-Boundary-D qualification runner. They did not represent ten subject
+attempts or ten automatic retries. Their historical configuration digest and
+observations #1–#3 remain unchanged; no historical evidence is upgraded.
+
+Prospective execution uses `EXPLICIT_EXECUTION_LIMITS@0.1.0`. It declares one
+independently addressable subject attempt, either 10 or 20 model turns, a
+30-minute attempt ceiling, free-only routing, and zero automatic subject
+retries. The explicit `maxModelTurns` alone controls the prospective generation
+loop. The legacy fields remain compatibility metadata and cannot override it.
+An explicit contract with missing or mismatched fields fails closed. Its
+configuration digest binds the execution contract and relevant frozen subject,
+tool, and request configuration while excluding the two legacy turn-ceiling
+fields. The 10- and 20-turn strata are resource conditions,
+not scientific sample sizes or repetitions.
+
+A model turn is counted at actual model-generation invocation. Preflight uses
+zero turns. A tool call is an operation requested inside an attempt and uses
+no additional model turn. A retry would be a separate re-execution mechanism;
+this path has none. The current canonical runner creates one attempt and stops
+at the selected ceiling or at an earlier valid terminal completion.
+
+
 S12 adds one prospective, synthetic feasibility path for `long_horizon@0.1.0`. It does not execute
 the subject, promote a benchmark, or change scientific maturity. Its authority is `NONE`; evidence
 verification remains `INTERNAL_CONSISTENCY_ONLY`.

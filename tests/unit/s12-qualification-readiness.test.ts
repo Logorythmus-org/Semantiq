@@ -1,5 +1,7 @@
 import {
-  CONFIG_DIGEST,
+  S12_CONFIG_DIGEST_10T,
+  S12_CONFIG_DIGEST_20T,
+  S12_EXECUTION_STRATA,
   S12_SUBJECT_CONFIGURATION,
   S12_TASK_INSTRUCTION_DIGEST,
   S12_TOOL_DECLARATIONS,
@@ -804,11 +806,42 @@ describe("S12 qualification readiness repair", () => {
       modelRequestCount: 1,
       evaluation: { exactReplay: true },
       evidence: { authority: "INTERNAL_CONSISTENCY_ONLY" },
-      configDigest: CONFIG_DIGEST
+      configDigest: S12_CONFIG_DIGEST_10T
     });
     expect(result.events.map((event) => event.sequence)).toEqual(
       result.events.map((_, index) => index + 1)
     );
+  });
+
+  it.each([
+    [S12_EXECUTION_STRATA.S12_10_TURNS, S12_CONFIG_DIGEST_10T],
+    [S12_EXECUTION_STRATA.S12_20_TURNS, S12_CONFIG_DIGEST_20T]
+  ] as const)("stops exactly at %s without a further generation", async (contract, digest) => {
+    const continuing = response({
+      toolCalls: [{ id: "call", name: "list_files", arguments: { path: "." } }]
+    });
+    const transport = new ScriptedTransport(
+      Array.from({ length: contract.maxModelTurns }, () => continuing)
+    );
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      contract
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(transport.generationCalls).toBe(contract.maxModelTurns);
+    expect(result.modelRequestCount).toBe(contract.maxModelTurns);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_MODEL_TURNS");
+    expect(result.configDigest).toBe(digest);
+    expect(result.events.filter((event) => event.type === "ATTEMPT_CREATED")).toHaveLength(1);
+    expect(result.events.filter((event) => event.type === "GENERATION_INVOKED")).toHaveLength(
+      contract.maxModelTurns
+    );
+    expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+    expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
   });
 
   it("Case B preserves genuine subject failure while completing metric and evidence", async () => {
@@ -950,7 +983,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "1".repeat(40),
         implementationTree: "2".repeat(40),
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification).toMatchObject({
@@ -1016,7 +1049,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
@@ -1085,7 +1118,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
@@ -1108,7 +1141,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
       environmentDigest: "e".repeat(64),
       implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
       implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-      configurationDigest: CONFIG_DIGEST,
+      configurationDigest: S12_CONFIG_DIGEST_10T,
       taskInstruction: frozenTaskInstruction
     });
     expect(output.qualification).toMatchObject({
@@ -1121,7 +1154,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
 
   it("blocks task and configuration drift before attempt or generation", async () => {
     for (const drift of [
-      { configurationDigest: CONFIG_DIGEST, taskInstruction: "changed task" },
+      { configurationDigest: S12_CONFIG_DIGEST_10T, taskInstruction: "changed task" },
       { configurationDigest: "0".repeat(64), taskInstruction: frozenTaskInstruction }
     ]) {
       const transport = new ScriptedTransport([response()]);
@@ -1238,7 +1271,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
           environmentDigest: "e".repeat(64),
           implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
           implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-          configurationDigest: CONFIG_DIGEST,
+          configurationDigest: S12_CONFIG_DIGEST_10T,
           taskInstruction: frozenTaskInstruction
         });
         const verification = output.qualification.verification as {

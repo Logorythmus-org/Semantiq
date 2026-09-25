@@ -92,6 +92,84 @@ export const CONFIG_DIGEST = digestHex({
   systemPromptDigest: SYSTEM_PROMPT_DIGEST,
   toolDefinitionDigest: TOOL_DEFINITION_DIGEST
 });
+
+// The legacy maxAttempts and retryPolicy.maximumAttempts remain part of the
+// historical configuration identity. They described a generation ceiling,
+// never ten independently addressable subject attempts or automatic retries.
+export const S12_EXECUTION_CONTRACT = "EXPLICIT_EXECUTION_LIMITS@0.1.0" as const;
+export type S12ExecutionStratumId = "S12_10_TURNS" | "S12_20_TURNS";
+export interface S12ExecutionContract {
+  readonly contract: typeof S12_EXECUTION_CONTRACT;
+  readonly stratumId: S12ExecutionStratumId;
+  readonly maxSubjectAttempts: 1;
+  readonly maxModelTurns: 10 | 20;
+  readonly maxAttemptWallTimeMs: number;
+  readonly routing: "FREE_ONLY";
+  readonly automaticSubjectRetries: 0;
+}
+export const S12_EXECUTION_STRATA: Readonly<Record<S12ExecutionStratumId, S12ExecutionContract>> = {
+  S12_10_TURNS: {
+    contract: S12_EXECUTION_CONTRACT,
+    stratumId: "S12_10_TURNS",
+    maxSubjectAttempts: 1,
+    maxModelTurns: 10,
+    maxAttemptWallTimeMs: S12_SUBJECT.maxWallTimePerRunMs,
+    routing: "FREE_ONLY",
+    automaticSubjectRetries: 0
+  },
+  S12_20_TURNS: {
+    contract: S12_EXECUTION_CONTRACT,
+    stratumId: "S12_20_TURNS",
+    maxSubjectAttempts: 1,
+    maxModelTurns: 20,
+    maxAttemptWallTimeMs: S12_SUBJECT.maxWallTimePerRunMs,
+    routing: "FREE_ONLY",
+    automaticSubjectRetries: 0
+  }
+};
+export function validateS12ExecutionContract(value: unknown): S12ExecutionContract {
+  if (value === null || typeof value !== "object") throw new Error("INVALID_EXECUTION_CONTRACT");
+  const candidate = value as Record<string, unknown>;
+  const stratum = S12_EXECUTION_STRATA[candidate["stratumId"] as S12ExecutionStratumId];
+  if (
+    !stratum ||
+    Object.keys(stratum).some(
+      (key) => candidate[key] !== stratum[key as keyof S12ExecutionContract]
+    )
+  )
+    throw new Error("INVALID_EXECUTION_CONTRACT");
+  return stratum;
+}
+export function readS12ExecutionConfiguration(
+  value: unknown
+):
+  | { readonly kind: "LEGACY"; readonly value: Readonly<Record<string, unknown>> }
+  | { readonly kind: "EXPLICIT"; readonly value: S12ExecutionContract } {
+  if (value === null || typeof value !== "object") throw new Error("INVALID_EXECUTION_CONTRACT");
+  const candidate = value as Record<string, unknown>;
+  if (!("contract" in candidate)) {
+    if (!("subject" in candidate) || !("configuration" in candidate))
+      throw new Error("INVALID_EXECUTION_CONTRACT");
+    return { kind: "LEGACY", value: candidate };
+  }
+  return { kind: "EXPLICIT", value: validateS12ExecutionContract(candidate) };
+}
+export function s12ProspectiveConfigDigest(contract: S12ExecutionContract): string {
+  const selected = validateS12ExecutionContract(contract);
+  return digestHex({
+    subject: Object.fromEntries(
+      Object.entries(S12_SUBJECT).filter(([key]) => key !== "maxAttempts")
+    ),
+    configuration: Object.fromEntries(
+      Object.entries(S12_SUBJECT_CONFIGURATION).filter(([key]) => key !== "retryPolicy")
+    ),
+    systemPromptDigest: SYSTEM_PROMPT_DIGEST,
+    toolDefinitionDigest: TOOL_DEFINITION_DIGEST,
+    executionContract: selected
+  });
+}
+export const S12_CONFIG_DIGEST_10T = s12ProspectiveConfigDigest(S12_EXECUTION_STRATA.S12_10_TURNS);
+export const S12_CONFIG_DIGEST_20T = s12ProspectiveConfigDigest(S12_EXECUTION_STRATA.S12_20_TURNS);
 export const S12_TASK_INSTRUCTION_DIGEST =
   "354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c";
 

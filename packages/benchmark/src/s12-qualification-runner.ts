@@ -1,7 +1,10 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import path from "node:path";
 import {
-  CONFIG_DIGEST,
+  S12_EXECUTION_STRATA,
+  s12ProspectiveConfigDigest,
+  validateS12ExecutionContract,
+  type S12ExecutionContract,
   S12_SUBJECT,
   OpenRouterSubjectAdapter,
   OpenRouterSubjectError,
@@ -49,7 +52,7 @@ export interface S12QualificationResult {
   readonly evaluation?: unknown;
   readonly evidence?: unknown;
   readonly structuredFailure?: { readonly code: string; readonly detail: string } | undefined;
-  readonly configDigest: typeof CONFIG_DIGEST;
+  readonly configDigest: string;
   readonly scientificAuthority: "NONE";
 }
 
@@ -59,7 +62,8 @@ export class S12QualificationRunner {
     private readonly executor: S12LocalToolExecutor,
     private readonly hooks: S12QualificationHooks,
     private readonly clock: () => string = () => new Date().toISOString(),
-    private readonly idFactory: () => string = () => crypto.randomUUID()
+    private readonly idFactory: () => string = () => crypto.randomUUID(),
+    private readonly executionContract: S12ExecutionContract = S12_EXECUTION_STRATA.S12_10_TURNS
   ) {}
 
   async run(input: {
@@ -69,6 +73,8 @@ export class S12QualificationRunner {
     readonly fixtureDigest: string;
     readonly messages: readonly OpenRouterMessage[];
   }): Promise<S12QualificationResult> {
+    const contract = validateS12ExecutionContract(this.executionContract);
+    const configDigest = s12ProspectiveConfigDigest(contract);
     const mode = input.mode ?? "DRY_RUN";
     if (mode === "LIVE_QUALIFICATION" && input.liveAuthorized !== true)
       return this.failure(
@@ -87,7 +93,8 @@ export class S12QualificationRunner {
       mode,
       subjectId: S12_SUBJECT.subjectId,
       fixtureDigest: input.fixtureDigest,
-      configDigest: CONFIG_DIGEST
+      configDigest,
+      executionContract: contract
     });
 
     let preflight;
@@ -113,15 +120,15 @@ export class S12QualificationRunner {
 
     const runId = `${mode === "DRY_RUN" ? "dry-run" : "run"}:${this.idFactory()}`;
     const attemptId = `${mode === "DRY_RUN" ? "dry-attempt" : "attempt"}:${this.idFactory()}`;
-    append("ATTEMPT_CREATED", { runId, attemptId });
+    append("ATTEMPT_CREATED", { runId, attemptId, subjectAttempt: 1 });
     const messages = [...input.messages];
     let modelRequestCount = 0;
     try {
-      for (let turn = 1; turn <= S12_SUBJECT.maxAttempts; turn++) {
+      for (let turn = 1; turn <= contract.maxModelTurns; turn++) {
         const modelRequestId = `model-request:${turn}`;
         const response = await this.adapter.generateAfterFreshPreflight(
           messages,
-          S12_SUBJECT.maxWallTimePerRunMs,
+          contract.maxAttemptWallTimeMs,
           {
             preflightPassed: (result) => {
               const evidence = preflightEvidence(result, this.clock());
@@ -175,7 +182,7 @@ export class S12QualificationRunner {
                 code: "VERIFIER_FAILURE",
                 detail: "Authoritative verifier returned UNVERIFIABLE."
               },
-              configDigest: CONFIG_DIGEST,
+              configDigest,
               scientificAuthority: "NONE"
             };
           }
@@ -199,7 +206,7 @@ export class S12QualificationRunner {
             verification,
             evaluation,
             evidence,
-            configDigest: CONFIG_DIGEST,
+            configDigest,
             scientificAuthority: "NONE"
           };
         }
@@ -281,6 +288,10 @@ export class S12QualificationRunner {
           append("MODEL_CONTINUATION", { callId: call.id });
         }
       }
+      append("STRUCTURED_FAILURE", {
+        code: "MAX_MODEL_TURNS",
+        detail: "Maximum model turns reached."
+      });
       return this.failure(
         mode,
         events,
@@ -329,7 +340,9 @@ export class S12QualificationRunner {
       terminalStatus,
       events,
       structuredFailure: { code: failureCode, detail },
-      configDigest: CONFIG_DIGEST,
+      configDigest: s12ProspectiveConfigDigest(
+        validateS12ExecutionContract(this.executionContract)
+      ),
       scientificAuthority: "NONE"
     };
   }
