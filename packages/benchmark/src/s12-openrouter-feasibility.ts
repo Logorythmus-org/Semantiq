@@ -452,8 +452,18 @@ export function validateToolRequest(
   if (typeof suppliedValue !== "string" || suppliedValue.length === 0)
     throw new S12ToolPolicyError("INVALID_TOOL");
   const supplied = suppliedValue;
+  if (supplied.includes("\0")) throw new S12ToolPolicyError("INVALID_TOOL");
+  if (
+    path.posix.isAbsolute(supplied) ||
+    path.win32.isAbsolute(supplied) ||
+    /^[A-Za-z]:/.test(supplied)
+  )
+    throw new S12ToolPolicyError("PATH_ESCAPE");
+  const normalized = path.posix.normalize(supplied.replaceAll("\\", "/"));
+  if (normalized === ".." || normalized.startsWith("../"))
+    throw new S12ToolPolicyError("PATH_ESCAPE");
   const root = path.resolve(workspaceRoot);
-  const resolved = path.resolve(root, supplied);
+  const resolved = path.resolve(root, normalized);
   const relative = path.relative(root, resolved);
   if (relative.startsWith("..") || path.isAbsolute(relative))
     throw new S12ToolPolicyError("PATH_ESCAPE");

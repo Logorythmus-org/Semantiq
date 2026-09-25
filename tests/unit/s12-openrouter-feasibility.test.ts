@@ -259,6 +259,41 @@ describe("S12 OpenRouter feasibility boundary", () => {
     ).toThrowError("FORBIDDEN_PATH");
   });
 
+  it("rejects foreign absolute and traversal syntax independently of the host OS", () => {
+    for (const supplied of [
+      "/etc/passwd",
+      "/tmp/secret.txt",
+      "C:\\Users\\Synthetic\\secret.txt",
+      "C:/Users/Synthetic/secret.txt",
+      "D:\\secret.txt",
+      "\\\\synthetic-server\\share\\secret.txt",
+      "//synthetic-server/share/secret.txt",
+      "../secret.txt",
+      "../../secret.txt",
+      "..\\secret.txt",
+      "..\\..\\secret.txt",
+      "src/../../secret.txt"
+    ]) {
+      expect(() =>
+        validateToolRequest("C:/fixture", { name: "read_file", arguments: { path: supplied } })
+      ).toThrowError("PATH_ESCAPE");
+    }
+    for (const supplied of [undefined, null, 42, "", "src/\0secret.txt"]) {
+      expect(() =>
+        validateToolRequest("C:/fixture", { name: "read_file", arguments: { path: supplied } })
+      ).toThrowError("INVALID_TOOL");
+    }
+    for (const supplied of ["src/message.ts", "src\\message.ts"]) {
+      const validated = validateToolRequest("C:/fixture", {
+        name: "read_file",
+        arguments: { path: supplied }
+      });
+      expect(path.relative(path.resolve("C:/fixture"), validated.resolvedPath!)).toBe(
+        path.join("src", "message.ts")
+      );
+    }
+  });
+
   it("K blocks forbidden commands", () => {
     expect(() =>
       validateToolRequest("C:/fixture", {

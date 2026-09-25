@@ -151,6 +151,9 @@ endpoint identity during preflight. Expected `ENOTDIR` and `EISDIR` path probes 
 tool errors; unexpected filesystem faults remain terminal. Ordered capture stores normalized
 validated arguments or a redacted marker for invalid arguments. Write content is represented by
 its digest, so replay can verify the mutation without recovering the original content from capture.
+Path validation rejects absolute POSIX and Windows syntax, including UNC paths, before host-native
+resolution. It interprets separators consistently for safe fixture-relative paths and rejects
+traversal beyond the fixture root before either execution or ordered capture.
 
 For the concrete HTTP transport, `WIRE_REQUEST_PREPARED` records a local digest of the serialized
 request body sent to the chat completions endpoint. It is separate from the adapter's prepared

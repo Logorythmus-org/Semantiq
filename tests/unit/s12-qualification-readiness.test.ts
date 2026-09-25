@@ -107,33 +107,60 @@ const hooks = (criterion: "SATISFIED" | "NOT_SATISFIED" | "UNVERIFIABLE") => ({
   })
 });
 
+function containsValue(value: unknown, sentinel: string): boolean {
+  if (typeof value === "string") return value.includes(sentinel);
+  if (Array.isArray(value)) return value.some((item) => containsValue(item, sentinel));
+  if (value !== null && typeof value === "object")
+    return Object.values(value).some((item) => containsValue(item, sentinel));
+  return false;
+}
+
 describe("S12 qualification readiness repair", () => {
   it("keeps untrusted absolute paths and synthetic credentials out of ordered capture", async () => {
     const hostPath = "C:\\Users\\Synthetic\\private\\SYNTHETIC_HOST_PATH_SENTINEL";
+    const posixPath = "/tmp/SYNTHETIC_POSIX_PATH_SENTINEL";
     const credential = "SYNTHETIC_CREDENTIAL_SENTINEL_123456789";
     const authorization = "Authorization: Bearer SYNTHETIC_AUTH_SENTINEL_987654321";
     const transport = new ScriptedTransport([
       response({
         toolCalls: [
           { id: "bad-path", name: "read_file", arguments: { path: hostPath } },
+          { id: "bad-posix", name: "read_file", arguments: { path: posixPath } },
           { id: "bad-command", name: "run_command", arguments: { command: authorization } },
           {
             id: "safe-write",
             name: "write_file",
-            arguments: { path: "output.txt", content: credential }
+            arguments: {
+              path: "output.txt",
+              content: credential,
+              extra: { secret: "SYNTHETIC_EXTRA_FIELD_SENTINEL" }
+            }
           }
         ]
       }),
       response()
     ]);
+    let packagedInput: unknown;
     let serializedEvidence = "";
+    let filesystemCalls = 0;
     const result = await new S12QualificationRunner(
       new OpenRouterSubjectAdapter(transport, () => "synthetic-transport-secret"),
       new S12LocalToolExecutor({
-        pathType: async () => "FILE",
-        readFile: async () => "",
-        writeFile: async () => undefined,
-        listFiles: async () => [],
+        pathType: async () => {
+          filesystemCalls++;
+          return "FILE";
+        },
+        readFile: async () => {
+          filesystemCalls++;
+          return "";
+        },
+        writeFile: async () => {
+          filesystemCalls++;
+        },
+        listFiles: async () => {
+          filesystemCalls++;
+          return [];
+        },
         runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
       }),
       {
@@ -142,6 +169,7 @@ describe("S12 qualification readiness repair", () => {
           orderedCaptureDigest: computeSha256(canonicalJson(events))
         }),
         packageEvidence: async (input) => {
+          packagedInput = input;
           serializedEvidence = canonicalJson(input);
           return { packageId: "synthetic" };
         }
@@ -150,10 +178,17 @@ describe("S12 qualification readiness repair", () => {
       () => "id"
     ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
     expect(result.terminalStatus).toBe("COMPLETED");
-    const captured = canonicalJson(result.events);
-    for (const sentinel of [hostPath, credential, authorization]) {
-      expect(captured).not.toContain(sentinel);
-      expect(serializedEvidence).not.toContain(sentinel);
+    for (const sentinel of [
+      hostPath,
+      "SYNTHETIC_HOST_PATH_SENTINEL",
+      posixPath,
+      credential,
+      authorization,
+      "SYNTHETIC_EXTRA_FIELD_SENTINEL"
+    ]) {
+      expect(containsValue(result.events, sentinel)).toBe(false);
+      expect(containsValue(packagedInput, sentinel)).toBe(false);
+      expect(containsValue(JSON.parse(serializedEvidence), sentinel)).toBe(false);
     }
     const safe = result.events.find(
       (event) => event.type === "TOOL_REQUESTED" && event.payload["callId"] === "safe-write"
@@ -167,6 +202,69 @@ describe("S12 qualification readiness repair", () => {
         (event) => event.type === "TOOL_REQUESTED" && event.payload["callId"] === "bad-path"
       )?.payload["argumentCapture"]
     ).toBe("INVALID_REDACTED");
+    expect(
+      result.events.find(
+        (event) => event.type === "TOOL_REQUESTED" && event.payload["callId"] === "bad-posix"
+      )?.payload["argumentCapture"]
+    ).toBe("INVALID_REDACTED");
+    expect(filesystemCalls).toBe(1);
+  });
+
+  it("rejects Windows and POSIX absolute tool paths before filesystem execution", async () => {
+    const windowsPath = "C:\\Users\\Synthetic\\CANONICAL_WINDOWS_PATH_SENTINEL";
+    const posixPath = "/tmp/CANONICAL_POSIX_PATH_SENTINEL";
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [
+          { id: "windows-call", name: "read_file", arguments: { path: windowsPath } },
+          { id: "posix-call", name: "list_files", arguments: { path: posixPath } }
+        ]
+      }),
+      response()
+    ]);
+    let filesystemCalls = 0;
+    const blocked = async () => {
+      filesystemCalls++;
+      throw new Error("rejected path reached filesystem");
+    };
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "synthetic-transport-secret"),
+      new S12LocalToolExecutor({
+        pathType: blocked,
+        readFile: blocked,
+        writeFile: blocked,
+        listFiles: blocked,
+        runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+      }),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id"
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result.terminalStatus).toBe("COMPLETED");
+    expect(result.attemptId).toBe("dry-attempt:id");
+    expect(filesystemCalls).toBe(0);
+    for (const callId of ["windows-call", "posix-call"]) {
+      expect(
+        result.events.find(
+          (event) => event.type === "TOOL_REQUESTED" && event.payload["callId"] === callId
+        )?.payload
+      ).toMatchObject({ argumentCapture: "INVALID_REDACTED", arguments: { redacted: true } });
+      expect(
+        result.events.find(
+          (event) => event.type === "TOOL_EXECUTION_RESULT" && event.payload["callId"] === callId
+        )?.payload
+      ).toMatchObject({
+        status: "ERROR",
+        error: { code: "PATH_OUTSIDE_WORKSPACE", recoverable: true }
+      });
+    }
+    for (const sentinel of [
+      windowsPath,
+      posixPath,
+      "CANONICAL_WINDOWS_PATH_SENTINEL",
+      "CANONICAL_POSIX_PATH_SENTINEL"
+    ])
+      expect(containsValue(result.events, sentinel)).toBe(false);
   });
 
   it("binds the locally serialized wire body without authorization material", async () => {
