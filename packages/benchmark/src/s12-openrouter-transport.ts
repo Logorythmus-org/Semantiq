@@ -1,4 +1,4 @@
-import { canonicalJson } from "../../sandbox-contracts/src/index.js";
+import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import {
   S12_TOOL_DECLARATIONS,
   type OpenRouterEndpointMetadata,
@@ -82,6 +82,25 @@ export function canonicalProviderTools(): string {
   return canonicalJson(serializeOpenRouterTools());
 }
 
+export function serializeOpenRouterRequestBody(
+  request: Readonly<Record<string, unknown>>,
+  providerTools: readonly ProviderFunctionTool[] = serializeOpenRouterTools()
+): Readonly<Record<string, unknown>> {
+  const provider = asRecord(request["provider"]);
+  return {
+    ...request,
+    messages: Array.isArray(request["messages"])
+      ? request["messages"].map((value) => serializeMessage(asRecord(value)))
+      : [],
+    tools: providerTools,
+    provider: { ...provider, allow_fallbacks: false, require_parameters: true }
+  };
+}
+
+export function localWireRequestDigest(body: Readonly<Record<string, unknown>>): string {
+  return computeSha256(canonicalJson(body));
+}
+
 export interface S12FetchResponse {
   readonly ok: boolean;
   readonly status: number;
@@ -156,17 +175,11 @@ export class OpenRouterHttpTransport implements OpenRouterTransport {
   async generate(
     request: Readonly<Record<string, unknown>>,
     apiKey: string,
-    signal: AbortSignal
+    signal: AbortSignal,
+    wireRequestPrepared?: (evidence: { readonly wireRequestDigest: string }) => void
   ): Promise<OpenRouterGenerationResponse> {
-    const provider = asRecord(request["provider"]);
-    const body = {
-      ...request,
-      messages: Array.isArray(request["messages"])
-        ? request["messages"].map((value) => serializeMessage(asRecord(value)))
-        : [],
-      tools: serializeOpenRouterTools(),
-      provider: { ...provider, allow_fallbacks: false, require_parameters: true }
-    };
+    const body = serializeOpenRouterRequestBody(request);
+    wireRequestPrepared?.({ wireRequestDigest: localWireRequestDigest(body) });
     const raw = await this.request("/chat/completions", "POST", apiKey, body, signal);
     const response = asRecord(raw);
     const choices = response["choices"];

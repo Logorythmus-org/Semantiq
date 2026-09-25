@@ -4,6 +4,7 @@ import path from "node:path";
 
 import { S12CanonicalQualificationRunner } from "../packages/benchmark/src/s12-canonical-qualification.js";
 import {
+  CONFIG_DIGEST,
   S12_SUBJECT,
   type OpenRouterGenerationResponse,
   type OpenRouterTransport
@@ -56,6 +57,7 @@ if (mode !== "dry-run" && mode !== "live") {
   const environmentDigest = computeSha256(
     canonicalJson({ platform: process.platform, architecture: process.arch, node: process.version })
   );
+  const taskInstruction = readFileSync(path.join(resolvedWorkspace, "TASK.md"), "utf8");
   const transport: OpenRouterTransport =
     mode === "dry-run"
       ? dryTransport()
@@ -70,12 +72,15 @@ if (mode !== "dry-run" && mode !== "live") {
     environmentDigest,
     implementationSha,
     implementationTree,
-    messages: [{ role: "user", content: "Use only the frozen S12 fixture task." }]
+    configurationDigest: CONFIG_DIGEST,
+    taskInstruction
   });
   process.stdout.write(
     canonicalJson({
       ...result,
-      REAL_GENERATION_REQUESTS: mode === "live" ? result.qualification.modelRequestCount : 0
+      REAL_GENERATION_REQUESTS: mode === "live" ? result.qualification.modelRequestCount : 0,
+      REAL_SUBJECT_OBSERVATIONS:
+        mode === "live" && result.qualification.attemptId !== undefined ? 1 : 0
     }) + "\n"
   );
 }
