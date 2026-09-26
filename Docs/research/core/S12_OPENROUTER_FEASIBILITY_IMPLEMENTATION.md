@@ -50,6 +50,47 @@ An already-running filesystem call can therefore return after the deadline;
 the deadline is enforced at operation boundaries rather than by interrupting
 that call.
 
+### Non-authoritative command diagnostic sidecar
+
+Completed `run_command` output can produce a separate
+`S12_COMMAND_DIAGNOSTIC_SIDECAR@0.1.0` artifact under policy
+`S12_COMMAND_DIAGNOSTIC_POLICY@0.1.0`. The artifact is observability-only and
+non-authoritative. It is associated by run ID, attempt ID, and tool-call ID.
+It is returned as a sibling of the canonical qualification summary; it is not
+embedded in `S12ToolExecutionResult.result`, canonical ordered events, the
+execution capture, or the S09 package.
+
+The sidecar is not model-visible, evaluator input, metric input, S05
+reliability evidence, S09 successful-task evidence, or scientific evidence.
+Only stdout and stderr captured as complete decoded strings from a completed
+command are in scope. Timeout, resource-limit, and instrumentation failure
+streams are marked `UNAVAILABLE`; partial failure output is never represented
+as a complete-stream digest.
+
+For each complete stream, `completeCapturedDecodedStreamDigest` is SHA-256 of
+the UTF-8 encoding of the complete decoded JavaScript string. It is computed
+before redaction and projection, and it does not identify raw process bytes.
+Complete empty streams have status `EMPTY` and the deterministic digest of the
+empty UTF-8 string. Stdout and stderr have independent statuses and digests.
+
+Redaction runs over the complete decoded stream before prefix projection. The
+policy covers authorization and bearer forms, credential-shaped assignments,
+explicitly supplied runtime credential values, and common POSIX, Windows, and
+UNC absolute paths, including supported serialized forms. It does not claim
+universal secret detection. The process environment is not enumerated; the
+OpenRouter credential, when present, is supplied only for ephemeral matching
+and is never stored in the artifact. If redaction or projection fails, that
+stream is `UNAVAILABLE` with no preview and canonical command status is
+unchanged.
+
+Each preview is a prefix of at most 4,096 JavaScript UTF-16 code units after
+redaction. Projection shortens a boundary that would end on an unmatched high
+surrogate. The digest still covers the complete decoded stream, and a preview
+cannot reconstruct that stream. Optional sidecar construction failure omits
+the artifact and does not fail an otherwise completed qualification. These
+diagnostics do not change execution configuration identity or historical
+observations.
+
 ### Operator execution-stratum selection
 
 `pnpm s12:qualification` defaults to the governed `S12_10_TURNS` stratum.

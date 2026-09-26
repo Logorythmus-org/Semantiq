@@ -1,4 +1,8 @@
 import path from "node:path";
+import type {
+  S12CapturedCommandOutput,
+  S12CommandDiagnosticAssociation
+} from "./s12-command-diagnostic-sidecar.js";
 
 import {
   canonicalJson,
@@ -612,12 +616,16 @@ export function validateToolRequest(
 }
 
 export class S12LocalToolExecutor {
-  constructor(private readonly operations: S12ToolOperations) {}
+  constructor(
+    private readonly operations: S12ToolOperations,
+    private readonly observeCompletedCommand?: (output: S12CapturedCommandOutput) => void
+  ) {}
 
   async execute(
     workspaceRoot: string,
     request: S12ToolRequest,
-    attemptBudgetMs?: number | (() => number)
+    attemptBudgetMs?: number | (() => number),
+    diagnosticAssociation?: S12CommandDiagnosticAssociation
   ): Promise<S12ToolExecutionResult> {
     const remainingAttemptMs = () =>
       typeof attemptBudgetMs === "function" ? attemptBudgetMs() : attemptBudgetMs;
@@ -654,7 +662,7 @@ export class S12LocalToolExecutor {
           "The controlled command runtime failed unexpectedly."
         );
       }
-      return {
+      const canonicalResult: S12ToolExecutionResult = {
         status: "SUCCESS",
         result: {
           stdoutDigest: digestHex(output.stdout),
@@ -663,6 +671,14 @@ export class S12LocalToolExecutor {
         exitStatus: output.exitCode,
         provenance: ["s12-controlled-command@0.1.0"]
       };
+      if (diagnosticAssociation && this.observeCompletedCommand) {
+        try {
+          this.observeCompletedCommand({ ...diagnosticAssociation, ...output });
+        } catch {
+          // Diagnostics are optional observations and cannot change the canonical result.
+        }
+      }
+      return canonicalResult;
     }
 
     const resolvedPath = validated.resolvedPath!;
