@@ -1,5 +1,7 @@
 import {
-  CONFIG_DIGEST,
+  S12_CONFIG_DIGEST_10T,
+  S12_CONFIG_DIGEST_20T,
+  S12_EXECUTION_STRATA,
   S12_SUBJECT_CONFIGURATION,
   S12_TASK_INSTRUCTION_DIGEST,
   S12_TOOL_DECLARATIONS,
@@ -28,6 +30,7 @@ import {
   type S12VerifierRuntime
 } from "../../packages/benchmark/src/index.js";
 import { canonicalJson, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
+import { vi } from "vitest";
 import { cp, mkdir, mkdtemp, rm } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import path from "node:path";
@@ -57,17 +60,32 @@ class ScriptedTransport implements OpenRouterTransport {
   readonly requests: Readonly<Record<string, unknown>>[] = [];
   constructor(
     private readonly responses: readonly (OpenRouterGenerationResponse | Error)[],
-    private readonly currentModel: OpenRouterModelMetadata = model()
+    private readonly currentModel: OpenRouterModelMetadata = model(),
+    private readonly afterGeneration?: (requestIndex: number) => void,
+    private readonly metadataOperations?: {
+      readonly listModels?: (
+        signal: AbortSignal | undefined
+      ) => Promise<readonly OpenRouterModelMetadata[]>;
+      readonly listEndpoints?: (
+        signal: AbortSignal | undefined
+      ) => Promise<readonly OpenRouterEndpointMetadata[]>;
+    }
   ) {}
-  async listModels() {
-    return [this.currentModel];
+  async listModels(_apiKey: string, options?: { readonly signal?: AbortSignal }) {
+    return (await this.metadataOperations?.listModels?.(options?.signal)) ?? [this.currentModel];
   }
-  async listEndpoints() {
-    return [endpoint()];
+  async listEndpoints(
+    _modelId: string,
+    _apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ) {
+    return (await this.metadataOperations?.listEndpoints?.(options?.signal)) ?? [endpoint()];
   }
   async generate(request: Readonly<Record<string, unknown>>) {
     this.requests.push(request);
-    const value = this.responses[this.generationCalls++]!;
+    const requestIndex = this.generationCalls++;
+    this.afterGeneration?.(requestIndex);
+    const value = this.responses[requestIndex]!;
     if (value instanceof Error) throw value;
     return value;
   }
@@ -804,12 +822,439 @@ describe("S12 qualification readiness repair", () => {
       modelRequestCount: 1,
       evaluation: { exactReplay: true },
       evidence: { authority: "INTERNAL_CONSISTENCY_ONLY" },
-      configDigest: CONFIG_DIGEST
+      configDigest: S12_CONFIG_DIGEST_10T
     });
     expect(result.events.map((event) => event.sequence)).toEqual(
       result.events.map((_, index) => index + 1)
     );
   });
+
+  it.each([
+    [S12_EXECUTION_STRATA.S12_10_TURNS, S12_CONFIG_DIGEST_10T],
+    [S12_EXECUTION_STRATA.S12_20_TURNS, S12_CONFIG_DIGEST_20T]
+  ] as const)("stops exactly at %s without a further generation", async (contract, digest) => {
+    const continuing = response({
+      toolCalls: [{ id: "call", name: "list_files", arguments: { path: "." } }]
+    });
+    const transport = new ScriptedTransport(
+      Array.from({ length: contract.maxModelTurns }, () => continuing)
+    );
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      contract
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(transport.generationCalls).toBe(contract.maxModelTurns);
+    expect(result.modelRequestCount).toBe(contract.maxModelTurns);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_MODEL_TURNS");
+    expect(result.configDigest).toBe(digest);
+    expect(result.events.filter((event) => event.type === "ATTEMPT_CREATED")).toHaveLength(1);
+    expect(result.events.filter((event) => event.type === "GENERATION_INVOKED")).toHaveLength(
+      contract.maxModelTurns
+    );
+    expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+    expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+  });
+
+  it("shrinks generation and command timeouts to the remaining cumulative attempt budget", async () => {
+    let monotonicNow = 0;
+    const commandTimeouts: number[] = [];
+    const transport = new ScriptedTransport(
+      [
+        response({
+          toolCalls: [
+            {
+              id: "command-1",
+              name: "run_command",
+              arguments: { command: "pnpm test", timeoutMs: 600_000 }
+            }
+          ]
+        }),
+        response()
+      ],
+      model(),
+      (requestIndex) => {
+        if (requestIndex === 0) monotonicNow += 1_500_000;
+      }
+    );
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async (_root, _command, timeoutMs) => {
+        commandTimeouts.push(timeoutMs);
+        monotonicNow += 100_000;
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    const generationTimeouts = result.events
+      .filter((event) => event.type === "GENERATION_INVOKED")
+      .map((event) => event.payload["effectiveTimeoutMs"]);
+    expect(generationTimeouts).toEqual([1_800_000, 200_000]);
+    expect(commandTimeouts).toEqual([300_000]);
+    expect(result.terminalStatus).toBe("COMPLETED");
+  });
+
+  it("terminates before generation when tool work exhausts the attempt budget", async () => {
+    let monotonicNow = 0;
+    const toolCalls = Array.from({ length: 3 }, (_, index) => ({
+      id: `command-${index + 1}`,
+      name: "run_command",
+      arguments: { command: "pnpm test", timeoutMs: 600_000 }
+    }));
+    const transport = new ScriptedTransport([
+      response({ toolCalls: toolCalls as OpenRouterGenerationResponse["toolCalls"] })
+    ]);
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        monotonicNow += 600_000;
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(transport.generationCalls).toBe(1);
+    expect(result.modelRequestCount).toBe(1);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(result.events.filter((event) => event.type === "ATTEMPT_CREATED")).toHaveLength(1);
+    expect(result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT")).toHaveLength(3);
+    expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+    expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+  });
+
+  it("does not start a requested tool after the attempt deadline", async () => {
+    let monotonicNow = 0;
+    let commandStarts = 0;
+    const transport = new ScriptedTransport(
+      [
+        response({
+          toolCalls: [
+            {
+              id: "late-command",
+              name: "run_command",
+              arguments: { command: "pnpm test" }
+            }
+          ]
+        })
+      ],
+      model(),
+      () => {
+        monotonicNow = 1_800_000;
+      }
+    );
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        commandStarts++;
+        return { exitCode: 0, stdout: "unexpected", stderr: "" };
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      commandExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(commandStarts).toBe(0);
+    expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+    expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(result.events.some((event) => event.type === "MODEL_RESPONSE")).toBe(false);
+    expect(result.events.some((event) => event.type === "TOOL_EXECUTION_STARTED")).toBe(false);
+    expect(result.events.some((event) => event.type === "TOOL_EXECUTION_RESULT")).toBe(false);
+  });
+
+  it("keeps a stricter command timeout and preserves ordinary operation timeouts", async () => {
+    const observed: number[] = [];
+    const commandExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async (_root, _command, timeoutMs) => {
+        observed.push(timeoutMs);
+        return { exitCode: 0, stdout: "ok", stderr: "" };
+      }
+    });
+    await commandExecutor.execute(
+      "C:/fixture",
+      { name: "run_command", arguments: { command: "pnpm test", timeoutMs: 80 } },
+      50
+    );
+    await commandExecutor.execute(
+      "C:/fixture",
+      { name: "run_command", arguments: { command: "pnpm test", timeoutMs: 20 } },
+      50
+    );
+    expect(observed).toEqual([50, 20]);
+
+    let monotonicNow = 0;
+    const transport = new ScriptedTransport([
+      response({
+        toolCalls: [
+          {
+            id: "short-timeout",
+            name: "run_command",
+            arguments: { command: "pnpm test", timeoutMs: 20 }
+          }
+        ]
+      })
+    ]);
+    const timingOutExecutor = new S12LocalToolExecutor({
+      pathType: async () => "FILE",
+      readFile: async () => "content",
+      writeFile: async () => undefined,
+      listFiles: async () => [],
+      runCommand: async () => {
+        monotonicNow = 100;
+        throw new S12ToolInstrumentationError("COMMAND_TIMEOUT", "Synthetic operation timeout.");
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      timingOutExecutor,
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(result.terminalStatus).toBe("TIMEOUT");
+    expect(result.structuredFailure?.code).toBe("COMMAND_TIMEOUT");
+  });
+
+  it("aborts a hanging in-attempt listModels call at the cumulative deadline", async () => {
+    vi.useFakeTimers();
+    let monotonicNow = 0;
+    let modelCalls = 0;
+    let endpointCalls = 0;
+    let aborted = false;
+    let signalWasProvided = false;
+    let markFreshStarted!: () => void;
+    const freshStarted = new Promise<void>((resolve) => {
+      markFreshStarted = resolve;
+    });
+    const transport = new ScriptedTransport([], model(), undefined, {
+      listModels: (signal) => {
+        modelCalls++;
+        if (modelCalls === 1) return Promise.resolve([model()]);
+        signalWasProvided = signal !== undefined;
+        markFreshStarted();
+        return new Promise((_resolve, reject) => {
+          signal?.addEventListener(
+            "abort",
+            () => {
+              aborted = true;
+              reject(new DOMException("Aborted", "AbortError"));
+            },
+            { once: true }
+          );
+        });
+      },
+      listEndpoints: async () => {
+        endpointCalls++;
+        return [endpoint()];
+      }
+    });
+    const runner = new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    );
+    try {
+      const running = runner.run({
+        workspaceRoot: "C:/fixture",
+        fixtureDigest: "fixture",
+        messages: []
+      });
+      await freshStarted;
+      monotonicNow = 1_800_000;
+      await vi.advanceTimersByTimeAsync(1_800_000);
+      const result = await running;
+      expect(signalWasProvided).toBe(true);
+      expect(aborted).toBe(true);
+      expect(modelCalls).toBe(2);
+      expect(endpointCalls).toBe(1);
+      expect(transport.generationCalls).toBe(0);
+      expect(result.modelRequestCount).toBe(0);
+      expect(result.events.some((event) => event.type === "GENERATION_INVOKED")).toBe(false);
+      expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+      expect(result.structuredFailure?.code).toBe("MAX_ATTEMPT_WALL_TIME");
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
+  it("recomputes the same budget between metadata calls and generation", async () => {
+    let monotonicNow = 0;
+    const effectiveBudgets: number[] = [];
+    const metadataSignals: (AbortSignal | undefined)[] = [];
+    const transport = new ScriptedTransport([response()], model(), undefined, {
+      listModels: async (signal) => {
+        metadataSignals.push(signal);
+        monotonicNow += 60;
+        return [model()];
+      },
+      listEndpoints: async (signal) => {
+        metadataSignals.push(signal);
+        return [endpoint()];
+      }
+    });
+    const result = await new OpenRouterSubjectAdapter(
+      transport,
+      () => "fake"
+    ).generateAfterFreshPreflight([], 100, {
+      operationTimeoutMs: (configured) => {
+        const remaining = 100 - monotonicNow;
+        effectiveBudgets.push(Math.min(configured, remaining));
+        return Math.min(configured, remaining);
+      },
+      attemptDeadlineReached: () => monotonicNow >= 100,
+      generationInvoked: (timeoutMs) => effectiveBudgets.push(timeoutMs)
+    });
+    expect(metadataSignals).toHaveLength(2);
+    expect(metadataSignals.every((signal) => signal instanceof AbortSignal)).toBe(true);
+    expect(effectiveBudgets).toEqual([100, 40, 40, 40]);
+    expect(result.responseId).toBe("response-1");
+    expect(transport.generationCalls).toBe(1);
+  });
+
+  it("does not call listEndpoints or generation when listModels consumes the remaining budget", async () => {
+    let monotonicNow = 0;
+    let endpointCalls = 0;
+    let generationInvocations = 0;
+    const transport = new ScriptedTransport([response()], model(), undefined, {
+      listModels: async () => {
+        monotonicNow = 100;
+        return [model()];
+      },
+      listEndpoints: async () => {
+        endpointCalls++;
+        return [endpoint()];
+      }
+    });
+    await expect(
+      new OpenRouterSubjectAdapter(transport, () => "fake").generateAfterFreshPreflight([], 100, {
+        operationTimeoutMs: () => 100 - monotonicNow,
+        attemptDeadlineReached: () => monotonicNow >= 100,
+        generationInvoked: () => generationInvocations++
+      })
+    ).rejects.toMatchObject({ code: "MAX_ATTEMPT_WALL_TIME" });
+    expect(endpointCalls).toBe(0);
+    expect(generationInvocations).toBe(0);
+    expect(transport.generationCalls).toBe(0);
+  });
+
+  it("preserves an ordinary fresh-preflight failure while attempt time remains", async () => {
+    let modelCalls = 0;
+    let monotonicNow = 0;
+    const transport = new ScriptedTransport([], model(), undefined, {
+      listModels: async () => {
+        modelCalls++;
+        return [model(modelCalls === 1 ? undefined : { prompt: "0.01", completion: "0" })];
+      }
+    });
+    const result = await new S12QualificationRunner(
+      new OpenRouterSubjectAdapter(transport, () => "fake"),
+      executor(),
+      hooks("SATISFIED"),
+      () => "2026-09-21T00:00:00Z",
+      () => "id",
+      S12_EXECUTION_STRATA.S12_10_TURNS,
+      () => monotonicNow
+    ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+    expect(monotonicNow).toBe(0);
+    expect(result.terminalStatus).toBe("INSTRUMENTATION_FAILURE");
+    expect(result.structuredFailure?.code).toBe("FREE_TIER_UNAVAILABLE");
+    expect(result.structuredFailure?.code).not.toBe("MAX_ATTEMPT_WALL_TIME");
+    expect(transport.generationCalls).toBe(0);
+  });
+
+  it.each([
+    { turn: 10, expires: true, expected: "MAX_ATTEMPT_WALL_TIME" },
+    { turn: 10, expires: false, expected: "MAX_MODEL_TURNS" },
+    { turn: 1, expires: true, expected: "MAX_ATTEMPT_WALL_TIME" }
+  ] as const)(
+    "checks the deadline after a successful tool on turn $turn (expires=$expires)",
+    async ({ turn, expires, expected }) => {
+      let monotonicNow = 0;
+      const turnLimit = S12_EXECUTION_STRATA.S12_10_TURNS.maxModelTurns;
+      const transport = new ScriptedTransport(
+        Array.from({ length: turnLimit }, (_, index) =>
+          response({
+            toolCalls: [
+              { id: `read-${index + 1}`, name: "read_file", arguments: { path: "input.json" } }
+            ]
+          })
+        )
+      );
+      const fileExecutor = new S12LocalToolExecutor({
+        pathType: async () => "FILE",
+        readFile: async () => {
+          if (expires && transport.generationCalls === turn) monotonicNow = 1_800_000;
+          return "synthetic contents";
+        },
+        writeFile: async () => undefined,
+        listFiles: async () => [],
+        runCommand: async () => ({ exitCode: 0, stdout: "", stderr: "" })
+      });
+      const result = await new S12QualificationRunner(
+        new OpenRouterSubjectAdapter(transport, () => "fake"),
+        fileExecutor,
+        hooks("SATISFIED"),
+        () => "2026-09-21T00:00:00Z",
+        () => "id",
+        S12_EXECUTION_STRATA.S12_10_TURNS,
+        () => monotonicNow
+      ).run({ workspaceRoot: "C:/fixture", fixtureDigest: "fixture", messages: [] });
+      expect(transport.generationCalls).toBe(expires ? turn : turnLimit);
+      expect(result.modelRequestCount).toBe(transport.generationCalls);
+      expect(result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT")).toHaveLength(
+        turn
+      );
+      const toolResults = result.events.filter((event) => event.type === "TOOL_EXECUTION_RESULT");
+      expect(toolResults.at(-1)?.payload["status"]).toBe("SUCCESS");
+      expect(result.events.some((event) => event.type === "EVALUATION_RESULT")).toBe(false);
+      expect(result.events.some((event) => event.type === "EVIDENCE_RESULT")).toBe(false);
+      expect(result.terminalStatus).toBe("RESOURCE_LIMIT");
+      expect(result.structuredFailure?.code).toBe(expected);
+    }
+  );
 
   it("Case B preserves genuine subject failure while completing metric and evidence", async () => {
     const result = await new S12QualificationRunner(
@@ -950,7 +1395,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "1".repeat(40),
         implementationTree: "2".repeat(40),
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification).toMatchObject({
@@ -1016,7 +1461,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
@@ -1085,7 +1530,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-        configurationDigest: CONFIG_DIGEST,
+        configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
@@ -1108,7 +1553,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
       environmentDigest: "e".repeat(64),
       implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
       implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-      configurationDigest: CONFIG_DIGEST,
+      configurationDigest: S12_CONFIG_DIGEST_10T,
       taskInstruction: frozenTaskInstruction
     });
     expect(output.qualification).toMatchObject({
@@ -1121,7 +1566,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
 
   it("blocks task and configuration drift before attempt or generation", async () => {
     for (const drift of [
-      { configurationDigest: CONFIG_DIGEST, taskInstruction: "changed task" },
+      { configurationDigest: S12_CONFIG_DIGEST_10T, taskInstruction: "changed task" },
       { configurationDigest: "0".repeat(64), taskInstruction: frozenTaskInstruction }
     ]) {
       const transport = new ScriptedTransport([response()]);
@@ -1238,7 +1683,7 @@ describe("S12 canonical temporary-fixture qualification", () => {
           environmentDigest: "e".repeat(64),
           implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
           implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
-          configurationDigest: CONFIG_DIGEST,
+          configurationDigest: S12_CONFIG_DIGEST_10T,
           taskInstruction: frozenTaskInstruction
         });
         const verification = output.qualification.verification as {

@@ -16,7 +16,10 @@ import {
   type EvidenceValue
 } from "./evidence-types.js";
 import {
-  CONFIG_DIGEST,
+  S12_EXECUTION_STRATA,
+  s12ProspectiveConfigDigest,
+  validateS12ExecutionContract,
+  type S12ExecutionContract,
   S12_SUBJECT,
   S12_SUBJECT_CONFIGURATION,
   S12_TASK_INSTRUCTION_DIGEST,
@@ -97,8 +100,13 @@ export class S12CanonicalQualificationRunner {
     readonly implementationSha: string;
     readonly implementationTree: string;
     readonly configurationDigest: string;
+    readonly executionContract?: S12ExecutionContract;
     readonly taskInstruction: string;
   }): Promise<S12CanonicalQualificationSummary> {
+    const executionContract = validateS12ExecutionContract(
+      input.executionContract ?? S12_EXECUTION_STRATA.S12_10_TURNS
+    );
+    const configDigest = s12ProspectiveConfigDigest(executionContract);
     const messages: readonly OpenRouterMessage[] = [
       { role: "system", content: S12_SUBJECT_CONFIGURATION.systemInstruction.value },
       { role: "user", content: input.taskInstruction }
@@ -123,49 +131,67 @@ export class S12CanonicalQualificationRunner {
             code: "FIXTURE_IDENTITY_DRIFT",
             detail: `Qualification requires ${S12_FIXTURE_IDENTITY.scenarioId}@${S12_FIXTURE_IDENTITY.scenarioVersion}.`
           },
-          configDigest: CONFIG_DIGEST,
+          configDigest,
           scientificAuthority: "NONE"
         }
       };
     if (
-      input.configurationDigest !== CONFIG_DIGEST ||
+      input.configurationDigest !== configDigest ||
       identityEvidence.systemInstructionDigest !== SYSTEM_PROMPT_DIGEST ||
       identityEvidence.toolDefinitionDigest !== TOOL_DEFINITION_DIGEST
     )
-      return blockedQualification(input.mode, identityEvidence, "CONFIG_IDENTITY_DRIFT");
+      return blockedQualification(
+        input.mode,
+        identityEvidence,
+        "CONFIG_IDENTITY_DRIFT",
+        configDigest
+      );
     if (identityEvidence.taskInstructionDigest !== S12_TASK_INSTRUCTION_DIGEST)
-      return blockedQualification(input.mode, identityEvidence, "FIXTURE_IDENTITY_DRIFT");
+      return blockedQualification(
+        input.mode,
+        identityEvidence,
+        "FIXTURE_IDENTITY_DRIFT",
+        configDigest
+      );
     let canonical: Omit<S12CanonicalQualificationSummary, "qualification"> = identityEvidence;
     const adapter = new OpenRouterSubjectAdapter(
       this.transport,
       (input.mode ?? "DRY_RUN") === "DRY_RUN" ? () => "dry-run-non-secret" : undefined
     );
     const executor = new S12LocalToolExecutor(nodeToolOperations(this.commandRunner));
-    const runner = new S12QualificationRunner(adapter, executor, {
-      verifyFinalState: async () =>
-        new S12FinalStateVerifier(S12_AUTHORITATIVE_VERIFIER_DIGEST).verify(
-          nodeVerifierRuntime(input.workspaceRoot)
-        ),
-      evaluate: async (events) => {
-        canonical = { ...canonical, ...evaluateCanonical(events, input) };
-        return canonical;
+    const runner = new S12QualificationRunner(
+      adapter,
+      executor,
+      {
+        verifyFinalState: async () =>
+          new S12FinalStateVerifier(S12_AUTHORITATIVE_VERIFIER_DIGEST).verify(
+            nodeVerifierRuntime(input.workspaceRoot)
+          ),
+        evaluate: async (events) => {
+          canonical = { ...canonical, ...evaluateCanonical(events, input, configDigest) };
+          return canonical;
+        },
+        packageEvidence: async ({ runId, attemptId, verification, evaluation, events }) => {
+          const packaged = createCanonicalS09Package({
+            runId: String(runId),
+            attemptId: String(attemptId),
+            fixtureDigest: input.fixtureDigest,
+            environmentDigest: input.environmentDigest,
+            implementationSha: input.implementationSha,
+            implementationTree: input.implementationTree,
+            verification,
+            events: events as readonly S12OrderedCaptureEvent[],
+            configDigest,
+            evaluation: evaluation as Omit<S12CanonicalQualificationSummary, "qualification">
+          });
+          canonical = { ...canonical, s09: packaged };
+          return packaged;
+        }
       },
-      packageEvidence: async ({ runId, attemptId, verification, evaluation, events }) => {
-        const packaged = createCanonicalS09Package({
-          runId: String(runId),
-          attemptId: String(attemptId),
-          fixtureDigest: input.fixtureDigest,
-          environmentDigest: input.environmentDigest,
-          implementationSha: input.implementationSha,
-          implementationTree: input.implementationTree,
-          verification,
-          events: events as readonly S12OrderedCaptureEvent[],
-          evaluation: evaluation as Omit<S12CanonicalQualificationSummary, "qualification">
-        });
-        canonical = { ...canonical, s09: packaged };
-        return packaged;
-      }
-    });
+      undefined,
+      undefined,
+      executionContract
+    );
     const qualification = await runner.run({ ...input, messages });
     return { qualification, ...canonical };
   }
@@ -174,7 +200,8 @@ export class S12CanonicalQualificationRunner {
 function blockedQualification(
   mode: S12QualificationMode | undefined,
   identityEvidence: Omit<S12CanonicalQualificationSummary, "qualification">,
-  code: string
+  code: string,
+  configDigest: string
 ): S12CanonicalQualificationSummary {
   return {
     ...identityEvidence,
@@ -184,7 +211,7 @@ function blockedQualification(
       terminalStatus: "PREFLIGHT_BLOCKED",
       events: [],
       structuredFailure: { code, detail: "Frozen execution input identity mismatch." },
-      configDigest: CONFIG_DIGEST,
+      configDigest,
       scientificAuthority: "NONE"
     }
   };
@@ -192,9 +219,15 @@ function blockedQualification(
 
 function evaluateCanonical(
   events: readonly S12OrderedCaptureEvent[],
-  input: { readonly fixtureDigest: string; readonly environmentDigest: string }
+  input: { readonly fixtureDigest: string; readonly environmentDigest: string },
+  configDigest: string
 ): Omit<S12CanonicalQualificationSummary, "qualification" | "s09"> {
-  const capture = captureFromEvents(events, input.fixtureDigest, input.environmentDigest);
+  const capture = captureFromEvents(
+    events,
+    input.fixtureDigest,
+    input.environmentDigest,
+    configDigest
+  );
   const firstTrace = mapCaptureToBehavioralTrace(capture);
   const secondTrace = mapCaptureToBehavioralTrace(structuredClone(capture));
   const firstTraceDigest = computeSha256(canonicalJson(firstTrace));
@@ -228,7 +261,8 @@ function evaluateCanonical(
 function captureFromEvents(
   events: readonly S12OrderedCaptureEvent[],
   fixtureDigest: string,
-  environmentDigest: string
+  environmentDigest: string,
+  configDigest: string
 ): S12ExecutionCapture {
   const timestamp = events[0]?.timestamp ?? "1970-01-01T00:00:00.000Z";
   const attempt = events.find((event) => event.type === "ATTEMPT_CREATED");
@@ -246,7 +280,7 @@ function captureFromEvents(
     modelId: S12_SUBJECT.modelId,
     upstreamModel: S12_SUBJECT.upstreamModelId,
     upstreamProvider: S12_SUBJECT.upstreamProvider,
-    configDigest: CONFIG_DIGEST,
+    configDigest,
     fixtureDigest,
     environmentDigest,
     modelTurns: events
@@ -325,6 +359,7 @@ function createCanonicalS09Package(input: {
   readonly implementationTree: string;
   readonly verification: unknown;
   readonly events: readonly S12OrderedCaptureEvent[];
+  readonly configDigest: string;
   readonly evaluation: Omit<S12CanonicalQualificationSummary, "qualification">;
 }) {
   const known = <T>(value: T): EvidenceValue<T> => ({
@@ -374,7 +409,7 @@ function createCanonicalS09Package(input: {
   };
   const conditions = {
     configurationReference: known("configuration:s12"),
-    configurationDigest: known(CONFIG_DIGEST),
+    configurationDigest: known(input.configDigest),
     language: known("en"),
     toolPolicy: known("S12_BOUNDED_LOCAL_TOOLS"),
     model: known({

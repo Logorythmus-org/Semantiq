@@ -1,12 +1,17 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import path from "node:path";
+import { performance } from "node:perf_hooks";
 import {
-  CONFIG_DIGEST,
+  S12_EXECUTION_STRATA,
+  s12ProspectiveConfigDigest,
+  validateS12ExecutionContract,
+  type S12ExecutionContract,
   S12_SUBJECT,
   OpenRouterSubjectAdapter,
   OpenRouterSubjectError,
   S12LocalToolExecutor,
   S12ToolInstrumentationError,
+  S12AttemptDeadlineExceeded,
   S12ToolPolicyError,
   recoverableToolError,
   validateToolRequest,
@@ -49,7 +54,7 @@ export interface S12QualificationResult {
   readonly evaluation?: unknown;
   readonly evidence?: unknown;
   readonly structuredFailure?: { readonly code: string; readonly detail: string } | undefined;
-  readonly configDigest: typeof CONFIG_DIGEST;
+  readonly configDigest: string;
   readonly scientificAuthority: "NONE";
 }
 
@@ -59,7 +64,9 @@ export class S12QualificationRunner {
     private readonly executor: S12LocalToolExecutor,
     private readonly hooks: S12QualificationHooks,
     private readonly clock: () => string = () => new Date().toISOString(),
-    private readonly idFactory: () => string = () => crypto.randomUUID()
+    private readonly idFactory: () => string = () => crypto.randomUUID(),
+    private readonly executionContract: S12ExecutionContract = S12_EXECUTION_STRATA.S12_10_TURNS,
+    private readonly monotonicNow: () => number = () => performance.now()
   ) {}
 
   async run(input: {
@@ -69,6 +76,8 @@ export class S12QualificationRunner {
     readonly fixtureDigest: string;
     readonly messages: readonly OpenRouterMessage[];
   }): Promise<S12QualificationResult> {
+    const contract = validateS12ExecutionContract(this.executionContract);
+    const configDigest = s12ProspectiveConfigDigest(contract);
     const mode = input.mode ?? "DRY_RUN";
     if (mode === "LIVE_QUALIFICATION" && input.liveAuthorized !== true)
       return this.failure(
@@ -87,7 +96,8 @@ export class S12QualificationRunner {
       mode,
       subjectId: S12_SUBJECT.subjectId,
       fixtureDigest: input.fixtureDigest,
-      configDigest: CONFIG_DIGEST
+      configDigest,
+      executionContract: contract
     });
 
     let preflight;
@@ -111,17 +121,25 @@ export class S12QualificationRunner {
         preflight.failure!.detail
       );
 
+    const attemptStartedAt = this.monotonicNow();
+    const attemptDeadline = attemptStartedAt + contract.maxAttemptWallTimeMs;
+    const remainingAttemptMs = () => {
+      const remaining = attemptDeadline - this.monotonicNow();
+      if (!Number.isFinite(remaining) || remaining <= 0) throw new S12AttemptDeadlineExceeded();
+      return remaining;
+    };
     const runId = `${mode === "DRY_RUN" ? "dry-run" : "run"}:${this.idFactory()}`;
     const attemptId = `${mode === "DRY_RUN" ? "dry-attempt" : "attempt"}:${this.idFactory()}`;
-    append("ATTEMPT_CREATED", { runId, attemptId });
+    append("ATTEMPT_CREATED", { runId, attemptId, subjectAttempt: 1 });
     const messages = [...input.messages];
     let modelRequestCount = 0;
     try {
-      for (let turn = 1; turn <= S12_SUBJECT.maxAttempts; turn++) {
+      for (let turn = 1; turn <= contract.maxModelTurns; turn++) {
+        remainingAttemptMs();
         const modelRequestId = `model-request:${turn}`;
         const response = await this.adapter.generateAfterFreshPreflight(
           messages,
-          S12_SUBJECT.maxWallTimePerRunMs,
+          contract.maxAttemptWallTimeMs,
           {
             preflightPassed: (result) => {
               const evidence = preflightEvidence(result, this.clock());
@@ -135,16 +153,21 @@ export class S12QualificationRunner {
               append("REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
             wireRequestPrepared: (evidence) =>
               append("WIRE_REQUEST_PREPARED", { modelRequestId, attemptId, ...evidence }),
-            generationInvoked: () => {
+            operationTimeoutMs: (configuredTimeoutMs) =>
+              Math.min(configuredTimeoutMs, remainingAttemptMs()),
+            attemptDeadlineReached: () => this.monotonicNow() >= attemptDeadline,
+            generationInvoked: (effectiveTimeoutMs) => {
               modelRequestCount++;
               append("GENERATION_INVOKED", {
                 modelRequestId,
                 attemptId,
-                requestedModelId: S12_SUBJECT.modelId
+                requestedModelId: S12_SUBJECT.modelId,
+                effectiveTimeoutMs
               });
             }
           }
         );
+        remainingAttemptMs();
         append("MODEL_RESPONSE", {
           modelRequestId,
           responseId: response.responseId,
@@ -175,7 +198,7 @@ export class S12QualificationRunner {
                 code: "VERIFIER_FAILURE",
                 detail: "Authoritative verifier returned UNVERIFIABLE."
               },
-              configDigest: CONFIG_DIGEST,
+              configDigest,
               scientificAuthority: "NONE"
             };
           }
@@ -199,11 +222,12 @@ export class S12QualificationRunner {
             verification,
             evaluation,
             evidence,
-            configDigest: CONFIG_DIGEST,
+            configDigest,
             scientificAuthority: "NONE"
           };
         }
         for (const call of response.toolCalls) {
+          remainingAttemptMs();
           append("TOOL_REQUESTED", {
             callId: call.id,
             name: isToolName(call.name) ? call.name : "UNKNOWN_TOOL",
@@ -235,12 +259,18 @@ export class S12QualificationRunner {
             continue;
           }
           append("TOOL_VALIDATION", { callId: call.id, accepted: true });
+          remainingAttemptMs();
           const started = Date.now();
           append("TOOL_EXECUTION_STARTED", { callId: call.id });
           let result;
           try {
-            result = await this.executor.execute(input.workspaceRoot, toolRequest);
+            result = await this.executor.execute(
+              input.workspaceRoot,
+              toolRequest,
+              remainingAttemptMs
+            );
           } catch (error) {
+            if (error instanceof S12AttemptDeadlineExceeded) throw error;
             const failure =
               error instanceof S12ToolInstrumentationError
                 ? error
@@ -273,6 +303,7 @@ export class S12QualificationRunner {
             ...(result.error ? { error: result.error } : {}),
             provenance: result.provenance
           });
+          remainingAttemptMs();
           messages.push({
             role: "tool",
             toolCallId: call.id,
@@ -281,6 +312,10 @@ export class S12QualificationRunner {
           append("MODEL_CONTINUATION", { callId: call.id });
         }
       }
+      append("STRUCTURED_FAILURE", {
+        code: "MAX_MODEL_TURNS",
+        detail: "Maximum model turns reached."
+      });
       return this.failure(
         mode,
         events,
@@ -292,19 +327,31 @@ export class S12QualificationRunner {
         attemptId
       );
     } catch (error) {
-      append("STRUCTURED_FAILURE", { code: code(error), detail: safeDetail(error) });
+      const cumulativeDeadlineExceeded =
+        error instanceof S12AttemptDeadlineExceeded ||
+        (((error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
+          (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")) &&
+          this.monotonicNow() >= attemptDeadline);
+      const failureCode = cumulativeDeadlineExceeded ? "MAX_ATTEMPT_WALL_TIME" : code(error);
+      const failureDetail = cumulativeDeadlineExceeded
+        ? "The cumulative subject-attempt wall-time limit was reached."
+        : safeDetail(error);
+      append("STRUCTURED_FAILURE", { code: failureCode, detail: failureDetail });
       return this.failure(
         mode,
         events,
         modelRequestCount,
-        (error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
-          (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")
-          ? "TIMEOUT"
-          : error instanceof S12ToolInstrumentationError && error.code === "COMMAND_RESOURCE_LIMIT"
-            ? "RESOURCE_LIMIT"
-            : "INSTRUMENTATION_FAILURE",
-        code(error),
-        safeDetail(error),
+        cumulativeDeadlineExceeded
+          ? "RESOURCE_LIMIT"
+          : (error instanceof OpenRouterSubjectError && error.code === "TIMEOUT") ||
+              (error instanceof S12ToolInstrumentationError && error.code === "COMMAND_TIMEOUT")
+            ? "TIMEOUT"
+            : error instanceof S12ToolInstrumentationError &&
+                error.code === "COMMAND_RESOURCE_LIMIT"
+              ? "RESOURCE_LIMIT"
+              : "INSTRUMENTATION_FAILURE",
+        failureCode,
+        failureDetail,
         runId,
         attemptId
       );
@@ -329,7 +376,9 @@ export class S12QualificationRunner {
       terminalStatus,
       events,
       structuredFailure: { code: failureCode, detail },
-      configDigest: CONFIG_DIGEST,
+      configDigest: s12ProspectiveConfigDigest(
+        validateS12ExecutionContract(this.executionContract)
+      ),
       scientificAuthority: "NONE"
     };
   }

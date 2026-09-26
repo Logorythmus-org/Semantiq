@@ -130,8 +130,11 @@ export class OpenRouterHttpTransport implements OpenRouterTransport {
     private readonly baseUrl = OPENROUTER_API_BASE
   ) {}
 
-  async listModels(apiKey: string): Promise<readonly OpenRouterModelMetadata[]> {
-    const body = await this.request("/models", "GET", apiKey);
+  async listModels(
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<readonly OpenRouterModelMetadata[]> {
+    const body = await this.request("/models", "GET", apiKey, undefined, options?.signal);
     const data = asRecord(body)["data"];
     if (!Array.isArray(data))
       throw new OpenRouterHttpError("MALFORMED_RESPONSE", 200, "Model list is malformed.");
@@ -147,13 +150,16 @@ export class OpenRouterHttpTransport implements OpenRouterTransport {
 
   async listEndpoints(
     modelId: string,
-    apiKey: string
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
   ): Promise<readonly OpenRouterEndpointMetadata[]> {
     const [author, slug] = modelId.split("/", 2);
     const body = await this.request(
       `/models/${encodeURIComponent(author!)}/${encodeURIComponent(slug!)}/endpoints`,
       "GET",
-      apiKey
+      apiKey,
+      undefined,
+      options?.signal
     );
     const data = asRecord(asRecord(body)["data"]);
     const endpoints = data["endpoints"];

@@ -4,7 +4,7 @@ import path from "node:path";
 
 import { S12CanonicalQualificationRunner } from "../packages/benchmark/src/s12-canonical-qualification.js";
 import {
-  CONFIG_DIGEST,
+  S12_CONFIG_DIGEST_10T,
   S12_SUBJECT,
   type OpenRouterGenerationResponse,
   type OpenRouterTransport
@@ -72,7 +72,7 @@ if (mode !== "dry-run" && mode !== "live") {
     environmentDigest,
     implementationSha,
     implementationTree,
-    configurationDigest: CONFIG_DIGEST,
+    configurationDigest: S12_CONFIG_DIGEST_10T,
     taskInstruction
   });
   process.stdout.write(

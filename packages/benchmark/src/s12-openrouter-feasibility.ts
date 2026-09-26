@@ -92,6 +92,84 @@ export const CONFIG_DIGEST = digestHex({
   systemPromptDigest: SYSTEM_PROMPT_DIGEST,
   toolDefinitionDigest: TOOL_DEFINITION_DIGEST
 });
+
+// The legacy maxAttempts and retryPolicy.maximumAttempts remain part of the
+// historical configuration identity. They described a generation ceiling,
+// never ten independently addressable subject attempts or automatic retries.
+export const S12_EXECUTION_CONTRACT = "EXPLICIT_EXECUTION_LIMITS@0.1.0" as const;
+export type S12ExecutionStratumId = "S12_10_TURNS" | "S12_20_TURNS";
+export interface S12ExecutionContract {
+  readonly contract: typeof S12_EXECUTION_CONTRACT;
+  readonly stratumId: S12ExecutionStratumId;
+  readonly maxSubjectAttempts: 1;
+  readonly maxModelTurns: 10 | 20;
+  readonly maxAttemptWallTimeMs: number;
+  readonly routing: "FREE_ONLY";
+  readonly automaticSubjectRetries: 0;
+}
+export const S12_EXECUTION_STRATA: Readonly<Record<S12ExecutionStratumId, S12ExecutionContract>> = {
+  S12_10_TURNS: {
+    contract: S12_EXECUTION_CONTRACT,
+    stratumId: "S12_10_TURNS",
+    maxSubjectAttempts: 1,
+    maxModelTurns: 10,
+    maxAttemptWallTimeMs: S12_SUBJECT.maxWallTimePerRunMs,
+    routing: "FREE_ONLY",
+    automaticSubjectRetries: 0
+  },
+  S12_20_TURNS: {
+    contract: S12_EXECUTION_CONTRACT,
+    stratumId: "S12_20_TURNS",
+    maxSubjectAttempts: 1,
+    maxModelTurns: 20,
+    maxAttemptWallTimeMs: S12_SUBJECT.maxWallTimePerRunMs,
+    routing: "FREE_ONLY",
+    automaticSubjectRetries: 0
+  }
+};
+export function validateS12ExecutionContract(value: unknown): S12ExecutionContract {
+  if (value === null || typeof value !== "object") throw new Error("INVALID_EXECUTION_CONTRACT");
+  const candidate = value as Record<string, unknown>;
+  const stratum = S12_EXECUTION_STRATA[candidate["stratumId"] as S12ExecutionStratumId];
+  if (
+    !stratum ||
+    Object.keys(stratum).some(
+      (key) => candidate[key] !== stratum[key as keyof S12ExecutionContract]
+    )
+  )
+    throw new Error("INVALID_EXECUTION_CONTRACT");
+  return stratum;
+}
+export function readS12ExecutionConfiguration(
+  value: unknown
+):
+  | { readonly kind: "LEGACY"; readonly value: Readonly<Record<string, unknown>> }
+  | { readonly kind: "EXPLICIT"; readonly value: S12ExecutionContract } {
+  if (value === null || typeof value !== "object") throw new Error("INVALID_EXECUTION_CONTRACT");
+  const candidate = value as Record<string, unknown>;
+  if (!("contract" in candidate)) {
+    if (!("subject" in candidate) || !("configuration" in candidate))
+      throw new Error("INVALID_EXECUTION_CONTRACT");
+    return { kind: "LEGACY", value: candidate };
+  }
+  return { kind: "EXPLICIT", value: validateS12ExecutionContract(candidate) };
+}
+export function s12ProspectiveConfigDigest(contract: S12ExecutionContract): string {
+  const selected = validateS12ExecutionContract(contract);
+  return digestHex({
+    subject: Object.fromEntries(
+      Object.entries(S12_SUBJECT).filter(([key]) => key !== "maxAttempts")
+    ),
+    configuration: Object.fromEntries(
+      Object.entries(S12_SUBJECT_CONFIGURATION).filter(([key]) => key !== "retryPolicy")
+    ),
+    systemPromptDigest: SYSTEM_PROMPT_DIGEST,
+    toolDefinitionDigest: TOOL_DEFINITION_DIGEST,
+    executionContract: selected
+  });
+}
+export const S12_CONFIG_DIGEST_10T = s12ProspectiveConfigDigest(S12_EXECUTION_STRATA.S12_10_TURNS);
+export const S12_CONFIG_DIGEST_20T = s12ProspectiveConfigDigest(S12_EXECUTION_STRATA.S12_20_TURNS);
 export const S12_TASK_INSTRUCTION_DIGEST =
   "354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c";
 
@@ -210,8 +288,15 @@ export interface OpenRouterGenerationResponse {
 }
 
 export interface OpenRouterTransport {
-  listModels(apiKey: string): Promise<readonly OpenRouterModelMetadata[]>;
-  listEndpoints(modelId: string, apiKey: string): Promise<readonly OpenRouterEndpointMetadata[]>;
+  listModels(
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<readonly OpenRouterModelMetadata[]>;
+  listEndpoints(
+    modelId: string,
+    apiKey: string,
+    options?: { readonly signal?: AbortSignal }
+  ): Promise<readonly OpenRouterEndpointMetadata[]>;
   generate(
     request: Readonly<Record<string, unknown>>,
     apiKey: string,
@@ -226,8 +311,19 @@ export interface OpenRouterGenerationLifecycle {
     readonly messageSequenceDigest: string;
     readonly requestDigest: string;
   }): void;
-  generationInvoked?(): void;
+  operationTimeoutMs?(configuredTimeoutMs: number): number;
+  attemptDeadlineReached?(): boolean;
+  generationInvoked?(effectiveTimeoutMs: number): void;
   wireRequestPrepared?(evidence: { readonly wireRequestDigest: string }): void;
+}
+
+export class S12AttemptDeadlineExceeded extends Error {
+  readonly code = "MAX_ATTEMPT_WALL_TIME" as const;
+
+  constructor() {
+    super("The cumulative subject-attempt wall-time limit was reached.");
+    this.name = "S12AttemptDeadlineExceeded";
+  }
 }
 
 export class OpenRouterSubjectError extends Error {
@@ -267,9 +363,15 @@ export class OpenRouterSubjectAdapter {
     const apiKey = this.credentialReader();
     if (!apiKey)
       throw new OpenRouterSubjectError("CREDENTIAL_UNAVAILABLE", "Credential unavailable.");
+    const models = await this.attemptBoundedMetadata(timeoutMs, lifecycle, (signal) =>
+      this.transport.listModels(apiKey, signal ? { signal } : undefined)
+    );
+    const endpoints = await this.attemptBoundedMetadata(timeoutMs, lifecycle, (signal) =>
+      this.transport.listEndpoints(S12_SUBJECT.modelId, apiKey, signal ? { signal } : undefined)
+    );
     const result = verifyOpenRouterPreflight(
-      (await this.transport.listModels(apiKey)).find((model) => model.id === S12_SUBJECT.modelId),
-      await this.transport.listEndpoints(S12_SUBJECT.modelId, apiKey)
+      models.find((model) => model.id === S12_SUBJECT.modelId),
+      endpoints
     );
     if (!result.ok) throw new OpenRouterSubjectError(result.failure!.code, result.failure!.detail);
 
@@ -296,18 +398,54 @@ export class OpenRouterSubjectAdapter {
       requestDigest: digestHex(request)
     });
 
+    const effectiveTimeoutMs = lifecycle.operationTimeoutMs?.(timeoutMs) ?? timeoutMs;
+    if (!Number.isFinite(effectiveTimeoutMs) || effectiveTimeoutMs <= 0)
+      throw new S12AttemptDeadlineExceeded();
+
     const controller = new AbortController();
     const timeout = setTimeout(
       () => controller.abort(),
-      Math.min(timeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
+      Math.min(effectiveTimeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
     );
     try {
-      lifecycle.generationInvoked?.();
+      lifecycle.generationInvoked?.(effectiveTimeoutMs);
       return await this.transport.generate(request, apiKey, controller.signal, (digest) =>
         lifecycle.wireRequestPrepared?.(digest)
       );
     } catch (error) {
-      if (controller.signal.aborted) throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
+      if (controller.signal.aborted) {
+        if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+        throw new OpenRouterSubjectError("TIMEOUT", "Run timed out.");
+      }
+      throw error;
+    } finally {
+      clearTimeout(timeout);
+    }
+  }
+
+  private async attemptBoundedMetadata<T>(
+    configuredTimeoutMs: number,
+    lifecycle: OpenRouterGenerationLifecycle,
+    operation: (signal: AbortSignal | undefined) => Promise<T>
+  ): Promise<T> {
+    const effectiveTimeoutMs = lifecycle.operationTimeoutMs?.(configuredTimeoutMs);
+    if (effectiveTimeoutMs === undefined) return operation(undefined);
+    if (!Number.isFinite(effectiveTimeoutMs) || effectiveTimeoutMs <= 0)
+      throw new S12AttemptDeadlineExceeded();
+
+    const controller = new AbortController();
+    const timeout = setTimeout(
+      () => controller.abort(),
+      Math.min(effectiveTimeoutMs, S12_SUBJECT.maxWallTimePerRunMs)
+    );
+    try {
+      const value = await operation(controller.signal);
+      if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+      return value;
+    } catch (error) {
+      if (lifecycle.attemptDeadlineReached?.()) throw new S12AttemptDeadlineExceeded();
+      if (controller.signal.aborted)
+        throw new OpenRouterSubjectError("TIMEOUT", "Metadata preflight timed out.");
       throw error;
     } finally {
       clearTimeout(timeout);
@@ -476,7 +614,16 @@ export function validateToolRequest(
 export class S12LocalToolExecutor {
   constructor(private readonly operations: S12ToolOperations) {}
 
-  async execute(workspaceRoot: string, request: S12ToolRequest): Promise<S12ToolExecutionResult> {
+  async execute(
+    workspaceRoot: string,
+    request: S12ToolRequest,
+    attemptBudgetMs?: number | (() => number)
+  ): Promise<S12ToolExecutionResult> {
+    const remainingAttemptMs = () =>
+      typeof attemptBudgetMs === "function" ? attemptBudgetMs() : attemptBudgetMs;
+    const initialBudget = remainingAttemptMs();
+    if (initialBudget !== undefined && (!Number.isFinite(initialBudget) || initialBudget <= 0))
+      throw new S12AttemptDeadlineExceeded();
     let validated: ValidatedToolRequest;
     try {
       validated = validateToolRequest(workspaceRoot, request);
@@ -485,11 +632,21 @@ export class S12LocalToolExecutor {
       if (recoverable) return recoverable;
       throw error;
     }
+    const operationBudget = remainingAttemptMs();
+    if (
+      operationBudget !== undefined &&
+      (!Number.isFinite(operationBudget) || operationBudget <= 0)
+    )
+      throw new S12AttemptDeadlineExceeded();
     if (validated.name === "run_command") {
       const command = String(validated.arguments["command"]);
+      const timeoutMs =
+        operationBudget === undefined
+          ? validated.timeoutMs!
+          : Math.min(validated.timeoutMs!, operationBudget);
       let output: Awaited<ReturnType<S12ToolOperations["runCommand"]>>;
       try {
-        output = await this.operations.runCommand(workspaceRoot, command, validated.timeoutMs!);
+        output = await this.operations.runCommand(workspaceRoot, command, timeoutMs);
       } catch (error) {
         if (error instanceof S12ToolInstrumentationError) throw error;
         throw new S12ToolInstrumentationError(
@@ -510,11 +667,13 @@ export class S12LocalToolExecutor {
 
     const resolvedPath = validated.resolvedPath!;
     if (validated.name === "read_file") {
+      remainingAttemptMs();
       const type = await this.pathType(resolvedPath);
       if (typeof type !== "string") return type;
       if (type === "DIRECTORY") return recoverableToolError(systemError("EISDIR"))!;
       if (type !== "FILE") return recoverableToolError(systemError("ENOENT"))!;
       let content: string;
+      remainingAttemptMs();
       try {
         content = await this.operations.readFile(resolvedPath);
       } catch {
@@ -531,11 +690,13 @@ export class S12LocalToolExecutor {
       };
     }
     if (validated.name === "list_files") {
+      remainingAttemptMs();
       const type = await this.pathType(resolvedPath);
       if (typeof type !== "string") return type;
       if (type !== "DIRECTORY")
         return recoverableToolError(systemError(type === "FILE" ? "ENOTDIR" : "ENOENT"))!;
       let files: string[];
+      remainingAttemptMs();
       try {
         files = [...(await this.operations.listFiles(resolvedPath))].sort();
       } catch {
@@ -555,6 +716,7 @@ export class S12LocalToolExecutor {
     const content = validated.arguments["content"];
     if (typeof content !== "string")
       return recoverableToolError(new S12ToolPolicyError("INVALID_TOOL"))!;
+    remainingAttemptMs();
     try {
       await this.operations.writeFile(resolvedPath, content);
     } catch (error) {
