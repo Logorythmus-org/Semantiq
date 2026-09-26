@@ -1,6 +1,7 @@
 import { canonicalJson, computeSha256 } from "../../sandbox-contracts/src/index.js";
 import path from "node:path";
 import { performance } from "node:perf_hooks";
+import type { S12CommandDiagnosticSidecarBuilder } from "./s12-command-diagnostic-sidecar.js";
 import {
   S12_EXECUTION_STRATA,
   s12ProspectiveConfigDigest,
@@ -66,7 +67,8 @@ export class S12QualificationRunner {
     private readonly clock: () => string = () => new Date().toISOString(),
     private readonly idFactory: () => string = () => crypto.randomUUID(),
     private readonly executionContract: S12ExecutionContract = S12_EXECUTION_STRATA.S12_10_TURNS,
-    private readonly monotonicNow: () => number = () => performance.now()
+    private readonly monotonicNow: () => number = () => performance.now(),
+    private readonly commandDiagnosticSidecar?: S12CommandDiagnosticSidecarBuilder
   ) {}
 
   async run(input: {
@@ -267,10 +269,19 @@ export class S12QualificationRunner {
             result = await this.executor.execute(
               input.workspaceRoot,
               toolRequest,
-              remainingAttemptMs
+              remainingAttemptMs,
+              { runId, attemptId, toolCallId: call.id }
             );
           } catch (error) {
-            if (error instanceof S12AttemptDeadlineExceeded) throw error;
+            if (error instanceof S12AttemptDeadlineExceeded) {
+              if (call.name === "run_command")
+                this.commandDiagnosticSidecar?.recordUnavailable({
+                  runId,
+                  attemptId,
+                  toolCallId: call.id
+                });
+              throw error;
+            }
             const failure =
               error instanceof S12ToolInstrumentationError
                 ? error
@@ -278,6 +289,12 @@ export class S12QualificationRunner {
                     "TOOL_RUNTIME_INTERNAL_ERROR",
                     "The controlled tool runtime failed unexpectedly."
                   );
+            if (call.name === "run_command")
+              this.commandDiagnosticSidecar?.recordUnavailable({
+                runId,
+                attemptId,
+                toolCallId: call.id
+              });
             append("TOOL_EXECUTION_RESULT", {
               callId: call.id,
               durationMs: Date.now() - started,

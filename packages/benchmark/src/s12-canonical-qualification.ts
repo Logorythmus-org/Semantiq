@@ -11,6 +11,11 @@ import {
 } from "../../sandbox-contracts/src/index.js";
 import { EvidenceSystem, EvidenceVerifier } from "./evidence.js";
 import {
+  S12CommandDiagnosticSidecarBuilder,
+  type S12CommandDiagnosticSidecar,
+  type S12CommandDiagnosticSidecarOptions
+} from "./s12-command-diagnostic-sidecar.js";
+import {
   EVIDENCE_COMPLETENESS_DIMENSIONS,
   type EvidencePackageInput,
   type EvidenceValue
@@ -67,6 +72,7 @@ export const S12_FIXTURE_IDENTITY = {
 
 export interface S12CanonicalQualificationSummary {
   readonly qualification: S12QualificationResult;
+  readonly commandDiagnosticSidecar?: S12CommandDiagnosticSidecar;
   readonly systemInstructionDigest?: string;
   readonly taskInstructionDigest?: string;
   readonly toolDefinitionDigest?: string;
@@ -85,10 +91,17 @@ export interface S12CanonicalQualificationSummary {
   };
 }
 
+type S12CanonicalQualificationEvidence = Omit<
+  S12CanonicalQualificationSummary,
+  "qualification" | "commandDiagnosticSidecar"
+>;
+type S12CanonicalEvaluation = Omit<S12CanonicalQualificationEvidence, "s09">;
+
 export class S12CanonicalQualificationRunner {
   constructor(
     private readonly transport: OpenRouterTransport,
-    private readonly commandRunner: S12CommandRunner = execFileAsync
+    private readonly commandRunner: S12CommandRunner = execFileAsync,
+    private readonly commandDiagnosticOptions: S12CommandDiagnosticSidecarOptions = {}
   ) {}
 
   async run(input: {
@@ -153,12 +166,22 @@ export class S12CanonicalQualificationRunner {
         "FIXTURE_IDENTITY_DRIFT",
         configDigest
       );
-    let canonical: Omit<S12CanonicalQualificationSummary, "qualification"> = identityEvidence;
+    let canonical: S12CanonicalQualificationEvidence = identityEvidence;
     const adapter = new OpenRouterSubjectAdapter(
       this.transport,
       (input.mode ?? "DRY_RUN") === "DRY_RUN" ? () => "dry-run-non-secret" : undefined
     );
-    const executor = new S12LocalToolExecutor(nodeToolOperations(this.commandRunner));
+    const knownCredentialValues = [
+      ...(this.commandDiagnosticOptions.knownCredentialValues ?? []),
+      ...(process.env["OPENROUTER_API_KEY"] ? [process.env["OPENROUTER_API_KEY"]!] : [])
+    ];
+    const commandDiagnosticSidecar = new S12CommandDiagnosticSidecarBuilder({
+      ...this.commandDiagnosticOptions,
+      knownCredentialValues
+    });
+    const executor = new S12LocalToolExecutor(nodeToolOperations(this.commandRunner), (output) =>
+      commandDiagnosticSidecar.captureCompleted(output)
+    );
     const runner = new S12QualificationRunner(
       adapter,
       executor,
@@ -182,7 +205,7 @@ export class S12CanonicalQualificationRunner {
             verification,
             events: events as readonly S12OrderedCaptureEvent[],
             configDigest,
-            evaluation: evaluation as Omit<S12CanonicalQualificationSummary, "qualification">
+            evaluation: evaluation as S12CanonicalEvaluation
           });
           canonical = { ...canonical, s09: packaged };
           return packaged;
@@ -190,16 +213,23 @@ export class S12CanonicalQualificationRunner {
       },
       undefined,
       undefined,
-      executionContract
+      executionContract,
+      undefined,
+      commandDiagnosticSidecar
     );
     const qualification = await runner.run({ ...input, messages });
-    return { qualification, ...canonical };
+    const diagnosticArtifact = commandDiagnosticSidecar.build();
+    return {
+      qualification,
+      ...canonical,
+      ...(diagnosticArtifact ? { commandDiagnosticSidecar: diagnosticArtifact } : {})
+    };
   }
 }
 
 function blockedQualification(
   mode: S12QualificationMode | undefined,
-  identityEvidence: Omit<S12CanonicalQualificationSummary, "qualification">,
+  identityEvidence: S12CanonicalQualificationEvidence,
   code: string,
   configDigest: string
 ): S12CanonicalQualificationSummary {
@@ -221,7 +251,7 @@ function evaluateCanonical(
   events: readonly S12OrderedCaptureEvent[],
   input: { readonly fixtureDigest: string; readonly environmentDigest: string },
   configDigest: string
-): Omit<S12CanonicalQualificationSummary, "qualification" | "s09"> {
+): Omit<S12CanonicalQualificationEvidence, "s09"> {
   const capture = captureFromEvents(
     events,
     input.fixtureDigest,
@@ -360,7 +390,7 @@ function createCanonicalS09Package(input: {
   readonly verification: unknown;
   readonly events: readonly S12OrderedCaptureEvent[];
   readonly configDigest: string;
-  readonly evaluation: Omit<S12CanonicalQualificationSummary, "qualification">;
+  readonly evaluation: S12CanonicalEvaluation;
 }) {
   const known = <T>(value: T): EvidenceValue<T> => ({
     state: "KNOWN",
