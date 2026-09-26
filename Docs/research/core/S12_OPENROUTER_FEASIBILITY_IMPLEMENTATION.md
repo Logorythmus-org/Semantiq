@@ -50,6 +50,24 @@ An already-running filesystem call can therefore return after the deadline;
 the deadline is enforced at operation boundaries rather than by interrupting
 that call.
 
+### Operator execution-stratum selection
+
+`pnpm s12:qualification` defaults to the governed `S12_10_TURNS` stratum.
+An operator can explicitly select it with `--execution-stratum 10t` or select
+the prospective extended `S12_20_TURNS` stratum with
+`--execution-stratum 20t`. The CLI resolves these labels to the existing
+`S12_EXECUTION_STRATA` contracts; it does not define turn limits of its own.
+Missing, empty, unsupported, or repeated selectors fail before workspace or
+transport setup. Before continuing toward execution, the CLI prints the
+selected contract fields and the digest computed from that contract. This
+summary contains no credentials or secret environment values.
+
+The 10T and 20T conditions are execution/resource envelopes. They are not
+sample sizes, subject-attempt counts, replications, scientific N, capability
+levels, or evidence of better performance. Selecting 20T changes only the
+prospective execution condition; it does not reinterpret historical
+observations.
+
 
 S12 adds one prospective, synthetic feasibility path for `long_horizon@0.1.0`. It does not execute
 the subject, promote a benchmark, or change scientific maturity. Its authority is `NONE`; evidence
