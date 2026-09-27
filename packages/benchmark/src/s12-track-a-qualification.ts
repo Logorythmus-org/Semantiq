@@ -15,7 +15,8 @@ import {
   type OpenRouterGenerationResponse,
   type OpenRouterModelMetadata,
   type OpenRouterTransport,
-  type S12ExecutionCapture
+  type S12ExecutionCapture,
+  mapExactRepeatabilityToS05
 } from "./s12-openrouter-feasibility.js";
 import {
   S12CommandDiagnosticSidecarBuilder,
@@ -122,6 +123,9 @@ export interface S12TrackAS05Projection {
   readonly method: "EXACT_REPEATABILITY";
   readonly comparedProjectionDigests: readonly string[];
   readonly exactMatch: boolean;
+  readonly canonicalSemanticDigest: ReturnType<
+    typeof mapExactRepeatabilityToS05
+  >["current"]["semanticDigest"];
   readonly authority: "INTERNAL_CONSISTENCY_ONLY";
   readonly scientificAuthority: "NONE";
 }
@@ -148,6 +152,57 @@ export interface S12TrackAQualificationResult {
   readonly s05Projection?: S12TrackAS05Projection | undefined;
   readonly s09?: S12TrackAS09Lineage | undefined;
   readonly diagnosticSidecar?: ReturnType<S12CommandDiagnosticSidecarBuilder["build"]>;
+}
+
+let trackAExecutionSequence = 0;
+const trackAResultProofs = new WeakMap<
+  object,
+  {
+    readonly capture: S12ExecutionCapture;
+    readonly projection: S12TrackARepeatabilityProjection;
+    readonly verification: S12TrackAVerification;
+  }
+>();
+
+/** Compares two distinct Track-A results produced by independent governed executions. */
+export function compareS12TrackARepeatability(
+  first: S12TrackAQualificationResult,
+  second: S12TrackAQualificationResult
+): S12TrackAS05Projection {
+  const firstProof = trackAResultProofs.get(first);
+  const secondProof = trackAResultProofs.get(second);
+  if (!firstProof || !secondProof) throw new Error("TRACK_A_REPEATABILITY_UNPROVEN_EXECUTION");
+  if (first === second) throw new Error("TRACK_A_REPEATABILITY_REQUIRES_DISTINCT_EXECUTIONS");
+  const firstCapture = first.capture;
+  const secondCapture = second.capture;
+  const firstProjection = first.repeatabilityProjection;
+  const secondProjection = second.repeatabilityProjection;
+  if (
+    !firstCapture ||
+    !secondCapture ||
+    !firstProjection ||
+    !secondProjection ||
+    firstCapture !== firstProof.capture ||
+    secondCapture !== secondProof.capture ||
+    firstProjection !== firstProof.projection ||
+    secondProjection !== secondProof.projection ||
+    first.verification !== firstProof.verification ||
+    second.verification !== secondProof.verification ||
+    firstCapture.runId === secondCapture.runId ||
+    firstCapture.attemptId === secondCapture.attemptId ||
+    firstProjection.digest !==
+      computeSha256(canonicalJson(repeatabilityMaterial(firstCapture, first.verification))) ||
+    secondProjection.digest !==
+      computeSha256(canonicalJson(repeatabilityMaterial(secondCapture, second.verification)))
+  )
+    throw new Error("TRACK_A_REPEATABILITY_INVALID_EXECUTION_EVIDENCE");
+  return createS05Projection(
+    [firstProjection, secondProjection],
+    [
+      `capture:${executionCaptureDigest(firstCapture)}`,
+      `capture:${executionCaptureDigest(secondCapture)}`
+    ]
+  );
 }
 
 export async function verifyS12TrackAStartingFixture(
@@ -509,15 +564,10 @@ export async function runS12TrackAQualification(input: {
           material,
           digest: computeSha256(canonicalJson(material))
         };
-        s05Projection = {
-          scope: "RELIABILITY_S05",
-          studyId: "s12_track_a_pipeline_qualification_repeatability",
-          method: "EXACT_REPEATABILITY",
-          comparedProjectionDigests: [repeatabilityProjection.digest],
-          exactMatch: true,
-          authority: "INTERNAL_CONSISTENCY_ONLY",
-          scientificAuthority: "NONE"
-        };
+        s05Projection = createS05Projection(
+          [repeatabilityProjection],
+          [`capture:${executionCaptureDigest(capture)}`]
+        );
         return repeatabilityProjection;
       },
       packageEvidence: async ({ attemptId, verification }) => {
@@ -548,7 +598,8 @@ export async function runS12TrackAQualification(input: {
     () => "2026-01-01T00:00:00.000Z",
     (() => {
       let id = 0;
-      return () => `track-a-${++id}`;
+      const executionId = ++trackAExecutionSequence;
+      return () => `track-a-${executionId}-${++id}`;
     })(),
     S12_EXECUTION_STRATA.S12_10_TURNS,
     (() => {
@@ -571,7 +622,7 @@ export async function runS12TrackAQualification(input: {
   });
   const verification = qualification.verification as S12TrackAVerification | undefined;
   const captureDigest = capture ? executionCaptureDigest(capture) : undefined;
-  return {
+  const result: S12TrackAQualificationResult = {
     outcome: verification?.outcome ?? "NOT_QUALIFIED",
     startingIdentity: starting.identity.actualStartingIdentity,
     protectedMaterialDigest: starting.identity.actualProtectedMaterialDigest,
@@ -582,6 +633,30 @@ export async function runS12TrackAQualification(input: {
     ...(s05Projection ? { s05Projection } : {}),
     ...(s09 ? { s09 } : {}),
     ...(diagnostics?.build() ? { diagnosticSidecar: diagnostics.build() } : {})
+  };
+  if (capture && repeatabilityProjection && verification) {
+    trackAResultProofs.set(result, { capture, projection: repeatabilityProjection, verification });
+  }
+  return result;
+}
+
+function createS05Projection(
+  projections: readonly S12TrackARepeatabilityProjection[],
+  evidenceReferences: readonly string[]
+): S12TrackAS05Projection {
+  const comparedProjectionDigests = projections.map(({ digest }) => digest);
+  const canonical = mapExactRepeatabilityToS05(comparedProjectionDigests, evidenceReferences);
+  return {
+    scope: "RELIABILITY_S05",
+    studyId: "s12_track_a_pipeline_qualification_repeatability",
+    method: "EXACT_REPEATABILITY",
+    comparedProjectionDigests,
+    exactMatch:
+      comparedProjectionDigests.length > 1 &&
+      comparedProjectionDigests.every((digest) => digest === comparedProjectionDigests[0]),
+    canonicalSemanticDigest: canonical.current.semanticDigest,
+    authority: "INTERNAL_CONSISTENCY_ONLY",
+    scientificAuthority: "NONE"
   };
 }
 
