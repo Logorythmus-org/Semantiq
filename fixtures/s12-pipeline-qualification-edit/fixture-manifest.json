@@ -1,0 +1,7 @@
+{
+  "scenarioId": "s12_pipeline_qualification_edit",
+  "scenarioVersion": "0.1.0",
+  "classification": "SYNTHETIC_DETERMINISTIC_PIPELINE_ONLY",
+  "network": "NONE",
+  "credentials": "NONE"
+}

@@ -1,0 +1,9 @@
+{
+  "name": "s12-pipeline-qualification-edit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test verifier/final-state.test.mjs"
+  }
+}
