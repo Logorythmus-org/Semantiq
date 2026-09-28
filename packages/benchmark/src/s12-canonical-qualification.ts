@@ -252,7 +252,7 @@ function evaluateCanonical(
   input: { readonly fixtureDigest: string; readonly environmentDigest: string },
   configDigest: string
 ): Omit<S12CanonicalQualificationEvidence, "s09"> {
-  const capture = captureFromEvents(
+  const capture = createS12ExecutionCaptureFromEvents(
     events,
     input.fixtureDigest,
     input.environmentDigest,
@@ -288,7 +288,7 @@ function evaluateCanonical(
   };
 }
 
-function captureFromEvents(
+export function createS12ExecutionCaptureFromEvents(
   events: readonly S12OrderedCaptureEvent[],
   fixtureDigest: string,
   environmentDigest: string,

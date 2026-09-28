@@ -272,3 +272,31 @@ The wire digest uses the existing `semantiq-canonical-json-v1` representation of
 body: object key order is normalized recursively while array order is preserved. The transport
 still sends its original JSON serialization of that same body; canonicalization changes evidence
 construction, not the provider-facing request.
+
+## Track A synthetic pipeline qualification
+
+Track A is the deterministic, first-party synthetic fixture `s12_pipeline_qualification_edit@0.1.0`.
+Its fixed task changes `getMessage()` from `alpha` to `beta`. This qualifies only the local
+execution pipeline; it does not validate model capability, construct validity, empirical
+reliability, scientific benchmark validity, external replication, or benchmark maturity.
+
+The starting fixture identity is derived from the actual bytes of the README, task, manifest,
+package metadata, and initial source under `S12_TRACK_A_FILE_BYTES_SHA256_V1`. The frozen tests,
+verification contract, and other protected fixture files have a separately frozen digest in the
+same domain. Caller-supplied digests are ignored. Final verification checks protected bytes and
+the actual final source, then runs the frozen Node test. The mutable source is therefore permitted
+to change from the frozen initial `alpha` bytes to `beta` while protected verifier material remains
+bound to its expected identity.
+
+The Track-A workflow invokes the existing governed `createS12ExecutionCaptureFromEvents` producer.
+Its repeatability projection is a derivative that removes timestamps and measured runtime while
+retaining model-turn content digests, tool calls and results, mutation sequence, terminal status,
+fixture/configuration/environment identities, and verification outcome. It is not a second
+canonical capture. S09 lineage references the governed capture digest and has
+`INTERNAL_CONSISTENCY_ONLY` authority; scientific authority is `NONE`. Diagnostic sidecars remain
+non-authoritative observability and do not enter the capture, S05 projection, S09 lineage, or
+successful-task evidence.
+
+The local transport is scripted and has no network or credential dependency. Its metadata is a
+compatibility seam for the existing S12 runner, not a real provider observation. No model-generation
+request, subject observation, scientific evidence, or Observation #4 is produced by Track A.
