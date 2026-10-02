@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { cp, mkdtemp, rm } from "node:fs/promises";
 import { readFileSync } from "node:fs";
+import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import path from "node:path";
 
@@ -492,11 +493,27 @@ describe("S12 non-authoritative command diagnostic sidecar", () => {
   });
 
   it("returns diagnostics only as a sibling of canonical qualification and S09", async () => {
-    const source = path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility");
+    const source = path.join(
+      process.cwd(),
+      "fixtures",
+      "s12-lh-config-migration-feasibility-0.1.2"
+    );
     const parent = await mkdtemp(path.join(tmpdir(), "s12-diagnostic-sidecar-"));
     const target = path.join(parent, "fixture");
     try {
       await cp(source, target, { recursive: true });
+      if (process.platform === "win32")
+        execFileSync(
+          process.env["COMSPEC"] ?? "cmd.exe",
+          ["/d", "/s", "/c", "corepack pnpm install --frozen-lockfile --offline --ignore-scripts"],
+          { cwd: target, timeout: 30_000 }
+        );
+      else
+        execFileSync(
+          "corepack",
+          ["pnpm", "install", "--frozen-lockfile", "--offline", "--ignore-scripts"],
+          { cwd: target, timeout: 30_000 }
+        );
       const taskInstruction = readFileSync(path.join(target, "TASK.md"), "utf8");
       const transport = new ScriptedTransport([
         response([
@@ -512,6 +529,8 @@ describe("S12 non-authoritative command diagnostic sidecar", () => {
       ).run({
         mode: "DRY_RUN",
         workspaceRoot: target,
+        fixtureId: "s12_lh_config_migration_feasibility",
+        fixtureVersion: "0.1.2",
         fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
         environmentDigest: "e".repeat(64),
         implementationSha: "1".repeat(40),

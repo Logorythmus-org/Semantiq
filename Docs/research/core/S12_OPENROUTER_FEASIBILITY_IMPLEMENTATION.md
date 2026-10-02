@@ -158,6 +158,22 @@ The starting-tree digest covers every subject-visible starting file except the d
 parsed verifier specification plus the verifier test source. The fixture digest binds those
 materials through `computeS12FixtureIdentity`.
 
+The `0.1.1` fixture is immutable historical execution material. Its lockfile has a known
+TypeScript artifact integrity error, and its Node compile-time types are incomplete for the
+subject's CLI task. Historical observations 1–3 retain this exact identity; prospective
+qualification rejects `0.1.1` before any provider or model activity.
+
+The explicit prospective fixture is `s12_lh_config_migration_feasibility@0.1.2`. It uses
+TypeScript `5.7.3` with corrected artifact integrity and exact `@types/node@22.10.7` plus
+`undici-types@6.20.0` closure. Its starting-tree digest is
+`e68e7db0ec98100505e8efed25e507439b78effd17c12eb86ce6facb0d2304c9`, verifier digest is
+`ef2a7cea458bdc30d8fab95b4427eabef63f151b6902f12a2af82ffdd4e085ca`, and fixture digest is
+`05041288fc913ad00e66162b62665159fe6831f74f5c1e7b4bd14d269b7344c5`. Selection requires
+fixture ID, version, and expected digest; the runner recomputes the actual fixture bytes before
+execution. No implicit latest version is selected. The semantic task intent is unchanged, but the
+execution condition changed. Comparability requires empirical assessment; scientific equivalence
+is not assumed.
+
 ### Prospective fixture supersession
 
 Fixture `0.1.0` is `SUPERSEDED_BEFORE_EMPIRICAL_USE` because of

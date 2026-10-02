@@ -12,9 +12,11 @@ import {
   type OpenRouterTransport
 } from "../packages/benchmark/src/s12-openrouter-feasibility.js";
 import { canonicalJson, computeSha256 } from "../packages/sandbox-contracts/src/index.js";
-
-const FROZEN_FIXTURE_DIGEST = "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63";
-const FROZEN_VERIFIER_DIGEST = "4c421830e18947701bacc01c921addb62c62077a455698193e4af074200fc298";
+import {
+  S12_FIXTURE_ID,
+  verifyS12FixtureSelection,
+  type S12FixtureVersion
+} from "../packages/benchmark/src/s12-fixture-selection.js";
 
 const selection = parseExecutionStratum(process.argv.slice(2));
 if (!selection.ok) {
@@ -30,6 +32,10 @@ const mode = process.argv.includes("--mode")
 const authorized = process.argv.includes("--authorize-live");
 const workspaceIndex = process.argv.indexOf("--workspace");
 const workspaceRoot = workspaceIndex >= 0 ? process.argv[workspaceIndex + 1] : undefined;
+const fixtureVersionIndex = process.argv.indexOf("--fixture-version");
+const fixtureVersion = fixtureVersionIndex >= 0 ? process.argv[fixtureVersionIndex + 1] : undefined;
+const fixtureDigestIndex = process.argv.indexOf("--fixture-digest");
+const fixtureDigest = fixtureDigestIndex >= 0 ? process.argv[fixtureDigestIndex + 1] : undefined;
 const executionCondition = `S12_EXECUTION_CONDITION ${canonicalJson({ ...executionContract, configurationDigest })}\n`;
 if (mode !== "dry-run" && mode !== "live") {
   console.error("mode must be dry-run or live");
@@ -48,18 +54,17 @@ if (mode !== "dry-run" && mode !== "live") {
   process.stderr.write(executionCondition);
   if (!workspaceRoot) throw new Error("--workspace is required");
   const resolvedWorkspace = path.resolve(workspaceRoot);
-  const identity = JSON.parse(
-    readFileSync(path.join(resolvedWorkspace, "fixture-identity.json"), "utf8")
-  ) as Record<string, unknown>;
-  if (
-    identity["fixtureDigest"] !== FROZEN_FIXTURE_DIGEST ||
-    identity["verifierDigest"] !== FROZEN_VERIFIER_DIGEST
-  ) {
+  const selected = verifyS12FixtureSelection(resolvedWorkspace, {
+    fixtureId: S12_FIXTURE_ID,
+    fixtureVersion: fixtureVersion as S12FixtureVersion | undefined,
+    fixtureDigest
+  });
+  if (!selected.ok) {
     process.stdout.write(
       canonicalJson({
         mode: mode === "live" ? "LIVE_QUALIFICATION" : "DRY_RUN",
         terminalStatus: "PREFLIGHT_BLOCKED",
-        failure: "FIXTURE_IDENTITY_DRIFT",
+        failure: selected.code,
         REAL_GENERATION_REQUESTS: 0
       }) + "\n"
     );
@@ -81,7 +86,9 @@ if (mode !== "dry-run" && mode !== "live") {
     mode: mode === "live" ? "LIVE_QUALIFICATION" : "DRY_RUN",
     liveAuthorized: authorized,
     workspaceRoot: resolvedWorkspace,
-    fixtureDigest: FROZEN_FIXTURE_DIGEST,
+    fixtureId: S12_FIXTURE_ID,
+    fixtureVersion: fixtureVersion as S12FixtureVersion,
+    fixtureDigest: selected.identity.fixtureDigest,
     environmentDigest,
     implementationSha,
     implementationTree,

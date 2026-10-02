@@ -13,6 +13,7 @@ import {
   S12FinalStateVerifier,
   S12CanonicalQualificationRunner,
   S12_FIXTURE_IDENTITY,
+  createS12ExecutionCaptureFromEvents,
   S12LocalToolExecutor,
   S12QualificationRunner,
   S12ToolInstrumentationError,
@@ -31,8 +32,10 @@ import {
 } from "../../packages/benchmark/src/index.js";
 import { canonicalJson, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
 import { vi } from "vitest";
-import { cp, mkdir, mkdtemp, rm } from "node:fs/promises";
-import { readFileSync } from "node:fs";
+import { cp, mkdtemp, rm } from "node:fs/promises";
+import { execFileSync } from "node:child_process";
+import { tmpdir } from "node:os";
+import { readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 
 const frozenTaskInstruction = readFileSync(
@@ -1346,13 +1349,27 @@ describe("S12 canonical temporary-fixture qualification", () => {
   const cli = `import { readFile } from "node:fs/promises"; import { migrateConfiguration } from "./migrate.js"; try { const input=JSON.parse(await readFile(process.argv[2] ?? "", "utf8")); process.stdout.write(JSON.stringify(migrateConfiguration(input))+"\\n"); } catch (error) { process.stderr.write((error instanceof Error ? error.message : "invalid input")+"\\n"); process.exitCode=1; }\n`;
 
   async function workspace() {
-    const temporaryRoot = path.join(process.cwd(), "tmp");
-    await mkdir(temporaryRoot, { recursive: true });
-    const parent = await mkdtemp(path.join(temporaryRoot, "s12-r2-"));
+    const parent = await mkdtemp(path.join(tmpdir(), "s12-r2-"));
     const target = path.join(parent, "fixture");
-    await cp(path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility"), target, {
-      recursive: true
-    });
+    await cp(
+      path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility-0.1.2"),
+      target,
+      {
+        recursive: true
+      }
+    );
+    if (process.platform === "win32")
+      execFileSync(
+        process.env["COMSPEC"] ?? "cmd.exe",
+        ["/d", "/s", "/c", "corepack pnpm install --frozen-lockfile --offline --ignore-scripts"],
+        { cwd: target, timeout: 30_000 }
+      );
+    else
+      execFileSync(
+        "corepack",
+        ["pnpm", "install", "--frozen-lockfile", "--offline", "--ignore-scripts"],
+        { cwd: target, timeout: 30_000 }
+      );
     return { parent, target };
   }
 
@@ -1390,7 +1407,13 @@ describe("S12 canonical temporary-fixture qualification", () => {
         throw Object.assign(new Error("synthetic-private-error"), item.fault);
       }).run({
         mode: "DRY_RUN",
-        workspaceRoot: "C:/synthetic-fixture",
+        workspaceRoot: path.join(
+          process.cwd(),
+          "fixtures",
+          "s12-lh-config-migration-feasibility-0.1.2"
+        ),
+        fixtureId: "s12_lh_config_migration_feasibility",
+        fixtureVersion: "0.1.2",
         fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
         environmentDigest: "e".repeat(64),
         implementationSha: "1".repeat(40),
@@ -1457,13 +1480,23 @@ describe("S12 canonical temporary-fixture qualification", () => {
       const output = await new S12CanonicalQualificationRunner(transport).run({
         mode: "DRY_RUN",
         workspaceRoot: temp.target,
-        fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+        fixtureId: "s12_lh_config_migration_feasibility",
+        fixtureVersion: "0.1.2",
+        fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
         configurationDigest: S12_CONFIG_DIGEST_10T,
         taskInstruction: frozenTaskInstruction
       });
+      if (process.env["S12_V8_EVENT_TIMESTAMP_PATH"])
+        writeFileSync(
+          process.env["S12_V8_EVENT_TIMESTAMP_PATH"],
+          JSON.stringify({
+            type: output.qualification.events[0]?.type,
+            timestamp: output.qualification.events[0]?.timestamp
+          })
+        );
       expect(output.qualification.terminalStatus).toBe("COMPLETED");
       expect(output.qualification.verification).toMatchObject({ criterion: "SATISFIED" });
       expect(output.evaluator).toEqual({
@@ -1479,8 +1512,31 @@ describe("S12 canonical temporary-fixture qualification", () => {
       expect(output.s09).toMatchObject({
         internalVerification: "VERIFIED_INTERNAL_CONSISTENCY",
         authority: "INTERNAL_CONSISTENCY_ONLY",
-        scientificAuthority: "NONE"
+        scientificAuthority: "NONE",
+        selectedFixtureIdentity: {
+          fixtureId: "s12_lh_config_migration_feasibility",
+          fixtureVersion: "0.1.2",
+          fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
+          startingTreeDigest: "e68e7db0ec98100505e8efed25e507439b78effd17c12eb86ce6facb0d2304c9"
+        }
       });
+      expect(output.qualification.events[0]).toMatchObject({
+        type: "EXECUTION_START",
+        payload: output.s09!.selectedFixtureIdentity
+      });
+      expect(
+        createS12ExecutionCaptureFromEvents(
+          output.qualification.events,
+          S12_FIXTURE_IDENTITY.fixtureDigest,
+          "e".repeat(64),
+          S12_CONFIG_DIGEST_10T,
+          {
+            fixtureId: "s12_lh_config_migration_feasibility",
+            fixtureVersion: "0.1.2",
+            startingTreeDigest: "e68e7db0ec98100505e8efed25e507439b78effd17c12eb86ce6facb0d2304c9"
+          }
+        )
+      ).toMatchObject(output.s09!.selectedFixtureIdentity);
       const firstRequest = transport.requests[0]!;
       expect(firstRequest["messages"]).toEqual([
         { role: "system", content: S12_SUBJECT_CONFIGURATION.systemInstruction.value },
@@ -1526,7 +1582,9 @@ describe("S12 canonical temporary-fixture qualification", () => {
       const output = await new S12CanonicalQualificationRunner(transport).run({
         mode: "DRY_RUN",
         workspaceRoot: temp.target,
-        fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+        fixtureId: "s12_lh_config_migration_feasibility",
+        fixtureVersion: "0.1.2",
+        fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
         environmentDigest: "e".repeat(64),
         implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
         implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",
@@ -1548,7 +1606,13 @@ describe("S12 canonical temporary-fixture qualification", () => {
     const output = await new S12CanonicalQualificationRunner(transport).run({
       mode: "LIVE_QUALIFICATION",
       liveAuthorized: true,
-      workspaceRoot: "C:/not-reached",
+      workspaceRoot: path.join(
+        process.cwd(),
+        "fixtures",
+        "s12-lh-config-migration-feasibility-0.1.2"
+      ),
+      fixtureId: "s12_lh_config_migration_feasibility",
+      fixtureVersion: "0.1.2",
       fixtureDigest: "a53583cb69399dbf2038918b8ba70925699eefc0a8a0f1eea2a21c8c703710be",
       environmentDigest: "e".repeat(64),
       implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
@@ -1564,6 +1628,75 @@ describe("S12 canonical temporary-fixture qualification", () => {
     expect(transport.generationCalls).toBe(0);
   });
 
+  it("blocks historical, missing, unknown, and wrong fixture selection before transport activity", async () => {
+    const prospective = path.join(
+      process.cwd(),
+      "fixtures",
+      "s12-lh-config-migration-feasibility-0.1.2"
+    );
+    const historical = path.join(process.cwd(), "fixtures", "s12-lh-config-migration-feasibility");
+    for (const variant of [
+      {
+        workspaceRoot: historical,
+        fixtureVersion: "0.1.1" as const,
+        fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+        code: "KNOWN_DEPENDENCY_INTEGRITY_DEFECT"
+      },
+      {
+        workspaceRoot: prospective,
+        fixtureVersion: undefined,
+        fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
+        code: "FIXTURE_SELECTION_REQUIRED"
+      },
+      {
+        workspaceRoot: prospective,
+        fixtureVersion: "9.9.9" as "0.1.2",
+        fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
+        code: "UNKNOWN_FIXTURE_VERSION"
+      },
+      {
+        workspaceRoot: prospective,
+        fixtureVersion: "0.1.2" as const,
+        fixtureDigest: "0".repeat(64),
+        code: "FIXTURE_IDENTITY_DRIFT"
+      }
+    ]) {
+      let transportCalls = 0;
+      const transport: OpenRouterTransport = {
+        listModels: async () => {
+          transportCalls++;
+          return [];
+        },
+        listEndpoints: async () => {
+          transportCalls++;
+          return [];
+        },
+        generate: async () => {
+          transportCalls++;
+          throw new Error("unexpected generation");
+        }
+      };
+      const output = await new S12CanonicalQualificationRunner(transport).run({
+        mode: "DRY_RUN",
+        workspaceRoot: variant.workspaceRoot,
+        fixtureId: "s12_lh_config_migration_feasibility",
+        ...(variant.fixtureVersion ? { fixtureVersion: variant.fixtureVersion } : {}),
+        fixtureDigest: variant.fixtureDigest,
+        environmentDigest: "e".repeat(64),
+        implementationSha: "1".repeat(40),
+        implementationTree: "2".repeat(40),
+        configurationDigest: S12_CONFIG_DIGEST_10T,
+        taskInstruction: frozenTaskInstruction
+      });
+      expect(output.qualification).toMatchObject({
+        terminalStatus: "PREFLIGHT_BLOCKED",
+        modelRequestCount: 0,
+        structuredFailure: { code: variant.code }
+      });
+      expect(transportCalls).toBe(0);
+    }
+  });
+
   it("blocks task and configuration drift before attempt or generation", async () => {
     for (const drift of [
       { configurationDigest: S12_CONFIG_DIGEST_10T, taskInstruction: "changed task" },
@@ -1573,8 +1706,14 @@ describe("S12 canonical temporary-fixture qualification", () => {
       const output = await new S12CanonicalQualificationRunner(transport).run({
         mode: "LIVE_QUALIFICATION",
         liveAuthorized: true,
-        workspaceRoot: "C:/not-reached",
-        fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+        workspaceRoot: path.join(
+          process.cwd(),
+          "fixtures",
+          "s12-lh-config-migration-feasibility-0.1.2"
+        ),
+        fixtureId: "s12_lh_config_migration_feasibility",
+        fixtureVersion: "0.1.2",
+        fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
         environmentDigest: "e".repeat(64),
         implementationSha: "5473c687e82ce2cf5c125e4f7bbe4f750eb6a236",
         implementationTree: "7b90883405e4b085419c3f4489d6450bfccddf65",
@@ -1679,7 +1818,9 @@ describe("S12 canonical temporary-fixture qualification", () => {
         const output = await new S12CanonicalQualificationRunner(transport).run({
           mode: "DRY_RUN",
           workspaceRoot: temp.target,
-          fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63",
+          fixtureId: "s12_lh_config_migration_feasibility",
+          fixtureVersion: "0.1.2",
+          fixtureDigest: S12_FIXTURE_IDENTITY.fixtureDigest,
           environmentDigest: "e".repeat(64),
           implementationSha: "926c6eac5c3de3859efdbea357f7a671c62b0d61",
           implementationTree: "f9bddb617c31990df48dfd734f97161ff2d5abf9",

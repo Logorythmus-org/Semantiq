@@ -1,0 +1,9 @@
+{
+  "scenarioId": "s12_lh_config_migration_feasibility",
+  "scenarioVersion": "0.1.2",
+  "canonicalManifestDigest": "640f13aac71f5a0b651612e53b9570a12e13c9ffe9f1f2645e46ce94a131d4fc",
+  "startingTreeDigest": "e68e7db0ec98100505e8efed25e507439b78effd17c12eb86ce6facb0d2304c9",
+  "taskInstructionDigest": "354230384808c95a9fe68eef795981ec9c598d3285aeec5971449b1d3632798c",
+  "verifierDigest": "ef2a7cea458bdc30d8fab95b4427eabef63f151b6902f12a2af82ffdd4e085ca",
+  "fixtureDigest": "05041288fc913ad00e66162b62665159fe6831f74f5c1e7b4bd14d269b7344c5"
+}
