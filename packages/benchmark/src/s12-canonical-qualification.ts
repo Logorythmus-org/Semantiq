@@ -42,6 +42,11 @@ import {
 import { S12FinalStateVerifier, type S12VerifierRuntime } from "./s12-final-state-verifier.js";
 import { OpenRouterSubjectAdapter } from "./s12-openrouter-feasibility.js";
 import {
+  S12_FIXTURE_ID,
+  S12_FIXTURES,
+  verifyS12FixtureSelection
+} from "./s12-fixture-selection.js";
+import {
   S12QualificationRunner,
   type S12OrderedCaptureEvent,
   type S12QualificationMode,
@@ -62,12 +67,11 @@ export const S12_CANONICAL_METRIC = {
   metricId: "long_horizon_resilience_index",
   metricVersion: "0.1.0"
 } as const;
-export const S12_AUTHORITATIVE_VERIFIER_DIGEST =
-  "4c421830e18947701bacc01c921addb62c62077a455698193e4af074200fc298";
+export const S12_AUTHORITATIVE_VERIFIER_DIGEST = S12_FIXTURES["0.1.2"].verifierDigest;
 export const S12_FIXTURE_IDENTITY = {
-  scenarioId: "s12_lh_config_migration_feasibility",
-  scenarioVersion: "0.1.1",
-  fixtureDigest: "47dbb3c89b5a56d74710e80205a86a691be0fbb1301b2c3f9147a1af614cee63"
+  scenarioId: S12_FIXTURE_ID,
+  scenarioVersion: "0.1.2",
+  fixtureDigest: S12_FIXTURES["0.1.2"].fixtureDigest
 } as const;
 
 export interface S12CanonicalQualificationSummary {
@@ -85,6 +89,12 @@ export interface S12CanonicalQualificationSummary {
   readonly s09?: {
     readonly packageId: string;
     readonly packageDigest: string;
+    readonly selectedFixtureIdentity: {
+      readonly fixtureId: typeof S12_FIXTURE_ID;
+      readonly fixtureVersion: string;
+      readonly fixtureDigest: string;
+      readonly startingTreeDigest: string;
+    };
     readonly internalVerification: string;
     readonly authority: "INTERNAL_CONSISTENCY_ONLY";
     readonly scientificAuthority: "NONE";
@@ -108,6 +118,8 @@ export class S12CanonicalQualificationRunner {
     readonly mode?: S12QualificationMode;
     readonly liveAuthorized?: boolean;
     readonly workspaceRoot: string;
+    readonly fixtureId?: typeof S12_FIXTURE_ID;
+    readonly fixtureVersion?: "0.1.1" | "0.1.2";
     readonly fixtureDigest: string;
     readonly environmentDigest: string;
     readonly implementationSha: string;
@@ -132,22 +144,9 @@ export class S12CanonicalQualificationRunner {
       toolDefinitionDigest: computeSha256(canonicalJson(S12_TOOL_DECLARATIONS)),
       initialMessageSequenceDigest: computeSha256(canonicalJson(messages))
     };
-    if (input.fixtureDigest !== S12_FIXTURE_IDENTITY.fixtureDigest)
-      return {
-        ...identityEvidence,
-        qualification: {
-          mode: input.mode ?? "DRY_RUN",
-          modelRequestCount: 0,
-          terminalStatus: "PREFLIGHT_BLOCKED",
-          events: [],
-          structuredFailure: {
-            code: "FIXTURE_IDENTITY_DRIFT",
-            detail: `Qualification requires ${S12_FIXTURE_IDENTITY.scenarioId}@${S12_FIXTURE_IDENTITY.scenarioVersion}.`
-          },
-          configDigest,
-          scientificAuthority: "NONE"
-        }
-      };
+    const fixture = verifyS12FixtureSelection(input.workspaceRoot, input, true);
+    if (!fixture.ok)
+      return blockedQualification(input.mode, identityEvidence, fixture.code, configDigest);
     if (
       input.configurationDigest !== configDigest ||
       identityEvidence.systemInstructionDigest !== SYSTEM_PROMPT_DIGEST ||
@@ -187,11 +186,14 @@ export class S12CanonicalQualificationRunner {
       executor,
       {
         verifyFinalState: async () =>
-          new S12FinalStateVerifier(S12_AUTHORITATIVE_VERIFIER_DIGEST).verify(
+          new S12FinalStateVerifier(fixture.identity.verifierDigest).verify(
             nodeVerifierRuntime(input.workspaceRoot)
           ),
         evaluate: async (events) => {
-          canonical = { ...canonical, ...evaluateCanonical(events, input, configDigest) };
+          canonical = {
+            ...canonical,
+            ...evaluateCanonical(events, input, configDigest, fixture.identity.startingTreeDigest)
+          };
           return canonical;
         },
         packageEvidence: async ({ runId, attemptId, verification, evaluation, events }) => {
@@ -199,6 +201,8 @@ export class S12CanonicalQualificationRunner {
             runId: String(runId),
             attemptId: String(attemptId),
             fixtureDigest: input.fixtureDigest,
+            fixtureVersion: input.fixtureVersion!,
+            startingTreeDigest: fixture.identity.startingTreeDigest,
             environmentDigest: input.environmentDigest,
             implementationSha: input.implementationSha,
             implementationTree: input.implementationTree,
@@ -217,7 +221,12 @@ export class S12CanonicalQualificationRunner {
       undefined,
       commandDiagnosticSidecar
     );
-    const qualification = await runner.run({ ...input, messages });
+    const qualification = await runner.run({
+      ...input,
+      fixtureId: S12_FIXTURE_ID,
+      startingTreeDigest: fixture.identity.startingTreeDigest,
+      messages
+    });
     const diagnosticArtifact = commandDiagnosticSidecar.build();
     return {
       qualification,
@@ -249,14 +258,22 @@ function blockedQualification(
 
 function evaluateCanonical(
   events: readonly S12OrderedCaptureEvent[],
-  input: { readonly fixtureDigest: string; readonly environmentDigest: string },
-  configDigest: string
+  input: {
+    readonly fixtureDigest: string;
+    readonly fixtureVersion?: string;
+    readonly environmentDigest: string;
+  },
+  configDigest: string,
+  startingTreeDigest?: string
 ): Omit<S12CanonicalQualificationEvidence, "s09"> {
   const capture = createS12ExecutionCaptureFromEvents(
     events,
     input.fixtureDigest,
     input.environmentDigest,
-    configDigest
+    configDigest,
+    input.fixtureVersion && startingTreeDigest
+      ? { fixtureId: S12_FIXTURE_ID, fixtureVersion: input.fixtureVersion, startingTreeDigest }
+      : undefined
   );
   const firstTrace = mapCaptureToBehavioralTrace(capture);
   const secondTrace = mapCaptureToBehavioralTrace(structuredClone(capture));
@@ -292,7 +309,12 @@ export function createS12ExecutionCaptureFromEvents(
   events: readonly S12OrderedCaptureEvent[],
   fixtureDigest: string,
   environmentDigest: string,
-  configDigest: string
+  configDigest: string,
+  fixtureIdentity?: {
+    readonly fixtureId: string;
+    readonly fixtureVersion: string;
+    readonly startingTreeDigest: string;
+  }
 ): S12ExecutionCapture {
   const timestamp = events[0]?.timestamp ?? "1970-01-01T00:00:00.000Z";
   const attempt = events.find((event) => event.type === "ATTEMPT_CREATED");
@@ -312,6 +334,7 @@ export function createS12ExecutionCaptureFromEvents(
     upstreamProvider: S12_SUBJECT.upstreamProvider,
     configDigest,
     fixtureDigest,
+    ...(fixtureIdentity ?? {}),
     environmentDigest,
     modelTurns: events
       .filter((event) => event.type === "MODEL_RESPONSE")
@@ -384,6 +407,8 @@ function createCanonicalS09Package(input: {
   readonly runId: string;
   readonly attemptId: string;
   readonly fixtureDigest: string;
+  readonly fixtureVersion: string;
+  readonly startingTreeDigest: string;
   readonly environmentDigest: string;
   readonly implementationSha: string;
   readonly implementationTree: string;
@@ -459,7 +484,7 @@ function createCanonicalS09Package(input: {
     executionStatus: "SUCCEEDED",
     targetReference: `result:${input.runId}`,
     benchmarkIdentity: known({ benchmarkId: "long_horizon", benchmarkVersion: "0.1.0" }),
-    itemIdentity: known({ itemId: "s12_lh_config_migration_feasibility", itemVersion: "0.1.1" }),
+    itemIdentity: known({ itemId: S12_FIXTURE_ID, itemVersion: input.fixtureVersion }),
     constructReference: known("long_horizon_resilience"),
     metricIdentity: known(S12_CANONICAL_METRIC),
     evaluatorIdentity: known(S12_CANONICAL_EVALUATOR),
@@ -536,7 +561,7 @@ function createCanonicalS09Package(input: {
   const artifacts = [
     {
       artifactId: "fixture:s12",
-      artifactVersion: "0.1.1",
+      artifactVersion: input.fixtureVersion,
       kind: "FIXTURE",
       contentDigest: {
         algorithm: "SHA_256",
@@ -644,6 +669,12 @@ function createCanonicalS09Package(input: {
   return {
     packageId: pkg.packageId,
     packageDigest: pkg.packageDigest,
+    selectedFixtureIdentity: {
+      fixtureId: S12_FIXTURE_ID,
+      fixtureVersion: input.fixtureVersion,
+      fixtureDigest: input.fixtureDigest,
+      startingTreeDigest: input.startingTreeDigest
+    },
     internalVerification: verified.outcome,
     authority: verified.authority,
     scientificAuthority: "NONE" as const

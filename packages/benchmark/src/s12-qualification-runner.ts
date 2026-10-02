@@ -76,6 +76,9 @@ export class S12QualificationRunner {
     readonly liveAuthorized?: boolean;
     readonly workspaceRoot: string;
     readonly fixtureDigest: string;
+    readonly fixtureId?: string;
+    readonly fixtureVersion?: string;
+    readonly startingTreeDigest?: string;
     readonly messages: readonly OpenRouterMessage[];
   }): Promise<S12QualificationResult> {
     const contract = validateS12ExecutionContract(this.executionContract);
@@ -98,6 +101,9 @@ export class S12QualificationRunner {
       mode,
       subjectId: S12_SUBJECT.subjectId,
       fixtureDigest: input.fixtureDigest,
+      ...(input.fixtureId ? { fixtureId: input.fixtureId } : {}),
+      ...(input.fixtureVersion ? { fixtureVersion: input.fixtureVersion } : {}),
+      ...(input.startingTreeDigest ? { startingTreeDigest: input.startingTreeDigest } : {}),
       configDigest,
       executionContract: contract
     });

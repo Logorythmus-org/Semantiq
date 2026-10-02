@@ -1,0 +1,22 @@
+{
+  "name": "s12-lh-config-migration-feasibility",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@11.7.0",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "node --test verifier/*.test.mjs",
+    "verify:schema": "node --test --test-name-pattern=\"M1\" verifier/final-state.test.mjs",
+    "verify:migration": "node --test --test-name-pattern=\"M2\" verifier/final-state.test.mjs",
+    "verify:preservation": "node --test --test-name-pattern=\"M3\" verifier/final-state.test.mjs",
+    "verify:cli": "node --test --test-name-pattern=\"M4\" verifier/final-state.test.mjs",
+    "verify:documentation": "node --test --test-name-pattern=\"M6\" verifier/final-state.test.mjs",
+    "verify": "pnpm build && pnpm typecheck && pnpm test"
+  },
+  "devDependencies": {
+    "@types/node": "22.10.7",
+    "typescript": "5.7.3"
+  }
+}

@@ -835,6 +835,9 @@ export interface S12ExecutionCapture {
   readonly upstreamProvider: typeof S12_SUBJECT.upstreamProvider;
   readonly configDigest: string;
   readonly fixtureDigest: string;
+  readonly fixtureId?: string;
+  readonly fixtureVersion?: string;
+  readonly startingTreeDigest?: string;
   readonly environmentDigest: string;
   readonly modelTurns: readonly {
     readonly sequence: number;
@@ -1093,7 +1096,7 @@ export function packageS12Evidence(
 
 export interface S12FixtureIdentityInput {
   readonly scenarioId: "s12_lh_config_migration_feasibility";
-  readonly scenarioVersion: "0.1.1";
+  readonly scenarioVersion: "0.1.1" | "0.1.2";
   readonly canonicalManifest: unknown;
   readonly startingTree: Readonly<Record<string, string>>;
   readonly taskInstruction: string;
