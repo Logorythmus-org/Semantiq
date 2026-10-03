@@ -319,3 +319,84 @@ lineage, or successful-task evidence.
 The local transport is scripted and has no network or credential dependency. Its metadata is a
 compatibility seam for the existing S12 runner, not a real provider observation. No model-generation
 request, subject observation, scientific evidence, or Observation #4 is produced by Track A.
+
+## Boundary E governance charter
+
+Human governance has explicitly accepted this charter. Its repository integration is pending;
+`BOUNDARY_E = NOT_STARTED` and Observation #4 is absent. This acceptance does not authorize a live
+run or an OpenRouter call.
+
+Boundary E is the **program governance boundary** between completed synthetic and engineering
+qualification and the first prospective collection of real-subject feasibility evidence under a
+frozen execution envelope. It is not a runtime architecture layer or synonymous with
+`LIVE_QUALIFICATION`. That mode is the existing technical mechanism that may be used only after
+separate authorization.
+
+The state sequence is:
+
+1. Engineering qualification complete; Boundary E is `NOT_STARTED`.
+2. Human charter acceptance and durable repository integration define Boundary E (`DEFINED`).
+3. Separate explicit live authorization and all mandatory execution preconditions leave it
+   `DEFINED_NOT_ENTERED`. Successful initial preflight alone also leaves it `DEFINED_NOT_ENTERED`.
+4. The first `ATTEMPT_CREATED` for an explicitly authorized prospective real-subject feasibility
+   execution after successful initial preflight enters Boundary E (`ENTERED`), creates one
+   observation, and begins feasibility evidence collection.
+
+Charter acceptance, durable recording, live authorization, and metadata preflight do not themselves
+enter Boundary E. An observation is an independently addressable real-subject attempt created after
+successful initial preflight. Its existence does not require `GENERATION_INVOKED`, successful
+generation, task completion, verification, or `QUALIFIED` status. A preflight failure before
+`ATTEMPT_CREATED` creates no observation; a later failure, timeout, unverifiable result, or missing
+evidence preserves the created observation.
+
+Three historical real-subject observations remain preserved. Observation #4 stays absent until the
+first valid, explicitly authorized prospective `ATTEMPT_CREATED`; that attempt becomes Observation
+#4 even if it later fails. Acceptance, recording, and authorization neither create nor reserve it.
+`REAL_SUBJECT_OBSERVATIONS` and `REAL_GENERATION_REQUESTS` are independent counters: an observation
+begins at `ATTEMPT_CREATED`, while a generation request is counted only when the model transport is
+actually invoked at `GENERATION_INVOKED`. One observation may contain zero, one, or multiple bounded
+generation requests. Model turns are not observations, and observation count is not scientific N.
+
+The accepted `GOVERNED_INITIAL_FEASIBILITY_ENVELOPE` is:
+
+| Field | Frozen value |
+| --- | --- |
+| Purpose / mode | `PROSPECTIVE_REAL_SUBJECT_FEASIBILITY` / `LIVE_QUALIFICATION` |
+| Subject | `s12-lh-openrouter-cohere-north-mini-code-001` |
+| Model / expected upstream | `cohere/north-mini-code:free` / `cohere/north-mini-code-20260617:free` |
+| Expected provider | `Cohere` |
+| Fixture / digest | `s12_lh_config_migration_feasibility@0.1.2` / `05041288fc913ad00e66162b62665159fe6831f74f5c1e7b4bd14d269b7344c5` |
+| Execution stratum | `S12_10_TURNS` |
+| Subject attempts / automatic retries | `1` / `0` |
+| Routing / fallback | `FREE_ONLY`; no model, provider, or paid fallback |
+| Maximum attempt wall time | 30 minutes |
+| Data | `SYNTHETIC_FIRST_PARTY_NON_SENSITIVE_ONLY` |
+
+This is an initial governed feasibility envelope, not a scientifically optimal, validated,
+calibrated, or general benchmarking recommendation. Before `ATTEMPT_CREATED`, the accepted charter
+must be durably integrated, and a specific live execution must receive separate explicit human
+authorization. Record the exact implementation revision; verify exact fixture, task, configuration,
+and verifier identity and integrity; require a valid explicit stratum and credential availability
+without disclosure; run fresh model and provider endpoint metadata preflight; verify zero price,
+frozen model/upstream/provider identities, required parameters, and the fallback prohibition. Any
+mandatory failure blocks attempt creation.
+
+Routing fails closed with `FREE_TIER_UNAVAILABLE`, `SUBJECT_IDENTITY_DRIFT`,
+`PROVIDER_ROUTE_DRIFT`, or `REQUIRED_PARAMETER_UNAVAILABLE` as applicable. There is no automatic
+replacement model, provider substitution, or paid fallback. An unavailable frozen route stops
+execution before generation. A failure before `ATTEMPT_CREATED` leaves Boundary E not entered and
+Observation #4 absent.
+
+`BOUNDARY_E_SCIENTIFIC_ROLE = FEASIBILITY_ONLY`; `SCIENTIFIC_AUTHORITY = NONE`;
+`S09_AUTHORITY = INTERNAL_CONSISTENCY_ONLY`; and
+`S05_LIVE_AUTHORITY = SINGLE_CAPTURE_REPLAY_CONSISTENCY_ONLY`. A Boundary E observation can inform
+feasibility of the frozen real-subject pipeline. It does not establish construct validity,
+calibration, independent-run reliability, external validity or replication, general model
+capability, model superiority, benchmark maturity, scientific validation, or Core promotion
+eligibility. Mapping and replaying one immutable capture is not independent run-to-run reliability
+evidence.
+
+After `ATTEMPT_CREATED`, failure cannot undo Boundary E entry. Preserve the attempt identity,
+generation count, ordered capture, failure point, tool evidence, verifier state, missingness,
+terminal status, available S09 evidence, and non-authoritative diagnostics. A later attempt receives
+a new observation identity; it never overwrites a failed observation.
