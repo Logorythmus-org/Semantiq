@@ -27,6 +27,17 @@ import {
   nodeToolOperations
 } from "./s12-canonical-qualification.js";
 import { S12QualificationRunner, type S12QualificationResult } from "./s12-qualification-runner.js";
+import { EvidenceSystem, EvidenceVerifier } from "./evidence.js";
+import {
+  EVIDENCE_COMPLETENESS_DIMENSIONS,
+  type ArtifactReference,
+  type EvidencePackage,
+  type EvidencePackageInput,
+  type EvidenceCompletenessStatus,
+  type EvidenceValue,
+  type VerificationOutcome,
+  type EnvironmentManifest
+} from "./evidence-types.js";
 
 const execFileAsync = promisify(execFile);
 
@@ -132,12 +143,25 @@ export interface S12TrackAS05Projection {
 
 export interface S12TrackAS09Lineage {
   readonly packageId: string;
-  readonly packageDigest: string;
+  readonly packageDigest?: string | undefined;
   readonly captureReference: string;
   readonly captureDigest: string;
-  readonly internalVerification: string;
+  readonly internalVerification: VerificationOutcome;
+  readonly verification?: import("./evidence-types.js").EvidenceVerificationResult | undefined;
+  readonly evidencePackage?: EvidencePackage | undefined;
+  readonly failure?: string | undefined;
   readonly authority: "INTERNAL_CONSISTENCY_ONLY";
   readonly scientificAuthority: "NONE";
+}
+
+/** S-09 is a required integrity condition, never a sufficient Track-A qualification condition. */
+export function combineS12TrackAQualificationOutcome(
+  outcome: S12TrackAOutcome,
+  s09Outcome: VerificationOutcome
+): S12TrackAOutcome {
+  return outcome === "QUALIFIED" && s09Outcome !== "VERIFIED_INTERNAL_CONSISTENCY"
+    ? "NOT_QUALIFIED"
+    : outcome;
 }
 
 export interface S12TrackAQualificationResult {
@@ -543,6 +567,9 @@ export async function runS12TrackAQualification(input: {
   let repeatabilityProjection: S12TrackARepeatabilityProjection | undefined;
   let s05Projection: S12TrackAS05Projection | undefined;
   let s09: S12TrackAS09Lineage | undefined;
+  const evidenceSystem = new EvidenceSystem();
+  const environmentManifest = createTrackAEnvironmentManifest(evidenceSystem);
+  const evidenceVerifier = new EvidenceVerifier();
   const runner = new S12QualificationRunner(
     adapter,
     new S12LocalToolExecutor(boundedOperations),
@@ -555,7 +582,7 @@ export async function runS12TrackAQualification(input: {
         capture = createS12ExecutionCaptureFromEvents(
           events,
           starting.identity.actualStartingIdentity!,
-          computeSha256("S12_TRACK_A_SCRIPTED_NO_NETWORK_V1"),
+          environmentManifest.environmentDigest,
           s12ProspectiveConfigDigest(S12_EXECUTION_STRATA.S12_10_TURNS)
         );
         const material = repeatabilityMaterial(capture, lastVerification);
@@ -570,28 +597,48 @@ export async function runS12TrackAQualification(input: {
         );
         return repeatabilityProjection;
       },
-      packageEvidence: async ({ attemptId, verification }) => {
-        if (!capture) throw new Error("GOVERNED_CAPTURE_MISSING");
-        const captureDigest = executionCaptureDigest(capture);
-        const verificationDigest = (verification as S12TrackAVerification).verificationDigest;
-        const packageMaterial = {
-          domain: "S12_TRACK_A_S09_LINEAGE_V1",
-          captureReference: `capture:${captureDigest}`,
-          captureDigest,
-          executionId: attemptId,
-          verificationDigest,
-          scientificAuthority: "NONE"
-        };
-        const packageDigest = computeSha256(canonicalJson(packageMaterial));
-        s09 = {
-          packageId: `evidence:${attemptId}`,
-          packageDigest,
-          captureReference: `capture:${captureDigest}`,
-          captureDigest,
-          internalVerification: "INTERNAL_CONSISTENCY_ONLY",
-          authority: "INTERNAL_CONSISTENCY_ONLY",
-          scientificAuthority: "NONE"
-        };
+      packageEvidence: async ({ runId, attemptId, verification }) => {
+        const executionRunId = typeof runId === "string" ? runId : "";
+        const executionAttemptId = typeof attemptId === "string" ? attemptId : "";
+        const captureDigest = capture ? executionCaptureDigest(capture) : "";
+        const captureReference = `capture:${captureDigest}`;
+        const packageId = `evidence:${executionRunId}`;
+        try {
+          if (!executionRunId || !executionAttemptId)
+            throw new Error("GOVERNED_EXECUTION_IDENTITY_MISSING");
+          if (!capture) throw new Error("GOVERNED_CAPTURE_MISSING");
+          const packageInput = createTrackAS09EvidencePackage({
+            packageId,
+            runId: executionRunId,
+            attemptId: executionAttemptId,
+            capture,
+            verification: verification as S12TrackAVerification,
+            environmentManifest
+          });
+          const evidencePackage = evidenceSystem.createEvidencePackage(packageInput);
+          const verificationResult = evidenceVerifier.verify(evidencePackage);
+          s09 = {
+            packageId: evidencePackage.packageId,
+            packageDigest: evidencePackage.packageDigest,
+            captureReference,
+            captureDigest,
+            internalVerification: verificationResult.outcome,
+            verification: verificationResult,
+            evidencePackage,
+            authority: verificationResult.authority,
+            scientificAuthority: verificationResult.scientificAuthority
+          };
+        } catch (error) {
+          s09 = {
+            packageId,
+            captureReference,
+            captureDigest,
+            internalVerification: "NOT_ASSESSED",
+            failure: error instanceof Error ? error.name : "S09_PACKAGE_UNAVAILABLE",
+            authority: "INTERNAL_CONSISTENCY_ONLY",
+            scientificAuthority: "NONE"
+          };
+        }
         return s09;
       }
     },
@@ -608,7 +655,7 @@ export async function runS12TrackAQualification(input: {
     })(),
     diagnostics
   );
-  const qualification = await runner.run({
+  let qualification = await runner.run({
     mode: "DRY_RUN",
     workspaceRoot: input.workspaceRoot,
     fixtureDigest: starting.identity.actualStartingIdentity!,
@@ -621,9 +668,23 @@ export async function runS12TrackAQualification(input: {
     ]
   });
   const verification = qualification.verification as S12TrackAVerification | undefined;
+  const outcome = combineS12TrackAQualificationOutcome(
+    verification?.outcome ?? "NOT_QUALIFIED",
+    s09?.internalVerification ?? "NOT_ASSESSED"
+  );
+  if (verification?.outcome === "QUALIFIED" && outcome !== "QUALIFIED") {
+    qualification = {
+      ...qualification,
+      terminalStatus: "INSTRUMENTATION_FAILURE",
+      structuredFailure: {
+        code: "S09_INTERNAL_VERIFICATION_REQUIRED",
+        detail: "Canonical S-09 internal-consistency verification did not succeed."
+      }
+    };
+  }
   const captureDigest = capture ? executionCaptureDigest(capture) : undefined;
   const result: S12TrackAQualificationResult = {
-    outcome: verification?.outcome ?? "NOT_QUALIFIED",
+    outcome,
     startingIdentity: starting.identity.actualStartingIdentity,
     protectedMaterialDigest: starting.identity.actualProtectedMaterialDigest,
     qualification,
@@ -638,6 +699,317 @@ export async function runS12TrackAQualification(input: {
     trackAResultProofs.set(result, { capture, projection: repeatabilityProjection, verification });
   }
   return result;
+}
+
+function createTrackAEnvironmentManifest(system: EvidenceSystem): EnvironmentManifest {
+  const known = <T>(value: T): EvidenceValue<T> => ({
+    state: "KNOWN",
+    value,
+    evidenceReferences: ["s12:track-a-wrapper"]
+  });
+  const notApplicable = (reason: string): EvidenceValue<never> => ({
+    state: "NOT_APPLICABLE",
+    reason
+  });
+  return system.createEnvironmentManifest({
+    environmentId: "environment:s12-track-a-scripted",
+    environmentVersion: "0.1.0",
+    schemaVersion: "1.0.0",
+    platform: known(process.platform),
+    architecture: known(process.arch),
+    runtime: known("node"),
+    runtimeVersion: known(process.version),
+    containerImageDigest: notApplicable("No container image is used by this synthetic fixture."),
+    hardwareClass: known("local"),
+    acceleratorClass: notApplicable("No accelerator is used."),
+    locale: known("C"),
+    timezonePolicy: known("UTC"),
+    environmentVariables: { classification: "NOT_CAPTURED", names: [] },
+    dependencies: [],
+    dependencyCompleteness: "UNKNOWN",
+    networkDependency: "NO_NETWORK",
+    toolAvailability: ["node", "scripted-s12-subject-transport"],
+    completeness: "PARTIALLY_CAPTURED",
+    limitations: ["Synthetic local Track-A execution; no live provider state is represented."],
+    scientificAuthority: "NONE"
+  });
+}
+
+function createTrackAS09EvidencePackage(input: {
+  readonly packageId: string;
+  readonly runId: string;
+  readonly attemptId: string;
+  readonly capture: S12ExecutionCapture;
+  readonly verification: S12TrackAVerification;
+  readonly environmentManifest: EnvironmentManifest;
+}): EvidencePackageInput {
+  const { capture, verification, environmentManifest } = input;
+  if (
+    capture.runId !== input.runId ||
+    capture.attemptId !== input.attemptId ||
+    capture.environmentDigest !== environmentManifest.environmentDigest
+  )
+    throw new Error("TRACK_A_S09_EXECUTION_LINEAGE_MISMATCH");
+
+  const known = <T>(value: T): EvidenceValue<T> => ({
+    state: "KNOWN",
+    value,
+    evidenceReferences: ["s12:track-a-wrapper"]
+  });
+  const unknown = (reason: string): EvidenceValue<never> => ({ state: "UNKNOWN", reason });
+  const notApplicable = <T>(reason: string): EvidenceValue<T> => ({
+    state: "NOT_APPLICABLE",
+    reason
+  });
+  const captureDigest = executionCaptureDigest(capture);
+  const captureReference = `capture:${captureDigest}`;
+  const fixtureReference = `fixture:${capture.fixtureDigest}`;
+  const verifierReference = `verifier:${verification.verificationDigest}`;
+  const resultReference = `result:${input.runId}`;
+  const configurationReference = `configuration:${capture.configDigest}`;
+  const digest = (value: unknown) => ({
+    algorithm: "SHA_256" as const,
+    value: computeSha256(canonicalJson(value)),
+    canonicalizationProfile: "semantiq-canonical-json-v1" as const
+  });
+  const record = (
+    referenceId: string,
+    scope: "EXECUTION_S09" | "OTHER" | "RESULT",
+    recordId: string,
+    value: unknown,
+    provenanceReferences: readonly string[]
+  ) => ({
+    referenceId,
+    scope,
+    recordId,
+    recordVersion: "0.1.0",
+    semanticDigest: digest(value),
+    availability: "REFERENCED" as const,
+    provenanceReferences
+  });
+  const artifact = (
+    artifactId: string,
+    kind: ArtifactReference["kind"],
+    value: unknown,
+    provenanceReferences: readonly string[]
+  ): ArtifactReference => {
+    const contentDigest = {
+      algorithm: "SHA_256" as const,
+      value: computeSha256(canonicalJson(value)),
+      representation: "CANONICAL_JSON" as const
+    };
+    return {
+      artifactId,
+      artifactVersion: "0.1.0",
+      kind,
+      contentDigest,
+      observedContentDigest: contentDigest,
+      mediaType: "application/json",
+      availability: "REFERENCED",
+      locationClass: "NOT_DISCLOSED",
+      rightsStatus: "UNKNOWN_RIGHTS",
+      provenanceReferences,
+      limitations: ["S-09 retains the canonical digest; source bytes are not embedded."]
+    };
+  };
+  const resultMaterial = {
+    runId: input.runId,
+    attemptId: input.attemptId,
+    captureDigest,
+    verificationDigest: verification.verificationDigest,
+    outcome: verification.outcome,
+    authority: "INTERNAL_CONSISTENCY_ONLY",
+    scientificAuthority: "NONE"
+  };
+  const randomization = {
+    policy: notApplicable<string>("No stochastic model inference occurs in the scripted fixture."),
+    algorithm: notApplicable<string>("No randomization algorithm is used."),
+    seed: notApplicable<number>("No randomization seed is used."),
+    scope: notApplicable<string>("No randomization scope applies."),
+    implementationVersion: notApplicable<string>("No randomization implementation applies.")
+  };
+  const conditions = {
+    configurationReference: known(configurationReference),
+    configurationDigest: known(capture.configDigest),
+    language: known("en"),
+    toolPolicy: known("S12_BOUNDED_LOCAL_TOOLS"),
+    model: unknown("The scripted transport is not a model identity or provider observation."),
+    modelEvidenceStatuses: [],
+    samplingConfigurationReference: notApplicable<string>("No sampling is performed."),
+    randomization
+  };
+  const sourceRevision = {
+    gitCommit: unknown("Source revision is not part of the Track-A capture contract."),
+    gitTree: unknown("Source tree is not part of the Track-A capture contract."),
+    packageVersion: unknown("Package version is not captured by the fixture."),
+    schemaVersions: [{ schemaId: "s12-track-a-capture", schemaVersion: "1.0.0" }]
+  };
+  const execution = new EvidenceSystem().createExecutionManifest({
+    manifestId: `manifest:${input.runId}`,
+    manifestVersion: "0.1.0",
+    schemaVersion: "1.0.0",
+    executionId: input.attemptId,
+    executionStatus: "SUCCEEDED",
+    targetReference: resultReference,
+    benchmarkIdentity: unknown(
+      "Track A is a synthetic engineering fixture, not a registered benchmark claim."
+    ),
+    itemIdentity: known({
+      itemId: S12_TRACK_A_FIXTURE.scenarioId,
+      itemVersion: S12_TRACK_A_FIXTURE.version
+    }),
+    constructReference: unknown("No scientific construct is claimed."),
+    metricIdentity: unknown("No scientific metric is claimed."),
+    evaluatorIdentity: unknown("No registered scientific evaluator is claimed."),
+    studyProtocolReference: known("S12_TRACK_A_SYNTHETIC_PIPELINE_QUALIFICATION"),
+    comparisonDefinitionReference: notApplicable(
+      "This package records one execution, not a comparison."
+    ),
+    intended: conditions,
+    observed: conditions,
+    environmentDigest: environmentManifest.environmentDigest,
+    sourceRevision,
+    inputArtifactIds: [fixtureReference],
+    expectedOutputArtifactIds: [resultReference],
+    observedOutputArtifactIds: [resultReference],
+    evidenceReferences: [
+      fixtureReference,
+      captureReference,
+      verifierReference,
+      configurationReference
+    ],
+    scientificAuthority: "NONE"
+  });
+  const completeness = EVIDENCE_COMPLETENESS_DIMENSIONS.map((dimension) => {
+    const status: EvidenceCompletenessStatus = [
+      "VALIDITY",
+      "HUMAN_PROTOCOL",
+      "COMPARABILITY",
+      "METRIC",
+      "EVALUATOR"
+    ].includes(dimension)
+      ? "NOT_APPLICABLE"
+      : ["DEPENDENCIES", "RELIABILITY"].includes(dimension)
+        ? "UNKNOWN"
+        : dimension === "ENVIRONMENT"
+          ? "PARTIAL"
+          : "COMPLETE";
+    return {
+      dimension,
+      status,
+      critical: [
+        "IDENTITY",
+        "INPUT",
+        "CONFIGURATION",
+        "EXECUTION",
+        "OUTPUT",
+        "PROVENANCE"
+      ].includes(dimension),
+      evidenceReferences: [captureReference, verifierReference],
+      rationale:
+        status === "NOT_APPLICABLE"
+          ? "Track A makes no scientific or human-study claim."
+          : status === "UNKNOWN"
+            ? "This dimension is not established by the synthetic execution."
+            : status === "PARTIAL"
+              ? "Only the local scripted execution environment is captured."
+              : "Bound to the synthetic Track-A execution evidence."
+    };
+  });
+  const packageInput: EvidencePackageInput = {
+    packageId: input.packageId,
+    packageVersion: "0.1.0",
+    schemaVersion: "1.0.0",
+    packageMode: "REFERENTIAL",
+    target: {
+      referenceId: resultReference,
+      scope: "RESULT",
+      claimOrResultType: "S12_TRACK_A_SYNTHETIC_PIPELINE_QUALIFICATION"
+    },
+    records: [
+      record(
+        fixtureReference,
+        "OTHER",
+        "s12_track_a_fixture",
+        { fixtureDigest: capture.fixtureDigest },
+        [captureReference]
+      ),
+      record(captureReference, "EXECUTION_S09", "s12_track_a_execution_capture", capture, [
+        input.attemptId
+      ]),
+      record(verifierReference, "OTHER", "s12_track_a_final_state_verifier", verification, [
+        captureReference
+      ]),
+      record(resultReference, "RESULT", "s12_track_a_qualification_result", resultMaterial, [
+        input.attemptId
+      ])
+    ],
+    requirements: [
+      {
+        requirementId: "fixture",
+        purpose: "ENGINEERING_CONFORMANCE",
+        referenceId: fixtureReference,
+        critical: true
+      },
+      {
+        requirementId: "capture",
+        purpose: "ENGINEERING_CONFORMANCE",
+        referenceId: captureReference,
+        critical: true
+      },
+      {
+        requirementId: "final-state-verifier",
+        purpose: "ENGINEERING_CONFORMANCE",
+        referenceId: verifierReference,
+        critical: true
+      },
+      {
+        requirementId: "result",
+        purpose: "ENGINEERING_CONFORMANCE",
+        referenceId: resultReference,
+        critical: true
+      }
+    ],
+    artifacts: [
+      artifact(fixtureReference, "FIXTURE", { fixtureDigest: capture.fixtureDigest }, [
+        captureReference
+      ]),
+      artifact(captureReference, "TRACE", capture, [input.attemptId]),
+      artifact(verifierReference, "REPORT", verification, [captureReference]),
+      artifact(resultReference, "REPORT", resultMaterial, [input.attemptId])
+    ],
+    executionManifest: execution,
+    environmentManifest,
+    completeness,
+    chain: [
+      {
+        fromReference: fixtureReference,
+        relationship: "USED_INPUT",
+        toReference: captureReference
+      },
+      {
+        fromReference: captureReference,
+        relationship: "EXECUTED_AS",
+        toReference: input.attemptId
+      },
+      { fromReference: input.attemptId, relationship: "PRODUCED", toReference: resultReference },
+      {
+        fromReference: resultReference,
+        relationship: "SUPPORTED_BY",
+        toReference: verifierReference
+      }
+    ],
+    determinismClass: "UNKNOWN",
+    evaluatorDeterminism: notApplicable("No scientific evaluator determinism is asserted."),
+    reproducibilityStatus: "NOT_ASSESSED",
+    signatureStatus: "NOT_IMPLEMENTED",
+    limitations: [
+      "S-09 verification establishes internal package consistency only.",
+      "The synthetic execution makes no scientific or model-capability claim."
+    ],
+    scientificAuthority: "NONE"
+  };
+  return packageInput;
 }
 
 function createS05Projection(

@@ -3,11 +3,14 @@ import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
 import {
+  combineS12TrackAQualificationOutcome,
   compareS12TrackARepeatability,
   runS12TrackAQualification,
   S12_TRACK_A_FIXTURE,
   verifyS12TrackAStartingFixture
 } from "../../packages/benchmark/src/s12-track-a-qualification.js";
+import { EvidenceSystem, EvidenceVerifier } from "../../packages/benchmark/src/evidence.js";
+import type { EvidencePackage } from "../../packages/benchmark/src/evidence-types.js";
 
 const fixture = path.resolve("fixtures/s12-pipeline-qualification-edit");
 const temporary: string[] = [];
@@ -58,7 +61,107 @@ describe("S12 Track-A governed reconstruction", () => {
     expect(first.s09?.captureReference).toBe(`capture:${first.captureDigest}`);
     expect(first.s09?.authority).toBe("INTERNAL_CONSISTENCY_ONLY");
     expect(first.s09?.scientificAuthority).toBe("NONE");
+    expect(first.s09?.internalVerification).toBe("VERIFIED_INTERNAL_CONSISTENCY");
+    expect(first.s09?.verification).toMatchObject({
+      outcome: "VERIFIED_INTERNAL_CONSISTENCY",
+      authority: "INTERNAL_CONSISTENCY_ONLY",
+      schemaValid: true,
+      digestConsistent: true,
+      referenceClosure: true,
+      findings: [],
+      scientificAuthority: "NONE"
+    });
+    expect(first.s09?.evidencePackage).toBeDefined();
+    expect(first.s09?.verification).toEqual(
+      new EvidenceVerifier().verify(first.s09!.evidencePackage!)
+    );
+    expect(first.capture?.environmentDigest).toBe(
+      first.s09?.evidencePackage?.environmentManifest.environmentDigest
+    );
     expect(await readFile(path.join(firstRoot, "src/message.mjs"), "utf8")).toContain('"beta"');
+  });
+
+  it("fails closed on capture/content digests, required references, and environment identity", async () => {
+    const root = await copyFixture();
+    const result = await runS12TrackAQualification({ workspaceRoot: root });
+    const validPackage = result.s09?.evidencePackage;
+    expect(validPackage).toBeDefined();
+    const system = new EvidenceSystem();
+    const verifyTampered = (changed: Omit<EvidencePackage, "packageDigest">) => {
+      const tampered = {
+        ...changed,
+        packageDigest: system.packageDigest(changed as EvidencePackage)
+      };
+      return new EvidenceVerifier().verify(tampered);
+    };
+
+    const captureArtifact = validPackage!.artifacts.find(
+      ({ artifactId }) => artifactId === result.s09?.captureReference
+    )!;
+    const captureMismatch = verifyTampered({
+      ...validPackage!,
+      artifacts: validPackage!.artifacts.map((artifact) =>
+        artifact === captureArtifact
+          ? {
+              ...artifact,
+              observedContentDigest: { ...artifact.observedContentDigest!, value: "0".repeat(64) }
+            }
+          : artifact
+      )
+    });
+    expect(captureMismatch.outcome).toBe("VERIFICATION_FAILED");
+    expect(captureMismatch.findings.map(({ code }) => code)).toContain("ARTIFACT_DIGEST_MISMATCH");
+    expect(combineS12TrackAQualificationOutcome("QUALIFIED", captureMismatch.outcome)).toBe(
+      "NOT_QUALIFIED"
+    );
+
+    const missingCapture = verifyTampered({
+      ...validPackage!,
+      artifacts: validPackage!.artifacts.filter(
+        ({ artifactId }) => artifactId !== result.s09?.captureReference
+      ),
+      records: validPackage!.records.filter(
+        ({ referenceId }) => referenceId !== result.s09?.captureReference
+      ),
+      executionManifest: {
+        ...validPackage!.executionManifest,
+        evidenceReferences: validPackage!.executionManifest.evidenceReferences.filter(
+          (reference) => reference !== result.s09?.captureReference
+        )
+      }
+    });
+    expect(missingCapture.outcome).toBe("VERIFICATION_FAILED");
+    expect(missingCapture.findings.map(({ code }) => code)).toContain(
+      "UNRESOLVED_REQUIRED_REFERENCE"
+    );
+    expect(combineS12TrackAQualificationOutcome("QUALIFIED", missingCapture.outcome)).toBe(
+      "NOT_QUALIFIED"
+    );
+
+    const inconsistentManifest = verifyTampered({
+      ...validPackage!,
+      environmentManifest: {
+        ...validPackage!.environmentManifest,
+        runtimeVersion: { state: "KNOWN", value: "tampered", evidenceReferences: [] }
+      }
+    });
+    expect(inconsistentManifest.outcome).toBe("VERIFICATION_FAILED");
+    expect(inconsistentManifest.findings.map(({ code }) => code)).toContain(
+      "ENVIRONMENT_DIGEST_MISMATCH"
+    );
+    expect(combineS12TrackAQualificationOutcome("QUALIFIED", inconsistentManifest.outcome)).toBe(
+      "NOT_QUALIFIED"
+    );
+  });
+
+  it("does not let S-09 success override Track-A failure or missingness", () => {
+    expect(
+      combineS12TrackAQualificationOutcome("NOT_QUALIFIED", "VERIFIED_INTERNAL_CONSISTENCY")
+    ).toBe("NOT_QUALIFIED");
+    expect(combineS12TrackAQualificationOutcome("MISSING", "VERIFIED_INTERNAL_CONSISTENCY")).toBe(
+      "MISSING"
+    );
+    expect(combineS12TrackAQualificationOutcome("QUALIFIED", "NOT_ASSESSED")).toBe("NOT_QUALIFIED");
   });
 
   it("does not report exact match for independent nonmatching projections", async () => {

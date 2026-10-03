@@ -308,10 +308,13 @@ The Track-A workflow invokes the existing governed `createS12ExecutionCaptureFro
 Its repeatability projection is a derivative that removes timestamps and measured runtime while
 retaining model-turn content digests, tool calls and results, mutation sequence, terminal status,
 fixture/configuration/environment identities, and verification outcome. It is not a second
-canonical capture. S09 lineage references the governed capture digest and has
-`INTERNAL_CONSISTENCY_ONLY` authority; scientific authority is `NONE`. Diagnostic sidecars remain
-non-authoritative observability and do not enter the capture, S05 projection, S09 lineage, or
-successful-task evidence.
+canonical capture. Track A packages its governed capture, fixture, and final-state verifier lineage
+through the canonical S-09 `EvidenceSystem` and `EvidenceVerifier`. Canonical internal-consistency
+success is a necessary evidence-integrity condition for a qualified Track-A result; S-09 success
+cannot override `NOT_QUALIFIED` or `MISSING`. S-09 authority remains `INTERNAL_CONSISTENCY_ONLY`,
+and scientific authority remains `NONE`; this verification is not scientific validation. Diagnostic
+sidecars remain non-authoritative observability and do not enter the capture, S05 projection, S09
+lineage, or successful-task evidence.
 
 The local transport is scripted and has no network or credential dependency. Its metadata is a
 compatibility seam for the existing S12 runner, not a real provider observation. No model-generation
