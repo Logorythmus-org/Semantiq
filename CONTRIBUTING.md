@@ -58,6 +58,19 @@ expected behavior; do not include secrets or private data.
 - Core semantic and architectural work requires the applicable specification or RFC; bounded Fast-path work does not.
 - No architecture redesign during implementation prompts unless a fundamental implementation issue is documented.
 
+## Public repository hygiene
+
+SemantIQ is a public repository. Contributions must keep the public surface limited to SemantIQ code, normative documentation, reproducible evidence, supported examples, and release material that is intended for external readers.
+
+Do not commit:
+
+- prompt packages, handoff notes, completion reports, private working notes, or phase/sprint execution diaries;
+- local filesystem paths, local-machine audit dumps, temporary migration manifests, or internal cleanup reports;
+- documents, media, architecture material, or product plans belonging to another project;
+- draft release authorization or governance artifacts when the durable public truth belongs in an existing canonical document.
+
+When an internal artifact contains a public fact worth preserving, move that fact into the relevant canonical SemantIQ document instead of publishing the internal artifact.
+
 ## Licensing & Rights
 
 All contributions are subject to the multi-tier licensing terms defined in [`LICENSING.md`](LICENSING.md):
