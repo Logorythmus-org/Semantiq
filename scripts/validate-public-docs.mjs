@@ -14,6 +14,7 @@ const activePublicFiles = [
   "Docs/DOCUMENTATION_INDEX.md",
   "Docs/QUICK_START.md",
   "Docs/INSTALLATION_MATRIX.md",
+  "Docs/KNOWN_LIMITATIONS.md",
   "Docs/getting-started/README.md",
   "Docs/concepts/README.md",
   "Docs/architecture/README.md",
@@ -44,6 +45,14 @@ const forbiddenActivePatterns = [
   ["local Tech-Club workspace path", /desktop[\\/]tech-club/i],
   ["stale Semant-iq repository URL", /https:\/\/github\.com\/semant-iq\/semantiq(?:\.git)?/i],
   ["stale Tech-Club organization URL", /https:\/\/github\.com\/tech-club(?:\/|$)/i]
+];
+
+const forbiddenPublicArtifactPaths = [
+  [/^PHASE_[0-9_]+.*(?:REPORT|READINESS|AUTHORIZATION|HANDOFF|DRAFT).*\.md$/i, "root phase execution artifact"],
+  [/^(?:canonical|targeted|release-recovery|release-candidate-sealing|human-governance).*report.*\.md$/i, "root internal audit/report artifact"],
+  [/^Docs\/(?:implementation-cycle-[^/]+|phase-[^/]+|reports|repository|audit)\//i, "internal process documentation tree"],
+  [/^Docs\/[^/]*(?:TECH[-_ ]?CLUB|SONDERHEFT)[^/]*$/i, "cross-project documentation asset"],
+  [/^Docs\/[^/]+(?:_REPORT|_AUDIT|_HANDOFF|_READINESS|_STATUS|_ANNOUNCEMENT|_VERDICT|_CORRECTIONS|_FINDINGS|_SCORE)\.md$/i, "top-level internal process artifact"]
 ];
 
 const failures = [];
@@ -96,6 +105,31 @@ for (const repositoryPath of activePublicFiles) {
     const resolvedTarget = resolve(dirname(absolutePath), localTarget);
     if (!existsSync(resolvedTarget)) {
       failures.push(`${repositoryPath}: missing relative link target ${target}`);
+    }
+  }
+}
+
+function repositoryFiles(directory, relativeDirectory = "") {
+  const files = [];
+  for (const entry of readdirSync(directory, { withFileTypes: true })) {
+    if (entry.name === ".git" || entry.name === "node_modules" || entry.name === "dist") {
+      continue;
+    }
+    const relativePath = relativeDirectory ? `${relativeDirectory}/${entry.name}` : entry.name;
+    const absolutePath = join(directory, entry.name);
+    if (entry.isDirectory()) {
+      files.push(...repositoryFiles(absolutePath, relativePath));
+    } else if (entry.isFile()) {
+      files.push(relativePath.replaceAll("\\", "/"));
+    }
+  }
+  return files;
+}
+
+for (const repositoryPath of repositoryFiles(repositoryRoot)) {
+  for (const [pattern, label] of forbiddenPublicArtifactPaths) {
+    if (pattern.test(repositoryPath)) {
+      failures.push(`${repositoryPath}: forbidden ${label}`);
     }
   }
 }
