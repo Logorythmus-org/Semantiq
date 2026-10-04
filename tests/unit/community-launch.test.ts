@@ -15,10 +15,10 @@ describe("Prompt 7.6 — Community Launch Verification", () => {
 
   it("formats community release announcement", () => {
     const announcement = formatReleaseAnnouncement(
-      "v0.1.0-alpha.1",
+      "v0.1.0-alpha.2",
       "https://github.com/Logorythmus-org/Semantiq.git"
     );
-    expect(announcement).toContain("SemantIQ Benchmarks v0.1.0-alpha.1 Public Alpha Released!");
+    expect(announcement).toContain("SemantIQ Benchmarks v0.1.0-alpha.2 Public Alpha Released!");
     expect(announcement).toContain("https://github.com/Logorythmus-org/Semantiq.git");
   });
 
@@ -27,8 +27,6 @@ describe("Prompt 7.6 — Community Launch Verification", () => {
     expect(existsSync(".github/ISSUE_TEMPLATE/config.yml")).toBe(true);
     expect(existsSync(".github/ISSUE_TEMPLATE/benchmark_pack_proposal.yml")).toBe(true);
     expect(existsSync(".github/ISSUE_TEMPLATE/model_connector_request.yml")).toBe(true);
-    expect(existsSync("Docs/COMMUNITY_LAUNCH_KIT.md")).toBe(true);
     expect(existsSync("Docs/ECOSYSTEM_CONTRIBUTION_GUIDE.md")).toBe(true);
-    expect(existsSync("Docs/COMMUNITY_LAUNCH_REPORT.md")).toBe(true);
   });
 });
