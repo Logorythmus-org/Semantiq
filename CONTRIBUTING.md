@@ -36,7 +36,7 @@ expected behavior; do not include secrets or private data.
 1. Audit the affected architecture, contracts, scientific invariants, security boundaries, and cross-language surfaces.
 2. Link the governing issue and create or update the specification or RFC when required by the [RFC process](Docs/governance/rfc_process.md).
 3. Define acceptance tests and compatibility, security, and evidence expectations before implementation.
-4. Implement the smallest production-ready increment without weakening existing gates.
+4. Implement the smallest reviewable, evidence-bounded increment appropriate to the current Public Alpha maturity without weakening existing gates.
 5. Run the full applicable validation, including `pnpm test`, `pnpm test:python`, `pnpm typecheck`, `pnpm lint`, and package-boundary, security, documentation, or version checks affected by the change.
 6. Update the relevant normative documentation, migration guidance, and release notes.
 7. Open a pull request, select **Core change path**, complete every applicable impact section, and obtain CODEOWNER review.
@@ -62,7 +62,7 @@ AI-assisted work is not hidden or prohibited. When disclosure is useful, record 
 - Package boundaries remain explicit (core domain packages never import application services).
 - Scientific guardrails: All empirical claims must adhere to controlled language policies (no unsupported causal assertions).
 - Core semantic and architectural work requires the applicable specification or RFC; bounded Fast-path work does not.
-- No architecture redesign during implementation prompts unless a fundamental implementation issue is documented.
+- Architecture changes must be surfaced through the applicable issue/RFC/ADR review path rather than introduced implicitly inside an implementation-only change.
 
 ## Public repository hygiene
 
@@ -77,7 +77,19 @@ Do not commit:
 
 When an internal artifact contains a public fact worth preserving, move that fact into the relevant canonical SemantIQ document instead of publishing the internal artifact.
 
+## Help, support, and governance
+
+- [Support routing](SUPPORT.md)
+- [Repository governance](GOVERNANCE.md)
+- [Code of Conduct](.github/CODE_OF_CONDUCT.md)
+- [RFC process](Docs/governance/rfc_process.md)
+
+Public Alpha support is best-effort; contribution review and issue submission do
+not create a response SLA, roadmap commitment, partnership, or external-validation
+claim.
+
 ## Licensing & Rights
+
 
 All contributions are subject to the multi-tier licensing terms defined in [`LICENSING.md`](LICENSING.md):
 
