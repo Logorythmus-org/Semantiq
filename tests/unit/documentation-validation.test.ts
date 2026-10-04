@@ -2,10 +2,10 @@ import { execSync } from "node:child_process";
 import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 
-describe("Prompt 7.2 — Documentation Validation Verification", () => {
+describe("Documentation validation", () => {
   it("verifies master documentation index and key guide files exist", () => {
     expect(existsSync("Docs/DOCUMENTATION_INDEX.md")).toBe(true);
-    expect(existsSync("Docs/DOCUMENTATION_VALIDATION_REPORT.md")).toBe(true);
+    expect(existsSync("Docs/KNOWN_LIMITATIONS.md")).toBe(true);
     expect(existsSync("Docs/QUICK_START.md")).toBe(true);
     expect(existsSync("Docs/FAQ.md")).toBe(true);
     expect(existsSync("scripts/build-docs.mjs")).toBe(true);

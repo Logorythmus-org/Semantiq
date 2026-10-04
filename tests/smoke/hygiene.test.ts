@@ -17,13 +17,11 @@ describe("Repository Hygiene Smoke Tests", () => {
     }
   });
 
-  it("verifies documentation reports exist", () => {
-    expect(existsSync("Docs/ACCESSIBILITY_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/PERFORMANCE_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/SECURITY_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/PRIVACY_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/LICENSING_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/REPOSITORY_HYGIENE_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/CONSOLIDATED_REMEDIATION_REGISTER.md")).toBe(true);
+  it("verifies canonical public documentation exists", () => {
+    expect(existsSync("README.md")).toBe(true);
+    expect(existsSync("SECURITY.md")).toBe(true);
+    expect(existsSync("LICENSING.md")).toBe(true);
+    expect(existsSync("Docs/DOCUMENTATION_INDEX.md")).toBe(true);
+    expect(existsSync("Docs/KNOWN_LIMITATIONS.md")).toBe(true);
   });
 });

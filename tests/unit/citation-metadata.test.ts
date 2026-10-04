@@ -15,7 +15,6 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
     expect(existsSync("Docs/ZENODO_DOI_WORKFLOW.md")).toBe(true);
     expect(existsSync("Docs/VERSION_DOI_VS_CONCEPT_DOI.md")).toBe(true);
     expect(existsSync("Docs/AUTHOR_AND_CONTRIBUTOR_IDENTIFIERS.md")).toBe(true);
-    expect(existsSync("Docs/DOI_PUBLICATION_CHECKLIST.md")).toBe(true);
   });
 
   it("verifies cross-file version consistency", () => {
@@ -29,22 +28,22 @@ describe("Citation & DOI Infrastructure (Prompt 6.17)", () => {
   it("formats BibTeX and APA citations accurately", () => {
     const meta: CitationMetadata = {
       cffVersion: "1.2.0",
-      title: "SemantIQ Benchmarks: Local-First AI Evaluation Toolkit",
-      version: "0.1.0-alpha.1",
+      title: "SemantIQ: Behavioral Evidence Infrastructure for AI Systems",
+      version: "0.1.0-alpha.2",
       dateReleased: "2026-07-31",
       repositoryCode: "https://github.com/Logorythmus-org/Semantiq",
       license: "MIT",
-      authors: [{ name: "Tech Club Foundation" }]
+      authors: [{ name: "Logorythmus" }]
     };
 
     const bibtex = formatBibtexCitation(meta);
     expect(bibtex).toContain("@software{semantiq_benchmarks_2026");
     expect(bibtex).toContain(
-      "title        = {SemantIQ Benchmarks: Local-First AI Evaluation Toolkit}"
+      "title        = {SemantIQ: Behavioral Evidence Infrastructure for AI Systems}"
     );
 
     const apa = formatApaCitation(meta);
     expect(apa).toContain("(2026)");
-    expect(apa).toContain("Version 0.1.0-alpha.1");
+    expect(apa).toContain("Version 0.1.0-alpha.2");
   });
 });

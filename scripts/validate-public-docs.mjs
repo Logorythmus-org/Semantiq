@@ -14,6 +14,7 @@ const activePublicFiles = [
   "Docs/DOCUMENTATION_INDEX.md",
   "Docs/QUICK_START.md",
   "Docs/INSTALLATION_MATRIX.md",
+  "Docs/KNOWN_LIMITATIONS.md",
   "Docs/getting-started/README.md",
   "Docs/concepts/README.md",
   "Docs/architecture/README.md",
@@ -42,6 +43,7 @@ const forbiddenActivePatterns = [
   ["local file URL", /file:\/\/\/[a-z]:/i],
   ["personal Windows path", /[a-z]:[\\/]users[\\/]/i],
   ["local Tech-Club workspace path", /desktop[\\/]tech-club/i],
+  ["legacy TechLab identity", /tech[-_ ]?lab/i],
   ["stale Semant-iq repository URL", /https:\/\/github\.com\/semant-iq\/semantiq(?:\.git)?/i],
   ["stale Tech-Club organization URL", /https:\/\/github\.com\/tech-club(?:\/|$)/i]
 ];

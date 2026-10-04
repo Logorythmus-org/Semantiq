@@ -22,7 +22,6 @@ describe("Prompt 7.5 — Scientific Visibility & Citation Verification", () => {
     expect(existsSync("examples/citation/datacite.json")).toBe(true);
     expect(existsSync("Docs/SCIENTIFIC_VISIBILITY.md")).toBe(true);
     expect(existsSync("Docs/PREPRINT_PREPARATION.md")).toBe(true);
-    expect(existsSync("Docs/SCIENTIFIC_VISIBILITY_REPORT.md")).toBe(true);
 
     const jsonStr = readFileSync("examples/citation/datacite.json", "utf-8");
     const json = JSON.parse(jsonStr) as { schemaVersion: string };

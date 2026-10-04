@@ -28,7 +28,7 @@ describe("Prompt 7.4 — Kaggle Integration Verification", () => {
 
   it("generates compliant Kaggle dataset-metadata.json structures", () => {
     const meta = generateKaggleDatasetMetadata("test-dataset", "Test Title", "CC0-1.0");
-    expect(meta.id).toEqual("techclub/test-dataset");
+    expect(meta.id).toEqual("logorythmus/test-dataset");
     expect(meta.licenses[0]?.name).toEqual("CC0-1.0");
   });
 
@@ -36,10 +36,9 @@ describe("Prompt 7.4 — Kaggle Integration Verification", () => {
     expect(existsSync("examples/kaggle/dataset-metadata.json")).toBe(true);
     expect(existsSync("examples/kaggle/semantiq_starter.py")).toBe(true);
     expect(existsSync("Docs/KAGGLE_GUIDE.md")).toBe(true);
-    expect(existsSync("Docs/KAGGLE_INTEGRATION_REPORT.md")).toBe(true);
 
     const jsonStr = readFileSync("examples/kaggle/dataset-metadata.json", "utf-8");
     const json = JSON.parse(jsonStr) as { id: string };
-    expect(json.id).toContain("techclub/");
+    expect(json.id).toContain("logorythmus/");
   });
 });

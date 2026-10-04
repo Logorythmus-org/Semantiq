@@ -1,4 +1,3 @@
-import { existsSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import {
   detectScoreRegressions,
@@ -41,12 +40,5 @@ describe("Prompt 7.9 — Alpha Stabilization Verification", () => {
     const res = await executeStabilizedEvaluation(engine, subject, profile);
     expect(res.report).toBeDefined();
     expect(res.recovered).toBe(false);
-  });
-
-  it("verifies stabilization report files on disk", () => {
-    expect(existsSync("Docs/ALPHA_STABILIZATION.md")).toBe(true);
-    expect(existsSync("Docs/SYSTEM_RELIABILITY_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/STABILIZATION_VERIFICATION_REPORT.md")).toBe(true);
-    expect(existsSync("Docs/PHASE_7_COMPLETE_SUMMARY.md")).toBe(true);
   });
 });

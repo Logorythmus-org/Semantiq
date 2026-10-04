@@ -56,7 +56,6 @@ describe("Prompt 7.7 — External Benchmark Ecosystem Verification", () => {
     expect(existsSync("examples/ecosystem/benchmark-registry.json")).toBe(true);
     expect(existsSync("examples/ecosystem/external-benchmark-pack.json")).toBe(true);
     expect(existsSync("Docs/EXTERNAL_BENCHMARK_ECOSYSTEM.md")).toBe(true);
-    expect(existsSync("Docs/ECOSYSTEM_INTEGRATION_REPORT.md")).toBe(true);
 
     const jsonStr = readFileSync("examples/ecosystem/external-benchmark-pack.json", "utf-8");
     const json = JSON.parse(jsonStr) as ExternalBenchmarkPack;

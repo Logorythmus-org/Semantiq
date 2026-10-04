@@ -53,7 +53,7 @@ Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation pla
 - 📑 **[Partner Protocols & Exchange](partners/README.md)**: Pre-registration • Execution Manifests • External Evidence Eligibility Gate • Cross-Org Replication
 - ⚖️ **[Licensing & Intellectual Property](../LICENSING.md)**: Multi-tier licensing (MIT code, CC0 datasets/prompts, CC-BY-4.0 docs)
 - 🏷️ **[Versioning & Release Policy](VERSIONING_POLICY.md)**: SemVer rules, schema stability, and benchmark preservation
-- 📋 **[Release Readiness Audit](release/core_product_readiness.md)**: 19-dimension audit report for the Headless Milestone
+- 📋 **[Known Limitations](KNOWN_LIMITATIONS.md)**: Canonical Public Alpha validation, scientific, runtime, and release boundaries
 
 ---
 
@@ -84,4 +84,4 @@ Every documentation artifact in this repository carries an explicit status:
 - **`NORMATIVE`**: Authoritative, binding product specifications, mathematical contracts, and security policies.
 - **`REVIEWED`**: Technical guides, walkthroughs, and developer tutorials verified against current codebase.
 - **`DRAFT`**: Active RFCs and preliminary specifications undergoing community review.
-- **`HISTORICAL`**: Archived records, pre-headless audit reports, and legacy migration logs preserved for provenance.
+- **`HISTORICAL`**: Deliberately curated public provenance only. Internal prompts, handoffs, sprint reports, local audit dumps, and migration logs do not belong in the public repository.

@@ -33,7 +33,7 @@ export function generateKaggleDatasetMetadata(
 ): KaggleDatasetMetadata {
   return {
     title,
-    id: `techclub/${slug}`,
+    id: `logorythmus/${slug}`,
     licenses: [{ name: license }]
   };
 }

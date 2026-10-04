@@ -32,7 +32,7 @@ an independently validated standard.
 | **EXTERNALLY REPLICATED** | Not yet established. No independent third-party replication or audit has been verified; implemented partner and replication mechanisms are capabilities, not external evidence.                             |
 | **NOT YET VALIDATED**     | Production-scale reliability, real-world adoption, ecosystem-scale governance, and resistance to unforeseen public benchmark gaming remain unvalidated.                                                     |
 
-See the [Public Alpha limitations](PHASE_12_PUBLIC_LIMITATIONS.md) and
+See the [Known limitations](Docs/KNOWN_LIMITATIONS.md) and
 [Scientific Guardrails](Docs/SCIENTIFIC_GUARDRAILS.md) for the detailed evidence
 and claim boundaries.
 
@@ -336,5 +336,5 @@ pnpm verify
 ## License & Attribution
 
 - **Software**: [MIT License](LICENSE)
-- **Documentation**: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](Docs/LICENSING_REPORT.md)
+- **Documentation**: [Creative Commons Attribution 4.0 International (CC-BY-4.0)](LICENSING.md)
 - **Metadata**: [CITATION.cff](CITATION.cff), [codemeta.json](codemeta.json)

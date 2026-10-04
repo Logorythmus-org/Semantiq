@@ -35,6 +35,5 @@ describe("Prompt 7.3 — Hugging Face Integration Verification", () => {
   it("verifies Hugging Face dataset card file on disk", () => {
     expect(existsSync("Docs/HUGGINGFACE_DATASET_CARD.md")).toBe(true);
     expect(existsSync("Docs/HUGGINGFACE_GUIDE.md")).toBe(true);
-    expect(existsSync("Docs/HUGGINGFACE_PUBLICATION_REPORT.md")).toBe(true);
   });
 });
