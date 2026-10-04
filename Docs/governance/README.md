@@ -1,21 +1,28 @@
-# Product Domain Governance & Stewardship
+# Governance & Stewardship
 
-**Status**: `NORMATIVE`  
-**Target Audience**: Maintainers, Contributors, Community Members  
+**Status**: `NORMATIVE INDEX`  
+**Target Audience**: Maintainers, Contributors, Community Members
 
 ---
 
 ## Overview
 
-SemantIQ operates under a decentralized **Product-Domain Ownership Model** covering 10 core functional pillars.
+This section documents SemantIQ's current repository governance and clearly
+separates current authority from historical or prospective governance designs.
 
----
+## Current authority
 
-## Documents in this Section
+- **[Repository Governance](../GOVERNANCE.md)** (`NORMATIVE`): current CODEOWNER-backed authority, contribution paths, change acceptance, and external-evidence boundary.
+- **[CODEOWNERS](../../.github/CODEOWNERS)** (`NORMATIVE ENFORCEMENT MAP`): authoritative repository path-to-review mapping.
+- **[Request for Comments Process](rfc_process.md)** (`NORMATIVE PROCESS`): how substantial proposals enter review using current issue/PR/CODEOWNER/CI mechanisms.
 
-- 🏛️ **[Product Domain Governance Model](../GOVERNANCE.md)** (`NORMATIVE`): Domain ownership matrix, stewardship tiers (Current, Interim, Open WG, Future Foundation), and maintainer responsibilities.
-- 📋 **[Request for Comments (RFC) Process](rfc_process.md)** (`NORMATIVE`): 6-stage RFC lifecycle (`Draft → Under Review → Accepted → Implemented`), required triggers, and review templates.
-- 👥 **[Code Ownership Mappings](../../.github/CODEOWNERS)** (`NORMATIVE`): Authoritative path-to-team review rules.
-- ⚖️ **[Dispute & Contradiction Policies](../../disputes/SCORE_DISPUTE_PROTOCOL.md)** (`REVIEWED`): Formal procedures for scientific score dispute resolution and result annotations.
-- 🧭 **[Prospective IP Architecture](ip-architecture.md)** (`PROPOSED`): Public, research-prepublication, and protected boundaries for future development; not a rights determination.
-- 🔬 **[Controlled Research-Start Governance](research-start-governance.md)** (`PROPOSED`): Minimum provenance, input, Cyber-sensitivity, and publication controls for restricted strategic research.
+## Other governance records
+
+- **[Prospective IP Architecture](ip-architecture.md)** (`PROPOSED`): future-facing public/research/protected boundaries; not a current rights determination.
+- **[Controlled Research-Start Governance](research-start-governance.md)** (`PROPOSED`): proposed controls for restricted strategic research.
+- **[Organization Migration](organization_migration.md)**: migration/planning record; not current repository authority unless a current normative document explicitly says otherwise.
+
+Historical domain-team, council, working-group, or foundation language elsewhere in
+the repository does not create present governance authority. Current authority is
+defined by the normative governance document, CODEOWNERS, and live GitHub
+protection rules.
