@@ -1,108 +1,109 @@
 # SemantIQ Request for Comments (RFC) Process
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Effective Date**: 2026-08-18  
+**Status**: `NORMATIVE PROCESS`  
+**Maturity**: Public Alpha (Experimental)
 
 ---
 
-## 1. Purpose of the RFC Process
+## 1. Purpose
 
-The SemantIQ RFC (Request for Comments) process provides a structured, transparent mechanism for proposing, debating, and approving substantial architectural, scientific, and contract changes before implementation.
+The RFC process provides a reviewable path for substantial changes before
+implementation. It records the problem, proposed design, evidence boundary,
+compatibility/security impact, alternatives, and unresolved questions.
 
----
+An RFC is a governance artifact, not proof that a proposal is correct or that it
+will be accepted.
 
-## 2. When is an RFC Required?
+## 2. When an RFC is appropriate
 
-An RFC is **mandatory** for:
-- Any proposed change to the **16 Core Epistemic Invariants** (e.g. `Observed ≠ Inferred`, `Matched Association ≠ Causal Effect`).
-- Any breaking change to canonical product contracts or schemas in `packages/sandbox-contracts/` or `schemas/`.
-- Introducing new statistical contrast estimators, robustness diagnostics, or evidence decision rules.
-- Introducing new official language SDKs or high-level application service protocols.
-- Modifying the external evidence eligibility gate or replication registry protocols.
+An RFC is normally required or may be requested for:
 
-An RFC is **not required** for:
-- Bug fixes and routine performance optimizations.
-- Adding tests, synthetic fixtures, or documentation improvements.
-- Small backward-compatible additions to existing SDK methods.
+- changes to core scientific/epistemic invariants;
+- breaking changes to canonical product contracts or schemas;
+- new scoring, statistical, robustness, or evidence-decision semantics;
+- substantial architecture or execution-provider changes;
+- new public SDK protocol surfaces;
+- changes to external-evidence admission or replication semantics;
+- governance/security changes with broad repository impact.
 
----
+An RFC is normally not required for:
 
-## 3. The RFC Lifecycle
+- bounded bug fixes;
+- documentation and link repairs;
+- small tests or fixtures;
+- compatibility reports;
+- backward-compatible changes with no material semantic effect.
 
-```
-[ Idea / Proposal ]
-        │
-        ▼
-   [ 1. DRAFT ] ──► Submit PR to Docs/rfcs/ (RFC-XXXX-title.md)
-        │
-        ▼
-[ 2. UNDER REVIEW ] ──► Public debate (Minimum 14-day comment period)
-        │
-        ├─────────────────────────────┬───────────────────────────┐
-        ▼                             ▼                           ▼
-  [ 3. ACCEPTED ]               [ REJECTED ]                [ WITHDRAWN ]
-        │
-        ▼
- [ 4. IMPLEMENTED ] ──► Core codebase merged & released
-        │
-        ▼
- [ 5. SUPERSEDED ] ──► Replaced by newer approved RFC
-```
+Maintainers may reclassify a change if its actual impact is broader than first
+expected.
 
-### Lifecycle States:
-1. **DRAFT**: Author writes proposal following the RFC Template and opens a PR in `Docs/rfcs/`.
-2. **UNDER REVIEW**: Open discussion across maintainers, domain owners, and external research partners. Minimum **14 calendar days** review window.
-3. **ACCEPTED**: Formal consensus reached by the Maintainers Council and relevant domain owners.
-4. **IMPLEMENTED**: Code changes, tests, and contract updates completed and merged into `main`.
-5. **REJECTED / WITHDRAWN**: Proposal declined with documented rationale preserved for future reference.
-6. **SUPERSEDED**: Later RFC replaces the decisions of an older implemented RFC.
+## 3. How to start
 
----
+Use the
+[Architecture / RFC Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=architecture_rfc.yml)
+issue form, or another issue template when it better matches the domain.
 
-## 4. RFC Template Structure
+The proposal should include:
 
-Every RFC document in `Docs/rfcs/RFC-XXXX-<name>.md` must include:
+1. problem and motivation;
+2. affected contracts/components;
+3. proposed behavior;
+4. scientific/epistemic impact;
+5. security/privacy impact;
+6. compatibility and migration impact;
+7. tests/evidence required for acceptance;
+8. alternatives and unresolved questions.
 
-```markdown
-# RFC-XXXX: [Feature / Architecture / Epistemic Title]
+A dedicated `Docs/rfcs/` directory is not required by the current process. If a
+proposal needs a durable design record, maintainers may request an ADR or a
+normative document before implementation.
 
-- **Status**: Draft | Under Review | Accepted | Implemented | Rejected | Superseded
-- **Author(s)**: [Name / Handle / Affiliation]
-- **Domain(s)**: Core | Benchmark | Evidence | Governance | SDKs | Security
-- **Created**: YYYY-MM-DD
-- **Target Release**: vX.Y.Z
+## 4. Review lifecycle
 
-## 1. Executive Summary
-Brief high-level overview of the proposal and motivation.
+The current lifecycle is:
 
-## 2. Motivation & Problem Statement
-Why is this change necessary? What problem or limitation does it address?
-
-## 3. Detailed Specification
-- Canonical data structures, interfaces, and mathematical definitions.
-- Epistemic integrity analysis (how does it uphold scientific guardrails?).
-- Error handling, fallback modes, and edge cases.
-
-## 4. Cross-Language & Backward Compatibility
-- TypeScript SDK impacts.
-- Python SDK parity and dataclass representations.
-- Schema versioning and migration pathways.
-
-## 5. Security, Privacy & Resource Impact
-- Secret redaction and isolation considerations.
-- Threat modeling analysis and performance benchmarks.
-
-## 6. Drawbacks & Alternatives Considered
-- What other approaches were evaluated?
-- What are the costs of doing nothing?
-
-## 7. Unresolved Questions & Open Discussion
-- Items requiring feedback during the review window.
+```text
+PROPOSED
+  -> UNDER REVIEW
+  -> ACCEPTED FOR IMPLEMENTATION | REJECTED | WITHDRAWN
+  -> IMPLEMENTED (after the approved change merges)
+  -> SUPERSEDED (if a later accepted decision replaces it)
 ```
 
----
+There is no automatic fixed minimum comment period. Maintainers may keep a proposal
+open longer when additional review, external evidence, or compatibility/security
+work is needed.
 
-## 5. Decision & Governance Consensus
+## 5. Acceptance
 
-- **Domain Approval**: Requires sign-off from designated Domain Owners ([`.github/CODEOWNERS`](../../.github/CODEOWNERS)).
-- **Epistemic Changes**: Changes to scientific invariants require **unanimous approval** from the Maintainers Council.
+Acceptance requires the repository's actual governance path:
+
+- proposal scope and evidence are sufficiently documented;
+- required reviewers can evaluate the change;
+- the implementation PR passes required status checks;
+- CODEOWNER/reviewer requirements are satisfied;
+- required review threads are resolved;
+- the accepted change merges to protected `main`.
+
+The current repository does not require approval from separate domain councils,
+partner working groups, or a Maintainers Council unless such authorities are
+explicitly established in the future.
+
+## 6. ADR relationship
+
+An ADR records a durable architectural decision. An RFC is the proposal/review
+process that may lead to such a decision.
+
+Existing ADRs are repository records. Their presence alone does not automatically
+make every historical subsystem or architectural assumption part of the current
+supported SemantIQ public boundary.
+
+## 7. External participation
+
+External comments, research input, or integration proposals are welcome, but
+participation does not confer repository authority, partnership status, or verified
+external-evidence status.
+
+Current repository authority remains defined by
+[Docs/GOVERNANCE.md](../GOVERNANCE.md), CODEOWNERS, and live GitHub protection
+rules.
