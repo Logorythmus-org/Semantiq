@@ -1,101 +1,116 @@
 # SemantIQ Release Engineering & Publication Process
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Status**: `NORMATIVE`  
-**Effective Date**: 2026-08-18  
+**Status**: `NORMATIVE PROCESS`  
+**Current software maturity**: Public Alpha (Experimental)  
+**Effective evidence refresh**: 2026-10-04
 
 ---
 
-## 1. Overview & Release Philosophy
+## 1. Release philosophy
 
-SemantIQ follows a strict, verifiable release process ensuring scientific reproducibility, cryptographic integrity, and zero unexpected breaking changes across its multi-language SDKs and core domain contracts.
+A SemantIQ release is an evidence-producing event. A tag, version string, passing
+test, or metadata file alone is not sufficient publication evidence.
 
----
+Every public release must bind one reviewed software version, one exact commit
+from the intended current release lineage, one immutable Git tag, the validation
+evidence for that commit, the artifacts actually published, and the limitations
+actually established.
 
-## 2. Versioning & Tagging Conventions
+Historical tags are never moved to repair lineage after the fact.
 
-SemantIQ adheres to Semantic Versioning 2.0.0 (`v<MAJOR>.<MINOR>.<PATCH>[-<PRERELEASE>]`):
+## 2. Versioning and tagging
 
-| Release Tier | Tag Format | Example | Description |
-| :--- | :--- | :--- | :--- |
-| **Major / Minor Release** | `vX.Y.Z` | `v1.0.0`, `v1.1.0` | General availability production releases. |
-| **Release Candidate (RC)** | `vX.Y.Z-rc.N` | `v1.0.0-rc.1` | Sealed candidates undergoing final acceptance testing. |
-| **Alpha / Beta Prerelease** | `vX.Y.Z-alpha.N` | `v1.0.0-alpha.1` | Feature-complete builds for partner feedback. |
-| **Python Distribution Tag** | `X.Y.ZaN` / `X.Y.ZrcN` | `0.1.0a2`, `1.0.0rc1` | PEP 440 compliant PyPI release version strings. |
+SemantIQ uses Semantic Versioning for software and PEP 440 spelling for Python
+distribution metadata where required.
 
----
+Prerelease version strings must be selected through an explicit release decision.
+Examples are format illustrations, not release commitments.
 
-## 3. Step-by-Step Release Checklist
+Before creating a tag, verify that the selected commit is in the intended current
+`main` lineage. Do not reuse, delete, or move an existing historical release tag
+to represent different source.
 
-Every release must complete all 8 verification gates prior to publication:
+## 3. Pre-publication gates
 
-```
-[ 1. Monorepo Build ] ──► [ 2. Test Suites ] ──► [ 3. SDK Packaging ]
-           │
-           ▼
-[ 4. Contract Parity ] ──► [ 5. UI Independence ] ──► [ 6. Security Audit ]
-           │
-           ▼
-[ 7. Checksums & Sealing ] ──► [ 8. Release Notes & Tagging ]
-```
+A future release must complete these gates on the **exact selected release
+commit**:
 
-### Pre-Release Verification Steps:
-1. **Monorepo Build**: `pnpm build` across all 182 workspace packages must exit with code 0.
-2. **Test Suites**:
-   - Full TypeScript Vitest suite: `pnpm test` (all 772 tests passing).
-   - Python Pytest suite: `pnpm test:python` (all 32 tests passing across Python 3.10–3.12).
-   - Package boundary enforcement: `pnpm test:boundaries`.
-   - TypeScript compiler check: `pnpm typecheck` (0 errors).
-3. **SDK Packaging Verification**:
-   - Python wheel and sdist: `python -m build packages/python` (verified in clean venv).
-   - TypeScript SDK: `@semantiq/sdk` package bundling and type generation.
-4. **Contract Parity**: Validate cross-language schema compatibility against canonical JSON schemas (`pnpm test:contracts:product`).
-5. **UI Independence Test**: Explicitly verify core API and CLI functionality when UI static assets are omitted (`tests/api/semantiq-http-api.test.ts`).
-6. **Security & Redaction Check**: Execute security test suite (`pnpm test:security`) and verify zero secret leakage in logs.
-7. **Artifact Checksums & Provenance**: Compute SHA-256 hashes for all generated release archives.
-8. **Metadata Synchronization**: Ensure version string parity across `package.json`, `packages/*/package.json`, `pyproject.toml`, `CITATION.cff`, `.zenodo.json`, and `codemeta.json`.
+1. **Repository state**
+   - source/package-boundary cleanup stable;
+   - working release commit selected from current `main`;
+   - no unresolved release-truth contradiction.
 
----
+2. **Required GitHub checks**
+   - required CI contexts green;
+   - security checks green;
+   - documentation/link validation green;
+   - version-reference audit green.
 
-## 4. GitHub Release Notes Template
+3. **SDK/package build verification**
+   - Python package builds successfully from source;
+   - TypeScript SDK builds successfully from source;
+   - contract and cross-language parity gates pass.
 
-Every GitHub Release entry must follow this standardized template:
+   Successful local/package builds do not establish PyPI or npm publication.
 
-```markdown
-# SemantIQ vX.Y.Z: [Release Theme / Title]
+4. **Runtime evidence**
+   - only runtime/provider compatibility directly validated for the release may be
+     stated in release notes;
+   - optional or migration-bound integrations remain explicitly bounded.
 
-**Release Date**: YYYY-MM-DD  
-**Milestone**: Behavioral Evidence Infrastructure  
+5. **Security and provenance**
+   - release notes contain the current security and limitations boundary;
+   - generated checksums/SBOM/manifests are verified before being claimed;
+   - the tag/signature policy for the new release is explicitly recorded.
 
-## 🚀 Highlights & Capabilities
-- Summary of primary features and improvements.
+6. **Release metadata**
+   - version fields are synchronized across approved public metadata surfaces;
+   - release notes are generated from current evidence;
+   - the exact target commit is cross-checked against the created tag.
 
-## 🔬 Scientific & Epistemic Updates
-- Statistical contrast enhancements, new estimators, or evidence governance policies.
+7. **External publication evidence**
+   - npm/PyPI status is stated from actual registry evidence;
+   - Zenodo/DOI status is stated from actual archive evidence;
+   - metadata preparation files alone do not count as publication.
 
-## 📦 Multi-Language SDKs & Artifacts
-- **Python**: \`pip install semantiq==X.Y.Z\`
-- **TypeScript**: \`pnpm add @semantiq/sdk@X.Y.Z\`
+8. **Human release approval**
+   - maintainer approval occurs after the target commit and release artifacts are
+     frozen;
+   - publication happens only after the final evidence packet is reviewed.
 
-## 🔒 Security & Integrity
-- SHA-256 Checksums for release archives.
-- Merkle root hashes for included research bundles.
+## 4. GitHub Release requirements
 
-## 📜 Epistemic Governance Disclaimer
-> *Promotion signifies evidence governance criteria fulfillment, not proof.*
-```
+A GitHub Release for a new current-main prerelease must include:
 
----
+- exact software version and tag;
+- exact tag-resolved commit;
+- Public Alpha maturity statement;
+- concise verified changes;
+- known limitations;
+- source/package publication status;
+- runtime/provider compatibility boundary;
+- checksums/assets only when they actually exist and were verified;
+- DOI/archive identifiers only when independently verified.
 
-## 5. Zenodo & DOI Archiving Policy
+Do not describe source-checkout packages as published npm/PyPI packages.
 
-- Every tagged release on `main` (`v*`) automatically triggers the Zenodo integration workflow.
-- Zenodo mints an immutable Digital Object Identifier (DOI) for the release archive using metadata defined in [`.zenodo.json`](../../.zenodo.json) and [`CITATION.cff`](../../CITATION.cff).
-- The minted DOI is preserved in `Docs/releases/` and referenced in scientific publications.
+## 5. Archive and DOI policy
 
----
+Zenodo/DataCite metadata in the repository is preparation metadata only.
 
-## 6. Protection Against Unauthorized Publication
+A GitHub tag or release does not, by itself, prove an active archive integration,
+successful deposition, DOI issuance, or DataCite registration.
 
-- **Zero Auto-Publish**: CI workflows do **NOT** publish packages to npm or PyPI on pull request or ordinary pushes.
-- **Manual Gate Authorization**: Package publishing requires manual workflow dispatch with two-factor authentication (2FA) and cryptographic maintainer sign-off.
+If an archive/DOI is created in the future, verify the external record before
+adding the identifier to current citation or release guidance.
+
+## 6. Historical release lineage
+
+The existing alpha.1 and alpha.2 tags belong to a historical lineage that GitHub
+currently reports as having no common ancestor with current `main`.
+
+See [Current Release Status](CURRENT_RELEASE_STATUS.md).
+
+Those tags and their historical release records are preserved as provenance.
+A future current-main release must use a new reviewed version/tag rather than
+mutating historical Git objects.
