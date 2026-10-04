@@ -8,7 +8,7 @@ version = "0.1.0a2"
 description = "SemantIQ: Behavioral Evidence Infrastructure for AI Systems"
 readme = "README.md"
 authors = [
-    { name = "SemantIQ Core Contributors", email = "engineering@semantiq.org" }
+    { name = "Logorythmus" }
 ]
 license = "MIT"
 requires-python = ">=3.10"
