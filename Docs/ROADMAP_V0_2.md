@@ -1,3 +1,14 @@
+> **Status: HISTORICAL DRAFT / UNCOMMITTED PLAN**
+>
+> This file preserves an earlier proposed beta roadmap. It is **not** an active release
+> commitment, current delivery schedule, or evidence that the listed capabilities will ship in
+> `0.2.0-beta.1` or in Q4 2026. The current SemantIQ software identity remains
+> `0.1.0-alpha.2` — Public Alpha (Experimental).
+>
+> Legacy package names, prompt/audit references, priorities, and target dates below are preserved
+> as historical planning context. See [Versioning & Release Policy](VERSIONING_POLICY.md) and the
+> root [Roadmap](../ROADMAP.md) for current public boundaries.
+
 # Evidence-Driven Roadmap (Version 0.2.0-beta.1)
 
 **Project**: SemantIQ Benchmarks  
