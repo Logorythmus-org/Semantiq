@@ -1,66 +1,126 @@
-# SemantIQ Product Domain Governance & Stewardship Model
+# SemantIQ Repository Governance
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Effective Date**: 2026-08-18  
-
----
-
-## 1. Governance Transition: From Benchmark Stewardship to Product-Domain Ownership
-
-As SemantIQ evolves into **Behavioral Evidence Infrastructure for AI Systems**, stewardship transitions from monolithic benchmark evaluation oversight to a decentralized **Product-Domain Ownership Model**.
-
-```
-                           ┌───────────────────────────────┐
-                           │   SemantIQ Maintainers Council │
-                           └──────────────┬────────────────┘
-                                          │
-    ┌───────────────────────────┬─────────┴─────────┬───────────────────────────┐
-    ▼                           ▼                   ▼                           ▼
-┌──────────────┐      ┌──────────────────┐  ┌──────────────┐      ┌────────────────────────┐
-│ Core Domain  │      │ Evidence Engine  │  │ SDKs & Tools │      │ Security & Operations  │
-│ Architecture │      │ & Governance     │  │ (TS / Python)│      │ & Release Engineering  │
-└──────────────┘      └──────────────────┘  └──────────────┘      └────────────────────────┘
-```
+**Status**: `NORMATIVE CURRENT AUTHORITY`  
+**Maturity**: Public Alpha (Experimental)
 
 ---
 
-## 2. Product-Domain Ownership Matrix
+## 1. Current repository authority
 
-| Domain | Scope & Responsibilities | Codebase Paths | Stewardship Tier | Assigned Team / Owners |
-| :--- | :--- | :--- | :---: | :--- |
-| **1. Core & Architecture** | Canonical product contracts, schema evolution, package boundary enforcement, deterministic UUID/hash primitives. | `packages/core/`<br>`packages/sandbox-contracts/`<br>`schemas/` | **Current** | `@semantiq/core-maintainers` |
-| **2. Benchmark Engine** | Model execution adapters, scenario runners, SMF/HACS/Vision benchmark suites, trace adapters. | `packages/benchmark/`<br>`packages/adapter-*/`<br>`packages/patterns/` | **Current** | `@semantiq/benchmark-maintainers` |
-| **3. Evidence Engine** | Statistical contrast (Bootstrap CI, Exact Sign Test), specification curves, matched controls, cross-run Evidence Graph. | `packages/evidence/` | **Current** | `@semantiq/evidence-maintainers` |
-| **4. Research Governance** | Governed claims, controlled language validation, proposal-only evidence watch, review ledger verification. | `packages/research/`<br>`packages/semantiq/src/services/` | **Current** | `@semantiq/governance-maintainers` |
-| **5. Python SDK** | `semantiq` Python package, dataclasses, CLI runner, PyPI distribution, pytest test suite. | `packages/python/` | **Interim** | `@semantiq/python-maintainers` |
-| **6. TypeScript SDK** | `@semantiq/sdk` package, client bindings, type definitions, npm distribution. | `packages/sdk/` | **Interim** | `@semantiq/typescript-maintainers` |
-| **7. Security & Privacy** | Vulnerability reporting, credential redaction, threat modeling, local-first isolation, path traversal defense. | `SECURITY.md`<br>`Docs/security/`<br>`tests/security/` | **Current** | `@semantiq/security-team` |
-| **8. Documentation** | Architecture specs, developer guides, epistemic invariants, citations, licensing reports. | `Docs/`<br>`README.md`<br>`LICENSING.md` | **Current** | `@semantiq/docs-maintainers` |
-| **9. Partner Protocols** | Study protocol pre-registration, execution manifests, external evidence eligibility gate. | `packages/evidence/src/partner-exchange/`<br>`packages/evidence/src/gate/` | **Open WG** | `@semantiq/partner-wg`<br>`@semantiq/evidence-maintainers` |
-| **10. Release Engineering** | GitHub Actions CI/CD workflows, build orchestration, Merkle bundle sealing tools. | `.github/`<br>`scripts/`<br>`tools/` | **Current** | `@semantiq/release-engineers` |
+SemantIQ currently uses a single repository-wide CODEOWNER team:
 
----
+`@Logorythmus-org/semantiq-maintainers`
 
-## 3. Stewardship Role Classifications
+The authoritative mapping is
+[.github/CODEOWNERS](../.github/CODEOWNERS), which currently covers all paths.
 
-To ensure transparency and clear accountability, roles are categorized into four distinct lifecycle tiers:
+The active GitHub governance path for protected `main` requires pull-request
+review, required status checks, CODEOWNER review, an approving review, stale-review
+dismissal after new pushes, and review-thread resolution according to the live
+repository ruleset.
 
-1. **Current Active Roles**:
-   - Staffed directly by active core maintainers responsible for day-to-day triage, code reviews, and releases.
-   - Domains: *Core, Benchmark Engine, Evidence Engine, Research Governance, Security, Documentation, Release Engineering*.
-2. **Interim Roles**:
-   - Maintained by core maintainers during early adoption and stabilization passes, with plans to transition to dedicated language-specific maintainer teams.
-   - Domains: *Python SDK, TypeScript SDK*.
-3. **Open Working Group (WG) Roles**:
-   - Collaborative review bodies composed of core maintainers and participating external academic/industry research partners.
-   - Domain: *Partner Protocols & Replication Exchange*.
-4. **Future Organization / Foundation Roles**:
-   - Long-term governance roadmap transitioning trademark, specification voting, and epistemic standard oversight to a multi-stakeholder foundation.
+GitHub settings are the enforcement source. Documentation describes those controls
+but does not override them.
 
 ---
 
-## 4. Decision-Making & RFC Process
+## 2. Contribution and decision paths
 
-- **Standard Changes**: Require pull request review and approval from at least one domain owner.
-- **Architectural / Contract Changes**: Require an approved Architecture Decision Record (ADR) or RFC reviewed by Core & Architecture maintainers.
-- **Epistemic Invariant Changes**: Require unanimous consent of the Maintainers Council and cryptographic audit verification.
+SemantIQ uses two public contribution paths:
+
+### Fast contribution path
+
+Use for bounded documentation, examples, reproduction reports, compatibility
+observations, small tests, and fixes that do not change scientific or product
+semantics.
+
+A prior RFC is not required. Required CI and CODEOWNER review still apply.
+
+### Core change path
+
+Use for architecture, benchmark semantics, evidence/scoring logic, scientific
+claims, governance, security-sensitive behavior, release-critical contracts, or
+breaking public API changes.
+
+Core changes require an issue or other reviewable proposal that records scope,
+evidence, compatibility/security impact, and acceptance criteria. An RFC or ADR is
+used when the change needs a durable design decision.
+
+See [CONTRIBUTING.md](../CONTRIBUTING.md).
+
+---
+
+## 3. Current maintainer model
+
+The repository does **not** currently establish separate staffed domain teams,
+Maintainers Council seats, partner working groups, or a foundation as independent
+decision authorities.
+
+Historical or prospective documents may discuss such structures. Those designs are
+not current governance until they are explicitly approved, created on the public
+repository surface, and reconciled with CODEOWNERS and repository rules.
+
+External contributors, organizations, research groups, and integration proposers
+may participate in public review. Participation or proposal submission does not
+grant maintainer authority or imply partnership/endorsement.
+
+---
+
+## 4. Change acceptance
+
+A repository change is accepted only through the applicable protected-branch
+workflow.
+
+For ordinary changes this means:
+
+1. a focused pull request;
+2. required CI/status checks;
+3. CODEOWNER review;
+4. required approving review;
+5. resolution of required review threads;
+6. merge to protected `main`.
+
+A merge establishes repository acceptance of that change. It does not by itself
+establish external validation, scientific truth, production readiness, or a public
+release.
+
+---
+
+## 5. RFC and ADR governance
+
+Substantial changes can begin through the
+[Architecture / RFC issue form](https://github.com/Logorythmus-org/Semantiq/issues/new?template=architecture_rfc.yml)
+or another issue when the domain requires a different evidence template.
+
+The current process does not impose an automatic fixed public comment period or
+require approval from councils/domain teams that are not established.
+
+When a durable design decision is required, maintainers may request an ADR or
+normative design document before implementation.
+
+See [Request for Comments Process](governance/rfc_process.md).
+
+---
+
+## 6. Scientific and external-evidence boundary
+
+Governance controls whether a change or claim is admitted to the repository. It
+does not make the admitted statement universally true.
+
+In particular:
+
+- a maintainer approval is not independent replication;
+- a partner/integration proposal is not an established partnership;
+- an external-evidence submission is not verified external evidence until the
+  applicable provenance/independence review is completed;
+- a merged capability is not evidence of adoption or production-scale reliability.
+
+---
+
+## 7. Future governance changes
+
+A future multi-team, council, working-group, or foundation model may be proposed,
+but it must be introduced as a reviewed governance change.
+
+Until then, the repository-wide CODEOWNER team and live GitHub protection rules
+remain the current authority surface.
