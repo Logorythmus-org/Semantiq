@@ -7,7 +7,7 @@
 
 ## Overview
 
-SemantIQ provides first-class, standalone SDKs for TypeScript/JavaScript and Python with 100% contract and schema parity.
+SemantIQ provides TypeScript/JavaScript and Python source SDKs. Required repository tests establish parity for shared canonical contracts and fixtures within their tested scope; they do not establish universal behavioral or API parity across every SDK surface.
 
 ---
 
