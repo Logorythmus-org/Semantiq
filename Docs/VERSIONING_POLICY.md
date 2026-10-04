@@ -21,17 +21,30 @@ a `1.0.0` release.
 
 ## Live release evidence baseline
 
-The following facts were verified from Git and GitHub on 2026-08-22:
+The following facts were re-verified from live GitHub evidence on 2026-10-04:
 
-- Protected `main` was `596bdabc869e5c70257058a2017a8eac8d9b3711`.
+- Protected `main` is `c05d2c729e8da929b59b0672e80884094118a3de`.
 - Annotated tags `v0.1.0-alpha.1` and `v0.1.0-alpha.2` exist.
-- The published GitHub Release is `v0.1.0-alpha.1` and is marked as a prerelease.
+- `v0.1.0-alpha.1` resolves to `870f70f900748a79aed8e959ebb0b618ff4329cc`.
+- `v0.1.0-alpha.2` resolves to `a94e99d07441e2115b4a770f46851dff7c8fe77a`.
+- Alpha.2 is five commits ahead of alpha.1 on their historical tag lineage.
+- GitHub compare reports no common ancestor between current `main` and either alpha tag.
+- The only published GitHub Release is `v0.1.0-alpha.1`, marked as a prerelease.
+- The alpha.1 GitHub Release has no manually attached assets.
 - No GitHub Release exists for `v0.1.0-alpha.2`.
-- The `v0.1.0-alpha.2` tag is not an ancestor of the verified `main` baseline.
+- The alpha.1 release body names a target commit that does not match the live
+  alpha.1 tag commit and references a publication-manifest path that is absent at
+  the alpha.1 tag.
+
+See [Current Release Status](releases/CURRENT_RELEASE_STATUS.md) for the detailed
+evidence record.
 
 This policy does not retag history, manufacture a release, or claim that current
-`main` is byte-identical to the alpha.2 tag. The alpha.2 value is the explicitly
-chosen provisional public identity for current source metadata.
+`main` is byte-identical to the alpha.2 tag. The alpha.2 value remains the
+explicitly chosen provisional source identity. Because the existing alpha.2 tag is
+on a disconnected historical lineage, a future release representing current
+`main` must use a newly reviewed prerelease identity/tag rather than moving the
+existing tag.
 
 ## Classification of `1.0.0` references
 
