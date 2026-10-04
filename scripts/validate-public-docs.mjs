@@ -43,6 +43,7 @@ const forbiddenActivePatterns = [
   ["local file URL", /file:\/\/\/[a-z]:/i],
   ["personal Windows path", /[a-z]:[\\/]users[\\/]/i],
   ["local Tech-Club workspace path", /desktop[\\/]tech-club/i],
+  ["legacy TechLab identity", /tech[-_ ]?lab/i],
   ["stale Semant-iq repository URL", /https:\/\/github\.com\/semant-iq\/semantiq(?:\.git)?/i],
   ["stale Tech-Club organization URL", /https:\/\/github\.com\/tech-club(?:\/|$)/i]
 ];
@@ -61,7 +62,7 @@ const forbiddenPublicArtifactPaths = [
     "internal process documentation tree"
   ],
   [
-    /^Docs\/[^/]*(?:TECH[-_ ]?CLUB|SONDERHEFT)[^/]*$/i,
+    /^Docs\/[^/]*(?:TECH[-_ ]?(?:CLUB|LAB)|SONDERHEFT)[^/]*$/i,
     "cross-project documentation asset"
   ],
   [
