@@ -48,11 +48,26 @@ const forbiddenActivePatterns = [
 ];
 
 const forbiddenPublicArtifactPaths = [
-  [/^PHASE_[0-9_]+.*(?:REPORT|READINESS|AUTHORIZATION|HANDOFF|DRAFT).*\.md$/i, "root phase execution artifact"],
-  [/^(?:canonical|targeted|release-recovery|release-candidate-sealing|human-governance).*report.*\.md$/i, "root internal audit/report artifact"],
-  [/^Docs\/(?:implementation-cycle-[^/]+|phase-[^/]+|reports|repository|audit)\//i, "internal process documentation tree"],
-  [/^Docs\/[^/]*(?:TECH[-_ ]?CLUB|SONDERHEFT)[^/]*$/i, "cross-project documentation asset"],
-  [/^Docs\/[^/]+(?:_REPORT|_AUDIT|_HANDOFF|_READINESS|_STATUS|_ANNOUNCEMENT|_VERDICT|_CORRECTIONS|_FINDINGS|_SCORE)\.md$/i, "top-level internal process artifact"]
+  [
+    /^PHASE_[0-9_]+.*(?:REPORT|READINESS|AUTHORIZATION|HANDOFF|DRAFT).*\.md$/i,
+    "root phase execution artifact"
+  ],
+  [
+    /^(?:canonical|targeted|release-recovery|release-candidate-sealing|human-governance).*report.*\.md$/i,
+    "root internal audit/report artifact"
+  ],
+  [
+    /^Docs\/(?:implementation-cycle-[^/]+|phase-[^/]+|reports|repository|audit)\//i,
+    "internal process documentation tree"
+  ],
+  [
+    /^Docs\/[^/]*(?:TECH[-_ ]?CLUB|SONDERHEFT)[^/]*$/i,
+    "cross-project documentation asset"
+  ],
+  [
+    /^Docs\/[^/]+(?:_REPORT|_AUDIT|_HANDOFF|_READINESS|_STATUS|_ANNOUNCEMENT|_VERDICT|_CORRECTIONS|_FINDINGS|_SCORE)\.md$/i,
+    "top-level internal process artifact"
+  ]
 ];
 
 const failures = [];
