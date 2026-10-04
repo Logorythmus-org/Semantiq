@@ -1,8 +1,13 @@
 name: Partner / Protocol Integration Proposal
-description: Propose an external partner study protocol, execution manifest integration, or replication exchange partnership.
+description: Propose an external study protocol, execution-manifest integration, or replication-exchange integration for review.
 title: "[Partner Integration]: "
 labels: ["enhancement"]
 body:
+  - type: markdown
+    attributes:
+      value: |
+        This form opens a proposal for review. Submission does not establish a partnership, endorsement, accepted integration, or verified external evidence.
+
   - type: input
     id: org_name
     attributes:
