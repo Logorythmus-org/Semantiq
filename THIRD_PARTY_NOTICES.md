@@ -32,6 +32,32 @@ This file must not be used as evidence that:
   project-owned;
 - all required attribution obligations have been completely enumerated.
 
+
+## Preserved known attribution
+
+The repository currently retains `typescript` as a development dependency. The
+following Apache-2.0 notice was present in the prior public attribution file and is
+preserved here while the full dependency/license inventory remains incomplete.
+
+```text
+Copyright 2012 Microsoft Corporation
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+    http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+```
+
+Preserving this known notice does not establish that the current attribution
+inventory is complete or that every dependency obligation has been audited.
+
 ## Historical notices
 
 Older repository documents may contain manual dependency tables or broad
