@@ -41,5 +41,4 @@ describe("Prompt 7.9 — Alpha Stabilization Verification", () => {
     expect(res.report).toBeDefined();
     expect(res.recovered).toBe(false);
   });
-
 });
