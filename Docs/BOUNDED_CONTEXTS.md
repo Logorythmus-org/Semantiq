@@ -1,3 +1,13 @@
+> **Status: HISTORICAL / LEGACY DOMAIN MAP — NON-CANONICAL**
+>
+> This file preserves a broader legacy Tech Club domain model. It is not the current normative
+> SemantIQ package-boundary specification and must not be used to infer that Game Engine,
+> Semantic Wallet, Marketplace, Education, or other listed contexts are supported SemantIQ
+> product components.
+>
+> Current SemantIQ architecture is described in [ARCHITECTURE.md](ARCHITECTURE.md). The active
+> source/package boundary is being reconciled separately from this historical document.
+
 # Bounded Contexts
 
 Each bounded context owns its language, aggregates, events, policies, and repositories. Contexts communicate through public APIs and domain events.
