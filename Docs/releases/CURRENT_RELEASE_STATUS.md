@@ -4,21 +4,17 @@
 **Audit date**: 2026-10-04  
 **Software identity**: `0.1.0-alpha.2` — Public Alpha (Experimental)
 
-This document records what the live GitHub repository currently establishes about
-SemantIQ releases and tags. It does not publish a release, move a tag, or convert
-historical release records into current evidence.
+This document records the GitHub release/tag evidence captured during the 2026-10-04 audit. It does not publish a release, move a tag, or convert historical release records into current evidence. The exact `main` SHA below is an audit baseline and may be superseded by later protected-main merges.
 
-## Current main
+## Audited main baseline
 
-Protected `main` currently resolves to:
+At the time of the 2026-10-04 release-surface audit, protected `main` resolved to:
 
 ```text
 c05d2c729e8da929b59b0672e80884094118a3de
 ```
 
-Current source metadata uses `0.1.0-alpha.2` (Python: `0.1.0a2`). That source
-identity is provisional and does **not** mean that current `main` is identical to
-the existing `v0.1.0-alpha.2` tag.
+Source metadata uses `0.1.0-alpha.2` (Python: `0.1.0a2`). That source identity is provisional and does **not** mean that the audited or later `main` is identical to the existing `v0.1.0-alpha.2` tag.
 
 ## Existing prerelease tags
 
