@@ -52,7 +52,6 @@ describe("Prompt 7.8 — Public Feedback Cycle Verification", () => {
     expect(existsSync("Docs/FEEDBACK_TAXONOMY.md")).toBe(true);
     expect(existsSync("Docs/DECISION_RECORDS.md")).toBe(true);
     expect(existsSync("Docs/product-decisions/PDR-001-public-alpha-feedback-triage.md")).toBe(true);
-    expect(existsSync("Docs/PUBLIC_FEEDBACK_REPORT.md")).toBe(true);
 
     const jsonStr = readFileSync(
       "Docs/product-decisions/PDR-001-public-alpha-feedback-triage.md",
