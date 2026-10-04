@@ -26,7 +26,6 @@ const requiredRootFiles = [
 
 const requiredApps = [
   "web",
-  "admin",
   "documentation",
   "playground",
   "benchmark",
@@ -41,8 +40,6 @@ const requiredServices = [
   "workflow-runtime",
   "knowledge-graph",
   "benchmark",
-  "scheduler",
-  "notification",
   "analytics",
   "sync",
   "marketplace"
