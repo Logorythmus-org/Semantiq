@@ -1,3 +1,7 @@
+> **Status: HISTORICAL ALPHA.1 RELEASE-ENGINEERING RECORD**
+>
+> This declaration is preserved as historical provenance for alpha.1. It is not a current release authorization for `main` or for the provisional alpha.2 source identity. The repository URL, readiness verdict, checksum/package claims, and release state below must be interpreted in their historical context.
+
 # Final Release Engineering Package & Declaration
 
 **Project**: SemantIQ Benchmarks  
