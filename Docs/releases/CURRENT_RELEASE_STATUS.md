@@ -18,7 +18,7 @@ Source metadata uses `0.1.0-alpha.2` (Python: `0.1.0a2`). That source identity i
 
 ## Existing prerelease tags
 
-| Tag | Resolves to commit | Git relation to current `main` | Tag verification |
+| Tag | Resolves to commit | Git relation to audited `main` baseline | Tag verification |
 | --- | --- | --- | --- |
 | `v0.1.0-alpha.1` | `870f70f900748a79aed8e959ebb0b618ff4329cc` | No common ancestor found by GitHub compare | unsigned |
 | `v0.1.0-alpha.2` | `a94e99d07441e2115b4a770f46851dff7c8fe77a` | No common ancestor found by GitHub compare | unsigned |
