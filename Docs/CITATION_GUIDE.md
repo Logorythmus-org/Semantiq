@@ -49,8 +49,8 @@ For reproducible work, record at least:
 - model/provider/runtime details needed to reproduce the run.
 
 Software version, schema version, API route version, and benchmark version are
-separate identities. A contract or documentation `1.0.0` value is not evidence of
-a stable SemantIQ `1.0.0` software release.
+separate identities. A contract or documentation major-version label is not evidence of
+a stable SemantIQ software major release.
 
 ---
 
