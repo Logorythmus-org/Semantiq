@@ -2,12 +2,10 @@ cff-version: 1.2.0
 message: "If you use SemantIQ in your research or software, please cite it as below."
 title: "SemantIQ: Behavioral Evidence Infrastructure for AI Systems"
 version: "0.1.0-alpha.2"
-date-released: "2026-08-17"
 repository-code: "https://github.com/Logorythmus-org/Semantiq.git"
 license: "MIT"
 authors:
-  - family-names: "SemantIQ Core Contributors"
-    given-names: "Research Group"
+  - name: "Logorythmus"
 keywords:
   - "behavioral-evidence"
   - "ai-evaluation"
