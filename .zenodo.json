@@ -1,13 +1,12 @@
 {
   "title": "SemantIQ: Behavioral Evidence Infrastructure for AI Systems",
-  "description": "Independent, open-source, local-first behavioral evidence infrastructure for AI system empirical observation, matched statistical contrast, governed claims, and reproducible research bundles.",
+  "description": "Open-source, local-first behavioral evidence infrastructure for AI system empirical observation, matched statistical contrast, governed claims, and reproducible research bundles.",
   "upload_type": "software",
   "access_right": "open",
   "license": "MIT",
   "creators": [
     {
-      "name": "SemantIQ Core Contributors",
-      "affiliation": "SemantIQ Research Group"
+      "name": "Logorythmus"
     }
   ],
   "keywords": [
@@ -22,7 +21,7 @@
     "reproducible research",
     "open-source"
   ],
-  "notes": "SemantIQ 0.1.0-alpha.2 Public Alpha (Experimental). Product contract and schema versions remain independently versioned at 1.0.0.",
+  "notes": "Archive-preparation metadata for SemantIQ 0.1.0-alpha.2 Public Alpha (Experimental). No verified Zenodo deposition or DOI is established. Product contract and schema versions remain independently versioned at 1.0.0.",
   "version": "0.1.0-alpha.2",
   "language": "eng",
   "related_identifiers": []
