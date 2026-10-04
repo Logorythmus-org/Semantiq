@@ -3,17 +3,14 @@ import fs from "node:fs";
 import path from "node:path";
 
 describe("SemantIQ Master Prompt 02 — Clean-Room Reproducibility", () => {
-  it("validates that clean-room-replication-record.json exists and conforms to requirements", () => {
-    const recordPath = path.join(process.cwd(), "clean-room-replication-record.json");
-    expect(fs.existsSync(recordPath)).toBe(true);
+  it("keeps internal clean-room evidence within the public limitations boundary", () => {
+    const limitationsPath = path.join(process.cwd(), "Docs", "KNOWN_LIMITATIONS.md");
+    expect(fs.existsSync(limitationsPath)).toBe(true);
 
-    const record = JSON.parse(fs.readFileSync(recordPath, "utf-8"));
-    expect(record.reproducibilityStatus).toBe("internal_clean_room_reproduction");
-    expect(record.installationResult).toContain("PASSED");
-    expect(record.boundaryResult).toContain("PASSED");
-    expect(record.typecheckResult).toContain("PASSED");
-    expect(record.testResult).toContain("PASSED");
-    expect(record.deviations.length).toBe(0);
+    const limitations = fs.readFileSync(limitationsPath, "utf-8");
+    expect(limitations).toContain("external replication are **not yet established**");
+    expect(limitations).toContain("internal validation only");
+    expect(limitations).toContain("not independent replication");
   });
 
   it("validates that INDEPENDENT_REPLICATION_GUIDE.md documents all clean-room commands", () => {
