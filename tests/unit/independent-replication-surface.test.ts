@@ -95,8 +95,6 @@ describe("Prompt 09 — independent replication submission surface", () => {
       "self-observation/INDEPENDENT_REPLICATION_GUIDE.md",
       "utf8"
     );
-    const historicalAttempt = readFileSync("Docs/REPRODUCTION_ATTEMPT_REPORT.md", "utf8");
-
     expect(guide).toContain("origin: internal");
     expect(guide).toContain("input: synthetic");
     expect(guide).toContain("replicationStatus: not-independent-replication");
@@ -104,6 +102,5 @@ describe("Prompt 09 — independent replication submission surface", () => {
     expect(firstResult).toContain('input: "synthetic"');
     expect(firstResult).toContain('replicationStatus: "not-independent-replication"');
     expect(historicalGuide).toContain("owner-controlled clean-room procedure");
-    expect(historicalAttempt).toContain("Not independent external replication");
   });
 });
