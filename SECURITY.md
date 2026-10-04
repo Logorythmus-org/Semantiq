@@ -6,11 +6,16 @@ SemantIQ is **Behavioral Evidence Infrastructure for AI Systems**. Because Seman
 
 ## 1. Supported Versions
 
-| Version               | Supported | Security Patch Support                                 |
-| :-------------------- | :-------: | :----------------------------------------------------- |
-| **`1.0.x` (Current)** |  **YES**  | Active security support and CVE patches.               |
-| `0.1.0-alpha.x`       |  **YES**  | Critical vulnerability fixes until next minor release. |
-| `< 0.1.0`             |  **NO**   | End of life. Upgrade to `1.0.x`.                       |
+SemantIQ is currently a **Public Alpha (Experimental)** project.
+
+| Version | Supported | Security Patch Support |
+| :--- | :---: | :--- |
+| **`0.1.0-alpha.x`** | **YES** | Current Public Alpha line; critical vulnerability fixes are accepted while this line is maintained. |
+| Other / unreleased version lines | **NO CURRENT SUPPORT CLAIM** | No current `1.0.x` release or support commitment is established by the repository's canonical version surfaces. |
+
+The current provisional software identity is `0.1.0-alpha.2` (Python distribution
+`0.1.0a2`). A future `1.0.x` line must not be treated as released, current, or supported until
+a corresponding release and support policy are explicitly established.
 
 ---
 
@@ -18,13 +23,17 @@ SemantIQ is **Behavioral Evidence Infrastructure for AI Systems**. Because Seman
 
 We appreciate responsible disclosure. If you discover a security vulnerability in SemantIQ:
 
-1. **Do NOT open a public issue.**
-2. Send an encrypted email with detailed reproduction steps to:
-   $$\text{security@semantiq.org}$$
-3. **Response SLA**:
+1. **Do NOT open a public issue containing vulnerability details.**
+2. The repository currently publishes this security contact:
+   `security@semantiq.org`
+3. **Published maintainer response targets**:
    - **Initial Acknowledgement**: Within **48 hours**.
    - **Triage & Assessment**: Within **5 business days**.
-   - **Patch Release & Advisory**: Within **14 business days** (coordinated disclosure).
+   - **Patch Release & Advisory**: Target within **14 business days** when the issue is confirmed and the remediation scope permits that timeline.
+
+These are repository policy targets, not independently verified historical SLA performance. This
+document does not by itself establish mailbox availability, encrypted-mail/PGP support, GitHub
+Private Vulnerability Reporting enablement, or guaranteed response/remediation timing.
 
 ---
 
