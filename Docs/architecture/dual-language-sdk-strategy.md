@@ -2,13 +2,13 @@
 
 **Version**: `1.0.0`  
 **Status**: Canonical Architecture Strategy  
-**Scope**: Headless SemantIQ Platform (`semantiq` on PyPI, `@semantiq/sdk` on npm)
+**Scope**: Headless SemantIQ source packages (`semantiq` for Python, `@semantiq/sdk` for TypeScript); registry publication is not currently established
 
 ---
 
 ## 1. Executive Summary & Repository Reality
 
-The SemantIQ platform provides first-class, idiomatic client libraries in both **Python** (primary scientific evaluation, notebooks, Kaggle, researcher runtime) and **TypeScript** (browser SDK, Node.js automation, backend services, devtools).
+The SemantIQ repository provides client-library source packages in both **Python** (scientific evaluation, notebooks, and researcher workflows) and **TypeScript** (Node.js automation and JavaScript/TypeScript integrations). Current repository tests establish bounded source-package behavior and contract parity; they do not establish PyPI/npm publication or universal browser compatibility.
 
 To prevent semantic divergence and duplication debt, all data models are governed by language-neutral canonical JSON Schemas and shared JSON contract fixtures (`fixtures/contracts/canonical_entities.json`).
 
@@ -23,7 +23,7 @@ To prevent semantic divergence and duplication debt, all data models are governe
         ┌────────────────────────────┐                ┌────────────────────────────┐
         │     Python Public SDK      │                │   TypeScript Public SDK    │
         │     Package: `semantiq`    │                │ Package: `@semantiq/sdk`   │
-        │      (PyPI Ecosystem)      │                │      (npm Ecosystem)       │
+        │   (source checkout)        │                │   (source checkout)        │
         └─────────────┬──────────────┘                └─────────────┬──────────────┘
                       │                                             │
                       └──────────────────────┬──────────────────────┘
@@ -41,7 +41,7 @@ To prevent semantic divergence and duplication debt, all data models are governe
 | Attribute | Python Package | TypeScript SDK |
 |:---|:---|:---|
 | **Package Name** | `semantiq` | `@semantiq/sdk` |
-| **Package Registry** | PyPI (`pypi.org/project/semantiq`) | npm (`npmjs.com/package/@semantiq/sdk`) |
+| **Package Registry** | Not currently established as published on PyPI | Not currently established as published on npm |
 | **Source Directory** | `packages/python/src/semantiq/` | `packages/sdk/src/` |
 | **Build Configuration** | `packages/python/pyproject.toml` (Hatchling) | `packages/sdk/package.json` (TSUP / TSC) |
 | **Target Runtime** | Python `>= 3.10` | Node.js `>= 22.0.0`, Modern Browsers |
