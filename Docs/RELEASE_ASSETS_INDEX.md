@@ -1,3 +1,7 @@
+> **Status: HISTORICAL ALPHA.1 ASSET PLAN — NOT CURRENT RELEASE INVENTORY**
+>
+> This file is retained as alpha.1 planning/provenance. The live alpha.1 GitHub Release currently has no manually attached assets. Items listed below must not be treated as current downloadable assets unless independently verified.
+
 # Release Assets Index
 
 **Project**: SemantIQ Benchmarks  
