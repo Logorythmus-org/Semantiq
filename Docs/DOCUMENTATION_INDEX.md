@@ -2,7 +2,7 @@
 
 **Software identity**: `0.1.0-alpha.2` — Public Alpha (Experimental)  
 **Index status**: `NORMATIVE`  
-**Version boundary**: documentation/specification `1.0.0` references do not imply a stable SemantIQ software release  
+**Version boundary**: documentation/specification major-version labels do not imply a stable SemantIQ software release  
 **License**: [CC-BY-4.0](../LICENSING.md)
 
 Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation platform.
