@@ -29,10 +29,10 @@
 
 ## 3. Compatibility & Cross-Language Parity
 
-<!-- Fast-path contributors may write "Not applicable — <reason>" when the change cannot affect this surface. Core changes must complete every applicable item. -->
+<!-- Fast-path contributors may write "Not applicable — <reason>" when the change cannot affect this surface. Core changes must complete every applicable item. Cross-language parity is scoped to shared public contracts/fixtures; it is not a claim that every SDK behavior is universally identical. -->
 
 - [ ] JSON Schema version compatibility preserved (`1.0.0`)
-- [ ] TypeScript SDK (`@semantiq/sdk`) and Python package (`semantiq`) contracts remain 1:1 identical
+- [ ] Shared canonical contracts/fixtures remain compatible across TypeScript and Python where the changed surface requires cross-language parity
 - [ ] Backward compatibility maintained for existing benchmark run fixtures
 
 ---
@@ -62,7 +62,7 @@
 
 - [ ] Architecture / Workflow documentation updated in `Docs/`
 - [ ] SDK guide / CLI reference updated where applicable
-- [ ] Changes recorded in `walkthrough.md` or release notes
+- [ ] Changelog, release notes, or the relevant canonical documentation updated where applicable
 
 ---
 
