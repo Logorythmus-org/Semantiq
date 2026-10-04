@@ -26,8 +26,6 @@ const requiredRootFiles = [
 
 const requiredApps = [
   "web",
-  "desktop",
-  "mobile",
   "admin",
   "documentation",
   "playground",
