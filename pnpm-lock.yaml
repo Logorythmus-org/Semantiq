@@ -68,8 +68,6 @@ importers:
         specifier: 3.2.6
         version: 3.2.6(@types/node@22.10.7)(jiti@2.6.1)(tsx@4.23.12)
 
-  apps/admin: {}
-
   apps/benchmark: {}
 
   apps/demo: {}
@@ -498,8 +496,6 @@ importers:
 
   services/marketplace: {}
 
-  services/notification: {}
-
   services/product-metrics: {}
 
   services/question: {}
@@ -515,8 +511,6 @@ importers:
   services/research: {}
 
   services/research-sessions: {}
-
-  services/scheduler: {}
 
   services/search: {}
 

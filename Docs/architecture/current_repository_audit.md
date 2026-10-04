@@ -1,5 +1,7 @@
 # SemantIQ / Tech-Club Current Repository Baseline Audit
 
+> **Status: HISTORICAL BASELINE SNAPSHOT (2026-08-18).** This document records the repository state at the date shown below. Its inventory counts and legacy app, package, and service names are historical; consult current source and newer canonical architecture documentation for current package boundaries.
+
 **Date**: 2026-08-18  
 **Repository Working Tree**: `c:/Users/Kaveh/Desktop/Tech-Club`  
 **Git Branch**: `main`  
