@@ -1,31 +1,70 @@
 # Citation Guide
 
-This guide provides instructions for citing **SemantIQ Benchmarks** in academic publications, benchmark reports, and software projects.
+SemantIQ is currently **`0.1.0-alpha.2` — Public Alpha (Experimental)**.
+
+The canonical machine-readable citation metadata is
+[`CITATION.cff`](../CITATION.cff). Repository users should prefer the metadata
+GitHub renders from that file.
+
+No verified Zenodo deposition, minted DOI, or DataCite registration is established
+for the current SemantIQ release state. Do not copy placeholder DOI values into
+papers, software metadata, or public citations.
 
 ---
 
-## 1. BibTeX Citation Format
+## Repository citation fallback
+
+When a DOI or archive identifier is not available, cite the repository and exact
+software version used.
+
+### BibTeX
 
 ```bibtex
-@software{semantiq_benchmarks_2026,
-  author       = {{Tech Club Foundation}},
-  title        = {SemantIQ Benchmarks: Local-First AI Evaluation Toolkit},
-  version      = {0.1.0-alpha.1},
-  year         = {2026},
-  publisher    = {Zenodo},
-  doi          = {10.5281/zenodo.EXAMPLE_VERSION},
-  url          = {https://github.com/Logorythmus-org/Semantiq}
+@software{semantiq_2026,
+  author  = {{SemantIQ Core Contributors}},
+  title   = {SemantIQ: Behavioral Evidence Infrastructure for AI Systems},
+  version = {0.1.0-alpha.2},
+  year    = {2026},
+  url     = {https://github.com/Logorythmus-org/Semantiq}
 }
 ```
 
+### Human-readable form
+
+> SemantIQ Core Contributors. (2026). *SemantIQ: Behavioral Evidence Infrastructure for AI Systems* (Version 0.1.0-alpha.2). GitHub repository.
+
+This fallback identifies the source repository and current software identity. It
+does not imply that the software has been deposited with Zenodo or assigned a DOI.
+
 ---
 
-## 2. APA Citation Format
+## Exact-version citation
 
-> Tech Club Foundation. (2026). *SemantIQ Benchmarks: Local-First AI Evaluation Toolkit* (Version 0.1.0-alpha.1) [Computer software]. Zenodo. https://doi.org/10.5281/zenodo.EXAMPLE_VERSION
+For reproducible work, record at least:
+
+- the SemantIQ software version;
+- the Git commit SHA used for the evaluation;
+- relevant schema/contract versions;
+- benchmark or fixture identity;
+- model/provider/runtime details needed to reproduce the run.
+
+Software version, schema version, API route version, and benchmark version are
+separate identities. A contract or documentation `1.0.0` value is not evidence of
+a stable SemantIQ `1.0.0` software release.
 
 ---
 
-## 3. GitHub & Zenodo Direct Integration
+## DOI and archive status
 
-GitHub automatically renders citation details from `CITATION.cff` located in the repository root directory.
+[`.zenodo.json`](../.zenodo.json) and the repository citation metadata are
+**archive-preparation metadata**. Their presence is not evidence of:
+
+- a successful Zenodo deposit;
+- a minted Version DOI;
+- a minted Concept DOI;
+- DataCite registration;
+- an automatic GitHub-to-Zenodo release workflow.
+
+See [Zenodo GitHub Integration Workflow](ZENODO_DOI_WORKFLOW.md) and
+[Version DOI vs Concept DOI Strategy](VERSION_DOI_VS_CONCEPT_DOI.md) for the
+prospective archive model and its current evidence boundary.
