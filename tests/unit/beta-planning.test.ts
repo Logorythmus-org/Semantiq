@@ -17,5 +17,4 @@ describe("Prompt 7.10 — Beta Planning Verification", () => {
     expect(roadmap.length).toBeGreaterThanOrEqual(3);
     expect(roadmap[0]?.id).toEqual("beta-m1");
   });
-
 });
