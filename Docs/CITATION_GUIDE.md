@@ -21,7 +21,7 @@ software version used.
 
 ```bibtex
 @software{semantiq_2026,
-  author  = {{SemantIQ Core Contributors}},
+  author  = {{Logorythmus}},
   title   = {SemantIQ: Behavioral Evidence Infrastructure for AI Systems},
   version = {0.1.0-alpha.2},
   year    = {2026},
@@ -31,7 +31,7 @@ software version used.
 
 ### Human-readable form
 
-> SemantIQ Core Contributors. (2026). *SemantIQ: Behavioral Evidence Infrastructure for AI Systems* (Version 0.1.0-alpha.2). GitHub repository.
+> Logorythmus. (2026). *SemantIQ: Behavioral Evidence Infrastructure for AI Systems* (Version 0.1.0-alpha.2). GitHub repository.
 
 This fallback identifies the source repository and current software identity. It
 does not imply that the software has been deposited with Zenodo or assigned a DOI.
