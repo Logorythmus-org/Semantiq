@@ -9,6 +9,7 @@
 
 - **Type**: `feat` | `fix` | `refactor` | `docs` | `test` | `chore`
 - **Domain**: `Core` | `Benchmark` | `Evidence` | `Governance` | `Python SDK` | `TypeScript SDK` | `Security` | `Docs` | `Release`
+- **Branch**: Use a work-oriented name such as `fix/docs-links` or `feat/evidence-export`; do not use an AI tool/model, prompt number, or internal session/phase as the public branch identity.
 - **Issue / Spec / RFC Link**: N/A for bounded Fast-path work; otherwise #
 - **Why this path applies**:
 
@@ -74,6 +75,8 @@
 
 ## 8. Review Readiness
 
+- [ ] The branch and pull-request title describe the repository change rather than the tool/model/session used to produce it.
 - [ ] The diff is focused and excludes unrelated changes.
 - [ ] Exact validation commands and outcomes are recorded above.
 - [ ] Required CI and CODEOWNER review will not be bypassed.
+- [ ] The topic branch can be deleted after merge unless it is intentionally long-lived.

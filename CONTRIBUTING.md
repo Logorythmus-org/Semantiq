@@ -44,10 +44,16 @@ expected behavior; do not include secrets or private data.
 ## Shared pull request workflow
 
 1. Start from the current protected `main` branch and keep your branch up to date.
-2. Use a [Conventional Commit](https://www.conventionalcommits.org/) subject.
-3. Keep unrelated changes out of the pull request.
-4. Use the pull request template to declare the path, scope, tests, and any impact that is not applicable.
-5. Wait for required CI and review. Branch protection and [CODEOWNERS](.github/CODEOWNERS) apply to both paths.
+2. Name the branch after the repository change, not the tool, model, prompt, session, or internal phase that produced it.
+3. Use one of the normal work prefixes when applicable: `feat/`, `fix/`, `docs/`, `refactor/`, `test/`, `chore/`, `research/`, `governance/`, or `release/`.
+4. Do not create public workflow branches such as `codex/*`, `claude/*`, `gemini/*`, `promptXX/*`, or internal phase/sprint names when a descriptive work name is available.
+5. Use a [Conventional Commit](https://www.conventionalcommits.org/) subject and make the pull-request title describe the change itself.
+6. Keep unrelated changes out of the pull request.
+7. Use the pull request template to declare the path, scope, tests, and any impact that is not applicable.
+8. Wait for required CI and review. Branch protection and [CODEOWNERS](.github/CODEOWNERS) apply to both paths.
+9. Delete merged topic branches after the merge unless they are intentionally long-lived release or maintenance branches.
+
+AI-assisted work is not hidden or prohibited. When disclosure is useful, record the relevant assistance in the pull-request body, review notes, or other provenance material. Tool or model names should not substitute for a repository-facing change description in branch names or pull-request titles.
 
 ## Standards
 
