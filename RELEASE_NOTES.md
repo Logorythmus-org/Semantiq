@@ -1,5 +1,17 @@
 # Release Notes
 
+> **Historical note:** the material below is the `v0.1.0-alpha.1` release-candidate record.
+> It is retained as provenance and is not the current SemantIQ release description.
+>
+> The current provisional source identity is **`0.1.0-alpha.2` — Public Alpha
+> (Experimental)**. A current GitHub Release for alpha.2 is not established by this file.
+> Historical readiness, test, connector, accessibility, or documentation claims below must not be
+> promoted to current evidence without fresh verification.
+>
+> See [Versioning & Release Policy](Docs/VERSIONING_POLICY.md),
+> [Known Limitations](Docs/KNOWN_LIMITATIONS.md), and the actual GitHub Releases page for current
+> release-state evidence.
+
 ## SemantIQ Benchmarks v0.1.0-alpha.1 Release Candidate
 
 This release candidate establishes **SemantIQ Benchmarks** as an independent, open-source, local-first evaluation toolkit.
