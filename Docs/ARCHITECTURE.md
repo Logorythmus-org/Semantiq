@@ -39,7 +39,7 @@ SemantIQ establishes a rigorous, verifiable bridge between raw AI benchmark exec
 
 The **Benchmark Engine** is responsible for orchestrating, executing, and capturing verifiable telemetry from agentic and model interactions:
 
-- **Provider-Neutral Execution**: Interacts with local OCI containers, Podman, MicroVMs, or external endpoints via standardized provider interfaces (`ExecutionProvider`).
+- **Provider-Neutral Execution Boundary**: Docker Engine execution is implemented with partial live-daemon validation and OCI contracts are available through standardized provider interfaces (`ExecutionProvider`). Compatibility with Podman, MicroVMs, and named external/cloud runtimes is not established unless separately documented with direct evidence.
 - **Cryptographic Trace Sealing**: Records sequential interactions into `Trace` and `TraceEvent` structures. Each event carries an immutable SHA-256 state digest chaining back to initial system prompts.
 - **Benchmark Suite Families**: Houses modular test suites:
   - **SMF (Semantic Model Foundry)**: Semantic reasoning, tool utilization, and error boundary tests.
@@ -90,12 +90,14 @@ SemantIQ is explicitly designed as a **headless infrastructure layer**. It does 
 
 - **Pure TypeScript / Node.js & Python Domain**: All domain services, statistical algorithms, cryptographic sealers, and registries run in headless server environments.
 - **HTTP REST API**: Exposes all platform capabilities via standard JSON REST endpoints (`/health`, `/info`, `/api/v1/patterns`, `/api/v1/claims`, `/api/v1/reviews`, `/api/v1/studies`, `/api/v1/bundles`).
-- **SDK Parity**: TypeScript and Python SDKs provide direct programmatic access to all application service workflows with type safety.
+- **SDK Contract Parity**: TypeScript and Python source packages provide programmatic access to tested public workflows. Cross-language parity is enforced for canonical contracts and fixtures; this does not establish registry publication or complete behavioral parity for every repository service.
 - **Optional Static UI Serving**: The HTTP API server supports optional static asset serving if a frontend bundle is supplied, but operates fully without one.
 
 ---
 
-## Package Structure & Monorepo Boundaries
+## Core Package View & Monorepo Boundaries
+
+The diagram below is a **core architectural view**, not an exhaustive inventory of every package currently present in the monorepo. Additional packages and services remain under source/package-boundary reconciliation; their presence does not by itself make them part of the supported public SemantIQ boundary.
 
 ```
 packages/
