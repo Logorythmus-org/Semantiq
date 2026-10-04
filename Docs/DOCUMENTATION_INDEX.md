@@ -1,7 +1,8 @@
 # SemantIQ Master Documentation Index
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Status**: `NORMATIVE`  
+**Software identity**: `0.1.0-alpha.2` — Public Alpha (Experimental)  
+**Index status**: `NORMATIVE`  
+**Version boundary**: documentation/specification `1.0.0` references do not imply a stable SemantIQ software release  
 **License**: [CC-BY-4.0](../LICENSING.md)
 
 Welcome to the **SemantIQ Behavioral Evidence Infrastructure** documentation platform.
@@ -80,8 +81,11 @@ Docs/
 
 ## 🏷️ Document Status Classifications
 
-Every documentation artifact in this repository carries an explicit status:
-- **`NORMATIVE`**: Authoritative, binding product specifications, mathematical contracts, and security policies.
-- **`REVIEWED`**: Technical guides, walkthroughs, and developer tutorials verified against current codebase.
-- **`DRAFT`**: Active RFCs and preliminary specifications undergoing community review.
-- **`HISTORICAL`**: Deliberately curated public provenance only. Internal prompts, handoffs, sprint reports, local audit dumps, and migration logs do not belong in the public repository.
+Canonical public documentation uses the following status vocabulary where a document explicitly declares one. The presence of a file in `Docs/` alone does not assign or upgrade its status:
+
+- **`NORMATIVE`**: Authoritative current product, contract, governance, or security documentation within its stated scope.
+- **`REVIEWED`**: Technical guidance reviewed against the current repository within a defined evidence boundary.
+- **`DRAFT`**: Active proposal or specification that is not yet authoritative.
+- **`HISTORICAL`**: Deliberately retained public provenance that must not be read as current implementation or release truth.
+
+Internal prompts, handoffs, local audit dumps, and migration logs are not canonical public documentation.
