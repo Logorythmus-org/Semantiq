@@ -1,3 +1,15 @@
+> **Status: PROPOSED / HISTORICAL DOMAIN-GOVERNANCE MODEL — NOT CURRENT GITHUB AUTHORITY**
+>
+> This document preserves a broader product-domain governance design. The current
+> repository authority is defined by the root [Governance](../GOVERNANCE.md),
+> [CODEOWNERS](../.github/CODEOWNERS), protected-branch rules, and reviewed pull
+> requests.
+>
+> The `@semantiq/*` teams, Maintainers Council, working groups, foundation roles,
+> and package-distribution responsibilities described below are not established by
+> the current CODEOWNERS configuration and must not be represented as active
+> governance unless separately created and verified.
+
 # SemantIQ Product Domain Governance & Stewardship Model
 
 **Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
