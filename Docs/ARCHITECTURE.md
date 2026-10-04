@@ -26,8 +26,8 @@ SemantIQ establishes a rigorous, verifiable bridge between raw AI benchmark exec
 │                                                                                                        │
 │  ────────────────────────────────────────────────────────────────────────────────────────────────────  │
 │  HEADLESS ACCESS INTERFACES:                                                                           │
-│  • Python Public API (`semantiq`)         • TypeScript SDK (`@semantiq/sdk`)                           │
-│  • Unified CLI (`semantiq`)               • Headless HTTP API (`/api/v1/...`)                          │
+│  • Python source package (`semantiq`)     • TypeScript source SDK (`@semantiq/sdk`)                    │
+│  • Repository/Python command surfaces     • Headless HTTP API (`/api/v1/...`)                          │
 └────────────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
@@ -75,12 +75,12 @@ The **Research Workbench** manages the full lifecycle of scientific claims, pre-
 
 - **Governed Claim Registry**: Immutable registry tracking claims through lifecycle stages (`draft` $\to$ `in_review` $\to$ `active` $\to$ `superseded` $\to$ `retracted`).
 - **Controlled Language Rules**: Regex-enforced linguistic guardrails that reject unhedged causal terms (`causes`, `proves`, `guarantees`, `eliminates`, `causal proof`).
-- **Two-Party Review & Release Gate**: Requires $\ge 2$ independent reviewer approvals and 0 rejections before transitioning claims to `active`.
+- **Two-Review Release Gate**: Requires at least two approved review records and 0 rejections before transitioning claims to `active`. The count of review records does not by itself establish reviewer or institutional independence.
 - **Reproducible Research Bundles**: Packages claims, datasets, config fingerprints, and contrast reports into Merkle-tree verified bundles (`ResearchBundleManifest`).
 - **Study Protocol Pre-registration**: Generates deterministic study protocols with frozen pre-registration fingerprints (`freezeProtocol`) and hash-chained deviation tracking.
 - **Protocol-Aware Execution Manifests**: Ingests external partner results, validating adherence against pre-registered parameters.
 - **External Evidence Eligibility Gate**: Evaluates submissions across 7 criteria (`eligible`, `eligible_with_caveats`, `quarantined`, `rejected`) before permitting evidence to affect aggregate registries.
-- **Partner Replication Registry**: Aggregates multi-organizational replications while preserving full counterevidence visibility and enforcing genuine context diversity ($\ge 2$ independent orgs, diversity $\ge 0.70$) for E4 promotion.
+- **Replication Registry**: Aggregates organization-labelled replication records while preserving counterevidence visibility. The current E4 policy requires at least two organization records and context diversity of at least 0.70; institutional independence still requires separate provenance review.
 
 ---
 
@@ -89,8 +89,8 @@ The **Research Workbench** manages the full lifecycle of scientific claims, pre-
 SemantIQ is explicitly designed as a **headless infrastructure layer**. It does not require a browser, UI framework, or graphical environment:
 
 - **Pure TypeScript / Node.js & Python Domain**: All domain services, statistical algorithms, cryptographic sealers, and registries run in headless server environments.
-- **HTTP REST API**: Exposes all platform capabilities via standard JSON REST endpoints (`/health`, `/info`, `/api/v1/patterns`, `/api/v1/claims`, `/api/v1/reviews`, `/api/v1/studies`, `/api/v1/bundles`).
-- **SDK Contract Parity**: TypeScript and Python source packages provide programmatic access to tested public workflows. Cross-language parity is enforced for canonical contracts and fixtures; this does not establish registry publication or complete behavioral parity for every repository service.
+- **HTTP REST API**: Exposes a tested subset of application-service workflows through JSON REST endpoints. Implemented routes include health/info plus pattern, claim, review, study-snapshot/case, bundle, comparison, evaluation, and run surfaces under `/api/v1`. Route presence does not imply a hosted service or that every repository capability is exposed over HTTP.
+- **SDK Contract Parity**: TypeScript and Python source packages provide programmatic access to tested public workflows. Cross-language parity is enforced for canonical contracts and fixtures; this does not establish registry publication, universal browser support, or complete behavioral parity for every repository service.
 - **Optional Static UI Serving**: The HTTP API server supports optional static asset serving if a frontend bundle is supplied, but operates fully without one.
 
 ---
