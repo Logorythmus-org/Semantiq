@@ -21,14 +21,14 @@ a `1.0.0` release.
 
 ## Live release evidence baseline
 
-The following facts were re-verified from live GitHub evidence on 2026-10-04:
+The following facts were re-verified from live GitHub evidence during the 2026-10-04 audit. The recorded `main` SHA is an audit baseline, not a permanent current-head claim:
 
-- Protected `main` is `c05d2c729e8da929b59b0672e80884094118a3de`.
+- At audit time, protected `main` resolved to `c05d2c729e8da929b59b0672e80884094118a3de`.
 - Annotated tags `v0.1.0-alpha.1` and `v0.1.0-alpha.2` exist.
 - `v0.1.0-alpha.1` resolves to `870f70f900748a79aed8e959ebb0b618ff4329cc`.
 - `v0.1.0-alpha.2` resolves to `a94e99d07441e2115b4a770f46851dff7c8fe77a`.
 - Alpha.2 is five commits ahead of alpha.1 on their historical tag lineage.
-- GitHub compare reports no common ancestor between current `main` and either alpha tag.
+- GitHub compare reported no common ancestor between the audited `main` lineage and either alpha tag; later protected-main merges do not rewrite that historical tag lineage.
 - The only published GitHub Release is `v0.1.0-alpha.1`, marked as a prerelease.
 - The alpha.1 GitHub Release has no manually attached assets.
 - No GitHub Release exists for `v0.1.0-alpha.2`.
