@@ -1,3 +1,15 @@
+> **Status: HISTORICAL / LEGACY PLANNING — NON-CANONICAL**
+>
+> This document is retained as planning provenance for a broader legacy platform architecture.
+> It is **not** the current SemantIQ product roadmap, release commitment, or supported public
+> product boundary. SemantIQ is currently `0.1.0-alpha.2` — Public Alpha (Experimental).
+> Current repository-readiness work is tracked from the root [Roadmap](../ROADMAP.md) and
+> [Versioning & Release Policy](VERSIONING_POLICY.md).
+>
+> Package names, subsystem names, delivery phases, and production language below are preserved
+> as historical planning context and must not be read as evidence that those components are
+> implemented, supported, externally validated, or committed for release.
+
 # Implementation Roadmap
 
 This roadmap converts the stable Tech Club architecture into production software. It is incremental: every step must be specified, testable, documented, and releasable.

@@ -1,3 +1,14 @@
+> **Status: HISTORICAL ALPHA.1 RELEASE DRAFT**
+>
+> This file preserves a pre-publication draft for `v0.1.0-alpha.1`. It is not the current
+> release description and is intentionally **not** rewritten to match present repository metadata.
+> Old repository URLs, installation commands, citation text, package names, and capability claims
+> below are historical content, not current guidance.
+>
+> Current source identity: **`0.1.0-alpha.2` — Public Alpha (Experimental)**.
+> For current release/version truth, use [Versioning & Release Policy](VERSIONING_POLICY.md),
+> [Known Limitations](KNOWN_LIMITATIONS.md), and the repository's actual GitHub Releases page.
+
 # GitHub Release Draft
 
 **Tag**: `v0.1.0-alpha.1`  
