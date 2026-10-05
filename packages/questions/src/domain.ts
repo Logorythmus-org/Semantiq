@@ -13,11 +13,7 @@ export type QuestionChangeType = "updated" | "archived" | "restored";
 export type QuestionId = string;
 export type QuestionRevisionId = string;
 export type QuestionErrorCategory =
-  | "validation"
-  | "domain"
-  | "conflict"
-  | "not_found"
-  | "forbidden";
+  "validation" | "domain" | "conflict" | "not_found" | "forbidden";
 
 export class QuestionRuntimeError extends ApplicationError {
   readonly category: QuestionErrorCategory;
@@ -113,10 +109,7 @@ export type QuestionUpdatedEvent = DomainEvent<QuestionMutationPayload>;
 export type QuestionArchivedEvent = DomainEvent<QuestionMutationPayload>;
 export type QuestionRestoredEvent = DomainEvent<QuestionMutationPayload>;
 export type QuestionEvent =
-  | QuestionCreatedEvent
-  | QuestionUpdatedEvent
-  | QuestionArchivedEvent
-  | QuestionRestoredEvent;
+  QuestionCreatedEvent | QuestionUpdatedEvent | QuestionArchivedEvent | QuestionRestoredEvent;
 
 export interface QuestionView {
   readonly id: QuestionId;

@@ -18,9 +18,7 @@ import {
   type QuestionSemanticStructureView
 } from "./semantic-domain.js";
 
-export class MemoryQuestionSemanticStructureRepository
-  implements QuestionSemanticStructureRepository
-{
+export class MemoryQuestionSemanticStructureRepository implements QuestionSemanticStructureRepository {
   private values = new Map<string, QuestionSemanticStructureView>();
 
   async add(structure: QuestionSemanticStructure): Promise<void> {
@@ -64,9 +62,7 @@ export class MemoryQuestionSemanticStructureRepository
   }
 }
 
-export class MemoryQuestionSemanticRevisionRepository
-  implements QuestionSemanticRevisionRepository
-{
+export class MemoryQuestionSemanticRevisionRepository implements QuestionSemanticRevisionRepository {
   private values = new Map<string, QuestionSemanticRevisionView[]>();
 
   async add(revision: QuestionSemanticRevision): Promise<void> {

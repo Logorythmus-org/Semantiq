@@ -26,17 +26,9 @@ export const QUESTION_SOURCE_TYPES = [
 ] as const;
 export type QuestionSourceReferenceType = (typeof QUESTION_SOURCE_TYPES)[number];
 export type ProvenanceClassification =
-  | "USER_DECLARED"
-  | "SYSTEM_OBSERVED"
-  | "EXTERNALLY_VERIFIED"
-  | "MODERATOR_REVIEWED";
+  "USER_DECLARED" | "SYSTEM_OBSERVED" | "EXTERNALLY_VERIFIED" | "MODERATOR_REVIEWED";
 export type SourceVerificationState =
-  | "declared"
-  | "format_validated"
-  | "externally_verified"
-  | "unavailable"
-  | "disputed"
-  | "removed";
+  "declared" | "format_validated" | "externally_verified" | "unavailable" | "disputed" | "removed";
 export type SourceReferenceStatus = "active" | "removed";
 
 export const QUESTION_REPORT_REASONS = [
@@ -54,11 +46,7 @@ export const QUESTION_REPORT_REASONS = [
 export type QuestionReportReason = (typeof QUESTION_REPORT_REASONS)[number];
 export type QuestionReportStatus = "open" | "under_review" | "resolved" | "dismissed" | "withdrawn";
 export type QuestionModerationCaseStatus =
-  | "open"
-  | "under_review"
-  | "action_required"
-  | "resolved"
-  | "dismissed";
+  "open" | "under_review" | "action_required" | "resolved" | "dismissed";
 export const QUESTION_MODERATION_ACTIONS = [
   "no_action",
   "mark_under_review",
