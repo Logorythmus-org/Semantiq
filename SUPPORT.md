@@ -9,6 +9,15 @@ Use [GitHub Discussions](https://github.com/Logorythmus-org/Semantiq/discussions
 for questions about setup, local usage, interpretation of documentation, and
 general project discussion.
 
+## Community navigation
+
+- [Community Hub](COMMUNITY.md) — choose the right participation path.
+- [GitHub Discussions](https://github.com/Logorythmus-org/Semantiq/discussions) — questions, ideas, results, and early proposals.
+- [GitHub Projects](https://github.com/Logorythmus-org/Semantiq/projects) — current coordination and contribution opportunities.
+- [GitHub Wiki](https://github.com/Logorythmus-org/Semantiq/wiki) — orientation and learning material.
+
+The Project board and Wiki are coordination/navigation surfaces, not replacements for reviewed repository truth.
+
 ## Reproducible defects and compatibility problems
 
 Open a
