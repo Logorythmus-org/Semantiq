@@ -27,6 +27,23 @@ jobs:
         run: pnpm changeset status --since origin/main
       - name: Prettier format check
         run: pnpm format:check
+      - name: Capture Prettier 3.9.9 repair payload
+        if: failure()
+        run: |
+          files=(
+            packages/persistence/src/question-semantics.ts
+            packages/questions/src/domain.ts
+            packages/questions/src/safety.ts
+            packages/questions/src/semantic-domain.ts
+            packages/questions/src/semantic-memory.ts
+          )
+          pnpm exec prettier --write "${files[@]}"
+          for file in "${files[@]}"; do
+            echo "SEMANTIQ_FORMAT_BEGIN:${file}"
+            base64 -w0 "${file}"
+            echo
+            echo "SEMANTIQ_FORMAT_END:${file}"
+          done
       - name: ESLint
         run: pnpm lint
       - name: TypeScript Typecheck
