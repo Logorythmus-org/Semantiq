@@ -464,8 +464,6 @@ importers:
 
   services/agent-runtime: {}
 
-  services/alpha-operations: {}
-
   services/analytics: {}
 
   services/api: {}
@@ -495,8 +493,6 @@ importers:
   services/knowledge-graph: {}
 
   services/marketplace: {}
-
-  services/product-metrics: {}
 
   services/question: {}
 
