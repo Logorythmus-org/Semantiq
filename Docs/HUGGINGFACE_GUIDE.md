@@ -26,6 +26,14 @@ the current Hugging Face tooling before attempting it.
 ```bash
 pip install huggingface_hub
 huggingface-cli login
-huggingface-cli repo create semantiq-synthetic-smoke --type dataset
-git clone https://huggingface.co/datasets/semantiq-benchmarks/semantiq-synthetic-smoke
+
+HF_OWNER="replace-with-authorized-owner"
+HF_DATASET="replace-with-dataset-slug"
+
+huggingface-cli repo create "$HF_OWNER/$HF_DATASET" --type dataset
+git clone "https://huggingface.co/datasets/$HF_OWNER/$HF_DATASET"
 ```
+
+
+The placeholder owner must be replaced only with a namespace the operator is authorized to use.
+SemantIQ does not currently claim ownership of a Hugging Face namespace or a published Hub dataset.

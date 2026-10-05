@@ -21,7 +21,9 @@ Use `examples/kaggle/dataset-metadata.json`:
 ---
 
 The checked-in `techclub/*` identifier is migration-bound metadata and is not proof of an owned or
-published Kaggle dataset.
+published Kaggle dataset. **Do not upload the checked-in metadata as-is.** Before any manual upload
+attempt, copy the export to an operator-controlled staging directory and replace the `id` with a
+namespace/dataset slug that the operator is authorized to publish.
 
 ## 2. Optional manual publication preparation
 
@@ -30,5 +32,8 @@ the generated files, licensing, provenance, and an authorized namespace before u
 
 ```bash
 pip install kaggle
-kaggle datasets create -p examples/kaggle/
+kaggle datasets create -p <operator-staging-directory>
 ```
+
+The staging directory placeholder must contain reviewed metadata with an authorized Kaggle owner.
+No current SemantIQ Kaggle publication or namespace ownership is established by this guide.

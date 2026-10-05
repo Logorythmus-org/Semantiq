@@ -1,6 +1,6 @@
 # External Benchmark Ecosystem Architecture Guide
 
-This document details the third-party **External Benchmark Ecosystem Architecture** for **SemantIQ Benchmarks**.
+This document describes the experimental third-party **External Benchmark Ecosystem Architecture** for **SemantIQ**.
 
 ---
 

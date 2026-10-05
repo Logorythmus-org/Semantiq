@@ -1,8 +1,10 @@
 # SemantIQ Integration Graph v0.1
 
-**Status:** Evidence-based repository map
+**Status:** Evidence-based repository snapshot; current-main revalidation pending
 
 **Source revision:** `302927cfd071285bbbe38961a08a0c58d77aa923`
+
+**Freshness boundary:** the repository has advanced beyond this revision and source/package cleanup is still active. The graph remains evidence for this recorded snapshot; it must not be presented as a newly re-audited map of current `main` until its nodes, edges, evidence paths, and statuses are revalidated.
 
 **Machine-readable graph:** [`integration-graph.json`](integration-graph.json)
 
@@ -34,7 +36,7 @@ scientific-validation map. Technology names identify technical relationships onl
 
 ## 3. How to read the graph
 
-The textual tables below are normative. The compact Mermaid view is navigational only.
+The textual tables below are the normative classification for the recorded source snapshot. They are not a substitute for a fresh current-main audit. The compact Mermaid view is navigational only.
 
 | Status | Meaning |
 |---|---|
@@ -156,6 +158,6 @@ production use. `LATER_NEEDS_MORE_EVIDENCE`, `DEPENDENCY_ONLY_NO_OUTREACH`, and
 ## 11. Machine-readable graph
 
 [`integration-graph.json`](integration-graph.json) is canonical for node identities, edge metadata,
-evidence paths, confidence, missing evidence, and outreach readiness. Focused tests reject invalid
+evidence paths, confidence, missing evidence, and outreach readiness **for the recorded snapshot revision**. It must be regenerated or revalidated before being promoted as current-main evidence. Focused tests reject invalid
 nodes, vocabularies, evidence paths, layer promotion, simulation promotion, publication claims, and
 external-replication overclaims.
