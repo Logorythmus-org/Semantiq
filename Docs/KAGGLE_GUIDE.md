@@ -32,9 +32,8 @@ the generated files, licensing, provenance, and an authorized namespace before u
 
 ```bash
 pip install kaggle
-kaggle datasets create -p examples/kaggle/
+kaggle datasets create -p <operator-staging-directory>
 ```
-
 
 The staging directory placeholder must contain reviewed metadata with an authorized Kaggle owner.
 No current SemantIQ Kaggle publication or namespace ownership is established by this guide.
