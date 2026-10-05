@@ -23,10 +23,10 @@ Keep these identities separate:
 
 - SemantIQ software: `0.1.0-alpha.2`
 - Python distribution spelling: `0.1.0a2`
-- contract/payload schemas: `1.0.0`
+- contract/payload schema version: `1.0.0`
 - HTTP route family: `/api/v1`
 
-A schema or API version of `1.0.0` does not mean SemantIQ software itself has reached a stable `1.0.0` release.
+A schema or API version of `1.0.0` does not mean SemantIQ software itself has reached software release version `1.0.0`.
 
 ## Core map
 
