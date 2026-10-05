@@ -112,10 +112,16 @@ limitations. It intentionally omits the runtime-generated report ID and timestam
 
 ## 5. Calculate and compare hashes
 
-On Linux or macOS:
+On Linux:
 
 ```bash
 sha256sum artifacts/first-result/semantiq-result.json
+```
+
+On macOS:
+
+```bash
+shasum -a 256 artifacts/first-result/semantiq-result.json
 ```
 
 On PowerShell:

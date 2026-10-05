@@ -153,27 +153,22 @@ python -m pip install -e "./packages/python"
 Draft a governed claim and evaluate controlled language:
 
 ```python
-from semantiq import (
-    SemantiqClient,
-    validate_claim_language,
-    StudyProtocolGenerator,
-    ExternalEvidenceEligibilityGate,
-)
+from semantiq import SemantiqClient
 
-# 1. Validate controlled scientific language
-validation = validate_claim_language(
+# 1. Initialize Headless Client
+client = SemantiqClient(is_offline_deterministic=True)
+
+# 2. Validate controlled scientific language
+validation = client.validate_claim_language(
     "DP-008 out-of-band observer is associated with a 0.25 observed increase in goal retention."
 )
-assert validation["is_valid"] is True
-
-# 2. Initialize Headless Client
-client = SemantiqClient(is_offline_deterministic=True)
+assert validation.is_valid is True
 
 # 3. Draft Governed Claim
 claim = client.draft_claim(
     topic="anti_gaming_drift_mitigation",
-    target_pattern_id="rel_08",
-    statement=validation["sanitized_statement"],
+    target_pattern_or_relation_id="rel_08",
+    statement=validation.statement,
     run_ids=["run_treatment_1", "run_control_1"],
 )
 print(f"Drafted Claim ID: {claim.id} (Status: {claim.status})")

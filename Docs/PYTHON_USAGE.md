@@ -24,20 +24,22 @@ python -m pip install -e "./packages/python"
 Ensure claim statements avoid unhedged, unsupported causal language:
 
 ```python
-from semantiq import validate_claim_language
+from semantiq import SemantiqClient
+
+client = SemantiqClient(is_offline_deterministic=True)
 
 # Valid associative statement
-result = validate_claim_language(
+result = client.validate_claim_language(
     "DP-008 out-of-band observer is associated with a 0.25 observed increase in goal retention."
 )
-print(result["is_valid"])  # True
+print(result.is_valid)  # True
 
 # Invalid causal statement
-result = validate_claim_language(
+result = client.validate_claim_language(
     "DP-008 observer causes complete elimination of drift."
 )
-print(result["is_valid"])  # False
-print(result["violations"])  # ["causes", "elimination"]
+print(result.is_valid)  # False
+print([violation.term for violation in result.violations])  # ["causes", "eliminates"]
 ```
 
 ---
@@ -53,7 +55,7 @@ client = SemantiqClient(is_offline_deterministic=True)
 
 claim = client.draft_claim(
     topic="anti_gaming_drift_mitigation",
-    target_pattern_id="rel_08",
+    target_pattern_or_relation_id="rel_08",
     statement="DP-008 out-of-band observer is associated with reduced FP-002 context drift.",
     run_ids=["run_treatment_01", "run_control_01"],
 )
