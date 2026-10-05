@@ -1,108 +1,100 @@
 # SemantIQ Request for Comments (RFC) Process
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Effective Date**: 2026-08-18  
+**Status**: `NORMATIVE PROCESS`  
+**Current maturity**: Public Alpha (Experimental)
 
 ---
 
-## 1. Purpose of the RFC Process
+## 1. Purpose
 
-The SemantIQ RFC (Request for Comments) process provides a structured, transparent mechanism for proposing, debating, and approving substantial architectural, scientific, and contract changes before implementation.
+The RFC process provides a public review path for changes whose consequences
+should be understood before implementation.
 
----
+It complements, but does not replace, protected-branch checks, CODEOWNER review,
+security review, tests, or release gates.
 
-## 2. When is an RFC Required?
+## 2. When an RFC is expected
 
-An RFC is **mandatory** for:
-- Any proposed change to the **16 Core Epistemic Invariants** (e.g. `Observed ≠ Inferred`, `Matched Association ≠ Causal Effect`).
-- Any breaking change to canonical product contracts or schemas in `packages/sandbox-contracts/` or `schemas/`.
-- Introducing new statistical contrast estimators, robustness diagnostics, or evidence decision rules.
-- Introducing new official language SDKs or high-level application service protocols.
-- Modifying the external evidence eligibility gate or replication registry protocols.
+Use an RFC for material changes such as:
 
-An RFC is **not required** for:
-- Bug fixes and routine performance optimizations.
-- Adding tests, synthetic fixtures, or documentation improvements.
-- Small backward-compatible additions to existing SDK methods.
+- changes to core epistemic invariants or scientific-claim rules;
+- breaking canonical contract or schema changes;
+- new statistical estimators, robustness methods, or evidence-decision policies;
+- substantial architecture or public-interface changes;
+- changes to external-evidence eligibility or replication-governance rules;
+- security-sensitive governance changes whose policy should be reviewed before code.
 
----
+An RFC is normally unnecessary for:
 
-## 3. The RFC Lifecycle
+- typo, link, and bounded documentation fixes;
+- small tests and synthetic fixtures;
+- reproducible bug fixes that do not change public semantics;
+- small backward-compatible implementation changes whose impact is already clear.
 
-```
-[ Idea / Proposal ]
-        │
-        ▼
-   [ 1. DRAFT ] ──► Submit PR to Docs/rfcs/ (RFC-XXXX-title.md)
-        │
-        ▼
-[ 2. UNDER REVIEW ] ──► Public debate (Minimum 14-day comment period)
-        │
-        ├─────────────────────────────┬───────────────────────────┐
-        ▼                             ▼                           ▼
-  [ 3. ACCEPTED ]               [ REJECTED ]                [ WITHDRAWN ]
-        │
-        ▼
- [ 4. IMPLEMENTED ] ──► Core codebase merged & released
-        │
-        ▼
- [ 5. SUPERSEDED ] ──► Replaced by newer approved RFC
-```
+Maintainers may ask a change to move from the Fast path to the Core/RFC path when
+its actual impact is broader than initially described.
 
-### Lifecycle States:
-1. **DRAFT**: Author writes proposal following the RFC Template and opens a PR in `Docs/rfcs/`.
-2. **UNDER REVIEW**: Open discussion across maintainers, domain owners, and external research partners. Minimum **14 calendar days** review window.
-3. **ACCEPTED**: Formal consensus reached by the Maintainers Council and relevant domain owners.
-4. **IMPLEMENTED**: Code changes, tests, and contract updates completed and merged into `main`.
-5. **REJECTED / WITHDRAWN**: Proposal declined with documented rationale preserved for future reference.
-6. **SUPERSEDED**: Later RFC replaces the decisions of an older implemented RFC.
+## 3. Starting an RFC
 
----
+Start with the
+[Architecture / RFC Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=architecture_rfc.yml)
+issue form.
 
-## 4. RFC Template Structure
+The proposal should identify:
 
-Every RFC document in `Docs/rfcs/RFC-XXXX-<name>.md` must include:
+- the problem and motivation;
+- affected architecture/contracts;
+- scientific and epistemic impact;
+- security/privacy/resource impact;
+- TypeScript/Python compatibility impact where applicable;
+- alternatives and unresolved questions;
+- the evidence or tests that would be required for implementation.
 
-```markdown
-# RFC-XXXX: [Feature / Architecture / Epistemic Title]
+The repository does not currently maintain a canonical `Docs/rfcs/` directory,
+so contributors should not infer approval from creating an RFC-shaped Markdown
+file at an arbitrary path.
 
-- **Status**: Draft | Under Review | Accepted | Implemented | Rejected | Superseded
-- **Author(s)**: [Name / Handle / Affiliation]
-- **Domain(s)**: Core | Benchmark | Evidence | Governance | SDKs | Security
-- **Created**: YYYY-MM-DD
-- **Target Release**: vX.Y.Z
+## 4. Lifecycle
 
-## 1. Executive Summary
-Brief high-level overview of the proposal and motivation.
+RFCs use these conceptual states:
 
-## 2. Motivation & Problem Statement
-Why is this change necessary? What problem or limitation does it address?
+1. **DRAFT** — proposal is being formed.
+2. **UNDER REVIEW** — maintainers and community reviewers are evaluating it.
+3. **ACCEPTED** — the direction is approved for implementation.
+4. **REJECTED** — the direction is declined with rationale.
+5. **WITHDRAWN** — the proposer withdraws it.
+6. **IMPLEMENTED** — the approved change has actually merged with its required evidence.
+7. **SUPERSEDED** — a later accepted decision replaces it.
 
-## 3. Detailed Specification
-- Canonical data structures, interfaces, and mathematical definitions.
-- Epistemic integrity analysis (how does it uphold scientific guardrails?).
-- Error handling, fallback modes, and edge cases.
+Acceptance is not implementation. Implementation is not external validation.
+Neither state is a release or production-readiness claim.
 
-## 4. Cross-Language & Backward Compatibility
-- TypeScript SDK impacts.
-- Python SDK parity and dataclass representations.
-- Schema versioning and migration pathways.
+## 5. Review and decision authority
 
-## 5. Security, Privacy & Resource Impact
-- Secret redaction and isolation considerations.
-- Threat modeling analysis and performance benchmarks.
+The current repository authority is the protected pull-request workflow and the
+CODEOWNER mapping to `@Logorythmus-org/semantiq-maintainers`.
 
-## 6. Drawbacks & Alternatives Considered
-- What other approaches were evaluated?
-- What are the costs of doing nothing?
+This process does **not** currently claim:
 
-## 7. Unresolved Questions & Open Discussion
-- Items requiring feedback during the review window.
-```
+- a mandatory fixed public-comment duration;
+- separately established domain-owner teams;
+- an independently established Maintainers Council;
+- unanimous council voting;
+- external-partner approval authority.
 
----
+Such structures may be introduced later, but they must be explicitly created,
+documented, and reflected in repository governance before being treated as active.
 
-## 5. Decision & Governance Consensus
+## 6. Implementation after acceptance
 
-- **Domain Approval**: Requires sign-off from designated Domain Owners ([`.github/CODEOWNERS`](../../.github/CODEOWNERS)).
-- **Epistemic Changes**: Changes to scientific invariants require **unanimous approval** from the Maintainers Council.
+An accepted RFC should be implemented through normal reviewed pull requests with:
+
+- focused scope;
+- required tests and CI;
+- compatibility/migration notes where needed;
+- security and scientific-boundary review where applicable;
+- documentation updates;
+- release-note updates when release-facing behavior changes.
+
+See [Repository Governance](../../GOVERNANCE.md) and
+[Contributing](../../CONTRIBUTING.md).

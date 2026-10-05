@@ -1,1 +1,8 @@
 blank_issues_enabled: false
+contact_links:
+  - name: Questions and support
+    url: https://github.com/Logorythmus-org/Semantiq/discussions
+    about: Ask usage, setup, and general project questions in GitHub Discussions.
+  - name: Security vulnerability
+    url: https://github.com/Logorythmus-org/Semantiq/security/policy
+    about: Review the security policy before disclosing sensitive vulnerability details.
