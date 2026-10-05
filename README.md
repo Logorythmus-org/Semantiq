@@ -310,7 +310,7 @@ git clone https://github.com/Logorythmus-org/Semantiq.git
 cd Semantiq
 
 # 2. Install dependencies & build
-pnpm install
+pnpm install --frozen-lockfile
 pnpm build
 
 # 3. Run full verification suite
