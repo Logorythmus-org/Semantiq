@@ -1,6 +1,6 @@
 # Installation Matrix & Environment Compatibility
 
-This document details verified execution environments, system prerequisites, clean install procedures, and platform limitations for **SemantIQ Benchmarks**.
+This document records current source-checkout environment evidence, system prerequisites, clean installation procedures, and platform limitations for **SemantIQ**.
 
 ---
 

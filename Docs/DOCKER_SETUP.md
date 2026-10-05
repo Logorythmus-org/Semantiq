@@ -5,7 +5,6 @@ The Docker Compose profile includes MVP service scaffolds and local infrastructu
 - web
 - api-gateway
 - identity
-- workspace
 - question
 - graph
 - semantiq
