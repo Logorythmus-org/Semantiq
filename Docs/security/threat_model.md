@@ -1,78 +1,153 @@
 # SemantIQ Threat Model
 
-**Milestone**: SemantIQ Behavioral Evidence Infrastructure 1.0.0  
-**Scope**: Headless Runtime, CLI, REST API, Evidence Engine, Partner Exchange  
+**Status**: `NORMATIVE MODEL`  
+**Current maturity**: Public Alpha (Experimental)  
+**Scope**: Headless runtime, CLI/HTTP surfaces, evidence workflows, repository-local integrations
 
 ---
 
-## 1. Overview & STRIDE Analysis
+## 1. Purpose
 
-This threat model identifies potential attack vectors against SemantIQ, its evaluation pipelines, and research governance mechanisms.
+This threat model records security-relevant risks and the mitigations currently
+visible in code, tests, or repository configuration.
 
-```
-       [ External Partner / Attestation ]
-                      │ (Unverified Manifests / Tampered Bundles)
-                      ▼
-[ CLI / HTTP Router ] ──► [ Eligibility Gate ] ──► [ Evidence Graph ]
-         │                        │
-         ▼                        ▼
-[ Trace Mapper Engine ] ──► [ Evaluation Ledger ] (SHA-256 Merkle Chaining)
-```
+A listed mitigation is scoped to the implementation/test path that supports it.
+It is not a claim that every deployment or integration is penetration-tested or
+free of vulnerabilities.
 
----
+## 2. Threats and current mitigations
 
-## 2. Threat Vectors & Mitigations
+### 2.1 Secret leakage and credential exposure
 
-### 2.1 Secret Leakage & Credential Exfiltration
-- **Threat**: Evaluation traces or error logs accidentally capture API keys, tokens, or private environment variables passed to tested agents.
-- **Impact**: Compromise of cloud providers, proprietary model endpoints, or benchmark databases.
-- **Mitigation**:
-  - `CredentialResolutionContext` redacts all secrets at the ingestion boundary.
-  - Test run ledgers and `ResearchBundle` exports scrub environment blocks.
-  - Zero default external telemetry egress.
+**Threat**  
+Execution traces, diagnostics, errors, logs, fixtures, or exported artifacts may
+capture credentials or other sensitive values.
 
-### 2.2 Malicious Files & Benchmark Payload Injection
-- **Threat**: An attacker submits a benchmark case or dataset containing code injection, prompt injection, or malicious payload strings designed to exploit parsers.
-- **Impact**: Arbitrary code execution or parser crashes during benchmark runs.
-- **Mitigation**:
-  - Strict JSON schema validation (`packages/sandbox-contracts`) on all inputs before deserialization.
-  - Offline deterministic runner isolates evaluation processes without executing untrusted external script snippets.
+**Current evidence**
+- configuration diagnostics mask tested provider-token values;
+- `SecretRedactor` redacts registered secret values/custom patterns;
+- `CredentialBoundaryValidator` detects several common credential formats;
+- security tests verify that selected sensitive values are absent from tested
+  logs/events.
 
-### 2.3 Path Traversal Attacks (`..` Directory Traversal)
-- **Threat**: Attacker crafts bundle artifact relative paths (e.g. `../../etc/passwd` or `..\..\Windows\System32`) in manifest or bundle tarballs.
-- **Impact**: Unauthorized file reading, arbitrary file overwrite, or local privilege escalation.
-- **Mitigation**:
-  - Strict path resolution checks ensuring all extracted files remain within the designated temporary or sandbox directory.
-  - Rejection of paths containing `..`, absolute root prefixes, or illegal path characters.
+**Boundary**  
+These tests do not establish a universal guarantee that every unknown credential
+format, third-party process, provider SDK, or output artifact can never leak a
+secret.
 
-### 2.4 Tampered Research Bundles & Hash Mismatches
-- **Threat**: An adversary alters evaluation results or claims within a published `.bundle.json` without updating the cryptographic proof.
-- **Impact**: Compromised scientific integrity and false claim acceptance.
-- **Mitigation**:
-  - `ResearchBundleVerifier` computes canonical SHA-256 hashes of every individual run, evaluation, and claim artifact.
-  - Merkle tree root hash verification detects single-bit tampering and causes immediate verification failure (`verified: false`).
+### 2.2 Malicious or malformed input
 
-### 2.5 Dependency Compromise & Supply-Chain Poisoning
-- **Threat**: Malicious dependency injected into npm or PyPI transitive packages.
-- **Impact**: Remote code execution or data exfiltration during CI/CD or local test execution.
-- **Mitigation**:
-  - Strict dependency minimization (core engine and contracts have zero non-essential runtime dependencies).
-  - Lockfile integrity enforced via `pnpm-lock.yaml` with frozen installs in CI.
-  - Regular automated vulnerability scanning (`pnpm audit`, `pip-audit`).
+**Threat**  
+Untrusted benchmark, API, dataset, or imported content may attempt parser abuse,
+resource exhaustion, injection, or unsafe interpretation.
 
-### 2.6 Unsafe HTTP Exposure & CORS Misconfiguration
-- **Threat**: SemantIQ HTTP server exposed to public network interfaces without authentication or with overly permissive CORS headers.
-- **Impact**: Unauthorized remote trigger of benchmark runs, claim modifications, or bundle generation.
-- **Mitigation**:
-  - Default host binding strictly locked to `127.0.0.1`.
-  - Configurable CORS policy (`enableCors: false` by default for production profiles).
-  - Pure headless REST posture when UI static directory is omitted.
+**Current evidence**
+- schema/contract validation exists for defined product contracts;
+- question/security tests cover bounded query sizes, malformed structures,
+  authorization context, and sanitized failure output in tested API paths.
 
-### 2.7 Forged Provenance, Fabricated Traces & Manifest Manipulation
-- **Threat**: An external partner attempts to promote evidence by fabricating execution traces, modifying sample counts, or submitting synthetic runs as observed physical runs.
-- **Impact**: Evidence Graph corruption and unjustified E-level promotion.
-- **Mitigation**:
-  - External Evidence Eligibility Gate enforces deterministic verification against frozen preregistrations.
-  - Invariant: *No attestation alone promotes evidence*.
-  - Strict separation of `EpistemicNature.OBSERVED` vs `INFERRED` tags.
-  - Material deviations automatically cap evidence promotion (`CAP_E2_LOCAL_CONSISTENT`).
+**Boundary**  
+Schema validation is not equivalent to sandboxing arbitrary code or malware
+analysis.
+
+### 2.3 Path traversal and filesystem escape
+
+**Threat**  
+A crafted path may attempt to read or write outside an intended local directory.
+
+**Current evidence**
+- configuration tests verify that configured child paths escaping the configured
+  data root are rejected.
+
+**Not established**
+- a universal path-traversal proof for every CLI import, archive extraction,
+  bundle loader, static-file route, adapter, and external runtime path.
+
+Any public claim should identify the exact path/loader whose containment behavior
+was tested.
+
+### 2.4 Tampered evidence or research bundles
+
+**Threat**  
+An artifact may be modified after generation or supplied with inconsistent
+integrity data.
+
+**Current evidence**
+- SHA-256/Merkle-based bundle/evidence integrity mechanisms are implemented in
+  specific workflows;
+- HTTP/API tests exercise bundle export and verification behavior.
+
+**Boundary**  
+Integrity verification does not prove scientific truth, source authorization, or
+confidentiality.
+
+### 2.5 Dependency and supply-chain compromise
+
+**Threat**  
+A compromised package, action, installer, or upstream dependency may execute
+malicious behavior.
+
+**Current evidence**
+- pnpm uses a committed lockfile and required CI uses frozen installation;
+- the repository has a GitHub dependency-review workflow for pull requests;
+- package and dependency updates are managed through repository review.
+
+**Not established by this audit**
+- a required recurring `pnpm audit` gate;
+- a required recurring `pip-audit` gate;
+- complete license/security clearance of every transitive dependency;
+- signed provenance for every dependency.
+
+### 2.6 HTTP exposure and CORS
+
+**Threat**  
+Exposing the headless HTTP API beyond a trusted local environment may allow
+unintended remote access.
+
+**Current implementation**
+- `createSemantiqHttpServer` defaults to host `127.0.0.1`;
+- the HTTP router currently defaults CORS to **enabled**;
+- when enabled, it emits `Access-Control-Allow-Origin: *`.
+
+Therefore the repository must **not** claim that CORS is disabled by default.
+
+Localhost binding reduces default network exposure, but wildcard CORS remains a
+configuration/hardening concern if the server is deliberately exposed through a
+different bind address, proxy, tunnel, or deployment profile.
+
+SemantIQ Public Alpha is not a production-hardened network service.
+
+### 2.7 Forged provenance and fabricated evidence
+
+**Threat**  
+An external submission may contain fabricated traces, altered parameters,
+incomplete provenance, or misleading attestations.
+
+**Current evidence**
+- external-evidence eligibility and deviation/governance mechanisms exist in the
+  repository;
+- public claim policy states that attestation alone does not establish verified
+  external evidence.
+
+**Boundary**  
+These controls are evidence-governance mechanisms, not identity-proofing,
+forensic verification, or protection against every form of fabrication.
+
+## 3. Repository-host security
+
+GitHub branch/ruleset and repository-protection evidence is tracked separately in
+[`github_repository_protection.md`](github_repository_protection.md).
+
+Do not infer GitHub Secret Scanning, Push Protection, Dependabot security-update
+settings, or other account-level controls from local source files unless the
+specific setting has been directly verified.
+
+## 4. Deployment responsibility
+
+Operators who expose SemantIQ outside a local test/research environment should
+perform deployment-specific hardening, authentication/authorization review,
+network controls, secret management, dependency review, logging review, backup
+policy, and threat assessment.
+
+The current Public Alpha repository does not provide a universal production
+security certification.
