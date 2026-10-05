@@ -172,6 +172,8 @@ jobs:
         run: pnpm smoke
       - name: Build Static Documentation Site
         run: node scripts/build-docs.mjs
+      - name: Seed frozen S12 fixture dependencies
+        run: pnpm --dir fixtures/s12-lh-config-migration-feasibility-0.1.2 fetch --frozen-lockfile
       - name: Full Test Suite Regression (199 Test Files)
         run: pnpm test
 
