@@ -2,7 +2,7 @@
 
 ## Overview
 
-SemantIQ is engineered with strict epistemic boundaries to prevent overfitting, p-hacking, confirmation bias, and unsupported causal overclaiming.
+SemantIQ is engineered with explicit epistemic boundaries intended to reduce the risk of overfitting, p-hacking, confirmation bias, and unsupported causal overclaiming, while making material assumptions and deviations reviewable.
 
 ---
 
@@ -41,7 +41,7 @@ SemantIQ is engineered with strict epistemic boundaries to prevent overfitting, 
 - Matched contrast demonstrates statistical association under tested conditions, not causal proof.
 
 ### 5. Robustness Across Specifications $\neq$ Causal Identification
-- Specification curve analysis and Total Variation Distance ($TVD$) prove stability across model-environment combinations, but do not prove causal invariance.
+- Specification curve analysis and Total Variation Distance ($TVD$) measure stability across the tested model-environment combinations. Stability under those specifications does not establish causal invariance.
 
 ### 6. Evidence Promotion $\neq$ Scientific Proof
 - Governance verdicts (`promote`, `hold`, `downgrade`) reflect whether empirical data meets programmatic acceptance criteria, not absolute scientific truth.
@@ -52,7 +52,8 @@ SemantIQ is engineered with strict epistemic boundaries to prevent overfitting, 
   - **Allowed Scientific Phrasing**: `is associated with`, `demonstrates observed reduction in`, `mitigates observed risk under tested conditions`.
 
 ### 8. Release Controls Wording, Not Scientific Truth
-- Claim release indicates that wording meets governance standards and has passed two-party review.
+- Claim release indicates that wording meets repository governance criteria and that the required review records are present.
+- Two approval records do not by themselves establish independent peer review or external scientific validation.
 - All released claims carry `EPISTEMIC_LANGUAGE_DISCLAIMER`.
 
 ### 9. No Automatic Active-Claim Mutation
@@ -60,20 +61,21 @@ SemantIQ is engineered with strict epistemic boundaries to prevent overfitting, 
 - Active claims are never mutated or retracted automatically without human peer review.
 
 ### 10. Research Bundle Integrity Proves Provenance, Not Truth
-- SHA-256 Merkle root verification proves that the bundle has not been tampered with and matches source runs.
-- Bundle verification does not confer truth or validity beyond the tested data.
+- SHA-256 Merkle verification detects changes relative to the content that was sealed into the bundle.
+- Bundle verification does not establish that the source run was truthful, independently produced, or externally validated.
 
 ### 11. Counterevidence Visibility Invariant
 - Multi-organization replication aggregation must never hide, filter, or suppress counterevidence or mixed results (`counterevidencePreserved: true`).
 
-### 12. E4 Requires Genuine Context Diversity
-- Promotion to highest evidence tier (E4) strictly requires:
-  - Submissions from $\ge 2$ independent organizations.
-  - Context diversity index $\ge 0.70$ across independent platforms, providers, and models.
+### 12. E4 Policy Requires Context Diversity Evidence
+- The implemented E4 policy requires:
+  - submissions represented by $\ge 2$ organization records;
+  - context diversity index $\ge 0.70$ across the recorded platforms, providers, and models.
+- Satisfying those fields does not by itself verify that the organizations are institutionally independent. External independence must be established through separate provenance review.
 
 ### 13. Pre-registration Guards Against P-Hacking, Not Truth
-- Freezing study designs prior to execution prevents post-hoc metric tuning and p-hacking.
-- Pre-registration does not guarantee study accuracy.
+- Freezing study designs prior to execution constrains undisclosed post-hoc changes and makes declared deviations reviewable.
+- Pre-registration does not guarantee the absence of p-hacking, study accuracy, or truth.
 
 ### 14. Material Deviations Cap Evidence Tier
 - Any deviation introduced `during_execution` or `post_hoc` is recorded in an append-only ledger and automatically caps the highest attainable evidence tier (`CAP_E2_LOCAL_CONSISTENT` or `CAP_E1_CONTESTED`).

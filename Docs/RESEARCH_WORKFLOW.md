@@ -6,6 +6,8 @@ SemantIQ provides an end-to-end reference implementation demonstrating how raw a
 
 This document details the canonical reference flow: **`DP-008` (Out-of-Band Observer)** refuting **`FP-002` (Context Drift)** implemented in [`packages/evidence/src/reference-flow/dp008-reference-flow.ts`](../packages/evidence/src/reference-flow/dp008-reference-flow.ts).
 
+**Evidence boundary:** this is a repository-controlled reference workflow using synthetic/reference records to exercise the implemented mechanics. It is not evidence of a real external partner study, institutional endorsement, independent peer review, or verified third-party replication.
+
 ---
 
 ## 18-Stage Execution Pipeline
@@ -58,8 +60,8 @@ Evaluates directional stability across multiple model/environment subsets confir
 ### Stage 11: Governed Claim Proposal & Registration
 `ClaimRegistryEngine.draftClaim()` validates statement phrasing against controlled language rules (blocking unsupported causal verbs) and attaches structured evidence references.
 
-### Stage 12: Two-Party Peer Review
-Records two independent approved reviews (`review1`, `review2`) evaluating benchmark adherence and metric integrity.
+### Stage 12: Required Review Records
+Records two approved review entries (`review1`, `review2`) evaluating benchmark adherence and metric integrity. The reference flow demonstrates the two-review gate; it does not independently establish reviewer identity, institutional independence, or external peer review.
 
 ### Stage 13: Release Gate Authorization
 `ClaimRegistryEngine.releaseClaim()` promotes the claim from `draft` to `active`, attaching `EPISTEMIC_LANGUAGE_DISCLAIMER`.
@@ -67,17 +69,17 @@ Records two independent approved reviews (`review1`, `review2`) evaluating bench
 ### Stage 14: Reproducible Research Bundle Assembly
 `ResearchBundleBuilder` compiles active claims, contrast reports, robustness diagnostics, and workspace snapshots into a Merkle-tree verified bundle (`ResearchBundleManifest`). `ResearchBundleVerifier` cryptographically verifies bundle contents.
 
-### Stage 15: Partner Organization & Study Registration
-`PartnerOrganizationRegistry` and `ReplicationRegistryEngine` register academic collaborator (`org_stanford_nlp`) and partner study (`study_dp008_stanford_001`).
+### Stage 15: Synthetic Partner-Exchange Registration
+`PartnerOrganizationRegistry` and `ReplicationRegistryEngine` register reference fixture identifiers (`org_stanford_nlp`, `study_dp008_stanford_001`) to exercise the partner-exchange contract. These names are synthetic/reference data in the repository flow and do not establish an actual Stanford collaboration, partner relationship, endorsement, or external study.
 
 ### Stage 16: Study Protocol Pre-registration & Freezing
 `StudyProtocolGenerator` generates the deterministic study protocol with matching specifications and negative controls; `freezeProtocol()` computes an immutable SHA-256 pre-registration fingerprint.
 
-### Stage 17: Study Execution Manifest Ingestion & Validation
-`StudyExecutionManifestValidator` ingests external partner execution results and verifies matching dimensions, negative control outcomes, and pre-registration hash $\to$ status: `"accepted"`.
+### Stage 17: Reference Execution Manifest Ingestion & Validation
+`StudyExecutionManifestValidator` ingests the reference execution manifest and evaluates matching dimensions, negative-control outcomes, and the preregistration hash $\to$ status: `"accepted"`. In this workflow, acceptance demonstrates implemented manifest-validation behavior; it is not evidence that a third party supplied or executed the manifest.
 
-### Stage 18: External Evidence Eligibility Gate & Replication Aggregation
-`ExternalEvidenceEligibilityGate` evaluates all 7 submission criteria $\to$ verdict: `"eligible"`; `ReplicationRegistryEngine` aggregates multi-organization evidence while preserving counterevidence visibility.
+### Stage 18: External-Evidence Gate Mechanics & Reference Aggregation
+`ExternalEvidenceEligibilityGate` evaluates all 7 submission criteria $\to$ verdict: `"eligible"`; `ReplicationRegistryEngine` exercises aggregation across the reference organization records while preserving counterevidence visibility. The gate verdict establishes protocol eligibility under the fixture data, not verified external replication or organizational independence.
 
 ---
 
