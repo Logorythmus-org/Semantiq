@@ -1,6 +1,6 @@
 # System Architecture
 
-**Status**: `NORMATIVE`  
+**Status**: `NORMATIVE INDEX`  
 **Target Audience**: Developers, Architects, Contributors  
 
 ---
@@ -15,6 +15,6 @@ $$\text{Benchmark Engine} \longrightarrow \text{Evidence Engine} \longrightarrow
 ## Documents in this Section
 
 - 📐 **[System Architecture](../ARCHITECTURE.md)** (`NORMATIVE`): Architectural specification of Benchmark Engine, Evidence Engine, and Research Workbench.
-- 📦 **[Package Boundaries & Layering](../BOUNDED_CONTEXTS.md)** (`NORMATIVE`): Strict monorepo package isolation rules (core domain never imports from application services).
+- 📦 **[Legacy Bounded Context Map](../BOUNDED_CONTEXTS.md)** (`HISTORICAL / MIGRATION-BOUND`): Preserved broader platform domain map; not the current authoritative SemantIQ package inventory.
 - 🌐 **[Dual-Language SDK Strategy](dual-language-sdk-strategy.md)** (`REVIEWED`): Cross-language contract synchronization between TypeScript (`@semantiq/sdk`) and Python (`semantiq`).
 - 🏗️ **[Core Domain Model](../DOMAIN_MODEL.md)** (`NORMATIVE`): Immutable types for Runs, Traces, Observations, Contrasts, Claims, and Manifests.
