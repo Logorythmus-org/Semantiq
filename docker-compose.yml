@@ -60,13 +60,6 @@ services:
     volumes:
       - .:/workspace
 
-  workspace:
-    image: node:22-bookworm-slim
-    working_dir: /workspace
-    command: bash -lc "echo workspace service health=/health && sleep infinity"
-    volumes:
-      - .:/workspace
-
   question:
     image: node:22-bookworm-slim
     working_dir: /workspace

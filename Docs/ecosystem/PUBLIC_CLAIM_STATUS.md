@@ -1,9 +1,19 @@
 # Public Ecosystem Claim Status
 
-This document aligns active ecosystem wording with repository evidence at protected-main revision
-`9095c3db2309b93f9fe76496c8f22397f211b30a`. The canonical decisions and evidence paths are in
-[`public-claim-matrix.json`](public-claim-matrix.json); implementation relationships remain defined
-by the [Integration Graph](INTEGRATION_GRAPH.md).
+**Evidence snapshot revision:** `9095c3db2309b93f9fe76496c8f22397f211b30a`  
+**Freshness status:** `REVALIDATION REQUIRED AFTER SOURCE-BOUNDARY STABILIZATION`
+
+This document preserves the conservative public-claim boundary established from the recorded
+protected-main snapshot. The repository has advanced since that audit and source/package cleanup is
+still active.
+
+The vocabulary and no-overclaim rules below remain the public safety boundary: documentation cleanup
+must not promote a relationship beyond the recorded evidence. However, exact implementation
+classifications and evidence paths in this file and
+[`public-claim-matrix.json`](public-claim-matrix.json) must not be described as a fresh audit of
+current `main` until they are revalidated against the stabilized source boundary.
+
+The [Integration Graph](INTEGRATION_GRAPH.md) is likewise a revisioned evidence snapshot.
 
 ## Vocabulary
 

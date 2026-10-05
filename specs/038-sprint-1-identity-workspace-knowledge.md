@@ -44,6 +44,8 @@ Deliver the first usable local-first Tech Club knowledge app foundation.
 - `services/question`
 - `services/search`
 
+The service paths above record historical descriptor boundaries, not runtime dependencies of `packages/sprint1-runtime`.
+
 ## Risks
 
 - Storage adapters beyond memory are contract stubs.
@@ -68,3 +70,5 @@ Sprint 2 can replace memory persistence with SQLite/JSON adapters, wire the desc
 ## Implementation Notes
 
 Implemented in `packages/sprint1-runtime`, `apps/web/src/sprint1`, `services/workspace`, `services/question`, and `services/search`.
+
+**Current-state clarification:** `packages/sprint1-runtime` implements the local workspace behavior. The `services/workspace` entry above was a static health and route descriptor scaffold; it did not establish a running FastAPI Workspace service. Its route strings were declarative contracts, not registered HTTP endpoints. Removing that shell later would not remove the local runtime.

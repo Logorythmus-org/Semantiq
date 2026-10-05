@@ -1,139 +1,142 @@
-# SemantIQ Command-Line Interface (CLI) Guide
+# SemantIQ Command-Line Surfaces
 
-## Overview
+SemantIQ is currently **Public Alpha (Experimental)**. The repository contains
+more than one command surface, and they are not interchangeable.
 
-The `semantiq` CLI provides a unified interface for system diagnostics, benchmark execution, pattern discovery, governed claims, and headless server hosting.
-
----
-
-## Global Options
-
-```bash
-semantiq [command] [options]
-
-Options:
-  -v, --version          Display SemantIQ version
-  -h, --help             Display help documentation
-  --json                 Output result in JSON format
-```
+There is currently no published npm package or single generally installable
+TypeScript `semantiq` executable that exposes every command implemented inside
+the repository.
 
 ---
 
-## Commands Reference
+## 1. Source-checkout workspace commands
 
-### 1. Diagnostics (`doctor`)
-
-Run environment checks, workspace sanity, and configuration diagnostics:
+From a repository checkout:
 
 ```bash
-semantiq doctor
+git clone https://github.com/Logorythmus-org/Semantiq.git
+cd Semantiq
+pnpm install --frozen-lockfile
 ```
+
+The root workspace currently exposes these user-facing source-checkout commands:
+
+```bash
+pnpm doctor
+pnpm first-result
+pnpm preflight
+pnpm smoke
+```
+
+### `pnpm doctor`
+
+Runs the repository's first-run environment/configuration diagnostics.
+
+### `pnpm first-result`
+
+Generates the deterministic local first-result artifact described in
+[Quick Start](QUICK_START.md).
+
+### `pnpm preflight`
+
+Runs the current first-run diagnostic and connector-status preflight path.
+
+### `pnpm smoke`
+
+Runs the local deterministic scaffold smoke path.
+
+These are repository workspace commands. Their existence does not establish a
+globally installed `semantiq` executable, npm publication, production
+deployment, or external benchmark validation.
 
 ---
 
-### 2. Pattern Catalog (`patterns`)
+## 2. Python CLI after source installation
 
-List and inspect discovered design patterns and failure modes:
+The Python source package declares a console entrypoint named `semantiq`.
+The package is not currently published on PyPI, so install it from the checkout:
 
 ```bash
-# List all registered patterns
-semantiq patterns list
-
-# Inspect specific pattern details
-semantiq patterns get DP-008
+python -m pip install -e "./packages/python"
 ```
+
+The currently wired Python CLI commands are:
+
+```bash
+semantiq --version
+semantiq evaluate
+semantiq validate-language "DP-008 is associated with reduced drift."
+semantiq verify <64-character-hex-digest>
+semantiq info
+```
+
+### `evaluate`
+
+Runs the Python package's deterministic evaluation path using the package's
+current synthetic/mock fixtures.
+
+Useful options include:
+
+```bash
+semantiq evaluate --agent-name "CLI-Agent" --seed "0x42"
+semantiq evaluate --json
+```
+
+This command demonstrates the current Python package evaluation mechanics. It is
+not evidence of external benchmark execution or independent validation.
+
+### `validate-language`
+
+Checks a statement against the package's controlled-language rules:
+
+```bash
+semantiq validate-language "DP-008 is associated with reduced drift."
+semantiq validate-language "DP-008 causes perfect safety." --json
+```
+
+### `verify`
+
+The current Python command validates the **format** of a supplied SHA-256-shaped
+digest: it accepts a 64-character hexadecimal string.
+
+It does **not** currently recompute a research bundle, trace, or receipt from source
+content and therefore must not be described as full cryptographic content
+verification.
+
+### `info`
+
+Prints the Python package's current release version, Public Alpha maturity,
+product-contract schema version, and supported mode labels.
+
+See [Python Usage](PYTHON_USAGE.md) for the source-package API.
 
 ---
 
-### 3. Evidence Graph (`evidence`)
+## 3. Internal TypeScript CLI engine
 
-Inspect empirical relationships and evidence graphs:
+The repository contains `SemantIQCliEngine` in
+`packages/semantiq/src/cli.ts`. It implements internal/library command routing
+for application-service workflows such as patterns, evidence, claims, reviews,
+studies, bundles, comparisons, evaluations, and runs.
 
-```bash
-# Inspect graph relationships
-semantiq evidence graph
+Current package metadata does not wire that engine to a public npm-installed CLI:
 
-# Query empirical observations for a relation
-semantiq evidence observations --relation rel_08
-```
+- the root package is private and has no `bin` entry;
+- `packages/semantiq` is private and has no `bin` entry;
+- npm publication is not established.
 
----
-
-### 4. Governed Claims (`claims`)
-
-Validate language, propose claims, and inspect registry records:
-
-```bash
-# Validate statement phrasing against controlled language rules
-semantiq claims validate "DP-008 is associated with reduced drift."
-
-# Draft a new governed claim
-semantiq claims draft \
-  --topic "anti_gaming_drift_mitigation" \
-  --relation "rel_08" \
-  --statement "DP-008 is associated with reduced FP-002 drift." \
-  --runs "run_1,run_2"
-
-# Inspect claim by ID
-semantiq claims get claim_001
-```
+Therefore examples such as `semantiq patterns ...`, `semantiq claims ...`, or
+`semantiq serve` must not be treated as generally available installed commands
+unless a future release explicitly wires and publishes such an executable.
 
 ---
 
-### 5. Peer Reviews (`reviews`)
+## 4. Headless HTTP API
 
-Manage two-party review queues and approvals:
+A UI-independent HTTP server/router is implemented as a programmatic source
+surface and is exercised by repository API tests.
 
-```bash
-# Enqueue claim for peer review
-semantiq reviews enqueue --claim-id claim_001
+It is documented in [Headless HTTP API Reference](HTTP_API_REFERENCE.md).
 
-# Submit review decision
-semantiq reviews submit \
-  --claim-id claim_001 \
-  --reviewer "reviewer_01" \
-  --decision "approve" \
-  --comments "Benchmark results adhere to protocol."
-```
-
----
-
-### 6. Study Protocols (`studies`)
-
-Generate and freeze study protocols:
-
-```bash
-# Generate study protocol for relation
-semantiq studies generate --relation rel_08
-
-# Freeze protocol and obtain pre-registration fingerprint
-semantiq studies freeze --protocol proto_001
-```
-
----
-
-### 7. Reproducible Bundles (`bundles`)
-
-Build and verify research bundles:
-
-```bash
-# Build research bundle
-semantiq bundles build --study-id study_001 --claims claim_001
-
-# Verify bundle cryptographic integrity
-semantiq bundles verify --bundle-path ./bundle.tar.gz
-```
-
----
-
-### 8. Headless HTTP Server (`serve`)
-
-Start the UI-independent HTTP API server:
-
-```bash
-# Start server on default port (3000)
-semantiq serve
-
-# Start server on custom port
-semantiq serve --port 8080
-```
+The repository does not currently establish a packaged `semantiq serve`
+executable or a hosted SemantIQ API service.
