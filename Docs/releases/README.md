@@ -7,16 +7,26 @@
 
 ## Overview
 
-This section contains the durable public release surface for SemantIQ. Internal release-run diaries, prompt packages, handoff notes, local reconciliation reports, and phase-specific authorization artifacts are not public release documentation.
+This section contains the durable public release surface for SemantIQ. Internal
+release-run diaries, prompt packages, handoff notes, local reconciliation reports,
+and phase-specific authorization artifacts are not current release evidence.
 
 ## Canonical documents
 
-- 🏷️ **[Versioning & Release Policy](../VERSIONING_POLICY.md)** (`NORMATIVE`): SemVer rules, schema stability, and historical benchmark preservation.
-- ⚠️ **[Known Limitations](../KNOWN_LIMITATIONS.md)** (`NORMATIVE`): Current Public Alpha validation, scientific, runtime, and release boundaries.
-- ⚖️ **[Multi-Tier Licensing Policy](../../LICENSING.md)** (`NORMATIVE`): Licensing boundaries across source code, benchmark definitions, prompts, datasets, and documentation.
-- 📝 **[Changelog](../../CHANGELOG.md)**: Public software-change history.
-- 📦 **[Release Notes](../../RELEASE_NOTES.md)**: Public release-facing notes. Release notes must remain consistent with the current software identity and maturity statement.
+- 🔎 **[Current Release Status](CURRENT_RELEASE_STATUS.md)** (`NORMATIVE`): live GitHub tag/release lineage, current-main relationship, and next-release gate.
+- 🏷️ **[Versioning & Release Policy](../VERSIONING_POLICY.md)** (`NORMATIVE`): software identity, schema/API separation, and version-reference rules.
+- ⚠️ **[Known Limitations](../KNOWN_LIMITATIONS.md)** (`NORMATIVE`): current Public Alpha validation, scientific, runtime, and release boundaries.
+- 🛠️ **[Release Process](release_process.md)** (`NORMATIVE PROCESS`): evidence required before any future release publication.
+- ⚖️ **[Multi-Tier Licensing Policy](../../LICENSING.md)** (`NORMATIVE`): licensing boundaries across source code, benchmark definitions, datasets, and documentation.
+- 📝 **[Changelog](../../CHANGELOG.md)**: software-change history.
+- 📦 **[Release Notes](../../RELEASE_NOTES.md)**: preserved release-facing notes; historical notes are not current release evidence.
 
 ## Publication rule
 
-A release fact that remains relevant after an internal release process must be moved into one of the canonical documents above. Internal process artifacts must not be retained merely to preserve a working history; Git history already provides repository provenance.
+A release claim is current only when it can be tied to the exact selected release
+commit, live Git tag/release object, and the artifacts or external publication
+records that support the claim.
+
+Historical release documents remain provenance. They must not be silently
+rewritten into current evidence, and existing historical tags must not be moved to
+match later source history.

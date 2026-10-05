@@ -1,3 +1,7 @@
+> **Status: HISTORICAL ALPHA.1 BLOCKER RECORD — NOT CURRENT RELEASE READINESS**
+>
+> The zero-blocker verdict below belongs to an earlier alpha.1 release process. It does not establish that current `main`, the provisional alpha.2 source identity, or a future prerelease has zero release blockers. Current release gates are tracked in `Docs/releases/CURRENT_RELEASE_STATUS.md`.
+
 # Release Blocker Tracking List
 
 This document tracks identified release blockers and their resolution status for **SemantIQ Benchmarks**.
