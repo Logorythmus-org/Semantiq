@@ -117,6 +117,8 @@ Public interfaces provide zero-overhead integration points across diverse enviro
    - Standalone web visualizers (`apps/benchmark`), scenario builders (`apps/playground`), and documentation portals (`apps/documentation`).
    - Consumers strictly interact via the public HTTP API or TypeScript SDK; zero direct domain imports.
 
+**Current-state clarification:** The optional presentation layer describes the accepted target architecture, not an inventory of implemented UIs. `apps/benchmark` is currently a placeholder, not an implemented or supported benchmark dashboard. Benchmark execution remains headless and does not depend on this optional visualizer.
+
 ---
 
 ## 5. Strict Dependency Direction & Boundary Rules
@@ -161,6 +163,8 @@ Architectural linting and automated boundary tests (`tests/architecture/package-
 - **Single Source of Truth**: Shared JSON Schemas (`schemas/`) validate all language implementations and evidence exports.
 
 ### 6.2. Target Physical Directory Layout
+This target layout does not imply that every listed surface is currently implemented.
+
 ```text
 Semantiq/
 ├── apps/                          # Decoupled optional presentation UIs
