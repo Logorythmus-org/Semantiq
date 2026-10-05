@@ -1,3 +1,11 @@
+> **Historical architecture record — not current legal clearance**
+>
+> This ADR preserves an earlier architectural licensing decision. Statements such
+> as "Total legal safety", "zero copyleft risk", and the historical PASS verdict
+> are not current legal determinations, certifications, or substitutes for a
+> dependency/provenance audit tied to a specific release. See
+> [LICENSING.md](../../LICENSING.md).
+
 # ADR-0184: Licensing Attribution and Third-Party Boundary Gate (Prompt 11)
 
 ## Status

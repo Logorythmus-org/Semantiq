@@ -1,3 +1,10 @@
+> **Historical architecture record — not current legal clearance**
+>
+> This ADR documents an intended technical isolation strategy. Its statements
+> about permissive licensing, copyleft contamination, and downstream adoption are
+> not current legal conclusions. Process/network separation alone does not
+> determine license obligations. See [LICENSING.md](../../LICENSING.md).
+
 # ADR-0134: Provider Licensing Boundary and Clean-Room Isolation Architecture
 
 **Status**: Accepted  
