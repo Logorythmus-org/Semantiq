@@ -12,7 +12,6 @@ The Docker Compose profile includes MVP service scaffolds and local infrastructu
 - research
 - community
 - agent-runtime
-- workflow-runtime
 - postgres
 - neo4j
 - redis

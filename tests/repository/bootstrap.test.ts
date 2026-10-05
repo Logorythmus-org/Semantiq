@@ -37,7 +37,6 @@ const requiredServices = [
   "search",
   "auth",
   "agent-runtime",
-  "workflow-runtime",
   "knowledge-graph",
   "benchmark",
   "analytics",

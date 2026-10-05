@@ -109,13 +109,6 @@ services:
     volumes:
       - .:/workspace
 
-  workflow-runtime:
-    image: node:22-bookworm-slim
-    working_dir: /workspace
-    command: bash -lc "echo workflow-runtime service health=/health && sleep infinity"
-    volumes:
-      - .:/workspace
-
   docs:
     image: node:22-bookworm-slim
     working_dir: /workspace
