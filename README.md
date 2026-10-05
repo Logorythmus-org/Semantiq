@@ -57,6 +57,21 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 
 ---
 
+
+## Community & Participation
+
+SemantIQ's GitHub **Discussions**, **Projects**, and **Wiki** are enabled as community surfaces.
+
+- Start with the [Community Hub](COMMUNITY.md).
+- Ask questions and share early ideas in [Discussions](https://github.com/Logorythmus-org/Semantiq/discussions).
+- Follow current work and contribution opportunities in [Projects](https://github.com/Logorythmus-org/Semantiq/projects).
+- Use the [Wiki](https://github.com/Logorythmus-org/Semantiq/wiki) for orientation and learning material.
+- Use [CONTRIBUTING.md](CONTRIBUTING.md) for the Fast and Core contribution paths.
+- Independent third-party reproduction attempts are especially valuable at the current Public Alpha stage.
+
+Community discussion, board placement, Wiki content, or proposal acceptance does not by itself establish implementation, release status, external validation, adoption, or production readiness. Canonical truth remains in reviewed version-controlled repository artifacts.
+
+
 ## The Three Subsystems
 
 ### 1. Benchmark Engine
