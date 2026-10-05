@@ -28,7 +28,6 @@ const requiredApps = [
   "web",
   "documentation",
   "playground",
-  "benchmark",
   "demo"
 ];
 const requiredServices = [
