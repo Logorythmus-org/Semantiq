@@ -1,7 +1,7 @@
 # GitHub Repository Protection & Security Governance Baseline
 
 **Repository**: `https://github.com/Logorythmus-org/Semantiq`  
-**Audit Date**: 2026-10-04  
+**Audit Date**: 2026-10-05\
 **Maturity Context**: SemantIQ Public Alpha (Experimental)
 
 ---
@@ -84,25 +84,26 @@ not exposed by the current audit surface.
 
 ---
 
-## 5. Controls Not Established by This Audit
+## 5. Additional Security Settings and Unestablished Controls
 
-The connected GitHub integration does not currently expose sufficient read access for several
-account/repository security-setting endpoints. The following claims therefore must not be represented
-as `VERIFIED ENABLED` on the basis of this audit alone:
+The current GitHub repository metadata directly exposes Secret Scanning, Secret Push Protection,
+and Dependabot Security Updates. The read-only vulnerability-alerts setting endpoint returned
+`204 No Content`, which GitHub defines as alerts enabled. Other account/repository settings
+remain unestablished where this audit has no direct setting evidence.
 
-| Control | Current audit status |
-| --- | --- |
-| Default `GITHUB_TOKEN` permission policy | **NOT ESTABLISHED** |
-| Fork pull-request workflow approval policy | **NOT ESTABLISHED** |
-| GitHub Secret Scanning setting | **NOT ESTABLISHED** |
-| GitHub Secret Push Protection setting | **NOT ESTABLISHED** |
-| Dependency Graph setting | **NOT ESTABLISHED IN THIS AUDIT** |
-| Dependabot Alerts setting | **NOT ESTABLISHED IN THIS AUDIT** |
-| Dependabot Security Updates setting | **NOT ESTABLISHED IN THIS AUDIT** |
-| Private Vulnerability Reporting setting | **NOT ESTABLISHED** |
+| Control | Current audit status | Direct evidence |
+| --- | --- | --- |
+| Default `GITHUB_TOKEN` permission policy | **NOT ESTABLISHED** | No current setting observation |
+| Fork pull-request workflow approval policy | **NOT ESTABLISHED** | No current setting observation |
+| GitHub Secret Scanning setting | **VERIFIED LIVE — DISABLED** | Repository `security_and_analysis.secret_scanning.status: disabled` |
+| GitHub Secret Push Protection setting | **VERIFIED LIVE — DISABLED** | Repository `security_and_analysis.secret_scanning_push_protection.status: disabled` |
+| Dependency Graph setting | **NOT ESTABLISHED IN THIS AUDIT** | An accessible SBOM is data, not a direct setting observation |
+| Dependabot Alerts setting | **VERIFIED LIVE — ENABLED** | `GET /repos/Logorythmus-org/Semantiq/vulnerability-alerts` returned `204 No Content` |
+| Dependabot Security Updates setting | **VERIFIED LIVE — ENABLED** | Repository `security_and_analysis.dependabot_security_updates.status: enabled` |
+| Private Vulnerability Reporting setting | **NOT ESTABLISHED** | No current setting observation |
 
-Existing repository issues or historical reports may contain evidence about some of these controls,
-but historical evidence is not silently promoted to a current live-setting verification.
+These states describe repository configuration as observed on 2026-10-05. Enabled controls do not
+establish complete repository security; disabled controls are recorded without inferring risk.
 
 ---
 
@@ -128,6 +129,7 @@ setting and is separate from protection of the `main` branch.
 This audit is based on:
 
 - the live GitHub repository metadata;
+- the read-only GitHub vulnerability-alerts setting endpoint;
 - the live repository ruleset named `Protect main`;
 - `.github/CODEOWNERS`;
 - `.github/workflows/ci.yml`;
