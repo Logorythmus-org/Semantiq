@@ -362,7 +362,6 @@ export function createS12ExecutionCaptureFromEvents(
           ...((event.payload["result"] ?? {}) as Record<string, unknown>),
           ...(event.payload["error"] ? { error: event.payload["error"] } : {})
         },
-        durationMs: Number(event.payload["durationMs"] ?? 0),
         exitStatus: (event.payload["exitStatus"] ?? "NOT_APPLICABLE") as
           | number
           | "NOT_APPLICABLE"

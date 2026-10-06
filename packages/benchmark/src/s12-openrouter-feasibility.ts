@@ -820,7 +820,8 @@ export interface S12CapturedToolCall {
   readonly name: S12ToolName;
   readonly arguments: Readonly<Record<string, unknown>>;
   readonly result: Readonly<Record<string, unknown>>;
-  readonly durationMs: number;
+  /** Legacy observation only; excluded from canonical digest and behavioral trace. */
+  readonly durationMs?: number;
   readonly exitStatus: number | "NOT_APPLICABLE" | "TIMED_OUT";
   readonly provenance: readonly string[];
 }
@@ -867,7 +868,11 @@ export interface S12ExecutionCapture {
 }
 
 export function executionCaptureDigest(capture: S12ExecutionCapture): string {
-  return digestHex(capture);
+  // Older captures may retain elapsed observations. They carry no semantic identity.
+  return digestHex({
+    ...capture,
+    toolCalls: capture.toolCalls.map(({ durationMs: _durationMs, ...semanticCall }) => semanticCall)
+  });
 }
 
 export function mapCaptureToBehavioralTrace(
@@ -892,7 +897,6 @@ export function mapCaptureToBehavioralTrace(
       payload: {
         arguments: call.arguments,
         result: call.result,
-        durationMs: call.durationMs,
         exitCode: call.exitStatus
       }
     })),
