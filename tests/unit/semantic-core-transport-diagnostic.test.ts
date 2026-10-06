@@ -83,6 +83,35 @@ function fixture(
   return { calls, http };
 }
 describe("prospective 0.1.2 engineering transport boundary", () => {
+  it("retains only recognized upstream error type, parameter and unsupported-schema reason", () => {
+    const safe = sanitizeTransportError(
+      400,
+      JSON.stringify({
+        error: {
+          code: 400,
+          message: "Provider returned error",
+          metadata: {
+            provider_name: "Novita",
+            raw: JSON.stringify({
+              error: {
+                message: "json_schema is not supported sk-or-secret C:\\private",
+                type: "invalid_request_error",
+                param: "response_format",
+                extra: "Authorization"
+              }
+            })
+          }
+        }
+      })
+    );
+    expect(safe).toMatchObject({
+      classification: "UPSTREAM_PROVIDER_REJECTION",
+      reason: "JSON_SCHEMA_UNSUPPORTED",
+      parameter: "response_format",
+      upstreamType: "invalid_request_error"
+    });
+    expect(JSON.stringify(safe)).not.toMatch(/secret|private|Authorization/);
+  });
   it.each([400, 401, 402, 429, 503])("retains safe HTTP %s without raw payloads", (status) => {
     const safe = sanitizeTransportError(
       status,

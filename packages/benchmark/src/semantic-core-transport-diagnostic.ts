@@ -73,6 +73,23 @@ export function sanitizeTransportError(status: number, raw: string) {
     /* Never retain unparsed bodies. */
   }
   const metadata = record(error.metadata);
+  let upstreamError: Record<string, unknown> = {};
+  if (typeof metadata.raw === "string" && metadata.raw.length <= 65536) {
+    try {
+      const payload = record(JSON.parse(metadata.raw));
+      upstreamError = record(payload.error);
+    } catch {
+      /* Arbitrary upstream payloads never leave this function. */
+    }
+  }
+  const upstreamType = strings.includes(String(upstreamError.type))
+    ? String(upstreamError.type)
+    : null;
+  const parameter = ["response_format", "max_tokens", "temperature", "provider", "model"].includes(
+    String(upstreamError.param)
+  )
+    ? String(upstreamError.param)
+    : null;
   const code =
     Number.isInteger(error.code) && Number(error.code) >= 100 && Number(error.code) <= 599
       ? Number(error.code)
@@ -90,17 +107,27 @@ export function sanitizeTransportError(status: number, raw: string) {
       ? Number(metadata.provider_code)
       : null;
   // Messages are inspected only to recognize fixed diagnostic categories; never serialized.
-  const message = typeof error.message === "string" ? error.message.slice(0, 4096) : "";
+  const message = [error.message, upstreamError.message]
+    .filter((v) => typeof v === "string")
+    .map((v) => String(v).slice(0, 4096))
+    .join("\n");
   const reason = /no endpoints found/i.test(message)
     ? "NO_ELIGIBLE_ENDPOINTS"
-    : /invalid (?:json )?schema/i.test(message)
-      ? "INVALID_SCHEMA"
-      : "UNSPECIFIED";
+    : /json_schema/i.test(message) &&
+        /not supported|unsupported|not allowed|only.*(?:json_object|text)|does not support/i.test(
+          message
+        )
+      ? "JSON_SCHEMA_UNSUPPORTED"
+      : /response_format/i.test(message) &&
+          /not supported|unsupported|not allowed|does not support/i.test(message)
+        ? "RESPONSE_FORMAT_UNSUPPORTED"
+        : /invalid (?:json )?schema/i.test(message)
+          ? "INVALID_SCHEMA"
+          : "UNSPECIFIED";
   let classification: Rejection = "UNKNOWN_PROVIDER_REJECTION";
   if (status === 401) classification = "AUTHENTICATION_REJECTION";
   else if (status === 429) classification = "RATE_LIMIT_REJECTION";
-  else if (upstreamProvider && providerCode !== null)
-    classification = "UPSTREAM_PROVIDER_REJECTION";
+  else if (upstreamProvider) classification = "UPSTREAM_PROVIDER_REJECTION";
   else if (
     [code, type].includes("invalid_json_schema") ||
     [code, type].includes("invalid_schema") ||
@@ -121,6 +148,8 @@ export function sanitizeTransportError(status: number, raw: string) {
     type,
     upstreamProvider,
     providerCode,
+    upstreamType,
+    parameter,
     reason,
     classification
   };
