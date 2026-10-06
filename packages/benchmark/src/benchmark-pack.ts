@@ -226,6 +226,16 @@ async function readPackFile(root: string, reference: string, limit: number): Pro
   if (content.length > limit) throw new Error("FILE_TOO_LARGE");
   return content;
 }
+/** Safe family-runtime read; rechecks bytes after admission in a stable local tree. */
+export async function readBenchmarkPackCase(
+  packRoot: string,
+  item: BenchmarkPackManifest["cases"][number]
+): Promise<unknown> {
+  if ((await lstat(packRoot)).isSymbolicLink()) throw new Error("SYMLINK_FORBIDDEN");
+  const bytes = await readPackFile(await realpath(packRoot), item.path, 8 * 1024 * 1024);
+  if (computeSha256(bytes) !== item.digest.value) throw new Error("FIXTURE_DIGEST_MISMATCH");
+  return JSON.parse(bytes.toString("utf8"));
+}
 /** Read-only local validation. Caller must supply a stable tree, not concurrent hostile writers. */
 export async function loadBenchmarkPack(
   packRoot: string,

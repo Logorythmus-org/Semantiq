@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_06_fiction",
+  "dimensionId": "epistemic_boundary",
+  "target": "Preserve the fact/fiction boundary",
+  "prompt": "Classify the claim that Orin has two suns. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "The following is explicitly a fictional story: a floating island called Orin has two suns. No real astronomical evidence is supplied.",
+  "options": [
+    {
+      "optionId": "fiction",
+      "text": "A fictional story claim, not an established real-world fact."
+    },
+    {
+      "optionId": "observed",
+      "text": "An observed astronomical fact."
+    },
+    {
+      "optionId": "discovery",
+      "text": "A verified discovery."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "fiction"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

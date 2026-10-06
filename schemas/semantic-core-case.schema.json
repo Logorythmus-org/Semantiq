@@ -1,0 +1,106 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
+    "caseId": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "maxLength": 80
+    },
+    "dimensionId": {
+      "enum": ["meaning_context", "epistemic_boundary", "bias_resistance"]
+    },
+    "target": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "prompt": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "context": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4000
+    },
+    "options": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 5,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "optionId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]*$",
+            "maxLength": 80
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 4000
+          }
+        },
+        "required": ["optionId", "text"]
+      }
+    },
+    "eligibleResponseStates": {
+      "type": "array",
+      "prefixItems": [
+        {
+          "const": "ANSWER"
+        },
+        {
+          "const": "ABSTAIN"
+        }
+      ],
+      "items": false,
+      "minItems": 2,
+      "maxItems": 2
+    },
+    "oracle": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "selectedOptionId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "maxLength": 80
+        }
+      },
+      "required": ["selectedOptionId"]
+    },
+    "provenance": {
+      "const": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED"
+    },
+    "limitations": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 4000
+      }
+    }
+  },
+  "required": [
+    "schemaVersion",
+    "caseId",
+    "dimensionId",
+    "target",
+    "prompt",
+    "context",
+    "options",
+    "eligibleResponseStates",
+    "oracle",
+    "provenance",
+    "limitations"
+  ]
+}

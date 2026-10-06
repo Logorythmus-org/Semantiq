@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_01_missing_property",
+  "dimensionId": "epistemic_boundary",
+  "target": "Recognize insufficient evidence",
+  "prompt": "What color is L? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "The supplied inventory lists object L as a sphere. No color is recorded.",
+  "options": [
+    {
+      "optionId": "blue",
+      "text": "Blue."
+    },
+    {
+      "optionId": "insufficient_evidence",
+      "text": "INSUFFICIENT_EVIDENCE: its color is not supplied."
+    },
+    {
+      "optionId": "red",
+      "text": "Red."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "insufficient_evidence"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

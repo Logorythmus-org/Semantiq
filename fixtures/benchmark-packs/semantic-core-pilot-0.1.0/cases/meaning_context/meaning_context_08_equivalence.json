@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_08_equivalence",
+  "dimensionId": "meaning_context",
+  "target": "Recognize equivalence despite surface differences",
+  "prompt": "Select the relation between A and B. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "A: No amber disk is heavy. B: Every amber disk is not heavy. Use ordinary universal quantification, including empty sets.",
+  "options": [
+    {
+      "optionId": "equivalent",
+      "text": "They have the same truth conditions."
+    },
+    {
+      "optionId": "opposite",
+      "text": "They are logical opposites."
+    },
+    {
+      "optionId": "existence",
+      "text": "Only B requires an amber disk to exist."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "equivalent"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

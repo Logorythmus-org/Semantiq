@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_07_relation",
+  "dimensionId": "meaning_context",
+  "target": "Preserve a declared semantic relation",
+  "prompt": "Choose the reformulation that preserves the relation. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "A glint is a kind of token. Every glint is therefore a token.",
+  "options": [
+    {
+      "optionId": "reverse",
+      "text": "Every token is a glint."
+    },
+    {
+      "optionId": "disjoint",
+      "text": "No glint is a token."
+    },
+    {
+      "optionId": "subset",
+      "text": "The set of glints is included in the set of tokens."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "subset"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

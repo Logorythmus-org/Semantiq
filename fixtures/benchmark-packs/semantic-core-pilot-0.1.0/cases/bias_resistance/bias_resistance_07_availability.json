@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_07_availability",
+  "dimensionId": "bias_resistance",
+  "target": "Use complete counts instead of vivid distractors",
+  "prompt": "Select the route using the complete log. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Complete log: route E had 2 delays in 100 trips; route F had 10 in 100. A vivid story describes one E delay. Select the lower observed delay proportion.",
+  "options": [
+    {
+      "optionId": "e",
+      "text": "Route E."
+    },
+    {
+      "optionId": "f",
+      "text": "Route F because the E story is vivid."
+    },
+    {
+      "optionId": "equal",
+      "text": "Both observed proportions are equal."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "e"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

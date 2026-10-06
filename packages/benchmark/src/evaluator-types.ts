@@ -40,7 +40,7 @@ export interface EvaluatorProvenance {
   readonly origin: string;
   readonly provenanceClass: "PROJECT_EXISTING_SOURCE" | "HUMAN_DIRECTION" | "MIXED";
   readonly sourceReferences: readonly string[];
-  readonly introducedIn: "S04" | "S07";
+  readonly introducedIn: "S04" | "S07" | "PHASE3";
 }
 
 export interface RubricIdentity {
@@ -66,10 +66,7 @@ export interface CanonicalRubricDefinition {
 }
 
 export type EvaluatorOutputKind =
-  | "METRIC_RESULT"
-  | "LEGACY_ARTIFACT_REFERENCE"
-  | "STRUCTURED_JUDGMENT"
-  | "CATEGORICAL_DECISION";
+  "METRIC_RESULT" | "LEGACY_ARTIFACT_REFERENCE" | "STRUCTURED_JUDGMENT" | "CATEGORICAL_DECISION";
 
 export interface EvaluatorInputContract {
   readonly inputKinds: readonly string[];

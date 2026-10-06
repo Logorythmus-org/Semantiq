@@ -50,3 +50,7 @@ export * from "./s12-canonical-qualification.js";
 export * from "./s12-track-a-qualification.js";
 export * from "./benchmark-pack-types.js";
 export * from "./benchmark-pack.js";
+
+export * from "./semantic-core-types.js";
+export * from "./semantic-core-definitions.js";
+export * from "./semantic-core.js";
