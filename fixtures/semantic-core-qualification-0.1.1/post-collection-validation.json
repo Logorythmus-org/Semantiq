@@ -1,0 +1,32 @@
+{
+  "schemaVersion": "0.1.1",
+  "implementationCommit": "6b0b60ead5ab9421491498c1870d689cdd603794",
+  "status": "PASSED",
+  "scope": "Initial zero-attempt quota-block resume correction; no empirical requests repeated.",
+  "focused": {
+    "filesPassed": 2,
+    "testsPassed": 39
+  },
+  "node": {
+    "filesPassed": 239,
+    "filesSkipped": 10,
+    "testsPassed": 1560,
+    "testsSkipped": 36
+  },
+  "checks": [
+    "pre-commit ESLint (0 errors)",
+    "pre-commit TypeScript typecheck",
+    "focused qualification/resume suite",
+    "full Node regression",
+    "original-byte inventory unchanged (8 files)",
+    "git diff --check"
+  ],
+  "empiricalSourceCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+  "additionalProviderRequests": 0,
+  "limitations": [
+    "Post-collection code correction does not change the original empirical condition or its NOT_QUALIFIED outcome.",
+    "Current-head remote CI remains a separate observed gate."
+  ],
+  "scientificAuthority": "NONE",
+  "decisionAuthority": "NONE"
+}

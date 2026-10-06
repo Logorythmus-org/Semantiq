@@ -4,7 +4,7 @@ PHASE 4 STATUS: BLOCKED — PROVIDER_REJECTION
 
 qualificationOutcome = `NOT_QUALIFIED`
 
-The fixed 3 × 24 = 72 schedule is complete. All 72 HTTP generation requests were rejected by the provider/API path and retained as SUBJECT_ERROR / PROVIDER_REJECTION. There are zero valid subject responses. This is an infrastructure blocker, not an accuracy result. BM3 is not proposed; PR #166 remains Draft and Issue #165 remains open.
+The fixed 3 × 24 = 72 schedule is complete. All 72 scheduled subject-generation attempts ended in provider/API-path rejections and were retained as SUBJECT_ERROR / PROVIDER_REJECTION. There are zero valid subject responses. This is an infrastructure blocker, not an accuracy result. BM3 is not proposed; PR #166 remains Draft and Issue #165 remains open.
 
 ## Historical and prospective identities
 
@@ -34,7 +34,7 @@ Model alias: apodex/apodex-1.1-mini:free. Advertised canonical slug: apodex/apod
 
 The authenticated counter remained used=0, limit=50, remaining=50 before every run and after collection (2026-10-06T18:33:48.184Z). Therefore the >=24 gate permitted Run 3 without waiting for a reset. No quota reset or cross-window transition was observed; the protocol supports multiple windows but this failed collection completed within one observed window. No reset time was assumed and no quota/purchase workaround was used. No unrelated free generation was intentionally issued.
 
-Every request uses the same frozen condition. All 72 request attempts are terminally accounted, without replacement. The adapter retained the bounded PROVIDER_REJECTION classification, not the HTTP error status/body, so the specific rejection cause is unresolved. No successful response contains usage/cost, returned model/provider or raw-response bytes/digests; these fields are unavailable, not fabricated. Advertised monetary prices and request price caps were zero; no paid inference or fallback was authorized/performed.
+Every scheduled attempt uses the same frozen condition. All 72 attempts are terminally accounted, without replacement. The adapter retained the bounded PROVIDER_REJECTION classification, not the HTTP error status/body or a per-attempt request-stage marker. The same error code can originate in per-case metadata preflight or generation POST. Therefore the exact number of generation POSTs submitted is NOT RECORDED / NOT VERIFIABLE, and the specific rejection cause is unresolved. No extra requests were sent to recover that missing audit information. No successful response contains usage/cost, returned model/provider or raw-response bytes/digests; these fields are unavailable, not fabricated. Advertised monetary prices and request price caps were zero; no paid inference or fallback was authorized/performed.
 
 The provider remains EXTERNAL_NONDETERMINISTIC and the alias MUTABLE_ALIAS. The unchanged advertised slug does not cryptographically freeze remote weights. Audit timestamps document the actual run windows, and S05 explicitly varies TIME_WINDOW. No immutable scientific replication claim is made.
 
@@ -62,7 +62,7 @@ All 12 checks on implementation head 7b185a1 completed successfully. That status
 
 ## Post-collection resume correction
 
-After the 72-request collection ended, a narrowly scoped correction moved the durable prospective condition write before the first-run low-capacity return. A first-run quota block can now resume the same directory with zero prior attempts, keeping its frozen condition bytes unchanged. The enhanced test retains all prior assertions and confirms that behavior. This correction sent no provider requests, changed no completed capture/checkpoint/journal, and did not reinterpret the evidence collected on 7b185a1.
+After the 72-attempt collection ended, a narrowly scoped correction moved the durable prospective condition write before the first-run low-capacity return. A first-run quota block can now resume the same directory with zero prior attempts, keeping its frozen condition bytes unchanged. The enhanced test retains all prior assertions and confirms that behavior. This correction sent no provider requests, changed no completed capture/checkpoint/journal, and did not reinterpret the evidence collected on 7b185a1. The [post-collection validation](../../fixtures/semantic-core-qualification-0.1.1/post-collection-validation.json) records 39 focused tests and another complete 1,560-test Node pass, with all eight durable capture files byte-for-byte unchanged.
 
 ## Exit gates
 
@@ -79,11 +79,11 @@ After the 72-request collection ended, a narrowly scoped correction moved the du
 | 9 | Zero-cost preflight | PASS | Authenticated route; zero advertised fees; response cost unavailable on rejections |
 | 10 | No paid/model/provider fallback | PASS | One selected route; disabled fallback; zero price caps |
 | 11 | Credential boundary | PASS | Only HTTP transport; no secret values retained |
-| 12 | Genuine model path executed | NOT ESTABLISHED | Generation HTTP path attempted; every request rejected; no genuine model response observed |
+| 12 | Genuine model path executed | NOT ESTABLISHED | Live transport path attempted; 72 terminal rejections; no genuine model response observed |
 | 13 | Exact subject condition | PASS | Selection/preflight and frozen request condition established; response-side identity unavailable |
 | 14 | Exact prompt digest | PASS | Unchanged serializer, case order and all prompt digests |
 | 15 | Three scheduled live runs | PASS | Three complete 24-terminal runs |
-| 16 | 72 scheduled live attempts | PASS | 72 request attempts; zero replacement retries |
+| 16 | 72 scheduled live attempts | PASS | 72 scheduled terminal attempts; POST submission count unverified; no replacement retries |
 | 17 | All live attempts accounted | PASS | 72 unique IDs; 72 terminal errors; durable checkpoints |
 | 18 | No oracle leakage | PASS | Only explicit input projection serialized |
 | 19 | No hidden reasoning request | PASS | No CoT/tool/rationale request |

@@ -30,7 +30,6 @@
   },
   "scheduledAttempts": 72,
   "accountedAttempts": 72,
-  "requestAttempts": 72,
   "validSubjectResponses": 0,
   "stateCounts": {
     "PASSED": 0,
@@ -1778,11 +1777,12 @@
     "mutatesBenchmarkRegistry": false
   },
   "limitations": [
-    "All 72 real HTTP generation requests were rejected; no valid subject answer or model accuracy/reliability estimate exists.",
-    "The frozen adapter retained only the bounded PROVIDER_REJECTION code, not HTTP error status/body: the specific rejection cause is unresolved.",
+    "All 72 scheduled real transport-path attempts ended in PROVIDER_REJECTION; no valid subject answer or model accuracy/reliability estimate exists.",
+    "The frozen adapter retained only the bounded PROVIDER_REJECTION code, not HTTP error status/body or a per-attempt preflight-versus-POST marker. Exact generation POST submission count and rejection cause are not verifiable.",
     "Free-model daily counter remained used=0/remaining=50 before every run and after collection. No quota reset was assumed; none was observed.",
     "No successful response usage/cost fields exist. Advertised fees and request caps were zero; no paid or alternate fallback/purchase occurred.",
     "Same advertised canonical slug does not cryptographically freeze remote weights. Reliability is not validity.",
     "No retries, no replacement run, no oracle exposure, no CoT request, no promotion, no release."
-  ]
+  ],
+  "generationPostSubmissionCount": "NOT_RECORDED_NOT_VERIFIABLE"
 }
