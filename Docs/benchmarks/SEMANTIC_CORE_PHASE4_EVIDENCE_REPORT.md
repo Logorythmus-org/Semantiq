@@ -46,7 +46,7 @@ has scientific authority NONE, decision authority NONE, and proposesBM3 false.
 
 Operator selection is resolved: `apodex/apodex-1.1-mini:free` only.
 Fresh live GET requests to /models, /models/apodex/apodex-1.1-mini:free/endpoints and /key
-completed at **2026-10-06T17:47:23.925Z**. The sanitized [operator preflight](../../fixtures/semantic-core-qualification-0.1.0/operator-preflight.json)
+completed at **2026-10-06T18:00:01.200Z**. The sanitized [operator preflight](../../fixtures/semantic-core-qualification-0.1.0/operator-preflight.json)
 records the observed canonical identity exactly: `apodex/apodex-1.1-mini-20261001`.
 The selected endpoint remains Novita / `novita/bf16`, status 0, prompt price 0 and completion price 0.
 The route advertises response_format and structured_outputs. No alternate route was selected.
