@@ -1,0 +1,327 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://semantiq.local/schemas/benchmark-pack-manifest.schema.json",
+  "title": "Benchmark Pack Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schemaId",
+    "schemaVersion",
+    "identity",
+    "benchmark",
+    "evaluator",
+    "metrics",
+    "cases",
+    "provenance",
+    "rights",
+    "executionRequirements",
+    "exposure",
+    "evidenceReferences",
+    "limitations",
+    "intendedUse",
+    "scientificAuthority"
+  ],
+  "properties": {
+    "schemaId": {
+      "const": "SEMANTIQ_BENCHMARK_PACK_MANIFEST"
+    },
+    "schemaVersion": {
+      "const": "0.1.0"
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["packId", "packVersion"],
+      "properties": {
+        "packId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "packVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        }
+      }
+    },
+    "benchmark": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["benchmarkId", "benchmarkVersion"],
+      "properties": {
+        "benchmarkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "benchmarkVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        }
+      }
+    },
+    "evaluator": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["evaluatorId", "evaluatorVersion"],
+      "properties": {
+        "evaluatorId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "evaluatorVersion": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        }
+      }
+    },
+    "metrics": {
+      "type": "array",
+      "uniqueItems": true,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["metricId", "metricVersion"],
+        "properties": {
+          "metricId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "metricVersion": {
+            "type": "string",
+            "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+          }
+        }
+      }
+    },
+    "cases": {
+      "type": "array",
+      "minItems": 1,
+      "maxItems": 256,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["caseId", "path", "contentType", "digest"],
+        "properties": {
+          "caseId": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "path": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-][A-Za-z0-9_.-]*(?:/[A-Za-z0-9_-][A-Za-z0-9_.-]*)*$"
+          },
+          "contentType": {
+            "enum": ["application/json", "text/plain", "application/octet-stream"]
+          },
+          "digest": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["algorithm", "representation", "value"],
+            "properties": {
+              "algorithm": {
+                "const": "SHA_256"
+              },
+              "representation": {
+                "const": "ORIGINAL_BYTES"
+              },
+              "value": {
+                "type": "string",
+                "pattern": "^[a-f0-9]{64}$"
+              }
+            }
+          }
+        }
+      }
+    },
+    "provenance": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["origin", "provenanceClass", "sourceReferences"],
+      "properties": {
+        "origin": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "provenanceClass": {
+          "enum": [
+            "HUMAN_DIRECTION",
+            "AI_ASSISTED",
+            "AI_GENERATED",
+            "THIRD_PARTY_SOURCE",
+            "PROJECT_EXISTING_SOURCE",
+            "MIXED"
+          ]
+        },
+        "sourceReferences": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "minLength": 1,
+            "pattern": "\\S"
+          },
+          "uniqueItems": true,
+          "minItems": 1
+        }
+      }
+    },
+    "rights": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["rightsClass"],
+      "properties": {
+        "rightsClass": {
+          "enum": [
+            "FIRST_PARTY_OR_PROJECT",
+            "OPEN_CLEARED",
+            "PUBLIC_REFERENCE_ONLY",
+            "RESTRICTED_REVIEW_REQUIRED",
+            "UNKNOWN_RIGHTS",
+            "PROHIBITED"
+          ]
+        },
+        "license": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["identifier", "reference"],
+          "properties": {
+            "identifier": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            },
+            "reference": {
+              "type": "string",
+              "minLength": 1,
+              "pattern": "\\S"
+            }
+          }
+        }
+      }
+    },
+    "executionRequirements": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["inputKind", "subjectKind", "parameters"],
+      "properties": {
+        "inputKind": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "subjectKind": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "parameters": {
+          "type": "object",
+          "propertyNames": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_-]*$"
+          },
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "number"
+              },
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "exposure": {
+      "type": "object",
+      "required": ["benchmarkId", "exposureTier", "isPublicBundleExportable", "version"],
+      "properties": {
+        "benchmarkId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_-]*$"
+        },
+        "exposureTier": {
+          "type": "string",
+          "enum": [
+            "tier_a_public_reference",
+            "tier_b_rotating",
+            "tier_c_transformational",
+            "tier_d_protected_challenge"
+          ]
+        },
+        "isPublicBundleExportable": {
+          "type": "boolean"
+        },
+        "rotationScheduleDays": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "version": {
+          "type": "string",
+          "pattern": "^(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)\\.(0|[1-9][0-9]*)(?:-(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*)(?:\\.(?:0|[1-9][0-9]*|[0-9]*[A-Za-z-][0-9A-Za-z-]*))*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "evidenceReferences": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uniqueItems": true
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "pattern": "\\S"
+      },
+      "uniqueItems": true,
+      "minItems": 1
+    },
+    "intendedUse": {
+      "type": "string",
+      "minLength": 1,
+      "pattern": "\\S"
+    },
+    "scientificAuthority": {
+      "const": "NONE"
+    },
+    "auditMetadata": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [],
+      "properties": {
+        "recordedAt": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "requestId": {
+          "type": "string",
+          "minLength": 1,
+          "pattern": "\\S"
+        },
+        "reviewerComments": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

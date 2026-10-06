@@ -1,0 +1,17 @@
+{
+  "scenarioId": "synthetic_contract_example",
+  "synthetic": true,
+  "milestones": [
+    {
+      "milestoneId": "synthetic_step",
+      "phase": "DISCOVERY_AND_RECON",
+      "startStep": 0,
+      "completedStep": 1,
+      "durationSteps": 1,
+      "achieved": true,
+      "tokensUsed": 10,
+      "errorsEncountered": 0,
+      "recoveryCount": 0
+    }
+  ]
+}

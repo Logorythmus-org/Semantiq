@@ -1,0 +1,68 @@
+{
+  "schemaId": "SEMANTIQ_BENCHMARK_PACK_MANIFEST",
+  "schemaVersion": "0.1.0",
+  "identity": {
+    "packId": "long_horizon_synthetic",
+    "packVersion": "0.1.0"
+  },
+  "benchmark": {
+    "benchmarkId": "long_horizon",
+    "benchmarkVersion": "0.1.0"
+  },
+  "evaluator": {
+    "evaluatorId": "long_horizon_rule_evaluator",
+    "evaluatorVersion": "0.1.0"
+  },
+  "metrics": [
+    {
+      "metricId": "long_horizon_resilience_index",
+      "metricVersion": "0.1.0"
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "synthetic_step",
+      "path": "case.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "213cf3f3a9ab094365d38a95279244b24c599ce4410031ccb13a916166607040"
+      }
+    }
+  ],
+  "provenance": {
+    "origin": "AI-generated synthetic project fixture for benchmark pack infrastructure testing; no empirical subjects or observations.",
+    "provenanceClass": "AI_GENERATED",
+    "sourceReferences": [
+      "repository:fixtures/benchmark-packs/long-horizon-synthetic-0.1.0/case.json",
+      "repository:LICENSE"
+    ]
+  },
+  "rights": {
+    "rightsClass": "FIRST_PARTY_OR_PROJECT",
+    "license": {
+      "identifier": "MIT",
+      "reference": "repository:LICENSE"
+    }
+  },
+  "executionRequirements": {
+    "inputKind": "LONG_HORIZON_TRACE",
+    "subjectKind": "AGENT_TRAJECTORY",
+    "parameters": {}
+  },
+  "exposure": {
+    "benchmarkId": "long_horizon",
+    "exposureTier": "tier_a_public_reference",
+    "isPublicBundleExportable": true,
+    "version": "0.1.0"
+  },
+  "evidenceReferences": [],
+  "limitations": [
+    "Synthetic infrastructure example only; not empirical evidence or independent reproduction.",
+    "The long-horizon metric remains an uncalibrated and unvalidated heuristic.",
+    "Pack validation/admission does not establish BM3, scientific validity, Core promotion or production readiness."
+  ],
+  "intendedUse": "Local manifest, identity, digest and admission contract testing only. No qualification or maturity promotion.",
+  "scientificAuthority": "NONE"
+}
