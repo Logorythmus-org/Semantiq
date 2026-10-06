@@ -60,6 +60,10 @@ The [source-bound validation report](../../fixtures/semantic-core-qualification-
 
 All 12 checks on implementation head 7b185a1 completed successfully. That status is not transferred to the upcoming evidence commit: Gate 42 remains NOT ESTABLISHED for its head until inspected after push. The final handoff report will name the actual evidence head and its completed checks. PR #166 stays Draft because this record is not qualified; no merge or Issue #165 closure occurs.
 
+## Post-collection resume correction
+
+After the 72-request collection ended, a narrowly scoped correction moved the durable prospective condition write before the first-run low-capacity return. A first-run quota block can now resume the same directory with zero prior attempts, keeping its frozen condition bytes unchanged. The enhanced test retains all prior assertions and confirms that behavior. This correction sent no provider requests, changed no completed capture/checkpoint/journal, and did not reinterpret the evidence collected on 7b185a1.
+
 ## Exit gates
 
 | # | Gate | Result | Scope / reason |

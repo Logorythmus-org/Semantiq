@@ -108,9 +108,15 @@ describe("prospective complete-run quota-window protocol", () => {
   it("does not start a run with capacity below twenty-four", async () => {
     const subject = adapter(23);
     const observe = vi.spyOn(subject, "observe");
-    const result = await execute(join(root, "low"), 1, subject, false);
+    const directory = join(root, "low");
+    const result = await execute(directory, 1, subject, false);
     expect(result.accountedAttempts).toBe(0);
     expect(observe).not.toHaveBeenCalled();
+    const frozenBytes = await readFile(join(directory, "condition.json"));
+    const resumed = await execute(directory, 1, adapter(50));
+    expect(resumed.accountedAttempts).toBe(24);
+    expect(resumed.outcome).toBe("INSUFFICIENT_EVIDENCE");
+    expect(await readFile(join(directory, "condition.json"))).toEqual(frozenBytes);
   });
   it("fails closed when the authenticated quota counter is unavailable or inconsistent", async () => {
     const subject = adapter();

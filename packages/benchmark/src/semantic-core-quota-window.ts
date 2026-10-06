@@ -247,15 +247,6 @@ export async function executeSemanticCoreQuotaRun(options: {
       !Number.isFinite(Date.parse(capacity.observedAt))
     )
       throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
-    if (capacity.remaining < 24)
-      return {
-        collectionState: "AWAITING_NEXT_QUOTA_WINDOW" as const,
-        outcome: "INSUFFICIENT_EVIDENCE" as const,
-        accountedAttempts: previous?.attempts.length ?? 0,
-        nextRun: options.run,
-        capacity,
-        providerMetadata: metadata
-      };
     if (!frozen) {
       const openedAt = new Date().toISOString();
       frozen = {
@@ -269,6 +260,15 @@ export async function executeSemanticCoreQuotaRun(options: {
         JSON.stringify(frozen, null, 2) + "\n"
       );
     }
+    if (capacity.remaining < 24)
+      return {
+        collectionState: "AWAITING_NEXT_QUOTA_WINDOW" as const,
+        outcome: "INSUFFICIENT_EVIDENCE" as const,
+        accountedAttempts: previous?.attempts.length ?? 0,
+        nextRun: options.run,
+        capacity,
+        providerMetadata: metadata
+      };
     const interval =
       options.subject.evidenceOrigin === "LIVE_PROVIDER" ? 3500 : (options.requestIntervalMs ?? 0);
     let lastStart = 0;
