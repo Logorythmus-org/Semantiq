@@ -70,6 +70,26 @@ describe("SemantIQ version and maturity truth", () => {
     ).toBeNull();
   });
 
+  it("classifies pack versions separately from release and maturity claims", () => {
+    const target = ["1", "0", "0"].join(".");
+    expect(
+      classifyReference(
+        "fixtures/benchmark-packs/example/manifest.json",
+        `"packVersion": "${target}"`
+      )
+    ).toBe("API_SCHEMA_VERSION");
+    expect(
+      classifyReference(
+        "tests/unit/benchmark-pack-contract.test.ts",
+        `["identity", "packVersion"], "${target}-01"`
+      )
+    ).toBe("API_SCHEMA_VERSION");
+    expect(classifyReference("public-metadata.json", `"releaseVersion": "${target}"`)).toBe(
+      "SOFTWARE_RELEASE_VERSION"
+    );
+    expect(classifyReference("public-metadata.json", `"packMaturity": "${target}"`)).toBeNull();
+  });
+
   it("retains narrow semantic allow-rules", () => {
     const target = ["1", "0", "0"].join(".");
 
