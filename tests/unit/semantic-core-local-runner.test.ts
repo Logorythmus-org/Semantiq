@@ -2,7 +2,7 @@ import { beforeAll, afterAll, describe, it, expect } from "vitest";
 import { mkdtemp, readFile, writeFile, cp, rm, readdir } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import { tmpdir } from "node:os";
-import { join, resolve, sep } from "node:path";
+import { dirname, join, resolve, sep } from "node:path";
 import {
   prepareSemanticCoreLocalCondition,
   LOCAL_SUPERSEDED_CONDITION,
@@ -251,11 +251,17 @@ describe("dedicated 0.1.3 empirical runner, fake transport only", () => {
     }
   );
   it("rejects relative collections and source paths, including the primary checkout", async () => {
+    const commonDirectory = execFileSync(
+      "git",
+      ["-c", "core.fsmonitor=false", "rev-parse", "--git-common-dir"],
+      { cwd: repositoryRoot, encoding: "utf8" }
+    ).trim();
+    const primaryRepository = dirname(resolve(repositoryRoot, commonDirectory));
     for (const target of [
       "relative-live",
       repositoryRoot,
       join(repositoryRoot, "new-live"),
-      resolve(repositoryRoot, "..", "outside-worktree-still-inside-repository")
+      join(primaryRepository, "forbidden-primary-repository-collection")
     ])
       await expect(assertSemanticCoreExternalCollection(repositoryRoot, target)).rejects.toThrow(
         "PREFLIGHT_FAILURE"
