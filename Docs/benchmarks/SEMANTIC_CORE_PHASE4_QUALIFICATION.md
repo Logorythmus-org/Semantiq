@@ -2,6 +2,7 @@
 
 Status: implementation under review. No live evidence or public BM3 transition is established by this document.
 SemantIQ remains `0.1.0-alpha.2`, Public Alpha (Experimental).
+The [Phase 4 evidence report](SEMANTIC_CORE_PHASE4_EVIDENCE_REPORT.md) records the current insufficient-evidence result and all 45 exit gates.
 
 The qualification target is `semantic_core_pilot@0.1.0`: the governed pack, genuine subject execution,
 structured response, deterministic evaluator, five canonical metrics, S05 reliability, S09 verification,

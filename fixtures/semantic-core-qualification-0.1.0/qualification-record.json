@@ -1,0 +1,66 @@
+{
+  "identity": {
+    "qualificationId": "semantic_core_pilot_bm3_qualification",
+    "qualificationVersion": "0.1.0"
+  },
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.0",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "caseOrderPolicy": "FROZEN_MANIFEST_ORDER",
+    "isolation": "FRESH_REQUEST_PER_CASE",
+    "serializerVersion": "0.1.0",
+    "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+    "scientificAuthority": "NONE",
+    "decisionAuthority": "NONE"
+  },
+  "conditionDigest": "91cc8986426f5f45131bf759bd3dac70725cebe3e67e7d1f98ed18cd4615385d",
+  "benchmark": {
+    "benchmarkId": "semantic_core_pilot",
+    "benchmarkVersion": "0.1.0"
+  },
+  "packDigest": "b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a",
+  "source": {
+    "gitCommit": "f1303d0b5dfebc55197724110573f4b697ca9e26",
+    "gitTree": "4ea51cb239b9fece6186d9529a9a1e8311034504"
+  },
+  "scheduledRuns": 3,
+  "scheduledAttempts": 72,
+  "accountedAttempts": 0,
+  "evaluatorReplayExact": false,
+  "reliabilityReferences": [],
+  "packages": [],
+  "regression": {
+    "exact": false,
+    "replayedAttempts": 0,
+    "externalReproduction": false,
+    "scientificAuthority": "NONE"
+  },
+  "criticalFindings": [],
+  "exposure": "TIER_A_PUBLIC_NOT_HELD_OUT_CONTAMINATION_UNKNOWN",
+  "limitations": [
+    "NOT_COLLECTED: operator model selection and live authorization remain pending. No empirical subject observations, real S04/S05/S09 records or regression capture exist.",
+    "Scheduled counts are protocol plans only; zero live runs started, zero requests sent and zero scheduled terminals observed.",
+    "Replay booleans are false because no live replay was performed; no mismatch is alleged.",
+    "Tier A public synthetic first-party AI-authored cases and public oracles: contamination cannot be ruled out; not held-out; high scores do not establish clean generalization.",
+    "Internal execution, reliability and integrity evidence only; model accuracy is not a qualification gate.",
+    "Reliability is not validity. No calibration, construct validity, robustness, anti-gaming, independent reproduction, external validation, Core admission or leaderboard eligibility.",
+    "Mutable model alias; advertised canonical slug is provenance, not an immutable provider snapshot. Temperature zero and an optional seed do not establish deterministic subject execution.",
+    "Original HTTP response bytes are unavailable; only bounded normalized observations and original-byte digests are retained. Engineering evaluator replay is not external reproduction.",
+    "Automated records have scientific authority NONE and decision authority NONE. Human/code-owner review and merge govern any public BM3 proposal."
+  ],
+  "repositoryRegression": "PASSED_REFERENCED_OPERATOR_REPORT",
+  "repositoryValidation": {
+    "sourceCommit": "f1303d0b5dfebc55197724110573f4b697ca9e26",
+    "status": "PASSED",
+    "reportDigest": "109e860b4d3ea154237ab85fad888edd862922a63852997cbac155ac0da239df"
+  },
+  "outcome": "INSUFFICIENT_EVIDENCE",
+  "scientificAuthority": "NONE",
+  "decisionAuthority": "NONE",
+  "proposesBM3": false,
+  "acceptance": "HUMAN_REVIEW_AND_MERGE_REQUIRED"
+}
