@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { execFileSync } from "node:child_process";
+import { readFileSync } from "node:fs";
+import { validateSemanticCoreQualificationRecord } from "../../packages/benchmark/src/semantic-core-qualification-record.js";
 import {
   buildTransportCanary,
   runTransportCanary,
@@ -83,6 +85,26 @@ function fixture(
   return { calls, http };
 }
 describe("prospective 0.1.2 engineering transport boundary", () => {
+  it("does not infer OpenRouter origin from generic HTTP 400", () => {
+    expect(sanitizeTransportError(400, '{"error":{"code":400}}').classification).toBe(
+      "UNKNOWN_PROVIDER_REJECTION"
+    );
+  });
+  it("retains a typed rate-limit rejection embedded in HTTP 200", () => {
+    expect(
+      sanitizeTransportError(
+        200,
+        '{"error":{"code":429,"metadata":{"error_type":"rate_limit_exceeded"}}}'
+      ).classification
+    ).toBe("RATE_LIMIT_REJECTION");
+  });
+  it("canary artifacts cannot pass qualification record validation or provide S05 evidence", async () => {
+    const result = await runTransportCanary("A", () => "secret", fixture().http);
+    expect(validateSemanticCoreQualificationRecord(result)).toBe(false);
+    expect(result).not.toHaveProperty("studyRuns");
+    expect(result).not.toHaveProperty("attempts");
+    expect(result).not.toHaveProperty("qualificationOutcome", "QUALIFIED_FOR_BM3_REVIEW");
+  });
   it("retains only recognized upstream error type, parameter and unsupported-schema reason", () => {
     const safe = sanitizeTransportError(
       400,
@@ -266,5 +288,27 @@ describe("prospective 0.1.2 engineering transport boundary", () => {
         { encoding: "utf8" }
       )
     ).toBe("");
+    const baseline = "6263f95475def9eafec9c89c2cec544fbb12fd0e";
+    const paths = execFileSync(
+      "git",
+      [
+        "ls-tree",
+        "-r",
+        "--name-only",
+        baseline,
+        "--",
+        "fixtures/semantic-core-qualification-0.1.1"
+      ],
+      { encoding: "utf8" }
+    )
+      .trim()
+      .split(/\r?\n/);
+    for (const path of paths)
+      expect(
+        readFileSync(path).equals(
+          execFileSync("git", ["show", `${baseline}:${path}`], { maxBuffer: 10 * 1024 * 1024 })
+        ),
+        path
+      ).toBe(true);
   });
 });

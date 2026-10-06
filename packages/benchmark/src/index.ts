@@ -59,3 +59,4 @@ export * from "./semantic-core-openrouter.js";
 export * from "./semantic-core-qualification.js";
 export * from "./semantic-core-qualification-record.js";
 export * from "./semantic-core-quota-window.js";
+export * from "./semantic-core-transport-diagnostic.js";

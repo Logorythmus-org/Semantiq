@@ -18,6 +18,13 @@ export const SEMANTIC_CORE_TRANSPORT_PROTOCOL = {
   casesPerRun: 24,
   scheduledAttempts: 72,
   retryPolicy: "NONE",
+  collectionPolicy: "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+  minimumFreeRequestsPerRun: 24,
+  runAtomicity: "COMPLETE_RUN_PER_QUOTA_WINDOW",
+  collectionWindowMaximumHours: 168,
+  minimumRequestIntervalMs: 3500,
+  isolation: "FRESH_REQUEST_PER_CASE",
+  parserPolicy: "JSON_PARSE_ONLY_NO_REPAIR",
   scientificAuthority: "NONE",
   bmMaturityAuthority: "NONE",
   empiricalConditionGate: "SUCCESSFUL_TRANSPORT_CANARY_REQUIRED"
@@ -125,9 +132,11 @@ export function sanitizeTransportError(status: number, raw: string) {
           ? "INVALID_SCHEMA"
           : "UNSPECIFIED";
   let classification: Rejection = "UNKNOWN_PROVIDER_REJECTION";
-  if (status === 401) classification = "AUTHENTICATION_REJECTION";
-  else if (status === 429) classification = "RATE_LIMIT_REJECTION";
+  if (status === 429 || code === 429 || type === "rate_limit_exceeded")
+    classification = "RATE_LIMIT_REJECTION";
   else if (upstreamProvider) classification = "UPSTREAM_PROVIDER_REJECTION";
+  else if (status === 401 || code === 401 || type === "authentication")
+    classification = "AUTHENTICATION_REJECTION";
   else if (
     [code, type].includes("invalid_json_schema") ||
     [code, type].includes("invalid_schema") ||
@@ -136,11 +145,8 @@ export function sanitizeTransportError(status: number, raw: string) {
     classification = "STRUCTURED_OUTPUT_REJECTION";
   else if (reason === "NO_ELIGIBLE_ENDPOINTS" || [code, type].includes("no_available_providers"))
     classification = "OPENROUTER_ROUTING_REJECTION";
-  else if (
-    status === 400 &&
-    (code === 400 || [code, type].includes("invalid_request_error") || type === "invalid_request")
-  )
-    classification = "OPENROUTER_REQUEST_VALIDATION_REJECTION";
+  // A generic 400 / invalid_request code does not prove which layer rejected it.
+  // Keep UNKNOWN unless returned evidence identifies routing, schema or upstream origin.
   const safe = {
     httpStatus: status,
     bodyState: parsed ? "BOUNDED_ERROR_FIELDS_PARSED" : "ERROR_BODY_UNAVAILABLE_OR_UNPARSED",
