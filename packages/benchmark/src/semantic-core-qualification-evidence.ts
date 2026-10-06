@@ -33,19 +33,25 @@ export function buildSemanticCoreEvidence(
   condition: {
     protocol: { protocolId: string; protocolVersion: string };
     source: { gitCommit: string; gitTree: string };
-    subjectConfiguration: SemanticCoreSubjectConfiguration | null;
+    subjectConfiguration?: SemanticCoreSubjectConfiguration | null;
+    subject?: { model: string; providerName: string };
     packDigest: string;
     cases: readonly unknown[];
     prompts: readonly unknown[];
     evaluatorConfiguration: unknown;
-    providerMetadata: unknown;
+    providerMetadata?: unknown;
   },
   conditionDigest: string,
   attempts: readonly SemanticCoreQualificationAttempt[],
   runs: readonly { run: number }[],
   reliability: readonly unknown[]
 ) {
-  const config = condition.subjectConfiguration!;
+  const config = condition.subjectConfiguration ?? {
+    modelId: condition.subject!.model,
+    providerName: condition.subject!.providerName,
+    snapshotStatus: "MUTABLE_ALIAS" as const,
+    seed: undefined
+  };
   const lock = readFileSync(new URL("../../../pnpm-lock.yaml", import.meta.url));
   const lockDigest = createHash("sha256").update(lock).digest("hex");
   const environment = system.createEnvironmentManifest({

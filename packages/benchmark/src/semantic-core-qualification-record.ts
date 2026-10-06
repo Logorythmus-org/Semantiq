@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { Ajv2020 } from "ajv/dist/2020.js";
 import { canonicalJson } from "../../sandbox-contracts/src/index.js";
+import { SEMANTIC_CORE_LOCAL_RESPONSE_PROTOCOL } from "./semantic-core-local-response.js";
 import {
   SEMANTIC_CORE_QUALIFICATION_PROTOCOL,
   SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL
@@ -19,6 +20,17 @@ const checkWindow = new Ajv2020({ strict: true, allErrors: true }).compile(
     readFileSync(
       new URL(
         "../../../schemas/semantic-core-qualification-record-0.1.1.schema.json",
+        import.meta.url
+      ),
+      "utf8"
+    )
+  )
+);
+const checkLocal = new Ajv2020({ strict: true, allErrors: true }).compile(
+  JSON.parse(
+    readFileSync(
+      new URL(
+        "../../../schemas/semantic-core-qualification-record-0.1.3.schema.json",
         import.meta.url
       ),
       "utf8"
@@ -52,7 +64,7 @@ function plain(value: unknown, seen = new Set<object>()): boolean {
 }
 /** Structural integrity only; this predicate cannot approve BM3 or establish empirical truth. */
 export function validateSemanticCoreQualificationRecord(value: unknown): boolean {
-  if (!plain(value) || (!check(value) && !checkWindow(value))) return false;
+  if (!plain(value) || (!check(value) && !checkWindow(value) && !checkLocal(value))) return false;
   const record = value as {
     protocol: { protocolVersion: string };
     identity: { qualificationVersion: string };
@@ -65,7 +77,8 @@ export function validateSemanticCoreQualificationRecord(value: unknown): boolean
   return (
     record.identity.qualificationVersion === record.protocol.protocolVersion &&
     (canonicalJson(record.protocol) === canonicalJson(SEMANTIC_CORE_QUALIFICATION_PROTOCOL) ||
-      canonicalJson(record.protocol) === canonicalJson(SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL)) &&
+      canonicalJson(record.protocol) === canonicalJson(SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL) ||
+      canonicalJson(record.protocol) === canonicalJson(SEMANTIC_CORE_LOCAL_RESPONSE_PROTOCOL)) &&
     (record.outcome !== "QUALIFIED_FOR_BM3_REVIEW" ||
       (record.source.gitCommit === record.repositoryValidation?.sourceCommit &&
         record.reliabilityReferences.length === 53 &&

@@ -62,3 +62,4 @@ export * from "./semantic-core-quota-window.js";
 export * from "./semantic-core-transport-diagnostic.js";
 export * from "./semantic-core-local-response.js";
 export * from "./semantic-core-local-transport.js";
+export * from "./semantic-core-local-runner.js";
