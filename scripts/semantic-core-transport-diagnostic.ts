@@ -1,11 +1,13 @@
-import { mkdir, writeFile } from "node:fs/promises";
+import { mkdir, writeFile, readFile } from "node:fs/promises";
 import { execFileSync } from "node:child_process";
 import {
   runTransportCanary,
   SEMANTIC_CORE_TRANSPORT_PROTOCOL
 } from "../packages/benchmark/src/semantic-core-transport-diagnostic.js";
 
-if (process.argv.slice(2).join(" ") !== "--authorize-live")
+const continuation =
+  process.argv.slice(2).join(" ") === "--authorize-live --continue-after-A-http-success";
+if (process.argv.slice(2).join(" ") !== "--authorize-live" && !continuation)
   throw new Error("EXPLICIT_DIAGNOSTIC_AUTHORIZATION_REQUIRED");
 if (
   execFileSync(
@@ -23,10 +25,44 @@ const source = {
 };
 const results: Awaited<ReturnType<typeof runTransportCanary>>[] = [];
 // Exclusive reservation before any POST prevents accidental reruns or replacement canaries.
-await writeFile(`${directory}/transport-diagnostic.lock`, "ONE_BOUNDED_LADDER_ONLY\n", {
-  flag: "wx"
-});
-for (const kind of ["A", "B", "C"] as const) {
+if (continuation) {
+  const prior = JSON.parse(await readFile(`${directory}/transport-canary-A.json`, "utf8"));
+  const result = prior.audit?.result;
+  if (
+    result?.httpStatus !== 200 ||
+    result.returnedModel !== "apodex/apodex-1.1-mini:free" ||
+    result.returnedProvider !== "Novita" ||
+    result.usage?.cost !== 0 ||
+    prior.audit?.stages?.at(-1) !== "GENERATION_RESPONSE_PARSED"
+  )
+    throw new Error("A_TRANSPORT_SUCCESS_NOT_PROVEN");
+  // Original output-check result remains immutable; this is a separate later gate analysis.
+  await writeFile(
+    `${directory}/canary-A-transport-gate-analysis.json`,
+    JSON.stringify(
+      {
+        source,
+        originalArtifact: "transport-canary-A.json",
+        assessment: "HTTP_MODEL_PROVIDER_USAGE_ZERO_COST_TRANSPORT_GATE_SATISFIED",
+        originalOutputCheckSatisfied: prior.success,
+        additionalPostRequests: 0,
+        scientificAuthority: "NONE",
+        bmMaturityAuthority: "NONE"
+      },
+      null,
+      2
+    ) + "\n",
+    { flag: "wx" }
+  );
+}
+await writeFile(
+  `${directory}/${continuation ? "transport-continuation" : "transport-diagnostic"}.lock`,
+  "ONE_BOUNDED_LADDER_ONLY\n",
+  {
+    flag: "wx"
+  }
+);
+for (const kind of continuation ? (["B", "C"] as const) : (["A", "B", "C"] as const)) {
   const result = await runTransportCanary(kind);
   results.push(result);
   await writeFile(
@@ -40,7 +76,7 @@ for (const kind of ["A", "B", "C"] as const) {
   if (kind !== "C") await new Promise((resolve) => setTimeout(resolve, 3500));
 }
 await writeFile(
-  `${directory}/transport-diagnostic.json`,
+  `${directory}/${continuation ? "transport-diagnostic-continuation" : "transport-diagnostic"}.json`,
   JSON.stringify(
     {
       protocol: SEMANTIC_CORE_TRANSPORT_PROTOCOL,

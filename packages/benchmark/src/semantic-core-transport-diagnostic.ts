@@ -40,6 +40,16 @@ type Rejection =
   | "STRUCTURED_OUTPUT_REJECTION"
   | "UNKNOWN_PROVIDER_REJECTION";
 const strings = [
+  "authentication",
+  "invalid_request",
+  "invalid_prompt",
+  "not_found",
+  "provider_overloaded",
+  "provider_unavailable",
+  "payment_required",
+  "unmapped",
+  "timeout",
+  "server",
   "rate_limit_exceeded",
   "invalid_request_error",
   "authentication_error",
@@ -99,7 +109,10 @@ export function sanitizeTransportError(status: number, raw: string) {
     classification = "STRUCTURED_OUTPUT_REJECTION";
   else if (reason === "NO_ELIGIBLE_ENDPOINTS" || [code, type].includes("no_available_providers"))
     classification = "OPENROUTER_ROUTING_REJECTION";
-  else if (status === 400 && (code === 400 || [code, type].includes("invalid_request_error")))
+  else if (
+    status === 400 &&
+    (code === 400 || [code, type].includes("invalid_request_error") || type === "invalid_request")
+  )
     classification = "OPENROUTER_REQUEST_VALIDATION_REJECTION";
   const safe = {
     httpStatus: status,
@@ -208,6 +221,10 @@ export interface TransportAudit {
         returnedModel: string | null;
         returnedProvider: string | null;
         usage: { promptTokens: number; completionTokens: number; cost: number } | null;
+        outputState: "EMPTY" | "PRESENT" | "UNAVAILABLE";
+        outputContractSatisfied: boolean;
+        finishReason: string | null;
+        reasoningTokens: number | null;
       };
   failure?: string;
 }
@@ -322,6 +339,7 @@ export async function runTransportCanary(
             }
           : null;
       const choices = parsed.choices;
+      const choice = Array.isArray(choices) && choices.length === 1 ? record(choices[0]) : {};
       const content =
         Array.isArray(choices) && choices.length === 1
           ? record(record(choices[0]).message).content
@@ -340,14 +358,46 @@ export async function runTransportCanary(
           /* Exact parse only, never repair. */
         }
       }
-      success = Boolean(returnedModel && returnedProvider && safeUsage && validContent);
+      const hasError =
+        Object.hasOwn(parsed, "error") ||
+        Object.hasOwn(choice, "error") ||
+        choice.finish_reason === "error";
+      success = Boolean(
+        returnedModel &&
+        returnedProvider &&
+        safeUsage &&
+        !hasError &&
+        Array.isArray(choices) &&
+        choices.length === 1 &&
+        (kind === "A" || validContent)
+      );
+      const reasoning = record(usage.completion_tokens_details).reasoning_tokens;
       audit.result = {
         httpStatus: response.status,
         success,
         returnedModel,
         returnedProvider,
-        usage: safeUsage
+        usage: safeUsage,
+        outputState:
+          content === "" || content === null
+            ? "EMPTY"
+            : typeof content === "string"
+              ? "PRESENT"
+              : "UNAVAILABLE",
+        outputContractSatisfied: validContent,
+        finishReason: ["stop", "length", "error", "content_filter", "tool_calls"].includes(
+          String(choice.finish_reason)
+        )
+          ? String(choice.finish_reason)
+          : null,
+        reasoningTokens:
+          Number.isSafeInteger(reasoning) && Number(reasoning) >= 0 ? Number(reasoning) : null
       };
+      if (hasError)
+        audit.result = sanitizeTransportError(
+          response.status,
+          JSON.stringify({ error: parsed.error ?? choice.error })
+        );
     }
     const quotaAfter = await subject.capacity().catch(() => null);
     return {
