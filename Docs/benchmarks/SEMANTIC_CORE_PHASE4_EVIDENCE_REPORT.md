@@ -1,180 +1,113 @@
-# Phase 4 qualification evidence report
+# Phase 4 qualification evidence report — protocol 0.1.1
 
-PHASE 4 STATUS: BLOCKED — AWAITING EMPIRICAL COLLECTION
-Qualification outcome: `INSUFFICIENT_EVIDENCE`.
-Public state remains BM2. Protocol 0.1.1 prospectively permits complete runs across observed quota windows; no generation has started yet.
+PHASE 4 STATUS: BLOCKED — PROVIDER_REJECTION
 
-## Prospective amendment 0.1.1
+qualificationOutcome = `NOT_QUALIFIED`
 
-The [historical 0.1.0 report](../../fixtures/semantic-core-qualification-0.1.0/evidence-report.md), its qualification record and provider/quota snapshot remain unchanged.
-Protocol 0.1.1 is a new condition; it retains exactly 3 × 24 = 72 attempts, no retries, the same selected Apodex/Novita route, and all oracle-isolation and zero-cost guards.
-Each run requires an authenticated remaining counter of at least 24, is indivisible across quota windows by plan, and receives an immutable durable checkpoint.
-One canonical directory is fixtures/semantic-core-qualification-0.1.1/live. A crashed journal, duplicate run, checksum mismatch or changed material condition fails closed.
-The collection window is prespecified as at most 168 hours from the first frozen condition; its opening/deadline and run timestamps are audit metadata outside condition identity. No quota reset time is assumed.
-Requests are sequential and starts are separated by at least 3.5 seconds (below 20 per minute). No unrelated requests should intentionally use the same quota pool during a run.
-An unexpected quota race is retained as terminal request failures, never replaced or silently rerun. Fewer than 72 terminals always remain INSUFFICIENT_EVIDENCE.
-Subject execution is EXTERNAL_NONDETERMINISTIC and the alias MUTABLE_ALIAS. Identical advertised metadata cannot cryptographically freeze provider weights or prove immutable scientific replication. S05 varies TIME_WINDOW explicitly.
+The fixed 3 × 24 = 72 schedule is complete. All 72 HTTP generation requests were rejected by the provider/API path and retained as SUBJECT_ERROR / PROVIDER_REJECTION. There are zero valid subject responses. This is an infrastructure blocker, not an accuracy result. BM3 is not proposed; PR #166 remains Draft and Issue #165 remains open.
 
-## Baseline and review scope
+## Historical and prospective identities
 
-Protected-main baseline: `d43524fc49d886a01079c198695eadec1d4d1672`;
-tree: `b2796414a0be4ed8355994d36b3780f378379761`. No baseline drift was observed at preflight.
-PR #164 was merged, Issue #163 closed, Issue #165 open, and protected-main CI green.
-The active default-branch ruleset requires approving/code-owner review and resolved threads, prevents
-deletion/non-fast-forward updates, and offers no bypass. Nine unique required check contexts were inspected.
-The isolated branch is `codex/semantic-core-bm3-qualification`; unrelated primary-checkout work was preserved.
+The [blocked 0.1.0 report](../../fixtures/semantic-core-qualification-0.1.0/evidence-report.md), [0.1.0 record](../../fixtures/semantic-core-qualification-0.1.0/qualification-record.json) and [operator preflight](../../fixtures/semantic-core-qualification-0.1.0/operator-preflight.json) remain unchanged. They established zero generations and the original 50-versus-72 capacity blocker. The amendment was committed before the first request as semantic_core_pilot_bm3_qualification@0.1.1.
 
-Historical 0.1.0 implementation: `f1303d0b5dfebc55197724110573f4b697ca9e26`;
-tree: `4ea51cb239b9fece6186d9529a9a1e8311034504`.
-Later report/artifact commits do not reinterpret this source revision. A future live run must freeze its actual
-clean implementation revision and freshly selected provider condition.
+Protected-main baseline: d43524fc49d886a01079c198695eadec1d4d1672; tree b2796414a0be4ed8355994d36b3780f378379761. Original rule/Phase 3 checks are retained in the historical report. Unrelated primary-checkout work was preserved.
 
-## Frozen nonempirical identities
+- Frozen implementation commit: `7b185a1e3aea25d94474861681f1fed09ba6df93`.
+- Frozen implementation tree: `5c1275a926a10ea404807ca6642c1d95d54ca45d`.
+- Condition digest: `10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931`.
+- Final normalized capture digest: `08a35900ce6cfb7372255d41229a828bc14fb5d16e42717663bb95926067223d`.
+- Benchmark/pack: semantic_core_pilot@0.1.0; original pack SHA-256 b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a.
+- Evaluator: semantic_core_rule_evaluator@0.1.0; configuration digest 56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452.
+- Prompt inventory digest: aa800442cecd6d28cc360a3f085f329a275aa5a7ff2d7bc8e3c803e5d5b7427b; serializer 0.1.0; case/response schemas 0.1.0.
 
-The complete [dry preflight](../../fixtures/semantic-core-qualification-0.1.0/preflight.json) retains
-all 24 ORIGINAL_BYTES case digests, the exact manifest order, all prompt digests and 53 prespecified study
-definitions/digests. It explicitly records DRY_RUN and no empirical evidence.
+The [frozen condition](../../fixtures/semantic-core-qualification-0.1.1/live/condition.json) records all 24 case digests, prompt digests, exact order, evaluator configuration, metric versions and 53 prespecified S05 definitions. Audit clocks and quota counters do not change condition identity. The fixed collection policy is MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION, with indivisible 24-case runs, at least 24 authenticated free requests before each run, no retries and a 168-hour maximum collection window. Sequential request starts are separated by at least 3.5 seconds.
 
-| Identity | Value |
-| --- | --- |
-| Benchmark / pack | `semantic_core_pilot@0.1.0` |
-| Pack SHA-256 | `b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a` |
-| Evaluator | `semantic_core_rule_evaluator@0.1.0` |
-| Evaluator configuration | `56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452` |
-| Case / response / protocol version | `0.1.0` / `0.1.0` / `0.1.0` |
-| Prompt inventory digest | `aa800442cecd6d28cc360a3f085f329a275aa5a7ff2d7bc8e3c803e5d5b7427b` |
-| Dry condition digest | `91cc8986426f5f45131bf759bd3dac70725cebe3e67e7d1f98ed18cd4615385d` |
-| Qualification record digest | `5f4e699c63f6eac7f050eee5f61d6b20cbe67a891d10dfee3444357815314074` |
-| Local validation report digest | `109e860b4d3ea154237ab85fad888edd862922a63852997cbac155ac0da239df` |
+## Actual provider and quota observations
 
-The five exact metric identities at version `0.1.0` are `semantic_core_eligible_cases`,
-`semantic_core_passed_cases`, `semantic_core_meaning_context_pass_proportion`,
-`semantic_core_epistemic_boundary_pass_proportion`, and `semantic_core_bias_resistance_pass_proportion`.
-The [canonical qualification record](../../fixtures/semantic-core-qualification-0.1.0/qualification-record.json)
-has scientific authority NONE, decision authority NONE, and proposesBM3 false.
+Model alias: apodex/apodex-1.1-mini:free. Advertised canonical slug: apodex/apodex-1.1-mini-20261001. Provider: Novita. Endpoint: novita/bf16. Fresh authenticated preflight before every run and metadata checks before every attempt retained the same eligible route, zero monetary prices, strict JSON-schema support and unchanged request configuration. Temperature 0, max output 128 tokens, seed not requested, fresh messages per case, no oracle, no CoT, no alternate/paid/model fallback.
 
-## Provider discovery and cost boundary
+| Run | Capacity preflight (UTC) | Checkpoint completed (UTC) | Remaining before run | Terminals | Result |
+| --- | --- | --- | --- | --- | --- |
+| 1 | 2026-10-06T18:26:35.092Z | 2026-10-06T18:27:56.292Z | 50 | 24 | 24 PROVIDER_REJECTION |
+| 2 | 2026-10-06T18:29:09.029Z | 2026-10-06T18:30:30.225Z | 50 | 24 | 24 PROVIDER_REJECTION |
+| 3 | 2026-10-06T18:30:50.492Z | 2026-10-06T18:32:11.850Z | 50 | 24 | 24 PROVIDER_REJECTION |
 
-Operator selection is resolved: `apodex/apodex-1.1-mini:free` only.
-Fresh live GET requests to /models, /models/apodex/apodex-1.1-mini:free/endpoints and /key
-completed at **2026-10-06T18:00:01.200Z**. The sanitized [operator preflight](../../fixtures/semantic-core-qualification-0.1.0/operator-preflight.json)
-records the observed canonical identity exactly: `apodex/apodex-1.1-mini-20261001`.
-The selected endpoint remains Novita / `novita/bf16`, status 0, prompt price 0 and completion price 0.
-The route advertises response_format and structured_outputs. No alternate route was selected.
+The authenticated counter remained used=0, limit=50, remaining=50 before every run and after collection (2026-10-06T18:33:48.184Z). Therefore the >=24 gate permitted Run 3 without waiting for a reset. No quota reset or cross-window transition was observed; the protocol supports multiple windows but this failed collection completed within one observed window. No reset time was assumed and no quota/purchase workaround was used. No unrelated free generation was intentionally issued.
 
-The account reports **0 used, 50 daily limit, 50 remaining free-model requests**.
-The mandatory 72-request matrix exceeds the remaining allowance by 22 requests.
-This observation blocked the original 0.1.0 72-request single-window plan. The prospective 0.1.1 amendment instead checks at least 24 immediately before each complete run. No run has started yet.
-The [official limits documentation](https://openrouter.ai/docs/api_reference/limits) identifies
-free_model_daily_requests as the request counter; monetary credit fields were not treated as request capacity.
-No purchase, paid inference, reduced run count, split condition or replacement model is authorized or performed.
-Credentials were used only in the authenticated GET transport and excluded from the saved projection.
-All runtime gates will be rechecked against the new source-bound condition before each run; empirical gates remain unestablished until genuine collection.
+Every request uses the same frozen condition. All 72 request attempts are terminally accounted, without replacement. The adapter retained the bounded PROVIDER_REJECTION classification, not the HTTP error status/body, so the specific rejection cause is unresolved. No successful response contains usage/cost, returned model/provider or raw-response bytes/digests; these fields are unavailable, not fabricated. Advertised monetary prices and request price caps were zero; no paid inference or fallback was authorized/performed.
 
-Generation requests sent: **0**. Paid provider requests sent: **0**. No fallback or replacement retry occurred.
-The implemented route allow-list, disabled fallback, zero price caps, returned provenance/cost checks and
-fail-closed metadata handling are exercised by tests. Actual live cost evidence remains not established.
+The provider remains EXTERNAL_NONDETERMINISTIC and the alias MUTABLE_ALIAS. The unchanged advertised slug does not cryptographically freeze remote weights. Audit timestamps document the actual run windows, and S05 explicitly varies TIME_WINDOW. No immutable scientific replication claim is made.
 
-## Execution, scores, reliability and packages
+## Real evidence and empirical gates
 
-Planned matrix: 3 runs × 24 cases = 72 scheduled attempts. Started live runs: 0. Accounted live attempts: 0.
-No PASSED, INCORRECT, MALFORMED, ABSTAINED, MISSING or provider-error counts are reported as observed zeros;
-these states are **not observed** because collection has not begun. There are no live model scores.
+The [collection summary](../../fixtures/semantic-core-qualification-0.1.1/collection-summary.json) records all error counts, timestamps, capacity observations, exclusions and verifier outcomes. All three immutable checkpoints and append-only 24-line journals are in [the capture](../../fixtures/semantic-core-qualification-0.1.1/live/qualification.json); the [original-byte inventory](../../fixtures/semantic-core-qualification-0.1.1/evidence-inventory.json) binds their durable bytes.
 
-Evaluator replay on captured real responses: NOT ESTABLISHED. Synthetic tests demonstrate the deterministic
-replay invariant and detect response/identity/artifact mutation; they are excluded from empirical qualification.
+[S04](../../fixtures/semantic-core-qualification-0.1.1/s04-executions.json): 72 case executions are PARTIAL with no model decision output, preserving SUBJECT_ERROR; 15 metric executions retain MISSING / INSUFFICIENT_EVIDENCE. PASSED, INCORRECT, ABSTAINED, MALFORMED and MISSING response classifications each have zero observed counts; SUBJECT_ERROR is 72. No zero accuracy score is substituted for absent observations.
 
-Prespecified S05 studies: 24 categorical agreement, 24 exact repeatability, five numeric run-to-run stability.
-Real estimates, n/mean/sample SD/min/max/range, candidate/eligible/used observations/pairs and exclusions:
-NOT ESTABLISHED. Nothing is imputed from the synthetic test adapters.
+[S05](../../fixtures/semantic-core-qualification-0.1.1/s05-evidence.json): 24 categorical and 24 exact-repeatability studies each have 3 candidates, 0 eligible/used observations, 3 exclusions, 3 candidate pairs and 0 eligible/used pairs. That is 72 excluded observations and 72 unusable candidate pairs per method. Five numeric studies each have 3 candidates, 0 eligible/used observations and 3 exclusions (15 excluded metric observations total). Every study is INSUFFICIENT_EVIDENCE; no numeric stability/agreement estimate exists. Reliability is not validity.
 
-Real S09 packages and verifier outcomes: none. Real regression replay capture: none.
-Synthetic test packages validate S09 lineage, artifact mutation rejection and no secret-bearing fields;
-their verifier outputs are engineering test evidence only. A future live package remains partially self-contained,
-with original HTTP bytes unavailable and external subject replay blocked by mutable provider state.
+[S09](../../fixtures/semantic-core-qualification-0.1.1/s09-evidence.json): three run packages and one qualification-level package all return VERIFIED_INTERNAL_CONSISTENCY, with zero ERROR findings. Packages are PARTIALLY_SELF_CONTAINED and verifier authority is INTERNAL_CONSISTENCY_ONLY. These outcomes verify the internally consistent failure evidence, not provider availability, successful generation, model accuracy or scientific validity.
 
-## Scientific and governance boundary
+[Sanitized replay](../../fixtures/semantic-core-qualification-0.1.1/regression-replay.json): the separate network-free CLI replay verifies the capture digest and re-evaluates all 72 failure observations exactly. This is deterministic engineering replay of retained errors, not external model reproduction.
 
-The pack is Tier A public reference material with public oracles. Contamination cannot be ruled out;
-the evaluation is not held-out. Even a high future observed model score in this public synthetic pilot
-would not establish clean generalization or general semantic intelligence.
+[Post-live S10](../../fixtures/semantic-core-qualification-0.1.1/s10-assessment.json): recommendation INSUFFICIENT_EVIDENCE; CALIBRATION, VALIDITY, RELIABILITY, ROBUSTNESS, ANTI_GAMING and REPRODUCIBILITY remain among blocking gates. mutatesBenchmarkRegistry=false. Scientific maturity stays UNVALIDATED_PROXY and Core admission NOT_PROMOTED.
 
-The bounded S10 VALIDATED assessment is implemented and tested: calibration and validity gates remain blocking,
-and robustness, anti-gaming, independent reproduction, external validation and governance evidence are not fabricated.
-No post-live S10 assessment exists yet. Registry state remains EXECUTABLE / UNVALIDATED_PROXY / NOT_PROMOTED.
-BM3 is independent of internal M-levels and requires human/code-owner review and merge of a justified public proposal.
-No BM3 proposal is included. No BM4/BM5, leaderboard, Cyber, NIM comparison, tag, release or product-version change occurred.
+The [0.1.1 qualification record](../../fixtures/semantic-core-qualification-0.1.1/qualification-record.json) is schema-valid, accounts for all 72 attempts, references 53 studies/four verifier outcomes and source-matched repository regression, and records INFRASTRUCTURE_FAILURE. Its actual outcome is NOT_QUALIFIED; scientificAuthority=NONE, decisionAuthority=NONE and proposesBM3=false. Completing 72 scheduled attempts is necessary but does not make failed infrastructure qualified.
 
-## Validation
+## Validation and current-head CI
 
-The [local validation record](../../fixtures/semantic-core-qualification-0.1.0/validation-report.json) lists
-the full current CI command contract and intermediate failures. Final local results:
+The [source-bound validation report](../../fixtures/semantic-core-qualification-0.1.1/validation-report.json) records 239 Node files passed / 10 skipped, 1560 Node tests passed / 36 existing skips, 291 affected tests in nine files, 40 Python tests, wheel/sdist, current CI command checks and the corrected test lint binding. All existing assertions were retained. The optional web filter matched no project. The source validation report digest is 214b7c3f56d339b24aec1bf630689193088aae63734e90a1f9e2c3b22dead676.
 
-- Node: 238 files passed, 10 skipped; 1,560 tests passed, 36 skipped. Existing Postgres-dependent skips remain explicit.
-- Focused Phase 3/4 + pack + S04/S05/S09/S10/S11: eight files, 284 tests passed; the separate metric/registry battery passed 48 tests.
-- Python 3.11.9: 40 tests passed; editable isolated install, wheel and sdist passed. Python 3.10/3.12 are delegated to GitHub CI.
-- Frozen install, staged/committed Changeset graph, format, lint, typecheck, boundaries, both conformance suites,
-  docs build/validation, version/IP audits, build, SDK/security suites, doctor/preflight/connector/smoke,
-  explicit reference/product/shared/doc/security/credential tests, and diff checks passed.
-- The optional current CI web filter matched no project; no optional web build success is invented.
-- ESLint has warnings and zero errors. Sandbox EPERM/DNS failures, the conflicting global Python installation,
-  initial S09 lineage errors, a strict-schema error and one default test timeout were retained in the validation record;
-  corrected/isolated reruns passed without dropping assertions.
-
-GitHub CI is reported separately by the PR checks. This record does not self-attest those remote results.
+All 12 checks on implementation head 7b185a1 completed successfully. That status is not transferred to the upcoming evidence commit: Gate 42 remains NOT ESTABLISHED for its head until inspected after push. The final handoff report will name the actual evidence head and its completed checks. PR #166 stays Draft because this record is not qualified; no merge or Issue #165 closure occurs.
 
 ## Exit gates
 
-PASS below distinguishes implemented/tested controls from real-subject evidence. NOT ESTABLISHED means
-the requested empirical or remote evidence has not yet been collected; it is not an invented negative model result.
-
 | # | Gate | Result | Scope / reason |
 | --- | --- | --- | --- |
-| 1 | Protected-main baseline | PASS | SHA, tree, issue/merge and ruleset inspected |
-| 2 | Phase 3 identity frozen | PASS | Exact 0.1.0 identities |
-| 3 | Pack digest frozen | PASS | Admitted expected digest |
-| 4 | All 24 case digests frozen | PASS | ORIGINAL_BYTES inventory in preflight |
-| 5 | Protocol versioned | PASS | 0.1.0, 3 × 24, no retry |
-| 6 | Provider-neutral interface | PASS | Bounded input/config/context/observation |
-| 7 | Dry-run default | PASS | Actual network-free CLI run |
-| 8 | Explicit live authorization | PASS | Both flags enforced and tested |
-| 9 | Zero-cost preflight | PASS | Current-price checks implemented/tested |
-| 10 | No paid fallback | PASS | Single-route allow-list and zero caps |
-| 11 | Credential boundary | PASS | Transport-only access; no value retained |
-| 12 | Genuine model path executed | NOT ESTABLISHED | No genuine generation path has executed yet. |
-| 13 | Exact subject condition | NOT ESTABLISHED | Subject selection/preflight established; empirical live condition not yet instantiated by generation. |
-| 14 | Exact prompt digest | PASS | Per-case and inventory digests frozen |
-| 15 | Three scheduled live runs | NOT ESTABLISHED | Three planned, zero started |
-| 16 | 72 scheduled live attempts | NOT ESTABLISHED | 72 planned, zero sent |
-| 17 | All live attempts accounted | NOT ESTABLISHED | Collection not begun |
-| 18 | No oracle leakage | PASS | Explicit projection tested; no live transmission |
-| 19 | No hidden reasoning request | PASS | Observable JSON only; no tools/rationale |
-| 20 | No silent replacement retry | PASS | Retry NONE; failures retained in tests |
-| 21 | Real S04 execution records | NOT ESTABLISHED | Adapter/records tested synthetically |
-| 22 | Exact real evaluator replay | NOT ESTABLISHED | No captured model responses |
-| 23 | S05 studies prespecified | PASS | 53 validated definitions/digests |
-| 24 | Real categorical evidence | NOT ESTABLISHED | No live estimates |
-| 25 | Real numeric stability | NOT ESTABLISHED | No live estimates |
-| 26 | Real exclusion/missingness accounting | NOT ESTABLISHED | No live observation matrix |
-| 27 | Real S09 packages | NOT ESTABLISHED | None generated |
-| 28 | Real S09 integrity outcomes | NOT ESTABLISHED | No verifier outcome invented |
-| 29 | Real sanitized regression capture | NOT ESTABLISHED | None available |
-| 30 | Exposure limitation | PASS | Public, contaminable, not held-out |
-| 31 | No model-score gate | PASS | Engineering integrity only |
-| 32 | Post-live S10 non-promotion proof | NOT ESTABLISHED | Implemented/tested, no live assessment |
-| 33 | No scientific auto-promotion | PASS | UNVALIDATED_PROXY unchanged |
-| 34 | Core promotion unchanged | PASS | NOT_PROMOTED |
-| 35 | No BM4 claim | PASS | External reproduction absent |
-| 36 | No BM5 claim | PASS | No leaderboard authorization |
-| 37 | Qualification record | PASS | Versioned, schema-valid insufficient record |
-| 38 | Outcome justified | PASS | Missing empirical evidence stated explicitly |
-| 39 | Conditional BM3 proposal | PASS | No proposal; public BM2 retained |
-| 40 | Focused tests | PASS | 291 affected + 48 metric/registry tests |
-| 41 | Full local regression | PASS | 1,538 Node and 40 Python tests |
-| 42 | PR CI | NOT ESTABLISHED | Consult current GitHub checks |
+| 1 | Protected-main baseline | PASS | Historical SHA/tree/ruleset evidence retained |
+| 2 | Phase 3 identity frozen | PASS | semantic_core_pilot@0.1.0 unchanged |
+| 3 | Pack digest frozen | PASS | Expected admitted original-byte digest |
+| 4 | All 24 case digests frozen | PASS | Exact manifest inventory in condition |
+| 5 | Protocol versioned | PASS | New 0.1.1; historical 0.1.0 retained; exactly 3 × 24 |
+| 6 | Provider-neutral interface | PASS | Bounded detached input/config/observations |
+| 7 | Dry-run default | PASS | Actual network-free 0.1.1 CLI run |
+| 8 | Explicit live authorization | PASS | --mode live and --authorize-live enforced |
+| 9 | Zero-cost preflight | PASS | Authenticated route; zero advertised fees; response cost unavailable on rejections |
+| 10 | No paid/model/provider fallback | PASS | One selected route; disabled fallback; zero price caps |
+| 11 | Credential boundary | PASS | Only HTTP transport; no secret values retained |
+| 12 | Genuine model path executed | NOT ESTABLISHED | Generation HTTP path attempted; every request rejected; no genuine model response observed |
+| 13 | Exact subject condition | PASS | Selection/preflight and frozen request condition established; response-side identity unavailable |
+| 14 | Exact prompt digest | PASS | Unchanged serializer, case order and all prompt digests |
+| 15 | Three scheduled live runs | PASS | Three complete 24-terminal runs |
+| 16 | 72 scheduled live attempts | PASS | 72 request attempts; zero replacement retries |
+| 17 | All live attempts accounted | PASS | 72 unique IDs; 72 terminal errors; durable checkpoints |
+| 18 | No oracle leakage | PASS | Only explicit input projection serialized |
+| 19 | No hidden reasoning request | PASS | No CoT/tool/rationale request |
+| 20 | No silent replacement retry | PASS | NONE; all rejections retained |
+| 21 | Real S04 execution records | PASS | 72 PARTIAL case executions plus 15 metric executions; errors explicit |
+| 22 | Exact real evaluator replay | PASS | 72/72 failure observations replay exactly; no successful response replay claimed |
+| 23 | S05 studies prespecified | PASS | 24 categorical + 24 exact + 5 numeric definitions |
+| 24 | Categorical/repeatability evidence sufficient | BLOCKED | All 48 studies INSUFFICIENT_EVIDENCE; zero eligible observations/pairs |
+| 25 | Numeric stability sufficient | BLOCKED | All five studies INSUFFICIENT_EVIDENCE; all run metrics MISSING |
+| 26 | Exclusion/missingness accounting | PASS | Every candidate/exclusion/pair retained; no fabricated zero scores |
+| 27 | Real S09 packages | PASS | Three run packages and one qualification package |
+| 28 | S09 integrity outcomes | PASS | Four VERIFIED_INTERNAL_CONSISTENCY outcomes; zero ERROR findings |
+| 29 | Sanitized regression capture | PASS | Capture digest verified; network-free replay exact for all 72 |
+| 30 | Exposure limitation | PASS | Public synthetic cases/oracles; contaminable; not held-out |
+| 31 | No model-score gate | PASS | Infrastructure failure blocks; no accuracy threshold |
+| 32 | Post-live S10 non-promotion proof | PASS | INSUFFICIENT_EVIDENCE recommendation; calibration/validity gates block |
+| 33 | No scientific auto-promotion | PASS | UNVALIDATED_PROXY retained |
+| 34 | Core promotion unchanged | PASS | NOT_PROMOTED; registry not mutated |
+| 35 | No BM4 claim | PASS | No external reproduction |
+| 36 | No BM5 claim | PASS | No leaderboard |
+| 37 | Qualification record | PASS | Schema-valid 0.1.1 NOT_QUALIFIED record |
+| 38 | Outcome justified | PASS | INFRASTRUCTURE_FAILURE and insufficient S05 evidence |
+| 39 | Conditional BM3 proposal | PASS | No BM3 proposal; public BM2 retained; Draft |
+| 40 | Focused tests | PASS | 291 affected tests in nine files; 39 Phase 4 tests |
+| 41 | Full local regression | PASS | 1,560 Node passed / 36 existing skipped; 40 Python; wheel/sdist |
+| 42 | PR CI | NOT ESTABLISHED | Evidence-head checks must complete after this snapshot is pushed; final handoff report records that SHA |
 | 43 | Public Alpha boundary | PASS | 0.1.0-alpha.2 unchanged |
 | 44 | No Cyber work | PASS | Scope preserved |
-| 45 | No release/tag/version publication | PASS | Changeset declaration only; no version applied |
+| 45 | No release/tag/version publication | PASS | No applied version or release |
 
-Phase 4 awaits prospective 0.1.1 empirical collection; no qualification decision is made from partial evidence.
-This infrastructure PR does not close Issue #165 and is not a completed empirical qualification.
+Public lifecycle remains BM2. No BM4/BM5, leaderboard, Cyber, scientific validation, release/tag, applied version change or automatic promotion. Public Tier A synthetic cases/oracles are contaminable and not held-out; no clean-generalization claim is possible. The failure evidence remains immutable and cannot be replaced by retries or silently interpreted as a qualified model condition.

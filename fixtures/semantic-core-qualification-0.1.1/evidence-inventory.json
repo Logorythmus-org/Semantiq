@@ -1,0 +1,49 @@
+{
+  "source": {
+    "gitCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+    "gitTree": "5c1275a926a10ea404807ca6642c1d95d54ca45d"
+  },
+  "conditionDigest": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+  "files": [
+    {
+      "path": "live/condition.json",
+      "sha256": "f60b00aeeaed107c9babb9e9982d97789bc6a3a7d3158f149782b22cb6a2b313",
+      "bytes": 126329
+    },
+    {
+      "path": "live/qualification.json",
+      "sha256": "318e58de219b35e77b6b458f5bb978899b32e9ad0a00492026767a1dc80ad326",
+      "bytes": 2816277
+    },
+    {
+      "path": "live/run-1.attempts.jsonl",
+      "sha256": "fab0c93d32ef5028b63fdeddabef0b3ab2824997eee3cdf0ca5795368c610aaa",
+      "bytes": 37964
+    },
+    {
+      "path": "live/run-1.json",
+      "sha256": "0dee8dc8bb9b82c270654ae78bb5507732f2e1435f503d109b9188c2dba90996",
+      "bytes": 220306
+    },
+    {
+      "path": "live/run-2.attempts.jsonl",
+      "sha256": "342899a3aef7216d32f7e9690820607a034c11f3a690fce552f2858cd13e484e",
+      "bytes": 37964
+    },
+    {
+      "path": "live/run-2.json",
+      "sha256": "6a0339ca7bc1da777c34f019dc109dd12fcfbde3d34d6783a0f05025a462bc00",
+      "bytes": 306838
+    },
+    {
+      "path": "live/run-3.attempts.jsonl",
+      "sha256": "8ae20a584a6cb0bbc3cfd1276f0739b9b971a1916e167583166c9ccccf3216e0",
+      "bytes": 37964
+    },
+    {
+      "path": "live/run-3.json",
+      "sha256": "31922affea9d8e0c46eca6b1abf1a41f943644fb4e9e98e2512050d7098da6bd",
+      "bytes": 393370
+    }
+  ]
+}

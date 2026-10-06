@@ -1,0 +1,123 @@
+{
+  "schemaVersion": "0.1.1",
+  "sourceCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+  "sourceTree": "5c1275a926a10ea404807ca6642c1d95d54ca45d",
+  "status": "PASSED",
+  "node": {
+    "filesPassed": 239,
+    "filesSkipped": 10,
+    "testsPassed": 1560,
+    "testsSkipped": 36
+  },
+  "focused": {
+    "filesPassed": 9,
+    "testsPassed": 291
+  },
+  "python": {
+    "testsPassed": 40,
+    "wheel": "PASSED",
+    "sdist": "PASSED"
+  },
+  "checks": [
+    {
+      "check": "lint",
+      "exitCode": 0
+    },
+    {
+      "check": "typecheck",
+      "exitCode": 0
+    },
+    {
+      "check": "test:boundaries",
+      "exitCode": 0
+    },
+    {
+      "check": "ip:validate",
+      "exitCode": 0
+    },
+    {
+      "check": "build",
+      "exitCode": 0
+    },
+    {
+      "check": "test:sdk",
+      "exitCode": 0
+    },
+    {
+      "check": "conformance:json-schema",
+      "exitCode": 0
+    },
+    {
+      "check": "conformance:canonical-json",
+      "exitCode": 0
+    },
+    {
+      "check": "test:contracts:product",
+      "exitCode": 0
+    },
+    {
+      "check": "docs:build",
+      "exitCode": 0
+    },
+    {
+      "check": "docs:validate",
+      "exitCode": 0
+    },
+    {
+      "check": "test:security",
+      "exitCode": 0
+    },
+    {
+      "check": "doctor",
+      "exitCode": 0
+    },
+    {
+      "check": "preflight",
+      "exitCode": 0
+    },
+    {
+      "check": "connector",
+      "exitCode": 0
+    },
+    {
+      "check": "smoke",
+      "exitCode": 0
+    },
+    {
+      "check": "version:audit",
+      "exitCode": 0
+    },
+    {
+      "check": "install --frozen-lockfile",
+      "exitCode": 0
+    },
+    {
+      "check": "changeset status --since origin/main",
+      "exitCode": 0
+    },
+    {
+      "check": "format:check",
+      "exitCode": 0
+    },
+    {
+      "check": "explicit CI contract tests (17)",
+      "exitCode": 0
+    },
+    {
+      "check": "git diff --check",
+      "exitCode": 0
+    }
+  ],
+  "limitations": [
+    "Operator-recorded local command evidence; not independent verification.",
+    "Existing Postgres-dependent skips retained.",
+    "Python 3.10/3.12 Linux checks are separate current-head GitHub evidence.",
+    "Optional web filter matched no project.",
+    "Historical 0.1.0 evidence remains unchanged."
+  ],
+  "intermediateFailures": [
+    "New test unbound-method lint error corrected without changing assertions; rerun passed."
+  ],
+  "scientificAuthority": "NONE",
+  "decisionAuthority": "NONE"
+}
