@@ -24,7 +24,8 @@ import {
 import { SEMANTIC_CORE_DIMENSIONS, SEMANTIC_CORE_STATES } from "./semantic-core-types.js";
 import {
   SEMANTIC_CORE_QUALIFICATION_PROTOCOL as protocol,
-  SemanticCoreQualificationError
+  SemanticCoreQualificationError,
+  SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL
 } from "./semantic-core-qualification-types.js";
 import {
   assertSemanticCoreFreeRoute,
@@ -80,8 +81,11 @@ export function semanticCoreSubjectInput(item: SemanticCoreCase): SemanticCoreIn
 export async function prepareSemanticCoreQualification(
   packRoot: string,
   source: { gitCommit: string; gitTree: string },
-  subjectConfiguration?: SemanticCoreSubjectConfiguration
+  subjectConfiguration?: SemanticCoreSubjectConfiguration,
+  protocolVersion: "0.1.0" | "0.1.1" = "0.1.0"
 ) {
+  const selectedProtocol =
+    protocolVersion === "0.1.1" ? SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL : protocol;
   if (!/^[a-f0-9]{40}$/.test(source.gitCommit) || !/^[a-f0-9]{40}$/.test(source.gitTree))
     throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
   if (subjectConfiguration) validateSemanticCoreSubjectConfiguration(subjectConfiguration);
@@ -136,14 +140,25 @@ export async function prepareSemanticCoreQualification(
     evaluators,
     metrics
   );
+  if (protocolVersion === "0.1.1")
+    for (const [index, definition] of studies.entries()) {
+      studies[index] = {
+        ...definition,
+        evidenceReferences: ["protocol:semantic_core_pilot_bm3_qualification@0.1.1"],
+        limitations: [
+          ...definition.limitations,
+          "Observed run-to-run stability across declared provider quota windows; external provider state is not cryptographically frozen."
+        ]
+      };
+    }
   const frozen = {
-    protocol,
+    protocol: selectedProtocol,
     source: { ...source },
     benchmark: manifest.benchmark,
     packIdentity: manifest.identity,
     packDigest: loaded.packDigest.value,
     cases: manifest.cases.map((ref) => ({ caseId: ref.caseId, digest: ref.digest })),
-    schemaVersions: { case: "0.1.0", response: "0.1.0", qualification: "0.1.0" },
+    schemaVersions: { case: "0.1.0", response: "0.1.0", qualification: protocolVersion },
     evaluator: manifest.evaluator,
     evaluatorConfiguration: configuration,
     metrics: manifest.metrics,
@@ -352,6 +367,15 @@ export async function runSemanticCoreQualification(options: {
     readonly reportDigest: string;
     readonly status: "PASSED";
   };
+  protocolVersion?: "0.1.0" | "0.1.1";
+  run?: number;
+  previous?: SemanticCoreQualificationCapture;
+  providerMetadata?: import("./semantic-core-qualification-types.js").SemanticCoreProviderMetadata;
+  collectionWindow?: { openedAt: string; deadline: string };
+  onCondition?: (
+    condition: SemanticCoreQualificationCapture["condition"],
+    digest: string
+  ) => Promise<void>;
   onPreflight?: (safeSummary: unknown) => void;
   onAttempt?: (attempt: SemanticCoreQualificationAttempt) => Promise<void>;
 }) {
@@ -360,10 +384,18 @@ export async function runSemanticCoreQualification(options: {
     (!options.authorizeLive || !options.configuration || !options.subject)
   )
     throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
+  if (
+    options.mode === "live" &&
+    options.protocolVersion === "0.1.1" &&
+    (![1, 2, 3].includes(options.run ?? 0) ||
+      (options.previous?.attempts.length ?? 0) !== ((options.run ?? 0) - 1) * 24)
+  )
+    throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
   const prepared = await prepareSemanticCoreQualification(
     options.packRoot,
     options.source,
-    options.configuration
+    options.configuration,
+    options.protocolVersion
   );
   if (options.mode !== "live")
     return {
@@ -375,26 +407,40 @@ export async function runSemanticCoreQualification(options: {
     };
   const subject = options.subject!;
   const config = structuredClone(options.configuration!);
-  const initialMetadata = await subject.preflight(config);
+  if (subject.evidenceOrigin === "LIVE_PROVIDER") {
+    if (!subject.capacity) throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
+    const capacity = await subject.capacity();
+    const required = options.protocolVersion === "0.1.1" && options.run ? 24 : 72;
+    if (!Number.isSafeInteger(capacity.remaining) || capacity.remaining < required)
+      throw new SemanticCoreQualificationError("INSUFFICIENT_FREE_REQUEST_CAPACITY");
+  }
+  const initialMetadata = options.providerMetadata ?? (await subject.preflight(config));
   assertSemanticCoreFreeRoute(initialMetadata, config);
   const condition = {
     ...prepared.frozen,
     providerMetadata: initialMetadata,
-    evidenceOrigin: subject.evidenceOrigin
+    evidenceOrigin: subject.evidenceOrigin,
+    ...(options.collectionWindow ? { collectionWindow: options.collectionWindow } : {})
   };
   const conditionDigest = semanticCoreDigest(condition);
+  if (options.previous && options.previous.conditionDigest !== conditionDigest)
+    throw new SemanticCoreQualificationError("IDENTITY_SUBSTITUTION");
+  await options.onCondition?.(condition, conditionDigest);
   options.onPreflight?.({
     benchmark: SEMANTIC_CORE_BENCHMARK,
     packDigest: condition.packDigest,
-    protocol,
+    protocol: condition.protocol,
     subject: config,
     pricing: initialMetadata.pricing,
     conditionDigest,
     scheduledAttempts: 72
   });
-  const attempts: SemanticCoreQualificationAttempt[] = [];
+  const attempts: SemanticCoreQualificationAttempt[] = structuredClone(
+    options.previous?.attempts ?? []
+  );
   let halted: SemanticCoreSubjectObservation["error"];
-  for (let run = 1; run <= 3; run++) {
+  const runNumbers = options.run ? [options.run] : [1, 2, 3];
+  for (const run of runNumbers) {
     for (const [index, item] of prepared.items.entries()) {
       const attemptId = `semantic-core-run-${run}-${item.caseId}`;
       const promptDigest = condition.prompts[index]!.promptDigest;
@@ -406,7 +452,8 @@ export async function runSemanticCoreQualification(options: {
           const checked = await prepareSemanticCoreQualification(
             options.packRoot,
             options.source,
-            config
+            config,
+            options.protocolVersion
           );
           if (semanticCoreDigest(checked.frozen) !== semanticCoreDigest(prepared.frozen))
             throw new SemanticCoreQualificationError("IDENTITY_SUBSTITUTION");
@@ -508,7 +555,9 @@ export async function runSemanticCoreQualification(options: {
       await options.onAttempt?.(attempt);
     }
   }
-  const runs = [1, 2, 3].map((run) => {
+  const runs = [...new Set(attempts.map((a) => a.run))].map((run) => {
+    const prior = options.previous?.runs.find((entry) => entry.run === run);
+    if (prior) return structuredClone(prior);
     const selected = attempts.filter((a) => a.run === run);
     const results = semanticCoreMetricsFor(
       selected.map((a) => a.evaluation),
@@ -542,6 +591,14 @@ export async function runSemanticCoreQualification(options: {
       metricExecutions: executions
     };
   });
+  const capture = { schemaVersion: "0.1.0" as const, condition, conditionDigest, attempts, runs };
+  if (attempts.length !== 72)
+    return {
+      mode: "STAGED" as const,
+      capture,
+      captureDigest: semanticCoreCaptureDigest(capture),
+      outcome: "INSUFFICIENT_EVIDENCE" as const
+    };
   const registry = new ReliabilityRegistry(
     { ...CANONICAL_RELIABILITY_REGISTRY, studies: prepared.studies },
     evaluators,
@@ -609,10 +666,13 @@ export async function runSemanticCoreQualification(options: {
     limitations: [...SEMANTIC_CORE_QUALIFICATION_LIMITATIONS],
     scientificAuthority: "NONE"
   });
-  const capture = { schemaVersion: "0.1.0" as const, condition, conditionDigest, attempts, runs };
   const regression = await replaySemanticCoreQualification(options.packRoot, capture);
   const criticalFindings = [
     ...(halted ? [halted] : []),
+    ...(options.protocolVersion === "0.1.1" &&
+    attempts.some((a) => a.observation.status === "ERROR")
+      ? ["INFRASTRUCTURE_FAILURE"]
+      : []),
     ...(!attempts.every((a) => a.replayExact) ? ["REGRESSION_REPLAY_MISMATCH"] : []),
     ...(evidence.verifications.some((v) => v.findings.some((f) => f.severity === "ERROR"))
       ? ["EVIDENCE_VERIFICATION_FAILURE"]
@@ -642,8 +702,11 @@ export async function runSemanticCoreQualification(options: {
     nonPromotion,
     regression,
     qualification: {
-      identity: { qualificationId: protocol.protocolId, qualificationVersion: "0.1.0" },
-      protocol,
+      identity: {
+        qualificationId: protocol.protocolId,
+        qualificationVersion: condition.protocol.protocolVersion
+      },
+      protocol: condition.protocol,
       conditionDigest,
       benchmark: SEMANTIC_CORE_BENCHMARK,
       packDigest: condition.packDigest,
@@ -687,7 +750,11 @@ export function semanticCoreCaptureDigest(capture: unknown): string {
 export async function replaySemanticCoreQualification(
   packRoot: string,
   capture: {
-    condition: Prepared["frozen"] & { providerMetadata: unknown; evidenceOrigin: string };
+    condition: Prepared["frozen"] & {
+      providerMetadata: unknown;
+      evidenceOrigin: string;
+      collectionWindow?: { openedAt: string; deadline: string };
+    };
     conditionDigest: string;
     attempts: readonly SemanticCoreQualificationAttempt[];
     runs: readonly { run: number; metrics: ReturnType<typeof semanticCoreMetricsFor> }[];
@@ -698,9 +765,15 @@ export async function replaySemanticCoreQualification(
   const prepared = await prepareSemanticCoreQualification(
     packRoot,
     capture.condition.source,
-    capture.condition.subjectConfiguration ?? undefined
+    capture.condition.subjectConfiguration ?? undefined,
+    capture.condition.protocol.protocolVersion
   );
-  const { providerMetadata: _metadata, evidenceOrigin: _origin, ...frozen } = capture.condition;
+  const {
+    providerMetadata: _metadata,
+    evidenceOrigin: _origin,
+    collectionWindow: _window,
+    ...frozen
+  } = capture.condition;
   if (semanticCoreDigest(prepared.frozen) !== semanticCoreDigest(frozen))
     throw new SemanticCoreQualificationError("IDENTITY_SUBSTITUTION");
   const evaluated: { run: number; evaluation: SemanticCoreCaseResult }[] = [];
@@ -740,3 +813,21 @@ export async function replaySemanticCoreQualification(
     scientificAuthority: "NONE" as const
   };
 }
+
+export type SemanticCoreQualificationCapture = {
+  schemaVersion: "0.1.0";
+  condition: Prepared["frozen"] & {
+    providerMetadata: import("./semantic-core-qualification-types.js").SemanticCoreProviderMetadata;
+    evidenceOrigin: string;
+    collectionWindow?: { openedAt: string; deadline: string };
+  };
+  conditionDigest: string;
+  attempts: SemanticCoreQualificationAttempt[];
+  runs: {
+    run: number;
+    accounted: number;
+    stateCounts: Record<string, number>;
+    metrics: ReturnType<typeof semanticCoreMetricsFor>;
+    metricExecutions: EvaluatorExecution[];
+  }[];
+};

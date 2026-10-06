@@ -12,11 +12,11 @@ protocol fixes exactly three scheduled runs of 24 independent requests rather th
 
 ## Protocol and freeze
 
-`semantic_core_pilot_bm3_qualification@0.1.0` fixes 72 scheduled attempts, manifest case order,
+`semantic_core_pilot_bm3_qualification@0.1.1` fixes 72 scheduled attempts, manifest case order,
 fresh context per case, no replacement retry, serializer `0.1.0`, and JSON.parse-only response handling.
 There is no prose cleanup, answer inference, repair model, tool invocation, or reasoning request.
 Max output is 128 tokens to accommodate the case identity and JSON envelope; temperature is zero.
-An optional seed is requested only if current endpoint metadata supports it. Subject execution remains
+The selected subject uses no requested seed; this seed policy remains fixed across all runs. Subject execution remains
 `EXTERNAL_NONDETERMINISTIC`; neither zero temperature nor a requested seed guarantees determinism.
 
 The frozen condition binds implementation source commit/tree, benchmark and pack versions,
@@ -33,16 +33,25 @@ from condition and capture semantic identity.
 24-case inventory, oracle projection, evaluator configuration, and prespecified S05 studies.
 Dry output is not empirical model evidence and yields `INSUFFICIENT_EVIDENCE`.
 
-After current metadata discovery and explicit operator selection, a live invocation takes this form:
+The operator selected apodex/apodex-1.1-mini:free, canonical apodex/apodex-1.1-mini-20261001, Novita / novita/bf16.
+Protocol 0.1.1 adds MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION prospectively, preserving the blocked 0.1.0 record.
+Only this selection is accepted by the live CLI. Run 1 creates the canonical directory; runs 2 and 3 resume it:
 
 ```text
-pnpm semantic-core:qualification -- --mode live --authorize-live --model <exact-free-model-id> --provider <exact-provider-name> --route <exact-endpoint-tag> --output <new-capture-directory> --validation <validation-reference-json>
+pnpm semantic-core:qualification -- --mode live --authorize-live --run 1 --validation <validation-reference-json>
+pnpm semantic-core:qualification -- --mode live --authorize-live --run 2 --resume fixtures/semantic-core-qualification-0.1.1/live --validation <validation-reference-json>
+pnpm semantic-core:qualification -- --mode live --authorize-live --run 3 --resume fixtures/semantic-core-qualification-0.1.1/live --validation <validation-reference-json>
 ```
 
-No transient model is hard-coded. Both live flags, explicit configuration, a new output directory,
-and a clean tracked implementation tree are required. Credentials are read only by the HTTP transport.
-The safe preflight summary is printed before generation. Every terminal attempt is appended immediately
-to `attempts.jsonl`, preserving earlier observations if a later packaging operation fails.
+Authenticated capacity must be at least 24 before each run. Insufficient capacity creates no scheduled run and returns AWAITING_NEXT_QUOTA_WINDOW with INSUFFICIENT_EVIDENCE.
+Each completed checkpoint contains exactly 24 terminals, provider preflight digest, observed quota, results/metrics, capture digest and original implementation source.
+Completed files use exclusive creation; journals are appended and synced after each terminal. Previous checkpoints/journals remain byte-for-byte unchanged.
+Resume verifies contiguous complete runs, all digests, pack/prompt/evaluator identities and actual re-evaluation. Interrupted or corrupt journals fail closed without replacement requests.
+The fixed condition excludes audit timestamps and quota counters. A bounded 168-hour collection window and 3.5-second minimum request-start interval are prespecified.
+No reset timestamp is guessed. Other account users should avoid the quota pool during active runs; unexpected quota exhaustion remains terminal infrastructure evidence.
+Source must be clean. Later evidence commits can retain the original source only if all implementation/dependency/pack/test paths are unchanged from its frozen commit.
+Only after run 3 are final S05/S09/replay/S10 evidence and the qualification record computed. There is no BM3 decision at 24 or 48 attempts.
+Credentials remain transport-only. Exact matching metadata is provenance for a mutable external subject, not a frozen underlying scientific snapshot.
 
 The validation reference contains `sourceCommit`, `reportDigest`, and `status: PASSED`. It must reference
 the actual full repository regression report for the same implementation commit. This is trusted operator
@@ -50,7 +59,7 @@ evidence, not a signature or automatic verification that commands ran. Without i
 insufficient. Review must inspect the referenced report and GitHub checks.
 
 The OpenRouter adapter checks current model and exact endpoint prices: prompt and completion prices must
-be present, and every advertised pricing component must be zero. Unknown prices fail closed. The request
+be present, and every advertised monetary pricing component (discount percentages are not fees) must be zero. Unknown prices fail closed. The request
 pins one exact route, forbids fallback, requires parameter support, and caps prompt/completion/request/image/audio
 prices at zero. Returned model/provider and usage cost must match. Model aliases are recorded as `MUTABLE_ALIAS`;
 an advertised dated slug is provenance and never an invented immutable version.
@@ -96,7 +105,7 @@ pack, prompt, evaluator or condition is detected. This is engineering replay, no
 
 ## Qualification and governance
 
-The [record schema](../../schemas/semantic-core-qualification-record.schema.json) bounds outcomes to
+The [0.1.1 record schema](../../schemas/semantic-core-qualification-record-0.1.1.schema.json) bounds outcomes to
 `QUALIFIED_FOR_BM3_REVIEW`, `NOT_QUALIFIED`, and `INSUFFICIENT_EVIDENCE`. Critical identity/cost/replay/integrity
 findings prevent qualification. Genuine live provenance, all 72 terminal records, successful required S05 estimates,
 valid S04 records, S09 integrity, exact regression replay, and same-source repository regression are required.

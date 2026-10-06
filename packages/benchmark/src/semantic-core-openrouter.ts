@@ -7,7 +7,8 @@ import type {
   SemanticCoreSubjectConfiguration,
   SemanticCoreProviderMetadata,
   SemanticCoreSubjectObservation,
-  SemanticCoreQualificationSubject
+  SemanticCoreQualificationSubject,
+  SemanticCoreFreeCapacity
 } from "./semantic-core-qualification-types.js";
 
 const base = "https://openrouter.ai/api/v1";
@@ -273,6 +274,24 @@ export class SemanticCoreOpenRouterSubject implements SemanticCoreQualificationS
       );
     }
   }
+  async capacity(): Promise<SemanticCoreFreeCapacity> {
+    const data = object(object(JSON.parse(await this.request("/key"))).data);
+    const quota = object(data.free_model_daily_requests);
+    const { used, limit, remaining } = quota;
+    if (
+      ![used, limit, remaining].every(
+        (value) => Number.isSafeInteger(value) && Number(value) >= 0
+      ) ||
+      Number(used) + Number(remaining) !== limit
+    )
+      return fail("PREFLIGHT_FAILURE");
+    return {
+      observedAt: new Date().toISOString(),
+      used: Number(used),
+      limit: Number(limit),
+      remaining: Number(remaining)
+    };
+  }
   async preflight(config: SemanticCoreSubjectConfiguration): Promise<SemanticCoreProviderMetadata> {
     validateSemanticCoreSubjectConfiguration(config);
     const catalog = object(JSON.parse(await this.request("/models")));
@@ -306,7 +325,9 @@ export class SemanticCoreOpenRouterSubject implements SemanticCoreQualificationS
       providerName: String(endpoint.provider_name),
       route: String(endpoint.tag),
       status: Number(endpoint.status),
-      pricing: object(endpoint.pricing) as Record<string, string>,
+      pricing: Object.fromEntries(
+        Object.entries(object(endpoint.pricing)).filter(([key]) => key !== "discount")
+      ) as Record<string, string>,
       supportedParameters: [...endpoint.supported_parameters].sort()
     };
     assertSemanticCoreFreeRoute(metadata, config);

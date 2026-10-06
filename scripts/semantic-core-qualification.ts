@@ -5,7 +5,9 @@ import {
   runSemanticCoreQualification,
   replaySemanticCoreQualification,
   SemanticCoreOpenRouterSubject,
-  SemanticCoreQualificationError
+  SemanticCoreQualificationError,
+  executeSemanticCoreQuotaRun,
+  SEMANTIC_CORE_SELECTED_SUBJECT
 } from "../packages/benchmark/src/index.js";
 import {
   semanticCoreCaptureDigest,
@@ -23,7 +25,9 @@ const allowed = new Set([
   "--seed",
   "--output",
   "--replay",
-  "--validation"
+  "--validation",
+  "--run",
+  "--resume"
 ]);
 const values = new Map<string, string>();
 try {
@@ -59,7 +63,97 @@ try {
     const replay = await replaySemanticCoreQualification(packRoot, data.capture ?? data);
     console.log(JSON.stringify(replay, null, 2));
     if (!replay.exact) process.exitCode = 1;
+  } else if (mode === "live") {
+    if (
+      !values.has("--authorize-live") ||
+      !values.has("--run") ||
+      git("status", "--porcelain", "--untracked-files=no")
+    )
+      throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
+    const run = Number(values.get("--run"));
+    const directory = join(root, "fixtures/semantic-core-qualification-0.1.1/live");
+    if (
+      (values.has("--output") && resolve(values.get("--output")!) !== directory) ||
+      (values.has("--resume") && resolve(values.get("--resume")!) !== directory) ||
+      values.has("--seed")
+    )
+      throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
+    for (const [flag, expected] of [
+      ["--model", SEMANTIC_CORE_SELECTED_SUBJECT.modelId],
+      ["--provider", SEMANTIC_CORE_SELECTED_SUBJECT.providerName],
+      ["--route", SEMANTIC_CORE_SELECTED_SUBJECT.route]
+    ])
+      if (values.has(flag!) && values.get(flag!) !== expected)
+        throw new SemanticCoreQualificationError("IDENTITY_SUBSTITUTION");
+    let frozenSource = source;
+    if (values.has("--resume")) {
+      const frozen = JSON.parse(await readFile(join(directory, "condition.json"), "utf8"));
+      frozenSource = frozen.condition.source;
+      if (
+        git("rev-parse", frozenSource.gitCommit + "^{tree}") !== frozenSource.gitTree ||
+        git(
+          "diff",
+          "--name-only",
+          frozenSource.gitCommit,
+          "HEAD",
+          "--",
+          "packages",
+          "schemas",
+          "scripts",
+          "tools",
+          "tests",
+          "fixtures/benchmark-packs",
+          "pnpm-lock.yaml",
+          "package.json",
+          "vitest.config.mjs"
+        )
+      )
+        throw new SemanticCoreQualificationError("IDENTITY_SUBSTITUTION");
+    }
+    const repositoryValidation = values.has("--validation")
+      ? JSON.parse(await readFile(resolve(values.get("--validation")!), "utf8"))
+      : undefined;
+    const result = await executeSemanticCoreQuotaRun({
+      directory,
+      resume: values.has("--resume"),
+      run,
+      packRoot,
+      source: frozenSource,
+      subject: new SemanticCoreOpenRouterSubject(),
+      authorizeLive: true,
+      repositoryValidation,
+      onAttempt: async (attempt) => {
+        console.log(
+          JSON.stringify({
+            attemptId: attempt.attemptId,
+            state: attempt.evaluation.state,
+            transport: attempt.observation.status,
+            error: attempt.observation.error
+          })
+        );
+      }
+    });
+    if (
+      result.result?.mode === "LIVE" &&
+      !validateSemanticCoreQualificationRecord(result.result.qualification)
+    )
+      throw new SemanticCoreQualificationError("EVIDENCE_PACKAGING_FAILURE");
+    console.log(
+      JSON.stringify(
+        {
+          collectionState: result.collectionState,
+          outcome: result.outcome,
+          accountedAttempts: result.accountedAttempts,
+          nextRun: result.nextRun,
+          capacity: result.capacity
+        },
+        null,
+        2
+      )
+    );
   } else {
+    if (values.has("--run") || values.has("--resume"))
+      throw new SemanticCoreQualificationError("PREFLIGHT_FAILURE");
     const modelId = values.get("--model");
     const config: SemanticCoreSubjectConfiguration | undefined = modelId
       ? {
@@ -94,6 +188,7 @@ try {
     const result = await runSemanticCoreQualification({
       packRoot,
       source,
+      protocolVersion: "0.1.1",
       ...(config ? { configuration: config } : {}),
       mode: mode as "dry" | "live",
       ...(repositoryValidation ? { repositoryValidation } : {}),
@@ -130,20 +225,22 @@ try {
       JSON.stringify(
         result.mode === "LIVE"
           ? result.qualification
-          : {
-              mode: result.mode,
-              empiricalEvidence: false,
-              benchmark: result.frozen.benchmark,
-              packDigest: result.frozen.packDigest,
-              source: result.frozen.source,
-              protocol: result.frozen.protocol,
-              selectedSubject: result.frozen.subjectConfiguration,
-              promptDigest: result.frozen.promptDigest,
-              caseCount: result.frozen.cases.length,
-              prespecifiedStudies: result.frozen.studies.length,
-              scheduledAttempts: result.scheduledAttempts,
-              outcome: result.outcome
-            },
+          : result.mode === "STAGED"
+            ? { mode: result.mode, outcome: result.outcome }
+            : {
+                mode: result.mode,
+                empiricalEvidence: false,
+                benchmark: result.frozen.benchmark,
+                packDigest: result.frozen.packDigest,
+                source: result.frozen.source,
+                protocol: result.frozen.protocol,
+                selectedSubject: result.frozen.subjectConfiguration,
+                promptDigest: result.frozen.promptDigest,
+                caseCount: result.frozen.cases.length,
+                prespecifiedStudies: result.frozen.studies.length,
+                scheduledAttempts: result.scheduledAttempts,
+                outcome: result.outcome
+              },
         null,
         2
       )

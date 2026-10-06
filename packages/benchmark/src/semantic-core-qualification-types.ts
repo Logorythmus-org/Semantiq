@@ -15,7 +15,26 @@ export const SEMANTIC_CORE_QUALIFICATION_PROTOCOL = {
   decisionAuthority: "NONE"
 } as const;
 
+export const SEMANTIC_CORE_QUOTA_WINDOW_PROTOCOL = {
+  ...SEMANTIC_CORE_QUALIFICATION_PROTOCOL,
+  protocolVersion: "0.1.1",
+  collectionPolicy: "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+  minimumFreeRequestsPerRun: 24,
+  runAtomicity: "COMPLETE_RUN_PER_QUOTA_WINDOW",
+  collectionWindowMaximumHours: 168,
+  minimumRequestIntervalMs: 3500,
+  oracleIsolationPolicy: "SUBJECT_INPUT_PROJECTION_ONLY"
+} as const;
+export interface SemanticCoreFreeCapacity {
+  readonly observedAt: string;
+  readonly used: number;
+  readonly limit: number;
+  readonly remaining: number;
+}
+
 export type QualificationFailure =
+  | "INSUFFICIENT_FREE_REQUEST_CAPACITY"
+  | "CAPTURE_INTEGRITY_FAILURE"
   | "PREFLIGHT_FAILURE"
   | "ZERO_COST_POLICY_FAILURE"
   | "CREDENTIAL_UNAVAILABLE"
@@ -87,6 +106,7 @@ export interface SemanticCoreQualificationContext {
 export interface SemanticCoreQualificationSubject {
   readonly evidenceOrigin: "LIVE_PROVIDER" | "SYNTHETIC_TEST";
   preflight(configuration: SemanticCoreSubjectConfiguration): Promise<SemanticCoreProviderMetadata>;
+  capacity?(): Promise<SemanticCoreFreeCapacity>;
   observe(
     input: SemanticCoreInput,
     configuration: SemanticCoreSubjectConfiguration,

@@ -1,19 +1,8 @@
 # Phase 4 qualification evidence report
 
-PHASE 4 STATUS: BLOCKED — AWAITING EMPIRICAL COLLECTION
+PHASE 4 STATUS: BLOCKED — INSUFFICIENT FREE REQUEST CAPACITY
 Qualification outcome: `INSUFFICIENT_EVIDENCE`.
-Public state remains BM2. Protocol 0.1.1 prospectively permits complete runs across observed quota windows; no generation has started yet.
-
-## Prospective amendment 0.1.1
-
-The [historical 0.1.0 report](../../fixtures/semantic-core-qualification-0.1.0/evidence-report.md), its qualification record and provider/quota snapshot remain unchanged.
-Protocol 0.1.1 is a new condition; it retains exactly 3 × 24 = 72 attempts, no retries, the same selected Apodex/Novita route, and all oracle-isolation and zero-cost guards.
-Each run requires an authenticated remaining counter of at least 24, is indivisible across quota windows by plan, and receives an immutable durable checkpoint.
-One canonical directory is fixtures/semantic-core-qualification-0.1.1/live. A crashed journal, duplicate run, checksum mismatch or changed material condition fails closed.
-The collection window is prespecified as at most 168 hours from the first frozen condition; its opening/deadline and run timestamps are audit metadata outside condition identity. No quota reset time is assumed.
-Requests are sequential and starts are separated by at least 3.5 seconds (below 20 per minute). No unrelated requests should intentionally use the same quota pool during a run.
-An unexpected quota race is retained as terminal request failures, never replaced or silently rerun. Fewer than 72 terminals always remain INSUFFICIENT_EVIDENCE.
-Subject execution is EXTERNAL_NONDETERMINISTIC and the alias MUTABLE_ALIAS. Identical advertised metadata cannot cryptographically freeze provider weights or prove immutable scientific replication. S05 varies TIME_WINDOW explicitly.
+Public state remains BM2. This report contains implementation and dry-run evidence only.
 
 ## Baseline and review scope
 
@@ -24,7 +13,7 @@ The active default-branch ruleset requires approving/code-owner review and resol
 deletion/non-fast-forward updates, and offers no bypass. Nine unique required check contexts were inspected.
 The isolated branch is `codex/semantic-core-bm3-qualification`; unrelated primary-checkout work was preserved.
 
-Historical 0.1.0 implementation: `f1303d0b5dfebc55197724110573f4b697ca9e26`;
+Frozen implementation: `f1303d0b5dfebc55197724110573f4b697ca9e26`;
 tree: `4ea51cb239b9fece6186d9529a9a1e8311034504`.
 Later report/artifact commits do not reinterpret this source revision. A future live run must freeze its actual
 clean implementation revision and freshly selected provider condition.
@@ -64,12 +53,12 @@ The route advertises response_format and structured_outputs. No alternate route 
 
 The account reports **0 used, 50 daily limit, 50 remaining free-model requests**.
 The mandatory 72-request matrix exceeds the remaining allowance by 22 requests.
-This observation blocked the original 0.1.0 72-request single-window plan. The prospective 0.1.1 amendment instead checks at least 24 immediately before each complete run. No run has started yet.
+The quota gate therefore fails before run 1; no qualification window or generation condition was started.
 The [official limits documentation](https://openrouter.ai/docs/api_reference/limits) identifies
 free_model_daily_requests as the request counter; monetary credit fields were not treated as request capacity.
 No purchase, paid inference, reduced run count, split condition or replacement model is authorized or performed.
 Credentials were used only in the authenticated GET transport and excluded from the saved projection.
-All runtime gates will be rechecked against the new source-bound condition before each run; empirical gates remain unestablished until genuine collection.
+Other runtime gates and empirical gates remain unestablished because capacity blocks collection.
 
 Generation requests sent: **0**. Paid provider requests sent: **0**. No fallback or replacement retry occurred.
 The implemented route allow-list, disabled fallback, zero price caps, returned provenance/cost checks and
@@ -110,7 +99,7 @@ No BM3 proposal is included. No BM4/BM5, leaderboard, Cyber, NIM comparison, tag
 The [local validation record](../../fixtures/semantic-core-qualification-0.1.0/validation-report.json) lists
 the full current CI command contract and intermediate failures. Final local results:
 
-- Node: 238 files passed, 10 skipped; 1,560 tests passed, 36 skipped. Existing Postgres-dependent skips remain explicit.
+- Node: 238 files passed, 10 skipped; 1,538 tests passed, 36 skipped. Existing Postgres-dependent skips remain explicit.
 - Focused Phase 3/4 + pack + S04/S05/S09/S10/S11: eight files, 284 tests passed; the separate metric/registry battery passed 48 tests.
 - Python 3.11.9: 40 tests passed; editable isolated install, wheel and sdist passed. Python 3.10/3.12 are delegated to GitHub CI.
 - Frozen install, staged/committed Changeset graph, format, lint, typecheck, boundaries, both conformance suites,
@@ -141,8 +130,8 @@ the requested empirical or remote evidence has not yet been collected; it is not
 | 9 | Zero-cost preflight | PASS | Current-price checks implemented/tested |
 | 10 | No paid fallback | PASS | Single-route allow-list and zero caps |
 | 11 | Credential boundary | PASS | Transport-only access; no value retained |
-| 12 | Genuine model path executed | NOT ESTABLISHED | No genuine generation path has executed yet. |
-| 13 | Exact subject condition | NOT ESTABLISHED | Subject selection/preflight established; empirical live condition not yet instantiated by generation. |
+| 12 | Genuine model path executed | NOT ESTABLISHED | No operator model selected |
+| 13 | Exact subject condition | NOT ESTABLISHED | Dry condition has null subject |
 | 14 | Exact prompt digest | PASS | Per-case and inventory digests frozen |
 | 15 | Three scheduled live runs | NOT ESTABLISHED | Three planned, zero started |
 | 16 | 72 scheduled live attempts | NOT ESTABLISHED | 72 planned, zero sent |
@@ -169,12 +158,12 @@ the requested empirical or remote evidence has not yet been collected; it is not
 | 37 | Qualification record | PASS | Versioned, schema-valid insufficient record |
 | 38 | Outcome justified | PASS | Missing empirical evidence stated explicitly |
 | 39 | Conditional BM3 proposal | PASS | No proposal; public BM2 retained |
-| 40 | Focused tests | PASS | 291 affected + 48 metric/registry tests |
+| 40 | Focused tests | PASS | 284 affected + 48 metric/registry tests |
 | 41 | Full local regression | PASS | 1,538 Node and 40 Python tests |
 | 42 | PR CI | NOT ESTABLISHED | Consult current GitHub checks |
 | 43 | Public Alpha boundary | PASS | 0.1.0-alpha.2 unchanged |
 | 44 | No Cyber work | PASS | Scope preserved |
 | 45 | No release/tag/version publication | PASS | Changeset declaration only; no version applied |
 
-Phase 4 awaits prospective 0.1.1 empirical collection; no qualification decision is made from partial evidence.
+Phase 4 remains BLOCKED because only 50 of the required 72 free requests are available.
 This infrastructure PR does not close Issue #165 and is not a completed empirical qualification.

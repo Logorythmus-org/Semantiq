@@ -1,0 +1,38 @@
+{
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.1",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "caseOrderPolicy": "FROZEN_MANIFEST_ORDER",
+    "isolation": "FRESH_REQUEST_PER_CASE",
+    "serializerVersion": "0.1.0",
+    "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+    "scientificAuthority": "NONE",
+    "decisionAuthority": "NONE",
+    "collectionPolicy": "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+    "minimumFreeRequestsPerRun": 24,
+    "runAtomicity": "COMPLETE_RUN_PER_QUOTA_WINDOW",
+    "collectionWindowMaximumHours": 168,
+    "minimumRequestIntervalMs": 3500,
+    "oracleIsolationPolicy": "SUBJECT_INPUT_PROJECTION_ONLY"
+  },
+  "subject": {
+    "provider": "OpenRouter",
+    "modelId": "apodex/apodex-1.1-mini:free",
+    "providerName": "Novita",
+    "route": "novita/bf16",
+    "snapshotStatus": "MUTABLE_ALIAS",
+    "temperature": 0,
+    "maxTokens": 128,
+    "responseFormat": "STRICT_JSON_SCHEMA"
+  },
+  "expectedCanonicalSlug": "apodex/apodex-1.1-mini-20261001",
+  "collectionState": "AWAITING_EMPIRICAL_COLLECTION",
+  "qualificationOutcome": "INSUFFICIENT_EVIDENCE",
+  "publicState": "BM2",
+  "scientificMaturity": "UNVALIDATED_PROXY",
+  "corePromotion": "NOT_PROMOTED"
+}

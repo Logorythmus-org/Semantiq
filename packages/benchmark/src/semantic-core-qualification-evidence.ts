@@ -31,6 +31,7 @@ const verifier = new EvidenceVerifier();
 /** Payloads are supplied alongside S09 references; availability never follows from a hash alone. */
 export function buildSemanticCoreEvidence(
   condition: {
+    protocol: { protocolId: string; protocolVersion: string };
     source: { gitCommit: string; gitTree: string };
     subjectConfiguration: SemanticCoreSubjectConfiguration | null;
     packDigest: string;
@@ -196,7 +197,9 @@ export function buildSemanticCoreEvidence(
       constructReference: na("Three distinct constructs retained in metric bindings."),
       metricIdentity: na("Five distinct metrics retained in capture."),
       evaluatorIdentity: known(SEMANTIC_CORE_EVALUATOR),
-      studyProtocolReference: known("semantic_core_pilot_bm3_qualification@0.1.0"),
+      studyProtocolReference: known(
+        `${condition.protocol.protocolId}@${condition.protocol.protocolVersion}`
+      ),
       comparisonDefinitionReference: na(),
       intended: conditions,
       observed,
