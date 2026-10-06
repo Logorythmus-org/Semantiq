@@ -1,0 +1,51 @@
+{
+  "observedAt": "2026-10-06T17:47:23.925Z",
+  "generationRequestsSent": 0,
+  "model": {
+    "id": "apodex/apodex-1.1-mini:free",
+    "canonicalSlug": "apodex/apodex-1.1-mini-20261001",
+    "pricing": {
+      "prompt": "0",
+      "completion": "0"
+    }
+  },
+  "endpoints": [
+    {
+      "modelId": "apodex/apodex-1.1-mini:free",
+      "provider": "Novita",
+      "tag": "novita/bf16",
+      "status": 0,
+      "pricing": {
+        "prompt": "0",
+        "completion": "0",
+        "discount": 0
+      },
+      "supportedParameters": [
+        "reasoning",
+        "include_reasoning",
+        "max_tokens",
+        "temperature",
+        "top_p",
+        "stop",
+        "frequency_penalty",
+        "presence_penalty",
+        "seed",
+        "top_k",
+        "repetition_penalty",
+        "response_format",
+        "structured_outputs",
+        "tools",
+        "tool_choice"
+      ]
+    }
+  ],
+  "account": {
+    "isFreeTier": true,
+    "freeModelDailyRequests": {
+      "used": 0,
+      "limit": 50,
+      "remaining": 50
+    }
+  },
+  "requiredRequests": 72
+}

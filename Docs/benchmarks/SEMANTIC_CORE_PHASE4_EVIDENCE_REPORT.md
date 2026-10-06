@@ -1,6 +1,6 @@
 # Phase 4 qualification evidence report
 
-Phase status: `BLOCKED` — operator model selection remains pending.
+PHASE 4 STATUS: BLOCKED — INSUFFICIENT FREE REQUEST CAPACITY
 Qualification outcome: `INSUFFICIENT_EVIDENCE`.
 Public state remains BM2. This report contains implementation and dry-run evidence only.
 
@@ -44,19 +44,21 @@ has scientific authority NONE, decision authority NONE, and proposesBM3 false.
 
 ## Provider discovery and cost boundary
 
-Read-only current metadata discovery on 2026-10-06 identified these zero-price candidate routes:
+Operator selection is resolved: `apodex/apodex-1.1-mini:free` only.
+Fresh live GET requests to /models, /models/apodex/apodex-1.1-mini:free/endpoints and /key
+completed at **2026-10-06T17:47:23.925Z**. The sanitized [operator preflight](../../fixtures/semantic-core-qualification-0.1.0/operator-preflight.json)
+records the observed canonical identity exactly: `apodex/apodex-1.1-mini-20261001`.
+The selected endpoint remains Novita / `novita/bf16`, status 0, prompt price 0 and completion price 0.
+The route advertises response_format and structured_outputs. No alternate route was selected.
 
-| Model alias | Provider / endpoint tag | Advertised canonical slug |
-| --- | --- | --- |
-| `liquid/lfm-2.5-2.6b:free` | Liquid / `liquid/fp8` | `liquid/lfm-2.5-2.6b-20260811` |
-| `apodex/apodex-1.1-mini:free` | Novita / `novita/bf16` | `apodex/apodex-1.1-mini-20261001` |
-| `dots-studio/dots-3-note-preview:free` | AtlasCloud / `atlas-cloud/fp8` | `dots-studio/dots-3-note-preview-20260813` |
-
-These are discovery facts, not an execution condition. Prompt/completion prices were reported as zero,
-and each inspected candidate had one listed endpoint. No model was selected. No immutable snapshot is claimed.
-A Boolean credential-presence check succeeded; the value was never printed or put into evidence.
-The operator selection question remains unanswered. Discovery cannot substitute for the mandatory fresh
-free-only preflight immediately before generation.
+The account reports **0 used, 50 daily limit, 50 remaining free-model requests**.
+The mandatory 72-request matrix exceeds the remaining allowance by 22 requests.
+The quota gate therefore fails before run 1; no qualification window or generation condition was started.
+The [official limits documentation](https://openrouter.ai/docs/api_reference/limits) identifies
+free_model_daily_requests as the request counter; monetary credit fields were not treated as request capacity.
+No purchase, paid inference, reduced run count, split condition or replacement model is authorized or performed.
+Credentials were used only in the authenticated GET transport and excluded from the saved projection.
+Other runtime gates and empirical gates remain unestablished because capacity blocks collection.
 
 Generation requests sent: **0**. Paid provider requests sent: **0**. No fallback or replacement retry occurred.
 The implemented route allow-list, disabled fallback, zero price caps, returned provenance/cost checks and
@@ -163,5 +165,5 @@ the requested empirical or remote evidence has not yet been collected; it is not
 | 44 | No Cyber work | PASS | Scope preserved |
 | 45 | No release/tag/version publication | PASS | Changeset declaration only; no version applied |
 
-Phase 4 remains BLOCKED until operator selection enables genuine collection and its evidence is reviewed.
+Phase 4 remains BLOCKED because only 50 of the required 72 free requests are available.
 This infrastructure PR does not close Issue #165 and is not a completed empirical qualification.
