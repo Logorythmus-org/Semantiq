@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { afterEach, describe, expect, it, vi } from "vitest";
 import { cp, mkdtemp, rm } from "node:fs/promises";
 import { readFileSync } from "node:fs";
 import { execFileSync } from "node:child_process";
@@ -17,6 +17,7 @@ import {
   S12_SUBJECT,
   mapCaptureToBehavioralTrace,
   executionCaptureDigest,
+  createS12ExecutionCaptureFromEvents,
   S12_CONFIG_DIGEST_10T,
   mapExactRepeatabilityToS05,
   type OpenRouterEndpointMetadata,
@@ -99,55 +100,16 @@ function fixtureCapture(
     payload: Readonly<Record<string, unknown>>;
   }[]
 ): S12ExecutionCapture {
-  const attempt = events.find((event) => event.type === "ATTEMPT_CREATED")!;
-  const command = events.find((event) => event.type === "TOOL_EXECUTION_RESULT")!;
-  const modelTurns = events
-    .filter((event) => event.type === "MODEL_RESPONSE")
-    .map((event) => ({
-      sequence: event.sequence,
-      role: "assistant" as const,
-      contentDigest: String(event.payload["contentDigest"])
-    }));
-  return {
-    runId: String(attempt.payload["runId"]),
-    attemptId: String(attempt.payload["attemptId"]),
-    utcTimestamp: events[0]?.timestamp ?? "2026-01-01T00:00:00Z",
-    subjectId: S12_SUBJECT.subjectId,
-    modelId: S12_SUBJECT.modelId,
-    upstreamModel: S12_SUBJECT.upstreamModelId,
-    upstreamProvider: S12_SUBJECT.upstreamProvider,
-    configDigest: S12_CONFIG_DIGEST_10T,
-    fixtureDigest: "fixture-digest",
-    environmentDigest: "environment-digest",
-    modelTurns,
-    toolCalls: [
-      {
-        callId: String(command.payload["callId"]),
-        sequence: command.sequence,
-        requestedAt: command.timestamp,
-        completedAt: command.timestamp,
-        name: "run_command",
-        arguments: { command: "pnpm test" },
-        result: {
-          status: command.payload["status"],
-          ...(command.payload["result"] as Record<string, unknown>)
-        },
-        durationMs: Number(command.payload["durationMs"]),
-        exitStatus: command.payload["exitStatus"] as number,
-        provenance: command.payload["provenance"] as readonly string[]
-      }
-    ],
-    artifactMutations: [],
-    terminalStatus: "SUCCEEDED",
-    usage: { inputTokens: 2, outputTokens: 2, accounting: "PROVIDER_REPORTED", reportedCostUsd: 0 },
-    freeStatusAtExecution: "VERIFIED_ZERO_PRICE",
-    retryLineage: [],
-    missingness: [],
-    scientificAuthority: "NONE"
-  };
+  return createS12ExecutionCaptureFromEvents(
+    events,
+    "fixture-digest",
+    "environment-digest",
+    S12_CONFIG_DIGEST_10T
+  );
 }
 
 describe("S12 non-authoritative command diagnostic sidecar", () => {
+  afterEach(() => vi.restoreAllMocks());
   it("has a distinct versioned policy/schema and stable canonical association keys", () => {
     const builder = makeBuilder();
     builder.captureCompleted({ ...association, stdout: "ok", stderr: "" });
@@ -406,91 +368,156 @@ describe("S12 non-authoritative command diagnostic sidecar", () => {
     }
   });
 
-  it("keeps policy identity out of provider requests, canonical results, events and evaluator/S09 inputs", async () => {
-    const runOnce = async (projectionFails: boolean) => {
-      const transport = new ScriptedTransport([
-        response([
-          { id: association.toolCallId, name: "run_command", arguments: { command: "pnpm test" } }
-        ]),
-        response()
-      ]);
-      const builder = makeBuilder({
-        ...(projectionFails
-          ? {
-              projector: () => {
-                throw new Error("projection unavailable");
+  it.each([0, 7])(
+    "keeps policy identity out of provider requests, canonical results, events and evaluator/S09 inputs (exit %i)",
+    async (exitCode) => {
+      const runOnce = async (
+        projectionFails: boolean,
+        elapsedMs: number,
+        diagnostics: "AVAILABLE" | "ABSENT" | "BUILD_FAILURE" = "AVAILABLE"
+      ) => {
+        let wallTime = 1000;
+        const wallClock = vi.spyOn(Date, "now").mockImplementation(() => wallTime);
+        const transport = new ScriptedTransport([
+          response([
+            { id: association.toolCallId, name: "run_command", arguments: { command: "pnpm test" } }
+          ]),
+          response()
+        ]);
+        const builder = makeBuilder({
+          ...(diagnostics === "BUILD_FAILURE"
+            ? {
+                artifactFactory: () => {
+                  throw new Error("artifact unavailable");
+                }
               }
+            : {}),
+          ...(projectionFails
+            ? {
+                projector: () => {
+                  throw new Error("projection unavailable");
+                }
+              }
+            : {})
+        });
+        const executor = new S12LocalToolExecutor(
+          {
+            pathType: async () => "FILE",
+            readFile: async () => "",
+            writeFile: async () => undefined,
+            listFiles: async () => [],
+            runCommand: async () => {
+              wallTime += elapsedMs;
+              return { exitCode, stdout: "operator diagnostic", stderr: "" };
             }
-          : {})
-      });
-      const executor = new S12LocalToolExecutor(
-        {
-          pathType: async () => "FILE",
-          readFile: async () => "",
-          writeFile: async () => undefined,
-          listFiles: async () => [],
-          runCommand: async () => ({ exitCode: 0, stdout: "operator diagnostic", stderr: "" })
-        },
-        (output) => builder.captureCompleted({ ...association, ...output })
-      );
-      let evaluationInput: unknown;
-      let packageInput: unknown;
-      let nextId = 0;
-      const result = await new S12QualificationRunner(
-        new OpenRouterSubjectAdapter(transport, () => "fake-credential"),
-        executor,
-        {
-          verifyFinalState: async () => ({ criterion: "SATISFIED" }),
-          evaluate: async (events) => {
-            evaluationInput = structuredClone(events);
-            return { traceDigest: computeSha256(canonicalJson(events)) };
           },
-          packageEvidence: async (input) => {
-            packageInput = structuredClone(input);
-            return { packageDigest: computeSha256(canonicalJson(input)) };
-          }
-        },
-        () => "2026-01-01T00:00:00.000Z",
-        () => `fixed-${++nextId}`,
-        S12_EXECUTION_STRATA.S12_10_TURNS,
-        () => 100,
-        builder
-      ).run({ workspaceRoot: "C:/workspace", fixtureDigest: "fixture", messages: [] });
-      const sidecar = builder.build()!;
-      return { result, transport, evaluationInput, packageInput, sidecar };
-    };
+          (output) => builder.captureCompleted({ ...association, ...output })
+        );
+        let evaluationInput: unknown;
+        let packageInput: unknown;
+        let nextId = 0;
+        const result = await new S12QualificationRunner(
+          new OpenRouterSubjectAdapter(transport, () => "fake-credential"),
+          executor,
+          {
+            verifyFinalState: async () => ({ criterion: "SATISFIED" }),
+            evaluate: async (events) => {
+              evaluationInput = structuredClone(events);
+              return { traceDigest: computeSha256(canonicalJson(events)) };
+            },
+            packageEvidence: async (input) => {
+              packageInput = structuredClone(input);
+              return { packageDigest: computeSha256(canonicalJson(input)) };
+            }
+          },
+          () => "2026-01-01T00:00:00.000Z",
+          () => `fixed-${++nextId}`,
+          S12_EXECUTION_STRATA.S12_10_TURNS,
+          () => 100,
+          diagnostics === "ABSENT" ? undefined : builder
+        ).run({ workspaceRoot: "C:/workspace", fixtureDigest: "fixture", messages: [] });
+        wallClock.mockRestore();
+        const sidecar = builder.build()!;
+        return { result, transport, evaluationInput, packageInput, sidecar };
+      };
 
-    const available = await runOnce(false);
-    const unavailable = await runOnce(true);
-    expect(available.transport.requests).toEqual(unavailable.transport.requests);
-    expect(available.transport.wireDigests).toEqual(unavailable.transport.wireDigests);
-    expect(available.result).toEqual(unavailable.result);
-    expect(available.evaluationInput).toEqual(unavailable.evaluationInput);
-    expect(available.packageInput).toEqual(unavailable.packageInput);
-    expect(canonicalJson(available.result.events)).not.toContain("operator diagnostic");
-    expect(canonicalJson(available.result.events)).not.toContain("S12_COMMAND_DIAGNOSTIC_POLICY");
-    expect(available.sidecar.records[0]!.stdout.status).toBe("AVAILABLE");
-    expect(unavailable.sidecar.records[0]!.stdout.status).toBe("UNAVAILABLE");
-    expect(unavailable.sidecar.records[0]!.stdout.preview).toBeUndefined();
+      const available = await runOnce(false, 0);
+      const unavailable = await runOnce(true, 37);
+      const differentTiming = await runOnce(false, 83);
+      const absent = await runOnce(false, 11, "ABSENT");
+      const buildFailure = await runOnce(false, 19, "BUILD_FAILURE");
+      expect(buildFailure.sidecar).toBeUndefined();
+      expect(differentTiming.sidecar.records[0]!.durationMs).toBe(83);
+      for (const execution of [differentTiming, absent, buildFailure]) {
+        expect(execution.result).toEqual(available.result);
+        expect(execution.evaluationInput).toEqual(available.evaluationInput);
+        expect(execution.packageInput).toEqual(available.packageInput);
+        expect(execution.transport.requests).toEqual(available.transport.requests);
+        expect(execution.transport.wireDigests).toEqual(available.transport.wireDigests);
+      }
+      expect(available.transport.requests).toEqual(unavailable.transport.requests);
+      expect(available.transport.wireDigests).toEqual(unavailable.transport.wireDigests);
+      expect(available.result).toEqual(unavailable.result);
+      expect(available.evaluationInput).toEqual(unavailable.evaluationInput);
+      expect(available.packageInput).toEqual(unavailable.packageInput);
+      expect(canonicalJson(available.result.events)).not.toContain("operator diagnostic");
+      expect(canonicalJson(available.result.events)).not.toContain("S12_COMMAND_DIAGNOSTIC_POLICY");
+      expect(available.sidecar.authority).toBe("NON_AUTHORITATIVE_OBSERVABILITY");
+      expect(unavailable.sidecar.authority).toBe("NON_AUTHORITATIVE_OBSERVABILITY");
+      expect(available.sidecar.records[0]!.durationMs).toBe(0);
+      expect(unavailable.sidecar.records[0]!.durationMs).toBe(37);
+      expect(canonicalJson(available.result)).not.toContain("durationMs");
+      expect(canonicalJson(available.transport.requests)).not.toContain(
+        "S12_COMMAND_DIAGNOSTIC_POLICY"
+      );
+      expect(canonicalJson(available.packageInput)).not.toContain("S12_COMMAND_DIAGNOSTIC_POLICY");
+      expect(available.sidecar.records[0]!.stdout.status).toBe("AVAILABLE");
+      expect(unavailable.sidecar.records[0]!.stdout.status).toBe("UNAVAILABLE");
+      expect(unavailable.sidecar.records[0]!.stdout.preview).toBeUndefined();
 
-    const captureA = fixtureCapture(available.result.events);
-    const captureB = fixtureCapture(unavailable.result.events);
-    const traceA = mapCaptureToBehavioralTrace(captureA);
-    const traceB = mapCaptureToBehavioralTrace(captureB);
-    expect(traceA).toEqual(traceB);
-    expect(executionCaptureDigest(captureA)).toBe(executionCaptureDigest(captureB));
-    expect(
-      mapExactRepeatabilityToS05(
-        [executionCaptureDigest(captureA), executionCaptureDigest(captureB)],
-        ["capture:a", "capture:b"]
-      )
-    ).toEqual(
-      mapExactRepeatabilityToS05(
-        [executionCaptureDigest(captureB), executionCaptureDigest(captureA)],
-        ["capture:b", "capture:a"]
-      )
-    );
-  });
+      const captureA = fixtureCapture(available.result.events);
+      const captureB = fixtureCapture(unavailable.result.events);
+      const traceA = mapCaptureToBehavioralTrace(captureA);
+      const traceB = mapCaptureToBehavioralTrace(captureB);
+      expect(traceA).toEqual(traceB);
+      expect(captureA.toolCalls[0]).not.toHaveProperty("durationMs");
+      expect(captureA.toolCalls[0]!.exitStatus).toBe(exitCode);
+      const legacyA = {
+        ...captureA,
+        toolCalls: captureA.toolCalls.map((call) => ({ ...call, durationMs: 0 }))
+      };
+      const legacyB = {
+        ...captureB,
+        toolCalls: captureB.toolCalls.map((call) => ({ ...call, durationMs: 37 }))
+      };
+      expect(executionCaptureDigest(legacyA)).toBe(executionCaptureDigest(legacyB));
+      expect(executionCaptureDigest(legacyA)).toBe(executionCaptureDigest(captureA));
+      expect(mapCaptureToBehavioralTrace(legacyA)).toEqual(mapCaptureToBehavioralTrace(legacyB));
+      expect(executionCaptureDigest(captureA)).toBe(executionCaptureDigest(captureB));
+      expect(
+        mapExactRepeatabilityToS05(
+          [executionCaptureDigest(captureA), executionCaptureDigest(captureB)],
+          ["capture:a", "capture:b"]
+        )
+      ).toEqual(
+        mapExactRepeatabilityToS05(
+          [executionCaptureDigest(captureA), executionCaptureDigest(captureA)],
+          ["capture:a", "capture:b"]
+        )
+      );
+      expect(
+        mapExactRepeatabilityToS05(
+          [executionCaptureDigest(captureA), executionCaptureDigest(captureB)],
+          ["capture:a", "capture:b"]
+        )
+      ).toEqual(
+        mapExactRepeatabilityToS05(
+          [executionCaptureDigest(captureB), executionCaptureDigest(captureA)],
+          ["capture:b", "capture:a"]
+        )
+      );
+    }
+  );
 
   it("returns diagnostics only as a sibling of canonical qualification and S09", async () => {
     const source = path.join(

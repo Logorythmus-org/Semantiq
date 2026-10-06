@@ -32,6 +32,8 @@ export interface S12CommandDiagnosticRecord extends S12CommandDiagnosticAssociat
   readonly policyVersion: typeof S12_COMMAND_DIAGNOSTIC_POLICY_VERSION;
   readonly schemaId: typeof S12_COMMAND_DIAGNOSTIC_SIDECAR_SCHEMA_ID;
   readonly schemaVersion: typeof S12_COMMAND_DIAGNOSTIC_SIDECAR_SCHEMA_VERSION;
+  /** Measured tool execution elapsed time; never canonical evidence. */
+  readonly durationMs?: number;
   readonly stdout: S12CommandDiagnosticStream;
   readonly stderr: S12CommandDiagnosticStream;
 }
@@ -65,6 +67,7 @@ type PendingRecord =
 /** Collects stream references during execution and projects them only after canonical execution ends. */
 export class S12CommandDiagnosticSidecarBuilder {
   private readonly pending: PendingRecord[] = [];
+  private readonly durations = new Map<string, number>();
   private readonly knownCredentialValues: readonly string[];
   private readonly projector: S12DiagnosticProjector;
   private readonly artifactFactory: (
@@ -93,6 +96,15 @@ export class S12CommandDiagnosticSidecarBuilder {
     }
   }
 
+  recordDuration(association: S12CommandDiagnosticAssociation, durationMs: number): void {
+    try {
+      if (Number.isFinite(durationMs) && durationMs >= 0)
+        this.durations.set(canonicalAssociationKey(association), durationMs);
+    } catch {
+      // Optional timing observation must never affect canonical execution.
+    }
+  }
+
   build(): S12CommandDiagnosticSidecar | undefined {
     try {
       if (this.pending.length === 0) return undefined;
@@ -102,8 +114,10 @@ export class S12CommandDiagnosticSidecarBuilder {
           attemptId: record.attemptId,
           toolCallId: record.toolCallId
         };
+        const durationMs = this.durations.get(canonicalAssociationKey(association));
         const common = {
           ...association,
+          ...(durationMs !== undefined ? { durationMs } : {}),
           policyId: S12_COMMAND_DIAGNOSTIC_POLICY_ID,
           policyVersion: S12_COMMAND_DIAGNOSTIC_POLICY_VERSION,
           schemaId: S12_COMMAND_DIAGNOSTIC_SIDECAR_SCHEMA_ID,
@@ -209,4 +223,8 @@ function endsWithUnmatchedHighSurrogate(value: string): boolean {
   if (value.length === 0) return false;
   const last = value.charCodeAt(value.length - 1);
   return last >= 0xd800 && last <= 0xdbff;
+}
+
+function canonicalAssociationKey(association: S12CommandDiagnosticAssociation): string {
+  return JSON.stringify([association.runId, association.attemptId, association.toolCallId]);
 }

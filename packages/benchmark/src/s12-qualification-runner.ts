@@ -251,7 +251,6 @@ export class S12QualificationRunner {
             append("TOOL_VALIDATION", { callId: call.id, accepted: false, error: rejected.error });
             append("TOOL_EXECUTION_RESULT", {
               callId: call.id,
-              durationMs: 0,
               status: rejected.status,
               exitStatus: rejected.exitStatus,
               result: rejected.result,
@@ -303,7 +302,6 @@ export class S12QualificationRunner {
               });
             append("TOOL_EXECUTION_RESULT", {
               callId: call.id,
-              durationMs: Date.now() - started,
               status: "ERROR",
               exitStatus: failure.code === "COMMAND_TIMEOUT" ? "TIMED_OUT" : "NOT_APPLICABLE",
               result: {},
@@ -316,10 +314,15 @@ export class S12QualificationRunner {
               provenance: ["s12-controlled-tool-failure@0.1.0"]
             });
             throw failure;
+          } finally {
+            if (call.name === "run_command")
+              this.commandDiagnosticSidecar?.recordDuration(
+                { runId, attemptId, toolCallId: call.id },
+                Date.now() - started
+              );
           }
           append("TOOL_EXECUTION_RESULT", {
             callId: call.id,
-            durationMs: Date.now() - started,
             status: result.status,
             exitStatus: result.exitStatus,
             result: result.result,
