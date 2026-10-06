@@ -44,6 +44,7 @@
     "health": "node scripts/repository-health.mjs",
     "version:audit": "node scripts/version-reference-audit.mjs",
     "ip:validate": "node scripts/validate-ip-boundaries.mjs",
+    "semantic-core:qualification": "tsx scripts/semantic-core-qualification.ts",
     "s12:qualification": "tsx scripts/s12-qualification.ts",
     "config:check": "tsx scripts/config-check.mjs",
     "config:init": "tsx scripts/config-init.mjs",
