@@ -6,7 +6,7 @@
 
 **External validation:** not established
 
-This report documents a bounded portability check for three checked-in SemantIQ JSON Schemas. It
+This report documents a bounded portability check for four checked-in SemantIQ JSON Schemas. It
 does not claim certification, complete coverage of all schemas, validator correctness, upstream
 acceptance, or independent replication.
 
@@ -17,13 +17,14 @@ acceptance, or independent replication.
 | [`claim-scope.schema.json`](../../schemas/claim-scope.schema.json) | Public claim-boundary metadata used by evidence workflows |
 | [`replication-record.schema.json`](../../schemas/replication-record.schema.json) | Portable reproduction-outcome and discrepancy record |
 | [`public-alpha-evidence-manifest.schema.json`](../../schemas/public-alpha-evidence-manifest.schema.json) | Public Alpha maturity and evidence boundary manifest |
+| [`benchmark-pack-manifest.schema.json`](../../schemas/benchmark-pack-manifest.schema.json) | Contributor-controlled pack shape and fail-closed authority boundary |
 
-All three files explicitly declare `https://json-schema.org/draft/2020-12/schema`. The separate
+All four files explicitly declare `https://json-schema.org/draft/2020-12/schema`. The separate
 Draft-07 product-contract schema is intentionally excluded: Ajv documents that Draft 2020-12 is not
 backwards-compatible and should not share an instance with earlier drafts.
 
-The vector pack contains twelve cases: six expected-valid and six expected-invalid. The negative
-cases exercise missing required properties, JSON type mismatches, and constant-value mismatches.
+The vector pack contains eighteen cases: eight expected-valid and ten expected-invalid. The negative
+cases exercise missing required properties, JSON type mismatches, constant-value mismatches and forbidden additional authority fields.
 Every validator reads the same JSON instances from
 [`vectors.json`](../../tools/conformance/json-schema/vectors.json); no validator-specific fixture is
 substituted.
@@ -34,7 +35,7 @@ substituted.
 |---|---:|---|---|
 | [Ajv](https://ajv.js.org/json-schema.html) | `8.20.0` | Node.js 22 | Dedicated `Ajv2020` implementation |
 | [Hyperjump JSON Schema](https://github.com/hyperjump-io/json-schema) | `1.17.8` | Node.js 22 | Draft-specific stable entry point |
-| [python-jsonschema](https://python-jsonschema.readthedocs.io/) | `4.26.0` | Python 3.10–3.12 in repository CI; 3.12 in the recorded local run | `Draft202012Validator` |
+| [python-jsonschema](https://python-jsonschema.readthedocs.io/) | `4.26.0` | Python 3.10–3.12 in repository CI; 3.11.9 in the recorded local run | `Draft202012Validator` |
 
 The checked-in [`results.json`](../../tools/conformance/json-schema/results.json) records the exact
 runtime patch versions observed when it was generated. Runtime patch metadata can differ on another
@@ -44,7 +45,7 @@ versions, and the JSON structure are deterministic.
 ## Format policy
 
 `format` is treated as annotation-only. The selected schemas contain no `format` keyword, and the
-harness does not infer formats from property names. Two valid fixtures intentionally use
+harness does not infer formats from property names. Valid fixtures intentionally use
 `not-format-asserted` for timestamp-shaped fields to make this policy reviewable. Ajv is configured
 with `validateFormats: false`; Hyperjump format assertion is not enabled; python-jsonschema is used
 without a `FormatChecker`.
@@ -67,10 +68,10 @@ dialect, validator result, or normalized category differs from the manifest.
 
 The recorded run produced:
 
-- 3 selected schemas;
-- 12 shared cases;
+- 4 selected schemas;
+- 18 shared cases;
 - 3 independent validator implementations across Node.js and Python;
-- 36 matching validator/case results;
+- 54 matching validator/case results;
 - no disagreements, schema defects, or portability blockers.
 
 Diagnostic text differs across implementations, so the harness records only stable categories:

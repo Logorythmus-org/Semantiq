@@ -7,6 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/sandbox-contracts": "workspace:*"
+    "@tech-club/sandbox-contracts": "workspace:*",
+    "ajv": "8.20.0"
   }
 }

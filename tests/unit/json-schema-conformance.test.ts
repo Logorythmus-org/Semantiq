@@ -32,8 +32,8 @@ describe("JSON Schema multi-validator conformance evidence", () => {
   it("uses explicit Draft 2020-12 schemas and one shared vector pack", () => {
     expect(vectors.dialect).toBe("https://json-schema.org/draft/2020-12/schema");
     expect(vectors.formatPolicy).toBe("annotation-only");
-    expect(vectors.schemas).toHaveLength(3);
-    expect(vectors.cases).toHaveLength(12);
+    expect(vectors.schemas).toHaveLength(4);
+    expect(vectors.cases).toHaveLength(18);
 
     const schemaIds = new Set(vectors.schemas.map(({ id }) => id));
     for (const entry of vectors.schemas) {
@@ -83,10 +83,10 @@ describe("JSON Schema multi-validator conformance evidence", () => {
       }
     }
 
-    expect(vectors.cases.filter(({ expectedValid }) => expectedValid)).toHaveLength(6);
-    expect(vectors.cases.filter(({ expectedValid }) => !expectedValid)).toHaveLength(6);
+    expect(vectors.cases.filter(({ expectedValid }) => expectedValid)).toHaveLength(8);
+    expect(vectors.cases.filter(({ expectedValid }) => !expectedValid)).toHaveLength(10);
     expect(new Set(vectors.cases.map(({ expectedCategory }) => expectedCategory))).toEqual(
-      new Set([null, "missing-required", "type-mismatch", "const-mismatch"])
+      new Set([null, "missing-required", "type-mismatch", "const-mismatch", "other-invalid"])
     );
   });
 

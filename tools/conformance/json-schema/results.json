@@ -2,14 +2,14 @@
   "version": "0.1",
   "dialect": "https://json-schema.org/draft/2020-12/schema",
   "formatPolicy": "annotation-only",
-  "schemaCount": 3,
-  "caseCount": 12,
+  "schemaCount": 4,
+  "caseCount": 18,
   "validators": [
     {
       "validator": "ajv",
       "version": "8.20.0",
       "runtime": "node",
-      "runtimeVersion": "22.15.0",
+      "runtimeVersion": "24.20.0",
       "results": [
         {
           "case": "claim-scope-minimal-valid",
@@ -70,6 +70,36 @@
           "case": "public-alpha-manifest-typecheck-errors-invalid",
           "valid": false,
           "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-synthetic-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "benchmark-pack-missing-provenance",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "benchmark-pack-wrong-case-type",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "benchmark-pack-authority-elevation",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-maturity-field",
+          "valid": false,
+          "category": "other-invalid"
+        },
+        {
+          "case": "benchmark-pack-audit-valid",
+          "valid": true,
+          "category": null
         }
       ]
     },
@@ -77,7 +107,7 @@
       "validator": "hyperjump-json-schema",
       "version": "1.17.8",
       "runtime": "node",
-      "runtimeVersion": "22.15.0",
+      "runtimeVersion": "24.20.0",
       "results": [
         {
           "case": "claim-scope-minimal-valid",
@@ -138,13 +168,43 @@
           "case": "public-alpha-manifest-typecheck-errors-invalid",
           "valid": false,
           "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-synthetic-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "benchmark-pack-missing-provenance",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "benchmark-pack-wrong-case-type",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "benchmark-pack-authority-elevation",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-maturity-field",
+          "valid": false,
+          "category": "other-invalid"
+        },
+        {
+          "case": "benchmark-pack-audit-valid",
+          "valid": true,
+          "category": null
         }
       ]
     },
     {
       "validator": "python-jsonschema",
       "version": "4.26.0",
-      "runtimeVersion": "3.12.14",
+      "runtimeVersion": "3.11.9",
       "results": [
         {
           "case": "claim-scope-minimal-valid",
@@ -205,6 +265,36 @@
           "case": "public-alpha-manifest-typecheck-errors-invalid",
           "valid": false,
           "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-synthetic-valid",
+          "valid": true,
+          "category": null
+        },
+        {
+          "case": "benchmark-pack-missing-provenance",
+          "valid": false,
+          "category": "missing-required"
+        },
+        {
+          "case": "benchmark-pack-wrong-case-type",
+          "valid": false,
+          "category": "type-mismatch"
+        },
+        {
+          "case": "benchmark-pack-authority-elevation",
+          "valid": false,
+          "category": "const-mismatch"
+        },
+        {
+          "case": "benchmark-pack-maturity-field",
+          "valid": false,
+          "category": "other-invalid"
+        },
+        {
+          "case": "benchmark-pack-audit-valid",
+          "valid": true,
+          "category": null
         }
       ],
       "runtime": "python"
