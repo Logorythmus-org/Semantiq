@@ -1,0 +1,46 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "0.1.0"
+        },
+        "caseId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "maxLength": 80
+        },
+        "status": {
+          "const": "ANSWER"
+        },
+        "selectedOptionId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "maxLength": 80
+        }
+      },
+      "required": ["schemaVersion", "caseId", "status", "selectedOptionId"]
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "schemaVersion": {
+          "const": "0.1.0"
+        },
+        "caseId": {
+          "type": "string",
+          "pattern": "^[a-z][a-z0-9_]*$",
+          "maxLength": 80
+        },
+        "status": {
+          "const": "ABSTAIN"
+        }
+      },
+      "required": ["schemaVersion", "caseId", "status"]
+    }
+  ]
+}

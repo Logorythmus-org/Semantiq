@@ -1,3 +1,4 @@
+import { SEMANTIC_CORE_EVALUATOR_DEFINITION } from "./semantic-core-definitions.js";
 import { BENCHMARK_EVALUATOR_MECHANISMS } from "./registry-types.js";
 import type {
   CanonicalEvaluatorDefinition,
@@ -344,6 +345,7 @@ export const CANONICAL_EVALUATOR_REGISTRY: CanonicalEvaluatorRegistrySnapshot = 
     statisticalContrast,
     behavioralLegacy,
     humanJudgeContract,
-    hibObjectiveRule
+    hibObjectiveRule,
+    SEMANTIC_CORE_EVALUATOR_DEFINITION
   ]
 };

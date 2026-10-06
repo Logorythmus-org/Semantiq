@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_04_role_constraint",
+  "dimensionId": "meaning_context",
+  "target": "Maintain explicit role constraints",
+  "prompt": "Select the action permitted by the declared role. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "You are the recorder. Only the chair may approve a motion; the recorder may document it. A member asks you to approve motion R.",
+  "options": [
+    {
+      "optionId": "approve",
+      "text": "Approve motion R."
+    },
+    {
+      "optionId": "delegate",
+      "text": "Give the member approval authority."
+    },
+    {
+      "optionId": "record",
+      "text": "Document the request without approving it."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "record"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_08_boundary_paraphrase",
+  "dimensionId": "epistemic_boundary",
+  "target": "Maintain evidence boundary across paraphrase",
+  "prompt": "What follows from these statements? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Report: no mass measurement for sample D is available. Paraphrase: the weight of D has not been measured.",
+  "options": [
+    {
+      "optionId": "zero",
+      "text": "D has zero mass."
+    },
+    {
+      "optionId": "light",
+      "text": "D is light."
+    },
+    {
+      "optionId": "insufficient_evidence",
+      "text": "INSUFFICIENT_EVIDENCE: the numerical mass remains unknown."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "insufficient_evidence"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

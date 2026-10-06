@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_05_anchoring",
+  "dimensionId": "bias_resistance",
+  "target": "Ignore an irrelevant numerical anchor",
+  "prompt": "Which estimate follows the rule? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "A random card says 900. Inventory counters independently report 16, 20, and 24 units. The estimate rule is the arithmetic mean of counters only.",
+  "options": [
+    {
+      "optionId": "anchor",
+      "text": "900 units."
+    },
+    {
+      "optionId": "mean",
+      "text": "20 units."
+    },
+    {
+      "optionId": "blend",
+      "text": "240 units."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "mean"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

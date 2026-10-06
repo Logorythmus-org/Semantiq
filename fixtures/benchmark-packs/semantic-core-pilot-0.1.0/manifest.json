@@ -1,0 +1,315 @@
+{
+  "schemaId": "SEMANTIQ_BENCHMARK_PACK_MANIFEST",
+  "schemaVersion": "0.1.0",
+  "identity": {
+    "packId": "semantic_core_pilot",
+    "packVersion": "0.1.0"
+  },
+  "benchmark": {
+    "benchmarkId": "semantic_core_pilot",
+    "benchmarkVersion": "0.1.0"
+  },
+  "evaluator": {
+    "evaluatorId": "semantic_core_rule_evaluator",
+    "evaluatorVersion": "0.1.0"
+  },
+  "metrics": [
+    {
+      "metricId": "semantic_core_eligible_cases",
+      "metricVersion": "0.1.0"
+    },
+    {
+      "metricId": "semantic_core_passed_cases",
+      "metricVersion": "0.1.0"
+    },
+    {
+      "metricId": "semantic_core_meaning_context_pass_proportion",
+      "metricVersion": "0.1.0"
+    },
+    {
+      "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+      "metricVersion": "0.1.0"
+    },
+    {
+      "metricId": "semantic_core_bias_resistance_pass_proportion",
+      "metricVersion": "0.1.0"
+    }
+  ],
+  "cases": [
+    {
+      "caseId": "meaning_context_01_paraphrase",
+      "path": "cases/meaning_context/meaning_context_01_paraphrase.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "eb0fd4689df9a4af0859e63194c564806cd1ad9cca94f159131adc0a10c550ff"
+      }
+    },
+    {
+      "caseId": "meaning_context_02_ambiguity",
+      "path": "cases/meaning_context/meaning_context_02_ambiguity.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "f3cfe39d85fae2dde644ec0cbee3972f1c48faf5305855ed9bf66422832895ff"
+      }
+    },
+    {
+      "caseId": "meaning_context_03_context_shift",
+      "path": "cases/meaning_context/meaning_context_03_context_shift.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "c95a44e8bc10523a03fbde5c4b839822933931b67afb6db73fb2e3a9a274ccdc"
+      }
+    },
+    {
+      "caseId": "meaning_context_04_role_constraint",
+      "path": "cases/meaning_context/meaning_context_04_role_constraint.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "46e8270857776a8096edad463eeefbfbaed1bbf9bc6403a2c9c20235bbc38b46"
+      }
+    },
+    {
+      "caseId": "meaning_context_05_same_wording",
+      "path": "cases/meaning_context/meaning_context_05_same_wording.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "4a56f010afd5c848e3f13ec2c443ff9b57e8c16efd855677c4c4bd9a4f48543e"
+      }
+    },
+    {
+      "caseId": "meaning_context_06_unsupported",
+      "path": "cases/meaning_context/meaning_context_06_unsupported.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "a4ba43bae01592b54f814087e9003806a0ea7938620fd182c704f39e3feadbed"
+      }
+    },
+    {
+      "caseId": "meaning_context_07_relation",
+      "path": "cases/meaning_context/meaning_context_07_relation.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "6358d3fb0547372e057281003d67b36872dad436888afedae4df602a5cc18ebc"
+      }
+    },
+    {
+      "caseId": "meaning_context_08_equivalence",
+      "path": "cases/meaning_context/meaning_context_08_equivalence.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "5e461833a88187271bb68aa9b1f9977216a23f41af866d7e74173f994fad7e99"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_01_missing_property",
+      "path": "cases/epistemic_boundary/epistemic_boundary_01_missing_property.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "de0e6b3fa2458812c6f3c9c15cb17b360c5e0bec4f378dd2e19eb5e2d9c0d941"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_02_hypothesis",
+      "path": "cases/epistemic_boundary/epistemic_boundary_02_hypothesis.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "d16918a3301c591bcc23588c7992266144f74b0b86f0e1a593ed3a8ce4f2b00c"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_03_citation",
+      "path": "cases/epistemic_boundary/epistemic_boundary_03_citation.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "aeaf71bfb6c1fd89f5661c7723ebb9693b6a8a48bb98eefcfcf69d5909461b66"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_04_supported_claim",
+      "path": "cases/epistemic_boundary/epistemic_boundary_04_supported_claim.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "05579e80b1a2d6cd834a5806d6c99c2829b33eeb3db8d68dbb7ebbddb60c7495"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_05_unsupported_claim",
+      "path": "cases/epistemic_boundary/epistemic_boundary_05_unsupported_claim.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "f8af7ba18f09fdbc23657e30ef89ea7727da238beb91c7e11013fced4b783b3b"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_06_fiction",
+      "path": "cases/epistemic_boundary/epistemic_boundary_06_fiction.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "00a4d3cb7bf1d1c3a740c8e246025c202a4e5cc5fd23d91be195841e4745e099"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_07_unknown_entity",
+      "path": "cases/epistemic_boundary/epistemic_boundary_07_unknown_entity.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "4a40da4e3f9ea1e0f849ce4baa3169b9e8540b7743ae1ba7e43cd4aed1dc4a8f"
+      }
+    },
+    {
+      "caseId": "epistemic_boundary_08_boundary_paraphrase",
+      "path": "cases/epistemic_boundary/epistemic_boundary_08_boundary_paraphrase.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "cae02346e2f6a0aab2abebbe14903d827c8eb954f037b92e6a7d030e498600e4"
+      }
+    },
+    {
+      "caseId": "bias_resistance_01_confirmation",
+      "path": "cases/bias_resistance/bias_resistance_01_confirmation.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "f2ba5eb6fa106684713ebc4e1f3db737244489df02d2c515c79f56e1bd286f78"
+      }
+    },
+    {
+      "caseId": "bias_resistance_02_dichotomy",
+      "path": "cases/bias_resistance/bias_resistance_02_dichotomy.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "ed206cceccd60bd6538e6ba05ab4231dd80ed4bc056e8a4d61dea20b53007755"
+      }
+    },
+    {
+      "caseId": "bias_resistance_03_causality",
+      "path": "cases/bias_resistance/bias_resistance_03_causality.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "ceedde9cde41108925061968548093abfa78a84f4525c0859e779a6f9456277e"
+      }
+    },
+    {
+      "caseId": "bias_resistance_04_single_observation",
+      "path": "cases/bias_resistance/bias_resistance_04_single_observation.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "f03b51a02238d455b0d8e13085212b22debd1fcfba10e24f92d15c125fc4dc4e"
+      }
+    },
+    {
+      "caseId": "bias_resistance_05_anchoring",
+      "path": "cases/bias_resistance/bias_resistance_05_anchoring.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "a131ab9f854ff250f53bbf33ca8a5b748b96fb1ec7fa80d85c62d970222534ec"
+      }
+    },
+    {
+      "caseId": "bias_resistance_06_sunk_cost",
+      "path": "cases/bias_resistance/bias_resistance_06_sunk_cost.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "106bc54be25ad23db1b9bd773b4c8e6929cdbed0dda203eabbbbefc4c0716ee8"
+      }
+    },
+    {
+      "caseId": "bias_resistance_07_availability",
+      "path": "cases/bias_resistance/bias_resistance_07_availability.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "9da5bde851009c2c070e090fc93de791bde6fe9f5deeafb0c99d04ad06aeb41e"
+      }
+    },
+    {
+      "caseId": "bias_resistance_08_attribution",
+      "path": "cases/bias_resistance/bias_resistance_08_attribution.json",
+      "contentType": "application/json",
+      "digest": {
+        "algorithm": "SHA_256",
+        "representation": "ORIGINAL_BYTES",
+        "value": "a82a1428b0defa31404e4f9858e01424fa208f868052a7e8a8260306b72fdeb5"
+      }
+    }
+  ],
+  "provenance": {
+    "origin": "Phase 3 newly AI-authored synthetic project-controlled fixtures. Historical design ancestry only; no copied prompt catalog or empirical subjects.",
+    "provenanceClass": "AI_GENERATED",
+    "sourceReferences": [
+      "repository:Docs/benchmarks/SEMANTIC_CORE_PILOT.md",
+      "repository:LICENSE"
+    ]
+  },
+  "rights": {
+    "rightsClass": "FIRST_PARTY_OR_PROJECT",
+    "license": {
+      "identifier": "MIT",
+      "reference": "repository:LICENSE"
+    }
+  },
+  "executionRequirements": {
+    "inputKind": "SEMANTIC_CORE_SELECTION",
+    "subjectKind": "STRUCTURED_RESPONSE_SUBJECT",
+    "parameters": {}
+  },
+  "exposure": {
+    "benchmarkId": "semantic_core_pilot",
+    "exposureTier": "tier_a_public_reference",
+    "isPublicBundleExportable": true,
+    "version": "0.1.0"
+  },
+  "evidenceReferences": [],
+  "limitations": [
+    "Exactly 24 synthetic cases, eight per dimension; bounded observable selections only.",
+    "Uncalibrated and unvalidated engineering path; no live-provider qualification, BM3, external reproduction or leaderboard authority.",
+    "Historical design ancestry only; does not implement the complete historical SMF/WIF/CBF suites.",
+    "Public oracles are exposed and contamination is possible; not a held-out evaluation."
+  ],
+  "intendedUse": "Phase 3 deterministic engineering execution and review only. No scientific promotion.",
+  "scientificAuthority": "NONE"
+}

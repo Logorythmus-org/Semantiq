@@ -150,11 +150,7 @@ export interface MetricCalibrationContract {
 }
 
 export type ValidityEvidenceCategory =
-  | "CONTENT"
-  | "CONSTRUCT"
-  | "CRITERION_RELATED"
-  | "CONVERGENT_DISCRIMINANT"
-  | "KNOWN_GROUPS";
+  "CONTENT" | "CONSTRUCT" | "CRITERION_RELATED" | "CONVERGENT_DISCRIMINANT" | "KNOWN_GROUPS";
 
 export interface MetricValidityEvidence {
   readonly category: ValidityEvidenceCategory;
@@ -182,7 +178,7 @@ export interface MetricEvaluatorDependency {
 export interface MetricProvenance {
   readonly origin: string;
   readonly sourceReferences: readonly string[];
-  readonly introducedIn: "S03";
+  readonly introducedIn: "S03" | "PHASE3";
 }
 
 export interface CanonicalMetricDefinition {

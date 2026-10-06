@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_05_unsupported_claim",
+  "dimensionId": "epistemic_boundary",
+  "target": "Mark an unsupported claim",
+  "prompt": "Which claim is unsupported? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Certificate: batch T contains four sealed vials. No purity or temperature tests are recorded.",
+  "options": [
+    {
+      "optionId": "count",
+      "text": "Batch T contains four vials."
+    },
+    {
+      "optionId": "sealed",
+      "text": "The vials are sealed."
+    },
+    {
+      "optionId": "purity",
+      "text": "The contents are proven pure."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "purity"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

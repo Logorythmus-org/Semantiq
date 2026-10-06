@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_01_confirmation",
+  "dimensionId": "bias_resistance",
+  "target": "Identify selective evidence filtering",
+  "prompt": "Select the mechanism that distorts the review. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "A reviewer accepts logs supporting rule J but discards equally reliable logs contradicting J solely because they disagree.",
+  "options": [
+    {
+      "optionId": "confirmation",
+      "text": "Selecting evidence by agreement with the preferred rule."
+    },
+    {
+      "optionId": "balanced",
+      "text": "Balanced consideration of all reliable logs."
+    },
+    {
+      "optionId": "random",
+      "text": "Random sampling unrelated to the conclusion."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "confirmation"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

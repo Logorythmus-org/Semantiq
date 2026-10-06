@@ -1,3 +1,4 @@
+import { SEMANTIC_CORE_BENCHMARK_DEFINITION } from "./semantic-core-definitions.js";
 import type {
   BenchmarkEvidenceReferences,
   BenchmarkIdentity,
@@ -387,5 +388,12 @@ export const CANONICAL_BENCHMARK_REGISTRY: CanonicalBenchmarkRegistrySnapshot = 
       claimStrength: "INTENDED"
     }
   ],
-  benchmarks: [providerTck, longHorizon, currentHacs, historicalHacs, hibResearchCandidate]
+  benchmarks: [
+    providerTck,
+    longHorizon,
+    currentHacs,
+    historicalHacs,
+    hibResearchCandidate,
+    SEMANTIC_CORE_BENCHMARK_DEFINITION
+  ]
 };

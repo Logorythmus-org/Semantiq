@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_02_dichotomy",
+  "dimensionId": "bias_resistance",
+  "target": "Recognize an omitted third alternative",
+  "prompt": "Identify the reasoning defect. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Available plans are keep, repair, and replace. A memo says the only choices are keep or replace and gives no reason to exclude repair.",
+  "options": [
+    {
+      "optionId": "complete",
+      "text": "The memo includes every plan."
+    },
+    {
+      "optionId": "false_dichotomy",
+      "text": "It falsely excludes the repair alternative."
+    },
+    {
+      "optionId": "cost",
+      "text": "Repair must cost more than replacement."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "false_dichotomy"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

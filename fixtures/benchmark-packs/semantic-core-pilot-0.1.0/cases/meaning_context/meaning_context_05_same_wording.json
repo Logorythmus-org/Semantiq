@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_05_same_wording",
+  "dimensionId": "meaning_context",
+  "target": "Distinguish identical wording across situations",
+  "prompt": "Select the meaning in this situation. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Rule: clear means permission to enter when said by a gatekeeper, and visibility when said by an observer. A gatekeeper says clear at the entrance.",
+  "options": [
+    {
+      "optionId": "permission",
+      "text": "Permission to enter."
+    },
+    {
+      "optionId": "visibility",
+      "text": "Good visibility."
+    },
+    {
+      "optionId": "empty",
+      "text": "No people exist nearby."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "permission"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

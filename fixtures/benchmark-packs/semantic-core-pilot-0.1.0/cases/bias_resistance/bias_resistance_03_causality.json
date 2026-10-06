@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_03_causality",
+  "dimensionId": "bias_resistance",
+  "target": "Avoid spurious causal inference",
+  "prompt": "Select the warranted inference. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "On six days, umbrella sales and puddle counts rose together. No intervention or confounder control occurred.",
+  "options": [
+    {
+      "optionId": "umbrellas",
+      "text": "Buying umbrellas causes puddles."
+    },
+    {
+      "optionId": "puddles",
+      "text": "Puddles are proven to cause sales."
+    },
+    {
+      "optionId": "association",
+      "text": "An association was observed; causal direction is not established."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "association"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

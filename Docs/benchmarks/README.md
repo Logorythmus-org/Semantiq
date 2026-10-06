@@ -21,6 +21,7 @@ is governed by the
 
 | Benchmark family | Lifecycle state | Current evidence boundary |
 | :--- | :--- | :--- |
+| **[Semantic Core Pilot](SEMANTIC_CORE_PILOT.md)** | **BM2 — Implemented** | Exactly 24 synthetic first-party cases (8/8/8), explicit schemas, deterministic evaluator and automated engineering execution. BM3 is not established; no live-provider qualification or historical full-suite implementation is claimed. |
 | **SMF Benchmark Suite** | **BM0 — Research Candidate** | A synthetic representative fixture exists, but the previous public link pointed to a Production MVP integration specification rather than a canonical SMF benchmark specification. The SMF namespace/specification remains under reconciliation; no BM1+ claim is made. |
 | **HACS Long-Horizon Suite** | **BM2 — Implemented** | Long-horizon contracts, `LongHorizonTestingEngine`, and automated unit coverage are present. This does not establish current BM3 qualification, external reproduction, or leaderboard eligibility. |
 | **Multimodal Vision Suite** | **BM0 — Research Candidate (Historical)** | A synthetic representative fixture exists, but the suite remains historical and no current canonical Vision benchmark specification is established. |

@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_06_sunk_cost",
+  "dimensionId": "bias_resistance",
+  "target": "Exclude unrecoverable past costs from future comparison",
+  "prompt": "Select the rule-consistent choice. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Project A spent 80 unrecoverable units. From now on A costs 12 for benefit 5; switching to B costs 3 for benefit 8, with no other costs. Choose greater future net benefit.",
+  "options": [
+    {
+      "optionId": "continue",
+      "text": "Continue A because of the past 80 units."
+    },
+    {
+      "optionId": "tie",
+      "text": "Both future net benefits are equal."
+    },
+    {
+      "optionId": "switch",
+      "text": "Switch to B because its future net benefit is greater."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "switch"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

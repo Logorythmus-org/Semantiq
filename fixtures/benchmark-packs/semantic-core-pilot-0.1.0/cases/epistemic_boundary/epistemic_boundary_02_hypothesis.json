@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_02_hypothesis",
+  "dimensionId": "epistemic_boundary",
+  "target": "Separate observation from hypothesis",
+  "prompt": "Classify the humidity claim. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Record: sensor K measured 12 units. Proposal: perhaps humidity caused the reading. No causal test was performed.",
+  "options": [
+    {
+      "optionId": "fact",
+      "text": "Established causal fact."
+    },
+    {
+      "optionId": "refuted",
+      "text": "Demonstrated false."
+    },
+    {
+      "optionId": "hypothesis",
+      "text": "Hypothesis rather than established causal fact."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "hypothesis"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

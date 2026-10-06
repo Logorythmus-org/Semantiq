@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_08_attribution",
+  "dimensionId": "bias_resistance",
+  "target": "Identify unsupported attribution from limited context",
+  "prompt": "Identify the unsupported inference. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "A colleague missed a meeting during a recorded network outage. A reviewer declares the colleague lazy solely from the missed meeting; no trait evidence exists.",
+  "options": [
+    {
+      "optionId": "outage_unknown",
+      "text": "No network outage was recorded."
+    },
+    {
+      "optionId": "trait",
+      "text": "Inferring a stable trait without evidence while ignoring the supplied circumstance."
+    },
+    {
+      "optionId": "certain_motive",
+      "text": "The colleague deliberately caused the outage."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "trait"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

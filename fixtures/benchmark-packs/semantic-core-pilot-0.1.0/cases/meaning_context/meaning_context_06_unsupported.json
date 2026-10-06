@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_06_unsupported",
+  "dimensionId": "meaning_context",
+  "target": "Reject an unsupported interpretation",
+  "prompt": "Which interpretation adds an unsupported purpose? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "The note says: Mara moved the box. It does not say where, why, or what was inside.",
+  "options": [
+    {
+      "optionId": "changed_place",
+      "text": "The box changed location."
+    },
+    {
+      "optionId": "hide",
+      "text": "Mara moved it to conceal stolen objects."
+    },
+    {
+      "optionId": "moved",
+      "text": "Mara performed a movement of the box."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "hide"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

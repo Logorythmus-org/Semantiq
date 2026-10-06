@@ -92,11 +92,11 @@ function resultFor(
 }
 
 describe("canonical measurement and metric framework", () => {
-  it("loads four representative definitions with stable identities and serialization", () => {
-    expect(metricRegistry.list()).toHaveLength(4);
+  it("loads nine canonical definitions with stable identities and serialization", () => {
+    expect(metricRegistry.list()).toHaveLength(9);
     expect(
       new Set(metricRegistry.list().map((entry) => metricIdentityKey(entry.identity))).size
-    ).toBe(4);
+    ).toBe(9);
     expect(metricRegistry.digest()).toMatch(/^[a-f0-9]{64}$/);
 
     const reordered = cloneRegistry() as any;

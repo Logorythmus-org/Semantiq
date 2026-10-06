@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_01_paraphrase",
+  "dimensionId": "meaning_context",
+  "target": "Preserve meaning under paraphrase",
+  "prompt": "Select the equivalent statement. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "The courier placed every green parcel in locker seven.",
+  "options": [
+    {
+      "optionId": "green_all",
+      "text": "All green parcels were put in locker seven by the courier."
+    },
+    {
+      "optionId": "all_parcels",
+      "text": "Every parcel was green and put in locker seven."
+    },
+    {
+      "optionId": "some_green",
+      "text": "Only some green parcels were put in locker seven."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "green_all"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

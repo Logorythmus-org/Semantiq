@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_02_ambiguity",
+  "dimensionId": "meaning_context",
+  "target": "Resolve an ambiguous term from context",
+  "prompt": "Which interpretation of bank is supplied? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "At the canal, Ivo sat on the bank and watched the water.",
+  "options": [
+    {
+      "optionId": "finance",
+      "text": "A financial institution."
+    },
+    {
+      "optionId": "shore",
+      "text": "The land beside the canal."
+    },
+    {
+      "optionId": "storage",
+      "text": "A collection of stored objects."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "shore"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

@@ -1,3 +1,4 @@
+import { SEMANTIC_CORE_METRIC_DEFINITIONS } from "./semantic-core-definitions.js";
 import type {
   CanonicalMetricDefinition,
   CanonicalMetricRegistrySnapshot,
@@ -277,6 +278,7 @@ export const CANONICAL_METRIC_REGISTRY: CanonicalMetricRegistrySnapshot = {
     providerPassedTests,
     providerPassRate,
     longHorizonResilienceIndex,
-    matchedPairMeanDelta
+    matchedPairMeanDelta,
+    ...SEMANTIC_CORE_METRIC_DEFINITIONS
   ]
 };

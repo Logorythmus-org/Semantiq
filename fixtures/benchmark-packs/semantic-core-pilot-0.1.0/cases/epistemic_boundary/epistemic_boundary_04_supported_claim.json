@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "epistemic_boundary_04_supported_claim",
+  "dimensionId": "epistemic_boundary",
+  "target": "Identify a supported claim",
+  "prompt": "Which claim is directly supported? Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Log: gate Q opened at 09:00 and closed at 09:03. No operator or motive is recorded.",
+  "options": [
+    {
+      "optionId": "operator",
+      "text": "Neri opened gate Q."
+    },
+    {
+      "optionId": "duration",
+      "text": "Gate Q was open for three minutes."
+    },
+    {
+      "optionId": "motive",
+      "text": "Gate Q opened to admit a delivery."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "duration"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

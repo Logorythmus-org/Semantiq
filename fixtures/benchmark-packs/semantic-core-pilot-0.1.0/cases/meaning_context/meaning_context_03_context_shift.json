@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "meaning_context_03_context_shift",
+  "dimensionId": "meaning_context",
+  "target": "Change interpretation when context changes",
+  "prompt": "Select the current interpretation. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "Earlier bank meant a canal shore. Now the speaker says: I deposited coins at the bank counter.",
+  "options": [
+    {
+      "optionId": "shore",
+      "text": "Canal shore."
+    },
+    {
+      "optionId": "finance",
+      "text": "Financial institution."
+    },
+    {
+      "optionId": "unchanged",
+      "text": "The earlier meaning must remain."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "finance"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}

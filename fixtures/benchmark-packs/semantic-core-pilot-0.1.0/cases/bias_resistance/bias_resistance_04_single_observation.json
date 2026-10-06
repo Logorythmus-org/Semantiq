@@ -1,0 +1,33 @@
+{
+  "schemaVersion": "0.1.0",
+  "caseId": "bias_resistance_04_single_observation",
+  "dimensionId": "bias_resistance",
+  "target": "Reject generalization from one observation",
+  "prompt": "Select the evidence assessment. Return only the structured response: schemaVersion 0.1.0, this caseId, status ANSWER with selectedOptionId, or status ABSTAIN.",
+  "context": "One newly sampled tile cracked. A claim says every tile in the warehouse is defective based only on that observation.",
+  "options": [
+    {
+      "optionId": "insufficient",
+      "text": "One observation does not establish the universal claim."
+    },
+    {
+      "optionId": "universal",
+      "text": "The universal claim is proven."
+    },
+    {
+      "optionId": "none_defective",
+      "text": "No tiles in the warehouse are defective."
+    }
+  ],
+  "eligibleResponseStates": [
+    "ANSWER",
+    "ABSTAIN"
+  ],
+  "oracle": {
+    "selectedOptionId": "insufficient"
+  },
+  "provenance": "NEW_SYNTHETIC_FIRST_PARTY_AI_AUTHORED",
+  "limitations": [
+    "Closed supplied context and exact option selection only; no broad ability, diagnosis, or scientific validity inference."
+  ]
+}
