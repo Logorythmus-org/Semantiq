@@ -4,6 +4,9 @@
   "private": true,
   "type": "module",
   "packageManager": "pnpm@11.7.0",
+  "engines": {
+    "node": ">=22.13.0"
+  },
   "scripts": {
     "techclub": "node scripts/techclub.mjs",
     "dev": "node scripts/techclub.mjs dev",
@@ -52,7 +55,7 @@
     "prepare": "node scripts/prepare.mjs"
   },
   "devDependencies": {
-    "@changesets/cli": "2.31.0",
+    "@changesets/cli": "3.0.3",
     "@commitlint/cli": "21.2.3",
     "@commitlint/config-conventional": "21.2.3",
     "@eslint/js": "9.39.5",
