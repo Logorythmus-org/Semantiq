@@ -8,18 +8,18 @@ This document records current source-checkout environment evidence, system prere
 
 | Environment | Supported Status | Node.js | Package Manager | Docker Required? | Notes |
 |---|---|---|---|---|---|
-| **Linux (GitHub-hosted runner)** | `VERIFIED_IN_REQUIRED_CI` | `22` | `pnpm 11.7.0` | Optional | Required CI baseline |
-| **Windows 10/11 (PowerShell/WSL2)** | `BEST_EFFORT` | `>= 22.13.0` | `pnpm 11.7.0` | Optional | Useful instructions exist; not a required CI target |
-| **macOS (Apple Silicon & Intel)** | `UNVERIFIED` | `>= 22.13.0` | `pnpm 11.7.0` | Optional | Not exercised by required CI |
+| **Linux (GitHub-hosted runner)** | `VERIFIED_IN_REQUIRED_CI` | `22` | `pnpm 11.11.0` | Optional | Required CI baseline |
+| **Windows 10/11 (PowerShell/WSL2)** | `BEST_EFFORT` | `>= 22.13.0` | `pnpm 11.11.0` | Optional | Useful instructions exist; not a required CI target |
+| **macOS (Apple Silicon & Intel)** | `UNVERIFIED` | `>= 22.13.0` | `pnpm 11.11.0` | Optional | Not exercised by required CI |
 | **Docker Container** | `IMPLEMENTED_PARTIAL` | Containerized | Workspace install | Yes | Image/build surfaces exist; live lifecycle is not required CI |
-| **Clean Node Environment** | `BEST_EFFORT` | `>= 22.13.0` | `pnpm 11.7.0` | No | Source-checkout path; environment-specific compatibility varies |
+| **Clean Node Environment** | `BEST_EFFORT` | `>= 22.13.0` | `pnpm 11.11.0` | No | Source-checkout path; environment-specific compatibility varies |
 
 ---
 
 ## Prerequisites
 
 - **Node.js**: Version 22.13.0 or higher (`node -v`)
-- **pnpm**: Version 11.7.0 or compatible (`pnpm -v`)
+- **pnpm**: Version 11.11.0 or compatible (`pnpm -v`)
 - **Git**: For repository clone (`git --version`)
 - **Docker & Docker Compose**: Optional for containerized services (`docker compose version`)
 
