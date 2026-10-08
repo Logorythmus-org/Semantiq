@@ -217,26 +217,28 @@ For complete TypeScript SDK documentation, see **[Docs/TYPESCRIPT_SDK.md](Docs/T
 
 ### 3. Command-Line Interface (CLI)
 
-Run doctor diagnostics, execute benchmark workflows, and manage governed claims:
+The source-installed Python package exposes the `semantiq` command. After
+installing it with `python -m pip install -e "./packages/python"`, run:
 
 ```bash
-# Diagnostic health check
-semantiq doctor
+# Show the Python CLI release and schema versions
+semantiq --version
 
 # Validate controlled claim language
-semantiq claims validate "DP-008 is associated with reduced FP-002 drift."
+semantiq validate-language "DP-008 is associated with reduced FP-002 drift."
 
-# List discovered failure and design patterns
-semantiq patterns list
-
-# Inspect evidence graph relationships
-semantiq evidence graph
-
-# Start Headless HTTP API Server
-semantiq serve --port 3000
+# Show Python package information
+semantiq info
 ```
 
-For complete CLI documentation, see **[Docs/CLI_USAGE.md](Docs/CLI_USAGE.md)**.
+The Python CLI also provides `evaluate` (using synthetic/mock fixtures) and
+`verify` (digest-format validation only). It does not expose `doctor`, `claims`,
+`patterns`, `evidence`, or `serve` subcommands. For environment diagnostics in an
+installed pnpm workspace, use `pnpm doctor` from the repository root instead.
+
+The internal TypeScript CLI engine is a separate library surface, not a
+published executable. For the supported commands and their limitations, see
+**[Docs/CLI_USAGE.md](Docs/CLI_USAGE.md)**.
 
 ---
 
