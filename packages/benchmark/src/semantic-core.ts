@@ -87,7 +87,10 @@ export function evaluateSemanticCoreCase(
   else state = response.selectedOptionId === item.oracle.selectedOptionId ? "PASSED" : "INCORRECT";
   return { caseId: item.caseId, dimensionId: item.dimensionId, state, scientificAuthority: "NONE" };
 }
-function metricsFor(cases: readonly SemanticCoreCaseResult[], packDigest: string): MetricResult[] {
+export function semanticCoreMetricsFor(
+  cases: readonly SemanticCoreCaseResult[],
+  packDigest: string
+): MetricResult[] {
   return SEMANTIC_CORE_METRICS.map((metricIdentity, i) => {
     const selected =
       i < 2 ? cases : cases.filter((c) => c.dimensionId === SEMANTIC_CORE_DIMENSIONS[i - 2]);
@@ -190,7 +193,7 @@ export async function runSemanticCorePilot(
     evaluator: SEMANTIC_CORE_EVALUATOR,
     packDigest: loaded.packDigest.value,
     cases,
-    metrics: metricsFor(cases, loaded.packDigest.value),
+    metrics: semanticCoreMetricsFor(cases, loaded.packDigest.value),
     stateCounts,
     evidenceKind: "SYNTHETIC_ENGINEERING_ONLY",
     scientificAuthority: "NONE"

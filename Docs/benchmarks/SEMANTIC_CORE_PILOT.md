@@ -144,3 +144,9 @@ package or S05 scientific reliability record is registered from synthetic repeat
 
 See the versioned [Phase 4 qualification plan](SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md).
 Phase 3 stops at review; no release, tag, leaderboard or Cyber work is authorized here.
+
+The exported `semanticCoreMetricsFor(cases, packDigest)` function aggregates already evaluated
+case states into the same five canonical S03 metrics used by the offline pilot. It preserves
+eligibility and missing-result semantics and performs no provider calls, qualification decision
+or maturity update. Reusing this engineering API does not establish benchmark qualification
+or scientific validity.
