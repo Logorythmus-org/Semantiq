@@ -6,7 +6,10 @@ import {
   runSemanticCorePilot,
   SEMANTIC_CORE_DIMENSIONS,
   SEMANTIC_CORE_STATES,
-  SEMANTIC_CORE_METRICS
+  SEMANTIC_CORE_METRICS,
+  SEMANTIC_CORE_METRIC_DEFINITIONS,
+  SEMANTIC_CORE_BENCHMARK,
+  SEMANTIC_CORE_BENCHMARK_DEFINITION
 } from "../../packages/benchmark/src/index.js";
 import type {
   SemanticCoreCase,
@@ -22,10 +25,97 @@ const result = (state: SemanticCoreCaseResult["state"], index: number): Semantic
 });
 
 describe("independent Semantic Core metric aggregation", () => {
+  it("isolates identities, bindings and nested benchmarks from canonical state and other results", () => {
+    const cases = [result("PASSED", 0), result("INCORRECT", 1)];
+    const canonicalBefore = structuredClone({
+      metrics: SEMANTIC_CORE_METRICS,
+      definitions: SEMANTIC_CORE_METRIC_DEFINITIONS,
+      benchmark: SEMANTIC_CORE_BENCHMARK,
+      benchmarkDefinition: SEMANTIC_CORE_BENCHMARK_DEFINITION
+    });
+    const first = semanticCoreMetricsFor(cases, digest);
+    const second = semanticCoreMetricsFor(cases, digest);
+    const secondBefore = structuredClone(second);
+    const untouched = structuredClone(first.slice(1));
+    for (const [index, metric] of first.entries()) {
+      expect(metric.metricIdentity).toEqual(SEMANTIC_CORE_METRICS[index]);
+      expect(metric.metricIdentity).not.toBe(SEMANTIC_CORE_METRICS[index]);
+      expect(metric.metricIdentity).not.toBe(second[index]!.metricIdentity);
+      if (metric.benchmarkBinding) {
+        expect(metric.benchmarkBinding).toEqual(
+          SEMANTIC_CORE_METRIC_DEFINITIONS[index]!.benchmarkBinding
+        );
+        expect(metric.benchmarkBinding).not.toBe(
+          SEMANTIC_CORE_METRIC_DEFINITIONS[index]!.benchmarkBinding
+        );
+        expect(metric.benchmarkBinding).not.toBe(second[index]!.benchmarkBinding);
+        expect(metric.benchmarkBinding.benchmark).not.toBe(SEMANTIC_CORE_BENCHMARK);
+        expect(metric.benchmarkBinding.benchmark).not.toBe(
+          second[index]!.benchmarkBinding!.benchmark
+        );
+      }
+    }
+    // Exercise JavaScript consumer mutation despite compile-time readonly annotations.
+    Object.assign(first[0]!.metricIdentity, { metricId: "consumer-id", metricVersion: "9.0.0" });
+    expect(first.slice(1)).toEqual(untouched);
+    const otherDimensions = structuredClone(first.slice(3));
+    Object.assign(first[2]!.benchmarkBinding!, { constructId: "consumer-construct" });
+    Object.assign(first[2]!.benchmarkBinding!.benchmark, {
+      benchmarkId: "consumer-benchmark",
+      benchmarkVersion: "9.0.0"
+    });
+    expect(first.slice(3)).toEqual(otherDimensions);
+    expect(second).toEqual(secondBefore);
+    expect(semanticCoreMetricsFor(cases, digest)).toEqual(secondBefore);
+    expect({
+      metrics: SEMANTIC_CORE_METRICS,
+      definitions: SEMANTIC_CORE_METRIC_DEFINITIONS,
+      benchmark: SEMANTIC_CORE_BENCHMARK,
+      benchmarkDefinition: SEMANTIC_CORE_BENCHMARK_DEFINITION
+    }).toEqual(canonicalBefore);
+    expect(SEMANTIC_CORE_BENCHMARK_DEFINITION.scientificMaturity).toBe("UNVALIDATED_PROXY");
+    expect(SEMANTIC_CORE_BENCHMARK_DEFINITION.corePromotion).toBe("NOT_PROMOTED");
+  });
+
+  it("preserves caller-attested digest text without claiming verification or making network calls", () => {
+    const network = vi.spyOn(globalThis, "fetch").mockImplementation(() => {
+      throw new Error("Offline aggregation must not invoke fetch");
+    });
+    try {
+      const cases = [Object.freeze(result("PASSED", 0))];
+      // Characterize existing unchecked string handling, not a supported invalid-input guarantee.
+      for (const callerDigest of [digest, "caller-attested-unverified", "", " A "]) {
+        const metrics = semanticCoreMetricsFor(Object.freeze(cases), callerDigest);
+        expect(
+          metrics.every((metric) => metric.provenanceReference === "pack-sha256:" + callerDigest)
+        ).toBe(true);
+        expect(metrics.every((metric) => metric.evidenceReferences.length === 0)).toBe(true);
+        expect(metrics.every((metric) => !("scientificAuthority" in metric))).toBe(true);
+      }
+      // B1 is aggregation, not validation: characterize preexisting row handling only.
+      const duplicate = semanticCoreMetricsFor([result("PASSED", 0), result("PASSED", 0)], digest);
+      expect(duplicate[0]!.outcome).toEqual({ kind: "VALUE", value: 2 });
+      const unsupported = {
+        ...result("PASSED", 0),
+        dimensionId: "unknown"
+      } as unknown as SemanticCoreCaseResult;
+      const unknownDimension = semanticCoreMetricsFor([unsupported], digest);
+      expect(unknownDimension[0]!.outcome).toEqual({ kind: "VALUE", value: 1 });
+      expect(unknownDimension.slice(2).every((metric) => metric.outcome.kind === "MISSING")).toBe(
+        true
+      );
+      expect(network).not.toHaveBeenCalled();
+    } finally {
+      network.mockRestore();
+    }
+  });
   it("keeps only passed/incorrect cases in denominators and does not mutate inputs", () => {
     const cases = SEMANTIC_CORE_STATES.map(result);
     const before = structuredClone(cases);
-    const metrics = semanticCoreMetricsFor(Object.freeze(cases), digest);
+    const metrics = semanticCoreMetricsFor(
+      Object.freeze(cases.map((item) => Object.freeze(item))),
+      digest
+    );
     expect(cases).toEqual(before);
     expect(metrics.map((metric) => metric.metricIdentity)).toEqual(SEMANTIC_CORE_METRICS);
     expect(metrics[0]!.outcome).toEqual({ kind: "VALUE", value: 2 });

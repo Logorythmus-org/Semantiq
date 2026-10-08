@@ -150,3 +150,25 @@ case states into the same five canonical S03 metrics used by the offline pilot. 
 eligibility and missing-result semantics and performs no provider calls, qualification decision
 or maturity update. Reusing this engineering API does not establish benchmark qualification
 or scientific validity.
+
+This is an internal experimental workspace API exposed by the private
+`@tech-club/benchmark` package barrel, with no stable external API support promise.
+Callers must supply trusted, already-evaluated case results with validated states
+and dimension identities; case identity integrity and uniqueness are the caller's
+responsibility. Inputs should be scalar plain-data records, not untrusted objects
+or accessors. Validate untrusted data upstream.
+
+`packDigest` is caller-attested. Aggregation does not validate its syntax, normalize
+or hash it, verify pack integrity or establish evaluation provenance. The existing
+`pack-sha256:<caller string>` reference is retained and is not verified evidence.
+The helper introduces no input rejection or deduplication policy; unsupported runtime
+inputs have no validation guarantee. It aggregates supplied rows, not unique identities.
+Outputs do not establish qualification, scientific validity or scientific authority.
+
+Returned metric identities, benchmark bindings and their nested benchmark identities
+are independent structural copies. Mutating one returned object cannot modify shared
+canonical definitions, another metric result or a later call's results. Serialized
+fields, mathematics and missingness remain unchanged; reference equality with canonical
+objects and other calls is intentionally no longer preserved. TypeScript readonly
+annotations remain; outputs are not frozen at runtime. Direct mutations of separately
+exported canonical constants are outside this output-isolation guarantee.
