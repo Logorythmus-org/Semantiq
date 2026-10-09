@@ -153,6 +153,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          # Historical semantic evidence is compared against its original committed bytes.
+          fetch-depth: 0
       - uses: pnpm/action-setup@v4
         with:
           version: 11.11.0

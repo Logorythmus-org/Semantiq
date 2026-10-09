@@ -1,0 +1,2933 @@
+{
+  "mode": "DRY_RUN",
+  "empiricalEvidence": false,
+  "scheduledAttempts": 72,
+  "frozen": {
+    "protocol": {
+      "protocolId": "semantic_core_pilot_bm3_qualification",
+      "protocolVersion": "0.1.0",
+      "runs": 3,
+      "casesPerRun": 24,
+      "scheduledAttempts": 72,
+      "retryPolicy": "NONE",
+      "caseOrderPolicy": "FROZEN_MANIFEST_ORDER",
+      "isolation": "FRESH_REQUEST_PER_CASE",
+      "serializerVersion": "0.1.0",
+      "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+      "scientificAuthority": "NONE",
+      "decisionAuthority": "NONE"
+    },
+    "source": {
+      "gitCommit": "f1303d0b5dfebc55197724110573f4b697ca9e26",
+      "gitTree": "4ea51cb239b9fece6186d9529a9a1e8311034504"
+    },
+    "benchmark": {
+      "benchmarkId": "semantic_core_pilot",
+      "benchmarkVersion": "0.1.0"
+    },
+    "packIdentity": {
+      "packId": "semantic_core_pilot",
+      "packVersion": "0.1.0"
+    },
+    "packDigest": "b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a",
+    "cases": [
+      {
+        "caseId": "meaning_context_01_paraphrase",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "eb0fd4689df9a4af0859e63194c564806cd1ad9cca94f159131adc0a10c550ff"
+        }
+      },
+      {
+        "caseId": "meaning_context_02_ambiguity",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "f3cfe39d85fae2dde644ec0cbee3972f1c48faf5305855ed9bf66422832895ff"
+        }
+      },
+      {
+        "caseId": "meaning_context_03_context_shift",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "c95a44e8bc10523a03fbde5c4b839822933931b67afb6db73fb2e3a9a274ccdc"
+        }
+      },
+      {
+        "caseId": "meaning_context_04_role_constraint",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "46e8270857776a8096edad463eeefbfbaed1bbf9bc6403a2c9c20235bbc38b46"
+        }
+      },
+      {
+        "caseId": "meaning_context_05_same_wording",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "4a56f010afd5c848e3f13ec2c443ff9b57e8c16efd855677c4c4bd9a4f48543e"
+        }
+      },
+      {
+        "caseId": "meaning_context_06_unsupported",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "a4ba43bae01592b54f814087e9003806a0ea7938620fd182c704f39e3feadbed"
+        }
+      },
+      {
+        "caseId": "meaning_context_07_relation",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "6358d3fb0547372e057281003d67b36872dad436888afedae4df602a5cc18ebc"
+        }
+      },
+      {
+        "caseId": "meaning_context_08_equivalence",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "5e461833a88187271bb68aa9b1f9977216a23f41af866d7e74173f994fad7e99"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_01_missing_property",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "de0e6b3fa2458812c6f3c9c15cb17b360c5e0bec4f378dd2e19eb5e2d9c0d941"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_02_hypothesis",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "d16918a3301c591bcc23588c7992266144f74b0b86f0e1a593ed3a8ce4f2b00c"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_03_citation",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "aeaf71bfb6c1fd89f5661c7723ebb9693b6a8a48bb98eefcfcf69d5909461b66"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_04_supported_claim",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "05579e80b1a2d6cd834a5806d6c99c2829b33eeb3db8d68dbb7ebbddb60c7495"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_05_unsupported_claim",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "f8af7ba18f09fdbc23657e30ef89ea7727da238beb91c7e11013fced4b783b3b"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_06_fiction",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "00a4d3cb7bf1d1c3a740c8e246025c202a4e5cc5fd23d91be195841e4745e099"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_07_unknown_entity",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "4a40da4e3f9ea1e0f849ce4baa3169b9e8540b7743ae1ba7e43cd4aed1dc4a8f"
+        }
+      },
+      {
+        "caseId": "epistemic_boundary_08_boundary_paraphrase",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "cae02346e2f6a0aab2abebbe14903d827c8eb954f037b92e6a7d030e498600e4"
+        }
+      },
+      {
+        "caseId": "bias_resistance_01_confirmation",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "f2ba5eb6fa106684713ebc4e1f3db737244489df02d2c515c79f56e1bd286f78"
+        }
+      },
+      {
+        "caseId": "bias_resistance_02_dichotomy",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "ed206cceccd60bd6538e6ba05ab4231dd80ed4bc056e8a4d61dea20b53007755"
+        }
+      },
+      {
+        "caseId": "bias_resistance_03_causality",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "ceedde9cde41108925061968548093abfa78a84f4525c0859e779a6f9456277e"
+        }
+      },
+      {
+        "caseId": "bias_resistance_04_single_observation",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "f03b51a02238d455b0d8e13085212b22debd1fcfba10e24f92d15c125fc4dc4e"
+        }
+      },
+      {
+        "caseId": "bias_resistance_05_anchoring",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "a131ab9f854ff250f53bbf33ca8a5b748b96fb1ec7fa80d85c62d970222534ec"
+        }
+      },
+      {
+        "caseId": "bias_resistance_06_sunk_cost",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "106bc54be25ad23db1b9bd773b4c8e6929cdbed0dda203eabbbbefc4c0716ee8"
+        }
+      },
+      {
+        "caseId": "bias_resistance_07_availability",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "9da5bde851009c2c070e090fc93de791bde6fe9f5deeafb0c99d04ad06aeb41e"
+        }
+      },
+      {
+        "caseId": "bias_resistance_08_attribution",
+        "digest": {
+          "algorithm": "SHA_256",
+          "representation": "ORIGINAL_BYTES",
+          "value": "a82a1428b0defa31404e4f9858e01424fa208f868052a7e8a8260306b72fdeb5"
+        }
+      }
+    ],
+    "schemaVersions": {
+      "case": "0.1.0",
+      "response": "0.1.0",
+      "qualification": "0.1.0"
+    },
+    "evaluator": {
+      "evaluatorId": "semantic_core_rule_evaluator",
+      "evaluatorVersion": "0.1.0"
+    },
+    "evaluatorConfiguration": {
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "parameters": {},
+      "toolReferences": [],
+      "contextReferences": [],
+      "normalizationReferences": []
+    },
+    "metrics": [
+      {
+        "metricId": "semantic_core_eligible_cases",
+        "metricVersion": "0.1.0"
+      },
+      {
+        "metricId": "semantic_core_passed_cases",
+        "metricVersion": "0.1.0"
+      },
+      {
+        "metricId": "semantic_core_meaning_context_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      {
+        "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      {
+        "metricId": "semantic_core_bias_resistance_pass_proportion",
+        "metricVersion": "0.1.0"
+      }
+    ],
+    "subjectConfiguration": null,
+    "prompts": [
+      {
+        "caseId": "meaning_context_01_paraphrase",
+        "promptDigest": "49a52fd7687a08acd8d2697ed38e40311c5b8850c697d58099e62cbdb1a7547c"
+      },
+      {
+        "caseId": "meaning_context_02_ambiguity",
+        "promptDigest": "78dcdbeb0635bbd09b2d55826b7b8881b4e29f13398d898da569ef868ca19539"
+      },
+      {
+        "caseId": "meaning_context_03_context_shift",
+        "promptDigest": "e0415cb769627d8193e014de74822c100948287fe7d05d21c54e7e094a5da508"
+      },
+      {
+        "caseId": "meaning_context_04_role_constraint",
+        "promptDigest": "77595a90d54c80b31b501ee61f32a23e70f4ddeb37e4f3e010e8102f13def2ae"
+      },
+      {
+        "caseId": "meaning_context_05_same_wording",
+        "promptDigest": "67e2a1e7984f7aa09cd56694658880122d6eb97c1b406529f16e0d9c9258ca7e"
+      },
+      {
+        "caseId": "meaning_context_06_unsupported",
+        "promptDigest": "0e27f8c336521d68d83d3aaffb3f4f37699632b3e626ca62bb3d8e380ee26f0f"
+      },
+      {
+        "caseId": "meaning_context_07_relation",
+        "promptDigest": "f3965063a6f00477b7ac8e49f2eb4458c2649f299dde740a145a1b3d6ed99a3a"
+      },
+      {
+        "caseId": "meaning_context_08_equivalence",
+        "promptDigest": "fa792d78e7988ecff39d2fb229483b7c03a9c5e3dacd6de5aa35aad8def37789"
+      },
+      {
+        "caseId": "epistemic_boundary_01_missing_property",
+        "promptDigest": "e746c428a67884275e9d51115d6acdda1eef1284db226050be94e003af6070ae"
+      },
+      {
+        "caseId": "epistemic_boundary_02_hypothesis",
+        "promptDigest": "28f57afab49d38327082c06ee7dd5c41f02901bcdd5324519fabc696430c6153"
+      },
+      {
+        "caseId": "epistemic_boundary_03_citation",
+        "promptDigest": "c52aa284139fd0131d934299acb31e771a654e07d556b850616ec814072e4f08"
+      },
+      {
+        "caseId": "epistemic_boundary_04_supported_claim",
+        "promptDigest": "b27be3da145329992e518300389e3445dd707c7abf6eeffa0b219f169e03a553"
+      },
+      {
+        "caseId": "epistemic_boundary_05_unsupported_claim",
+        "promptDigest": "88cd1cfdf239c001e0a4bf262939a25a45d673276e40da937f2fc5ad11796b71"
+      },
+      {
+        "caseId": "epistemic_boundary_06_fiction",
+        "promptDigest": "e054c71c62874c3466629f52667e006aa78d1e8c75fd5241817404bda3250d59"
+      },
+      {
+        "caseId": "epistemic_boundary_07_unknown_entity",
+        "promptDigest": "97fb3367a0d28205ed0505c569164238d4f34ec40c69918ac0616eed9053c52a"
+      },
+      {
+        "caseId": "epistemic_boundary_08_boundary_paraphrase",
+        "promptDigest": "102fffb3b8e28d35391a1c67d0a0939af6c8f0cdc54f86b7d720b3501d66ae83"
+      },
+      {
+        "caseId": "bias_resistance_01_confirmation",
+        "promptDigest": "d3758d996e7c057048509b71d94dfcb3bf1ea71f8076c770f464164edae67327"
+      },
+      {
+        "caseId": "bias_resistance_02_dichotomy",
+        "promptDigest": "02941274ee26f085d5429a4f63875835d40300911e00ed35a3ed376e9ca6533d"
+      },
+      {
+        "caseId": "bias_resistance_03_causality",
+        "promptDigest": "035bbf221e211725a8e551421c701db1728ff0a704caaaba9f8624f8fb8dab9c"
+      },
+      {
+        "caseId": "bias_resistance_04_single_observation",
+        "promptDigest": "3ca1167d3d36736478ea93cdf46a0f3334f65c2b04eaf0f0e8652d1ebde14102"
+      },
+      {
+        "caseId": "bias_resistance_05_anchoring",
+        "promptDigest": "4b06717e211e81f9b52e684dd1cdb0a61d10318450a13fe8e4be0da06c87f8d7"
+      },
+      {
+        "caseId": "bias_resistance_06_sunk_cost",
+        "promptDigest": "df7f62160d3546f091aad4e6bab6855a4d417b12bfabe740f028eec1f3695599"
+      },
+      {
+        "caseId": "bias_resistance_07_availability",
+        "promptDigest": "a7ff689a4682e42e5651af8775d0205bebdb6189d2295a36eb21b42b11a9666e"
+      },
+      {
+        "caseId": "bias_resistance_08_attribution",
+        "promptDigest": "db7cb9af8d80e626fe41e2e8324df02f7cc3c5bde1b52672987e97ff8219f955"
+      }
+    ],
+    "promptDigest": "aa800442cecd6d28cc360a3f085f329a275aa5a7ff2d7bc8e3c803e5d5b7427b",
+    "studies": [
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_01_paraphrase_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_01_paraphrase_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "07b68a85571a8bede84d888739dc68e5388262126e153756d8f9470e8f2dc277"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_01_paraphrase_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_01_paraphrase_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "bf014568b8da23bdd6b8b25b2d211975306b2dd65d11492465a6d40e2b5ed5b2"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_02_ambiguity_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_02_ambiguity_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "f651c397d55401ec852a80f89d89c09dacc00d38b2631677fbfe93444b2fcad9"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_02_ambiguity_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_02_ambiguity_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "b7a53087edb999c84ba18e7d693e4720fcbad57ee723f03ce2754feb67c2deb4"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_03_context_shift_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_03_context_shift_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "46445940f274571962d1affbe0187b367858eaaa10a664abb2a81b59992095be"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_03_context_shift_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_03_context_shift_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "1a77a2790fd002093a755c471c3be882ca754a6ad0be5f2b42a4812f9e19d943"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_04_role_constraint_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_04_role_constraint_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "22e197e7f4c1d61e61364dcd8ac69c01a7564876f2c0798d0f839ca885c2ee0d"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_04_role_constraint_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_04_role_constraint_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "c49f3456d592021991a71e1b4c387f29ef674f64d00ecf64329edc1998eacc35"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_05_same_wording_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_05_same_wording_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "537fa91586c976b4acd9b350dcd5fd0a686e1bf19f86016e1248b2539f03fb4c"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_05_same_wording_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_05_same_wording_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "47d7a6f41f3eadab30b82f3b25fadcd77dc25138c9fc3b96fbde85d5df189ab9"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_06_unsupported_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_06_unsupported_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "4548019142a3b685237f7b8581fa5d33667ca2e7d27694fac6d506453b880795"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_06_unsupported_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_06_unsupported_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "85f4a96ba8dcf065162046f7449773499a06ca432e3e84380e41914b0b9598c0"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_07_relation_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_07_relation_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "91a5b53e212543652f4059e1c33049307ff63c9cba16046c339deac8321e5fe3"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_07_relation_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_07_relation_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "8dd8c2ff492a5cae6c95ceea4d229ccdcc38578da6a7cde5b6075919aba80786"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_08_equivalence_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_08_equivalence_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "e7c671e3d00d8c9511b9d521573198962183e777acfce3f7e694f6e1cc9c21b7"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "meaning_context_08_equivalence_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "meaning_context_08_equivalence_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "14152d9110a553c2f5ad3f289e0e6ea1c6980e7dec4816f1334e7f86f0fce78d"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_01_missing_property_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_01_missing_property_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "063e658c352568b0df91b9f1fae37274fc70a88a63ad18d70f8cfba2426522e2"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_01_missing_property_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_01_missing_property_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "b4802c0111a4f295defbbf72e6f692ebc821508832ecbd8e8269b252a4ca61e5"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_02_hypothesis_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_02_hypothesis_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "b287505e3c513acbff26a9d04b0755ea287200510568a8c31936795e4bfd3b20"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_02_hypothesis_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_02_hypothesis_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "3cd4fe2e10d519211826b59351b209fe97e4d1407be92ef3ecb2df5782128f2e"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_03_citation_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_03_citation_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "90a7fba2f601498ee02bb21f5025b546f27e3150b7f87638052e67134422361f"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_03_citation_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_03_citation_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "f2eae7a25ecbcfca7eb61b7828f3b5af2cadb4fda15c033a6d5fceaaf970179f"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_04_supported_claim_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_04_supported_claim_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "ca59fbe32c24663fc25c07d14349c36aec39f8a90f3d10427f10683a931ff0c9"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_04_supported_claim_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_04_supported_claim_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "cb64339d59a99ccf318434b868ca433d0b25752b420fc529b343f8e77002baf3"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_05_unsupported_claim_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_05_unsupported_claim_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "b75e4960b6c2127bc80ddae7bd293eca8bfd5c183c8ccdbd69a66facb6474218"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_05_unsupported_claim_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_05_unsupported_claim_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "834f5898328650afcf649b7892e304d5ec0860883b900fb484a5a1e620ac2bcf"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_06_fiction_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_06_fiction_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "68eeecb3bbc13866057f33651e1626cd63d6d7ed87783a90ba233117859765a0"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_06_fiction_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_06_fiction_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "3c307965ca22baf6854bae4ddb538e85002a27bf3e89a04975224585a7b7314a"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_07_unknown_entity_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_07_unknown_entity_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "119bb6502d846826003908aeefb5b5c72b8c4c112f29ac57d9eb7e5054098d5e"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_07_unknown_entity_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_07_unknown_entity_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "424b1ad550f434f6dd1156a994b5e810a47c829aca0c07fc0f0c3fca7d4ee418"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_08_boundary_paraphrase_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_08_boundary_paraphrase_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "c57222c682898129cc1fc49e5686110b0ee6f7225614d53849308dfa6d3091f1"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "epistemic_boundary_08_boundary_paraphrase_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "epistemic_boundary_08_boundary_paraphrase_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "fd58f934edef6f6aa8a4e4d600d86b4ddd60b9462179ee89664cc50aa62cab79"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_01_confirmation_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_01_confirmation_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "e8a0d441d9b3a9172ea994927d6e416e7c3462fe19a58b7b57378cb76f3e0c09"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_01_confirmation_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_01_confirmation_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "1a74e79b65a51a0d67f8231c6d4cf9f09a819c1faeaf8ce142d17e5674d31fc0"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_02_dichotomy_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_02_dichotomy_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "44c00741b94e2e95197352eb0003a1e679869051b29bb5053f24712e66dc2007"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_02_dichotomy_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_02_dichotomy_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "afa3b528d8656b632da4abd1824df665d77c93f0ba4789aa530055281a2d2db3"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_03_causality_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_03_causality_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "8b60665847a4fa7736714c709f4f1a4d83c51d1555491c083bb9dae7a2393400"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_03_causality_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_03_causality_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "77a6cc757156dc869f72014cb5a6dee55ac2df690a0f5cb77bb9d6fbf46bf648"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_04_single_observation_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_04_single_observation_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "ecc4b881e09a9447745d765baa2df3ebe0cca1aa126d6c1e60db59cfa4d2f570"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_04_single_observation_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_04_single_observation_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "0cf73f438985dfc4135946e38d56126df46ad83eb7b130f098288d4550eb89f5"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_05_anchoring_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_05_anchoring_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "7eba1e7e11cae24befb5dddea42b6b1ddd5f8b562c74b38d7182d3ab47a55c73"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_05_anchoring_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_05_anchoring_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "2bcdaa580d53831eade451370aca66ef76b4e15405e06a6525cf7305b8481988"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_06_sunk_cost_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_06_sunk_cost_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "25af284b0b1e4742124d549e6ba7764d00cfc4e1448c2e0c3c642a864fd6c8c0"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_06_sunk_cost_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_06_sunk_cost_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "c9ce5adcca4f444cb77dc689c30e89c10f9aec378c911ede4dce4458a8ec1b87"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_07_availability_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_07_availability_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "119b2dcc7cc629054892f4acafb2babbf7cc4b2441d8f9098a76c2cfee97d615"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_07_availability_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_07_availability_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "08d3230ff7c6f27122d6ae899834469bfa0a4dd0a39442778d2ae1d6406b71d5"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_08_attribution_categorical_agreement",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_08_attribution_categorical_agreement",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "CATEGORICAL_AGREEMENT",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "bac9e2de888b291ac44287e1a2a4d8aad85c428f0c63fbc579938928a030df3a"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "bias_resistance_08_attribution_exact_repeatability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "bias_resistance_08_attribution_exact_repeatability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "EVALUATOR_CONFIGURATION",
+            "evaluator": {
+              "evaluatorId": "semantic_core_rule_evaluator",
+              "evaluatorVersion": "0.1.0"
+            },
+            "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452"
+          },
+          "method": "EXACT_REPEATABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "b86e153ba10dc382e1e5fdd0291de7dbca2215714ae69f9412492f1c1f49ede0"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "semantic_core_eligible_cases_stability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "semantic_core_eligible_cases_stability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "METRIC",
+            "metric": {
+              "metricId": "semantic_core_eligible_cases",
+              "metricVersion": "0.1.0"
+            }
+          },
+          "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "6f7a7204019b7be17d730e1a2d7c9b25cd92de35b199b96137e340c460915d2f"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "semantic_core_passed_cases_stability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "semantic_core_passed_cases_stability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "METRIC",
+            "metric": {
+              "metricId": "semantic_core_passed_cases",
+              "metricVersion": "0.1.0"
+            }
+          },
+          "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "da389b67a95209b1712b19ca005fa69affde36532e48e1e3a450319595f6e860"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "semantic_core_meaning_context_pass_proportion_stability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "semantic_core_meaning_context_pass_proportion_stability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "METRIC",
+            "metric": {
+              "metricId": "semantic_core_meaning_context_pass_proportion",
+              "metricVersion": "0.1.0"
+            }
+          },
+          "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "2f7015014c8ddfcdd7e22f67cfe79651ea71d5f017ffbc9ad6e62239268efcf1"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "semantic_core_epistemic_boundary_pass_proportion_stability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "semantic_core_epistemic_boundary_pass_proportion_stability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "METRIC",
+            "metric": {
+              "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+              "metricVersion": "0.1.0"
+            }
+          },
+          "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "7805035c436615fe4a163e3a79b3d7b19f0997e749408e91ffea0cfa70932702"
+      },
+      {
+        "definition": {
+          "identity": {
+            "reliabilityStudyId": "semantic_core_bias_resistance_pass_proportion_stability",
+            "reliabilityStudyVersion": "0.1.0"
+          },
+          "versionScope": "RELIABILITY_STUDY",
+          "name": "semantic_core_bias_resistance_pass_proportion_stability",
+          "question": "Describe repeated observations under this frozen engineering condition; no qualitative threshold.",
+          "target": {
+            "kind": "METRIC",
+            "metric": {
+              "metricId": "semantic_core_bias_resistance_pass_proportion",
+              "metricVersion": "0.1.0"
+            }
+          },
+          "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+          "constantDimensions": [
+            "BENCHMARK_VERSION",
+            "BENCHMARK_INPUT",
+            "METRIC_VERSION",
+            "EVALUATOR_VERSION",
+            "EVALUATOR_CONFIGURATION",
+            "SUBJECT",
+            "MODEL_PROVIDER",
+            "MODEL_SNAPSHOT",
+            "SEED",
+            "SAMPLING_CONFIGURATION",
+            "ENVIRONMENT"
+          ],
+          "variedDimensions": [
+            "TIME_WINDOW"
+          ],
+          "evidenceReferences": [
+            "protocol:semantic_core_pilot_bm3_qualification@0.1.0"
+          ],
+          "provenanceReferences": [
+            "Docs/benchmarks/SEMANTIC_CORE_PILOT_QUALIFICATION_PLAN.md"
+          ],
+          "scientificAuthority": "NONE",
+          "limitations": [
+            "Three project-controlled runs are an engineering minimum, not statistical significance or validity evidence.",
+            "Categorical decisions include full ANSWER option identity or ABSTAIN; absent/malformed/transport outputs are explicitly excluded."
+          ]
+        },
+        "definitionDigest": "7b5cd0e533fe43d4c0ffdd07b7755c85c10b48e18b8b5f9bb887412d94e7a7b7"
+      }
+    ],
+    "rights": {
+      "rightsClass": "FIRST_PARTY_OR_PROJECT",
+      "license": {
+        "identifier": "MIT",
+        "reference": "repository:LICENSE"
+      }
+    },
+    "provenance": {
+      "origin": "Phase 3 newly AI-authored synthetic project-controlled fixtures. Historical design ancestry only; no copied prompt catalog or empirical subjects.",
+      "provenanceClass": "AI_GENERATED",
+      "sourceReferences": [
+        "repository:Docs/benchmarks/SEMANTIC_CORE_PILOT.md",
+        "repository:LICENSE"
+      ]
+    },
+    "exposure": {
+      "benchmarkId": "semantic_core_pilot",
+      "exposureTier": "tier_a_public_reference",
+      "isPublicBundleExportable": true,
+      "version": "0.1.0"
+    }
+  },
+  "outcome": "INSUFFICIENT_EVIDENCE"
+}

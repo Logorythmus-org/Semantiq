@@ -1,0 +1,1788 @@
+{
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.1",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "caseOrderPolicy": "FROZEN_MANIFEST_ORDER",
+    "isolation": "FRESH_REQUEST_PER_CASE",
+    "serializerVersion": "0.1.0",
+    "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+    "scientificAuthority": "NONE",
+    "decisionAuthority": "NONE",
+    "collectionPolicy": "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+    "minimumFreeRequestsPerRun": 24,
+    "runAtomicity": "COMPLETE_RUN_PER_QUOTA_WINDOW",
+    "collectionWindowMaximumHours": 168,
+    "minimumRequestIntervalMs": 3500,
+    "oracleIsolationPolicy": "SUBJECT_INPUT_PROJECTION_ONLY"
+  },
+  "collectionState": "COMPLETE",
+  "phaseStatus": "BLOCKED — PROVIDER_REJECTION",
+  "qualificationOutcome": "NOT_QUALIFIED",
+  "conditionDigest": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+  "captureDigest": "08a35900ce6cfb7372255d41229a828bc14fb5d16e42717663bb95926067223d",
+  "source": {
+    "gitCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+    "gitTree": "5c1275a926a10ea404807ca6642c1d95d54ca45d"
+  },
+  "scheduledAttempts": 72,
+  "accountedAttempts": 72,
+  "validSubjectResponses": 0,
+  "stateCounts": {
+    "PASSED": 0,
+    "INCORRECT": 0,
+    "MISSING": 0,
+    "MALFORMED": 0,
+    "ABSTAINED": 0,
+    "SUBJECT_ERROR": 72
+  },
+  "errorCounts": {
+    "PROVIDER_REJECTION": 72
+  },
+  "runs": [
+    {
+      "run": 1,
+      "scheduledAttempts": 24,
+      "terminalAttempts": 24,
+      "preflightAt": "2026-10-06T18:26:35.092Z",
+      "completedAt": "2026-10-06T18:27:56.292Z",
+      "capacity": {
+        "observedAt": "2026-10-06T18:26:35.092Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "providerPreflightDigest": "fe408b4599eca97abea9fc02721e943c6d192c701b46971003f246d0773ae899",
+      "captureDigest": "4842eb59549bd442c4dcad781337ebea51fe6e32a41c7e4013182c6aff26ef45"
+    },
+    {
+      "run": 2,
+      "scheduledAttempts": 24,
+      "terminalAttempts": 24,
+      "preflightAt": "2026-10-06T18:29:09.029Z",
+      "completedAt": "2026-10-06T18:30:30.225Z",
+      "capacity": {
+        "observedAt": "2026-10-06T18:29:09.029Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "providerPreflightDigest": "fe408b4599eca97abea9fc02721e943c6d192c701b46971003f246d0773ae899",
+      "captureDigest": "75aa0f97f3d7c20b337393f1a601ce5a938601257e5b20dc2156eae38c35fcc8"
+    },
+    {
+      "run": 3,
+      "scheduledAttempts": 24,
+      "terminalAttempts": 24,
+      "preflightAt": "2026-10-06T18:30:50.492Z",
+      "completedAt": "2026-10-06T18:32:11.850Z",
+      "capacity": {
+        "observedAt": "2026-10-06T18:30:50.492Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "providerPreflightDigest": "fe408b4599eca97abea9fc02721e943c6d192c701b46971003f246d0773ae899",
+      "captureDigest": "08a35900ce6cfb7372255d41229a828bc14fb5d16e42717663bb95926067223d"
+    }
+  ],
+  "quotaAfterCollection": {
+    "observedAt": "2026-10-06T18:33:48.184Z",
+    "used": 0,
+    "limit": 50,
+    "remaining": 50
+  },
+  "quotaWindowCrossing": "NOT_OBSERVED",
+  "providerMutability": "EXTERNAL_NONDETERMINISTIC_MUTABLE_ALIAS",
+  "responseCostObservation": "UNAVAILABLE_FOR_NON_SUCCESS_HTTP_RESPONSES",
+  "reliability": [
+    {
+      "studyId": "meaning_context_01_paraphrase_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_01_paraphrase_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_01_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_02_ambiguity_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_02_ambiguity_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_02_ambiguity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_03_context_shift_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_03_context_shift_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_03_context_shift-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_04_role_constraint_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_04_role_constraint_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_04_role_constraint-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_05_same_wording_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_05_same_wording_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_05_same_wording-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_06_unsupported_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_06_unsupported_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_06_unsupported-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_07_relation_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_07_relation_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_07_relation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_08_equivalence_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "meaning_context_08_equivalence_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-meaning_context_08_equivalence-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_01_missing_property_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_01_missing_property_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_01_missing_property-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_02_hypothesis_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_02_hypothesis_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_02_hypothesis-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_03_citation_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_03_citation_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_03_citation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_04_supported_claim_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_04_supported_claim_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_04_supported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_05_unsupported_claim_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_05_unsupported_claim_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_05_unsupported_claim-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_06_fiction_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_06_fiction_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_06_fiction-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_07_unknown_entity_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_07_unknown_entity_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_07_unknown_entity-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_08_boundary_paraphrase_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "epistemic_boundary_08_boundary_paraphrase_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-epistemic_boundary_08_boundary_paraphrase-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_01_confirmation_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_01_confirmation_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_01_confirmation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_02_dichotomy_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_02_dichotomy_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_02_dichotomy-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_03_causality_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_03_causality_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_03_causality-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_04_single_observation_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_04_single_observation_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_04_single_observation-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_05_anchoring_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_05_anchoring_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_05_anchoring-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_06_sunk_cost_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_06_sunk_cost_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_06_sunk_cost-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_07_availability_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_07_availability_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_07_availability-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_08_attribution_categorical_agreement",
+      "method": "CATEGORICAL_AGREEMENT",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "bias_resistance_08_attribution_exact_repeatability",
+      "method": "EXACT_REPEATABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3,
+        "candidatePairs": 3,
+        "eligiblePairs": 0,
+        "usedPairs": 0
+      },
+      "exclusions": [
+        {
+          "executionId": "semantic-core-run-1-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-2-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        },
+        {
+          "executionId": "semantic-core-run-3-bias_resistance_08_attribution-evaluation",
+          "reason": "PARTIAL_WITHOUT_OUTPUT",
+          "detail": "Partial execution has no usable output."
+        }
+      ]
+    },
+    {
+      "studyId": "semantic_core_eligible_cases_stability",
+      "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3
+      },
+      "exclusions": [
+        {
+          "executionId": "run-1-semantic_core_eligible_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-2-semantic_core_eligible_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-3-semantic_core_eligible_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "studyId": "semantic_core_passed_cases_stability",
+      "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3
+      },
+      "exclusions": [
+        {
+          "executionId": "run-1-semantic_core_passed_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-2-semantic_core_passed_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-3-semantic_core_passed_cases",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "studyId": "semantic_core_meaning_context_pass_proportion_stability",
+      "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3
+      },
+      "exclusions": [
+        {
+          "executionId": "run-1-semantic_core_meaning_context_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-2-semantic_core_meaning_context_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-3-semantic_core_meaning_context_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "studyId": "semantic_core_epistemic_boundary_pass_proportion_stability",
+      "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3
+      },
+      "exclusions": [
+        {
+          "executionId": "run-1-semantic_core_epistemic_boundary_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-2-semantic_core_epistemic_boundary_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-3-semantic_core_epistemic_boundary_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        }
+      ]
+    },
+    {
+      "studyId": "semantic_core_bias_resistance_pass_proportion_stability",
+      "method": "NUMERIC_RUN_TO_RUN_STABILITY",
+      "applicability": "INSUFFICIENT_EVIDENCE",
+      "sample": {
+        "candidateObservations": 3,
+        "eligibleObservations": 0,
+        "usedObservations": 0,
+        "excludedObservations": 3
+      },
+      "exclusions": [
+        {
+          "executionId": "run-1-semantic_core_bias_resistance_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-2-semantic_core_bias_resistance_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        },
+        {
+          "executionId": "run-3-semantic_core_bias_resistance_pass_proportion",
+          "reason": "MISSING_VALUE",
+          "detail": "INSUFFICIENT_EVIDENCE"
+        }
+      ]
+    }
+  ],
+  "verifications": [
+    {
+      "packageId": "semantic-core-run-1:evidence",
+      "packageDigest": "4f5d37bdecd86406b295cb6a718100d834e1677b2bc3c563133f03367034b076",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY",
+      "errors": 0
+    },
+    {
+      "packageId": "semantic-core-run-2:evidence",
+      "packageDigest": "0eef1020dc7e715e12b1fc291ebadee538e4d934339c275294786c08e6327d6e",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY",
+      "errors": 0
+    },
+    {
+      "packageId": "semantic-core-run-3:evidence",
+      "packageDigest": "918e79f3dd43cc536fcd9ec6f00e7efe64eda57398c0cd5a4292cef27a19c674",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY",
+      "errors": 0
+    },
+    {
+      "packageId": "semantic-core-qualification:evidence",
+      "packageDigest": "8b89821ac4b39d51f485663666bb19bccbbd8741ffe8bbf5048352d1e5e9447f",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY",
+      "errors": 0
+    }
+  ],
+  "nonPromotion": {
+    "recommendation": "INSUFFICIENT_EVIDENCE",
+    "blockingGateIds": [
+      "CONSTRUCT_DEFINED",
+      "OPERATIONALIZATION_DEFINED",
+      "METRIC_SEMANTICS",
+      "EVALUATOR_SEMANTICS",
+      "STABLE_BENCHMARK_IDENTITY",
+      "IMPLEMENTATION",
+      "RIGHTS_CLEARANCE",
+      "EMPIRICAL_EVIDENCE",
+      "S09_EVIDENCE_PACKAGE",
+      "CALIBRATION",
+      "RELIABILITY",
+      "VALIDITY",
+      "ROBUSTNESS",
+      "ANTI_GAMING",
+      "REPRODUCIBILITY",
+      "CONTRADICTIONS_RESOLVED"
+    ],
+    "mutatesBenchmarkRegistry": false
+  },
+  "limitations": [
+    "All 72 scheduled real transport-path attempts ended in PROVIDER_REJECTION; no valid subject answer or model accuracy/reliability estimate exists.",
+    "The frozen adapter retained only the bounded PROVIDER_REJECTION code, not HTTP error status/body or a per-attempt preflight-versus-POST marker. Exact generation POST submission count and rejection cause are not verifiable.",
+    "Free-model daily counter remained used=0/remaining=50 before every run and after collection. No quota reset was assumed; none was observed.",
+    "No successful response usage/cost fields exist. Advertised fees and request caps were zero; no paid or alternate fallback/purchase occurred.",
+    "Same advertised canonical slug does not cryptographically freeze remote weights. Reliability is not validity.",
+    "No retries, no replacement run, no oracle exposure, no CoT request, no promotion, no release."
+  ],
+  "generationPostSubmissionCount": "NOT_RECORDED_NOT_VERIFIABLE"
+}

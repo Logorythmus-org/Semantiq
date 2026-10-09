@@ -1,0 +1,146 @@
+{
+  "identity": {
+    "qualificationId": "semantic_core_pilot_bm3_qualification",
+    "qualificationVersion": "0.1.1"
+  },
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.1",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "caseOrderPolicy": "FROZEN_MANIFEST_ORDER",
+    "isolation": "FRESH_REQUEST_PER_CASE",
+    "serializerVersion": "0.1.0",
+    "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+    "scientificAuthority": "NONE",
+    "decisionAuthority": "NONE",
+    "collectionPolicy": "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+    "minimumFreeRequestsPerRun": 24,
+    "runAtomicity": "COMPLETE_RUN_PER_QUOTA_WINDOW",
+    "collectionWindowMaximumHours": 168,
+    "minimumRequestIntervalMs": 3500,
+    "oracleIsolationPolicy": "SUBJECT_INPUT_PROJECTION_ONLY"
+  },
+  "conditionDigest": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+  "benchmark": {
+    "benchmarkId": "semantic_core_pilot",
+    "benchmarkVersion": "0.1.0"
+  },
+  "packDigest": "b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a",
+  "source": {
+    "gitCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+    "gitTree": "5c1275a926a10ea404807ca6642c1d95d54ca45d"
+  },
+  "scheduledRuns": 3,
+  "scheduledAttempts": 72,
+  "accountedAttempts": 72,
+  "evaluatorReplayExact": true,
+  "reliabilityReferences": [
+    "meaning_context_01_paraphrase_categorical_agreement-execution",
+    "meaning_context_01_paraphrase_exact_repeatability-execution",
+    "meaning_context_02_ambiguity_categorical_agreement-execution",
+    "meaning_context_02_ambiguity_exact_repeatability-execution",
+    "meaning_context_03_context_shift_categorical_agreement-execution",
+    "meaning_context_03_context_shift_exact_repeatability-execution",
+    "meaning_context_04_role_constraint_categorical_agreement-execution",
+    "meaning_context_04_role_constraint_exact_repeatability-execution",
+    "meaning_context_05_same_wording_categorical_agreement-execution",
+    "meaning_context_05_same_wording_exact_repeatability-execution",
+    "meaning_context_06_unsupported_categorical_agreement-execution",
+    "meaning_context_06_unsupported_exact_repeatability-execution",
+    "meaning_context_07_relation_categorical_agreement-execution",
+    "meaning_context_07_relation_exact_repeatability-execution",
+    "meaning_context_08_equivalence_categorical_agreement-execution",
+    "meaning_context_08_equivalence_exact_repeatability-execution",
+    "epistemic_boundary_01_missing_property_categorical_agreement-execution",
+    "epistemic_boundary_01_missing_property_exact_repeatability-execution",
+    "epistemic_boundary_02_hypothesis_categorical_agreement-execution",
+    "epistemic_boundary_02_hypothesis_exact_repeatability-execution",
+    "epistemic_boundary_03_citation_categorical_agreement-execution",
+    "epistemic_boundary_03_citation_exact_repeatability-execution",
+    "epistemic_boundary_04_supported_claim_categorical_agreement-execution",
+    "epistemic_boundary_04_supported_claim_exact_repeatability-execution",
+    "epistemic_boundary_05_unsupported_claim_categorical_agreement-execution",
+    "epistemic_boundary_05_unsupported_claim_exact_repeatability-execution",
+    "epistemic_boundary_06_fiction_categorical_agreement-execution",
+    "epistemic_boundary_06_fiction_exact_repeatability-execution",
+    "epistemic_boundary_07_unknown_entity_categorical_agreement-execution",
+    "epistemic_boundary_07_unknown_entity_exact_repeatability-execution",
+    "epistemic_boundary_08_boundary_paraphrase_categorical_agreement-execution",
+    "epistemic_boundary_08_boundary_paraphrase_exact_repeatability-execution",
+    "bias_resistance_01_confirmation_categorical_agreement-execution",
+    "bias_resistance_01_confirmation_exact_repeatability-execution",
+    "bias_resistance_02_dichotomy_categorical_agreement-execution",
+    "bias_resistance_02_dichotomy_exact_repeatability-execution",
+    "bias_resistance_03_causality_categorical_agreement-execution",
+    "bias_resistance_03_causality_exact_repeatability-execution",
+    "bias_resistance_04_single_observation_categorical_agreement-execution",
+    "bias_resistance_04_single_observation_exact_repeatability-execution",
+    "bias_resistance_05_anchoring_categorical_agreement-execution",
+    "bias_resistance_05_anchoring_exact_repeatability-execution",
+    "bias_resistance_06_sunk_cost_categorical_agreement-execution",
+    "bias_resistance_06_sunk_cost_exact_repeatability-execution",
+    "bias_resistance_07_availability_categorical_agreement-execution",
+    "bias_resistance_07_availability_exact_repeatability-execution",
+    "bias_resistance_08_attribution_categorical_agreement-execution",
+    "bias_resistance_08_attribution_exact_repeatability-execution",
+    "semantic_core_eligible_cases_stability-execution",
+    "semantic_core_passed_cases_stability-execution",
+    "semantic_core_meaning_context_pass_proportion_stability-execution",
+    "semantic_core_epistemic_boundary_pass_proportion_stability-execution",
+    "semantic_core_bias_resistance_pass_proportion_stability-execution"
+  ],
+  "packages": [
+    {
+      "packageId": "semantic-core-run-1:evidence",
+      "packageDigest": "4f5d37bdecd86406b295cb6a718100d834e1677b2bc3c563133f03367034b076",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY"
+    },
+    {
+      "packageId": "semantic-core-run-2:evidence",
+      "packageDigest": "0eef1020dc7e715e12b1fc291ebadee538e4d934339c275294786c08e6327d6e",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY"
+    },
+    {
+      "packageId": "semantic-core-run-3:evidence",
+      "packageDigest": "918e79f3dd43cc536fcd9ec6f00e7efe64eda57398c0cd5a4292cef27a19c674",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY"
+    },
+    {
+      "packageId": "semantic-core-qualification:evidence",
+      "packageDigest": "8b89821ac4b39d51f485663666bb19bccbbd8741ffe8bbf5048352d1e5e9447f",
+      "outcome": "VERIFIED_INTERNAL_CONSISTENCY"
+    }
+  ],
+  "regression": {
+    "exact": true,
+    "replayedAttempts": 72,
+    "externalReproduction": false,
+    "scientificAuthority": "NONE"
+  },
+  "criticalFindings": [
+    "INFRASTRUCTURE_FAILURE"
+  ],
+  "exposure": "TIER_A_PUBLIC_NOT_HELD_OUT_CONTAMINATION_UNKNOWN",
+  "limitations": [
+    "Tier A public synthetic first-party AI-authored cases and public oracles: contamination cannot be ruled out; not held-out; high scores do not establish clean generalization.",
+    "Internal execution, reliability and integrity evidence only; model accuracy is not a qualification gate.",
+    "Reliability is not validity. No calibration, construct validity, robustness, anti-gaming, independent reproduction, external validation, Core admission or leaderboard eligibility.",
+    "Mutable model alias; advertised canonical slug is provenance, not an immutable provider snapshot. Temperature zero and an optional seed do not establish deterministic subject execution.",
+    "Original HTTP response bytes are unavailable; only bounded normalized observations and original-byte digests are retained. Engineering evaluator replay is not external reproduction.",
+    "Automated records have scientific authority NONE and decision authority NONE. Human/code-owner review and merge govern any public BM3 proposal."
+  ],
+  "repositoryRegression": "PASSED_REFERENCED_OPERATOR_REPORT",
+  "repositoryValidation": {
+    "sourceCommit": "7b185a1e3aea25d94474861681f1fed09ba6df93",
+    "status": "PASSED",
+    "reportDigest": "214b7c3f56d339b24aec1bf630689193088aae63734e90a1f9e2c3b22dead676"
+  },
+  "outcome": "NOT_QUALIFIED",
+  "scientificAuthority": "NONE",
+  "decisionAuthority": "NONE",
+  "proposesBM3": false,
+  "acceptance": "HUMAN_REVIEW_AND_MERGE_REQUIRED"
+}
