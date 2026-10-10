@@ -31,8 +31,9 @@ describe("evidence normalization digest preimage characterization (#192)", () =>
   it("demonstrates that the legacy array replacer omits nested evidence changes", () => {
     const success = sample(0, "first");
     const failure = sample(1, "second");
-    const legacyPreimage = (value: typeof success) =>
-      JSON.stringify(value, Object.keys(value).sort());
+    const legacyPreimage = (value: typeof success): string => {
+      return JSON.stringify(value, Object.keys(value).sort());
+    };
 
     expect(legacyPreimage(success)).toBe(legacyPreimage(failure));
     expect(legacyPreimage(success)).toContain('"result":{}');
@@ -66,10 +67,9 @@ describe("evidence normalization digest preimage characterization (#192)", () =>
     };
 
     expect(canonicalJson(left)).toBe(canonicalJson(right));
-    expect(
-      hashCanonical(left, { profile: SHARED_CANONICALIZATION_PROFILE }).sha256
-    ).toBe(
-      hashCanonical(right, { profile: SHARED_CANONICALIZATION_PROFILE }).sha256
-    );
+    const hashLeft = hashCanonical(left, { profile: SHARED_CANONICALIZATION_PROFILE });
+    const hashRight = hashCanonical(right, { profile: SHARED_CANONICALIZATION_PROFILE });
+
+    expect(hashLeft.sha256).toBe(hashRight.sha256);
   });
 });
