@@ -1,0 +1,346 @@
+{
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.2",
+    "serializerVersion": "0.1.2",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "collectionPolicy": "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+    "minimumFreeRequestsPerRun": 24,
+    "runAtomicity": "COMPLETE_RUN_PER_QUOTA_WINDOW",
+    "collectionWindowMaximumHours": 168,
+    "minimumRequestIntervalMs": 3500,
+    "isolation": "FRESH_REQUEST_PER_CASE",
+    "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+    "scientificAuthority": "NONE",
+    "bmMaturityAuthority": "NONE",
+    "empiricalConditionGate": "SUCCESSFUL_TRANSPORT_CANARY_REQUIRED"
+  },
+  "status": "PHASE 4 STATUS: BLOCKED — TRANSPORT ROOT CAUSE UNRESOLVED",
+  "qualificationOutcome": "INSUFFICIENT_EVIDENCE",
+  "empiricalConditionCreated": false,
+  "empiricalAttempts": 0,
+  "generationDiagnosticRequests": 3,
+  "canaryCSubmitted": false,
+  "furtherGenerationAllowed": false,
+  "rootCauseAssessment": {
+    "localization": "MINIMAL_STRICT_STRUCTURED_REQUEST_RETURNED_HTTP_400_WITH_NOVITA_PROVENANCE",
+    "exactReturnedReason": "UNSPECIFIED",
+    "exactRootCauseConfirmed": false,
+    "original011CauseRetroactivelyProven": false
+  },
+  "historicalHead": "6263f95475def9eafec9c89c2cec544fbb12fd0e",
+  "historicalOutcome": "NOT_QUALIFIED",
+  "historicalFailure": "INFRASTRUCTURE_FAILURE",
+  "historicalArtifacts": [
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/collection-summary.json",
+      "bytes": 63640,
+      "sha256": "0ce19ea3055f201a09dc9a6de037fa45f8a39dd1a3fc7fcca7e9a150f85397f4",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/evidence-inventory.json",
+      "bytes": 1503,
+      "sha256": "83284dd50ab43b5203e2171c565bb317e94574cc8341fdfba0d1d913942fde9d",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/condition.json",
+      "bytes": 126329,
+      "sha256": "f60b00aeeaed107c9babb9e9982d97789bc6a3a7d3158f149782b22cb6a2b313",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/qualification.json",
+      "bytes": 2816277,
+      "sha256": "318e58de219b35e77b6b458f5bb978899b32e9ad0a00492026767a1dc80ad326",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-1.attempts.jsonl",
+      "bytes": 37964,
+      "sha256": "fab0c93d32ef5028b63fdeddabef0b3ab2824997eee3cdf0ca5795368c610aaa",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-1.json",
+      "bytes": 220306,
+      "sha256": "0dee8dc8bb9b82c270654ae78bb5507732f2e1435f503d109b9188c2dba90996",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-2.attempts.jsonl",
+      "bytes": 37964,
+      "sha256": "342899a3aef7216d32f7e9690820607a034c11f3a690fce552f2858cd13e484e",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-2.json",
+      "bytes": 306838,
+      "sha256": "6a0339ca7bc1da777c34f019dc109dd12fcfbde3d34d6783a0f05025a462bc00",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-3.attempts.jsonl",
+      "bytes": 37964,
+      "sha256": "8ae20a584a6cb0bbc3cfd1276f0739b9b971a1916e167583166c9ccccf3216e0",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/live/run-3.json",
+      "bytes": 393370,
+      "sha256": "31922affea9d8e0c46eca6b1abf1a41f943644fb4e9e98e2512050d7098da6bd",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/post-collection-validation.json",
+      "bytes": 1011,
+      "sha256": "4565f290f03fbfa56bc8b49b9fab1111daaae7a9f985afe50fba87abc7182e63",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/protocol.json",
+      "bytes": 1301,
+      "sha256": "166ed1d36e531269428d96b5fa58adf08c415b841ebae5b55604fc98a2e7bca5",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/qualification-record.json",
+      "bytes": 7734,
+      "sha256": "bb3f902bd512f33a9243b81fd89637ac7eecf3857c3b57f6f4b356a2a0acb348",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/regression-replay.json",
+      "bytes": 112,
+      "sha256": "62aa2623067af0bdd151b2477b149a3b27ab3a89b34bff8df7eb0f5bb6777047",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/s04-executions.json",
+      "bytes": 148254,
+      "sha256": "b382447bde1ae7e702f617faee3628a94a03141413c0e843f51a6f018a511e04",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/s05-evidence.json",
+      "bytes": 183890,
+      "sha256": "e60a128979d0ab593c48883a50d72e072b72f8cc0d6df5b24cac8989607e2df3",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/s09-evidence.json",
+      "bytes": 1981977,
+      "sha256": "ae09842dcdaca839d43df87e3fe0c90f6eca9ae7609f76687a97c2f0a405e96c",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/s10-assessment.json",
+      "bytes": 229386,
+      "sha256": "a3d8a03821257cb8ca5e75fccda4f5645aaf22922bdc9341dbd98c1967b630a0",
+      "historicalBytesMatch": true
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.1/validation-report.json",
+      "bytes": 2446,
+      "sha256": "7e26318c470b8575835b29f6d9c8c511b1b7f6ecf8f186e1aef359da61f78ac7",
+      "historicalBytesMatch": true
+    }
+  ],
+  "publicBenchmarkMaturity": "BM2",
+  "scientificMaturity": "UNVALIDATED_PROXY",
+  "corePromotion": "NOT_PROMOTED",
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE",
+  "artifacts": [
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.2/transport-canary-A.json",
+      "bytes": 2709,
+      "sha256": "5016bd6e82736539a2d8a341e897e6a445eb93033085209486f64a702fd15c6b"
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.2/transport-canary-B.json",
+      "bytes": 2875,
+      "sha256": "8dc541852556235b3e0f6b50bd157da2635958840b3fe06f7af416fdb6ce76f0"
+    },
+    {
+      "path": "fixtures/semantic-core-qualification-0.1.2/transport-canary-B-inspection.json",
+      "bytes": 3020,
+      "sha256": "588f84cb98ceef35728ed20f5e6ee36e7b8019bd5867d830479f5a2b4068f589"
+    }
+  ],
+  "observations": [
+    {
+      "artifact": "transport-canary-A.json",
+      "source": {
+        "gitCommit": "6a9668ef902524c45c7e39238f8a63ad9053a413",
+        "gitTree": "dee6cd0188556b97375458ddc4dba4bd14c471ce"
+      },
+      "quotaBefore": {
+        "observedAt": "2026-10-06T19:26:14.815Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "quotaAfter": {
+        "observedAt": "2026-10-06T19:26:16.782Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "stages": [
+        "PRE_GENERATION_METADATA",
+        "GENERATION_REQUEST_PREPARED",
+        "GENERATION_POST_SUBMITTED",
+        "GENERATION_RESPONSE_HEADERS_RECEIVED",
+        "GENERATION_RESPONSE_BODY_RECEIVED",
+        "GENERATION_RESPONSE_PARSED"
+      ],
+      "wireRequestDigest": "c6bfe5eb05b26f7a176ef59a9f03ea64be73dba8b7e7d8c279f464546c63885e",
+      "requestSummary": {
+        "model": "apodex/apodex-1.1-mini:free",
+        "routingSelector": "novita",
+        "allowFallbacks": false,
+        "responseFormat": "NONE",
+        "maxTokens": 16,
+        "parameterNames": [
+          "max_tokens",
+          "messages",
+          "model",
+          "provider",
+          "stream",
+          "temperature"
+        ]
+      },
+      "result": {
+        "httpStatus": 200,
+        "success": false,
+        "returnedModel": "apodex/apodex-1.1-mini:free",
+        "returnedProvider": "Novita",
+        "usage": {
+          "promptTokens": 24,
+          "completionTokens": 16,
+          "cost": 0
+        }
+      },
+      "originalSuccessField": false
+    },
+    {
+      "artifact": "transport-canary-B.json",
+      "source": {
+        "gitCommit": "fc6afd8cd3a784d321a5c7305fe39269896c8c25",
+        "gitTree": "6b95b67fabe20a79c0d548bd30f6e3c6c4a7baab"
+      },
+      "quotaBefore": {
+        "observedAt": "2026-10-06T19:28:53.644Z",
+        "used": 1,
+        "limit": 50,
+        "remaining": 49
+      },
+      "quotaAfter": {
+        "observedAt": "2026-10-06T19:28:54.322Z",
+        "used": 1,
+        "limit": 50,
+        "remaining": 49
+      },
+      "stages": [
+        "PRE_GENERATION_METADATA",
+        "GENERATION_REQUEST_PREPARED",
+        "GENERATION_POST_SUBMITTED",
+        "GENERATION_RESPONSE_HEADERS_RECEIVED",
+        "GENERATION_RESPONSE_BODY_RECEIVED",
+        "GENERATION_RESPONSE_PARSED"
+      ],
+      "wireRequestDigest": "b934b271536b3fd545afa8a8e240743890e9a3b494c984185a9cba0cc4da8189",
+      "requestSummary": {
+        "model": "apodex/apodex-1.1-mini:free",
+        "routingSelector": "novita",
+        "allowFallbacks": false,
+        "responseFormat": "json_schema",
+        "maxTokens": 128,
+        "parameterNames": [
+          "max_tokens",
+          "messages",
+          "model",
+          "provider",
+          "response_format",
+          "stream",
+          "temperature"
+        ]
+      },
+      "result": {
+        "httpStatus": 400,
+        "bodyState": "BOUNDED_ERROR_FIELDS_PARSED",
+        "code": 400,
+        "type": null,
+        "upstreamProvider": "Novita",
+        "providerCode": null,
+        "reason": "UNSPECIFIED",
+        "classification": "OPENROUTER_REQUEST_VALIDATION_REJECTION",
+        "sanitizedErrorDigest": "a8ea508c2022044b1cdbb4e2d266c4b7155df326c3fb5e9036c0e004fe09b260"
+      },
+      "originalSuccessField": false
+    },
+    {
+      "artifact": "transport-canary-B-inspection.json",
+      "source": {
+        "gitCommit": "2c992f17205873e87a7d6d2ecc63c7f9dbae5ca0",
+        "gitTree": "626bedf563be7c8d2dc8e9997c149aee44c8efb4"
+      },
+      "quotaBefore": {
+        "observedAt": "2026-10-06T19:32:05.680Z",
+        "used": 1,
+        "limit": 50,
+        "remaining": 49
+      },
+      "quotaAfter": {
+        "observedAt": "2026-10-06T19:32:06.635Z",
+        "used": 1,
+        "limit": 50,
+        "remaining": 49
+      },
+      "stages": [
+        "PRE_GENERATION_METADATA",
+        "GENERATION_REQUEST_PREPARED",
+        "GENERATION_POST_SUBMITTED",
+        "GENERATION_RESPONSE_HEADERS_RECEIVED",
+        "GENERATION_RESPONSE_BODY_RECEIVED",
+        "GENERATION_RESPONSE_PARSED"
+      ],
+      "wireRequestDigest": "b934b271536b3fd545afa8a8e240743890e9a3b494c984185a9cba0cc4da8189",
+      "requestSummary": {
+        "model": "apodex/apodex-1.1-mini:free",
+        "routingSelector": "novita",
+        "allowFallbacks": false,
+        "responseFormat": "json_schema",
+        "maxTokens": 128,
+        "parameterNames": [
+          "max_tokens",
+          "messages",
+          "model",
+          "provider",
+          "response_format",
+          "stream",
+          "temperature"
+        ]
+      },
+      "result": {
+        "httpStatus": 400,
+        "bodyState": "BOUNDED_ERROR_FIELDS_PARSED",
+        "code": 400,
+        "type": null,
+        "upstreamProvider": "Novita",
+        "providerCode": null,
+        "upstreamType": null,
+        "parameter": null,
+        "reason": "UNSPECIFIED",
+        "classification": "UPSTREAM_PROVIDER_REJECTION",
+        "sanitizedErrorDigest": "4cc5d66b853b7d87f20e34d27cead8eb2d8982ebb05858342d68da765e172554"
+      },
+      "originalSuccessField": false
+    }
+  ]
+}

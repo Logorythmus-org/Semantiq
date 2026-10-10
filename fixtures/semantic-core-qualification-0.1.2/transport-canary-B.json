@@ -1,0 +1,107 @@
+{
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.2",
+    "serializerVersion": "0.1.2",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "scientificAuthority": "NONE",
+    "bmMaturityAuthority": "NONE",
+    "empiricalConditionGate": "SUCCESSFUL_TRANSPORT_CANARY_REQUIRED"
+  },
+  "source": {
+    "gitCommit": "fc6afd8cd3a784d321a5c7305fe39269896c8c25",
+    "gitTree": "6b95b67fabe20a79c0d548bd30f6e3c6c4a7baab"
+  },
+  "kind": "B",
+  "purpose": "ENGINEERING_TRANSPORT_ONLY",
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE",
+  "eligibleForQualification": false,
+  "metadata": {
+    "modelId": "apodex/apodex-1.1-mini:free",
+    "canonicalSlug": "apodex/apodex-1.1-mini-20261001",
+    "providerName": "Novita",
+    "route": "novita/bf16",
+    "status": 0,
+    "pricing": {
+      "prompt": "0",
+      "completion": "0"
+    },
+    "supportedParameters": [
+      "frequency_penalty",
+      "include_reasoning",
+      "max_tokens",
+      "presence_penalty",
+      "reasoning",
+      "repetition_penalty",
+      "response_format",
+      "seed",
+      "stop",
+      "structured_outputs",
+      "temperature",
+      "tool_choice",
+      "tools",
+      "top_k",
+      "top_p"
+    ]
+  },
+  "routing": {
+    "discoveryEndpointTag": "novita/bf16",
+    "providerRoutingSelector": "novita",
+    "policy": "DOCUMENTED_BASE_SLUG_SINGLE_ELIGIBLE_ENDPOINT_ONLY"
+  },
+  "quotaBefore": {
+    "observedAt": "2026-10-06T19:28:53.644Z",
+    "used": 1,
+    "limit": 50,
+    "remaining": 49
+  },
+  "quotaAfter": {
+    "observedAt": "2026-10-06T19:28:54.322Z",
+    "used": 1,
+    "limit": 50,
+    "remaining": 49
+  },
+  "audit": {
+    "stages": [
+      "PRE_GENERATION_METADATA",
+      "GENERATION_REQUEST_PREPARED",
+      "GENERATION_POST_SUBMITTED",
+      "GENERATION_RESPONSE_HEADERS_RECEIVED",
+      "GENERATION_RESPONSE_BODY_RECEIVED",
+      "GENERATION_RESPONSE_PARSED"
+    ],
+    "wireRequestDigest": "b934b271536b3fd545afa8a8e240743890e9a3b494c984185a9cba0cc4da8189",
+    "requestSummary": {
+      "model": "apodex/apodex-1.1-mini:free",
+      "routingSelector": "novita",
+      "allowFallbacks": false,
+      "responseFormat": "json_schema",
+      "maxTokens": 128,
+      "parameterNames": [
+        "max_tokens",
+        "messages",
+        "model",
+        "provider",
+        "response_format",
+        "stream",
+        "temperature"
+      ]
+    },
+    "result": {
+      "httpStatus": 400,
+      "bodyState": "BOUNDED_ERROR_FIELDS_PARSED",
+      "code": 400,
+      "type": null,
+      "upstreamProvider": "Novita",
+      "providerCode": null,
+      "reason": "UNSPECIFIED",
+      "classification": "OPENROUTER_REQUEST_VALIDATION_REJECTION",
+      "sanitizedErrorDigest": "a8ea508c2022044b1cdbb4e2d266c4b7155df326c3fb5e9036c0e004fe09b260"
+    }
+  },
+  "success": false
+}

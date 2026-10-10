@@ -1,0 +1,12 @@
+{
+  "source": {
+    "gitCommit": "fc6afd8cd3a784d321a5c7305fe39269896c8c25",
+    "gitTree": "6b95b67fabe20a79c0d548bd30f6e3c6c4a7baab"
+  },
+  "originalArtifact": "transport-canary-A.json",
+  "assessment": "HTTP_MODEL_PROVIDER_USAGE_ZERO_COST_TRANSPORT_GATE_SATISFIED",
+  "originalOutputCheckSatisfied": false,
+  "additionalPostRequests": 0,
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE"
+}

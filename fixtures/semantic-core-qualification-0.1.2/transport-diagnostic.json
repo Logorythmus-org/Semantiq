@@ -1,0 +1,115 @@
+{
+  "protocol": {
+    "protocolId": "semantic_core_pilot_bm3_qualification",
+    "protocolVersion": "0.1.2",
+    "serializerVersion": "0.1.2",
+    "runs": 3,
+    "casesPerRun": 24,
+    "scheduledAttempts": 72,
+    "retryPolicy": "NONE",
+    "scientificAuthority": "NONE",
+    "bmMaturityAuthority": "NONE",
+    "empiricalConditionGate": "SUCCESSFUL_TRANSPORT_CANARY_REQUIRED"
+  },
+  "source": {
+    "gitCommit": "6a9668ef902524c45c7e39238f8a63ad9053a413",
+    "gitTree": "dee6cd0188556b97375458ddc4dba4bd14c471ce"
+  },
+  "observedAt": "2026-10-06T19:26:16.783Z",
+  "results": [
+    {
+      "kind": "A",
+      "purpose": "ENGINEERING_TRANSPORT_ONLY",
+      "scientificAuthority": "NONE",
+      "bmMaturityAuthority": "NONE",
+      "eligibleForQualification": false,
+      "metadata": {
+        "modelId": "apodex/apodex-1.1-mini:free",
+        "canonicalSlug": "apodex/apodex-1.1-mini-20261001",
+        "providerName": "Novita",
+        "route": "novita/bf16",
+        "status": 0,
+        "pricing": {
+          "prompt": "0",
+          "completion": "0"
+        },
+        "supportedParameters": [
+          "frequency_penalty",
+          "include_reasoning",
+          "max_tokens",
+          "presence_penalty",
+          "reasoning",
+          "repetition_penalty",
+          "response_format",
+          "seed",
+          "stop",
+          "structured_outputs",
+          "temperature",
+          "tool_choice",
+          "tools",
+          "top_k",
+          "top_p"
+        ]
+      },
+      "routing": {
+        "discoveryEndpointTag": "novita/bf16",
+        "providerRoutingSelector": "novita",
+        "policy": "DOCUMENTED_BASE_SLUG_SINGLE_ELIGIBLE_ENDPOINT_ONLY"
+      },
+      "quotaBefore": {
+        "observedAt": "2026-10-06T19:26:14.815Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "quotaAfter": {
+        "observedAt": "2026-10-06T19:26:16.782Z",
+        "used": 0,
+        "limit": 50,
+        "remaining": 50
+      },
+      "audit": {
+        "stages": [
+          "PRE_GENERATION_METADATA",
+          "GENERATION_REQUEST_PREPARED",
+          "GENERATION_POST_SUBMITTED",
+          "GENERATION_RESPONSE_HEADERS_RECEIVED",
+          "GENERATION_RESPONSE_BODY_RECEIVED",
+          "GENERATION_RESPONSE_PARSED"
+        ],
+        "wireRequestDigest": "c6bfe5eb05b26f7a176ef59a9f03ea64be73dba8b7e7d8c279f464546c63885e",
+        "requestSummary": {
+          "model": "apodex/apodex-1.1-mini:free",
+          "routingSelector": "novita",
+          "allowFallbacks": false,
+          "responseFormat": "NONE",
+          "maxTokens": 16,
+          "parameterNames": [
+            "max_tokens",
+            "messages",
+            "model",
+            "provider",
+            "stream",
+            "temperature"
+          ]
+        },
+        "result": {
+          "httpStatus": 200,
+          "success": false,
+          "returnedModel": "apodex/apodex-1.1-mini:free",
+          "returnedProvider": "Novita",
+          "usage": {
+            "promptTokens": 24,
+            "completionTokens": 16,
+            "cost": 0
+          }
+        }
+      },
+      "success": false
+    }
+  ],
+  "empiricalConditionCreated": false,
+  "qualificationOutcome": "INSUFFICIENT_EVIDENCE",
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE"
+}

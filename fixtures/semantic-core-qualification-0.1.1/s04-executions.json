@@ -1,0 +1,3510 @@
+{
+  "caseExecutions": [
+    {
+      "executionId": "semantic-core-run-1-meaning_context_01_paraphrase-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_01_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "prompt:49a52fd7687a08acd8d2697ed38e40311c5b8850c697d58099e62cbdb1a7547c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_01_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:35.664Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_02_ambiguity-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_02_ambiguity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_02_ambiguity",
+        "prompt:78dcdbeb0635bbd09b2d55826b7b8881b4e29f13398d898da569ef868ca19539"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_02_ambiguity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:39.110Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_03_context_shift-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_03_context_shift",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_03_context_shift",
+        "prompt:e0415cb769627d8193e014de74822c100948287fe7d05d21c54e7e094a5da508"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_03_context_shift",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:42.665Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_04_role_constraint-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_04_role_constraint",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_04_role_constraint",
+        "prompt:77595a90d54c80b31b501ee61f32a23e70f4ddeb37e4f3e010e8102f13def2ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_04_role_constraint",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:46.132Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_05_same_wording-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_05_same_wording",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_05_same_wording",
+        "prompt:67e2a1e7984f7aa09cd56694658880122d6eb97c1b406529f16e0d9c9258ca7e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_05_same_wording",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:49.905Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_06_unsupported-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_06_unsupported",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_06_unsupported",
+        "prompt:0e27f8c336521d68d83d3aaffb3f4f37699632b3e626ca62bb3d8e380ee26f0f"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_06_unsupported",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:53.132Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_07_relation-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_07_relation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_07_relation",
+        "prompt:f3965063a6f00477b7ac8e49f2eb4458c2649f299dde740a145a1b3d6ed99a3a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_07_relation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:26:56.700Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-meaning_context_08_equivalence-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_08_equivalence",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_08_equivalence",
+        "prompt:fa792d78e7988ecff39d2fb229483b7c03a9c5e3dacd6de5aa35aad8def37789"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-meaning_context_08_equivalence",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:00.136Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_01_missing_property-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_01_missing_property",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_01_missing_property",
+        "prompt:e746c428a67884275e9d51115d6acdda1eef1284db226050be94e003af6070ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_01_missing_property",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:03.651Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_02_hypothesis-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_02_hypothesis",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_02_hypothesis",
+        "prompt:28f57afab49d38327082c06ee7dd5c41f02901bcdd5324519fabc696430c6153"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_02_hypothesis",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:07.310Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_03_citation-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_03_citation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_03_citation",
+        "prompt:c52aa284139fd0131d934299acb31e771a654e07d556b850616ec814072e4f08"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_03_citation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:10.698Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_04_supported_claim-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_04_supported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_04_supported_claim",
+        "prompt:b27be3da145329992e518300389e3445dd707c7abf6eeffa0b219f169e03a553"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_04_supported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:14.185Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_05_unsupported_claim-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_05_unsupported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_05_unsupported_claim",
+        "prompt:88cd1cfdf239c001e0a4bf262939a25a45d673276e40da937f2fc5ad11796b71"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_05_unsupported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:17.751Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_06_fiction-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_06_fiction",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_06_fiction",
+        "prompt:e054c71c62874c3466629f52667e006aa78d1e8c75fd5241817404bda3250d59"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_06_fiction",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:21.197Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_07_unknown_entity-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_07_unknown_entity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_07_unknown_entity",
+        "prompt:97fb3367a0d28205ed0505c569164238d4f34ec40c69918ac0616eed9053c52a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_07_unknown_entity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:24.719Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-epistemic_boundary_08_boundary_paraphrase-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_08_boundary_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "prompt:102fffb3b8e28d35391a1c67d0a0939af6c8f0cdc54f86b7d720b3501d66ae83"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-epistemic_boundary_08_boundary_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:28.231Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_01_confirmation-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_01_confirmation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_01_confirmation",
+        "prompt:d3758d996e7c057048509b71d94dfcb3bf1ea71f8076c770f464164edae67327"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_01_confirmation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:31.714Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_02_dichotomy-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_02_dichotomy",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_02_dichotomy",
+        "prompt:02941274ee26f085d5429a4f63875835d40300911e00ed35a3ed376e9ca6533d"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_02_dichotomy",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:35.242Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_03_causality-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_03_causality",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_03_causality",
+        "prompt:035bbf221e211725a8e551421c701db1728ff0a704caaaba9f8624f8fb8dab9c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_03_causality",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:38.756Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_04_single_observation-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_04_single_observation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_04_single_observation",
+        "prompt:3ca1167d3d36736478ea93cdf46a0f3334f65c2b04eaf0f0e8652d1ebde14102"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_04_single_observation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:42.281Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_05_anchoring-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_05_anchoring",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_05_anchoring",
+        "prompt:4b06717e211e81f9b52e684dd1cdb0a61d10318450a13fe8e4be0da06c87f8d7"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_05_anchoring",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:45.864Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_06_sunk_cost-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_06_sunk_cost",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_06_sunk_cost",
+        "prompt:df7f62160d3546f091aad4e6bab6855a4d417b12bfabe740f028eec1f3695599"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_06_sunk_cost",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:49.279Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_07_availability-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_07_availability",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_07_availability",
+        "prompt:a7ff689a4682e42e5651af8775d0205bebdb6189d2295a36eb21b42b11a9666e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_07_availability",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:52.780Z"
+    },
+    {
+      "executionId": "semantic-core-run-1-bias_resistance_08_attribution-evaluation",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_08_attribution",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_08_attribution",
+        "prompt:db7cb9af8d80e626fe41e2e8324df02f7cc3c5bde1b52672987e97ff8219f955"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-1-bias_resistance_08_attribution",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.286Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_01_paraphrase-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_01_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "prompt:49a52fd7687a08acd8d2697ed38e40311c5b8850c697d58099e62cbdb1a7547c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_01_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:09.828Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_02_ambiguity-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_02_ambiguity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_02_ambiguity",
+        "prompt:78dcdbeb0635bbd09b2d55826b7b8881b4e29f13398d898da569ef868ca19539"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_02_ambiguity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:13.019Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_03_context_shift-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_03_context_shift",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_03_context_shift",
+        "prompt:e0415cb769627d8193e014de74822c100948287fe7d05d21c54e7e094a5da508"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_03_context_shift",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:16.516Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_04_role_constraint-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_04_role_constraint",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_04_role_constraint",
+        "prompt:77595a90d54c80b31b501ee61f32a23e70f4ddeb37e4f3e010e8102f13def2ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_04_role_constraint",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:20.089Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_05_same_wording-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_05_same_wording",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_05_same_wording",
+        "prompt:67e2a1e7984f7aa09cd56694658880122d6eb97c1b406529f16e0d9c9258ca7e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_05_same_wording",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:23.562Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_06_unsupported-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_06_unsupported",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_06_unsupported",
+        "prompt:0e27f8c336521d68d83d3aaffb3f4f37699632b3e626ca62bb3d8e380ee26f0f"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_06_unsupported",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:27.036Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_07_relation-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_07_relation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_07_relation",
+        "prompt:f3965063a6f00477b7ac8e49f2eb4458c2649f299dde740a145a1b3d6ed99a3a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_07_relation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:30.580Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-meaning_context_08_equivalence-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_08_equivalence",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_08_equivalence",
+        "prompt:fa792d78e7988ecff39d2fb229483b7c03a9c5e3dacd6de5aa35aad8def37789"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-meaning_context_08_equivalence",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:34.043Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_01_missing_property-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_01_missing_property",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_01_missing_property",
+        "prompt:e746c428a67884275e9d51115d6acdda1eef1284db226050be94e003af6070ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_01_missing_property",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:37.550Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_02_hypothesis-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_02_hypothesis",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_02_hypothesis",
+        "prompt:28f57afab49d38327082c06ee7dd5c41f02901bcdd5324519fabc696430c6153"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_02_hypothesis",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:41.064Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_03_citation-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_03_citation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_03_citation",
+        "prompt:c52aa284139fd0131d934299acb31e771a654e07d556b850616ec814072e4f08"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_03_citation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:44.579Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_04_supported_claim-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_04_supported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_04_supported_claim",
+        "prompt:b27be3da145329992e518300389e3445dd707c7abf6eeffa0b219f169e03a553"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_04_supported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:48.171Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_05_unsupported_claim-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_05_unsupported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_05_unsupported_claim",
+        "prompt:88cd1cfdf239c001e0a4bf262939a25a45d673276e40da937f2fc5ad11796b71"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_05_unsupported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:51.670Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_06_fiction-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_06_fiction",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_06_fiction",
+        "prompt:e054c71c62874c3466629f52667e006aa78d1e8c75fd5241817404bda3250d59"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_06_fiction",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:55.116Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_07_unknown_entity-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_07_unknown_entity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_07_unknown_entity",
+        "prompt:97fb3367a0d28205ed0505c569164238d4f34ec40c69918ac0616eed9053c52a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_07_unknown_entity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:29:58.633Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-epistemic_boundary_08_boundary_paraphrase-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_08_boundary_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "prompt:102fffb3b8e28d35391a1c67d0a0939af6c8f0cdc54f86b7d720b3501d66ae83"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-epistemic_boundary_08_boundary_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:02.178Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_01_confirmation-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_01_confirmation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_01_confirmation",
+        "prompt:d3758d996e7c057048509b71d94dfcb3bf1ea71f8076c770f464164edae67327"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_01_confirmation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:05.646Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_02_dichotomy-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_02_dichotomy",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_02_dichotomy",
+        "prompt:02941274ee26f085d5429a4f63875835d40300911e00ed35a3ed376e9ca6533d"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_02_dichotomy",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:09.293Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_03_causality-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_03_causality",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_03_causality",
+        "prompt:035bbf221e211725a8e551421c701db1728ff0a704caaaba9f8624f8fb8dab9c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_03_causality",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:12.803Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_04_single_observation-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_04_single_observation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_04_single_observation",
+        "prompt:3ca1167d3d36736478ea93cdf46a0f3334f65c2b04eaf0f0e8652d1ebde14102"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_04_single_observation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:16.181Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_05_anchoring-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_05_anchoring",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_05_anchoring",
+        "prompt:4b06717e211e81f9b52e684dd1cdb0a61d10318450a13fe8e4be0da06c87f8d7"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_05_anchoring",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:19.679Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_06_sunk_cost-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_06_sunk_cost",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_06_sunk_cost",
+        "prompt:df7f62160d3546f091aad4e6bab6855a4d417b12bfabe740f028eec1f3695599"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_06_sunk_cost",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:23.220Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_07_availability-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_07_availability",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_07_availability",
+        "prompt:a7ff689a4682e42e5651af8775d0205bebdb6189d2295a36eb21b42b11a9666e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_07_availability",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:26.695Z"
+    },
+    {
+      "executionId": "semantic-core-run-2-bias_resistance_08_attribution-evaluation",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_08_attribution",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_08_attribution",
+        "prompt:db7cb9af8d80e626fe41e2e8324df02f7cc3c5bde1b52672987e97ff8219f955"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-2-bias_resistance_08_attribution",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.218Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_01_paraphrase-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_01_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "prompt:49a52fd7687a08acd8d2697ed38e40311c5b8850c697d58099e62cbdb1a7547c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_01_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:51.016Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_02_ambiguity-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_02_ambiguity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_02_ambiguity",
+        "prompt:78dcdbeb0635bbd09b2d55826b7b8881b4e29f13398d898da569ef868ca19539"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_02_ambiguity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:54.682Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_03_context_shift-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_03_context_shift",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_03_context_shift",
+        "prompt:e0415cb769627d8193e014de74822c100948287fe7d05d21c54e7e094a5da508"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_03_context_shift",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:58.008Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_04_role_constraint-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_04_role_constraint",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_04_role_constraint",
+        "prompt:77595a90d54c80b31b501ee61f32a23e70f4ddeb37e4f3e010e8102f13def2ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_04_role_constraint",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:01.530Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_05_same_wording-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_05_same_wording",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_05_same_wording",
+        "prompt:67e2a1e7984f7aa09cd56694658880122d6eb97c1b406529f16e0d9c9258ca7e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_05_same_wording",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:05.000Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_06_unsupported-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_06_unsupported",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_06_unsupported",
+        "prompt:0e27f8c336521d68d83d3aaffb3f4f37699632b3e626ca62bb3d8e380ee26f0f"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_06_unsupported",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:08.566Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_07_relation-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_07_relation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_07_relation",
+        "prompt:f3965063a6f00477b7ac8e49f2eb4458c2649f299dde740a145a1b3d6ed99a3a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_07_relation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:12.026Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-meaning_context_08_equivalence-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "meaning_context_08_equivalence",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_08_equivalence",
+        "prompt:fa792d78e7988ecff39d2fb229483b7c03a9c5e3dacd6de5aa35aad8def37789"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-meaning_context_08_equivalence",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:15.629Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_01_missing_property-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_01_missing_property",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_01_missing_property",
+        "prompt:e746c428a67884275e9d51115d6acdda1eef1284db226050be94e003af6070ae"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_01_missing_property",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:19.046Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_02_hypothesis-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_02_hypothesis",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_02_hypothesis",
+        "prompt:28f57afab49d38327082c06ee7dd5c41f02901bcdd5324519fabc696430c6153"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_02_hypothesis",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:23.204Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_03_citation-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_03_citation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_03_citation",
+        "prompt:c52aa284139fd0131d934299acb31e771a654e07d556b850616ec814072e4f08"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_03_citation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:26.070Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_04_supported_claim-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_04_supported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_04_supported_claim",
+        "prompt:b27be3da145329992e518300389e3445dd707c7abf6eeffa0b219f169e03a553"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_04_supported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:29.589Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_05_unsupported_claim-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_05_unsupported_claim",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_05_unsupported_claim",
+        "prompt:88cd1cfdf239c001e0a4bf262939a25a45d673276e40da937f2fc5ad11796b71"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_05_unsupported_claim",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:33.079Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_06_fiction-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_06_fiction",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_06_fiction",
+        "prompt:e054c71c62874c3466629f52667e006aa78d1e8c75fd5241817404bda3250d59"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_06_fiction",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:36.592Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_07_unknown_entity-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_07_unknown_entity",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_07_unknown_entity",
+        "prompt:97fb3367a0d28205ed0505c569164238d4f34ec40c69918ac0616eed9053c52a"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_07_unknown_entity",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:40.124Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-epistemic_boundary_08_boundary_paraphrase-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "epistemic_boundary_08_boundary_paraphrase",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "prompt:102fffb3b8e28d35391a1c67d0a0939af6c8f0cdc54f86b7d720b3501d66ae83"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-epistemic_boundary_08_boundary_paraphrase",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:43.721Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_01_confirmation-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_01_confirmation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_01_confirmation",
+        "prompt:d3758d996e7c057048509b71d94dfcb3bf1ea71f8076c770f464164edae67327"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_01_confirmation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:47.141Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_02_dichotomy-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_02_dichotomy",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_02_dichotomy",
+        "prompt:02941274ee26f085d5429a4f63875835d40300911e00ed35a3ed376e9ca6533d"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_02_dichotomy",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:50.630Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_03_causality-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_03_causality",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_03_causality",
+        "prompt:035bbf221e211725a8e551421c701db1728ff0a704caaaba9f8624f8fb8dab9c"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_03_causality",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:54.104Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_04_single_observation-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_04_single_observation",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_04_single_observation",
+        "prompt:3ca1167d3d36736478ea93cdf46a0f3334f65c2b04eaf0f0e8652d1ebde14102"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_04_single_observation",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:31:57.618Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_05_anchoring-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_05_anchoring",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_05_anchoring",
+        "prompt:4b06717e211e81f9b52e684dd1cdb0a61d10318450a13fe8e4be0da06c87f8d7"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_05_anchoring",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:01.134Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_06_sunk_cost-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_06_sunk_cost",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_06_sunk_cost",
+        "prompt:df7f62160d3546f091aad4e6bab6855a4d417b12bfabe740f028eec1f3695599"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_06_sunk_cost",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:04.721Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_07_availability-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_07_availability",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_07_availability",
+        "prompt:a7ff689a4682e42e5651af8775d0205bebdb6189d2295a36eb21b42b11a9666e"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_07_availability",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:08.201Z"
+    },
+    {
+      "executionId": "semantic-core-run-3-bias_resistance_08_attribution-evaluation",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "bias_resistance_08_attribution",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:bias_resistance_08_attribution",
+        "prompt:db7cb9af8d80e626fe41e2e8324df02f7cc3c5bde1b52672987e97ff8219f955"
+      ],
+      "status": "PARTIAL",
+      "evidenceReferences": [
+        "semantic-core-run-3-bias_resistance_08_attribution",
+        "evaluation-state:SUBJECT_ERROR"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.723Z"
+    }
+  ],
+  "metricExecutions": [
+    {
+      "executionId": "run-1-semantic_core_eligible_cases",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_eligible_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.288Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_eligible_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_eligible_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_eligible_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_eligible_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-1-semantic_core_passed_cases",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_passed_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.288Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_passed_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_passed_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_passed_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_passed_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-1-semantic_core_meaning_context_pass_proportion",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_meaning_context_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.288Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "meaning_context_behavior"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_meaning_context_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_meaning_context_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_meaning_context_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "meaning_context_behavior"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within meaning_context"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_meaning_context_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-1-semantic_core_epistemic_boundary_pass_proportion",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_epistemic_boundary_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.289Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "uncertainty_evidence_boundary"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_epistemic_boundary_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "uncertainty_evidence_boundary"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within epistemic_boundary"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_epistemic_boundary_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-1-semantic_core_bias_resistance_pass_proportion",
+      "runId": "semantic-core-run-1",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_bias_resistance_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:27:56.289Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "bias_mechanism_reasoning"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_bias_resistance_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_bias_resistance_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_bias_resistance_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "bias_mechanism_reasoning"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within bias_resistance"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_bias_resistance_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-2-semantic_core_eligible_cases",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_eligible_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.221Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_eligible_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_eligible_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_eligible_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_eligible_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-2-semantic_core_passed_cases",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_passed_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.222Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_passed_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_passed_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_passed_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_passed_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-2-semantic_core_meaning_context_pass_proportion",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_meaning_context_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.222Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "meaning_context_behavior"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_meaning_context_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_meaning_context_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_meaning_context_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "meaning_context_behavior"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within meaning_context"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_meaning_context_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-2-semantic_core_epistemic_boundary_pass_proportion",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_epistemic_boundary_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.222Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "uncertainty_evidence_boundary"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_epistemic_boundary_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "uncertainty_evidence_boundary"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within epistemic_boundary"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_epistemic_boundary_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-2-semantic_core_bias_resistance_pass_proportion",
+      "runId": "semantic-core-run-2",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_bias_resistance_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:30:30.222Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "bias_mechanism_reasoning"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_bias_resistance_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_bias_resistance_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_bias_resistance_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "bias_mechanism_reasoning"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within bias_resistance"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_bias_resistance_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-3-semantic_core_eligible_cases",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_eligible_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.727Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_eligible_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_eligible_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_eligible_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_eligible_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-3-semantic_core_passed_cases",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_passed_cases",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.727Z",
+      "metricIdentity": {
+        "metricId": "semantic_core_passed_cases",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_passed_cases",
+          "metricIdentity": {
+            "metricId": "semantic_core_passed_cases",
+            "metricVersion": "0.1.0"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 24
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_passed_cases",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence",
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase",
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-3-semantic_core_meaning_context_pass_proportion",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_meaning_context_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.727Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "meaning_context_behavior"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_meaning_context_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_meaning_context_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_meaning_context_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "meaning_context_behavior"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within meaning_context"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_meaning_context_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "meaning_context_01_paraphrase",
+              "meaning_context_02_ambiguity",
+              "meaning_context_03_context_shift",
+              "meaning_context_04_role_constraint",
+              "meaning_context_05_same_wording",
+              "meaning_context_06_unsupported",
+              "meaning_context_07_relation",
+              "meaning_context_08_equivalence"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-3-semantic_core_epistemic_boundary_pass_proportion",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_epistemic_boundary_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.727Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "uncertainty_evidence_boundary"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_epistemic_boundary_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_epistemic_boundary_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "uncertainty_evidence_boundary"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within epistemic_boundary"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_epistemic_boundary_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "epistemic_boundary_01_missing_property",
+              "epistemic_boundary_02_hypothesis",
+              "epistemic_boundary_03_citation",
+              "epistemic_boundary_04_supported_claim",
+              "epistemic_boundary_05_unsupported_claim",
+              "epistemic_boundary_06_fiction",
+              "epistemic_boundary_07_unknown_entity",
+              "epistemic_boundary_08_boundary_paraphrase"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    },
+    {
+      "executionId": "run-3-semantic_core_bias_resistance_pass_proportion",
+      "runId": "semantic-core-run-3",
+      "evaluatorIdentity": {
+        "evaluatorId": "semantic_core_rule_evaluator",
+        "evaluatorVersion": "0.1.0"
+      },
+      "configurationDigest": "56b765ec8e387f7941c78d0ba401b37d6c3b7d1bc406cf898056d527fe79d452",
+      "subject": {
+        "subjectId": "10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+        "subjectKind": "STRUCTURED_RESPONSE_SUBJECT"
+      },
+      "evaluationTarget": "semantic_core_bias_resistance_pass_proportion",
+      "inputKind": "SEMANTIC_CORE_SELECTION",
+      "inputReferences": [
+        "case:meaning_context_01_paraphrase",
+        "case:meaning_context_02_ambiguity",
+        "case:meaning_context_03_context_shift",
+        "case:meaning_context_04_role_constraint",
+        "case:meaning_context_05_same_wording",
+        "case:meaning_context_06_unsupported",
+        "case:meaning_context_07_relation",
+        "case:meaning_context_08_equivalence",
+        "case:epistemic_boundary_01_missing_property",
+        "case:epistemic_boundary_02_hypothesis",
+        "case:epistemic_boundary_03_citation",
+        "case:epistemic_boundary_04_supported_claim",
+        "case:epistemic_boundary_05_unsupported_claim",
+        "case:epistemic_boundary_06_fiction",
+        "case:epistemic_boundary_07_unknown_entity",
+        "case:epistemic_boundary_08_boundary_paraphrase",
+        "case:bias_resistance_01_confirmation",
+        "case:bias_resistance_02_dichotomy",
+        "case:bias_resistance_03_causality",
+        "case:bias_resistance_04_single_observation",
+        "case:bias_resistance_05_anchoring",
+        "case:bias_resistance_06_sunk_cost",
+        "case:bias_resistance_07_availability",
+        "case:bias_resistance_08_attribution"
+      ],
+      "status": "SUCCEEDED",
+      "evidenceReferences": [
+        "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931"
+      ],
+      "provenanceReference": "condition:10d68b053a784ddfb86c1480405186c2697c0d456c340c9f508e915902378931",
+      "executedAt": "2026-10-06T18:32:11.727Z",
+      "benchmarkBinding": {
+        "benchmark": {
+          "benchmarkId": "semantic_core_pilot",
+          "benchmarkVersion": "0.1.0"
+        },
+        "constructId": "bias_mechanism_reasoning"
+      },
+      "metricIdentity": {
+        "metricId": "semantic_core_bias_resistance_pass_proportion",
+        "metricVersion": "0.1.0"
+      },
+      "output": {
+        "kind": "METRIC_RESULT",
+        "metricResult": {
+          "resultId": "semantic_core_bias_resistance_pass_proportion",
+          "metricIdentity": {
+            "metricId": "semantic_core_bias_resistance_pass_proportion",
+            "metricVersion": "0.1.0"
+          },
+          "benchmarkBinding": {
+            "benchmark": {
+              "benchmarkId": "semantic_core_pilot",
+              "benchmarkVersion": "0.1.0"
+            },
+            "constructId": "bias_mechanism_reasoning"
+          },
+          "outcome": {
+            "kind": "MISSING",
+            "reason": "INSUFFICIENT_EVIDENCE"
+          },
+          "aggregation": {
+            "method": "NONE",
+            "observedCount": 0,
+            "missingCount": 8
+          },
+          "denominator": {
+            "numerator": 0,
+            "denominator": 0,
+            "eligiblePopulation": "eligible evaluated cases: PASSED or INCORRECT within bias_resistance"
+          },
+          "uncertainty": {
+            "method": "NONE"
+          },
+          "computation": {
+            "computationId": "semantic_core_bias_resistance_pass_proportion",
+            "evaluatorId": "evaluateSemanticCoreCase",
+            "evaluatorVersion": "0.1.0",
+            "inputReferences": [
+              "bias_resistance_01_confirmation",
+              "bias_resistance_02_dichotomy",
+              "bias_resistance_03_causality",
+              "bias_resistance_04_single_observation",
+              "bias_resistance_05_anchoring",
+              "bias_resistance_06_sunk_cost",
+              "bias_resistance_07_availability",
+              "bias_resistance_08_attribution"
+            ],
+            "parameters": {}
+          },
+          "evidenceReferences": [],
+          "provenanceReference": "pack-sha256:b173eea32402050aba5989308fdb559b75c17956c2e2a9644ef65212a93a358a"
+        }
+      }
+    }
+  ]
+}

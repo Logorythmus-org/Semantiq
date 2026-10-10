@@ -35,6 +35,7 @@ not be read as BM3, BM4, or BM5 status for the benchmark family.
 ## Documents in This Section
 
 - **[Governed Benchmark Pack Contract](BENCHMARK_PACK_CONTRACT.md)**: contributor-controlled manifests, exact registry bindings and local integrity/admission checks; no maturity promotion.
+- **[Phase 4 Controlled Semantic Core Qualification](SEMANTIC_CORE_PHASE4_QUALIFICATION.md)**: prospective free-only execution, canonical reliability/evidence and engineering replay; no automatic BM3 approval.
 - 🧪 **[Benchmark Engine Specification](../../specs/010-semantiq-benchmark-engine.md)**
   (`NORMATIVE`): core benchmark architecture and generic evaluation contracts. It is an engine
   specification, not a benchmark-family maturity claim.

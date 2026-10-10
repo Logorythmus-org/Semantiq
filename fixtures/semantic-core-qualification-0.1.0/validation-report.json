@@ -1,0 +1,69 @@
+{
+  "schemaVersion": "0.1.0",
+  "sourceCommit": "f1303d0b5dfebc55197724110573f4b697ca9e26",
+  "sourceTree": "4ea51cb239b9fece6186d9529a9a1e8311034504",
+  "status": "PASSED",
+  "node": {
+    "filesPassed": 238,
+    "filesSkipped": 10,
+    "testsPassed": 1538,
+    "testsSkipped": 36
+  },
+  "focused": {
+    "filesPassed": 8,
+    "testsPassed": 284
+  },
+  "python": {
+    "version": "3.11.9",
+    "testsPassed": 40,
+    "wheel": "PASSED",
+    "sdist": "PASSED"
+  },
+  "checks": [
+    "install --frozen-lockfile",
+    "changeset status --since origin/main",
+    "format:check",
+    "lint",
+    "typecheck",
+    "test:boundaries",
+    "conformance:json-schema",
+    "conformance:canonical-json",
+    "docs:build",
+    "docs:validate",
+    "version:audit",
+    "ip:validate",
+    "build",
+    "test:sdk",
+    "test:python",
+    "test:security",
+    "doctor",
+    "preflight",
+    "connector",
+    "smoke",
+    "reference-workflow-vertical-slice",
+    "product-contracts",
+    "shared-contracts",
+    "documentation-validation",
+    "security-boundary",
+    "credential-boundary",
+    "git diff --check"
+  ],
+  "limitations": [
+    "Operator-recorded local validation, not a signature or independent verification.",
+    "Python 3.10/3.12 and Linux validation depend on GitHub CI.",
+    "Optional @tech-club/web-app filter matched no project, consistent with the current CI command.",
+    "Existing Postgres-dependent skipped tests retained.",
+    "ESLint reported warnings, including three unused discard bindings in Phase 4; zero errors."
+  ],
+  "intermediateFailures": [
+    "Windows sandbox temporary-file rename EPERM prevented pnpm/Vitest execution; unsandboxed reruns passed.",
+    "Global Python imported a different local project and produced seven collection errors; isolated editable installation and process-local PATH reruns passed.",
+    "Sandbox Python build dependency lookup failed DNS; isolated unsandboxed wheel/sdist build passed.",
+    "Initial S09 fixture packages missed result execution and exact benchmark/evaluator links; corrected and verified by focused tests.",
+    "Strict Ajv schema rejected conditional maxItems without array type; corrected and schema tests passed.",
+    "A 72-attempt simulation hit Vitest's five-second default under parallel load; explicit 30-second test timeouts added, all checks retained, focused/full suites passed.",
+    "Changeset status failed before the new changeset was staged; staged/committed graph passed."
+  ],
+  "scientificAuthority": "NONE",
+  "decisionAuthority": "NONE"
+}

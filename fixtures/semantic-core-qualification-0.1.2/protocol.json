@@ -1,0 +1,22 @@
+{
+  "protocolId": "semantic_core_pilot_bm3_qualification",
+  "protocolVersion": "0.1.2",
+  "serializerVersion": "0.1.2",
+  "runs": 3,
+  "casesPerRun": 24,
+  "scheduledAttempts": 72,
+  "retryPolicy": "NONE",
+  "collectionPolicy": "MULTI_QUOTA_WINDOW_SAME_SUBJECT_CONDITION",
+  "minimumFreeRequestsPerRun": 24,
+  "runAtomicity": "COMPLETE_RUN_PER_QUOTA_WINDOW",
+  "collectionWindowMaximumHours": 168,
+  "minimumRequestIntervalMs": 3500,
+  "isolation": "FRESH_REQUEST_PER_CASE",
+  "parserPolicy": "JSON_PARSE_ONLY_NO_REPAIR",
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE",
+  "empiricalConditionGate": "SUCCESSFUL_TRANSPORT_CANARY_REQUIRED",
+  "phase": "PROSPECTIVE_ENGINEERING_DIAGNOSTIC_ONLY",
+  "empiricalImplementation": "NOT_ACTIVATED",
+  "empiricalCondition": null
+}

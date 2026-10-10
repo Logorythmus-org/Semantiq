@@ -1,0 +1,13 @@
+{
+  "artifactKind": "ENGINEERING_GATE_STATUS_NOT_EMPIRICAL_QUALIFICATION_RECORD",
+  "protocolId": "semantic_core_pilot_bm3_qualification",
+  "protocolVersion": "0.1.2",
+  "qualificationOutcome": "INSUFFICIENT_EVIDENCE",
+  "scheduledEmpiricalAttempts": 72,
+  "actualEmpiricalAttempts": 0,
+  "empiricalCondition": null,
+  "strictStructuredCanaryGate": "BLOCKED",
+  "rootCauseConfirmed": false,
+  "scientificAuthority": "NONE",
+  "bmMaturityAuthority": "NONE"
+}
