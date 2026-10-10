@@ -35,8 +35,12 @@ describe("SemantIQ original ASCII branding and approved palette", () => {
     for (const line of wordmark.trimEnd().split("\n")) {
       expect(banner).toContain(line);
     }
-    expect(banner).toContain("#ffb2ae");
-    expect(banner).toContain("#a5b7cf");
+    expect(banner).toContain("#f7f8f7");
+    expect(banner).toContain("#263039");
+    expect(banner).toContain("#daa8a5");
+    expect(banner).toContain("#ffffff");
+    expect(banner).not.toContain("#ffb2ae");
+    expect(banner).not.toContain("#38bdf8");
   });
 
   it("prints the exact Unicode glyphs in plain mode", () => {
@@ -46,8 +50,8 @@ describe("SemantIQ original ASCII branding and approved palette", () => {
 
   it("preserves original glyphs after ANSI stripping", () => {
     const colored = execute(["--color=always"]);
-    expect(colored).toContain("\x1b[38;2;255;178;174m");
-    expect(colored).toContain("\x1b[38;2;147;176;194m");
+    expect(colored).toContain("\x1b[38;2;247;249;250m");
+    expect(colored).toContain("\x1b[38;2;241;244;246m");
     expect(colored.replace(/\x1b\[[0-9;]*m/g, "")).toBe(art);
   });
 });
