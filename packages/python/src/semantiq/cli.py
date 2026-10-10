@@ -5,6 +5,7 @@ Provides command-line operations for evaluate, verify, validate-language, and sy
 """
 import argparse
 import json
+import os
 from importlib.resources import files
 import sys
 from typing import List, Optional
@@ -50,7 +51,8 @@ def create_parser() -> argparse.ArgumentParser:
     subparsers.add_parser("info", help="Prints platform and schema contract information")
 
     # Command: logo
-    subparsers.add_parser("logo", help="Prints the SemantIQ UTF-8 terminal logo")
+    logo_parser = subparsers.add_parser("logo", help="Prints the compact SemantIQ brain logo")
+    logo_parser.add_argument("--color", choices=("auto", "always", "never"), default="auto")
 
     return parser
 
@@ -61,6 +63,28 @@ def main(args: Optional[List[str]] = None) -> int:
 
     if parsed.command == "logo":
         logo = files("semantiq").joinpath("assets/semantiq-logo.txt").read_text(encoding="utf-8")
+        use_color = parsed.color == "always" or (
+            parsed.color == "auto"
+            and sys.stdout.isatty()
+            and "NO_COLOR" not in os.environ
+            and os.environ.get("TERM") != "dumb"
+        )
+        if use_color:
+            palette = (
+                "167;139;250",
+                "129;140;248",
+                "56;189;248",
+                "34;211;238",
+                "45;212;191",
+                "52;211;153",
+            )
+            lines = logo.splitlines(keepends=True)
+            count = len(lines)
+            logo = "".join(
+                f"\x1b[38;2;{palette[min(i * len(palette) // count, len(palette) - 1)]}m"
+                f"{line.removesuffix(chr(10))}\x1b[0m\n"
+                for i, line in enumerate(lines)
+            )
         print(logo, end="")
         return 0
 
