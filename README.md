@@ -1,46 +1,10 @@
 # SemantIQ: Behavioral Evidence Infrastructure for AI Systems
 
-```text
- █████████                                                 █████    █████    ██████
- ███░░░░░███                                               ░░███    ░░███   ███░░░░███
-░███    ░░░   ██████  █████████████    ██████   ████████   ███████   ░███  ███    ░░███
-░░█████████  ███░░███░░███░░███░░███  ░░░░░███ ░░███░░███ ░░░███░    ░███ ░███     ░███
- ░░░░░░░░███░███████  ░███ ░███ ░███   ███████  ░███ ░███   ░███     ░███ ░███   ██░███
- ███    ░███░███░░░   ░███ ░███ ░███  ███░░███  ░███ ░███   ░███ ███ ░███ ░░███ ░░████
-░░█████████ ░░██████  █████░███ █████░░████████ ████ █████  ░░█████  █████ ░░░██████░██
- ░░░░░░░░░   ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░    ░░░░░  ░░░░░    ░░░░░░ ░░
+<p align="center">
+  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ — compact violet, cyan and teal brain logo" width="640">
+</p>
 
-                                    ░░░░░░░░░░░░░█░░░░░░█░░░░░░░
-                                ░░░░░██░░░██░█░░░███████░░░████░░░░
-                             ░░░░█░█░░░█░██████░░░██░░░░██░░█░█░░░█░░░░
-                          ░░░░██░░░░██░░░░█░░░░░█░░░██░░░████░███████░░░░
-                       ░░░░░███░░░██░█░███░░███░░░███░░████░░░░░░░░░███░░░░
-                     ░░█░███░░░█████░░█░░░░██░░█████░░█░██░████████░███░░░░░
-                    ░░░░██░░░████░░██░░░█░█░░░░█████░░████░░███░███░░░░█░██░░░
-                   ░░░█░░░░█░░░░░░██░░███░░░███░░███░░█████░░░██░░███░░██░███░░
-                  ░██░░█░█░█░░████░░█████░███░██░████░░██░██░░░░█░░██░█░░█░░█░░░
-                 ░░░░██░░░░░░░░██░████░░░░░██████░████░░██░██░░███░░███░███░███░█
-                ░░█░███░█████░████░░░░████░░██░██░██████░░█████░░██░████░███░░░░░
-               ░░█░░██░█░░░███░░░░█████████░░░░███░░░███░░█████░█░░░░███░░██░█░░░░
-               ░░█░██░░██░░░░░░████░░░██░██████████░██░░███░░░█░░░░███████░░███░░░
-               ░█░██░░█░░███████████░░██░░███░░░███░████░░░░░░██████░░░░░████░███░
-              ░░░░░░░██░██░██░█░░░░░░░░█░░░██████░█░█░░░░█████████░░░██████░░█░░█░
-               ░░████░░██░█░██████░███░░░██░░░█░░░█░░██████████░░░░░██░░░░██░░█░░
-               ░░█░░░███████░█░█░░░░░█████░░░░░░░░░████████░░░█████░░░░█████░██░░
-                ░░░░░░░░███░░░░███░██░░░░░░████░███████░░░█████░░░░░░███░░░░░░░░
-                   ░░░███░░░░░█░░░░██░░░███░███░███░░░█████░░░░░█████░░░░█░█░░░░
-                     ░░░░░░░░░░░░░  ░░██░░░░░░░░░░█░███░░░███████░░░░█░██████░░░
-                                   ░░████░███░░░███░░░░█████░░░░░░░█████░░░██░░
-                                    ░░░░░░░░█████░░░████░░░░░████░██░░░███░░░░
-                                     ░░░██░░░░░░░████░░█████░░░███████░░░░░░
-                                        ░░░░░░░░░░░░░░█░█░░░  ░░░░░░░░░░░
-                                                      ░░░█░░░
-                                                        ░░█░░
-                                                         ░░█░░
-```
-
-*SemantIQ terminal wordmark and fingerprint, supplied as UTF-8 block art. A monospaced font is recommended (terminal width ≥ 90 columns).*
-
+*Compact logo derived from the updated Unicode brain art. The CLI uses a text-only variant.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
@@ -263,8 +227,11 @@ The source-installed Python package exposes the `semantiq` command. After
 installing it with `python -m pip install -e "./packages/python"`, run:
 
 ```bash
-# Show the Unicode terminal logo (opt-in)
+# Display the compact terminal logo (TTY color is automatic)
 semantiq logo
+
+# Force colored output when redirected
+semantiq logo --color=always
 
 # Show the Python CLI release and schema versions
 semantiq --version
@@ -276,7 +243,7 @@ semantiq validate-language "DP-008 is associated with reduced FP-002 drift."
 semantiq info
 ```
 
-For the source-checkout workspace, `pnpm logo` prints the same logo without invoking a benchmark.
+For the source-checkout workspace, `pnpm logo` prints the same compact logo without invoking a benchmark. Both commands accept `--color=auto|always|never`; piped output is plain text by default.
 
 The Python CLI also provides `evaluate` (using synthetic/mock fixtures) and
 `verify` (digest-format validation only). It does not expose `doctor`, `claims`,
