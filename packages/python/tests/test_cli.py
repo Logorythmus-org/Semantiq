@@ -2,6 +2,7 @@
 Tests for Python CLI interface.
 """
 from io import StringIO
+import re
 from pathlib import Path
 import sys
 
@@ -83,3 +84,19 @@ def test_cli_logo_matches_packaged_asset(capsys):
     assert captured.out == expected
     assert "█████████" in captured.out
     assert "░░" in captured.out
+    assert "\x1b[" not in captured.out
+
+
+def test_cli_logo_force_color_and_plain_modes(capsys):
+    expected = (
+        Path(__file__).resolve().parents[1]
+        / "src" / "semantiq" / "assets" / "semantiq-logo.txt"
+    ).read_text(encoding="utf-8")
+
+    assert main(["logo", "--color=always"]) == 0
+    colored = capsys.readouterr().out
+    assert "\x1b[38;2;" in colored
+    assert re.sub(r"\x1b\[[0-9;]*m", "", colored) == expected
+
+    assert main(["logo", "--color=never"]) == 0
+    assert capsys.readouterr().out == expected
