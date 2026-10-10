@@ -62,7 +62,10 @@ def main(args: Optional[List[str]] = None) -> int:
     parsed = parser.parse_args(args)
 
     if parsed.command == "logo":
-        logo = files("semantiq").joinpath("assets/semantiq-logo.txt").read_text(encoding="utf-8")
+        assets = files("semantiq").joinpath("assets")
+        brain = assets.joinpath("semantiq-logo.txt").read_text(encoding="utf-8")
+        wordmark = assets.joinpath("semantiq-wordmark.txt").read_text(encoding="utf-8")
+        logo = brain.rstrip("\n") + "\n\n" + wordmark.rstrip("\n") + "\n"
         use_color = parsed.color == "always" or (
             parsed.color == "auto"
             and sys.stdout.isatty()
@@ -70,21 +73,29 @@ def main(args: Optional[List[str]] = None) -> int:
             and os.environ.get("TERM") != "dumb"
         )
         if use_color:
+            # Shared left-to-right blush, dusty rose, mauve and muted slate palette.
+            # Each ANSI span is display-only: stripping controls restores exact ASCII.
             palette = (
-                "167;139;250",
-                "129;140;248",
-                "56;189;248",
-                "34;211;238",
-                "45;212;191",
-                "52;211;153",
+                "255;178;174",
+                "252;167;185",
+                "225;166;197",
+                "198;170;211",
+                "160;179;204",
+                "147;176;194",
             )
-            lines = logo.splitlines(keepends=True)
-            count = len(lines)
-            logo = "".join(
-                f"\x1b[38;2;{palette[min(i * len(palette) // count, len(palette) - 1)]}m"
-                f"{line.removesuffix(chr(10))}\x1b[0m\n"
-                for i, line in enumerate(lines)
-            )
+            lines = logo.splitlines()
+            column_count = max(len(line) for line in lines)
+            colored = []
+            for line in lines:
+                spans = []
+                for i, tone in enumerate(palette):
+                    start = i * column_count // len(palette)
+                    end = (i + 1) * column_count // len(palette)
+                    segment = line[start:end]
+                    if segment:
+                        spans.append(f"\x1b[38;2;{tone}m{segment}\x1b[0m")
+                colored.append("".join(spans))
+            logo = "\n".join(colored) + "\n"
         print(logo, end="")
         return 0
 

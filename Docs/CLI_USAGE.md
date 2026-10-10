@@ -31,8 +31,10 @@ pnpm logo
 
 ### `pnpm logo`
 
-Prints the compact UTF-8 brain logo, using color only on interactive terminals that
-support it. Use `pnpm logo --color=always` to force ANSI color or
+Prints the unchanged compact UTF-8 brain followed by the original eight-line
+SemantIQ block-character wordmark. Rose, blush, mauve and muted blue-gray color
+is enabled only on interactive terminals that support it.
+Use `pnpm logo --color=always` to force ANSI color or
 `pnpm logo --color=never` for plain text. This is a workspace display command,
 not a published TypeScript executable or a benchmark run.
 
@@ -81,11 +83,13 @@ semantiq info
 
 ### `logo`
 
-Prints the bundled compact SemantIQ brain artwork without running an evaluation or
-changing existing CLI output. Use `semantiq logo --color=auto|always|never`:
+Prints the bundled compact brain and original SemantIQ block-character wordmark
+without running an evaluation or changing other CLI output.
+Use `semantiq logo --color=auto|always|never`:
 `auto` colors interactive terminals and produces plain text for pipes,
-`NO_COLOR`, or `TERM=dumb`. A UTF-8 monospaced terminal at least 65 columns
-wide is recommended. README displays the corresponding colored SVG banner.
+`NO_COLOR`, or `TERM=dumb`. A UTF-8 monospaced terminal at least 90 columns
+wide is recommended. README displays the same source glyphs in an approved
+blush/rose/mauve colored SVG banner. See `Docs/branding/COLOR_TOKENS.md`.
 This is an opt-in display command, not benchmark qualification evidence.
 
 ### `evaluate`
