@@ -70,3 +70,16 @@ def test_cli_verify_hash(capsys):
 
     exit_code_bad = main(["verify", "short_hash"])
     assert exit_code_bad == 1
+
+
+def test_cli_logo_matches_packaged_asset(capsys):
+    exit_code = main(["logo"])
+    assert exit_code == 0
+    captured = capsys.readouterr()
+    expected = (
+        Path(__file__).resolve().parents[1]
+        / "src" / "semantiq" / "assets" / "semantiq-logo.txt"
+    ).read_text(encoding="utf-8")
+    assert captured.out == expected
+    assert "█████████" in captured.out
+    assert "░░" in captured.out
