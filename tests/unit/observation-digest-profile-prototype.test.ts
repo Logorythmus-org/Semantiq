@@ -55,9 +55,8 @@ function v1Subject(subject: SyntheticObservation): Record<string, unknown> {
 }
 
 function v1Digest(subject: SyntheticObservation): string {
-  return `sha256:${
-    hashCanonical(v1Subject(subject), { profile: NEW_OBSERVATION_PROFILE }).sha256
-  }`;
+  const result = hashCanonical(v1Subject(subject), { profile: NEW_OBSERVATION_PROFILE });
+  return `sha256:${result.sha256}`;
 }
 
 function verifyExplicit(
@@ -113,9 +112,11 @@ describe("RFC #196 — proposed ObservationEvidence digest profiles (test-only)"
     const digest = v1Digest(value);
 
     expect(v1Digest({ ...value, evidenceDigest: digest })).toBe(digest);
-    expect(v1Digest({ ...value, interpretation: { rawThoughtLog: "synthetic" } })).not.toBe(
-      digest
-    );
+    const withInterpretation = {
+      ...value,
+      interpretation: { rawThoughtLog: "synthetic" }
+    };
+    expect(v1Digest(withInterpretation)).not.toBe(digest);
   });
 
   it("is invariant to nested object key order while retaining array ordering", () => {
@@ -130,27 +131,11 @@ describe("RFC #196 — proposed ObservationEvidence digest profiles (test-only)"
     };
 
     expect(v1Digest(right)).toBe(v1Digest(reordered));
-    expect(
-      v1Digest({
-        ...left,
-        consequence: {
-          filesCreated: [
-            { path: "a", sha256: "one" },
-            { path: "b", sha256: "two" }
-          ]
-        }
-      })
-    ).not.toBe(
-      v1Digest({
-        ...left,
-        consequence: {
-          filesCreated: [
-            { path: "b", sha256: "two" },
-            { path: "a", sha256: "one" }
-          ]
-        }
-      })
-    );
+    const first = { path: "a", sha256: "one" };
+    const second = { path: "b", sha256: "two" };
+    const ordered = { ...left, consequence: { filesCreated: [first, second] } };
+    const reversed = { ...left, consequence: { filesCreated: [second, first] } };
+    expect(v1Digest(ordered)).not.toBe(v1Digest(reversed));
   });
 
   it("fails closed on unversioned/unknown profiles and malformed digests", () => {
@@ -158,16 +143,16 @@ describe("RFC #196 — proposed ObservationEvidence digest profiles (test-only)"
     const digest = v1Digest(subject);
 
     expect(verifyExplicit(subject, { profile: NEW_OBSERVATION_PROFILE, digest })).toBe(true);
-    expect(verifyExplicit(subject, { profile: LEGACY_OBSERVATION_PROFILE, digest })).toBe(
-      false
-    );
-    expect(() => verifyExplicit(subject, { digest })).toThrow("Missing or unknown");
-    expect(() => verifyExplicit(subject, { profile: "legacy-ts-v0", digest })).toThrow(
-      "Missing or unknown"
-    );
-    expect(() =>
-      verifyExplicit(subject, { profile: NEW_OBSERVATION_PROFILE, digest: "sha256:invalid" })
-    ).toThrow("Invalid digest format");
+    const legacyResult = verifyExplicit(subject, { profile: LEGACY_OBSERVATION_PROFILE, digest });
+    expect(legacyResult).toBe(false);
+    const missingProfile = () => verifyExplicit(subject, { digest });
+    const unknownProfile = () => verifyExplicit(subject, { profile: "legacy-ts-v0", digest });
+    const invalidDigest = () =>
+      verifyExplicit(subject, { profile: NEW_OBSERVATION_PROFILE, digest: "sha256:invalid" });
+
+    expect(missingProfile).toThrow("Missing or unknown");
+    expect(unknownProfile).toThrow("Missing or unknown");
+    expect(invalidDigest).toThrow("Invalid digest format");
   });
 
   it("rejects unsupported nested values rather than silently coercing them", () => {
