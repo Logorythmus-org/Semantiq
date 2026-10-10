@@ -73,14 +73,20 @@ def test_cli_verify_hash(capsys):
     assert exit_code_bad == 1
 
 
+def _expected_ascii_logo():
+    assets = Path(__file__).resolve().parents[1] / "src" / "semantiq" / "assets"
+    brain = (assets / "semantiq-logo.txt").read_text(encoding="utf-8")
+    title = (assets / "semantiq-wordmark.txt").read_text(encoding="utf-8")
+    assert len(brain.splitlines()) == 27
+    assert len(title.splitlines()) == 8
+    assert title.startswith(" █████████")
+    return brain.rstrip("\n") + "\n\n" + title.rstrip("\n") + "\n"
+
+
 def test_cli_logo_matches_packaged_asset(capsys):
-    exit_code = main(["logo"])
-    assert exit_code == 0
+    assert main(["logo"]) == 0
     captured = capsys.readouterr()
-    expected = (
-        Path(__file__).resolve().parents[1]
-        / "src" / "semantiq" / "assets" / "semantiq-logo.txt"
-    ).read_text(encoding="utf-8")
+    expected = _expected_ascii_logo()
     assert captured.out == expected
     assert "█████████" in captured.out
     assert "░░" in captured.out
@@ -88,14 +94,12 @@ def test_cli_logo_matches_packaged_asset(capsys):
 
 
 def test_cli_logo_force_color_and_plain_modes(capsys):
-    expected = (
-        Path(__file__).resolve().parents[1]
-        / "src" / "semantiq" / "assets" / "semantiq-logo.txt"
-    ).read_text(encoding="utf-8")
+    expected = _expected_ascii_logo()
 
     assert main(["logo", "--color=always"]) == 0
     colored = capsys.readouterr().out
-    assert "\x1b[38;2;" in colored
+    assert "\x1b[38;2;255;178;174m" in colored
+    assert "\x1b[38;2;147;176;194m" in colored
     assert re.sub(r"\x1b\[[0-9;]*m", "", colored) == expected
 
     assert main(["logo", "--color=never"]) == 0
