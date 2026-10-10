@@ -1,37 +1,48 @@
-# SemantIQ — Approved ASCII Branding Palette
+# SemantIQ — Chrome/Silver Brand Palette
 
-**Status:** visual-design reference for the SemantIQ README and opt-in terminal logo. This is not a product version or scientific claim.
+**Scope:** README and opt-in terminal logo. This is a visual-design reference, not a benchmark maturity or scientific claim.
 
-The user-approved reference uses **blush / warm peach / dusty rose / mauve / lavender / desaturated blue-gray**. Avoid the previous saturated cyan, teal, navy-on-white title styling.
+## Two independent color layers
 
-## Fixed original glyph forms
+The user-supplied reference shows a **metallic grayscale brain** (black/shadowed grooves, graphite, steel gray and silver-white highlights) over a **muted blush / mauve / dusty-rose / blue-gray background**. The warm colors belong to the atmosphere; do not recolor the brain or SemantIQ wordmark pink.
 
-- **Brain:** `packages/python/src/semantiq/assets/semantiq-logo.txt` — existing 27-row compact Unicode brain. The text glyphs and their positions are unchanged in this update.
-- **Wordmark:** `packages/python/src/semantiq/assets/semantiq-wordmark.txt` — original eight-line `SemantIQ` block-character wordmark supplied by the project owner. Do not replace it with a typeset font.
-- **README:** `Docs/branding/semantiq-brain-compact.svg` renders these exact glyph lines with monochrome Unicode characters and a color gradient. No raster text or image generation is used in the repo.
-- **CLI:** combines the exact brain and wordmark files with one empty separator line. Color is only an ANSI presentation layer and never appears in piped text by default.
+The SVG uses the original UTF-8 block-character shapes, **not a substituted font-shaped logo**. Browser glyph rasterization and exact chrome reflections cannot match the photographic reference pixel for pixel.
 
-## Terminal ink palette
+## Foreground — metallic icon and original ASCII title
 
-| Slot | RGB | Hex | Character |
-| --- | --- | --- | --- |
-| Warm blush | 255, 178, 174 | `#ffb2ae` | left |
-| Rose pink | 252, 167, 185 | `#fca7b9` | |
-| Dusty rose | 225, 166, 197 | `#e1a6c5` | |
-| Mauve | 198, 170, 211 | `#c6aad3` | |
-| Slate lavender | 160, 179, 204 | `#a0b3cc` | |
-| Blue-gray highlight | 147, 176, 194 | `#93b0c2` | right |
+| Surface | Hex examples | Purpose |
+| --- | --- | --- |
+| Deep outline | `#263039` | Dark grooves and ASCII definition |
+| Graphite | `#657078` | Metallic contrast |
+| Mid silver | `#a7aeb4` | Cool steel variation |
+| Silver highlight | `#f7f8f7` | Brain bright highlights |
+| Pearl white | `#ffffff` | Original SemantIQ wordmark |
+| Pearl-gray | `#d5d9dc` | White title shading |
 
-These tones are selected to visually approximate the approved mockup/reference photo; they are **brand-design tokens**, not scientifically measured colors. SVG uses closely related gradient stops for legibility against its background.
+These are grayscale / low-saturation chrome tones, not blue, pink or teal branding ink.
 
-## Browser and terminal surfaces
+## Background — warm reference atmosphere
 
-The SVG background blends muted blue-gray `#536a70`, dusty mauve `#a9828e`, warm rose `#d29a9f`, and slate `#56687c`, with gentle peach `#f9b6a7` bloom.
+| Location | Hex | Purpose |
+| --- | --- | --- |
+| Left | `#536c70` | Muted slate / gray-teal |
+| Early blend | `#ad8b94` | Dusty mauve |
+| Center | `#daa8a5` | Warm rose haze |
+| Right-center | `#d5a1a7` | Blush |
+| Right edge | `#576274` | Smoky blue-gray |
+| Ambient light | `#ffd3c6` | Subtle peach bloom |
 
-The CLI deliberately does not print a background color: it needs to remain legible under arbitrary terminal themes. `--color=auto` requires a TTY and honors `NO_COLOR` / `TERM=dumb`; `--color=always` is an explicit override.
+## CLI presentation: neutral silver ANSI ink
 
-## Integration and guardrails
+The CLI cannot reliably detect the user's terminal background. Therefore colored output uses **medium-to-bright gray** rather than very dark shadow colors that would disappear on dark terminals. Six RGB segments run left-to-right in both Python and Node: `247;249;250`, `216;223;228`, `151;162;172`, `249;250;250`, `187;198;205`, `241;244;246`.
 
-Website design may reuse these colors in a future separate PR; this change does **not** edit website components or imply a web-theme release.
+`--color=auto` is enabled for interactive TTY only and honors `NO_COLOR` / `TERM=dumb`. `--color=never` produces byte-for-byte original text and is the recommended accessible fallback in light terminal themes. No background ANSI escapes are injected.
 
-README and CLI always display the original SemantIQ ASCII title. No benchmark execution, evidence, qualification, agent operation, telemetry, provider request, scientific promotion, or release is tied to the logo.
+## Original glyph integrity and future usage
+
+- Brain glyph source: `packages/python/src/semantiq/assets/semantiq-logo.txt` — 27 rows, **unchanged**.
+- Original SemantIQ title source: `packages/python/src/semantiq/assets/semantiq-wordmark.txt` — 8 rows, **unchanged**.
+- README SVG: `Docs/branding/semantiq-brain-compact.svg` — the same literal glyph lines, adjusted spacing/contrast.
+- Website theme: may reuse these tokens **only in a separately reviewed future change**.
+
+Previous branding PRs #185, #186 and #187 are preserved as normal immutable project history; this correction supersedes their **visual palette**, not their historical records.
