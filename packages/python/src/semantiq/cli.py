@@ -5,6 +5,7 @@ Provides command-line operations for evaluate, verify, validate-language, and sy
 """
 import argparse
 import json
+from importlib.resources import files
 import sys
 from typing import List, Optional
 
@@ -48,12 +49,20 @@ def create_parser() -> argparse.ArgumentParser:
     # Command: info
     subparsers.add_parser("info", help="Prints platform and schema contract information")
 
+    # Command: logo
+    subparsers.add_parser("logo", help="Prints the SemantIQ UTF-8 terminal logo")
+
     return parser
 
 
 def main(args: Optional[List[str]] = None) -> int:
     parser = create_parser()
     parsed = parser.parse_args(args)
+
+    if parsed.command == "logo":
+        logo = files("semantiq").joinpath("assets/semantiq-logo.txt").read_text(encoding="utf-8")
+        print(logo, end="")
+        return 0
 
     client = SemantiqClient(is_offline_deterministic=True)
 

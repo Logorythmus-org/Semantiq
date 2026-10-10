@@ -9,6 +9,7 @@
   },
   "scripts": {
     "techclub": "node scripts/techclub.mjs",
+    "logo": "node scripts/semantiq-logo.mjs",
     "dev": "node scripts/techclub.mjs dev",
     "build": "pnpm -r --if-present build",
     "lint": "eslint .",
