@@ -1,8 +1,14 @@
 import { describe, expect, it } from "vitest";
+import { EvidenceNormalizer } from "../../packages/evidence-normalizer/src/index.js";
 import {
   canonicalJson,
+  computeSha256,
   hashCanonical,
-  SHARED_CANONICALIZATION_PROFILE
+  SHARED_CANONICALIZATION_PROFILE,
+  type EnvironmentSpec,
+  type ExecutionRequest,
+  type ExecutionResult,
+  type StateDelta
 } from "../../packages/sandbox-contracts/src/index.js";
 
 /**
@@ -71,5 +77,64 @@ describe("evidence normalization digest preimage characterization (#192)", () =>
     const hashRight = hashCanonical(right, { profile: SHARED_CANONICALIZATION_PROFILE });
 
     expect(hashLeft.sha256).toBe(hashRight.sha256);
+  });
+
+  it("links the actual EvidenceNormalizer output to the omitted nested fields", async () => {
+    const spec: EnvironmentSpec = {
+      specVersion: "1.0.0",
+      runtimeType: "container",
+      image: { name: "fixture-image", digest: "sha256:fixture-image" },
+      workingDirectory: "/workspace",
+      environmentVariables: { SEMANTIQ_TASK_ID: "fixture-task" },
+      resources: {
+        cpuLimitCores: 1,
+        memoryLimitMebibytes: 512,
+        diskLimitMebibytes: 1024,
+        maxExecutionTimeoutSeconds: 5
+      },
+      security: { networkMode: "none", readOnlyRootFilesystem: true }
+    };
+    const request: ExecutionRequest = {
+      requestId: "fixture-request",
+      command: ["true"],
+      timeoutMs: 1000
+    };
+    const result: ExecutionResult = {
+      requestId: "fixture-request",
+      exitCode: 0,
+      stdout: "",
+      stderr: "",
+      stdoutTruncated: false,
+      stderrTruncated: false,
+      durationMs: 1,
+      peakMemoryBytes: 0,
+      timedOut: false,
+      oomKilled: false
+    };
+    const delta: StateDelta = {
+      deltaId: "fixture-delta",
+      fromCheckpoint: "before",
+      toCheckpoint: "after",
+      timestamp: "2026-10-10T00:00:00.000Z",
+      mutations: { createdFiles: [], modifiedFiles: [], deletedFiles: [] }
+    };
+    const emitted = await new EvidenceNormalizer().normalize({
+      spec,
+      request,
+      result,
+      delta,
+      providerId: "fixture",
+      providerVersion: "1.0.0"
+    });
+
+    // Keep random envelope metadata exactly as emitted; mutate only the nested result.
+    const { evidenceDigest, ...payload } = emitted;
+    const changed = { ...payload, result: { ...payload.result, exitCode: 9 } };
+    const legacyHash = (value: typeof payload): string =>
+      computeSha256(JSON.stringify(value, Object.keys(value).sort()));
+
+    expect(evidenceDigest).toBe(`sha256:${legacyHash(payload)}`);
+    expect(legacyHash(changed)).toBe(legacyHash(payload));
+    expect(canonicalJson(changed)).not.toBe(canonicalJson(payload));
   });
 });
