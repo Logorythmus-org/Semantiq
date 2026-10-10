@@ -26,7 +26,13 @@ pnpm doctor
 pnpm first-result
 pnpm preflight
 pnpm smoke
+pnpm logo
 ```
+
+### `pnpm logo`
+
+Prints the repository's UTF-8 block-art logo. This is a source-checkout display command,
+not a published TypeScript executable or a benchmark run.
 
 ### `pnpm doctor`
 
@@ -64,11 +70,18 @@ The currently wired Python CLI commands are:
 
 ```bash
 semantiq --version
+semantiq logo
 semantiq evaluate
 semantiq validate-language "DP-008 is associated with reduced drift."
 semantiq verify <64-character-hex-digest>
 semantiq info
 ```
+
+### `logo`
+
+Prints the bundled SemantIQ UTF-8 terminal artwork without running an evaluation or
+changing existing CLI output. A monospaced font and a terminal at least 90 columns wide
+are recommended. This is an opt-in display command.
 
 ### `evaluate`
 
