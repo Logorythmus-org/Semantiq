@@ -9,17 +9,27 @@ const art = readFileSync(
   "utf8"
 );
 
-describe("SemantIQ terminal branding", () => {
-  it("renders the same canonical Unicode artwork in README", () => {
-    const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
-    expect(readme).toContain(["```text", art.trimEnd(), "```"].join("\n"));
+const execute = (args: string[] = []) =>
+  execFileSync(process.execPath, ["scripts/semantiq-logo.mjs", ...args], {
+    cwd: root,
+    encoding: "utf8"
   });
 
-  it("prints the canonical artwork through the source-checkout Node command", () => {
-    const output = execFileSync(process.execPath, ["scripts/semantiq-logo.mjs"], {
-      cwd: root,
-      encoding: "utf8"
-    });
-    expect(output).toBe(art);
+describe("SemantIQ compact terminal branding", () => {
+  it("links the colored README SVG rather than embedding oversized terminal art", () => {
+    const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
+    expect(readme).toContain('src="Docs/branding/semantiq-brain-compact.svg"');
+    expect(readme).not.toContain("█████████");
+  });
+
+  it("prints compact art without ANSI when piped", () => {
+    expect(execute()).toBe(art);
+    expect(execute(["--color=never"])).toBe(art);
+  });
+
+  it("supports forced ANSI color while preserving original glyphs", () => {
+    const colored = execute(["--color=always"]);
+    expect(colored).toContain("\x1b[38;2;");
+    expect(colored.replace(/\x1b\[[0-9;]*m/g, "")).toBe(art);
   });
 });
