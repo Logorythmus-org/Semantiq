@@ -31,7 +31,9 @@ pnpm logo
 
 ### `pnpm logo`
 
-Prints the repository's UTF-8 block-art logo. This is a source-checkout display command,
+Prints the compact UTF-8 brain logo, using color only on interactive terminals that
+support it. Use `pnpm logo --color=always` to force ANSI color or
+`pnpm logo --color=never` for plain text. This is a workspace display command,
 not a published TypeScript executable or a benchmark run.
 
 ### `pnpm doctor`
@@ -79,9 +81,12 @@ semantiq info
 
 ### `logo`
 
-Prints the bundled SemantIQ UTF-8 terminal artwork without running an evaluation or
-changing existing CLI output. A monospaced font and a terminal at least 90 columns wide
-are recommended. This is an opt-in display command.
+Prints the bundled compact SemantIQ brain artwork without running an evaluation or
+changing existing CLI output. Use `semantiq logo --color=auto|always|never`:
+`auto` colors interactive terminals and produces plain text for pipes,
+`NO_COLOR`, or `TERM=dumb`. A UTF-8 monospaced terminal at least 65 columns
+wide is recommended. README displays the corresponding colored SVG banner.
+This is an opt-in display command, not benchmark qualification evidence.
 
 ### `evaluate`
 
