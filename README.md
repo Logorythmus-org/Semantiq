@@ -1,10 +1,10 @@
 # SemantIQ: Behavioral Evidence Infrastructure for AI Systems
 
 <p align="center">
-  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ — compact violet, cyan and teal brain logo" width="640">
+  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ — original block-character wordmark beneath compact brain art in blush, mauve, and muted blue-gray" width="640">
 </p>
 
-*Compact logo derived from the updated Unicode brain art. The CLI uses a text-only variant.*
+*The original SemantIQ block-character wordmark and compact Unicode brain, presented in the approved blush/rose/mauve palette. CLI outputs the same text glyphs with optional ANSI color.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
@@ -243,7 +243,7 @@ semantiq validate-language "DP-008 is associated with reduced FP-002 drift."
 semantiq info
 ```
 
-For the source-checkout workspace, `pnpm logo` prints the same compact logo without invoking a benchmark. Both commands accept `--color=auto|always|never`; piped output is plain text by default.
+For the source-checkout workspace, `pnpm logo` prints the same compact brain **and original ASCII SemantIQ title** without invoking a benchmark. Both commands accept `--color=auto|always|never`; piped output is plain text by default. Use a UTF-8 monospaced terminal at least **90 columns** wide.
 
 The Python CLI also provides `evaluate` (using synthetic/mock fixtures) and
 `verify` (digest-format validation only). It does not expose `doctor`, `claims`,
