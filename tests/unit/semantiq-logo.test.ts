@@ -4,10 +4,10 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const art = readFileSync(
-  new URL("../../packages/python/src/semantiq/assets/semantiq-logo.txt", import.meta.url),
-  "utf8"
-);
+const assets = new URL("../../packages/python/src/semantiq/assets/", import.meta.url);
+const brain = readFileSync(new URL("semantiq-logo.txt", assets), "utf8");
+const wordmark = readFileSync(new URL("semantiq-wordmark.txt", assets), "utf8");
+const art = brain.trimEnd() + "\n\n" + wordmark.trimEnd() + "\n";
 
 const execute = (args: string[] = []) =>
   execFileSync(process.execPath, ["scripts/semantiq-logo.mjs", ...args], {
@@ -15,21 +15,36 @@ const execute = (args: string[] = []) =>
     encoding: "utf8"
   });
 
-describe("SemantIQ compact terminal branding", () => {
-  it("links the colored README SVG rather than embedding oversized terminal art", () => {
-    const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
-    expect(readme).toContain('src="Docs/branding/semantiq-brain-compact.svg"');
-    expect(readme).not.toContain("█████████");
+describe("SemantIQ original ASCII branding and approved palette", () => {
+  it("preserves the original 8-line wordmark and existing 27-line brain", () => {
+    expect(brain.trimEnd().split("\n")).toHaveLength(27);
+    expect(wordmark.trimEnd().split("\n")).toHaveLength(8);
+    expect(wordmark).toContain("░░█████████");
   });
 
-  it("prints compact art without ANSI when piped", () => {
+  it("links the accessible approved README SVG with both ASCII shapes", () => {
+    const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
+    const banner = readFileSync(new URL("../../Docs/branding/semantiq-brain-compact.svg", import.meta.url), "utf8");
+    expect(readme).toContain('src="Docs/branding/semantiq-brain-compact.svg"');
+    for (const line of brain.trimEnd().split("\n")) {
+      expect(banner).toContain(line);
+    }
+    for (const line of wordmark.trimEnd().split("\n")) {
+      expect(banner).toContain(line);
+    }
+    expect(banner).toContain("#ffb2ae");
+    expect(banner).toContain("#a5b7cf");
+  });
+
+  it("prints exactly the original Unicode glyphs in non-TTY and plain modes", () => {
     expect(execute()).toBe(art);
     expect(execute(["--color=never"])).toBe(art);
   });
 
-  it("supports forced ANSI color while preserving original glyphs", () => {
+  it("prints both shapes in rose-mauve ANSI without changing plain glyphs", () => {
     const colored = execute(["--color=always"]);
-    expect(colored).toContain("\x1b[38;2;");
+    expect(colored).toContain("\x1b[38;2;255;178;174m");
+    expect(colored).toContain("\x1b[38;2;147;176;194m");
     expect(colored.replace(/\x1b\[[0-9;]*m/g, "")).toBe(art);
   });
 });
