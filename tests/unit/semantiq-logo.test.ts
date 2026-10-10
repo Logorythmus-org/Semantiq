@@ -4,10 +4,7 @@ import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
 
 const root = fileURLToPath(new URL("../../", import.meta.url));
-const assets = new URL(
-  "../../packages/python/src/semantiq/assets/",
-  import.meta.url
-);
+const assets = new URL("../../packages/python/src/semantiq/assets/", import.meta.url);
 const brain = readFileSync(new URL("semantiq-logo.txt", assets), "utf8");
 const wordmark = readFileSync(new URL("semantiq-wordmark.txt", assets), "utf8");
 const art = brain.trimEnd() + "\n\n" + wordmark.trimEnd() + "\n";
@@ -26,15 +23,9 @@ describe("SemantIQ original ASCII branding and approved palette", () => {
   });
 
   it("links the accessible approved README SVG with both ASCII shapes", () => {
-    const readme = readFileSync(
-      new URL("../../README.md", import.meta.url),
-      "utf8"
-    );
+    const readme = readFileSync(new URL("../../README.md", import.meta.url), "utf8");
     const banner = readFileSync(
-      new URL(
-        "../../Docs/branding/semantiq-brain-compact.svg",
-        import.meta.url
-      ),
+      new URL("../../Docs/branding/semantiq-brain-compact.svg", import.meta.url),
       "utf8"
     );
     expect(readme).toContain('src="Docs/branding/semantiq-brain-compact.svg"');
