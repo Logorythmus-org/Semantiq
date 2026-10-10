@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 import { readFileSync } from "node:fs";
 
-const logo = readFileSync(
-  new URL("../packages/python/src/semantiq/assets/semantiq-logo.txt", import.meta.url),
-  "utf8"
-);
+const assets = new URL("../packages/python/src/semantiq/assets/", import.meta.url);
+const brain = readFileSync(new URL("semantiq-logo.txt", assets), "utf8");
+const wordmark = readFileSync(new URL("semantiq-wordmark.txt", assets), "utf8");
+const logo = brain.trimEnd() + "\n\n" + wordmark.trimEnd() + "\n";
 const options = process.argv.slice(2);
 
 if (options.length > 1 || (options.length && !/^--color=(auto|always|never)$/.test(options[0]))) {
@@ -23,22 +23,26 @@ const color =
 if (!color) {
   process.stdout.write(logo);
 } else {
+  // Shared blush / rose / mauve / slate ANSI palette.
   const palette = [
-    "167;139;250",
-    "129;140;248",
-    "56;189;248",
-    "34;211;238",
-    "45;212;191",
-    "52;211;153"
+    "255;178;174",
+    "252;167;185",
+    "225;166;197",
+    "198;170;211",
+    "160;179;204",
+    "147;176;194"
   ];
   const lines = logo.trimEnd().split("\n");
-  const output =
-    lines
-      .map((line, i) => {
-        const tone =
-          palette[Math.min(Math.floor((i * palette.length) / lines.length), palette.length - 1)];
-        return "\x1b[38;2;" + tone + "m" + line + "\x1b[0m";
+  const columnCount = Math.max(...lines.map((line) => line.length));
+  const colored = lines.map((line) =>
+    palette
+      .map((tone, i) => {
+        const start = Math.floor((i * columnCount) / palette.length);
+        const end = Math.floor(((i + 1) * columnCount) / palette.length);
+        const segment = line.slice(start, end);
+        return segment ? "\x1b[38;2;" + tone + "m" + segment + "\x1b[0m" : "";
       })
-      .join("\n") + "\n";
-  process.stdout.write(output);
+      .join("")
+  );
+  process.stdout.write(colored.join("\n") + "\n");
 }
