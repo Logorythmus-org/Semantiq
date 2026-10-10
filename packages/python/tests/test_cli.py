@@ -98,8 +98,8 @@ def test_cli_logo_force_color_and_plain_modes(capsys):
 
     assert main(["logo", "--color=always"]) == 0
     colored = capsys.readouterr().out
-    assert "\x1b[38;2;255;178;174m" in colored
-    assert "\x1b[38;2;147;176;194m" in colored
+    assert "\x1b[38;2;247;249;250m" in colored
+    assert "\x1b[38;2;241;244;246m" in colored
     assert re.sub(r"\x1b\[[0-9;]*m", "", colored) == expected
 
     assert main(["logo", "--color=never"]) == 0
