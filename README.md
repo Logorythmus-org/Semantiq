@@ -1,10 +1,10 @@
 # SemantIQ: Behavioral Evidence Infrastructure for AI Systems
 
 <p align="center">
-  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ — original block-character wordmark beneath compact brain art in blush, mauve, and muted blue-gray" width="640">
+  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ chrome-silver ASCII brain and original pearl-white block-character wordmark on a muted blush and blue-gray background" width="640">
 </p>
 
-*The original SemantIQ block-character wordmark and compact Unicode brain, presented in the approved blush/rose/mauve palette. CLI outputs the same text glyphs with optional ANSI color.*
+*Original SemantIQ block-character wordmark and unchanged compact Unicode brain, rendered in metallic silver, graphite and pearl white over a muted rose/blue-gray backdrop. The CLI uses the exact same text glyphs with optional grayscale ANSI highlights.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
