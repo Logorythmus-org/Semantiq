@@ -73,15 +73,15 @@ def main(args: Optional[List[str]] = None) -> int:
             and os.environ.get("TERM") != "dumb"
         )
         if use_color:
-            # Shared left-to-right blush, dusty rose, mauve and muted slate palette.
+            # Silver/graphite highlights match the reference brain on dark terminals.
             # Each ANSI span is display-only: stripping controls restores exact ASCII.
             palette = (
-                "255;178;174",
-                "252;167;185",
-                "225;166;197",
-                "198;170;211",
-                "160;179;204",
-                "147;176;194",
+                "247;249;250",
+                "216;223;228",
+                "151;162;172",
+                "249;250;250",
+                "187;198;205",
+                "241;244;246",
             )
             lines = logo.splitlines()
             column_count = max(len(line) for line in lines)
