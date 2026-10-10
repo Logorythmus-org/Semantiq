@@ -23,14 +23,14 @@ const color =
 if (!color) {
   process.stdout.write(logo);
 } else {
-  // Shared blush / rose / mauve / slate ANSI palette.
+  // Metallic silver/graphite highlights against dark interactive terminals.
   const palette = [
-    "255;178;174",
-    "252;167;185",
-    "225;166;197",
-    "198;170;211",
-    "160;179;204",
-    "147;176;194"
+    "247;249;250",
+    "216;223;228",
+    "151;162;172",
+    "249;250;250",
+    "187;198;205",
+    "241;244;246"
   ];
   const lines = logo.trimEnd().split("\n");
   const columnCount = Math.max(...lines.map((line) => line.length));
