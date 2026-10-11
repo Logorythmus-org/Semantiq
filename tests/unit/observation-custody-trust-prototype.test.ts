@@ -1,9 +1,6 @@
 import { generateKeyPairSync, sign, verify, type KeyObject } from "node:crypto";
 import { describe, expect, it } from "vitest";
-import {
-  canonicalizeV1,
-  computeSha256
-} from "../../packages/sandbox-contracts/src/index.js";
+import { canonicalizeV1, computeSha256 } from "../../packages/sandbox-contracts/src/index.js";
 
 /**
  * RFC #196, Phase 5: standalone, OFFLINE, TEST-ONLY chain-of-custody sketch.
@@ -55,12 +52,8 @@ function verifyAgainstPinnedKey(
     return false;
   }
   if (!/^(?:[a-f0-9]{2})+$/.test(record.signatureHex)) return false;
-  return verify(
-    null,
-    bytes(record.commitment),
-    trusted.key,
-    Buffer.from(record.signatureHex, "hex")
-  );
+  const signature = Buffer.from(record.signatureHex, "hex");
+  return verify(null, bytes(record.commitment), trusted.key, signature);
 }
 
 const syntheticSubject = (issuerKeyId: string): SyntheticCommitment => ({
@@ -75,9 +68,8 @@ const syntheticSubject = (issuerKeyId: string): SyntheticCommitment => ({
 describe("RFC #196 Phase 5 — independently pinned trust anchor (test-only)", () => {
   it("verifies a scoped synthetic commitment and rejects mutated content", () => {
     const { publicKey, privateKey } = generateKeyPairSync("ed25519");
-    const pinned = new Map<string, TrustEntry>([
-      ["reviewed-key-1", { key: publicKey, permitted: true }]
-    ]);
+    const pinned = new Map<string, TrustEntry>();
+    pinned.set("reviewed-key-1", { key: publicKey, permitted: true });
     const issued = issueFixture(syntheticSubject("reviewed-key-1"), privateKey);
 
     expect(verifyAgainstPinnedKey(issued, pinned)).toBe(true);
@@ -94,9 +86,8 @@ describe("RFC #196 Phase 5 — independently pinned trust anchor (test-only)", (
   it("rejects a different signer's key despite a self-consistent content digest", () => {
     const approved = generateKeyPairSync("ed25519");
     const unrelated = generateKeyPairSync("ed25519");
-    const pinned = new Map<string, TrustEntry>([
-      ["reviewed-key-1", { key: approved.publicKey, permitted: true }]
-    ]);
+    const pinned = new Map<string, TrustEntry>();
+    pinned.set("reviewed-key-1", { key: approved.publicKey, permitted: true });
     const record = issueFixture(syntheticSubject("reviewed-key-1"), unrelated.privateKey);
 
     // Content-only hashing is reproducible by anybody. No issuer identity follows.
@@ -109,9 +100,8 @@ describe("RFC #196 Phase 5 — independently pinned trust anchor (test-only)", (
     const { publicKey, privateKey } = generateKeyPairSync("ed25519");
     const issued = issueFixture(syntheticSubject("reviewed-key-1"), privateKey);
     const unknown = new Map<string, TrustEntry>();
-    const revoked = new Map<string, TrustEntry>([
-      ["reviewed-key-1", { key: publicKey, permitted: false }]
-    ]);
+    const revoked = new Map<string, TrustEntry>();
+    revoked.set("reviewed-key-1", { key: publicKey, permitted: false });
 
     expect(verifyAgainstPinnedKey(issued, unknown)).toBe(false);
     expect(verifyAgainstPinnedKey(issued, revoked)).toBe(false);
@@ -120,16 +110,19 @@ describe("RFC #196 Phase 5 — independently pinned trust anchor (test-only)", (
   it("does not trust public keys presented only inside an untrusted artifact", () => {
     const trusted = generateKeyPairSync("ed25519");
     const other = generateKeyPairSync("ed25519");
-    const pinned = new Map<string, TrustEntry>([
-      ["reviewed-key-1", { key: trusted.publicKey, permitted: true }]
-    ]);
+    const pinned = new Map<string, TrustEntry>();
+    pinned.set("reviewed-key-1", { key: trusted.publicKey, permitted: true });
 
     const forgedRecord = issueFixture(syntheticSubject("reviewed-key-1"), other.privateKey);
     expect(verifyAgainstPinnedKey(forgedRecord, pinned)).toBe(false);
     // A verifier MUST NOT replace its separately trusted key with other.publicKey.
-    expect(verify(null, bytes(forgedRecord.commitment), other.publicKey, Buffer.from(
-      forgedRecord.signatureHex,
-      "hex"
-    ))).toBe(true);
+    const untrustedSignature = Buffer.from(forgedRecord.signatureHex, "hex");
+    const signatureMatchesUntrustedKey = verify(
+      null,
+      bytes(forgedRecord.commitment),
+      other.publicKey,
+      untrustedSignature
+    );
+    expect(signatureMatchesUntrustedKey).toBe(true);
   });
 });
