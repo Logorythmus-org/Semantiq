@@ -54,9 +54,7 @@ function sample(): PrivateFixture {
     },
     consequence: {
       totalMutationsCount: 1,
-      filesModified: [
-        { path: "/private/fixture-file", diffUnified: "fixture-sensitive-diff" }
-      ]
+      filesModified: [{ path: "/private/fixture-file", diffUnified: "fixture-sensitive-diff" }]
     }
   };
 }
@@ -149,13 +147,13 @@ describe("RFC #196 Phase 4 — isolated public summary disclosure (test-only)", 
       }
     };
 
-    expect(sealPublicSummary(changedResult).digest).not.toBe(
-      sealPublicSummary(original).digest
-    );
+    const originalDigest = sealPublicSummary(original).digest;
+    const changedResultDigest = sealPublicSummary(changedResult).digest;
+    const changedWithheldDigest = sealPublicSummary(changedWithheld).digest;
+
+    expect(changedResultDigest).not.toBe(originalDigest);
     // Intentional: this is a public-subset seal, NOT full evidence integrity.
-    expect(sealPublicSummary(changedWithheld).digest).toBe(
-      sealPublicSummary(original).digest
-    );
+    expect(changedWithheldDigest).toBe(originalDigest);
   });
 
   it("rejects unknown versions and scopes rather than falling back", () => {
