@@ -13,14 +13,11 @@ import {
 const DISCLOSURE_SCOPE = "public-summary" as const;
 const PROJECTION_VERSION = "proposal-0" as const;
 const DOMAIN = "semantiq.observation.public-summary" as const;
-const WITHHELD_FIELDS = [
-  "context.environmentVariables",
-  "decision.commandArray",
-  "decision.workingDirectory",
-  "interpretation.rawThoughtLog",
-  "result.stdoutSanitized",
-  "result.stderrSanitized",
-  "consequence.filesModified"
+const INCLUDED_FIELDS = [
+  "publicRunId",
+  "result.exitCode",
+  "result.timedOut",
+  "consequence.totalMutationsCount"
 ] as const;
 
 interface PrivateFixture {
@@ -77,7 +74,7 @@ function publicSubject(observation: PrivateFixture) {
     consequence: {
       totalMutationsCount: observation.consequence.totalMutationsCount
     },
-    withheldFields: WITHHELD_FIELDS
+    includedFields: INCLUDED_FIELDS
   };
 }
 
@@ -134,7 +131,7 @@ describe("RFC #196 Phase 4 — isolated public summary disclosure (test-only)", 
       expect(subjectJson).not.toContain(privateValue);
     }
     expect(subjectJson).toContain("public-summary");
-    expect(subjectJson).toContain("context.environmentVariables");
+    expect(subjectJson).toContain("result.exitCode");
   });
 
   it("binds exactly the disclosed operational outcome, not hidden source data", () => {
