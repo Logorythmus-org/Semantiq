@@ -43,7 +43,7 @@ This matrix is an **unapproved candidate** for discussion, not a guarantee that 
 
 ## 4. Proposed isolated public-summary fixture
 
-A test-only fixture uses an explicitly supplied **synthetic** `publicRunId` and an allowlisted subset of execution results: `exitCode`, `timedOut`, and `totalMutationsCount`. All private source strings and paths are excluded by construction, and the disclosed subset is self-identified with a fixed domain, a prospective projection identifier, and explicit omitted-field names.
+A test-only fixture uses an explicitly supplied **synthetic** `publicRunId` and an allowlisted subset of execution results: `exitCode`, `timedOut`, and `totalMutationsCount`. All private source strings and paths are excluded in the synthetic fixture, and the disclosed subset is self-identified with a fixed domain, a prospective projection identifier, and **an exhaustive positive list of fields committed by the prototype**. That list does not assert anything about unlisted private source data.
 
 Its digest subject conceptually binds:
 
@@ -54,13 +54,13 @@ Its digest subject conceptually binds:
   publicRunId: <externally approved opaque non-sensitive ID>,
   result: { exitCode, timedOut },
   consequence: { totalMutationsCount },
-  withheldFields: [fixed, versioned field names]
+  includedFields: ["publicRunId", "result.exitCode", "result.timedOut", "consequence.totalMutationsCount"]
 }
 ```
 
 The **scope is part of the hashed subject**, not only external metadata, to prevent confusing a summary digest with an internal evidence digest. The summary digest is named `semantiq-canonical-json-v1` for serialization, but this alone does not register a product-specific observation profile.
 
-If `exitCode` changes, the public-summary digest must change. If a withheld command argument or environment value changes, this digest is intentionally unchanged. Therefore verification can only say **the disclosed public summary was not modified relative to its seal**. It cannot validate raw execution, internal redaction quality, goal success, or withheld values. Such strong claims require a separately approved internal protocol.
+If `exitCode` changes, the public-summary digest must change. If an omitted command argument or environment value changes, this digest is intentionally unchanged. A successful recomputation only shows **digest consistency for the included public-summary fields**. If an attacker can modify the summary and its unhashed/untrusted digest together, they can replace both undetected. Integrity relative to an independent *trusted reference digest*, authenticated registry, or approved digital signature would require a separate trust-anchor design. The prototype does **not** authenticate origin or completeness. It cannot validate raw execution, internal redaction quality, goal success, or omitted values.
 
 ## 5. Profile and version verification requirements
 
@@ -68,7 +68,7 @@ If `exitCode` changes, the public-summary digest must change. If a withheld comm
 - Hash with the repository's existing `semantiq-canonical-json-v1` utility on a deterministic, explicitly projected object. Unsupported Unicode, non-integer/negative-zero numeric values, nested `undefined`, cycles, and non-JSON types must fail closed. Do not auto-normalize with lossy JSON round-trips.
 - Unknown profile, scope, projection version, malformed digest, or absent metadata cannot produce a verified verdict. Unknown historical origin is `NOT_ESTABLISHED`, not a fallback.
 - A distinct immutable historical `observation-top-level-replacer-v0` profile must reproduce original bytes without claiming omitted nested fields were sealed; it is **not** `legacy-ts-v0`.
-- Published summaries need an explicit provenance/disclosure statement and security review. A passing hash check means **summary integrity only**.
+- Published summaries need an explicit provenance/disclosure statement and security review. A matching hash without an independently trusted digest/signature means **consistency only, not authenticity or tamper resistance against a rewriting attacker**. An authenticated provenance/trust-anchor protocol remains unapproved.
 - TS/Python vector parity and historical consumer inventory remain required before any production schema/generation change.
 - No silent rewrite of stored `evidenceDigest`, schema `1.0.0`, alpha release identity, or migration-matrix flags.
 
@@ -82,6 +82,6 @@ If `exitCode` changes, the public-summary digest must change. If a withheld comm
 
 ## 7. Acceptance evidence plan
 
-Test-only synthetic cases should demonstrate: omitted source secrets absent from the public subject; an included result mutation changes its digest; an omitted private value does not; the scope and domain cannot be substituted; missing/unknown/malformed profile metadata fails closed; no network, raw credentials, or private data is involved. The suite cannot establish safety for arbitrary text or external runtime input.
+Test-only synthetic cases should demonstrate: omitted synthetic source values absent from the public subject; an included result mutation changes its digest; an omitted private value does not; an exact positive field-inclusion list; the scope and domain cannot be substituted; missing/unknown/malformed profile metadata fails closed; no network or real credentials are involved. The suite cannot establish safety for arbitrary text, external runtime input, or malicious replacement of both summary and digest.
 
 **Scientific boundary:** `Observed ≠ Inferred`; `Absence ≠ Counterevidence`; `Bundle integrity ≠ truth`.
