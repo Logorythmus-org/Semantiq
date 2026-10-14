@@ -87,7 +87,18 @@ export function evaluateSemanticCoreCase(
   else state = response.selectedOptionId === item.oracle.selectedOptionId ? "PASSED" : "INCORRECT";
   return { caseId: item.caseId, dimensionId: item.dimensionId, state, scientificAuthority: "NONE" };
 }
-function metricsFor(cases: readonly SemanticCoreCaseResult[], packDigest: string): MetricResult[] {
+/**
+ * Aggregate trusted, already-evaluated case results; this is not a validation boundary.
+ * Callers establish valid states/dimensions, case identities and uniqueness, and attest
+ * packDigest. No input or pack-integrity verification, digest normalization or rejection
+ * policy is provided. Outputs are engineering results, not qualification or scientific
+ * evidence. Identity/binding graphs are detached from canonical definitions and other
+ * results; readonly types do not make returned objects immutable at runtime.
+ */
+export function semanticCoreMetricsFor(
+  cases: readonly SemanticCoreCaseResult[],
+  packDigest: string
+): MetricResult[] {
   return SEMANTIC_CORE_METRICS.map((metricIdentity, i) => {
     const selected =
       i < 2 ? cases : cases.filter((c) => c.dimensionId === SEMANTIC_CORE_DIMENSIONS[i - 2]);
@@ -96,8 +107,8 @@ function metricsFor(cases: readonly SemanticCoreCaseResult[], packDigest: string
     const binding = SEMANTIC_CORE_METRIC_DEFINITIONS[i]!.benchmarkBinding;
     return {
       resultId: metricIdentity.metricId,
-      metricIdentity,
-      ...(binding ? { benchmarkBinding: binding } : {}),
+      metricIdentity: { ...metricIdentity },
+      ...(binding ? { benchmarkBinding: { ...binding, benchmark: { ...binding.benchmark } } } : {}),
       outcome:
         eligible === 0
           ? { kind: "MISSING", reason: "INSUFFICIENT_EVIDENCE" }
@@ -190,7 +201,7 @@ export async function runSemanticCorePilot(
     evaluator: SEMANTIC_CORE_EVALUATOR,
     packDigest: loaded.packDigest.value,
     cases,
-    metrics: metricsFor(cases, loaded.packDigest.value),
+    metrics: semanticCoreMetricsFor(cases, loaded.packDigest.value),
     stateCounts,
     evidenceKind: "SYNTHETIC_ENGINEERING_ONLY",
     scientificAuthority: "NONE"
