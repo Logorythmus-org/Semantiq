@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="400" viewBox="0 0 900 400" role="img" aria-labelledby="brand-title brand-desc">
+  <title id="brand-title">SemantIQ — silver ASCII brain and original block-character wordmark</title>
+  <desc id="brand-desc">The unchanged compact brain and original SemantIQ ASCII wordmark in chrome silver, graphite, and pearl white. A soft blush, dusty rose, and blue-gray atmospheric background reflects the brand reference image.</desc>
+  <defs>
+    <!-- Background colors belong to the environment, not to the chrome icon. -->
+    <linearGradient id="brand-background" x1="0%" y1="42%" x2="100%" y2="60%">
+      <stop offset="0%" stop-color="#536c70"/>
+      <stop offset="25%" stop-color="#ad8b94"/>
+      <stop offset="52%" stop-color="#daa8a5"/>
+      <stop offset="76%" stop-color="#d5a1a7"/>
+      <stop offset="100%" stop-color="#576274"/>
+    </linearGradient>
+    <radialGradient id="blush-light" cx="70%" cy="12%" r="85%">
+      <stop offset="0%" stop-color="#ffd3c6" stop-opacity=".72"/>
+      <stop offset="48%" stop-color="#e4b3c0" stop-opacity=".18"/>
+      <stop offset="100%" stop-color="#e4b3c0" stop-opacity="0"/>
+    </radialGradient>
+    <linearGradient id="chrome-ink" x1="3%" y1="7%" x2="96%" y2="92%">
+      <stop offset="0%" stop-color="#f7f8f7"/>
+      <stop offset="18%" stop-color="#d6d9dc"/>
+      <stop offset="34%" stop-color="#657078"/>
+      <stop offset="47%" stop-color="#f5f7f6"/>
+      <stop offset="62%" stop-color="#a7aeb4"/>
+      <stop offset="77%" stop-color="#f8faf9"/>
+      <stop offset="100%" stop-color="#727b84"/>
+    </linearGradient>
+    <linearGradient id="pearl-wordmark" x1="0%" y1="0%" x2="100%" y2="75%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="42%" stop-color="#f2f3f3"/>
+      <stop offset="74%" stop-color="#d5d9dc"/>
+      <stop offset="100%" stop-color="#f9fafa"/>
+    </linearGradient>
+  </defs>
+  <rect width="900" height="400" rx="18" fill="url(#brand-background)"/>
+  <rect width="900" height="400" rx="18" fill="url(#blush-light)"/>
+  <!-- Preserve every glyph and every leading space in the source art. A subtle
+       dark outline adds the shadowed grooves of the chrome reference. -->
+  <g font-family="DejaVu Sans Mono, Liberation Mono, Noto Sans Mono, monospace"
+     font-size="10.3" font-weight="400" fill="url(#chrome-ink)"
+     stroke="#263039" stroke-width=".25" paint-order="stroke fill">
+  <text x="251" y="19.0" xml:space="preserve">                        ░░▒▒▒▒▒▒▓▒▓▒░░▒▒▒▒░░░</text>
+  <text x="251" y="28.1" xml:space="preserve">                 ░░░▒▓▒▓▓▓▓▓▓▓▓▓▓▓▓▓█▓▓▓█▓▓▓▓▒▓▒░</text>
+  <text x="251" y="37.1" xml:space="preserve">              ░▒▓▓▓▓▓▓▓▓▓▓██▓▓▓▒▓█▓▓▓▓▓█▓▓▒▓█▓▓▓▓▒░░░</text>
+  <text x="251" y="46.2" xml:space="preserve">            ░▓▓▓█▓▓▓▓▓▓▓▒▓▓▓▓▒▓█▓▓▓▓▓▓▓█▓▓▓▓▓▓▓█▓▓▓▓▒░</text>
+  <text x="251" y="55.2" xml:space="preserve">         ░▒▓▓▓▓█▓▓▓███▓▓██▓▓███▓▒▓▓▓▓▒▓▓▓███▓▓▓▓▓▓▓█▓▓▓▒</text>
+  <text x="251" y="64.3" xml:space="preserve">       ░▒▓▓▓▓▓▓▓█▓██▓▓███▓▓██▓▓▓▓███▓▓███▓█▓█▓█▓▓▓▓█▓▓▓▓▓░</text>
+  <text x="251" y="73.3" xml:space="preserve">      ▒▓▓▓▓▓▓▓▓▓▓█▓▓▓▓█▓█▓█▓▓▓▓█████▓▓███▓▓███▓███▓▓▓▓▓▓▓▓▒░</text>
+  <text x="251" y="82.4" xml:space="preserve">    ░▓▓▓▓▒▒█▓▓▓▓▓▒██▓▓███▓▓████▓████▓█████▓▓▓██▓██▓▓▒▓▓▓▓▓█▒▒</text>
+  <text x="251" y="91.4" xml:space="preserve">   ▒▓█▓▒▓▓█▓▓▓▓▓██▓▓███▓▓█▓█▓▓██▓████▓██▓██▓▓▓██▓████▒▓█▒▓▓▓▒░</text>
+  <text x="251" y="100.5" xml:space="preserve">  ▒▒▓▓▓▓▓▓▓▓▓▒▓██▓██▓██▓▓▓▓█████▓█████▓██▓██▓▓███▓▓██▓▓█▓▓▓▓▓▓░</text>
+  <text x="251" y="109.5" xml:space="preserve"> ░▓▓▓▓▓▓▓▓▓█▓▓▓███▓█▓▓████▓▓█████▓█████▓▓█▓██▓▓██▓▓███▒▓▓█▒▒▓▒▒</text>
+  <text x="251" y="118.6" xml:space="preserve"> ▓▓▓▒▓█▓▓▓▓▓▓▓█▓▓▓▓▓███████▓▓██████████▓▓▓████▓█▓▓▓████▒█▓▒▓▒▒▒░</text>
+  <text x="251" y="127.6" xml:space="preserve">░▓▓▓▓▓▓▒█▓▓▓▓▓▓▓████▓██████████████▓██▓▓██▓▓▓▓▓▓▓▓█▓███▓█▓▓▓█▓▒▒</text>
+  <text x="251" y="136.7" xml:space="preserve">▓▓▓▓▓▓▓▓▓▓████████▓█▓███▓▓███▓▓███▓▓▓▓▓▓▓▓▓▓▓▓█████▓▓▓▓▓███▓▓▓▓▓</text>
+  <text x="251" y="145.7" xml:space="preserve">▒▓▓▓▒▓█▓▓█████▓█████▓▓▓█▓▓▓██████▓▓█▓▓▓▓▓████▓████▓▓▓████▓▒▓▓▓▓░</text>
+  <text x="251" y="154.8" xml:space="preserve">▒▓▓▓▓█▓▓█▓▓▓██████▓▓██▓▓▓▓█▓█▓▓▓▓▓▓▓██████████▓▓▓▓▓█▓▓▒▓▓▓▓▓▓▓▓░</text>
+  <text x="251" y="163.8" xml:space="preserve">░▒▓▓▓▓▓▓█▓█▓▓▓▓▓▓▓▓▓▓█████▓▓▓▓▓▓▓█▓███████▓▓▓▓▓▓█▓▓▓▓▓█▓▓█▓▓▓▒░</text>
+  <text x="251" y="172.9" xml:space="preserve">  ▒▒▓▓▓▓▓█▓▓▓▓█▓▓▓▓▓▓▓▓▓▓▓▓▓███████████▓█████▓▓▓▓▓▓▓█▓▓▒▒▒▒▒▒░</text>
+  <text x="251" y="181.9" xml:space="preserve">    ░▒▓▓▓▓▒▓▓▓▓▓▓▓▓█▓▓▒▓▓▓▓████████▓██████▓▓▓▒▓▓██▓▓▓▒▒▓▓▓▒▒▒░</text>
+  <text x="251" y="191.0" xml:space="preserve">      ░▒▒▓▓▓▓▓▓▒▒░░░▒▓██▓▓▓▓▓▓▓▓▓▓█▓██▓▓▓▓███▓▓██▓▓▓▓▓▓▓▒▓▓▓▒░</text>
+  <text x="251" y="200.0" xml:space="preserve">                   ░▒▓███▓▓█▓▓▓▓▓█▓▓▓▓█████▓▓▓▓▓▓▓█▓███▓▓▓▓▒░</text>
+  <text x="251" y="209.1" xml:space="preserve">                    ░▒▓▓▓▓▓███▓▓▓▓█▓▓█▓▓▓▓▒▓▓▓▓▓▓▓▓▓▓▓█▓▓▓▒░</text>
+  <text x="251" y="218.1" xml:space="preserve">                     ░░▒▓▓▓▓▓▓▓█▓█▓▓▓▓██▓▓▓░▓▓▓▓█▓▓▓▓▓▒▓▓░</text>
+  <text x="251" y="227.2" xml:space="preserve">                        ░░▒▒▒▒▒░░░  ░▓▒█▓▓▒  ░░▒▒▒▒▒▒░░</text>
+  <text x="251" y="236.2" xml:space="preserve">                                     ░░▒▓▓▓░</text>
+  <text x="251" y="245.3" xml:space="preserve">                                        ▒█▓▓</text>
+  <text x="251" y="254.3" xml:space="preserve">                                        ░▒▓▒</text>
+  </g>
+  <g font-family="DejaVu Sans Mono, Liberation Mono, Noto Sans Mono, monospace"
+     font-size="12.7" font-weight="400" fill="url(#pearl-wordmark)"
+     stroke="#5b555b" stroke-width=".32" paint-order="stroke fill">
+  <text x="124" y="284.0" xml:space="preserve"> █████████                                                 █████    █████    ██████</text>
+  <text x="124" y="298.6" xml:space="preserve"> ███░░░░░███                                               ░░███    ░░███   ███░░░░███</text>
+  <text x="124" y="313.2" xml:space="preserve">░███    ░░░   ██████  █████████████    ██████   ████████   ███████   ░███  ███    ░░███</text>
+  <text x="124" y="327.8" xml:space="preserve">░░█████████  ███░░███░░███░░███░░███  ░░░░░███ ░░███░░███ ░░░███░    ░███ ░███     ░███</text>
+  <text x="124" y="342.4" xml:space="preserve"> ░░░░░░░░███░███████  ░███ ░███ ░███   ███████  ░███ ░███   ░███     ░███ ░███   ██░███</text>
+  <text x="124" y="357.0" xml:space="preserve"> ███    ░███░███░░░   ░███ ░███ ░███  ███░░███  ░███ ░███   ░███ ███ ░███ ░░███ ░░████</text>
+  <text x="124" y="371.6" xml:space="preserve">░░█████████ ░░██████  █████░███ █████░░████████ ████ █████  ░░█████  █████ ░░░██████░██</text>
+  <text x="124" y="386.2" xml:space="preserve"> ░░░░░░░░░   ░░░░░░  ░░░░░ ░░░ ░░░░░  ░░░░░░░░ ░░░░ ░░░░░    ░░░░░  ░░░░░    ░░░░░░ ░░</text>
+  </g>
+</svg>

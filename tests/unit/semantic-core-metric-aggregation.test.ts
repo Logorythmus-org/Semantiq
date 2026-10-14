@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from "vitest";
+import { createHash } from "node:crypto";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import {
@@ -25,6 +26,29 @@ const result = (state: SemanticCoreCaseResult["state"], index: number): Semantic
 });
 
 describe("independent Semantic Core metric aggregation", () => {
+  it("preserves exact serialized outputs recorded before the isolation repair", () => {
+    // Baseline: PR #166 head 0025a76046b47f6d4897d2559ff2a18e5ad754f1.
+    const vectors = [
+      {
+        rows: Array.from({ length: 24 }, (_, i) => result(i % 4 === 0 ? "INCORRECT" : "PASSED", i)),
+        sha256: "3ff9d3c711f91c1f2acea539afb8cd593fc2040efdd9c5bda86466ef60c33916"
+      },
+      {
+        rows: SEMANTIC_CORE_STATES.map(result),
+        sha256: "146b167fa7a72e8173d39d386b111117f3ece40cbe7d772f53364197b6dd8a15"
+      },
+      {
+        rows: ["MISSING", "MALFORMED", "ABSTAINED", "SUBJECT_ERROR"].map((state, i) =>
+          result(state as SemanticCoreCaseResult["state"], i)
+        ),
+        sha256: "4af224700f34da497349ba766dccb7f2f8022ae7f5ab2c14609683d02bdca7ed"
+      }
+    ];
+    for (const vector of vectors) {
+      const serialized = JSON.stringify(semanticCoreMetricsFor(vector.rows, digest));
+      expect(createHash("sha256").update(serialized).digest("hex")).toBe(vector.sha256);
+    }
+  });
   it("isolates identities, bindings and nested benchmarks from canonical state and other results", () => {
     const cases = [result("PASSED", 0), result("INCORRECT", 1)];
     const canonicalBefore = structuredClone({

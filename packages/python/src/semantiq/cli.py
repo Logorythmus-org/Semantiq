@@ -5,6 +5,8 @@ Provides command-line operations for evaluate, verify, validate-language, and sy
 """
 import argparse
 import json
+import os
+from importlib.resources import files
 import sys
 from typing import List, Optional
 
@@ -48,12 +50,54 @@ def create_parser() -> argparse.ArgumentParser:
     # Command: info
     subparsers.add_parser("info", help="Prints platform and schema contract information")
 
+    # Command: logo
+    logo_parser = subparsers.add_parser("logo", help="Prints the compact SemantIQ brain logo")
+    logo_parser.add_argument("--color", choices=("auto", "always", "never"), default="auto")
+
     return parser
 
 
 def main(args: Optional[List[str]] = None) -> int:
     parser = create_parser()
     parsed = parser.parse_args(args)
+
+    if parsed.command == "logo":
+        assets = files("semantiq").joinpath("assets")
+        brain = assets.joinpath("semantiq-logo.txt").read_text(encoding="utf-8")
+        wordmark = assets.joinpath("semantiq-wordmark.txt").read_text(encoding="utf-8")
+        logo = brain.rstrip("\n") + "\n\n" + wordmark.rstrip("\n") + "\n"
+        use_color = parsed.color == "always" or (
+            parsed.color == "auto"
+            and sys.stdout.isatty()
+            and "NO_COLOR" not in os.environ
+            and os.environ.get("TERM") != "dumb"
+        )
+        if use_color:
+            # Silver/graphite highlights match the reference brain on dark terminals.
+            # Each ANSI span is display-only: stripping controls restores exact ASCII.
+            palette = (
+                "247;249;250",
+                "216;223;228",
+                "151;162;172",
+                "249;250;250",
+                "187;198;205",
+                "241;244;246",
+            )
+            lines = logo.splitlines()
+            column_count = max(len(line) for line in lines)
+            colored = []
+            for line in lines:
+                spans = []
+                for i, tone in enumerate(palette):
+                    start = i * column_count // len(palette)
+                    end = (i + 1) * column_count // len(palette)
+                    segment = line[start:end]
+                    if segment:
+                        spans.append(f"\x1b[38;2;{tone}m{segment}\x1b[0m")
+                colored.append("".join(spans))
+            logo = "\n".join(colored) + "\n"
+        print(logo, end="")
+        return 0
 
     client = SemantiqClient(is_offline_deterministic=True)
 

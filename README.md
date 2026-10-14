@@ -1,5 +1,11 @@
 # SemantIQ: Behavioral Evidence Infrastructure for AI Systems
 
+<p align="center">
+  <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ chrome-silver ASCII brain and original pearl-white block-character wordmark on a muted blush and blue-gray background" width="640">
+</p>
+
+*Original SemantIQ block-character wordmark and unchanged compact Unicode brain, rendered in metallic silver, graphite and pearl white over a muted rose/blue-gray backdrop. The CLI uses the exact same text glyphs with optional grayscale ANSI highlights.*
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
 [![TypeScript SDK](https://img.shields.io/badge/TypeScript%20SDK-%40semantiq%2Fsdk-blue.svg)](Docs/TYPESCRIPT_SDK.md)
@@ -217,26 +223,36 @@ For complete TypeScript SDK documentation, see **[Docs/TYPESCRIPT_SDK.md](Docs/T
 
 ### 3. Command-Line Interface (CLI)
 
-Run doctor diagnostics, execute benchmark workflows, and manage governed claims:
+The source-installed Python package exposes the `semantiq` command. After
+installing it with `python -m pip install -e "./packages/python"`, run:
 
 ```bash
-# Diagnostic health check
-semantiq doctor
+# Display the compact terminal logo (TTY color is automatic)
+semantiq logo
+
+# Force colored output when redirected
+semantiq logo --color=always
+
+# Show the Python CLI release and schema versions
+semantiq --version
 
 # Validate controlled claim language
-semantiq claims validate "DP-008 is associated with reduced FP-002 drift."
+semantiq validate-language "DP-008 is associated with reduced FP-002 drift."
 
-# List discovered failure and design patterns
-semantiq patterns list
-
-# Inspect evidence graph relationships
-semantiq evidence graph
-
-# Start Headless HTTP API Server
-semantiq serve --port 3000
+# Show Python package information
+semantiq info
 ```
 
-For complete CLI documentation, see **[Docs/CLI_USAGE.md](Docs/CLI_USAGE.md)**.
+For the source-checkout workspace, `pnpm logo` prints the same compact brain **and original ASCII SemantIQ title** without invoking a benchmark. Both commands accept `--color=auto|always|never`; piped output is plain text by default. Use a UTF-8 monospaced terminal at least **90 columns** wide.
+
+The Python CLI also provides `evaluate` (using synthetic/mock fixtures) and
+`verify` (digest-format validation only). It does not expose `doctor`, `claims`,
+`patterns`, `evidence`, or `serve` subcommands. For environment diagnostics in an
+installed pnpm workspace, use `pnpm doctor` from the repository root instead.
+
+The internal TypeScript CLI engine is a separate library surface, not a
+published executable. For the supported commands and their limitations, see
+**[Docs/CLI_USAGE.md](Docs/CLI_USAGE.md)**.
 
 ---
 

@@ -26,7 +26,17 @@ pnpm doctor
 pnpm first-result
 pnpm preflight
 pnpm smoke
+pnpm logo
 ```
+
+### `pnpm logo`
+
+Prints the unchanged compact UTF-8 brain followed by the original eight-line
+SemantIQ block-character wordmark. Neutral chrome-silver ANSI highlights
+are enabled only on interactive terminals that support them.
+Use `pnpm logo --color=always` to force ANSI color or
+`pnpm logo --color=never` for plain text. This is a workspace display command,
+not a published TypeScript executable or a benchmark run.
 
 ### `pnpm doctor`
 
@@ -64,11 +74,25 @@ The currently wired Python CLI commands are:
 
 ```bash
 semantiq --version
+semantiq logo
 semantiq evaluate
 semantiq validate-language "DP-008 is associated with reduced drift."
 semantiq verify <64-character-hex-digest>
 semantiq info
 ```
+
+### `logo`
+
+Prints the bundled compact brain and original SemantIQ block-character wordmark
+without running an evaluation or changing other CLI output.
+Use `semantiq logo --color=auto|always|never`:
+`auto` colors interactive terminals and produces plain text for pipes,
+`NO_COLOR`, or `TERM=dumb`. A UTF-8 monospaced terminal at least 90 columns
+wide is recommended. README displays the same source glyphs in an approved
+metallic silver ASCII artwork on a muted blush and blue-gray SVG background.
+See `Docs/branding/COLOR_TOKENS.md`. For light-themed terminals, use
+`--color=never` if the silver highlights lack sufficient contrast.
+This is an opt-in display command, not benchmark qualification evidence.
 
 ### `evaluate`
 
