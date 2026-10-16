@@ -17,13 +17,24 @@ export type LogContext = Record<string, unknown>;
 
 const sensitiveKeyPattern = /password|secret|token|key|credential/i;
 
+function redactValue(value: unknown): unknown {
+  if (value === null || value === undefined) return value;
+  if (Array.isArray(value)) {
+    return value.map(redactValue);
+  }
+  if (typeof value === "object") {
+    return Object.fromEntries(
+      Object.entries(value as Record<string, unknown>).map(([key, val]) => [
+        key,
+        sensitiveKeyPattern.test(key) ? "[redacted]" : redactValue(val)
+      ])
+    );
+  }
+  return value;
+}
+
 export function redactLogContext(context: LogContext = {}): LogContext {
-  return Object.fromEntries(
-    Object.entries(context).map(([key, value]) => [
-      key,
-      sensitiveKeyPattern.test(key) ? "[redacted]" : value
-    ])
-  );
+  return redactValue(context) as LogContext;
 }
 
 export function createConsoleLogger(

@@ -7,11 +7,33 @@ import {
 } from "../../packages/shared/src/index.js";
 
 describe("shared logging and errors", () => {
-  it("redacts sensitive logging keys", () => {
-    expect(redactLogContext({ token: "abc", safe: "value", apiKey: "secret" })).toEqual({
+  it("redacts sensitive logging keys at top level and recursively in nested objects and arrays", () => {
+    expect(
+      redactLogContext({
+        token: "abc",
+        safe: "value",
+        apiKey: "secret",
+        nested: {
+          userPassword: "mypassword",
+          config: {
+            authSecret: "supersecret",
+            publicVal: 123
+          }
+        },
+        items: [{ apiToken: "tok123" }, { name: "item1" }]
+      })
+    ).toEqual({
       token: "[redacted]",
       safe: "value",
-      apiKey: "[redacted]"
+      apiKey: "[redacted]",
+      nested: {
+        userPassword: "[redacted]",
+        config: {
+          authSecret: "[redacted]",
+          publicVal: 123
+        }
+      },
+      items: [{ apiToken: "[redacted]" }, { name: "item1" }]
     });
   });
 
