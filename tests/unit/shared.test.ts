@@ -48,6 +48,17 @@ describe("shared logging and errors", () => {
     spy.mockRestore();
   });
 
+  it("preserves dates and handles circular references in log context", () => {
+    const date = new Date("2026-01-01T00:00:00.000Z");
+    const circular: Record<string, unknown> = { name: "test", created: date };
+    circular["self"] = circular;
+
+    const result = redactLogContext(circular);
+    expect(result.name).toBe("test");
+    expect(result.created).toBe(date);
+    expect(result.self).toBe("[circular]");
+  });
+
   it("serializes application errors without stack traces", () => {
     const serialized = serializeError(
       new ConfigurationError("Bad config", { variable: "DATABASE_URL" })

@@ -17,16 +17,26 @@ export type LogContext = Record<string, unknown>;
 
 const sensitiveKeyPattern = /password|secret|token|key|credential/i;
 
-function redactValue(value: unknown): unknown {
+function isPlainObject(value: unknown): value is Record<string, unknown> {
+  if (Object.prototype.toString.call(value) !== "[object Object]") return false;
+  const proto = Object.getPrototypeOf(value);
+  return proto === null || proto === Object.prototype;
+}
+
+function redactValue(value: unknown, seen = new WeakSet<object>()): unknown {
   if (value === null || value === undefined) return value;
   if (Array.isArray(value)) {
-    return value.map(redactValue);
+    if (seen.has(value)) return "[circular]";
+    seen.add(value);
+    return value.map((item) => redactValue(item, seen));
   }
-  if (typeof value === "object") {
+  if (isPlainObject(value)) {
+    if (seen.has(value)) return "[circular]";
+    seen.add(value);
     return Object.fromEntries(
-      Object.entries(value as Record<string, unknown>).map(([key, val]) => [
+      Object.entries(value).map(([key, val]) => [
         key,
-        sensitiveKeyPattern.test(key) ? "[redacted]" : redactValue(val)
+        sensitiveKeyPattern.test(key) ? "[redacted]" : redactValue(val, seen)
       ])
     );
   }
