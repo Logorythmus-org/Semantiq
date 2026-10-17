@@ -12,7 +12,7 @@
 
 import type { IncomingMessage, ServerResponse } from "node:http";
 import { readFile, stat } from "node:fs/promises";
-import { join, extname } from "node:path";
+import { extname, resolve, relative, isAbsolute } from "node:path";
 import { randomUUID } from "node:crypto";
 import { PRODUCT_CONTRACTS_SCHEMA_VERSION } from "@tech-club/sandbox-contracts";
 import type { SemantiqApplicationService } from "../services/index.js";
@@ -433,8 +433,23 @@ export class SemantiqHttpRouter {
   private async serveStaticFile(pathname: string, res: ServerResponse): Promise<boolean> {
     if (!this.staticDir) return false;
     try {
-      const normalizedPath = pathname === "/" ? "/index.html" : pathname;
-      const filePath = join(this.staticDir, normalizedPath);
+      let decodedPath = pathname;
+      try {
+        decodedPath = decodeURIComponent(pathname);
+      } catch {
+        return false;
+      }
+
+      const normalizedPath = decodedPath === "/" ? "/index.html" : decodedPath;
+      const resolvedStaticDir = resolve(this.staticDir);
+      const filePath = resolve(resolvedStaticDir, "." + normalizedPath);
+
+      // Security defense: Prevent path traversal attacks by validating that the
+      // resolved target path remains inside the configured static root directory.
+      const relativePath = relative(resolvedStaticDir, filePath);
+      if (relativePath.startsWith("..") || isAbsolute(relativePath)) {
+        return false;
+      }
 
       const fileStat = await stat(filePath);
       if (!fileStat.isFile()) {
