@@ -193,6 +193,14 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(text).toContain("SemantIQ Web UI Mock");
     });
 
+    it("blocks directory traversal attempts in static file requests", async () => {
+      const res1 = await fetch(`${baseUrl}/../package.json`);
+      expect(res1.status).toBe(404);
+
+      const res2 = await fetch(`${baseUrl}/..%2F..%2Fpackage.json`);
+      expect(res2.status).toBe(404);
+    });
+
     it("runs 100% headless and executes core workflows when staticDir is omitted", async () => {
       const headlessApp = createSemantiqHttpServer({ port: 0, host: "127.0.0.1" });
       const headlessPort = await headlessApp.start();
