@@ -1201,6 +1201,9 @@ function send(
   response.statusCode = status;
   response.setHeader("content-type", "application/json; charset=utf-8");
   response.setHeader("x-correlation-id", correlationId);
+  response.setHeader("x-content-type-options", "nosniff");
+  response.setHeader("x-frame-options", "DENY");
+  response.setHeader("referrer-policy", "strict-origin-when-cross-origin");
   response.end(JSON.stringify(payload));
 }
 

@@ -22,4 +22,19 @@ describe("configuration security regressions", () => {
       localOnly: true
     });
   });
+  it("returns standard security headers on API responses", async () => {
+    const { createApiApplication } = await import("../../services/api/src/index.js");
+    const api = createApiApplication({ listenPort: 0 });
+    await api.start();
+    try {
+      const address = api.server.address();
+      if (!address || typeof address === "string") throw new Error("API failed to bind port");
+      const response = await fetch(`http://127.0.0.1:${address.port}/health`);
+      expect(response.headers.get("x-content-type-options")).toBe("nosniff");
+      expect(response.headers.get("x-frame-options")).toBe("DENY");
+      expect(response.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+    } finally {
+      await api.stop();
+    }
+  });
 });
