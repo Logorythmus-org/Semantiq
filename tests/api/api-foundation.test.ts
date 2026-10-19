@@ -19,6 +19,9 @@ describe("API foundation", () => {
     expect(body.data.status).toBe("healthy");
     expect(body.data.components.api.status).toBe("healthy");
     expect(body.meta.correlationId).toBe("test-correlation");
+    expect(response.headers.get("x-content-type-options")).toBe("nosniff");
+    expect(response.headers.get("x-frame-options")).toBe("DENY");
+    expect(response.headers.get("x-xss-protection")).toBe("0");
     await application.stop();
   });
 
