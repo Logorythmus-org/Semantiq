@@ -110,6 +110,21 @@ async function handleRequest(
     );
     return;
   }
+  const host = request.headers.host?.replace(/:\d+$/, "")?.trim().toLowerCase();
+  if (
+    host &&
+    settings.security.allowedHosts.length > 0 &&
+    !settings.security.allowedHosts.includes("*") &&
+    !settings.security.allowedHosts.map((h) => h.toLowerCase()).includes(host)
+  ) {
+    send(
+      response,
+      400,
+      { error: { code: "INVALID_HOST", message: "Invalid host header", correlationId } },
+      typeof correlationId === "string" ? correlationId : "invalid"
+    );
+    return;
+  }
   response.setHeader("x-correlation-id", correlationId);
   try {
     const url = new URL(request.url ?? "/", "http://localhost");
@@ -1204,6 +1219,10 @@ function send(
   response.setHeader("x-content-type-options", "nosniff");
   response.setHeader("x-frame-options", "DENY");
   response.setHeader("referrer-policy", "strict-origin-when-cross-origin");
+  response.setHeader(
+    "content-security-policy",
+    "default-src 'none'; frame-ancestors 'none'; sandbox"
+  );
   response.end(JSON.stringify(payload));
 }
 
