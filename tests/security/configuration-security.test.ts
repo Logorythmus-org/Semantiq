@@ -55,9 +55,7 @@ describe("configuration security regressions", () => {
           (response) => {
             let body = "";
             response.on("data", (chunk) => (body += String(chunk)));
-            response.on("end", () =>
-              resolve({ statusCode: response.statusCode ?? 0, body })
-            );
+            response.on("end", () => resolve({ statusCode: response.statusCode ?? 0, body }));
           }
         );
         req.on("error", reject);

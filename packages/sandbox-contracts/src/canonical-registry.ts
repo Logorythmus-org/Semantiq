@@ -13,11 +13,7 @@ import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 export type ProviderReleaseChannel = "STABLE" | "BETA" | "EXPERIMENTAL" | "DEPRECATED";
 
 export type ProviderOperationalStatus =
-  | "ONLINE"
-  | "DEGRADED"
-  | "MAINTENANCE"
-  | "OFFLINE"
-  | "QUARANTINED";
+  "ONLINE" | "DEGRADED" | "MAINTENANCE" | "OFFLINE" | "QUARANTINED";
 
 export type TransportProtocol = "LOCAL_SOCKET" | "HTTP_REST" | "GRPC" | "STDIO_SUBPROCESS";
 
@@ -77,11 +73,7 @@ export interface ProviderRegistryEvent {
   readonly eventId: string;
   readonly providerId: string;
   readonly eventType:
-    | "REGISTERED"
-    | "HEALTH_UPDATED"
-    | "STATUS_CHANGED"
-    | "DEPRECATED"
-    | "DEREGISTERED";
+    "REGISTERED" | "HEALTH_UPDATED" | "STATUS_CHANGED" | "DEPRECATED" | "DEREGISTERED";
   readonly previousStatus?: ProviderOperationalStatus | undefined;
   readonly currentStatus: ProviderOperationalStatus;
   readonly details: string;
