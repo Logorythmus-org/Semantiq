@@ -4,7 +4,7 @@
   <img src="Docs/branding/semantiq-brain-compact.svg" alt="SemantIQ chrome-silver ASCII brain and original pearl-white block-character wordmark on a muted blush and blue-gray background" width="640">
 </p>
 
-_Original SemantIQ block-character wordmark and unchanged compact Unicode brain, rendered in metallic silver, graphite and pearl white over a muted rose/blue-gray backdrop. The CLI uses the exact same text glyphs with optional grayscale ANSI highlights._
+*Original SemantIQ block-character wordmark and unchanged compact Unicode brain, rendered in metallic silver, graphite and pearl white over a muted rose/blue-gray backdrop. The CLI uses the exact same text glyphs with optional grayscale ANSI highlights.*
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 [![Public Alpha: 0.1.0-alpha.2](https://img.shields.io/badge/Public%20Alpha-0.1.0--alpha.2-orange.svg)](CHANGELOG.md)
@@ -63,6 +63,7 @@ Existing benchmark families (**SMF**, **HACS**, **Vision**, etc.) operate as mod
 
 ---
 
+
 ## Community & Participation
 
 SemantIQ's GitHub **Discussions**, **Projects**, and **Wiki** are enabled as community surfaces.
@@ -75,6 +76,7 @@ SemantIQ's GitHub **Discussions**, **Projects**, and **Wiki** are enabled as com
 - Independent third-party reproduction attempts are especially valuable at the current Public Alpha stage.
 
 Community discussion, board placement, Wiki content, or proposal acceptance does not by itself establish implementation, release status, external validation, adoption, or production readiness. Canonical truth remains in reviewed version-controlled repository artifacts.
+
 
 ## The Three Subsystems
 

@@ -14,7 +14,11 @@ export const EPISTEMIC_REPLICATION_DISCLAIMER =
   "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth.";
 
 export type PartnerTrustTier =
-  "unverified" | "registered" | "verified_academic" | "commercial_audited" | "certified_consortium";
+  | "unverified"
+  | "registered"
+  | "verified_academic"
+  | "commercial_audited"
+  | "certified_consortium";
 
 export interface PartnerOrganization {
   readonly id: string;
@@ -66,7 +70,11 @@ export interface ReplicationRecord {
   readonly conductedAt: string;
   readonly verifiedSignatureHex?: string | undefined;
   readonly eligibilityVerdict?:
-    "eligible" | "eligible_with_caveats" | "quarantined" | "rejected" | undefined;
+    | "eligible"
+    | "eligible_with_caveats"
+    | "quarantined"
+    | "rejected"
+    | undefined;
   readonly epistemicDisclaimer: typeof EPISTEMIC_REPLICATION_DISCLAIMER;
 }
 

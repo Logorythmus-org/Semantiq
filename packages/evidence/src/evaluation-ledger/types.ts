@@ -9,7 +9,12 @@ export const EPISTEMIC_REPRODUCIBILITY_DISCLAIMER =
   "Stable fingerprints prove artifact/config reproducibility, not scientific replication.";
 
 export type DatasetSourceType =
-  "git" | "huggingface" | "local_file" | "s3" | "oci_registry" | "synthetic";
+  | "git"
+  | "huggingface"
+  | "local_file"
+  | "s3"
+  | "oci_registry"
+  | "synthetic";
 
 export interface DatasetSource {
   readonly id: string;
@@ -50,7 +55,10 @@ export interface CaseStudy {
 }
 
 export type ReproducibilityVerificationStatus =
-  "reproducible" | "drift_detected" | "unverified" | "environment_mismatch";
+  | "reproducible"
+  | "drift_detected"
+  | "unverified"
+  | "environment_mismatch";
 
 export interface ReproducibilityMetadata {
   readonly configFingerprint: string; // SHA-256 of evaluation parameters and configuration

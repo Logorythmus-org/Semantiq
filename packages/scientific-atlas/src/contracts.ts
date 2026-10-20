@@ -97,7 +97,13 @@ export interface Hypothesis {
   readonly statement: string;
   readonly kind: "primary" | "alternative" | "null";
   readonly status:
-    "proposed" | "testing" | "supported" | "refuted" | "inconclusive" | "superseded" | "archived";
+    | "proposed"
+    | "testing"
+    | "supported"
+    | "refuted"
+    | "inconclusive"
+    | "superseded"
+    | "archived";
   readonly evidenceIds: readonly string[];
   readonly experimentIds: readonly string[];
   readonly probability?: number;

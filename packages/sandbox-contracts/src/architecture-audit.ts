@@ -6,7 +6,9 @@
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type ArchitectureAuditVerdict =
-  "APPROVED_RELEASE_CANDIDATE" | "CONDITIONALLY_APPROVED" | "REJECTED_ARCHITECTURE_FLAWS";
+  | "APPROVED_RELEASE_CANDIDATE"
+  | "CONDITIONALLY_APPROVED"
+  | "REJECTED_ARCHITECTURE_FLAWS";
 
 export interface ArchitectureCheckItem {
   readonly checkId: number;

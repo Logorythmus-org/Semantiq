@@ -7,7 +7,13 @@ import {
 import { ExplainableSemantiqRuntime } from "../../semantiq/src/index.js";
 
 export type ResearchStatus =
-  "draft" | "active" | "evidence" | "experiment" | "review" | "published" | "archived";
+  | "draft"
+  | "active"
+  | "evidence"
+  | "experiment"
+  | "review"
+  | "published"
+  | "archived";
 export type EvidenceType =
   | "observation"
   | "experiment"

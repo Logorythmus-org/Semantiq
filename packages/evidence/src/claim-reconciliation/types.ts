@@ -9,7 +9,12 @@ export const EPISTEMIC_WATCH_DISCLAIMER =
   "Evidence watch generates proposals only. Active claims cannot be automatically mutated.";
 
 export type ReconciliationAction =
-  "no_change" | "refresh" | "revise" | "downgrade" | "supersede" | "retract";
+  | "no_change"
+  | "refresh"
+  | "revise"
+  | "downgrade"
+  | "supersede"
+  | "retract";
 
 export type ReconciliationSeverity = "low" | "medium" | "high" | "critical";
 

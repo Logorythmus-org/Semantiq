@@ -148,7 +148,11 @@ export interface RevenueShare {
   readonly recipientId: string;
   readonly percentage: number;
   readonly basis:
-    "ownership" | "contribution" | "donation-routing" | "funding-pool" | "public-benefit";
+    | "ownership"
+    | "contribution"
+    | "donation-routing"
+    | "funding-pool"
+    | "public-benefit";
   readonly contributionProofIds: readonly string[];
 }
 

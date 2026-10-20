@@ -7,7 +7,11 @@ import {
 
 export type SemantiqLevel = "low" | "medium" | "high" | "excellent";
 export type SemantiqExecutionMode =
-  "rule-based-local" | "local-ai-assisted" | "remote-provider-assisted" | "hybrid" | "test-fixture";
+  | "rule-based-local"
+  | "local-ai-assisted"
+  | "remote-provider-assisted"
+  | "hybrid"
+  | "test-fixture";
 export type ApprovalState =
   | "Suggested"
   | "Reviewed"

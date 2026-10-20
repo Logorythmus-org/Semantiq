@@ -40,7 +40,12 @@ export interface EvidenceRecordReference {
   readonly recordVersion: string;
   readonly semanticDigest: SemanticDigest;
   readonly availability:
-    "AVAILABLE" | "REFERENCED" | "RESTRICTED" | "REDACTED" | "UNAVAILABLE" | "UNKNOWN";
+    | "AVAILABLE"
+    | "REFERENCED"
+    | "RESTRICTED"
+    | "REDACTED"
+    | "UNAVAILABLE"
+    | "UNKNOWN";
   readonly provenanceReferences: readonly string[];
 }
 
@@ -84,7 +89,10 @@ export interface ArtifactReference {
   readonly availability: ArtifactAvailability;
   readonly locationClass: "EMBEDDED" | "PORTABLE_RELATIVE" | "EXTERNAL_REFERENCE" | "NOT_DISCLOSED";
   readonly rightsStatus:
-    "REDISTRIBUTION_ALLOWED" | "REFERENCE_ONLY" | "RESTRICTED" | "UNKNOWN_RIGHTS";
+    | "REDISTRIBUTION_ALLOWED"
+    | "REFERENCE_ONLY"
+    | "RESTRICTED"
+    | "UNKNOWN_RIGHTS";
   readonly redaction?:
     | {
         readonly class: string;
@@ -105,7 +113,11 @@ export interface DependencyEvidence {
 }
 
 export type NetworkDependency =
-  "NO_NETWORK" | "NETWORK_ALLOWED" | "EXTERNAL_PROVIDER" | "EXTERNAL_DATA_SOURCE" | "UNKNOWN";
+  | "NO_NETWORK"
+  | "NETWORK_ALLOWED"
+  | "EXTERNAL_PROVIDER"
+  | "EXTERNAL_DATA_SOURCE"
+  | "UNKNOWN";
 
 export interface EnvironmentManifestInput {
   readonly environmentId: string;
@@ -132,7 +144,8 @@ export interface EnvironmentManifestInput {
   readonly limitations: readonly string[];
   readonly scientificAuthority: "NONE";
   readonly auditMetadata?:
-    { readonly recordedAt?: string; readonly requestId?: string } | undefined;
+    | { readonly recordedAt?: string; readonly requestId?: string }
+    | undefined;
 }
 
 export interface EnvironmentManifest extends EnvironmentManifestInput {
@@ -200,7 +213,8 @@ export interface ExecutionManifestInput {
   readonly failure?: { readonly failureClass: string; readonly detail: string } | undefined;
   readonly scientificAuthority: "NONE";
   readonly auditMetadata?:
-    { readonly executedAt?: string; readonly requestId?: string } | undefined;
+    | { readonly executedAt?: string; readonly requestId?: string }
+    | undefined;
 }
 
 export interface ExecutionManifest extends ExecutionManifestInput {
@@ -225,7 +239,12 @@ export const EVIDENCE_COMPLETENESS_DIMENSIONS = [
 ] as const;
 export type EvidenceCompletenessDimension = (typeof EVIDENCE_COMPLETENESS_DIMENSIONS)[number];
 export type EvidenceCompletenessStatus =
-  "COMPLETE" | "PARTIAL" | "MISSING" | "RESTRICTED" | "NOT_APPLICABLE" | "UNKNOWN";
+  | "COMPLETE"
+  | "PARTIAL"
+  | "MISSING"
+  | "RESTRICTED"
+  | "NOT_APPLICABLE"
+  | "UNKNOWN";
 
 export interface EvidenceCompletenessEntry {
   readonly dimension: EvidenceCompletenessDimension;
@@ -346,7 +365,10 @@ export interface EvidenceVerificationResult {
 export interface ReplayAssessment {
   readonly packageDigest: string;
   readonly outcome:
-    "READY_FOR_REPLAY" | "LIMITED_REPLAY_POSSIBLE" | "REPLAY_BLOCKED" | "NOT_APPLICABLE";
+    | "READY_FOR_REPLAY"
+    | "LIMITED_REPLAY_POSSIBLE"
+    | "REPLAY_BLOCKED"
+    | "NOT_APPLICABLE";
   readonly determinismClass: DeterminismClass;
   readonly blockers: readonly string[];
   readonly availableInputs: readonly string[];
@@ -359,7 +381,11 @@ export interface EquivalenceRule {
   readonly ruleId: string;
   readonly ruleVersion: string;
   readonly resultType:
-    "CANONICAL_JSON" | "CATEGORICAL" | "NUMERIC" | "STOCHASTIC_OUTPUT" | "HUMAN_PROTOCOL";
+    | "CANONICAL_JSON"
+    | "CATEGORICAL"
+    | "NUMERIC"
+    | "STOCHASTIC_OUTPUT"
+    | "HUMAN_PROTOCOL";
   readonly method: "EXACT" | "SEMANTIC" | "DECLARED_NUMERIC_TOLERANCE" | "PROTOCOL_LEVEL";
   readonly tolerance?: number | undefined;
   readonly justification: string;

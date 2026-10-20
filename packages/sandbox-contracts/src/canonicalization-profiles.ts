@@ -4,7 +4,8 @@ export const LEGACY_TYPESCRIPT_CANONICALIZATION_PROFILE = "legacy-ts-v0" as cons
 export const SHARED_CANONICALIZATION_PROFILE = "semantiq-canonical-json-v1" as const;
 
 export type SupportedCanonicalizationProfile =
-  typeof LEGACY_TYPESCRIPT_CANONICALIZATION_PROFILE | typeof SHARED_CANONICALIZATION_PROFILE;
+  | typeof LEGACY_TYPESCRIPT_CANONICALIZATION_PROFILE
+  | typeof SHARED_CANONICALIZATION_PROFILE;
 
 export interface CanonicalHashResult {
   readonly canonicalization: {

@@ -11,7 +11,10 @@ export type WorkbenchItemStatus = "needs_review" | "in_review" | "resolved" | "d
 export type WorkbenchItemPriority = "low" | "medium" | "high" | "critical";
 
 export type WorkbenchItemType =
-  "claim_reconciliation" | "pattern_candidate" | "negative_control_breach" | "manual_investigation";
+  | "claim_reconciliation"
+  | "pattern_candidate"
+  | "negative_control_breach"
+  | "manual_investigation";
 
 export interface WorkbenchComment {
   readonly id: string;

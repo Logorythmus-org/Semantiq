@@ -183,7 +183,13 @@ export interface FederationSyncStatus {
   readonly nodeId: string;
   readonly peerNodeId: string;
   readonly status:
-    "idle" | "scheduled" | "syncing" | "completed" | "conflict" | "failed" | "offline";
+    | "idle"
+    | "scheduled"
+    | "syncing"
+    | "completed"
+    | "conflict"
+    | "failed"
+    | "offline";
   readonly lastSyncedAt?: string;
   readonly conflictIds: readonly string[];
   readonly delayed: boolean;

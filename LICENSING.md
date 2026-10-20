@@ -27,11 +27,11 @@ third-party, or upstream notice controls the material.
 
 Current declared intent for **project-controlled original material** is:
 
-| Material class                                                                                      | Declared repository policy                  | Evidence boundary                                                                                                                                    |
-| --------------------------------------------------------------------------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Source code and SDK implementation                                                                  | MIT                                         | Root MIT license is present; package-level metadata is not yet fully reconciled across all workspace manifests.                                      |
-| Documentation and architecture material                                                             | CC-BY-4.0 policy has been used historically | The relationship between this policy and the root MIT license's reference to associated documentation has not been independently legally reconciled. |
-| Synthetic project-authored fixtures, prompts, and example data explicitly designated for open reuse | CC0-1.0 has been used historically          | Do not apply this blanket label to third-party, imported, externally supplied, or provenance-unclear material.                                       |
+| Material class | Declared repository policy | Evidence boundary |
+| --- | --- | --- |
+| Source code and SDK implementation | MIT | Root MIT license is present; package-level metadata is not yet fully reconciled across all workspace manifests. |
+| Documentation and architecture material | CC-BY-4.0 policy has been used historically | The relationship between this policy and the root MIT license's reference to associated documentation has not been independently legally reconciled. |
+| Synthetic project-authored fixtures, prompts, and example data explicitly designated for open reuse | CC0-1.0 has been used historically | Do not apply this blanket label to third-party, imported, externally supplied, or provenance-unclear material. |
 
 A file's presence in the public repository is not proof that the project owns
 every right in that file.
@@ -43,7 +43,6 @@ otherwise provenance-sensitive material must retain and follow its applicable
 license, attribution, redistribution, and usage requirements.
 
 Do not infer from this policy that:
-
 - every repository file is original project-authored material;
 - every dataset or prompt is owned by the project;
 - every dependency is permissively licensed;
@@ -57,7 +56,6 @@ See [`Docs/governance/ip-architecture.md`](Docs/governance/ip-architecture.md).
 Current package metadata is not fully normalized.
 
 Examples from the current repository include:
-
 - the Python package declaring MIT in `packages/python/pyproject.toml`;
 - JavaScript workspace packages whose manifests do not currently all contain a
   `license` field;
@@ -73,7 +71,6 @@ surface, but it is not currently established as a complete, release-grade
 dependency-license inventory.
 
 The repository must not claim:
-
 - zero copyleft dependencies;
 - zero proprietary dependency exposure;
 - complete permissive-license coverage;
@@ -120,7 +117,6 @@ before reuse as a present-tense public claim.
 ## 9. No certification or ownership inference
 
 This policy does not establish:
-
 - trademark registration;
 - certification authority;
 - ownership of all repository content;

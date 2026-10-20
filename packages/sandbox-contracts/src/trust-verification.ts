@@ -6,10 +6,16 @@
 import type { SandboxCapabilities } from "./types.js";
 
 export type ProviderTrustTier =
-  "UNVERIFIED" | "SELF_ATTESTED" | "TCK_VERIFIED" | "CRYPTOGRAPHICALLY_CERTIFIED";
+  | "UNVERIFIED"
+  | "SELF_ATTESTED"
+  | "TCK_VERIFIED"
+  | "CRYPTOGRAPHICALLY_CERTIFIED";
 
 export type SecurityPostureGrade =
-  "A_HARDENED_MICROVM" | "B_ISOLATED_CONTAINER" | "C_RESTRICTED_PROCESS" | "F_UNCONFINED";
+  | "A_HARDENED_MICROVM"
+  | "B_ISOLATED_CONTAINER"
+  | "C_RESTRICTED_PROCESS"
+  | "F_UNCONFINED";
 
 export interface ProviderIdentity {
   readonly providerId: string;

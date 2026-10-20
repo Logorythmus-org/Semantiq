@@ -6,7 +6,9 @@
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type EconomicAuditVerdict =
-  "APPROVED_RELEASE_CANDIDATE" | "CONDITIONALLY_APPROVED" | "REJECTED_VENDOR_LOCKIN";
+  | "APPROVED_RELEASE_CANDIDATE"
+  | "CONDITIONALLY_APPROVED"
+  | "REJECTED_VENDOR_LOCKIN";
 
 export interface EconomicDimensionEvaluation {
   readonly dimensionId: string;

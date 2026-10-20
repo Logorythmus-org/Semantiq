@@ -90,7 +90,13 @@ export interface MentorshipAssignment {
   readonly learnerId: string;
   readonly mentorId: string;
   readonly type:
-    "peer" | "expert" | "community" | "ai" | "organization" | "university" | "cross-disciplinary";
+    | "peer"
+    | "expert"
+    | "community"
+    | "ai"
+    | "organization"
+    | "university"
+    | "cross-disciplinary";
   readonly competencyIds: readonly string[];
   readonly goalIds: readonly string[];
   readonly sessionIds: readonly string[];
