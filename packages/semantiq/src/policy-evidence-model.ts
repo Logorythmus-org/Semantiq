@@ -1,12 +1,7 @@
 import type { EvidenceChecksum } from "./event-schema.js";
 
 export type PolicyLifecycleState =
-  | "draft"
-  | "proposed"
-  | "active"
-  | "deprecated"
-  | "revoked"
-  | "expired";
+  "draft" | "proposed" | "active" | "deprecated" | "revoked" | "expired";
 
 export type PolicyFailureClass =
   | "conflicting_versions"

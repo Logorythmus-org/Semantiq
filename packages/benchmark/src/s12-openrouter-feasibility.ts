@@ -206,8 +206,7 @@ export interface OpenRouterPreflightResult {
   readonly model?: OpenRouterModelMetadata | undefined;
   readonly endpoint?: OpenRouterEndpointMetadata | undefined;
   readonly failure?:
-    | { readonly code: S12PreflightFailureCode; readonly detail: string }
-    | undefined;
+    { readonly code: S12PreflightFailureCode; readonly detail: string } | undefined;
 }
 
 export function verifyOpenRouterPreflight(
