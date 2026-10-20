@@ -33,6 +33,37 @@ describe("configuration security regressions", () => {
       expect(response.headers.get("x-content-type-options")).toBe("nosniff");
       expect(response.headers.get("x-frame-options")).toBe("DENY");
       expect(response.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+      expect(response.headers.get("content-security-policy")).toBe(
+        "default-src 'none'; frame-ancestors 'none'; sandbox"
+      );
+    } finally {
+      await api.stop();
+    }
+  });
+  it("rejects unauthorized host headers on API requests", async () => {
+    const { createApiApplication } = await import("../../services/api/src/index.js");
+    const { request: httpRequest } = await import("node:http");
+    const api = createApiApplication({ listenPort: 0 });
+    await api.start();
+    try {
+      const address = api.server.address();
+      if (!address || typeof address === "string") throw new Error("API failed to bind port");
+      const res = await new Promise<{ statusCode: number; body: string }>((resolve, reject) => {
+        const req = httpRequest(
+          `http://127.0.0.1:${address.port}/health`,
+          { headers: { Host: "evil.com" } },
+          (response) => {
+            let body = "";
+            response.on("data", (chunk) => (body += String(chunk)));
+            response.on("end", () => resolve({ statusCode: response.statusCode ?? 0, body }));
+          }
+        );
+        req.on("error", reject);
+        req.end();
+      });
+      expect(res.statusCode).toBe(400);
+      const data = JSON.parse(res.body) as { error: { code: string } };
+      expect(data.error.code).toBe("INVALID_HOST");
     } finally {
       await api.stop();
     }

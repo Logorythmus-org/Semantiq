@@ -65,13 +65,7 @@ export interface PolicyObject {
   readonly alternativeIds: readonly string[];
   readonly versionHistoryIds: readonly string[];
   readonly implementationStatus:
-    | "draft"
-    | "review"
-    | "approved"
-    | "implementing"
-    | "active"
-    | "under-review"
-    | "retired";
+    "draft" | "review" | "approved" | "implementing" | "active" | "under-review" | "retired";
   readonly impactIds: readonly string[];
   readonly reviewSchedule: string;
   readonly graphLinkIds: readonly string[];
