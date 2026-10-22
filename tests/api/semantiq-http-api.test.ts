@@ -49,6 +49,9 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(json.meta.releaseVersion).toBe("0.1.0-alpha.2");
       expect(json.meta.schemaVersion).toBe("1.0.0");
       expect(res.headers.get("access-control-allow-origin")).toBe("*");
+      expect(res.headers.get("x-content-type-options")).toBe("nosniff");
+      expect(res.headers.get("x-frame-options")).toBe("DENY");
+      expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
     });
 
     it("GET /info returns registered application service catalog", async () => {
