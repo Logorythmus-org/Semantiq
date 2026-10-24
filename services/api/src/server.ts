@@ -1204,6 +1204,7 @@ function send(
   response.setHeader("x-content-type-options", "nosniff");
   response.setHeader("x-frame-options", "DENY");
   response.setHeader("referrer-policy", "strict-origin-when-cross-origin");
+  response.setHeader("content-security-policy", "default-src 'none'; frame-ancestors 'none'");
   response.end(JSON.stringify(payload));
 }
 
