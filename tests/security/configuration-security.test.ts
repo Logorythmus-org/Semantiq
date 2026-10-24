@@ -37,4 +37,28 @@ describe("configuration security regressions", () => {
       await api.stop();
     }
   });
+
+  it("rejects request bodies exceeding size limits before stream buffer allocation", async () => {
+    const { createApiApplication } = await import("../../services/api/src/index.js");
+    const api = createApiApplication({
+      listenPort: 0,
+      questionApplication: { create: async () => ({ ok: false, error: {} }) } as never
+    });
+    await api.start();
+    try {
+      const address = api.server.address();
+      if (!address || typeof address === "string") throw new Error("API failed to bind port");
+      const oversized = JSON.stringify({ text: "a".repeat(70_000) });
+      const response = await fetch(`http://127.0.0.1:${address.port}/questions`, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: oversized
+      });
+      expect(response.status).toBe(422);
+      const payload = (await response.json()) as { error: { code: string; message: string } };
+      expect(payload.error.code).toBe("INVALID_JSON");
+    } finally {
+      await api.stop();
+    }
+  });
 });
