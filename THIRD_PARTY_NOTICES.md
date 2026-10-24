@@ -32,7 +32,6 @@ This file must not be used as evidence that:
   project-owned;
 - all required attribution obligations have been completely enumerated.
 
-
 ## Preserved known attribution
 
 The repository currently retains `typescript` as a development dependency. The
