@@ -1,4 +1,4 @@
-import { createHash } from "node:crypto";
+import { createHash, randomBytes } from "node:crypto";
 import {
   LocalAlphaRuntime,
   type AlphaFlagName,
@@ -404,7 +404,7 @@ export interface Sprint7JourneyResult {
 
 const now = (): string => new Date().toISOString();
 const id = (prefix: string): string =>
-  `${prefix}:${Date.now()}:${Math.random().toString(36).slice(2)}`;
+  `${prefix}:${Date.now()}:${randomBytes(8).toString("hex")}`;
 const sha = (value: unknown): string =>
   createHash("sha256").update(JSON.stringify(value)).digest("hex");
 
@@ -617,7 +617,7 @@ export class LocalAlphaOperationsRuntime {
     this.requireCohort(cohortId);
     const invitation: AlphaInvitation = {
       id: id("alpha-invite"),
-      tokenHash: sha({ cohortId, testerRole, salt: Math.random() }),
+      tokenHash: sha({ cohortId, testerRole, salt: randomBytes(16).toString("hex") }),
       cohortId,
       testerRole,
       featureProfile,
