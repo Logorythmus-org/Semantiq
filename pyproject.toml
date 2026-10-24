@@ -9,5 +9,5 @@ select = ["E", "F", "I", "B", "UP"]
 [tool.pytest.ini_options]
 testpaths = ["packages/python/tests", "tests", "services"]
 python_files = ["test_*.py", "*_test.py"]
-pythonpath = ["packages/python/src", "packages/python/tests"]
+pythonpath = ["packages/python/src"]
 addopts = "-ra"
