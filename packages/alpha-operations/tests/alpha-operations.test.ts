@@ -30,6 +30,12 @@ describe("Sprint 7 alpha operations runtime", () => {
     );
 
     expect(invitation.tokenHash).not.toContain(cohort.id);
+    expect(invitation.tokenHash).toHaveLength(64); // SHA-256 hex string
+
+    // Ensure tokens generated sequentially for identical parameters produce unique token hashes (secure random salt)
+    const invitation2 = runtime.createAlphaInvitation(cohort.id, "Developer", "developer");
+    expect(invitation2.tokenHash).not.toBe(invitation.tokenHash);
+
     expect(() =>
       runtime.recordProductEvent("WorkspaceCreated", "tester:0", cohort.id, "created")
     ).toThrow("explicit research consent");

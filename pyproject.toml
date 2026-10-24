@@ -7,6 +7,7 @@ exclude = ["node_modules", "dist", ".venv"]
 select = ["E", "F", "I", "B", "UP"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests", "services"]
+testpaths = ["packages/python/tests", "tests", "services"]
 python_files = ["test_*.py", "*_test.py"]
+pythonpath = ["packages/python/src"]
 addopts = "-ra"

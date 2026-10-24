@@ -32,6 +32,32 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
     await rm(tempStaticDir, { recursive: true, force: true });
   });
 
+  describe("security headers across response paths", () => {
+    it.each([
+      { name: "health JSON", path: "/health", method: "GET", status: 200 },
+      { name: "CORS preflight", path: "/api/v1/patterns", method: "OPTIONS", status: 204 },
+      { name: "not-found error", path: "/missing-route", method: "POST", status: 404 },
+      { name: "static HTML", path: "/", method: "GET", status: 200 },
+      {
+        name: "service error",
+        path: "/api/v1/claims/validate-language",
+        method: "POST",
+        body: "{",
+        status: 500
+      }
+    ])("preserves headers on $name responses", async ({ path, method, body, status }) => {
+      const res = await fetch(`${baseUrl}${path}`, {
+        method,
+        ...(body ? { body, headers: { "Content-Type": "application/json" } } : {})
+      });
+      expect(res.status).toBe(status);
+      expect(res.headers.get("x-content-type-options")).toBe("nosniff");
+      expect(res.headers.get("x-frame-options")).toBe("DENY");
+      expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+      await res.arrayBuffer();
+    });
+  });
+
   describe("1. Headless Runtime & Health Endpoints", () => {
     it("GET /health returns healthy status and metadata", async () => {
       const res = await fetch(`${baseUrl}/health`);
