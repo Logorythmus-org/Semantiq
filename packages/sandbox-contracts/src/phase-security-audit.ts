@@ -6,9 +6,7 @@
 import { canonicalJson, computeSha256 } from "./crypto-utils.js";
 
 export type PhaseAuditStatus =
-  | "AUDIT_PASSED_HARDENED"
-  | "CONDITIONAL_PASS"
-  | "SECURITY_DEFECTS_FOUND";
+  "AUDIT_PASSED_HARDENED" | "CONDITIONAL_PASS" | "SECURITY_DEFECTS_FOUND";
 
 export interface RedTeamThreatVector {
   readonly threatId: string;

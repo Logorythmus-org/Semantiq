@@ -80,13 +80,11 @@ export function assessV8Evidence(e) {
     if (e[key] === undefined || e[key] === null || e[key] === "")
       return { status: "NOT_ESTABLISHED", failedField: key };
   }
-  if (
-    !(
-      Number.isFinite(e.d2TargetDurationSeconds) &&
-      e.d2TargetDurationSeconds < 120 &&
-      e.d2TargetDurationSeconds >= 0
-    )
-  )
+  if (!(
+    Number.isFinite(e.d2TargetDurationSeconds) &&
+    e.d2TargetDurationSeconds < 120 &&
+    e.d2TargetDurationSeconds >= 0
+  ))
     return { status: "NOT_ESTABLISHED", failedField: "d2TargetDurationSeconds" };
   if (!(e.executionWindowStart < e.executionWindowEnd))
     return { status: "NOT_ESTABLISHED", failedField: "executionWindow" };

@@ -6,18 +6,18 @@ This page is the shortest route into the project.
 
 ## Where to go
 
-| Goal | Use |
-| :--- | :--- |
-| Ask a setup or usage question | [GitHub Discussions](https://github.com/Logorythmus-org/Semantiq/discussions) |
-| See current work and contribution opportunities | [GitHub Projects](https://github.com/Logorythmus-org/Semantiq/projects) |
-| Browse orientation and learning material | [GitHub Wiki](https://github.com/Logorythmus-org/Semantiq/wiki) |
-| Report a reproducible defect or compatibility problem | [Reproduction or Compatibility Report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=reproduction_report.yml) |
-| Propose a feature | [Feature Request](https://github.com/Logorythmus-org/Semantiq/issues/new?template=feature.yml) |
-| Propose architecture or contract changes | [Architecture / RFC Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=architecture_rfc.yml) |
-| Propose a benchmark pack | [Benchmark Pack Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=benchmark_pack_proposal.yml) |
-| Submit an independent reproduction attempt | [Independent Replication Report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=independent_replication_report.yml) |
-| Contribute code or documentation | [CONTRIBUTING.md](CONTRIBUTING.md) |
-| Report a vulnerability | [SECURITY.md](SECURITY.md) |
+| Goal                                                  | Use                                                                                                                                  |
+| :---------------------------------------------------- | :----------------------------------------------------------------------------------------------------------------------------------- |
+| Ask a setup or usage question                         | [GitHub Discussions](https://github.com/Logorythmus-org/Semantiq/discussions)                                                        |
+| See current work and contribution opportunities       | [GitHub Projects](https://github.com/Logorythmus-org/Semantiq/projects)                                                              |
+| Browse orientation and learning material              | [GitHub Wiki](https://github.com/Logorythmus-org/Semantiq/wiki)                                                                      |
+| Report a reproducible defect or compatibility problem | [Reproduction or Compatibility Report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=reproduction_report.yml)      |
+| Propose a feature                                     | [Feature Request](https://github.com/Logorythmus-org/Semantiq/issues/new?template=feature.yml)                                       |
+| Propose architecture or contract changes              | [Architecture / RFC Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=architecture_rfc.yml)                  |
+| Propose a benchmark pack                              | [Benchmark Pack Proposal](https://github.com/Logorythmus-org/Semantiq/issues/new?template=benchmark_pack_proposal.yml)               |
+| Submit an independent reproduction attempt            | [Independent Replication Report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=independent_replication_report.yml) |
+| Contribute code or documentation                      | [CONTRIBUTING.md](CONTRIBUTING.md)                                                                                                   |
+| Report a vulnerability                                | [SECURITY.md](SECURITY.md)                                                                                                           |
 
 ## Three contribution levels
 
