@@ -42,6 +42,9 @@ export class SemantiqHttpRouter {
   public async handleRequest(req: IncomingMessage, res: ServerResponse): Promise<void> {
     const correlationId = (req.headers["x-correlation-id"] as string) || randomUUID();
     res.setHeader("x-correlation-id", correlationId);
+    res.setHeader("x-content-type-options", "nosniff");
+    res.setHeader("x-frame-options", "DENY");
+    res.setHeader("referrer-policy", "strict-origin-when-cross-origin");
 
     if (this.enableCors) {
       res.setHeader("Access-Control-Allow-Origin", "*");
