@@ -426,7 +426,13 @@ export class SemantiqHttpRouter {
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      this.sendError(res, 500, "SERVICE_ERROR", msg, correlationId);
+      if (msg.includes("PAYLOAD_TOO_LARGE") || msg.includes("exceeds limit")) {
+        this.sendError(res, 400, "BAD_REQUEST", "Request body exceeds maximum allowed size", correlationId);
+      } else if (msg.includes("Malformed JSON")) {
+        this.sendError(res, 400, "BAD_REQUEST", msg, correlationId);
+      } else {
+        this.sendError(res, 500, "SERVICE_ERROR", msg, correlationId);
+      }
       return true;
     }
 
@@ -474,11 +480,28 @@ export class SemantiqHttpRouter {
     }
   }
 
-  private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
+  private async readJsonBody<T = any>(req: IncomingMessage, maxBytes = 1048576): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      let totalBytes = 0;
+      let limitExceeded = false;
+
+      const onData = (chunk: Buffer) => {
+        if (limitExceeded) return;
+        totalBytes += chunk.length;
+        if (totalBytes > maxBytes) {
+          limitExceeded = true;
+          req.removeListener("data", onData);
+          req.pause();
+          reject(new Error("PAYLOAD_TOO_LARGE: Request payload exceeds limit"));
+        } else {
+          chunks.push(chunk);
+        }
+      };
+
+      req.on("data", onData);
       req.on("end", () => {
+        if (limitExceeded) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {
@@ -494,7 +517,9 @@ export class SemantiqHttpRouter {
           );
         }
       });
-      req.on("error", reject);
+      req.on("error", (err) => {
+        if (!limitExceeded) reject(err);
+      });
     });
   }
 
