@@ -42,12 +42,7 @@ export interface CommandResult {
 export interface ProviderTelemetryEvent {
   readonly timestamp: string;
   readonly type:
-    | "STDOUT"
-    | "STDERR"
-    | "PROCESS_SPAWN"
-    | "PROCESS_EXIT"
-    | "NETWORK_EGRESS"
-    | "FILE_MUTATION";
+    "STDOUT" | "STDERR" | "PROCESS_SPAWN" | "PROCESS_EXIT" | "NETWORK_EGRESS" | "FILE_MUTATION";
   readonly payload: Record<string, unknown>;
 }
 
