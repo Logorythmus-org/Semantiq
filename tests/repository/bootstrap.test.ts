@@ -24,12 +24,7 @@ const requiredRootFiles = [
   ".gitattributes"
 ];
 
-const requiredApps = [
-  "web",
-  "documentation",
-  "playground",
-  "demo"
-];
+const requiredApps = ["web", "documentation", "playground", "demo"];
 const requiredServices = [
   "api",
   "gateway",

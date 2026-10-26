@@ -37,4 +37,39 @@ describe("configuration security regressions", () => {
       await api.stop();
     }
   });
+
+  it("rejects oversized request body in SemantiqHttpRouter to prevent DoS", async () => {
+    const { createServer } = await import("node:http");
+    const { SemantiqHttpRouter } = await import("../../packages/semantiq/src/http/router.js");
+    const mockService = {
+      claims: {
+        validateControlledLanguage: () => ({ valid: true })
+      }
+    } as any;
+    const router = new SemantiqHttpRouter(mockService);
+    const server = createServer((req, res) => {
+      void router.handleRequest(req, res);
+    });
+    await new Promise<void>((resolve) => server.listen(0, "127.0.0.1", resolve));
+    try {
+      const address = server.address();
+      if (!address || typeof address === "string") throw new Error("Server failed to bind port");
+      const oversizedPayload = JSON.stringify({ statement: "a".repeat(70000) });
+      const response = await fetch(
+        `http://127.0.0.1:${address.port}/api/v1/claims/validate-language`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: oversizedPayload
+        }
+      );
+      expect(response.status).toBe(500);
+      const json = await response.json();
+      expect(json.error.message).toContain("Request body payload exceeded maximum size limit");
+    } finally {
+      await new Promise<void>((resolve, reject) =>
+        server.close((err) => (err ? reject(err) : resolve()))
+      );
+    }
+  });
 });

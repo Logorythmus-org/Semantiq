@@ -352,10 +352,7 @@ export function createS12ExecutionCaptureFromEvents(
         requestedAt: requested?.timestamp ?? event.timestamp,
         completedAt: event.timestamp,
         name: String(requested?.payload["name"] ?? "run_command") as
-          | "read_file"
-          | "write_file"
-          | "list_files"
-          | "run_command",
+          "read_file" | "write_file" | "list_files" | "run_command",
         arguments: (requested?.payload["arguments"] ?? {}) as Record<string, unknown>,
         result: {
           status: event.payload["status"],
@@ -363,9 +360,7 @@ export function createS12ExecutionCaptureFromEvents(
           ...(event.payload["error"] ? { error: event.payload["error"] } : {})
         },
         exitStatus: (event.payload["exitStatus"] ?? "NOT_APPLICABLE") as
-          | number
-          | "NOT_APPLICABLE"
-          | "TIMED_OUT",
+          number | "NOT_APPLICABLE" | "TIMED_OUT",
         provenance: Array.isArray(event.payload["provenance"])
           ? (event.payload["provenance"] as string[])
           : []
