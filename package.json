@@ -57,7 +57,7 @@
   },
   "devDependencies": {
     "@changesets/cli": "3.0.3",
-    "@commitlint/cli": "21.2.3",
+    "@commitlint/cli": "21.2.4",
     "@commitlint/config-conventional": "21.2.3",
     "@eslint/js": "9.39.5",
     "@hyperjump/json-schema": "1.17.8",
