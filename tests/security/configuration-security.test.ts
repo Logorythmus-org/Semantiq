@@ -55,11 +55,14 @@ describe("configuration security regressions", () => {
       const address = server.address();
       if (!address || typeof address === "string") throw new Error("Server failed to bind port");
       const oversizedPayload = JSON.stringify({ statement: "a".repeat(70000) });
-      const response = await fetch(`http://127.0.0.1:${address.port}/api/v1/claims/validate-language`, {
-        method: "POST",
-        headers: { "content-type": "application/json" },
-        body: oversizedPayload
-      });
+      const response = await fetch(
+        `http://127.0.0.1:${address.port}/api/v1/claims/validate-language`,
+        {
+          method: "POST",
+          headers: { "content-type": "application/json" },
+          body: oversizedPayload
+        }
+      );
       expect(response.status).toBe(500);
       const json = await response.json();
       expect(json.error.message).toContain("Request body payload exceeded maximum size limit");
