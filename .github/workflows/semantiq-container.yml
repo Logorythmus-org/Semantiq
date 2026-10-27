@@ -1,0 +1,35 @@
+name: SemantIQ Local Container Smoke
+
+on:
+  pull_request:
+    paths:
+      - "docker/semantiq/**"
+      - "scripts/serve-semantiq-local.ts"
+      - "scripts/smoke-semantiq-local.mjs"
+      - ".github/workflows/semantiq-container.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  local-container-smoke:
+    name: Build & Smoke Local SemantIQ Container
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Build and start local-only container
+        run: docker compose -f docker/semantiq/compose.yaml up --build -d
+      - name: Verify headless SemantIQ health and information
+        run: node scripts/smoke-semantiq-local.mjs
+      - name: Show container status and logs
+        if: always()
+        run: |
+          docker compose -f docker/semantiq/compose.yaml ps
+          docker compose -f docker/semantiq/compose.yaml logs --no-color --tail=100
+      - name: Remove local container
+        if: always()
+        run: docker compose -f docker/semantiq/compose.yaml down
