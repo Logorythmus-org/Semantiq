@@ -6,7 +6,19 @@ on:
       - "docker/semantiq/**"
       - "scripts/serve-semantiq-local.ts"
       - "scripts/smoke-semantiq-local.mjs"
+      - "packages/semantiq/src/http/**"
+      - "packages/semantiq/src/services/**"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "pnpm-workspace.yaml"
       - ".github/workflows/semantiq-container.yml"
+  workflow_dispatch:
+    inputs:
+      export_image:
+        description: "Also export the tested local Docker image as a downloadable archive (large)"
+        type: boolean
+        default: false
+        required: false
 
 permissions:
   contents: read
@@ -15,7 +27,7 @@ jobs:
   local-container-smoke:
     name: Build & Smoke Local SemantIQ Container
     runs-on: ubuntu-latest
-    timeout-minutes: 25
+    timeout-minutes: 35
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -23,8 +35,71 @@ jobs:
           node-version: "22"
       - name: Build and start local-only container
         run: docker compose -f docker/semantiq/compose.yaml up --build -d
-      - name: Verify headless SemantIQ health and information
-        run: node scripts/smoke-semantiq-local.mjs
+      - name: Verify HTTP smoke and preserve its JSON result
+        run: |
+          mkdir -p "$RUNNER_TEMP/semantiq-candidate"
+          node scripts/smoke-semantiq-local.mjs > "$RUNNER_TEMP/semantiq-candidate/smoke.json"
+          cat "$RUNNER_TEMP/semantiq-candidate/smoke.json"
+      - name: Record source, tested checkout and local image identity
+        env:
+          SOURCE_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          CHECKOUT_SHA: ${{ github.sha }}
+          TRIGGER_EVENT: ${{ github.event_name }}
+          ACTIONS_RUN_ID: ${{ github.run_id }}
+        run: |
+          IMAGE_ID="$(docker image inspect --format '{{.Id}}' semantiq:local-evaluation)"
+          DOCKER_VERSION="$(docker version --format '{{.Server.Version}}')"
+          jq -n \
+            --slurpfile smoke "$RUNNER_TEMP/semantiq-candidate/smoke.json" \
+            --arg source_sha "$SOURCE_SHA" \
+            --arg checkout_sha "$CHECKOUT_SHA" \
+            --arg event "$TRIGGER_EVENT" \
+            --arg run_id "$ACTIONS_RUN_ID" \
+            --arg image_id "$IMAGE_ID" \
+            --arg docker_version "$DOCKER_VERSION" \
+            '{
+              record_version: 1,
+              project: "SemantIQ",
+              evidence_scope: "LOCAL_EVALUATION_ONLY",
+              github_source_sha: $source_sha,
+              github_tested_checkout_sha: $checkout_sha,
+              github_event: $event,
+              github_actions_run_id: $run_id,
+              local_image_name: "semantiq:local-evaluation",
+              local_docker_image_id: $image_id,
+              image_id_is_not_registry_manifest_digest: true,
+              docker_server_version: $docker_version,
+              smoke: $smoke[0],
+              is_production_ready: false,
+              is_published_to_registry: false
+            }' > "$RUNNER_TEMP/semantiq-candidate/build-evidence.json"
+          cat "$RUNNER_TEMP/semantiq-candidate/build-evidence.json"
+      - name: Upload small build evidence artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantiq-build-evidence-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/semantiq-candidate/smoke.json
+            ${{ runner.temp }}/semantiq-candidate/build-evidence.json
+          retention-days: 14
+          if-no-files-found: error
+      - name: Export full image archive only when explicitly requested
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.export_image == true }}
+        run: |
+          docker save semantiq:local-evaluation | gzip -1 > "$RUNNER_TEMP/semantiq-candidate/semantiq-local.tar.gz"
+          cd "$RUNNER_TEMP/semantiq-candidate"
+          sha256sum semantiq-local.tar.gz > semantiq-local.tar.gz.sha256
+          cat semantiq-local.tar.gz.sha256
+      - name: Upload optional candidate image archive
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.export_image == true }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantiq-local-image-${{ github.run_id }}
+          path: |
+            ${{ runner.temp }}/semantiq-candidate/semantiq-local.tar.gz
+            ${{ runner.temp }}/semantiq-candidate/semantiq-local.tar.gz.sha256
+          retention-days: 14
+          if-no-files-found: error
       - name: Show container status and logs
         if: always()
         run: |
