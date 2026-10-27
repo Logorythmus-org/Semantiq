@@ -30,16 +30,16 @@ are evidence gates, not date-guaranteed release commitments.
 
 | Horizon | Delivery item | Evidence / acceptance gate | Current state |
 | --- | --- | --- | --- |
-| NOW | Headless SemantIQ container (not legacy Tech Club Question API) | Dedicated local image, loopback-only Compose, live \`/health\` and \`/info\` smoke, corresponding CI logs | Experimental implementation under review in [Draft PR #231](https://github.com/Logorythmus-org/Semantiq/pull/231); no production claim |
+| NOW | Headless SemantIQ container (not legacy Tech Club Question API) | Dedicated local image, loopback-only Compose, live `/health` and `/info` smoke, corresponding CI logs | Experimental implementation under review in [Draft PR #231](https://github.com/Logorythmus-org/Semantiq/pull/231); no production claim |
 | NOW | Security and runtime boundary | Reconcile payload-limiting PRs [#223](https://github.com/Logorythmus-org/Semantiq/pull/223), [#224](https://github.com/Logorythmus-org/Semantiq/pull/224), [#229](https://github.com/Logorythmus-org/Semantiq/pull/229), [#230](https://github.com/Logorythmus-org/Semantiq/pull/230); required checks and CODEOWNER review | Open; block public API exposure |
 | NEXT | Build-only delivery workflow | Build a versioned candidate image, report SHA/digest, scan and retain build evidence; do not push or deploy yet | Not implemented or verified in current public CI |
 | NEXT | Approved CD to GHCR / local install | Explicit maintainer approval, least-privilege token, immutable artifact, rollback plan and tested promotion gates | Gated; no registry publication authorized |
-| NEXT | Documentation site delivery | Build existing \`dist/docs\` output, validate links, prepare preview and review GitHub Pages settings before any public publish | Static docs build is implemented; public Pages deployment not verified |
-| NEXT | Local evidence viewer | Minimal local, read-only UI fed by actual evidence JSON with clear evidence provenance and mock/real labeling | Proposed; existing \`apps/web\` is only a shell |
+| NEXT | Documentation site delivery | Build existing `dist/docs` output, validate links, prepare preview and review GitHub Pages settings before any public publish | Static docs build is implemented; public Pages deployment not verified |
+| NEXT | Local evidence viewer | Minimal local, read-only UI fed by actual evidence JSON with clear evidence provenance and mock/real labeling | Proposed; existing `apps/web` is only a shell |
 | NEXT | WEP technical demonstration | Repeatable local API start, successful smoke logs, documented limitations and German founder briefing | In preparation for 3 Nov 2026 |
 | LATER | Internet-facing API, multi-tenant service, service-level commitments | Security hardening, external deployment trials, operational monitoring, auth, backups, disaster recovery and performance evidence | Not validated; not a current release promise |
 
-**Guardrails:** SemantIQ software remains \`0.1.0-alpha.2\` Public Alpha
+**Guardrails:** SemantIQ software remains `0.1.0-alpha.2` Public Alpha
 (Experimental). Internal CI or local container smoke does not establish
 production reliability, independent replication, third-party adoption, or
 a published package. A future published platform must retain the
