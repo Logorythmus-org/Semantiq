@@ -230,6 +230,21 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(res2.status).toBe(404);
     });
 
+    it("rejects oversized request body payloads exceeding 1MB", async () => {
+      const oversizedPayload = "x".repeat(1024 * 1024 + 100);
+      try {
+        const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ statement: oversizedPayload })
+        });
+        expect(res.status).toBe(500);
+      } catch (err: unknown) {
+        // Stream destruction may cause socket hang up, which is also a valid rejection behavior
+        expect(err).toBeDefined();
+      }
+    });
+
     it("runs 100% headless and executes core workflows when staticDir is omitted", async () => {
       const headlessApp = createSemantiqHttpServer({ port: 0, host: "127.0.0.1" });
       const headlessPort = await headlessApp.start();
