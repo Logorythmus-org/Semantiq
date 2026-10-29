@@ -1,5 +1,53 @@
 # SemantIQ Community Hub
 
+## Start here: one reproducible first step
+
+SemantIQ is open, local-first behavioral evidence infrastructure for AI systems and agents. We develop reproducible workflows connecting execution traces, evaluation results, and explicit evidence limitations. **Public Alpha (Experimental)**. Contributions and independent reproduction attempts are welcome.
+
+1. Read the [current maturity and evidence status](README.md#current-maturity-and-evidence-status) and [known limitations](Docs/KNOWN_LIMITATIONS.md).
+2. For a small offline example, use Python 3.10+ and a repository checkout. Run the authored ARE inspection tests from the repository root:
+
+   ```sh
+   python -m unittest discover -s examples/kaggle -p 'test_are_trace_inspection.py' -v
+   ```
+
+   See [ARE trace inspection](examples/kaggle/ARE_TRACE_INSPECTION.md) for input handling and provenance labels. These tests inspect synthetic fixtures; they do not run Gaia2, a model, a judge, or the SemantIQ SDK. No external API credential is needed for this example. Environment setup time has not been benchmarked.
+3. For the broader product workflow, follow the [reproduction walkthrough](Docs/REPRODUCTION_WALKTHROUGH.md). Keep its evidence scope separate from the standalone example.
+4. Record your commit, Python/OS versions, exact command, output, and any blocker. Submit a [reproduction or compatibility report](https://github.com/Logorythmus-org/Semantiq/issues/new?template=reproduction_report.yml). Use the independent-replication form below when reporting an independent attempt; acceptance still requires review.
+
+## Public evidence entry points
+
+This is a navigation catalog, not a benchmark leaderboard or an authenticity certificate. The example links below are pinned to the merge revision that introduced the ARE inspector, `fc515479f243eb0514843b82e308dacf8077382b`; links elsewhere on this page follow the branch being viewed.
+
+| Entry | What a reader can inspect | Boundary |
+| --- | --- | --- |
+| [Preparation verifier](https://github.com/Logorythmus-org/Semantiq/blob/fc515479f243eb0514843b82e308dacf8077382b/examples/kaggle/PREPARATION.md) | Offline preparation-file checks and instructions | Preparation checks are not benchmark execution |
+| [ARE inspection example](https://github.com/Logorythmus-org/Semantiq/blob/fc515479f243eb0514843b82e308dacf8077382b/examples/kaggle/ARE_TRACE_INSPECTION.md) | Limited native export inspection, authored tests, documented local probes | No official Gaia2 score, SDK contract conversion, or independent replication |
+| [Product reproduction walkthrough](Docs/REPRODUCTION_WALKTHROUGH.md) | Repository workflow and reporting route | Owner-controlled evidence remains internal until independence is reviewed |
+| [Integration Graph](Docs/ecosystem/INTEGRATION_GRAPH.md) | Classified technical relationships and missing evidence | Its recorded source revision is historical; current-main revalidation is pending |
+
+## GitHub, Hugging Face, and Kaggle
+
+GitHub remains the canonical home for code, protocols, reviewed documentation, and contribution decisions. The following is the intended artifact flow, not a claim that a public cross-platform pipeline is already operating.
+
+| Surface | Intended role | Current publication boundary |
+| --- | --- | --- |
+| GitHub | Versioned source, protocols, catalog, issues, and review | Public example entry points are listed above |
+| Hugging Face | Versioned evidence datasets with data cards | No public SemantIQ evidence dataset is linked here yet; account connection alone does not establish an integration |
+| Kaggle | Executed educational analysis with pinned inputs | The working notebook remains private; no public reproduction entry point is advertised here |
+
+A future public bundle should identify its source commit, input revision, file digests, provenance, license, evaluator version, and limitations. These are publication requirements for this workflow proposal, not a new official SemantIQ schema. Multiple copies across platforms do not create independent validation. No paid compute is required for the offline first step above.
+
+For consistent profile descriptions, use the introductory paragraph in **Start here** with a link back to this Community Hub. Profile edits and data publication remain separate reviewable changes; this page does not assert that they have been applied.
+
+### Three bounded ways to help
+
+- Reproduce the offline inspection tests in a fresh environment and report failures as well as successes.
+- Review the provenance, license, version, and limitations of a proposed data card before publication.
+- Add one focused malformed-input regression test to the inspection example, explaining the expected behavior without changing benchmark semantics.
+
+Choose an existing issue or propose a bounded task before duplicating work. Follow the Fast or Core contribution path below as appropriate.
+
 SemantIQ is a **Public Alpha (Experimental)** project. Community participation is welcome, but participation, discussion, or an accepted proposal does not by itself establish implementation, release status, external validation, scientific authority, production readiness, or adoption.
 
 This page is the shortest route into the project.
