@@ -1,0 +1,38 @@
+{
+  "verdict": "contradicted_offline",
+  "claims": [
+    {
+      "id": "winner",
+      "subject": "game:0022600138",
+      "predicate": "winner",
+      "verdict": "supported_offline",
+      "reason": "ATOMIC_MATCH",
+      "source_class": "curated_offline"
+    },
+    {
+      "id": "margin",
+      "subject": "game:0022600138",
+      "predicate": "margin",
+      "verdict": "contradicted_offline",
+      "reason": "ATOMIC_MISMATCH",
+      "source_class": "curated_offline"
+    }
+  ],
+  "claim_count": 2,
+  "contradiction_groups": [
+    [
+      "margin"
+    ]
+  ],
+  "unresolved_claim_ids": [],
+  "narrative_coverage": "not_supplied",
+  "action_allowed": false,
+  "human_approval_required": false,
+  "evidence_level": "curated_offline_or_synthetic_not_authenticated",
+  "data_digest": "d75cbaa329d4b449d4ed99a1074c57a8114f8a42560cb3e0930b469b21813951",
+  "limitations": [
+    "IR claims supplied by caller; not independently extracted from open text",
+    "Offline fixture self-hash cannot authenticate its publisher",
+    "No production policy enforcement or actual external actions"
+  ]
+}

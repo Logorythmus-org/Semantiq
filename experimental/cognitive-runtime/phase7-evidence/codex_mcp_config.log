@@ -1,0 +1,8 @@
+semantiq_phase7
+  enabled: true
+  transport: stdio
+  command: /opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python
+  args: /workspace/scratch/4642d3ed94ca/phase7/runtime/mcp_stdio.py
+  cwd: -
+  env: -
+  remove: codex mcp remove semantiq_phase7

@@ -1,0 +1,976 @@
+{
+  "caveat": "NBA curated offline; software and decisions synthetic. No host-source attestation, truth guarantees, or actual-world execution.",
+  "records": [
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:winner",
+      "fact_id": "nba:game:0022600128:winner",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "winner",
+      "subject": "game:0022600128",
+      "value": "BOS"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:margin",
+      "fact_id": "nba:game:0022600128:margin",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "margin",
+      "subject": "game:0022600128",
+      "value": 1
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:overtime",
+      "fact_id": "nba:game:0022600128:overtime",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "overtime",
+      "subject": "game:0022600128",
+      "value": true
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:away_team",
+      "fact_id": "nba:game:0022600128:away_team",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "away_team",
+      "subject": "game:0022600128",
+      "value": "BKN"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:home_team",
+      "fact_id": "nba:game:0022600128:home_team",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "home_team",
+      "subject": "game:0022600128",
+      "value": "BOS"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:away_score",
+      "fact_id": "nba:game:0022600128:away_score",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "away_score",
+      "subject": "game:0022600128",
+      "value": 124
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:home_score",
+      "fact_id": "nba:game:0022600128:home_score",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "home_score",
+      "subject": "game:0022600128",
+      "value": 125
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:period_count",
+      "fact_id": "nba:game:0022600128:period_count",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "period_count",
+      "subject": "game:0022600128",
+      "value": 5
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600128:score_sum",
+      "fact_id": "nba:game:0022600128:score_sum",
+      "label": "https://www.nba.com/game/bkn-vs-bos-0022600128",
+      "predicate": "score_sum",
+      "subject": "game:0022600128",
+      "value": 249
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:winner",
+      "fact_id": "nba:game:0022600138:winner",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "winner",
+      "subject": "game:0022600138",
+      "value": "HOU"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:margin",
+      "fact_id": "nba:game:0022600138:margin",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "margin",
+      "subject": "game:0022600138",
+      "value": 32
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:overtime",
+      "fact_id": "nba:game:0022600138:overtime",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "overtime",
+      "subject": "game:0022600138",
+      "value": false
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:away_team",
+      "fact_id": "nba:game:0022600138:away_team",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "away_team",
+      "subject": "game:0022600138",
+      "value": "HOU"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:home_team",
+      "fact_id": "nba:game:0022600138:home_team",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "home_team",
+      "subject": "game:0022600138",
+      "value": "MIL"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:away_score",
+      "fact_id": "nba:game:0022600138:away_score",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "away_score",
+      "subject": "game:0022600138",
+      "value": 132
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:home_score",
+      "fact_id": "nba:game:0022600138:home_score",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "home_score",
+      "subject": "game:0022600138",
+      "value": 100
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:period_count",
+      "fact_id": "nba:game:0022600138:period_count",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "period_count",
+      "subject": "game:0022600138",
+      "value": 4
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600138:score_sum",
+      "fact_id": "nba:game:0022600138:score_sum",
+      "label": "https://www.nba.com/game/hou-vs-mil-0022600138",
+      "predicate": "score_sum",
+      "subject": "game:0022600138",
+      "value": 232
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:winner",
+      "fact_id": "nba:game:0022600137:winner",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "winner",
+      "subject": "game:0022600137",
+      "value": "NYK"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:margin",
+      "fact_id": "nba:game:0022600137:margin",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "margin",
+      "subject": "game:0022600137",
+      "value": 6
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:overtime",
+      "fact_id": "nba:game:0022600137:overtime",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "overtime",
+      "subject": "game:0022600137",
+      "value": false
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:away_team",
+      "fact_id": "nba:game:0022600137:away_team",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "away_team",
+      "subject": "game:0022600137",
+      "value": "NYK"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:home_team",
+      "fact_id": "nba:game:0022600137:home_team",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "home_team",
+      "subject": "game:0022600137",
+      "value": "CHI"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:away_score",
+      "fact_id": "nba:game:0022600137:away_score",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "away_score",
+      "subject": "game:0022600137",
+      "value": 133
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:home_score",
+      "fact_id": "nba:game:0022600137:home_score",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "home_score",
+      "subject": "game:0022600137",
+      "value": 127
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:period_count",
+      "fact_id": "nba:game:0022600137:period_count",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "period_count",
+      "subject": "game:0022600137",
+      "value": 4
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600137:score_sum",
+      "fact_id": "nba:game:0022600137:score_sum",
+      "label": "https://www.nba.com/game/nyk-vs-chi-0022600137",
+      "predicate": "score_sum",
+      "subject": "game:0022600137",
+      "value": 260
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:winner",
+      "fact_id": "nba:game:0022600141:winner",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "winner",
+      "subject": "game:0022600141",
+      "value": "SAS"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:margin",
+      "fact_id": "nba:game:0022600141:margin",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "margin",
+      "subject": "game:0022600141",
+      "value": 6
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:overtime",
+      "fact_id": "nba:game:0022600141:overtime",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "overtime",
+      "subject": "game:0022600141",
+      "value": true
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:away_team",
+      "fact_id": "nba:game:0022600141:away_team",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "away_team",
+      "subject": "game:0022600141",
+      "value": "SAS"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:home_team",
+      "fact_id": "nba:game:0022600141:home_team",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "home_team",
+      "subject": "game:0022600141",
+      "value": "UTA"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:away_score",
+      "fact_id": "nba:game:0022600141:away_score",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "away_score",
+      "subject": "game:0022600141",
+      "value": 117
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:home_score",
+      "fact_id": "nba:game:0022600141:home_score",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "home_score",
+      "subject": "game:0022600141",
+      "value": 111
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:period_count",
+      "fact_id": "nba:game:0022600141:period_count",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "period_count",
+      "subject": "game:0022600141",
+      "value": 5
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600141:score_sum",
+      "fact_id": "nba:game:0022600141:score_sum",
+      "label": "https://www.nba.com/game/sas-vs-uta-0022600141",
+      "predicate": "score_sum",
+      "subject": "game:0022600141",
+      "value": 228
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:winner",
+      "fact_id": "nba:game:0022600142:winner",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "winner",
+      "subject": "game:0022600142",
+      "value": "DAL"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:margin",
+      "fact_id": "nba:game:0022600142:margin",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "margin",
+      "subject": "game:0022600142",
+      "value": 24
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:overtime",
+      "fact_id": "nba:game:0022600142:overtime",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "overtime",
+      "subject": "game:0022600142",
+      "value": false
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:away_team",
+      "fact_id": "nba:game:0022600142:away_team",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "away_team",
+      "subject": "game:0022600142",
+      "value": "OKC"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:home_team",
+      "fact_id": "nba:game:0022600142:home_team",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "home_team",
+      "subject": "game:0022600142",
+      "value": "DAL"
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:away_score",
+      "fact_id": "nba:game:0022600142:away_score",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "away_score",
+      "subject": "game:0022600142",
+      "value": 96
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:home_score",
+      "fact_id": "nba:game:0022600142:home_score",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "home_score",
+      "subject": "game:0022600142",
+      "value": 120
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:period_count",
+      "fact_id": "nba:game:0022600142:period_count",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "period_count",
+      "subject": "game:0022600142",
+      "value": 4
+    },
+    {
+      "domain": "nba",
+      "evidence_class": "curated_offline",
+      "evidence_id": "nba:game:0022600142:score_sum",
+      "fact_id": "nba:game:0022600142:score_sum",
+      "label": "https://www.nba.com/game/okc-vs-dal-0022600142",
+      "predicate": "score_sum",
+      "subject": "game:0022600142",
+      "value": 216
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:tests_pass",
+      "fact_id": "software:service:billing:tests_pass",
+      "label": "synthetic software fixture",
+      "predicate": "tests_pass",
+      "subject": "service:billing",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:api_version",
+      "fact_id": "software:service:billing:api_version",
+      "label": "synthetic software fixture",
+      "predicate": "api_version",
+      "subject": "service:billing",
+      "value": "v2"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:breaking_change",
+      "fact_id": "software:service:billing:breaking_change",
+      "label": "synthetic software fixture",
+      "predicate": "breaking_change",
+      "subject": "service:billing",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:rollback_available",
+      "fact_id": "software:service:billing:rollback_available",
+      "label": "synthetic software fixture",
+      "predicate": "rollback_available",
+      "subject": "service:billing",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:owner",
+      "fact_id": "software:service:billing:owner",
+      "label": "synthetic software fixture",
+      "predicate": "owner",
+      "subject": "service:billing",
+      "value": "team-core"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:deploy_approved",
+      "fact_id": "software:service:billing:deploy_approved",
+      "label": "synthetic software fixture",
+      "predicate": "deploy_approved",
+      "subject": "service:billing",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:billing:latency_ms",
+      "fact_id": "software:service:billing:latency_ms",
+      "label": "synthetic software fixture",
+      "predicate": "latency_ms",
+      "subject": "service:billing",
+      "value": 900
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:tests_pass",
+      "fact_id": "software:service:search:tests_pass",
+      "label": "synthetic software fixture",
+      "predicate": "tests_pass",
+      "subject": "service:search",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:api_version",
+      "fact_id": "software:service:search:api_version",
+      "label": "synthetic software fixture",
+      "predicate": "api_version",
+      "subject": "service:search",
+      "value": "v3"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:breaking_change",
+      "fact_id": "software:service:search:breaking_change",
+      "label": "synthetic software fixture",
+      "predicate": "breaking_change",
+      "subject": "service:search",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:rollback_available",
+      "fact_id": "software:service:search:rollback_available",
+      "label": "synthetic software fixture",
+      "predicate": "rollback_available",
+      "subject": "service:search",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:owner",
+      "fact_id": "software:service:search:owner",
+      "label": "synthetic software fixture",
+      "predicate": "owner",
+      "subject": "service:search",
+      "value": "team-query"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:deploy_approved",
+      "fact_id": "software:service:search:deploy_approved",
+      "label": "synthetic software fixture",
+      "predicate": "deploy_approved",
+      "subject": "service:search",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:search:latency_ms",
+      "fact_id": "software:service:search:latency_ms",
+      "label": "synthetic software fixture",
+      "predicate": "latency_ms",
+      "subject": "service:search",
+      "value": 220
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:tests_pass",
+      "fact_id": "software:service:identity:tests_pass",
+      "label": "synthetic software fixture",
+      "predicate": "tests_pass",
+      "subject": "service:identity",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:api_version",
+      "fact_id": "software:service:identity:api_version",
+      "label": "synthetic software fixture",
+      "predicate": "api_version",
+      "subject": "service:identity",
+      "value": "v1"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:breaking_change",
+      "fact_id": "software:service:identity:breaking_change",
+      "label": "synthetic software fixture",
+      "predicate": "breaking_change",
+      "subject": "service:identity",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:rollback_available",
+      "fact_id": "software:service:identity:rollback_available",
+      "label": "synthetic software fixture",
+      "predicate": "rollback_available",
+      "subject": "service:identity",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:owner",
+      "fact_id": "software:service:identity:owner",
+      "label": "synthetic software fixture",
+      "predicate": "owner",
+      "subject": "service:identity",
+      "value": "team-security"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:deploy_approved",
+      "fact_id": "software:service:identity:deploy_approved",
+      "label": "synthetic software fixture",
+      "predicate": "deploy_approved",
+      "subject": "service:identity",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:identity:latency_ms",
+      "fact_id": "software:service:identity:latency_ms",
+      "label": "synthetic software fixture",
+      "predicate": "latency_ms",
+      "subject": "service:identity",
+      "value": 160
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:tests_pass",
+      "fact_id": "software:service:reporting:tests_pass",
+      "label": "synthetic software fixture",
+      "predicate": "tests_pass",
+      "subject": "service:reporting",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:api_version",
+      "fact_id": "software:service:reporting:api_version",
+      "label": "synthetic software fixture",
+      "predicate": "api_version",
+      "subject": "service:reporting",
+      "value": "v2"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:breaking_change",
+      "fact_id": "software:service:reporting:breaking_change",
+      "label": "synthetic software fixture",
+      "predicate": "breaking_change",
+      "subject": "service:reporting",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:rollback_available",
+      "fact_id": "software:service:reporting:rollback_available",
+      "label": "synthetic software fixture",
+      "predicate": "rollback_available",
+      "subject": "service:reporting",
+      "value": true
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:owner",
+      "fact_id": "software:service:reporting:owner",
+      "label": "synthetic software fixture",
+      "predicate": "owner",
+      "subject": "service:reporting",
+      "value": "team-data"
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:deploy_approved",
+      "fact_id": "software:service:reporting:deploy_approved",
+      "label": "synthetic software fixture",
+      "predicate": "deploy_approved",
+      "subject": "service:reporting",
+      "value": false
+    },
+    {
+      "domain": "software",
+      "evidence_class": "synthetic",
+      "evidence_id": "software:service:reporting:latency_ms",
+      "fact_id": "software:service:reporting:latency_ms",
+      "label": "synthetic software fixture",
+      "predicate": "latency_ms",
+      "subject": "service:reporting",
+      "value": 700
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:severity",
+      "fact_id": "decision:scenario:incident:severity",
+      "label": "synthetic decision fixture",
+      "predicate": "severity",
+      "subject": "scenario:incident",
+      "value": "high"
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:reversible",
+      "fact_id": "decision:scenario:incident:reversible",
+      "label": "synthetic decision fixture",
+      "predicate": "reversible",
+      "subject": "scenario:incident",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:data_sufficient",
+      "fact_id": "decision:scenario:incident:data_sufficient",
+      "label": "synthetic decision fixture",
+      "predicate": "data_sufficient",
+      "subject": "scenario:incident",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:human_approval",
+      "fact_id": "decision:scenario:incident:human_approval",
+      "label": "synthetic decision fixture",
+      "predicate": "human_approval",
+      "subject": "scenario:incident",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:budget_eur",
+      "fact_id": "decision:scenario:incident:budget_eur",
+      "label": "synthetic decision fixture",
+      "predicate": "budget_eur",
+      "subject": "scenario:incident",
+      "value": 900
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:incident:hold_option",
+      "fact_id": "decision:scenario:incident:hold_option",
+      "label": "synthetic decision fixture",
+      "predicate": "hold_option",
+      "subject": "scenario:incident",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:severity",
+      "fact_id": "decision:scenario:rollout:severity",
+      "label": "synthetic decision fixture",
+      "predicate": "severity",
+      "subject": "scenario:rollout",
+      "value": "low"
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:reversible",
+      "fact_id": "decision:scenario:rollout:reversible",
+      "label": "synthetic decision fixture",
+      "predicate": "reversible",
+      "subject": "scenario:rollout",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:data_sufficient",
+      "fact_id": "decision:scenario:rollout:data_sufficient",
+      "label": "synthetic decision fixture",
+      "predicate": "data_sufficient",
+      "subject": "scenario:rollout",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:human_approval",
+      "fact_id": "decision:scenario:rollout:human_approval",
+      "label": "synthetic decision fixture",
+      "predicate": "human_approval",
+      "subject": "scenario:rollout",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:budget_eur",
+      "fact_id": "decision:scenario:rollout:budget_eur",
+      "label": "synthetic decision fixture",
+      "predicate": "budget_eur",
+      "subject": "scenario:rollout",
+      "value": 120
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:rollout:hold_option",
+      "fact_id": "decision:scenario:rollout:hold_option",
+      "label": "synthetic decision fixture",
+      "predicate": "hold_option",
+      "subject": "scenario:rollout",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:severity",
+      "fact_id": "decision:scenario:purchase:severity",
+      "label": "synthetic decision fixture",
+      "predicate": "severity",
+      "subject": "scenario:purchase",
+      "value": "medium"
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:reversible",
+      "fact_id": "decision:scenario:purchase:reversible",
+      "label": "synthetic decision fixture",
+      "predicate": "reversible",
+      "subject": "scenario:purchase",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:data_sufficient",
+      "fact_id": "decision:scenario:purchase:data_sufficient",
+      "label": "synthetic decision fixture",
+      "predicate": "data_sufficient",
+      "subject": "scenario:purchase",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:human_approval",
+      "fact_id": "decision:scenario:purchase:human_approval",
+      "label": "synthetic decision fixture",
+      "predicate": "human_approval",
+      "subject": "scenario:purchase",
+      "value": false
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:budget_eur",
+      "fact_id": "decision:scenario:purchase:budget_eur",
+      "label": "synthetic decision fixture",
+      "predicate": "budget_eur",
+      "subject": "scenario:purchase",
+      "value": 1500
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:purchase:hold_option",
+      "fact_id": "decision:scenario:purchase:hold_option",
+      "label": "synthetic decision fixture",
+      "predicate": "hold_option",
+      "subject": "scenario:purchase",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:severity",
+      "fact_id": "decision:scenario:backup:severity",
+      "label": "synthetic decision fixture",
+      "predicate": "severity",
+      "subject": "scenario:backup",
+      "value": "low"
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:reversible",
+      "fact_id": "decision:scenario:backup:reversible",
+      "label": "synthetic decision fixture",
+      "predicate": "reversible",
+      "subject": "scenario:backup",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:data_sufficient",
+      "fact_id": "decision:scenario:backup:data_sufficient",
+      "label": "synthetic decision fixture",
+      "predicate": "data_sufficient",
+      "subject": "scenario:backup",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:human_approval",
+      "fact_id": "decision:scenario:backup:human_approval",
+      "label": "synthetic decision fixture",
+      "predicate": "human_approval",
+      "subject": "scenario:backup",
+      "value": true
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:budget_eur",
+      "fact_id": "decision:scenario:backup:budget_eur",
+      "label": "synthetic decision fixture",
+      "predicate": "budget_eur",
+      "subject": "scenario:backup",
+      "value": 20
+    },
+    {
+      "domain": "decision",
+      "evidence_class": "synthetic",
+      "evidence_id": "decision:scenario:backup:hold_option",
+      "fact_id": "decision:scenario:backup:hold_option",
+      "label": "synthetic decision fixture",
+      "predicate": "hold_option",
+      "subject": "scenario:backup",
+      "value": false
+    }
+  ],
+  "schema_version": "0.1"
+}

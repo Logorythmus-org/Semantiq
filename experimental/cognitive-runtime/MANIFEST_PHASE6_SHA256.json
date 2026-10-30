@@ -1,0 +1,29 @@
+{
+  "scope": "fixed source, docs, fixtures, and tests; volatile outputs excluded",
+  "files": {
+    ".codex-plugin/plugin.json": "5bf23a94a935d22f5dcdfd7ca76200394f420d8e80ea04594da8b8c124933f09",
+    "ADAPTER_CONTRACTS.md": "24c9c41a1e4ba15e12176c4db552346b533ce71de013f489cad45b4b3f44c31e",
+    "CODEX_SETUP.md": "b39e3d5d9e32d3c7c4df8fe26c40a814fc7a8e7863ea82bf82917f696a5a997f",
+    "MODEL_AB_PROTOCOL.md": "a373ddde750e730b6ada6070eacfcf0c24a841a15d01c40d2c5fcee6b63192c6",
+    "README.md": "1c8be0294ee60ace4cd674d499528271a05340e9f21f26edf99bf2760df76f25",
+    "REPORT.md": "37f1ad60d9e5ce6f77f212dff324cd88052f5fb611d03ee1b6eaa45a61c4a4b8",
+    "benchmark.py": "4ac86066fcd6788a143d8f6189f202e24c096fd6b51487f269d9e6b3f9f530f1",
+    "build_store.py": "08b1a68f8bcbf08d9361d427e49265efffe3d2f546d0efc60c77d095aed25b71",
+    "data/main_cases.jsonl": "69c58fc7dfef7e8e64c6aded794fa4f14c6915f80257f17ef846ba5ef7969a23",
+    "data/main_gold.json": "0c23f2ba2bb5f7927fabfef59ce7c6b4911bb719ccaba0a0b911abcac448e803",
+    "data/manifest.json": "eafe020ba80adfee6353039557b00682dbb5a2dfe1488cb4389c3085dbb9a0a2",
+    "data/offline_facts.json": "d75cbaa329d4b449d4ed99a1074c57a8114f8a42560cb3e0930b469b21813951",
+    "data/stress_cases.jsonl": "e352c0fad39a4a56bfb881d6c983d210f3af3080c2ee149f776ad655664b65a9",
+    "data/stress_gold.json": "1510aee581a1ce8f088cda4b12a2c0873be1c5b623d246f66cad145042d0ac2b",
+    "make_bundle.py": "10c1eb7d71535952ebabe3428be47e3e280e64f241f121f044843dbf314f1788",
+    "mcp_stdio.py": "9bec524c3b8a35c66fe27e8b8eb8541bb467de8944c4024a017b3de365829b5f",
+    "plugin.json": "5bf23a94a935d22f5dcdfd7ca76200394f420d8e80ea04594da8b8c124933f09",
+    "samples/decision_multi_claim.json": "a20885c88aed76c6cd526e1275056758b9dde502c247023a482bdff948f75371",
+    "samples/nba_multi_claim.json": "67c972d52cd1bd62ddb01865ccee350ee782fab81d5b9f4c5440e1ea22285a2f",
+    "samples/software_multi_claim.json": "52474438bf5421470ed43111508249f71afde1eae70cef87c9755f8c75db40a5",
+    "schemas/claim_packet.v0.1.schema.json": "962002fbc59b15bc42bcdecc685963f2bc5507b461d9f9108cb08aa5d5c801a9",
+    "semantic_ir.py": "3a7aa50cf380a5d0f33a04f521a7759a12c8243638d6b7a28d839ccb75763391",
+    "skills/semantiq-cognitive/SKILL.md": "3ff497917fefc32697f5ec907f104b7cdb22e28ff762c1af00489fdcf9091091",
+    "tests/test_phase6.py": "71853eb7fd5f65a15088ff7777d8ea97b64a3b722c2db0d661f4243547c24cca"
+  }
+}

@@ -1,0 +1,8 @@
+Scope: all 175 workspace projects
+? Verifying lockfile against supply-chain policies (442 entries)...
+Lockfile is up to date, resolution step is skipped
+Progress: resolved 1, reused 0, downloaded 0, added 0
+Packages: +321
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+✗ Lockfile failed supply-chain policy check (442 entries in 226ms)
+[ERR_PNPM_NO_OFFLINE_META] Failed to resolve @ampproject/remapping in package mirror /home/agent/.cache/pnpm/v11/metadata-full/registry.npmjs.org/@ampproject/remapping.jsonl
