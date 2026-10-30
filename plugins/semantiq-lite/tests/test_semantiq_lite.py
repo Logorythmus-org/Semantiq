@@ -49,6 +49,26 @@ class SemantiqLiteTests(unittest.TestCase):
         self.assertEqual(result["status"], "pass")
         self.assertIn("not truth", result["scope"].lower())
 
+    def test_english_100_percent_safe_regression(self):
+        result = module.claim_check("This AI is 100% safe.")
+        self.assertEqual(result["status"], "flagged")
+        self.assertIn("100% safety/certainty claim", [x["term"] for x in result["violations"]])
+
+    def test_persian_absolute_safety_regression(self):
+        result = module.claim_check("این سیستم هیچ خطایی ندارد و کاملاً ایمن است.")
+        self.assertEqual(result["status"], "flagged")
+        self.assertGreaterEqual(len(result["violations"]), 2)
+
+    def test_unmatched_persian_requires_human_review(self):
+        result = module.claim_check("پژوهش به نتایج جدیدی اشاره دارد.")
+        self.assertEqual(result["status"], "needs_review")
+        self.assertEqual(result["coverage"], "limited_lexical_rules")
+
+    def test_unqualified_always_never_english(self):
+        for sentence in ("This model will never make a mistake.", "The model is always secure."):
+            with self.subTest(sentence=sentence):
+                self.assertEqual(module.claim_check(sentence)["status"], "flagged")
+
     def test_evidence_limits_are_not_verification(self):
         result = module.evidence_limits(["ref-1", "ref-1", "ref-2"])
         self.assertEqual(result["reference_count"], 2)
