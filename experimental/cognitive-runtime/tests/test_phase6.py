@@ -46,7 +46,8 @@ class Tests(unittest.TestCase):
  def test_all_three_domains_available(self):self.assertEqual(set(self.r.info()['domains']),{'nba','software','decision'})
  def test_mcp_real_subprocess_30_calls(self):
   cases=stress_cases()
-  requests=[{'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-06-18'}},
+  requests=[{'jsonrpc':'2.0','id':1,'method':'initialize','params':{'protocolVersion':'2025-06-18','capabilities':{},'clientInfo':{'name':'phase6-regression','version':'1'}}},
+            {'jsonrpc':'2.0','method':'notifications/initialized'},
             {'jsonrpc':'2.0','id':2,'method':'tools/list'}]
   for i,c in enumerate(cases,3):
    requests.append({'jsonrpc':'2.0','id':i,'method':'tools/call','params':{'name':'semantiq_evaluate_claim_graph','arguments':{'packet':c['packet']}}})

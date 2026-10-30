@@ -46,9 +46,10 @@ class Phase7(unittest.TestCase):
     def test_process_survives_invalid_packets(self):
         requests = [{'jsonrpc':'2.0', 'id':i, 'method':'tools/call', 'params':{'name':'semantiq_evaluate_claim_graph','arguments':{'packet':dict(self.packet, domain=[])}}} for i in range(3)]
         requests += [{'jsonrpc':'2.0','id':5,'method':'ping'}, {'jsonrpc':'2.0','id':6,'method':'ping','params':[]}, {'jsonrpc':'2.0','id':7,'method':'tools/call','params':{'name':'semantiq_capabilities','arguments':False}}]
+        requests = [{'jsonrpc':'2.0','id':'init','method':'initialize','params':{'protocolVersion':'2025-06-18','capabilities':{},'clientInfo':{'name':'test','version':'1'}}}, {'jsonrpc':'2.0','method':'notifications/initialized'}] + requests
         p = subprocess.run([sys.executable, str(ROOT/'mcp_stdio.py')], input='\n'.join(map(json.dumps, requests))+'\n', text=True, capture_output=True, timeout=10)
         self.assertEqual(p.returncode, 0, p.stderr)
-        replies = [json.loads(line) for line in p.stdout.splitlines()]
+        replies = [json.loads(line) for line in p.stdout.splitlines()][1:]
         self.assertEqual(len(replies), 6)
         self.assertEqual(replies[3]['result'], {})
         for i in [0,1,2,4,5]:
