@@ -21,7 +21,7 @@ python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py evide
 python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py short-report --text "The result improved." --source "paper-1"
 ~~~
 
-`--text` may be replaced with stdin; `--source` can be repeated. No results are stored by the script. Exit codes: 0 = report completed/no wording flags, 1 = claim-check wording flagged, 2 = usage/dependency error.
+`--text` may be replaced with stdin; `--source` can be repeated. No results are stored by the script. Exit codes: 0 = report completed/no wording flags, 1 = claim-check wording flagged/needs review, 2 = usage/dependency error.
 
 ## Codex / ChatGPT
 
@@ -36,3 +36,9 @@ python -m unittest discover -s plugins/semantiq-lite/tests -v
 ~~~
 
 Unit tests stub the SDK interface, so an SDK-installed end-to-end smoke is still required before release. This is an alpha integration, not a certification, truth detector, or a complete semantic intelligence evaluator.
+
+## Scope and limitations (0.1.1 draft)
+
+Supplemental narrow patterns recognize explicit absolute safety wording in English and a few Persian phrases. **This is not a comprehensive English/Persian semantic verifier.** Persian text that matches no rule returns `needs_review` instead of a potentially misleading `pass`. Even an English `pass` is not proof of truth, safety, or evidentiary support.
+
+Run `python -m unittest discover -s plugins/semantiq-lite/tests -v` for offline contract tests. A complete SDK-installed integration smoke test and supported Codex plugin discovery remain release blockers.
