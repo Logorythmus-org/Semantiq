@@ -25,7 +25,7 @@ python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py short
 
 ## Codex / ChatGPT
 
-Portable plugin manifest: `.codex-plugin/plugin.json`. Skill: `skills/semantiq-lite/SKILL.md`. For direct local Codex use, copy the skill folder to `${CODEX_HOME:-$HOME/.codex}/skills/semantiq-lite` or install the plugin via a supported plugin mechanism. Ensure the SemantIQ Python SDK is available to that Python environment.
+Portable manifest: `plugin.json`; Codex compatibility manifest: `.codex-plugin/plugin.json`. Skill: `skills/semantiq-lite/SKILL.md`. For direct local Codex use, copy the skill folder to `${CODEX_HOME:-$HOME/.codex}/skills/semantiq-lite` or install the plugin via a supported plugin mechanism. Ensure the SemantIQ Python SDK is available to that Python environment.
 
 This repository change **does not install a plugin in ChatGPT**. ChatGPT distribution/enablement requires a separate supported plugin setup; an environment without Python execution cannot run the script. The no-network script remains opt-in.
 
@@ -41,4 +41,6 @@ Unit tests stub the SDK interface, so an SDK-installed end-to-end smoke is still
 
 Supplemental narrow patterns recognize explicit absolute safety wording in English and a few Persian phrases. **This is not a comprehensive English/Persian semantic verifier.** Persian text that matches no rule returns `needs_review` instead of a potentially misleading `pass`. Even an English `pass` is not proof of truth, safety, or evidentiary support.
 
-Run `python -m unittest discover -s plugins/semantiq-lite/tests -v` for offline contract tests. A complete SDK-installed integration smoke test and supported Codex plugin discovery remain release blockers.
+Run `python -m unittest discover -s plugins/semantiq-lite/tests -v` for offline contract tests. SDK-installed end-to-end smoke has now passed on GitHub Actions under Python 3.10 and 3.12 (19 tests and 2 subtests per runner). The workflow also copies this skill into an isolated `CODEX_HOME/skills/semantiq-lite` directory and invokes its CLI with the real SDK; this tests the install path, **not Codex agent discovery or execution**. ChatGPT plugin installation/distribution and actual host invocation remain unverified.
+
+Real-SDK CI evidence: [SemantIQ Lite Real-SDK Smoke](https://github.com/Logorythmus-org/Semantiq/actions/workflows/semantiq-lite-e2e.yml).
