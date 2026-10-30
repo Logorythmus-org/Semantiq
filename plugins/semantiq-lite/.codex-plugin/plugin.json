@@ -1,0 +1,10 @@
+{
+  "name": "semantiq-lite",
+  "version": "0.1.1",
+  "description": "Local, evidence-aware claim language checks and short review reports using the SemantIQ Python SDK.",
+  "author": {"name": "Logorythmus"},
+  "homepage": "https://github.com/Logorythmus-org/Semantiq",
+  "repository": "https://github.com/Logorythmus-org/Semantiq",
+  "license": "MIT",
+  "skills": "./skills/"
+}
