@@ -1,0 +1,52 @@
+test_case_id_coverage (test_evaluation_integrity.ComparisonIntegrity.test_case_id_coverage) ... ok
+test_duplicate_json_and_cli_failure (test_evaluation_integrity.ComparisonIntegrity.test_duplicate_json_and_cli_failure) ... ok
+test_missing_extra_arms (test_evaluation_integrity.ComparisonIntegrity.test_missing_extra_arms) ... ok
+test_paired_outcomes_match_case_ids (test_evaluation_integrity.ComparisonIntegrity.test_paired_outcomes_match_case_ids) ... ok
+test_partial_telemetry_is_not_zero (test_evaluation_integrity.ComparisonIntegrity.test_partial_telemetry_is_not_zero) ... ok
+test_reject_empty_model_and_settings (test_evaluation_integrity.ComparisonIntegrity.test_reject_empty_model_and_settings) ... ok
+test_rejection_and_abstention_disaggregated (test_evaluation_integrity.ComparisonIntegrity.test_rejection_and_abstention_disaggregated) ... ok
+test_settings_type_sensitive (test_evaluation_integrity.ComparisonIntegrity.test_settings_type_sensitive) ... ok
+test_telemetry_validation (test_evaluation_integrity.ComparisonIntegrity.test_telemetry_validation) ... ok
+test_total_overflow (test_evaluation_integrity.ComparisonIntegrity.test_total_overflow) ... ok
+test_unknown_prediction_and_gold (test_evaluation_integrity.ComparisonIntegrity.test_unknown_prediction_and_gold) ... ok
+test_zero_denominators (test_evaluation_integrity.ComparisonIntegrity.test_zero_denominators) ... ok
+test_archived_splits (test_evaluation_integrity.FrozenInputIntegrity.test_archived_splits) ... ok
+test_case_set_shape_and_labels (test_evaluation_integrity.FrozenInputIntegrity.test_case_set_shape_and_labels) ... ok
+test_digest_rejects_changed_or_empty_input (test_evaluation_integrity.FrozenInputIntegrity.test_digest_rejects_changed_or_empty_input) ... ok
+test_strict_gold_reader (test_evaluation_integrity.FrozenInputIntegrity.test_strict_gold_reader) ... ok
+test_bad_id_types (test_mcp_lifecycle.Lifecycle.test_bad_id_types) ... ok
+test_direct_consistency (test_mcp_lifecycle.Lifecycle.test_direct_consistency) ... ok
+test_discovery_schema (test_mcp_lifecycle.Lifecycle.test_discovery_schema) ... ok
+test_early_notification (test_mcp_lifecycle.Lifecycle.test_early_notification) ... ok
+test_handshake (test_mcp_lifecycle.Lifecycle.test_handshake) ... ok
+test_invalid_initialize_retry (test_mcp_lifecycle.Lifecycle.test_invalid_initialize_retry) ... ok
+test_parse_failure_recovery (test_mcp_lifecycle.Lifecycle.test_parse_failure_recovery) ... ok
+test_strict_json (test_mcp_lifecycle.Lifecycle.test_strict_json) ... ok
+test_unknown_tool_notification (test_mcp_lifecycle.Lifecycle.test_unknown_tool_notification) ... ok
+test_version_negotiation (test_mcp_lifecycle.Lifecycle.test_version_negotiation) ... ok
+test_all_three_domains_available (test_phase6.Tests.test_all_three_domains_available) ... ok
+test_duplicate_claim_id_rejected (test_phase6.Tests.test_duplicate_claim_id_rejected) ... ok
+test_execute_never_allows_side_effect (test_phase6.Tests.test_execute_never_allows_side_effect) ... ok
+test_forged_evidence_not_admitted (test_phase6.Tests.test_forged_evidence_not_admitted) ... ok
+test_fresh_stress_except_known_provenance_boundary (test_phase6.Tests.test_fresh_stress_except_known_provenance_boundary) ... ok
+test_main_gold (test_phase6.Tests.test_main_gold) ... ok
+test_mcp_bad_json (test_phase6.Tests.test_mcp_bad_json) ... ok
+test_mcp_real_subprocess_30_calls (test_phase6.Tests.test_mcp_real_subprocess_30_calls) ... ok
+test_mutation_detected_before_rehash (test_phase6.Tests.test_mutation_detected_before_rehash) ... ok
+test_no_external_system_calls (test_phase6.Tests.test_no_external_system_calls) ... ok
+test_schema_unknown_fields_rejected (test_phase6.Tests.test_schema_unknown_fields_rejected) ... ok
+test_three_forged_worlds_remain_unsafe (test_phase6.Tests.test_three_forged_worlds_remain_unsafe) ... ok
+test_unparsed_narrative_not_supported (test_phase6.Tests.test_unparsed_narrative_not_supported) ... ok
+test_missing_value (test_phase7.Phase7.test_missing_value) ... ok
+test_non_json_python_values (test_phase7.Phase7.test_non_json_python_values) ... ok
+test_nonadjacent_conflicts_unknown_target (test_phase7.Phase7.test_nonadjacent_conflicts_unknown_target) ... ok
+test_oversize_recovers (test_phase7.Phase7.test_oversize_recovers) ... ok
+test_process_survives_invalid_packets (test_phase7.Phase7.test_process_survives_invalid_packets) ... ok
+test_schema_invalid_inputs (test_phase7.Phase7.test_schema_invalid_inputs) ... ok
+test_v02_and_no_actions (test_phase7.Phase7.test_v02_and_no_actions) ... ok
+test_metrics_and_missing_telemetry (test_recorded.Recorded.test_metrics_and_missing_telemetry) ... ok
+
+----------------------------------------------------------------------
+Ran 47 tests in 0.224s
+
+OK

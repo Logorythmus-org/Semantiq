@@ -1,6 +1,6 @@
 # Experimental Cognitive Runtime — Phase 7
 
-Read PHASE7_REPORT.md and MCP_VALIDATION_INCREMENT.md before use. Run `python -m unittest discover -s tests -v`
+Read PHASE7_REPORT.md, MCP_VALIDATION_INCREMENT.md and EVALUATION_VALIDATION_INCREMENT.md before use. Run `python -m unittest discover -s tests -v`
 and `python validate_frozen.py`. The historical benchmark.py retains its v0.1 freeze
 guard and is not the updated evaluation entrypoint. No production/agent-host
 compatibility or source authenticity is established.
