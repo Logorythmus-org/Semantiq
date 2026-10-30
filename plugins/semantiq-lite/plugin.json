@@ -1,0 +1,14 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "semantiq-lite",
+  "version": "0.1.1",
+  "description": "Evidence-aware, offline claim wording review and concise reports using the SemantIQ Python SDK.",
+  "author": {
+    "name": "Logorythmus",
+    "url": "https://github.com/Logorythmus-org"
+  },
+  "homepage": "https://github.com/Logorythmus-org/Semantiq/tree/main/plugins/semantiq-lite",
+  "repository": "https://github.com/Logorythmus-org/Semantiq",
+  "license": "MIT",
+  "keywords": ["semantics", "evidence", "agent-safety", "evaluation"]
+}
