@@ -1,0 +1,39 @@
+name: SemantIQ Lite Real-SDK Smoke
+
+on:
+  pull_request:
+    paths:
+      - "plugins/semantiq-lite/**"
+      - "packages/python/tests/test_semantiq_lite_integration.py"
+      - ".github/workflows/semantiq-lite-e2e.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  offline-sdk-smoke:
+    name: Python ${{ matrix.python-version }} SDK + skill
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10", "3.12"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - name: Install actual SemantIQ SDK from checked-out source
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ./packages/python pytest
+          python -c 'import semantiq; print("Real SDK installed:", semantiq.__version__, semantiq.__file__)'
+      - name: Run independent unit and SDK-installed end-to-end tests
+        run: |
+          python -m pytest -q plugins/semantiq-lite/tests/test_semantiq_lite.py packages/python/tests/test_semantiq_lite_integration.py
+      - name: Emit a real SDK-backed short report
+        run: |
+          python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py short-report \
+            --text "Our evaluation proves the new agent guarantees safe execution." \
+            --source "unverified-paper-1" --json
