@@ -31,3 +31,7 @@ You can omit `--text` and pipe text to stdin. Repeating `--source` records multi
 - `short-report` summarizes both results and always requires human review.
 - Never invent citations, model internals, causal proofs, scientific scores, confidence estimates, or evidence verification.
 - A GitHub folder is not automatically an installed plugin in an ordinary ChatGPT chat. Live execution requires an enabled execution environment and separate distribution/install approval.
+
+## Coverage and decision semantics
+
+A `pass` means no **implemented lexical rule** matched; never report it as true, safe, or scientifically validated. Supplemental checks recognize narrow English and Persian absolute-safety phrases. Persian claims with no match return `needs_review`, which also requires human review. Claim-check exit code 1 indicates `flagged` or `needs_review`. Do not fabricate data, verification, or model-internal reasoning.
