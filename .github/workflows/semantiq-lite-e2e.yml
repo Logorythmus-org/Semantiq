@@ -32,6 +32,15 @@ jobs:
       - name: Run independent unit and SDK-installed end-to-end tests
         run: |
           python -m pytest -q plugins/semantiq-lite/tests/test_semantiq_lite.py packages/python/tests/test_semantiq_lite_integration.py
+      - name: Install the skill into isolated CODEX_HOME and invoke it
+        env:
+          CODEX_HOME: ${{ runner.temp }}/codex-home
+        run: |
+          mkdir -p "$CODEX_HOME/skills"
+          cp -R plugins/semantiq-lite/skills/semantiq-lite "$CODEX_HOME/skills/semantiq-lite"
+          test -f "$CODEX_HOME/skills/semantiq-lite/SKILL.md"
+          python "$CODEX_HOME/skills/semantiq-lite/scripts/semantiq_lite.py" short-report \
+            --text "Our study observed an association." --source "unverified-test-1" --json
       - name: Emit a real SDK-backed short report
         run: |
           python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py short-report \
