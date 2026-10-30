@@ -1,0 +1,77 @@
+{
+  "summary": [
+    {
+      "set": "main",
+      "n": 60,
+      "v01_correct": 60,
+      "baseline_correct": 18,
+      "v01_rate": 1.0,
+      "baseline_rate": 0.3,
+      "v01_median_us": 4.22
+    },
+    {
+      "set": "stress",
+      "n": 30,
+      "v01_correct": 27,
+      "baseline_correct": 12,
+      "v01_rate": 0.9,
+      "baseline_rate": 0.4,
+      "v01_median_us": 5.33
+    },
+    {
+      "set": "combined",
+      "n": 90,
+      "v01_correct": 87,
+      "baseline_correct": 30,
+      "v01_rate": 0.9667,
+      "baseline_rate": 0.3333,
+      "v01_median_us": 4.91
+    }
+  ],
+  "model_calls": 0,
+  "domains": [
+    "nba",
+    "software",
+    "decision"
+  ],
+  "external_adjudication": false,
+  "stress_failures": [
+    {
+      "id": "STRESS-nba-10",
+      "domain": "nba",
+      "phenomenon": "self_rehashed_poisoning",
+      "gold": "review",
+      "new": "supported_offline",
+      "baseline": "contradicted_offline",
+      "new_correct": 0,
+      "baseline_correct": 0,
+      "new_ns": 1255305,
+      "poisoned": true
+    },
+    {
+      "id": "STRESS-software-10",
+      "domain": "software",
+      "phenomenon": "self_rehashed_poisoning",
+      "gold": "review",
+      "new": "supported_offline",
+      "baseline": "contradicted_offline",
+      "new_correct": 0,
+      "baseline_correct": 0,
+      "new_ns": 819056,
+      "poisoned": true
+    },
+    {
+      "id": "STRESS-decision-10",
+      "domain": "decision",
+      "phenomenon": "self_rehashed_poisoning",
+      "gold": "review",
+      "new": "supported_offline",
+      "baseline": "contradicted_offline",
+      "new_correct": 0,
+      "baseline_correct": 0,
+      "new_ns": 784304,
+      "poisoned": true
+    }
+  ],
+  "freeze_sha256": "3a7aa50cf380a5d0f33a04f521a7759a12c8243638d6b7a28d839ccb75763391"
+}

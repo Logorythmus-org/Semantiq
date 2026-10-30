@@ -1,0 +1,7 @@
+{
+  "version":"0.1","domain":"software",
+  "claims":[
+    {"id":"tests","subject":"service:billing","predicate":"tests_pass","operator":"eq","value":true,"evidence_ids":["software:service:billing:tests_pass"]},
+    {"id":"rollback","subject":"service:billing","predicate":"rollback_available","operator":"eq","value":true,"evidence_ids":["software:service:billing:rollback_available"]}
+  ],"intent":"execute"
+}

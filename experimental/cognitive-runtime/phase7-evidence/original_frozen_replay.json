@@ -1,0 +1,548 @@
+{
+  "rows": [
+    {
+      "id": "MAIN-nba-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-04",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-06",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-08",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-09",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-10",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-11",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-12",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-13",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-14",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-15",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-16",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-17",
+      "gold": "blocked_conflict",
+      "actual": "blocked_conflict",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-18",
+      "gold": "blocked_unverified",
+      "actual": "blocked_unverified",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-19",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-nba-20",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-04",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-06",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-08",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-09",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-10",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-11",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-12",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-13",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-14",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-15",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-16",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-17",
+      "gold": "blocked_conflict",
+      "actual": "blocked_conflict",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-18",
+      "gold": "blocked_unverified",
+      "actual": "blocked_unverified",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-19",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-software-20",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-04",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-06",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-08",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-09",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-10",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-11",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-12",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-13",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-14",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-15",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-16",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-17",
+      "gold": "blocked_conflict",
+      "actual": "blocked_conflict",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-18",
+      "gold": "blocked_unverified",
+      "actual": "blocked_unverified",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-19",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "MAIN-decision-20",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-04",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-06",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-08",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-09",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "STRESS-nba-10",
+      "gold": "review",
+      "actual": "supported_offline",
+      "correct": false
+    },
+    {
+      "id": "STRESS-software-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-04",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-06",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-08",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-09",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "STRESS-software-10",
+      "gold": "review",
+      "actual": "supported_offline",
+      "correct": false
+    },
+    {
+      "id": "STRESS-decision-01",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-02",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-03",
+      "gold": "contradicted_offline",
+      "actual": "contradicted_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-04",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-05",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-06",
+      "gold": "supported_offline",
+      "actual": "supported_offline",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-07",
+      "gold": "review",
+      "actual": "review",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-08",
+      "gold": "requires_human_approval",
+      "actual": "requires_human_approval",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-09",
+      "gold": "invalid",
+      "actual": "invalid",
+      "correct": true
+    },
+    {
+      "id": "STRESS-decision-10",
+      "gold": "review",
+      "actual": "supported_offline",
+      "correct": false
+    }
+  ],
+  "correct": 87,
+  "n": 90,
+  "model_calls": 0,
+  "note": "Integrity rejection mapped to review; not new scientific evidence"
+}

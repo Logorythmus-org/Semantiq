@@ -1,0 +1,49 @@
+{
+  "verdict": "contradicted_offline",
+  "claims": [
+    {
+      "id": "reversible",
+      "subject": "scenario:incident",
+      "predicate": "reversible",
+      "verdict": "contradicted_offline",
+      "reason": "ATOMIC_MISMATCH",
+      "source_class": "synthetic"
+    },
+    {
+      "id": "data",
+      "subject": "scenario:incident",
+      "predicate": "data_sufficient",
+      "verdict": "contradicted_offline",
+      "reason": "ATOMIC_MISMATCH",
+      "source_class": "synthetic"
+    },
+    {
+      "id": "hold",
+      "subject": "scenario:incident",
+      "predicate": "hold_option",
+      "verdict": "supported_offline",
+      "reason": "ATOMIC_MATCH",
+      "source_class": "synthetic"
+    }
+  ],
+  "claim_count": 3,
+  "contradiction_groups": [
+    [
+      "reversible"
+    ],
+    [
+      "data"
+    ]
+  ],
+  "unresolved_claim_ids": [],
+  "narrative_coverage": "not_supplied",
+  "action_allowed": false,
+  "human_approval_required": false,
+  "evidence_level": "curated_offline_or_synthetic_not_authenticated",
+  "data_digest": "d75cbaa329d4b449d4ed99a1074c57a8114f8a42560cb3e0930b469b21813951",
+  "limitations": [
+    "IR claims supplied by caller; not independently extracted from open text",
+    "Offline fixture self-hash cannot authenticate its publisher",
+    "No production policy enforcement or actual external actions"
+  ]
+}
