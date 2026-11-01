@@ -2,7 +2,9 @@
 import importlib.util
 import io
 import json
+import os
 from pathlib import Path
+import subprocess
 import sys
 import types
 import unittest
@@ -94,6 +96,77 @@ class SemantiqLiteTests(unittest.TestCase):
         for text in ("  ", "x" * (module.MAX_TEXT + 1)):
             with patch("sys.stderr", new_callable=io.StringIO):
                 self.assertEqual(module.main(["short-report", "--text", text]), 2)
+
+    def run_stdin(self, payload, args, errors="surrogateescape"):
+        with io.TextIOWrapper(io.BytesIO(payload), encoding="utf-8", errors=errors) as stdin:
+            with patch("sys.stdin", stdin), patch("sys.stdout", new_callable=io.StringIO) as out:
+                with patch("sys.stderr", new_callable=io.StringIO) as err:
+                    code = module.main(args)
+            return code, out.getvalue(), err.getvalue()
+
+    def test_invalid_utf8_stops_before_evaluation(self):
+        for action in ("claim-check", "evidence-limits", "short-report"):
+            with self.subTest(action=action), patch.object(module, "claim_check") as claim:
+                with patch.object(module, "evidence_limits") as evidence:
+                    with patch.object(module, "short_report") as report:
+                        code, out, err = self.run_stdin(b"private-marker\xff", [action, "--json"])
+                self.assertEqual(code, 2)
+                self.assertEqual(out, "")
+                self.assertIn("valid UTF-8", err)
+                self.assertNotIn("private-marker", err)
+                self.assertNotIn("Traceback", err)
+                claim.assert_not_called()
+                evidence.assert_not_called()
+                report.assert_not_called()
+
+    def test_invalid_utf8_subprocess_errors_are_not_crashes(self):
+        for action in ("claim-check", "evidence-limits", "short-report"):
+            for errors in ("strict", "surrogateescape", "replace"):
+                for json_args in ([], ["--json"]):
+                    with self.subTest(action=action, errors=errors, json=json_args):
+                        run = subprocess.run(
+                            [sys.executable, str(SCRIPT), action, *json_args],
+                            input=b"private-marker\xff", capture_output=True, timeout=10,
+                            env={**os.environ, "PYTHONIOENCODING": f"utf-8:{errors}"},
+                        )
+                        self.assertEqual(run.returncode, 2, run.stderr)
+                        self.assertEqual(run.stdout, b"")
+                        self.assertEqual(
+                            run.stderr,
+                            b"Error: stdin must be valid UTF-8; encode the input as UTF-8 or use --text.\n",
+                        )
+
+    def test_ascii_stdin_preserves_json_and_action_exit_codes(self):
+        for action in ("claim-check", "evidence-limits", "short-report"):
+            for text in ("An association was observed.", "Treatment causes improvement."):
+                with self.subTest(action=action, text=text):
+                    code, out, err = self.run_stdin(text.encode(), [action, "--json"])
+                    self.assertEqual(code, 1 if action == "claim-check" and "causes" in text else 0)
+                    self.assertEqual(json.loads(out)["command"], action)
+                    self.assertEqual(err, "")
+
+    def test_persian_utf8_stdin_preserves_review_status(self):
+        text = "پژوهش به نتایج جدیدی اشاره دارد."
+        code, out, err = self.run_stdin(text.encode("utf-8"), ["claim-check", "--json"])
+        self.assertEqual(code, 1)
+        self.assertEqual(json.loads(out)["status"], "needs_review")
+        self.assertEqual(err, "")
+
+    def test_empty_stdin_is_an_input_error(self):
+        for action in ("claim-check", "evidence-limits", "short-report"):
+            with self.subTest(action=action):
+                code, out, err = self.run_stdin(b"", [action, "--json"])
+                self.assertEqual(code, 2)
+                self.assertEqual(out, "")
+                self.assertIn("must contain 1 to", err)
+
+    def test_explicit_text_does_not_decode_stdin(self):
+        code, out, err = self.run_stdin(
+            b"\xff", ["claim-check", "--text", "An association was observed.", "--json"],
+        )
+        self.assertEqual(code, 0)
+        self.assertEqual(json.loads(out)["status"], "pass")
+        self.assertEqual(err, "")
 
 
 if __name__ == "__main__":
