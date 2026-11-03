@@ -24,7 +24,9 @@ Selection priority is **per layer**: explicit override, process/environment,
 file values, profile defaults, then built-in default. Inside the same layer,
 the canonical `SEMANTIQ_*` key wins over the historical alias. A legacy key in
 an explicit override still wins over a canonical key in the environment, as
-documented in focused regression tests.
+documented in focused regression tests. Profile *selection* specifically
+remains sourced only from overrides and environment (not file values), preserving
+the historical loader behavior.
 
 The new product loader is
 `loadSemantiqConfig()`/`loadSemantiqSettings()`. The old exported TypeScript
