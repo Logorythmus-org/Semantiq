@@ -106,6 +106,8 @@ export function planWorkspaceScopeMigration(root = ROOT, apply = false) {
   const unknownReferences = new Map();
   let replacements = 0;
   for (const file of targetFiles(root)) {
+    // This test defines deliberate historic fixture references; never rewrite it.
+    if (relative(root, file).replaceAll("\\", "/") === "tests/tooling/workspace-scope-migration.test.mjs") continue;
     const old = readFileSync(file, "utf8");
     const { updated, unmapped } = migrateReferences(old, legacy);
     const name = relative(root, file).replaceAll("\\", "/");
