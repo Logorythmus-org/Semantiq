@@ -92,9 +92,9 @@ describe("authoritative runtime settings", () => {
     expect(
       loadTechClubSettings({ values: { TECHCLUB_PROFILE: "test" } }).application.profile
     ).toBe("test");
-    expect(() =>
-      loadSemantiqSettings({ values: { SEMANTIQ_PROFILE: "invalid" } })
-    ).toThrow("Invalid SEMANTIQ_PROFILE");
+    expect(() => loadSemantiqSettings({ values: { SEMANTIQ_PROFILE: "invalid" } })).toThrow(
+      "Invalid SEMANTIQ_PROFILE"
+    );
   });
 
   it("redacts secrets in diagnostics and explainability", () => {
