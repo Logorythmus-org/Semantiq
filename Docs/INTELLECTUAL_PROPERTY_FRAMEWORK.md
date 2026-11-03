@@ -1,5 +1,10 @@
 # Intellectual Property & Rights Framework
 
+> **Historical framework, not legal clearance.** Publication records may be
+> evidence of provenance but do not establish exclusive rights in all material.
+> The current rights and commercial boundaries are in [`LICENSING.md`](../LICENSING.md).
+> DCO text is not a CLA, copyright assignment, or proof of enforced sign-off.
+
 This document defines the open-source-compatible intellectual property, authorship, licensing, provenance, and artifact rights framework for **SemantIQ Benchmarks**.
 
 ---
