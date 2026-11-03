@@ -11,7 +11,7 @@ COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json vitest.c
 COPY README.md LICENSE CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md CHANGELOG.md ROADMAP.md ARCHITECTURE.md TECH_STACK.md ./
 COPY .env.example .env.test.example .gitignore .editorconfig .gitattributes ./
 
-RUN --mount=type=cache,id=techclub-pnpm,target=/pnpm/store pnpm fetch --frozen-lockfile
+RUN --mount=type=cache,id=logorythmus-pnpm,target=/pnpm/store pnpm fetch --frozen-lockfile
 
 COPY apps ./apps
 COPY examples ./examples
@@ -22,6 +22,6 @@ COPY tools ./tools
 COPY scripts ./scripts
 COPY tests ./tests
 
-RUN --mount=type=cache,id=techclub-pnpm,target=/pnpm/store pnpm install --offline --frozen-lockfile
+RUN --mount=type=cache,id=logorythmus-pnpm,target=/pnpm/store pnpm install --offline --frozen-lockfile
 
 CMD ["node", "--experimental-strip-types", "--experimental-loader", "./scripts/ts-loader.mjs", "services/api/src/docker-server.ts"]
