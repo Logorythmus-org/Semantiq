@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Base Abstract Classes for Sandbox Adapters & Instances
  */
 

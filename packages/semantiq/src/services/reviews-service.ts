@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * Authoritative Research Reviews & Workbench Application Service
  */
 

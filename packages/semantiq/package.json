@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/semantiq",
+  "name": "@logorythmus/semantiq",
   "version": "0.1.0-alpha.2",
   "type": "module",
   "private": true,
@@ -7,9 +7,9 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/benchmark": "workspace:*",
-    "@tech-club/evidence": "workspace:*",
-    "@tech-club/patterns": "workspace:*",
-    "@tech-club/sandbox-contracts": "workspace:*"
+    "@logorythmus/benchmark": "workspace:*",
+    "@logorythmus/evidence": "workspace:*",
+    "@logorythmus/patterns": "workspace:*",
+    "@logorythmus/sandbox-contracts": "workspace:*"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/service-agent-runtime",
+  "name": "@logorythmus/service-agent-runtime",
   "version": "0.0.0",
   "type": "module",
   "private": true,

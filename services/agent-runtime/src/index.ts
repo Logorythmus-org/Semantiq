@@ -4,7 +4,7 @@ export const agentRuntimeService = {
   health: {
     path: "/health",
     status: "healthy",
-    dependencies: ["@tech-club/sprint3-runtime", "@tech-club/agent-runtime"]
+    dependencies: ["@logorythmus/sprint3-runtime", "@logorythmus/agent-runtime"]
   },
   routes: [
     "POST /goals",

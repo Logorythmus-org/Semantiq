@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * MCP (Model Context Protocol) Provider-Neutral Contracts and Interfaces
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * Authoritative Unified SemantIQ Application Service Facade
  *
  * Provides unified operations across all 9 domain areas:

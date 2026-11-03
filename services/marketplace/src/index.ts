@@ -1,7 +1,7 @@
 export const marketplaceService = {
   name: "marketplace",
   framework: "FastAPI",
-  health: { path: "/health", status: "healthy", dependencies: ["@tech-club/sprint4-runtime"] },
+  health: { path: "/health", status: "healthy", dependencies: ["@logorythmus/sprint4-runtime"] },
   routes: [
     "POST /assets",
     "POST /assets/{assetId}/package",

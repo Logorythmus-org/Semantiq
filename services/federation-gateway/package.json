@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/service-federation-gateway",
+  "name": "@logorythmus/service-federation-gateway",
   "version": "0.0.0",
   "type": "module",
   "private": true,

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Third-Party Provider Certification and Transparent Audit Architecture
  */
 

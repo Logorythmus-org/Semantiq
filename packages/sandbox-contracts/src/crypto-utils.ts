@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Cryptographic & Deterministic Utilities
  */
 import { createHash, randomUUID } from "crypto";

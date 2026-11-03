@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * HTTP API Server Module Barrel
  */
 

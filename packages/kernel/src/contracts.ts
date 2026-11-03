@@ -1,4 +1,4 @@
-import type { Command, DomainEvent, Query } from "@tech-club/core";
+import type { Command, DomainEvent, Query } from "@logorythmus/core";
 
 export type ServiceLifecycle = "singleton" | "scoped" | "transient" | "lazy" | "factory";
 export type ServiceVisibility = "public" | "internal" | "extension";

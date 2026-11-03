@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-replay
+ * @package @logorythmus/adapter-replay
  * Entry Point
  */
 

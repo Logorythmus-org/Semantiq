@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/api
+ * @package @logorythmus/api
  * Authoritative Headless API Entrypoint
  */
 

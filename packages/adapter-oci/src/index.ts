@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-oci
+ * @package @logorythmus/adapter-oci
  * Entry Point
  */
 

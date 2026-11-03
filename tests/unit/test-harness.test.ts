@@ -35,9 +35,10 @@ describe("Independent Test Harness (Prompt 11.7)", () => {
   });
 
   it("detects parent import violation in harness", () => {
-    const report = engine.validateHarness(["@tech-club/sprint1-runtime"]);
+    const report = engine.validateHarness(["@logorythmus/sprint1-runtime"]);
     expect(report.passed).toBe(false);
     expect(report.hasParentImports).toBe(true);
+    expect(engine.validateHarness(["@tech-club/sprint1-runtime"]).hasParentImports).toBe(true);
   });
 
   it("defaults to no-network-egress and deterministic seed", () => {

@@ -1,6 +1,6 @@
 export type * from "./contracts.js";
 
-import type { Command, Query, TechClubModule } from "@tech-club/core";
+import type { Command, Query, TechClubModule } from "@logorythmus/core";
 import type {
   AgentAssignment,
   AgentGoal,

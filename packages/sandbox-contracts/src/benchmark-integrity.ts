@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Benchmark Integrity and Anti-Tamper Verification Architecture
  */
 

@@ -4,7 +4,7 @@ export const researchService = {
   health: {
     path: "/health",
     status: "healthy",
-    dependencies: ["@tech-club/sprint2-runtime", "@tech-club/graph-runtime"]
+    dependencies: ["@logorythmus/sprint2-runtime", "@logorythmus/graph-runtime"]
   },
   routes: [
     "POST /research/drafts",

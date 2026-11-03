@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/evidence-normalizer
+ * @package @logorythmus/evidence-normalizer
  * Five-Stage Evidence Normalization Engine
  */
 

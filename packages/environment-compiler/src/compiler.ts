@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/environment-compiler
+ * @package @logorythmus/environment-compiler
  * Four-Stage Environment Compilation Engine
  */
 

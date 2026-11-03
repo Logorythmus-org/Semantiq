@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * SemantIQ Sandbox Phase Final Release Gate Architecture
  */
 

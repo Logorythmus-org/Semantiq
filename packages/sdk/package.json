@@ -13,7 +13,7 @@
     "./client": "./src/client.ts"
   },
   "dependencies": {
-    "@tech-club/core": "workspace:*",
-    "@tech-club/sandbox-contracts": "workspace:*"
+    "@logorythmus/core": "workspace:*",
+    "@logorythmus/sandbox-contracts": "workspace:*"
   }
 }

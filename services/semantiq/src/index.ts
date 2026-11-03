@@ -1,7 +1,7 @@
 export const semantiqService = {
   name: "semantiq",
   framework: "FastAPI",
-  health: { path: "/health", status: "healthy", dependencies: ["@tech-club/sprint2-runtime"] },
+  health: { path: "/health", status: "healthy", dependencies: ["@logorythmus/sprint2-runtime"] },
   routes: [
     "POST /semantiq/questions/evaluate",
     "GET /semantiq/reports/{reportId}",

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * SemantIQ CLI Engine backed by Authoritative Application Services.
  *
  * Invariants:
@@ -12,7 +12,7 @@ import {
   createSemantiqApplicationService,
   type SemantiqApplicationService
 } from "./services/index.js";
-import { PRODUCT_CONTRACTS_SCHEMA_VERSION, type SystemProfile } from "@tech-club/sandbox-contracts";
+import { PRODUCT_CONTRACTS_SCHEMA_VERSION, type SystemProfile } from "@logorythmus/sandbox-contracts";
 
 export type SemantIQCliCommand =
   | "doctor"

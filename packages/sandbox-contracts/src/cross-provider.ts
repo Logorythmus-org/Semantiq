@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Cross-Provider Reproducibility and Equivalence Contracts and Interfaces
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Provider-Neutral Security Test Suite and Isolation Audit Architecture
  */
 

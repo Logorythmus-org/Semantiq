@@ -1,7 +1,7 @@
 export const federationGatewayService = {
   name: "federation-gateway",
   framework: "FastAPI",
-  health: { path: "/health", status: "healthy", dependencies: ["@tech-club/sprint5-runtime"] },
+  health: { path: "/health", status: "healthy", dependencies: ["@logorythmus/sprint5-runtime"] },
   routes: [
     "POST /federation/messages",
     "GET /federation/health",

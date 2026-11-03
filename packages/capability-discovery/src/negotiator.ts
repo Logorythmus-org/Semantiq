@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/capability-discovery
+ * @package @logorythmus/capability-discovery
  * Capability Negotiator & Fallback Planner
  */
 
