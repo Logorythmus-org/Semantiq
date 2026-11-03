@@ -37,6 +37,8 @@ jobs:
         run: pnpm ip:validate
       - name: Commercial manifest inventory tests
         run: pnpm commercial:inventory:test
+      - name: Guard private workspace namespace migration
+        run: node --test tests/tooling/workspace-scope-migration.test.mjs
       - name: Build all workspace packages
         run: pnpm build
 
