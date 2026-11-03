@@ -1,6 +1,6 @@
 # Kernel Architecture
 
-The Platform Kernel is the internal operating environment beneath Tech Club. Applications, modules, agents, plugins, and future distributed workers communicate through the kernel instead of directly coupling to one another.
+The Platform Kernel is the internal operating environment beneath Logorythmus. Applications, modules, agents, plugins, and future distributed workers communicate through the kernel instead of directly coupling to one another.
 
 ## Kernel Layers
 - Kernel: public runtime facade used by applications and modules.

@@ -1,6 +1,6 @@
 # Graph Runtime
 
-The Graph Runtime is the live semantic backbone of Tech Club. It manages knowledge nodes, semantic edges, traversal, subgraphs, search, recommendations, timeline entries, events, cache hooks, and adapter boundaries without coupling to a specific database.
+The Graph Runtime is the live semantic backbone of Logorythmus. It manages knowledge nodes, semantic edges, traversal, subgraphs, search, recommendations, timeline entries, events, cache hooks, and adapter boundaries without coupling to a specific database.
 
 ## Runtime Modules
 - Node manager.

@@ -12,7 +12,7 @@
 
 # Implementation Roadmap
 
-This roadmap converts the stable Tech Club architecture into production software. It is incremental: every step must be specified, testable, documented, and releasable.
+This roadmap converts the stable Logorythmus architecture into production software. It is incremental: every step must be specified, testable, documented, and releasable.
 
 ## Implementation Order
 1. Core runtime and shared primitives.
