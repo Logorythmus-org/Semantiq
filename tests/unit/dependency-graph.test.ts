@@ -38,5 +38,7 @@ describe("Independent Package and Dependency Graph (Prompt 11.3)", () => {
     const report = engine.validateGraph([parentNode]);
     expect(report.isValid).toBe(false);
     expect(report.parentOnlyCount).toBe(1);
+    const legacy = engine.classifyDependency("@tech-club/sprint1-runtime", false, false);
+    expect(engine.validateGraph([legacy]).parentOnlyCount).toBe(1);
   });
 });
