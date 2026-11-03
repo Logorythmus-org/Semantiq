@@ -190,7 +190,7 @@ jobs:
         run: pnpm test
 
   web-ui-optional:
-    name: Web UI Build (Non-Core Optional Client)
+    name: Playground Scaffold Build (Non-Core Optional Client)
     runs-on: ubuntu-latest
     continue-on-error: true
     steps:
@@ -204,5 +204,5 @@ jobs:
           cache: pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      - name: Build Web Client
-        run: pnpm --filter @tech-club/web-app build
+      - name: Build Playground Scaffold
+        run: pnpm --filter @logorythmus/app-playground build
