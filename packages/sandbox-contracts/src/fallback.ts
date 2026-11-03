@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Provider Failure, Fallback Routing, and Partial-Run Semantics
  */
 

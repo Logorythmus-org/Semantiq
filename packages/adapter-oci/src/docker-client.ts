@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-oci
+ * @package @logorythmus/adapter-oci
  * Lightweight Docker Engine REST Client over UDS / Windows Named Pipe / TCP
  */
 

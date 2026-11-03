@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Browser and GUI Execution Provider-Neutral Contracts and Interfaces
  */
 

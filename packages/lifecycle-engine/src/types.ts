@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/lifecycle-engine
+ * @package @logorythmus/lifecycle-engine
  * Lifecycle State Machine Types
  */
 

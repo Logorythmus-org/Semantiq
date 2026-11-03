@@ -25,8 +25,8 @@ export class WorkspaceSnapshotEngine {
     const seed = options.deterministicSeed ?? 42;
     const toolchainVersion = options.toolchainVersion ?? "1.0.0";
     const packages = options.packages ?? {
-      "@tech-club/sandbox-contracts": "1.0.0",
-      "@tech-club/semantiq": "1.0.0",
+      "@logorythmus/sandbox-contracts": "1.0.0",
+      "@logorythmus/semantiq": "1.0.0",
       "@semantiq/evidence": "1.0.0",
       "@semantiq/patterns": "1.0.0"
     };

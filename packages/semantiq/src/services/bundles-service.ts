@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * Authoritative Reproducible Research Bundles Application Service
  *
  * Invariants:

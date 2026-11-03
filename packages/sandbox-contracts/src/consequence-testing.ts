@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Consequence Testing and Delayed/Indirect Impact Architecture
  */
 

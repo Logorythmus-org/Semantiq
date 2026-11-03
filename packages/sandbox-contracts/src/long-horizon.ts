@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Long-Horizon Agent Testing and Multi-Step Autonomous Evaluation Architecture
  */
 

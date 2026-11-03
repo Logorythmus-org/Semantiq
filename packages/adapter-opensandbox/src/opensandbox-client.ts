@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-opensandbox
+ * @package @logorythmus/adapter-opensandbox
  * Protocol Client for OpenSandbox Server
  */
 

@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-router
+ * @package @logorythmus/sandbox-router
  * Multi-Criteria Provider Selection Router
  */
 

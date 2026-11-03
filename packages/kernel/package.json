@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/kernel",
+  "name": "@logorythmus/kernel",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -8,6 +8,6 @@
     "./contracts": "./src/contracts.ts"
   },
   "dependencies": {
-    "@tech-club/core": "workspace:*"
+    "@logorythmus/core": "workspace:*"
   }
 }

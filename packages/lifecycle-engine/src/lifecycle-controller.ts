@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/lifecycle-engine
+ * @package @logorythmus/lifecycle-engine
  * Canonical 8-Stage Execution Lifecycle Controller
  */
 

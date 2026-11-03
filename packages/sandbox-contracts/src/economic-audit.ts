@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Sandbox Phase Economic Audit and Sustainability Architecture
  */
 

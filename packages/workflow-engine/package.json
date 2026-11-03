@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/workflow-engine",
+  "name": "@logorythmus/workflow-engine",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -8,6 +8,6 @@
     "./contracts": "./src/contracts.ts"
   },
   "dependencies": {
-    "@tech-club/agent-os": "workspace:*"
+    "@logorythmus/agent-os": "workspace:*"
   }
 }

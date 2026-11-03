@@ -1,5 +1,5 @@
 /**
- * @deprecated Prompt 2 normalized workflow ownership to `@tech-club/workflow`.
+ * @deprecated Prompt 2 normalized workflow ownership to `@logorythmus/workflow`.
  * This package remains as a compatibility import path until downstream imports
  * have migrated.
  */

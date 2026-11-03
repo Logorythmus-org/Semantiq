@@ -4,7 +4,7 @@ export const questionService = {
   health: {
     path: "/health",
     status: "healthy",
-    dependencies: ["@tech-club/config", "@tech-club/persistence"]
+    dependencies: ["@logorythmus/config", "@logorythmus/persistence"]
   },
   routes: [
     "POST /api/v1/questions",

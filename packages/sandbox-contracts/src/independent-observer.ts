@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Independent Observer Model and Out-of-Band Telemetry Architecture
  */
 

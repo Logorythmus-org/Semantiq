@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * Authoritative HTTP API Request Router
  *
  * Invariants:
@@ -14,7 +14,7 @@ import type { IncomingMessage, ServerResponse } from "node:http";
 import { readFile, stat } from "node:fs/promises";
 import { extname, resolve, relative, isAbsolute } from "node:path";
 import { randomUUID } from "node:crypto";
-import { PRODUCT_CONTRACTS_SCHEMA_VERSION } from "@tech-club/sandbox-contracts";
+import { PRODUCT_CONTRACTS_SCHEMA_VERSION } from "@logorythmus/sandbox-contracts";
 import type { SemantiqApplicationService } from "../services/index.js";
 import { SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION } from "../version.js";
 import type { ApiResponse } from "./types.js";

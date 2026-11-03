@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Semantic Stress Environment and Observable Robustness Testing Architecture
  */
 

@@ -1,5 +1,5 @@
 {
-  "name": "@tech-club/persistence",
+  "name": "@logorythmus/persistence",
   "version": "0.0.0",
   "type": "module",
   "private": true,
@@ -7,7 +7,7 @@
     ".": "./src/index.ts"
   },
   "dependencies": {
-    "@tech-club/shared": "workspace:*",
+    "@logorythmus/shared": "workspace:*",
     "pg": "8.23.1"
   },
   "devDependencies": {

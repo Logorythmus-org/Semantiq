@@ -1,7 +1,7 @@
 export const questionIntelligenceService = {
   name: "question-intelligence",
   framework: "FastAPI",
-  health: { path: "/health", status: "healthy", dependencies: ["@tech-club/sprint2-runtime"] },
+  health: { path: "/health", status: "healthy", dependencies: ["@logorythmus/sprint2-runtime"] },
   routes: [
     "POST /question-intelligence/analyze",
     "POST /question-intelligence/intent",

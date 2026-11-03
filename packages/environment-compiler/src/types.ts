@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/environment-compiler
+ * @package @logorythmus/environment-compiler
  * Benchmark Declaration & Compiler Types
  */
 

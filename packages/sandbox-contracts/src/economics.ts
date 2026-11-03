@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-contracts
+ * @package @logorythmus/sandbox-contracts
  * Provider Economics, Sustainable Funding, and Cost Allocation Architecture
  */
 

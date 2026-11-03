@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/adapter-cloud-base
+ * @package @logorythmus/adapter-cloud-base
  * E2B Cloud Reference Adapter Implementation
  */
 

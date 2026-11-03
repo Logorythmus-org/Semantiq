@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/semantiq
+ * @package @logorythmus/semantiq
  * Authoritative Studies, Protocols, Execution Manifests, and Evidence Eligibility Gate Application Service
  *
  * Invariants:

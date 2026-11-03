@@ -1,5 +1,5 @@
 /**
- * @package @tech-club/sandbox-tck
+ * @package @logorythmus/sandbox-tck
  * Entry Point
  */
 
