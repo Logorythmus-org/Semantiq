@@ -41,7 +41,7 @@ test("inventory is local, deterministic, and labels evidence limits", (t) => {
   writeFileSync(join(root, "package.json"), JSON.stringify({ name: "root", private: true }));
   writeFileSync(join(root, "packages", "sdk", "package.json"), JSON.stringify({
     name: "@semantiq/sdk", license: "MIT", version: "0.1.0",
-    dependencies: { "example-package": "1.0.0" }
+    dependencies: { "example-package": "2.3.4" }
   }));
   writeFileSync(join(root, "packages", "ignored", "node_modules", "nested", "package.json"),
     JSON.stringify({ name: "ignored" }));
