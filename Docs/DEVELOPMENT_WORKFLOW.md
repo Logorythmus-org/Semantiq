@@ -1,6 +1,6 @@
 # Development Workflow
 
-Tech Club follows specification-driven development.
+Logorythmus follows specification-driven development.
 
 ## Required Sequence
 Goal -> Requirements -> Specification -> Architecture -> Repository Analysis -> Compatibility Review -> Implementation Plan -> Implementation -> Validation -> Documentation.

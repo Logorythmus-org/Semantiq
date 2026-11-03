@@ -1,6 +1,6 @@
 # Developer Experience Guide
 
-Tech Club optimizes for fast, safe, and traceable production development.
+Logorythmus optimizes for fast, safe, and traceable production development.
 
 ## Developer Principles
 - Start from Spec-Kit.

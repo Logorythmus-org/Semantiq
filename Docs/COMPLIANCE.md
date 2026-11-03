@@ -1,6 +1,6 @@
 # Compliance
 
-Tech Club prepares for compliance without hard-coding one jurisdiction or enterprise policy.
+Logorythmus prepares for compliance without hard-coding one jurisdiction or enterprise policy.
 
 ## Prepared Areas
 - GDPR

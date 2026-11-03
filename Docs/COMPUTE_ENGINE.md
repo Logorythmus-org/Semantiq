@@ -1,6 +1,6 @@
 # Compute Engine
 
-The Distributed Compute Engine is Tech Club's semantic execution fabric. It is not a cloud platform or Kubernetes replacement. It coordinates local and optional distributed resources so goals, workflows, agents, notebooks, graph jobs, benchmarks, simulations, and AI tasks run on appropriate compute.
+The Distributed Compute Engine is Logorythmus's semantic execution fabric. It is not a cloud platform or Kubernetes replacement. It coordinates local and optional distributed resources so goals, workflows, agents, notebooks, graph jobs, benchmarks, simulations, and AI tasks run on appropriate compute.
 
 ## Core Flow
 Goal -> Workflow -> Execution Planner -> Resource Scheduler -> Task Queue -> Compute Nodes -> Workers -> Results -> Knowledge Graph -> Semantiq -> Reflection.

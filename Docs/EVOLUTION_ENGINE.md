@@ -1,6 +1,6 @@
 # Evolution Engine
 
-The Evolution Engine helps Tech Club improve itself incrementally without architectural replacement.
+The Evolution Engine helps Logorythmus improve itself incrementally without architectural replacement.
 
 ## Review Types
 - Architecture reviews.

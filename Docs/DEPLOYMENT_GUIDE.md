@@ -1,6 +1,6 @@
 # Deployment Guide
 
-Tech Club deployment remains modular.
+Logorythmus deployment remains modular.
 
 ## Deployment Profiles
 Local, Docker, desktop, browser, cloud, hybrid, enterprise, education, research, government, and community.

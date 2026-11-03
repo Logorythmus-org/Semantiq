@@ -1,6 +1,6 @@
 # Developer Platform
 
-The Developer Platform turns Tech Club into an extensible ecosystem. Developers can build applications, plugins, AI agents, workflow templates, knowledge extensions, visual components, marketplace assets, and third-party integrations without modifying the core.
+The Developer Platform turns Logorythmus into an extensible ecosystem. Developers can build applications, plugins, AI agents, workflow templates, knowledge extensions, visual components, marketplace assets, and third-party integrations without modifying the core.
 
 ## Architecture
 Core Runtime -> Extension Layer -> Plugin Runtime -> SDK -> Public APIs -> Developer Tools -> Marketplace -> Community.
