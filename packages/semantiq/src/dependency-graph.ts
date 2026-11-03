@@ -40,7 +40,7 @@ export class DependencyGraphEngine {
       name.includes("question-network")
     ) {
       category = "FORBIDDEN";
-    } else if (name.startsWith("@tech-club/")) {
+    } else if (name.startsWith("@tech-club/") || name.startsWith("@logorythmus/")) {
       category = "PARENT_ONLY";
     } else if (isDev) {
       category = "EXTERNAL_DEVELOPMENT";
