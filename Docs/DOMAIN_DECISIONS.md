@@ -3,7 +3,7 @@
 ## ADR-D001: Question Is The Root Aggregate
 Status: Accepted
 
-Questions are the primary object of Tech Club. Projects, knowledge, games, research, and learning may exist independently, but their platform meaning is established through questions.
+Questions are the primary object of Logorythmus. Projects, knowledge, games, research, and learning may exist independently, but their platform meaning is established through questions.
 
 ## ADR-D002: Relationships Are First-Class Objects
 Status: Accepted
@@ -13,7 +13,7 @@ Relationships carry identity, type, provenance, confidence, lifecycle, permissio
 ## ADR-D003: Domain Model Is Storage Independent
 Status: Accepted
 
-Tech Club must support SQLite, PostgreSQL, DuckDB, graph databases, object storage, and vector storage without changing aggregate models.
+Logorythmus must support SQLite, PostgreSQL, DuckDB, graph databases, object storage, and vector storage without changing aggregate models.
 
 ## ADR-D004: Events Are The Published Language
 Status: Accepted

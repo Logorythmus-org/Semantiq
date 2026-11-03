@@ -98,7 +98,7 @@
 - Marketplace contracts.
 
 ## Phase 5: Production Implementation Program
-- Repository audit and reuse plan for Tech Club, Qikio, SemantIQ, Sunlionet, Menog OS, Semantic Wallet, existing GitHub repositories, and internal packages.
+- Repository audit and reuse plan for Logorythmus, Qikio, SemantIQ, Sunlionet, Menog OS, Semantic Wallet, existing GitHub repositories, and internal packages.
 - Production repository structure with package, app, service, agent, SDK, plugin, documentation, testing, infrastructure, and deployment ownership.
 - Implementation roadmap from core runtime through identity, knowledge graph, workspace, questions, Semantiq, research, communities, agents, workflows, marketplace, federation, civilization systems, apps, services, and release operations.
 - Engineering backlog with traceable TC IDs from epic through acceptance test and documentation.
