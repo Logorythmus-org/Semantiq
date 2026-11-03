@@ -1,0 +1,26 @@
+name: Temporary Format Preview
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/format-preview-temporary.yml"
+permissions:
+  contents: read
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm exec prettier tests/unit/settings.test.ts --write
+      - uses: actions/upload-artifact@v4
+        with:
+          name: format-preview-${{ github.run_id }}
+          path: tests/unit/settings.test.ts
+          retention-days: 1
