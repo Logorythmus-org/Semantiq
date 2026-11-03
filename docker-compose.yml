@@ -2,7 +2,7 @@ services:
   web:
     image: node:22-bookworm-slim
     working_dir: /workspace
-    command: bash -lc "echo Tech Club web MVP scaffold ready && sleep infinity"
+    command: bash -lc "echo SemantIQ web MVP scaffold ready && sleep infinity"
     volumes:
       - .:/workspace
     ports:
@@ -11,7 +11,7 @@ services:
   api-gateway:
     image: node:22-bookworm-slim
     working_dir: /workspace
-    command: bash -lc "echo Tech Club API Gateway MVP scaffold ready && sleep infinity"
+    command: bash -lc "echo SemantIQ API Gateway MVP scaffold ready && sleep infinity"
     volumes:
       - .:/workspace
     ports:
@@ -26,8 +26,8 @@ services:
     command: node --experimental-strip-types --experimental-loader ./scripts/ts-loader.mjs services/api/src/docker-server.ts
     environment:
       NODE_ENV: development
-      TECHCLUB_ENV: docker
-      TECHCLUB_PROFILE: docker
+      SEMANTIQ_ENV: docker
+      SEMANTIQ_PROFILE: docker
       API_HOST: 0.0.0.0
       API_PORT: 8080
       DATABASE_URL: postgresql://techclub:techclub@postgres:5432/techclub

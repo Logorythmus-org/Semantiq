@@ -4,6 +4,7 @@ import {
   diagnoseSettings,
   explainSetting,
   loadTechClubSettings,
+  loadSemantiqSettings,
   parseEnvFile
 } from "../../packages/config/src/index.js";
 
@@ -49,6 +50,50 @@ describe("authoritative runtime settings", () => {
     expect(settings.featureFlags.values.safeMode).toBe(true);
     expect(() => loadTechClubSettings({ values: { DATA_PATH: "..\\outside" } })).toThrow(
       "escapes TECHCLUB_DATA_DIR"
+    );
+  });
+
+  it("accepts canonical SemantIQ profile and path keys with strict per-layer precedence", () => {
+    const settings = loadSemantiqSettings({
+      values: {
+        SEMANTIQ_PROFILE: "benchmark",
+        TECHCLUB_PROFILE: "docker",
+        SEMANTIQ_DATA_DIR: ".semantiq/canonical",
+        TECHCLUB_DATA_DIR: ".techclub/legacy",
+        SEMANTIQ_NETWORK_DISABLED: "true",
+        TECHCLUB_NETWORK_DISABLED: "false"
+      }
+    });
+    expect(settings.application.name).toBe("SemantIQ");
+    expect(settings.application.profile).toBe("benchmark");
+    expect(settings.paths.root).toContain(".semantiq/canonical");
+    expect(settings.test.networkDisabled).toBe(true);
+    expect(settings.sources.SEMANTIQ_DATA_DIR).toBe("environment");
+    expect(settings.sources.TECHCLUB_DATA_DIR).toBe("environment");
+  });
+
+  it("honors a legacy override over canonical environment keys and preserves old loaders", () => {
+    const settings = loadSemantiqSettings({
+      values: {
+        SEMANTIQ_PROFILE: "development",
+        SEMANTIQ_DATA_DIR: ".semantiq/from-environment",
+        SEMANTIQ_NETWORK_DISABLED: "true"
+      },
+      overrides: {
+        TECHCLUB_PROFILE: "test",
+        TECHCLUB_DATA_DIR: ".techclub/from-override",
+        TECHCLUB_NETWORK_DISABLED: "false"
+      }
+    });
+    expect(settings.application.profile).toBe("test");
+    expect(settings.paths.root).toContain(".techclub/from-override");
+    expect(settings.test.networkDisabled).toBe(false);
+    expect(settings.sources.SEMANTIQ_DATA_DIR).toBe("override");
+    expect(loadTechClubSettings({ values: { TECHCLUB_PROFILE: "test" } }).application.profile).toBe(
+      "test"
+    );
+    expect(() => loadSemantiqSettings({ values: { SEMANTIQ_PROFILE: "invalid" } })).toThrow(
+      "Invalid SEMANTIQ_PROFILE"
     );
   });
 

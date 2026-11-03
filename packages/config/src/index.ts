@@ -4,9 +4,12 @@ export * from "./settings.js";
 
 export type { ConfigurationService } from "../../core/src/index.js";
 
+/** @deprecated Historical API name; prefer SemantiqEnvironment for new code. */
 export type TechClubEnvironment = "local" | "test" | "docker";
+export type SemantiqEnvironment = TechClubEnvironment;
 export type NodeEnvironment = "development" | "test" | "production";
 
+/** @deprecated Historical API name; prefer SemantiqConfig for new code. */
 export interface TechClubConfig {
   readonly nodeEnv: NodeEnvironment;
   readonly techclubEnv: TechClubEnvironment;
@@ -23,6 +26,9 @@ export interface TechClubConfig {
 
 export type ConfigSource = Record<string, string | undefined>;
 
+/** Canonical product config adds the new public identity without breaking the legacy shape. */
+export type SemantiqConfig = TechClubConfig & { readonly semantiqEnv: SemantiqEnvironment };
+
 const defaults: TechClubConfig = {
   nodeEnv: "development",
   techclubEnv: "local",
@@ -36,10 +42,14 @@ const defaults: TechClubConfig = {
   minioSecretKey: "techclub-local"
 };
 
+/** @deprecated Supported compatibility entrypoint; prefer loadSemantiqConfig. */
 export function loadTechClubConfig(source: ConfigSource = process.env): TechClubConfig {
   const config: TechClubConfig = {
     nodeEnv: parseNodeEnv(source.NODE_ENV ?? defaults.nodeEnv),
-    techclubEnv: parseTechClubEnv(source.TECHCLUB_ENV ?? defaults.techclubEnv),
+    techclubEnv: parseTechClubEnv(
+      source.SEMANTIQ_ENV ?? source.TECHCLUB_ENV ?? defaults.techclubEnv,
+      source.SEMANTIQ_ENV !== undefined ? "SEMANTIQ_ENV" : "TECHCLUB_ENV"
+    ),
     databaseUrl: readUrl(source.DATABASE_URL ?? defaults.databaseUrl, "DATABASE_URL", [
       "postgresql:",
       "postgres:"
@@ -80,6 +90,11 @@ export function loadTechClubConfig(source: ConfigSource = process.env): TechClub
   return config;
 }
 
+export function loadSemantiqConfig(source: ConfigSource = process.env): SemantiqConfig {
+  const config = loadTechClubConfig(source);
+  return { ...config, semantiqEnv: config.techclubEnv };
+}
+
 export function requireConfig(source: ConfigSource, variableName: string): string {
   return readNonEmpty(source[variableName], variableName);
 }
@@ -92,10 +107,10 @@ function parseNodeEnv(value: string): NodeEnvironment {
   });
 }
 
-function parseTechClubEnv(value: string): TechClubEnvironment {
+function parseTechClubEnv(value: string, variableName: string): TechClubEnvironment {
   if (value === "local" || value === "test" || value === "docker") return value;
-  throw new ConfigurationError(`Invalid TECHCLUB_ENV: ${value}`, {
-    variable: "TECHCLUB_ENV",
+  throw new ConfigurationError(`Invalid ${variableName}: ${value}`, {
+    variable: variableName,
     allowed: ["local", "test", "docker"]
   });
 }

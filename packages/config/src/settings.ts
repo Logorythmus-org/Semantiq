@@ -103,6 +103,7 @@ export interface BenchmarkSettings {
   readonly outputDirectory: string;
   readonly seed: number;
 }
+/** @deprecated Historical interface name; prefer SemantiqSettings for new integrations. */
 export interface TechClubSettings {
   readonly application: ApplicationSettings;
   readonly database: PersistenceConfig;
@@ -117,36 +118,39 @@ export interface TechClubSettings {
   readonly sources: Readonly<Record<string, "override" | "environment" | "profile" | "default">>;
 }
 
+export type SemantiqSettings = TechClubSettings;
+
+/** Preserve legacy persisted default data locations until an explicit data migration. */
 const profileDefaults: Record<RuntimeProfile, Record<string, string>> = {
   development: {
     DEBUG: "false",
     LOG_LEVEL: "info",
-    TECHCLUB_DATA_DIR: ".techclub/development",
+    SEMANTIQ_DATA_DIR: ".techclub/development",
     DATABASE_ECHO: "false"
   },
   test: {
     DEBUG: "false",
     LOG_LEVEL: "warn",
-    TECHCLUB_DATA_DIR: ".techclub/test",
+    SEMANTIQ_DATA_DIR: ".techclub/test",
     DATABASE_ECHO: "false",
-    TECHCLUB_NETWORK_DISABLED: "true"
+    SEMANTIQ_NETWORK_DISABLED: "true"
   },
   docker: {
     DEBUG: "false",
     LOG_LEVEL: "info",
-    TECHCLUB_DATA_DIR: "/var/lib/techclub",
+    SEMANTIQ_DATA_DIR: "/var/lib/techclub",
     DATABASE_ECHO: "false"
   },
   benchmark: {
     DEBUG: "false",
     LOG_LEVEL: "error",
-    TECHCLUB_DATA_DIR: ".techclub/benchmark",
+    SEMANTIQ_DATA_DIR: ".techclub/benchmark",
     DATABASE_ECHO: "false"
   },
   migration: {
     DEBUG: "false",
     LOG_LEVEL: "info",
-    TECHCLUB_DATA_DIR: ".techclub/migration",
+    SEMANTIQ_DATA_DIR: ".techclub/migration",
     DATABASE_ECHO: "false"
   }
 };
@@ -165,35 +169,58 @@ export function parseEnvFile(content: string): Record<string, string> {
   return result;
 }
 
+/** @deprecated Compatibility entrypoint; use loadSemantiqSettings for new code. */
 export function loadTechClubSettings(input: ConfigSourceValues = {}): TechClubSettings {
   const environment = input.values ?? process.env;
+  // Values from a higher-precedence source win, even when they use the legacy key.
   const requestedProfile =
-    input.overrides?.TECHCLUB_PROFILE ?? environment.TECHCLUB_PROFILE ?? "development";
-  const profile = parseProfile(requestedProfile);
+    input.overrides?.SEMANTIQ_PROFILE ??
+    input.overrides?.TECHCLUB_PROFILE ??
+    environment.SEMANTIQ_PROFILE ??
+    environment.TECHCLUB_PROFILE ??
+    "development";
+  const profileVariable =
+    input.overrides?.SEMANTIQ_PROFILE !== undefined ||
+    (input.overrides?.TECHCLUB_PROFILE === undefined && environment.SEMANTIQ_PROFILE !== undefined)
+      ? "SEMANTIQ_PROFILE"
+      : "TECHCLUB_PROFILE";
+  const profile = parseProfile(requestedProfile, profileVariable);
   const profileValues = profileDefaults[profile];
   const fileValues = input.files ?? {};
   const sources: Record<string, "override" | "environment" | "profile" | "default"> = {};
+  const compatibilityKeys: Readonly<Record<string, string>> = {
+    SEMANTIQ_DATA_DIR: "TECHCLUB_DATA_DIR",
+    SEMANTIQ_NETWORK_DISABLED: "TECHCLUB_NETWORK_DISABLED"
+  };
   const read = (key: string, fallback = ""): string => {
-    if (input.overrides?.[key] !== undefined) {
-      sources[key] = "override";
-      return input.overrides[key]!;
+    const legacyKey = compatibilityKeys[key];
+    const keys = legacyKey ? [key, legacyKey] : [key];
+    const layers: ReadonlyArray<{
+      values: Readonly<Record<string, string | undefined>>;
+      origin: "override" | "environment" | "profile";
+    }> = [
+      { values: input.overrides ?? {}, origin: "override" },
+      { values: environment, origin: "environment" },
+      { values: fileValues, origin: "profile" },
+      { values: profileValues, origin: "profile" }
+    ];
+
+    for (const layer of layers) {
+      for (const candidate of keys) {
+        const value = layer.values[candidate];
+        if (value !== undefined) {
+          sources[key] = layer.origin;
+          if (legacyKey) sources[legacyKey] = layer.origin;
+          return value;
+        }
+      }
     }
-    if (environment[key] !== undefined) {
-      sources[key] = "environment";
-      return environment[key]!;
-    }
-    if (fileValues[key] !== undefined) {
-      sources[key] = "profile";
-      return fileValues[key]!;
-    }
-    if (profileValues[key] !== undefined) {
-      sources[key] = "profile";
-      return profileValues[key]!;
-    }
+
     sources[key] = "default";
+    if (legacyKey) sources[legacyKey] = "default";
     return fallback;
   };
-  const root = resolvePath(read("TECHCLUB_DATA_DIR", ".techclub"));
+  const root = resolvePath(read("SEMANTIQ_DATA_DIR", ".techclub"));
   const paths = makePaths(root, read);
   const database = loadPersistenceConfig({
     DATABASE_URL: read(
@@ -210,7 +237,7 @@ export function loadTechClubSettings(input: ConfigSourceValues = {}): TechClubSe
   const ai = makeAiSettings(read);
   const settings: TechClubSettings = {
     application: {
-      name: read("APP_NAME", "Tech Club"),
+      name: read("APP_NAME", "SemantIQ"),
       version: read("APP_VERSION", "0.0.0"),
       profile,
       debug: parseBoolean(read("DEBUG", "false"), "DEBUG"),
@@ -284,8 +311,8 @@ export function loadTechClubSettings(input: ConfigSourceValues = {}): TechClubSe
     featureFlags: { values: readFlags(read("FEATURE_FLAGS", "")) },
     test: {
       networkDisabled: parseBoolean(
-        read("TECHCLUB_NETWORK_DISABLED", profile === "test" ? "true" : "false"),
-        "TECHCLUB_NETWORK_DISABLED"
+        read("SEMANTIQ_NETWORK_DISABLED", profile === "test" ? "true" : "false"),
+        "SEMANTIQ_NETWORK_DISABLED"
       ),
       deterministic: parseBoolean(
         read("TEST_DETERMINISTIC", profile === "test" ? "true" : "false"),
@@ -303,6 +330,11 @@ export function loadTechClubSettings(input: ConfigSourceValues = {}): TechClubSe
   };
   validateSettings(settings);
   return settings;
+}
+
+/** Canonical SemantIQ runtime settings entrypoint. */
+export function loadSemantiqSettings(input: ConfigSourceValues = {}): SemantiqSettings {
+  return loadTechClubSettings(input);
 }
 
 export function diagnoseSettings(settings: TechClubSettings): {
@@ -389,7 +421,9 @@ function resolveChild(root: string, child: string): string {
   const result = isAbsolute(child) ? resolve(child) : resolve(root, child);
   const rel = relative(root, result);
   if (rel.startsWith("..") || isAbsolute(rel))
-    throw new ConfigurationError("Configured path escapes TECHCLUB_DATA_DIR", { root });
+    throw new ConfigurationError("Configured path escapes TECHCLUB_DATA_DIR / SEMANTIQ_DATA_DIR", {
+      root
+    });
   return result;
 }
 function makeAiSettings(read: (key: string, fallback?: string) => string): LocalAiSettings {
@@ -433,11 +467,11 @@ function validateSettings(settings: TechClubSettings): void {
       variable: "OPENAI_API_KEY"
     });
 }
-function parseProfile(value: string): RuntimeProfile {
+function parseProfile(value: string, variableName = "TECHCLUB_PROFILE"): RuntimeProfile {
   if (["development", "test", "docker", "benchmark", "migration"].includes(value))
     return value as RuntimeProfile;
-  throw new ConfigurationError(`Invalid TECHCLUB_PROFILE: ${value}`, {
-    variable: "TECHCLUB_PROFILE"
+  throw new ConfigurationError(`Invalid ${variableName}: ${value}`, {
+    variable: variableName
   });
 }
 function parseBoolean(value: string, name: string): boolean {
