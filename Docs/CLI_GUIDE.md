@@ -1,21 +1,21 @@
 # CLI Guide
 
-The `techclub` CLI supports development, automation, publishing, diagnostics, and platform operations.
+The `logorythmus` CLI supports development, automation, publishing, diagnostics, and platform operations.
 
 ## Commands
-- `techclub init`
-- `techclub dev`
-- `techclub plugin create`
-- `techclub plugin publish`
-- `techclub workflow create`
-- `techclub benchmark`
-- `techclub graph`
-- `techclub build`
-- `techclub test`
-- `techclub deploy`
-- `techclub doctor`
-- `techclub login`
-- `techclub marketplace`
+- `logorythmus init`
+- `logorythmus dev`
+- `logorythmus plugin create`
+- `logorythmus plugin publish`
+- `logorythmus workflow create`
+- `logorythmus benchmark`
+- `logorythmus graph`
+- `logorythmus build`
+- `logorythmus test`
+- `logorythmus deploy`
+- `logorythmus doctor`
+- `logorythmus login`
+- `logorythmus marketplace`
 
 ## Automation
 CLI commands are scriptable and return structured output where possible.

@@ -5,23 +5,23 @@ The local development target is one-command setup with reproducible infrastructu
 ## Commands
 
 - `pnpm install --frozen-lockfile`
-- `pnpm techclub help`
-- `pnpm techclub install`
-- `pnpm techclub dev`
-- `pnpm techclub build`
-- `pnpm techclub lint`
-- `pnpm techclub test`
+- `pnpm logorythmus help`
+- `pnpm logorythmus install`
+- `pnpm logorythmus dev`
+- `pnpm logorythmus build`
+- `pnpm logorythmus lint`
+- `pnpm logorythmus test`
 - `pnpm health`
 - `pnpm typecheck`
 - `pnpm test:integration`
 - `pnpm test:smoke`
-- `pnpm techclub docs`
-- `pnpm techclub benchmark`
-- `pnpm techclub doctor`
-- `pnpm techclub graph`
-- `pnpm techclub release`
-- `pnpm techclub clean`
-- `pnpm techclub reset`
+- `pnpm logorythmus docs`
+- `pnpm logorythmus benchmark`
+- `pnpm logorythmus doctor`
+- `pnpm logorythmus graph`
+- `pnpm logorythmus release`
+- `pnpm logorythmus clean`
+- `pnpm logorythmus reset`
 
 ## Local Services
 

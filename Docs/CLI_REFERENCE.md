@@ -1,17 +1,17 @@
 # CLI Reference
 
 ## Automation Commands
-- `techclub sprint`
-- `techclub spec`
-- `techclub task`
-- `techclub review`
-- `techclub benchmark`
-- `techclub release`
-- `techclub migrate`
-- `techclub audit`
-- `techclub graph`
-- `techclub doctor`
-- `techclub architecture`
-- `techclub dashboard`
+- `logorythmus sprint`
+- `logorythmus spec`
+- `logorythmus task`
+- `logorythmus review`
+- `logorythmus benchmark`
+- `logorythmus release`
+- `logorythmus migrate`
+- `logorythmus audit`
+- `logorythmus graph`
+- `logorythmus doctor`
+- `logorythmus architecture`
+- `logorythmus dashboard`
 
 The local implementation routes commands through `tools/automation/cli.mjs`.
