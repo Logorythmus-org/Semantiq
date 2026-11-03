@@ -7,7 +7,7 @@
  * variables, already published packages, release tags or historical documentation.
  * Regenerate the actual pnpm lockfile with pnpm after applying this migration.
  */
-import { existsSync, readFileSync, readdirSync, statSync, writeFileSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { dirname, join, relative, resolve, extname } from "node:path";
 import { fileURLToPath } from "node:url";
 
