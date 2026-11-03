@@ -1,5 +1,9 @@
 # Trademark & Branding Policy
 
+> **Policy status:** This is project branding guidance, not evidence of
+> registration, ownership, or enforceability of any trademark in any jurisdiction.
+> Brand/certification policies and legal protection must be separately reviewed.
+
 This document defines the branding guidelines and trademark usage policy for **SemantIQ Benchmarks**.
 
 ---
