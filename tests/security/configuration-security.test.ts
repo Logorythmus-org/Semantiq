@@ -1,5 +1,9 @@
 import { describe, expect, it } from "vitest";
-import { diagnoseSettings, loadSemantiqSettings, loadTechClubSettings } from "../../packages/config/src/index.js";
+import {
+  diagnoseSettings,
+  loadSemantiqSettings,
+  loadTechClubSettings
+} from "../../packages/config/src/index.js";
 
 describe("configuration security regressions", () => {
   it("does not expose provider keys in diagnostics", () => {
