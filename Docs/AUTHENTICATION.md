@@ -20,6 +20,6 @@ Tokens and secrets are stored through secure secret providers. Modules receive c
 Refresh logic belongs in authentication adapters and never in domain modules.
 
 ## Identity Authentication
-Tech Club authentication supports local accounts, OAuth2, OIDC, Google, GitHub, Microsoft, Apple, passkeys, hardware keys, biometrics, and future decentralized identity through provider adapters.
+Logorythmus authentication supports local accounts, OAuth2, OIDC, Google, GitHub, Microsoft, Apple, passkeys, hardware keys, biometrics, and future decentralized identity through provider adapters.
 
 Authentication proves control of an identity. It does not decide authorization by itself.

@@ -1,6 +1,6 @@
 # MVP Guide
 
-The Tech Club MVP is an integrated AI-native Open Knowledge Operating System.
+The Logorythmus MVP is an integrated AI-native Open Knowledge Operating System.
 
 ## MVP Includes
 - Semantic Workspace

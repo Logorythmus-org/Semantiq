@@ -1,6 +1,6 @@
 # Integration Platform
 
-The Integration Platform connects Tech Club to external systems while preserving local-first independence. External services are optional adapters. The platform owns business rules.
+The Integration Platform connects Logorythmus to external systems while preserving local-first independence. External services are optional adapters. The platform owns business rules.
 
 ## Layers
 - Presentation Layer: UI and app entry points.
@@ -18,4 +18,4 @@ The Integration Platform connects Tech Club to external systems while preserving
 No domain module imports provider SDKs or depends on provider-specific behavior. Provider-specific behavior is translated by adapters.
 
 ## Local-First Rule
-Tech Club remains useful without mandatory cloud services. Integrations enhance capabilities but do not define core operation.
+Logorythmus remains useful without mandatory cloud services. Integrations enhance capabilities but do not define core operation.

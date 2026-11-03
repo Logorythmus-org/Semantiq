@@ -1,5 +1,5 @@
 export const documentationPortalSections = [
-  "What is Tech Club?",
+  "What is SemantIQ?",
   "Local-first philosophy",
   "Installation",
   "Quickstart",

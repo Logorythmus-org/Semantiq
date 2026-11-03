@@ -1,6 +1,6 @@
 # Core Domain
 
-The Core Domain is Tech Club's first implemented production software foundation. It provides immutable identifiers, DDD aggregates, repository contracts, domain events, application services, validation, serialization, graph primitives, permissions, and in-memory adapters for tests.
+The Core Domain is Logorythmus's first implemented production software foundation. It provides immutable identifiers, DDD aggregates, repository contracts, domain events, application services, validation, serialization, graph primitives, permissions, and in-memory adapters for tests.
 
 ## Clean Architecture
 - `domain/`: identifiers, aggregates, graph relations, permissions, events, and factories.

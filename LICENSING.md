@@ -12,11 +12,29 @@ opinion, or a substitute for provenance and third-party-rights review.
 
 The repository root [`LICENSE`](LICENSE) contains the MIT License.
 
-Its current copyright line is historical repository content and is **not**
-silently rewritten by branding or organization cleanup. A public organization
-name change does not, by itself, establish copyright transfer or relicensing.
+Its copyright line names Kaveh Mosafa (Logorythmus), on the maintainer's
+reported clarification that the earlier project label was a personal working
+name rather than a separate legal entity or copyright owner. This is an
+attribution correction in the current source, not an assignment, change to MIT
+license terms, or retroactive alteration of existing release/tag records.
 
-No copyright reassignment or license change is authorized by this document.
+## 1a. Maintainer-reported authorship (2026-11-03)
+
+The project maintainer reports having developed the project's original code to date
+without a co-developer or external code contributor. This is a **maintainer
+statement**, not an independent authorship audit, assignment instrument, or
+verification of rights in imported material, datasets, dependencies, model outputs,
+provider integrations, or assets.
+
+The maintainer further reports that the former project name was a temporary
+personal working label with no separately registered company, organization,
+employer, or other rights-holding entity behind that label. The current root
+copyright attribution has accordingly been corrected to the maintainer's
+name and public project identity. Historical notices and previous MIT grants
+remain intact in past Git objects and copies already distributed.
+Sole development by itself does not establish that every repository asset is
+original, unencumbered, or available for relicensing; employment/contractual
+rights and third-party provenance remain separate review questions.
 
 ## 2. Repository licensing declarations
 
@@ -100,9 +118,13 @@ should identify material derived from third-party or restricted sources.
 Current contribution policy is documented in
 [`CONTRIBUTING.md`](CONTRIBUTING.md).
 
-The choice of a DCO, CLA, patent grant, contributor-rights representation, or
-other legal mechanism remains a separate human/legal decision unless and until a
-specific policy is adopted.
+A DCO 1.1 text is present in
+[`Docs/CONTRIBUTOR_LICENSE_AGREEMENT.md`](Docs/CONTRIBUTOR_LICENSE_AGREEMENT.md),
+but that filename does not make it a Contributor License Agreement (CLA). The
+repository record alone does not demonstrate signed DCO enforcement for every
+historic contribution or grant the maintainer an exclusive relicensing right.
+Future DCO enforcement, CLA adoption, patent grants, and contributor-rights
+verification require a documented human/legal decision.
 
 ## 8. Historical legal/readiness statements
 
@@ -125,3 +147,16 @@ This policy does not establish:
 - rights to relicense third-party material.
 
 Unresolved rights questions remain on a separate review track.
+
+## 10. Commercialization evidence boundary
+
+MIT permits commercial reuse of code covered by the license, subject to its
+conditions; it does **not** certify complete ownership, the legal status of a
+business, or compliance by a specific deployed service. Public Alpha is not a
+production-supported, certified, or independently audited product.
+
+Commercial offerings must be scoped against the **exact** source and release
+artifacts, distribution model, provenance of supplied data, third-party licenses,
+service obligations, security and privacy requirements, and applicable business
+registration. The current actionable gates are documented in
+[`Docs/governance/commercialization-readiness.md`](Docs/governance/commercialization-readiness.md).

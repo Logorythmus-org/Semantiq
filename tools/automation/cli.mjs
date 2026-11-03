@@ -7,7 +7,7 @@ const command = process.argv[2] ?? "help";
 const args = process.argv.slice(3);
 const isJson = args.includes("--json");
 const goal =
-  args.filter((a) => !a.startsWith("--")).join(" ") || "Improve Tech Club engineering pipeline";
+  args.filter((a) => !a.startsWith("--")).join(" ") || "Improve SemantIQ engineering pipeline";
 
 const doctor = new FirstRunDoctor();
 const alpha = new LocalAlphaRuntime();
@@ -192,7 +192,7 @@ if (command === "smoke") {
 
   if (command === "help" || !outputs[command]) {
     console.log(
-      "Tech Club automation commands: doctor, preflight, connector, smoke, export, reproduce, security, privacy, performance, accessibility, compliance, license, audit, sprint, sprint2, sprint3, spec, task, review, benchmark, release, migrate, workspace, graph, search, semantiq, research, asset, registry, marketplace, plugin, package, node, federation, alpha, beta, safe-mode, backup, diagnostics, feedback, architecture, dashboard"
+      "SemantIQ automation commands: doctor, preflight, connector, smoke, export, reproduce, security, privacy, performance, accessibility, compliance, license, audit, sprint, sprint2, sprint3, spec, task, review, benchmark, release, migrate, workspace, graph, search, semantiq, research, asset, registry, marketplace, plugin, package, node, federation, alpha, beta, safe-mode, backup, diagnostics, feedback, architecture, dashboard"
     );
     process.exit(command === "help" ? 0 : 1);
   }

@@ -1,6 +1,6 @@
 # Data Platform
 
-The Universal Data Platform is Tech Club's semantic foundation. It stores meaning through nodes, relationships, versions, indexes, and provenance instead of exposing raw database structures to modules.
+The Universal Data Platform is Logorythmus's semantic foundation. It stores meaning through nodes, relationships, versions, indexes, and provenance instead of exposing raw database structures to modules.
 
 ## Data Layers
 - Presentation Models: UI-specific shapes optimized for reading and interaction.

@@ -1,6 +1,6 @@
 # AI Provider Architecture
 
-The AI provider layer lets Tech Club switch between local, remote, offline, hybrid, and future AI providers without changing business logic.
+The AI provider layer lets SemantIQ switch between local, remote, offline, hybrid, and future AI providers without changing business logic.
 
 ## Capabilities
 - local models

@@ -1,0 +1,77 @@
+name: License Evidence
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - ".github/workflows/license-evidence.yml"
+      - "scripts/commercial-readiness-inventory.mjs"
+      - "tests/tooling/commercial-readiness-inventory.test.mjs"
+      - "LICENSE"
+      - "LICENSING.md"
+      - "THIRD_PARTY_NOTICES.md"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - "packages/**/package.json"
+      - "services/**/package.json"
+      - "apps/**/package.json"
+
+permissions:
+  contents: read
+
+jobs:
+  collect-license-evidence:
+    name: Collect Manifest and Dependency License Evidence
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Create evidence directory
+        run: mkdir -p license-evidence
+      - name: Run offline manifest tests
+        run: node --test tests/tooling/commercial-readiness-inventory.test.mjs
+      - name: Collect first-party manifest evidence
+        run: |
+          node scripts/commercial-readiness-inventory.mjs --json > license-evidence/first-party-manifests.json
+          node scripts/commercial-readiness-inventory.mjs > license-evidence/summary.txt
+          printf '%s\n' "${GITHUB_SHA}" > license-evidence/workflow-checkout-sha.txt
+          sha256sum pnpm-lock.yaml > license-evidence/pnpm-lock.sha256
+      - name: Install pinned lockfile dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Collect dependency license command output
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          pnpm licenses list --json > license-evidence/dependency-licenses.json 2> license-evidence/dependency-licenses.stderr
+          status=$?
+          printf '%s\n' "$status" > license-evidence/dependency-licenses.exit-code
+          if [ "$status" -ne 0 ]; then
+            echo "Dependency license collection failed; artifact is incomplete." >> license-evidence/summary.txt
+          fi
+          exit 0
+      - name: Record evidence limits
+        if: always()
+        run: |
+          cat > license-evidence/README.txt <<'EOF'
+          This artifact is raw, commit-scoped investigation material, NOT a verified
+          Software Bill of Materials, a complete third-party notice inventory,
+          a legal clearance, a vulnerability-free certification, or production approval.
+          Verify the command exit code, lockfile identity, bundled artifacts, notices,
+          transitive licenses, provider/runtime terms, and distribution boundaries.
+          EOF
+      - name: Upload audit evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: semantiq-license-evidence-${{ github.run_id }}
+          path: license-evidence/
+          if-no-files-found: warn
+          retention-days: 30

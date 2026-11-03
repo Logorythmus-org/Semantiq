@@ -1,6 +1,6 @@
 # System Overview
 
-Tech Club transforms questions into knowledge, projects, collaboration, innovation, and public benefit.
+Logorythmus transforms questions into knowledge, projects, collaboration, innovation, and public benefit.
 
 ## Core Systems
 - Semantiq Benchmark: semantic quality, reasoning quality, creativity, uncertainty, and scientific potential.

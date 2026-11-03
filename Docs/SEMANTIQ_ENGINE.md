@@ -1,6 +1,6 @@
 # Semantiq Engine
 
-Semantiq is Tech Club's semantic intelligence layer. It is not a traditional benchmark and not an AI leaderboard.
+Semantiq is Logorythmus's semantic intelligence layer. It is not a traditional benchmark and not an AI leaderboard.
 
 ## Core Question
 Semantiq asks: how well does this improve understanding?

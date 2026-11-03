@@ -1247,7 +1247,7 @@ if (process.argv[1] && /(^|[\\/])server\.ts$/.test(process.argv[1])) {
     .start()
     .then(() =>
       console.log(
-        `Tech Club API listening on ${application.settings.application.host}:${application.settings.application.port}`
+        `SemantIQ API listening on ${application.settings.application.host}:${application.settings.application.port}`
       )
     )
     .catch((error: unknown) => {

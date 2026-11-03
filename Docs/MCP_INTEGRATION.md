@@ -1,6 +1,6 @@
 # MCP Integration
 
-MCP support allows Tech Club agents and workflows to discover and use external tools under permission control.
+MCP support allows Logorythmus agents and workflows to discover and use external tools under permission control.
 
 ## Capabilities
 - tool discovery

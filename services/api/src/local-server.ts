@@ -87,7 +87,7 @@ process.once("SIGINT", shutdown);
 process.once("SIGTERM", shutdown);
 void migrate(pool)
   .then(() => application.start())
-  .then(() => console.log("Tech Club local API started with PostgreSQL Question Runtime"))
+  .then(() => console.log("SemantIQ local API started with PostgreSQL Question Runtime"))
   .catch((error: unknown) => {
     console.error("API startup failed", error instanceof Error ? error.message : "unknown error");
     process.exitCode = 1;

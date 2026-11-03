@@ -1,9 +1,9 @@
 # Domain Model
 
-Tech Club is built around questions. A question can gather observations, evidence, hypotheses, experiments, answers, discussions, projects, research, narratives, games, learning paths, benchmarks, and ownership claims.
+Logorythmus is built around questions. A question can gather observations, evidence, hypotheses, experiments, answers, discussions, projects, research, narratives, games, learning paths, benchmarks, and ownership claims.
 
 ## Core Domain Rule
-Question is the root aggregate of the platform. Other aggregates may exist independently, but their meaning in Tech Club is usually established by a semantic relationship to one or more questions.
+Question is the root aggregate of the platform. Other aggregates may exist independently, but their meaning in Logorythmus is usually established by a semantic relationship to one or more questions.
 
 ## Domain Layers
 - Core domain: Question Engine, Knowledge Graph, Project System, Scientific Atlas.

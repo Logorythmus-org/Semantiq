@@ -55,7 +55,7 @@ const commands = {
 };
 
 if (command === "help" || !commands[command]) {
-  console.log("Tech Club CLI");
+  console.log("Logorythmus / SemantIQ development CLI");
   console.log(
     "Commands: init, install, build, dev, lint, test, docs, benchmark, release, sprint, sprint2, sprint3, spec, task, review, migrate, audit, workspace, graph, export, search, semantiq, research, asset, registry, marketplace, plugin, license, package, node, federation, alpha, beta, safe-mode, backup, diagnostics, feedback, compliance, security, privacy, performance, accessibility, doctor, architecture, dashboard, clean, reset"
   );

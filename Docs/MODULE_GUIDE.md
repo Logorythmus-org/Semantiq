@@ -1,6 +1,6 @@
 # Module Guide
 
-Every Tech Club module must be small, explicit, testable, and replaceable.
+Every Logorythmus module must be small, explicit, testable, and replaceable.
 
 ## Required Contract
 - Public API: exported types and functions for consumers.

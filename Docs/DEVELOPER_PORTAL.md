@@ -1,6 +1,6 @@
 # Developer Portal
 
-The Developer Portal is the home for building on Tech Club.
+The Developer Portal is the home for building on Logorythmus.
 
 ## Sections
 API Explorer, SDK docs, plugin docs, tutorials, quickstarts, examples, architecture guides, best practices, migration guides, video tutorials, and interactive playground.

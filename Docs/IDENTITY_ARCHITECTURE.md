@@ -1,6 +1,6 @@
 # Identity Architecture
 
-Identity is a first-class concept in Tech Club. It applies to people, AI agents, projects, communities, knowledge, questions, repositories, workspaces, games, books, semantic assets, plugins, workflows, and benchmarks.
+Identity is a first-class concept in Logorythmus. It applies to people, AI agents, projects, communities, knowledge, questions, repositories, workspaces, games, books, semantic assets, plugins, workflows, and benchmarks.
 
 ## Security Layers
 - User: human or system actor.

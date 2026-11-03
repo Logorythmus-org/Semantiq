@@ -30,7 +30,7 @@ are evidence gates, not date-guaranteed release commitments.
 
 | Horizon | Delivery item | Evidence / acceptance gate | Current state |
 | --- | --- | --- | --- |
-| NOW | Headless SemantIQ container (not legacy Tech Club Question API) | Dedicated local image, loopback-only Compose, live `/health` and `/info` smoke, corresponding CI logs | Experimental implementation under review in [Draft PR #231](https://github.com/Logorythmus-org/Semantiq/pull/231); no production claim |
+| NOW | Headless SemantIQ container (not broader legacy Question API) | Dedicated local image, loopback-only Compose, live `/health` and `/info` smoke, corresponding CI logs | Experimental implementation under review in [Draft PR #231](https://github.com/Logorythmus-org/Semantiq/pull/231); no production claim |
 | NOW | Security and runtime boundary | Reconcile payload-limiting PRs [#223](https://github.com/Logorythmus-org/Semantiq/pull/223), [#224](https://github.com/Logorythmus-org/Semantiq/pull/224), [#229](https://github.com/Logorythmus-org/Semantiq/pull/229), [#230](https://github.com/Logorythmus-org/Semantiq/pull/230); required checks and CODEOWNER review | Open; block public API exposure |
 | NEXT | Build-only delivery workflow | Build a versioned candidate image, report SHA/digest, scan and retain build evidence; do not push or deploy yet | Not implemented or verified in current public CI |
 | NEXT | Approved CD to GHCR / local install | Explicit maintainer approval, least-privilege token, immutable artifact, rollback plan and tested promotion gates | Gated; no registry publication authorized |

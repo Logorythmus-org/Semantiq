@@ -35,6 +35,8 @@ jobs:
         run: pnpm test:boundaries
       - name: Prospective IP Boundary Policy
         run: pnpm ip:validate
+      - name: Commercial manifest inventory tests
+        run: pnpm commercial:inventory:test
       - name: Build all workspace packages
         run: pnpm build
 

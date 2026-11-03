@@ -1,6 +1,6 @@
 # SDK Guide
 
-Tech Club SDKs expose identical platform concepts across languages.
+Logorythmus SDKs expose identical platform concepts across languages.
 
 ## Target Languages
 TypeScript, Python, Rust, Go, C#, Java, Kotlin, Swift, and future languages.

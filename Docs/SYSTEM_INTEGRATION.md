@@ -1,6 +1,6 @@
 # System Integration
 
-System Integration turns the Tech Club architecture into one releasable operating system.
+System Integration turns the Logorythmus architecture into one releasable operating system.
 
 ## Complete System Map
 Platform Kernel -> Workspace Runtime -> Knowledge Graph -> Question Network -> Question Intelligence -> Semantiq -> Scientific Atlas -> Research Engine -> Narrative Engine -> Community Engine -> Workflow Engine -> Agent OS -> Distributed Compute -> Marketplace -> Developer Platform.

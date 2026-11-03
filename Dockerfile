@@ -5,7 +5,7 @@ ENV PATH=$PNPM_HOME:$PATH
 
 WORKDIR /workspace
 
-RUN corepack enable && corepack prepare pnpm@11.7.0 --activate
+RUN corepack enable && corepack prepare pnpm@11.11.0 --activate
 
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json vitest.config.mjs eslint.config.mjs .prettierrc turbo.json docker-compose.yml ./
 COPY README.md LICENSE CONTRIBUTING.md SECURITY.md CODE_OF_CONDUCT.md CHANGELOG.md ROADMAP.md ARCHITECTURE.md TECH_STACK.md ./

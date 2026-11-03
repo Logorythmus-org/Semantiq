@@ -1,6 +1,6 @@
 # Long-Term Sustainability
 
-Tech Club must survive organizational, technical, economic, and cultural change without requiring a full redesign.
+Logorythmus must survive organizational, technical, economic, and cultural change without requiring a full redesign.
 
 ## Sustainability Areas
 - Knowledge preservation.

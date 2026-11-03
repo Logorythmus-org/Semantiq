@@ -1,0 +1,42 @@
+name: Legacy Identity Inventory
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/legacy-identity-audit.yml"
+      - "LICENSE"
+      - "NOTICE"
+      - "LICENSING.md"
+      - "package.json"
+      - "scripts/**"
+      - "Docs/governance/**"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inventory:
+    name: Inventory legacy identifiers (read only)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Search full checked-out tree without modifying history
+        shell: bash
+        run: |
+          mkdir -p legacy-identity-inventory
+          git rev-parse HEAD > legacy-identity-inventory/commit.txt
+          git grep -n -I -i -E 'tech.?club|techclub' -- . > legacy-identity-inventory/matches.txt || code=$?
+          if [ "${code:-0}" -gt 1 ]; then exit "$code"; fi
+          cut -d: -f1 legacy-identity-inventory/matches.txt | sort -u > legacy-identity-inventory/paths.txt
+          wc -l legacy-identity-inventory/matches.txt legacy-identity-inventory/paths.txt > legacy-identity-inventory/counts.txt
+          echo "Historical tags, commit history, attribution terms and API names require review before renaming." > legacy-identity-inventory/README.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: legacy-identity-inventory-${{ github.run_id }}
+          path: legacy-identity-inventory/
+          if-no-files-found: error
+          retention-days: 30

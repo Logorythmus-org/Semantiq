@@ -2,6 +2,7 @@
   "name": "@semantiq/sdk",
   "version": "0.1.0-alpha.2",
   "description": "SemantIQ TypeScript SDK for Behavioral Evidence Infrastructure for AI Systems",
+  "license": "MIT",
   "type": "module",
   "main": "./src/index.ts",
   "types": "./src/index.ts",

@@ -1,7 +1,7 @@
 # SemantIQ local-evaluation container
 
 This **experimental, localhost-only** Docker profile runs the actual
-SemantIQ headless HTTP application, not the legacy Tech Club Question API.
+SemantIQ headless HTTP application, not the broader legacy Question API.
 
 It is not a production service, publicly hosted deployment, published image,
 independently reproduced benchmark, or substitute for the project security review.

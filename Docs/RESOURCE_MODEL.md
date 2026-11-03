@@ -1,6 +1,6 @@
 # Resource Model
 
-Compute resources are semantic entities in Tech Club.
+Compute resources are semantic entities in Logorythmus.
 
 ## Resource Fields
 Identity, capabilities, hardware, software, performance, availability, permissions, power profile, cost, temperature, memory, latency, reliability, benchmark history, health, and runtime status.

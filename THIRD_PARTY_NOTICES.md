@@ -66,3 +66,27 @@ explicitly regenerated and reviewed for the current release commit.
 
 See [`LICENSING.md`](LICENSING.md) for the repository licensing and rights
 boundary.
+
+## Reproducible inventory procedure (not a clearance)
+
+For any proposed commercial distribution, record its exact commit and lockfiles.
+The following commands create **evidence inputs**, not a complete legal audit:
+
+```bash
+node scripts/commercial-readiness-inventory.mjs --json > first-party-manifests.json
+pnpm install --frozen-lockfile
+pnpm licenses list --json > dependency-licenses.json
+```
+
+The first command covers the repository's first-party JavaScript package manifests,
+missing license fields, and workspace distribution boundaries. It is **not** an
+SBOM and **does not** identify every transitive license. The `pnpm licenses`
+output is a tool-generated dependency view that must be checked against the
+exact lockfile and actual shipped application/container artifacts. Review all
+copyleft, source-available, proprietary, runtime, model/provider, data, and
+redistribution terms separately. Unsuccessful commands, missing metadata, or
+partial dependency resolution must be recorded rather than reported as clear.
+
+The [License Evidence GitHub workflow](.github/workflows/license-evidence.yml)
+can collect downloadable, commit-scoped command outputs for review. The artifact
+is not a certified SBOM or substitute for legal analysis.

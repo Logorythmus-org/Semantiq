@@ -1,6 +1,6 @@
 # Goal Engine
 
-The Goal Engine makes goals the primary execution object in Tech Club.
+The Goal Engine makes goals the primary execution object in Logorythmus.
 
 ## Goal Contract
 Each goal contains identity, description, priority, context, requirements, dependencies, constraints, resources, workspace, owner, agent assignments, progress, benchmark references, risks, expected outcome, completion criteria, history, reflection, and version.

@@ -1,6 +1,6 @@
 # Public API
 
-Public APIs make Tech Club programmable without exposing internal boundaries.
+Public APIs make Logorythmus programmable without exposing internal boundaries.
 
 ## API Families
 REST, GraphQL, WebSocket, event streams, CLI, MCP, SDK, batch APIs, streaming APIs, and versioned APIs.

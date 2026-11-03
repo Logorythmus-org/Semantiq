@@ -1,6 +1,6 @@
 # MVP Integration
 
-The Production MVP integrates the implemented Tech Club runtimes into one local-first semantic loop:
+The Production MVP integrates the implemented Logorythmus runtimes into one local-first semantic loop:
 
 User -> Workspace -> Question -> Question Intelligence -> Semantiq -> Knowledge Graph -> Research Project -> Agent Workflow -> Community Collaboration -> Publication / Asset -> Dashboard -> Export.
 

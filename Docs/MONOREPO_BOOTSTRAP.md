@@ -1,6 +1,6 @@
 # Monorepo Bootstrap
 
-The Tech Club monorepo is the production engineering home for all future implementation work.
+The Logorythmus monorepo is the production engineering home for all future implementation work.
 
 ## Root Areas
 - `apps/`: web, desktop, mobile, admin, documentation, playground, benchmark, and demo apps.
