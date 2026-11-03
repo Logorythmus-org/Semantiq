@@ -471,7 +471,7 @@ function parseProfile(value: string, variableName = "TECHCLUB_PROFILE"): Runtime
   if (["development", "test", "docker", "benchmark", "migration"].includes(value))
     return value as RuntimeProfile;
   throw new ConfigurationError(`Invalid ${variableName}: ${value}`, {
-    variable: "TECHCLUB_PROFILE"
+    variable: variableName
   });
 }
 function parseBoolean(value: string, name: string): boolean {
