@@ -4,9 +4,10 @@ Public organization: Logorythmus
 Repository licensing notice
 ===========================
 
-The repository root LICENSE contains the MIT License and preserves its historical
-copyright notice. This NOTICE does not alter that copyright line, transfer
-ownership, or authorize relicensing.
+The repository root LICENSE contains the MIT License with its current
+maintainer-confirmed attribution. Earlier release/tag notices remain part of
+the public historical record and are not retroactively revised. The updated
+attribution does not change MIT permissions or grant rights over third-party code.
 
 Additional repository policy documents describe intended licensing boundaries for
 project-controlled documentation, fixtures, prompts, and example material.
