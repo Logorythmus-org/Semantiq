@@ -4,7 +4,9 @@
 > registration, ownership, or enforceability of any trademark in any jurisdiction.
 > Brand/certification policies and legal protection must be separately reviewed.
 
-This document defines the branding guidelines and trademark usage policy for **SemantIQ Benchmarks**.
+This document defines project branding guidance for **SemantIQ**, developed under
+**Logorythmus** as the public project identity. This does not represent either
+name as a separately registered company or registered trademark.
 
 ---
 
