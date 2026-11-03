@@ -24,6 +24,18 @@ schemas are independently versioned at `1.0.0`, while the HTTP route family is
 `/api/v1`. A schema, API, benchmark, or documentation `1.0.0` does not claim a
 stable SemantIQ software release. See [Versioning & Release Policy](Docs/VERSIONING_POLICY.md).
 
+## Commercial-use and licensing boundary
+
+SemantIQ is MIT-licensed where that license applies, but commercial reuse does not
+establish ownership of all third-party or imported assets, entitlement to the
+SemantIQ brand, a production SLA, or independent compliance certification.
+The project remains an experimental Public Alpha. See
+[Licensing & Rights Boundary](LICENSING.md) and
+[Commercialization Readiness](Docs/governance/commercialization-readiness.md)
+for the maintainer-reported authorship boundary, unresolved rights and release
+checks, and the scope of exploratory B2B pilots. No hosted enterprise service
+or AWS Marketplace listing is claimed by these documents.
+
 ## Current Maturity and Evidence Status
 
 SemantIQ `0.1.0-alpha.2` is **Public Alpha (Experimental)**. It is intended for
