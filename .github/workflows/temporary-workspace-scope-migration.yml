@@ -1,0 +1,84 @@
+name: Temporary Private Workspace Scope Migration
+
+on:
+  push:
+    branches:
+      - refactor/logorythmus-workspace-scope
+
+permissions:
+  contents: write
+
+concurrency:
+  group: guarded-scope-migration
+  cancel-in-progress: false
+
+jobs:
+  migrate:
+    name: Rename private packages and regenerate frozen lockfile
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - name: Checkout feature branch
+        uses: actions/checkout@v4
+        with:
+          ref: refactor/logorythmus-workspace-scope
+          fetch-depth: 0
+          persist-credentials: true
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.11.0
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: pnpm
+      - name: Prepare output
+        run: mkdir -p scope-migration-evidence
+      - name: Validate migration planner
+        run: node --test tests/tooling/workspace-scope-migration.test.mjs
+      - name: Record before-state without mutations
+        run: |
+          git rev-parse HEAD > scope-migration-evidence/baseline-sha.txt
+          sha256sum pnpm-lock.yaml > scope-migration-evidence/old-lock-sha256.txt
+          node scripts/migrate-internal-package-scope.mjs --json > scope-migration-evidence/dry-run.json
+      - name: Install exact existing dependencies
+        run: pnpm install --frozen-lockfile
+      - name: Apply guarded workspace package migration
+        run: node scripts/migrate-internal-package-scope.mjs --apply --json > scope-migration-evidence/applied.json
+      - name: Regenerate lockfile with the declared pnpm version
+        run: pnpm install --lockfile-only --ignore-scripts --prefer-offline
+      - name: Verify frozen lockfile and migration idempotence
+        run: |
+          pnpm install --frozen-lockfile --ignore-scripts --prefer-offline
+          node --test tests/tooling/workspace-scope-migration.test.mjs
+          node scripts/migrate-internal-package-scope.mjs --json > scope-migration-evidence/post-run.json
+          node --input-type=module -e 'import { readFileSync } from "node:fs"; const r=JSON.parse(readFileSync("scope-migration-evidence/post-run.json")); if(r.changed_file_count!==0) process.exit(1);'
+          sha256sum pnpm-lock.yaml > scope-migration-evidence/new-lock-sha256.txt
+          git diff --stat > scope-migration-evidence/diff-stat.txt
+          git diff --check
+      - name: Commit and push the validated generated changes
+        env:
+          EXPECTED_BRANCH: refactor/logorythmus-workspace-scope
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [[ "$GITHUB_REF_NAME" != "$EXPECTED_BRANCH" ]]; then
+            echo "Refusing to push from unexpected ref"
+            exit 1
+          fi
+          git add -u
+          if git diff --cached --quiet; then
+            echo "No package rename remains; not creating an empty commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "refactor(workspaces): migrate private package namespace to Logorythmus"
+          git push origin HEAD:refs/heads/refactor/logorythmus-workspace-scope
+      - name: Upload raw migration evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workspace-scope-migration-${{ github.run_id }}
+          path: scope-migration-evidence/
+          if-no-files-found: warn
+          retention-days: 30
