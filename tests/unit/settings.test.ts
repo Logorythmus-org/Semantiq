@@ -89,9 +89,9 @@ describe("authoritative runtime settings", () => {
     expect(settings.paths.root).toContain(".techclub/from-override");
     expect(settings.test.networkDisabled).toBe(false);
     expect(settings.sources.SEMANTIQ_DATA_DIR).toBe("override");
-    expect(
-      loadTechClubSettings({ values: { TECHCLUB_PROFILE: "test" } }).application.profile
-    ).toBe("test");
+    expect(loadTechClubSettings({ values: { TECHCLUB_PROFILE: "test" } }).application.profile).toBe(
+      "test"
+    );
     expect(() => loadSemantiqSettings({ values: { SEMANTIQ_PROFILE: "invalid" } })).toThrow(
       "Invalid SEMANTIQ_PROFILE"
     );
