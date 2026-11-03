@@ -19,6 +19,14 @@ describe("Parent Workspace Runtime Dependency Removal (Prompt 11.4)", () => {
     expect(report.parentImportCount).toBe(1);
   });
 
+  it("rejects both legacy and canonical parent-workspace imports", () => {
+    for (const imp of ["@tech-club/sprint", "@logorythmus/sprint"]) {
+      const report = engine.auditRuntimeImports([imp]);
+      expect(report.isStandalone).toBe(false);
+      expect(report.parentImportCount).toBe(1);
+    }
+  });
+
   it("detects parent path traversal import", () => {
     const dirtyImports = ["../../packages/sprint1-runtime/src/index.js"];
     const report = engine.auditRuntimeImports(dirtyImports);
