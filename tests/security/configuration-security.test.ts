@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { diagnoseSettings, loadTechClubSettings } from "../../packages/config/src/index.js";
+import { diagnoseSettings, loadSemantiqSettings, loadTechClubSettings } from "../../packages/config/src/index.js";
 
 describe("configuration security regressions", () => {
   it("does not expose provider keys in diagnostics", () => {
@@ -15,6 +15,14 @@ describe("configuration security regressions", () => {
       loadTechClubSettings({ values: { TECHCLUB_DATA_DIR: ".techclub/test", UPLOADS_PATH: ".." } })
     ).toThrow("escapes TECHCLUB_DATA_DIR");
   });
+  it("preserves path traversal protection under canonical SEMANTIQ_DATA_DIR", () => {
+    expect(() =>
+      loadSemantiqSettings({
+        values: { SEMANTIQ_DATA_DIR: ".semantiq/sandbox", UPLOADS_PATH: ".." }
+      })
+    ).toThrow("escapes TECHCLUB_DATA_DIR");
+  });
+
   it("keeps optional AI disabled without network access", () => {
     expect(loadTechClubSettings().ai).toMatchObject({
       provider: "disabled",
