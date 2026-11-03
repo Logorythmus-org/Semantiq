@@ -6,6 +6,8 @@ export interface RuntimeDependencyAuditReport {
 }
 
 const FORBIDDEN_DOMAINS = ["civilization-kernel", "wallet", "marketplace", "question-network"];
+// Reject current and historically named parent runtime imports during migration.
+const FORBIDDEN_PARENT_PREFIXES = ["@logorythmus/sprint", "@tech-club/sprint"];
 
 /**
  * Parent Workspace Runtime Dependency Remover Engine.
@@ -18,7 +20,7 @@ export class RuntimeDependencyRemoverEngine {
 
     for (const imp of importList) {
       const isForbiddenDomain = FORBIDDEN_DOMAINS.some((domain) => imp.includes(domain));
-      if (isForbiddenDomain || imp.startsWith("@tech-club/sprint")) {
+      if (isForbiddenDomain || FORBIDDEN_PARENT_PREFIXES.some((prefix) => imp.startsWith(prefix))) {
         parentCount++;
       } else if (imp.includes("..") && imp.includes("packages/")) {
         unresolvedCount++;
