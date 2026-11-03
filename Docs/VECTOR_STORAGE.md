@@ -1,6 +1,6 @@
 # Vector Storage
 
-Vector storage prepares Tech Club for AI-assisted semantic retrieval.
+Vector storage prepares Logorythmus for AI-assisted semantic retrieval.
 
 ## Stored Data
 - embeddings

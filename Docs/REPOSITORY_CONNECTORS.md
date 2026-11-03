@@ -1,6 +1,6 @@
 # Repository Connectors
 
-Repository connectors adapt code and dataset repositories into Tech Club.
+Repository connectors adapt code and dataset repositories into Logorythmus.
 
 ## Providers
 - GitHub

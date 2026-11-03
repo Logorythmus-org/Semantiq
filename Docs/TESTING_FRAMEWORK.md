@@ -1,6 +1,6 @@
 # Testing Framework
 
-Tech Club targets more than 90% meaningful coverage across production modules. Coverage is necessary but not sufficient; tests must prove behavior, contracts, resilience, and safety.
+Logorythmus targets more than 90% meaningful coverage across production modules. Coverage is necessary but not sufficient; tests must prove behavior, contracts, resilience, and safety.
 
 ## Test Types
 - Unit tests.

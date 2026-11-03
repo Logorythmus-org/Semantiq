@@ -1,6 +1,6 @@
 # Trust Model
 
-Trust in Tech Club must explain itself.
+Trust in Logorythmus must explain itself.
 
 ## Trust Signals
 - verified identity

@@ -1,6 +1,6 @@
 # Workflow Engine
 
-The Workflow Engine is Tech Club's AI-native workflow operating layer. It is not a trigger-action automation clone. It turns goals into explainable, executable, recoverable, benchmarked, and reusable intelligence.
+The Workflow Engine is Logorythmus's AI-native workflow operating layer. It is not a trigger-action automation clone. It turns goals into explainable, executable, recoverable, benchmarked, and reusable intelligence.
 
 ## Core Flow
 Goal -> Plan -> Workflow -> Agent Tasks -> Execution -> Validation -> Reflection -> Knowledge -> Reusable Workflow.

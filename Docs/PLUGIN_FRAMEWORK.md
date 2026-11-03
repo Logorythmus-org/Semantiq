@@ -1,6 +1,6 @@
 # Plugin Framework
 
-Plugins extend Tech Club through declared, permissioned, isolated capabilities.
+Plugins extend Logorythmus through declared, permissioned, isolated capabilities.
 
 ## Manifest
 Each plugin declares identity, version, author, capabilities, dependencies, permissions, events, commands, UI components, API endpoints, configuration, lifecycle, license, and marketplace metadata.
