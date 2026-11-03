@@ -71,3 +71,10 @@ test("never rewrites references to unknown legacy packages", () => {
   assert.match(result.updated, /@tech-club\/unknown/);
   assert.deepEqual(result.unmapped, [LEGACY + "unknown"]);
 });
+
+// Repository-level guard: no private workspace name should regress to the old scope.
+test("active repository contains no old private workspace names", () => {
+  const report = planWorkspaceScopeMigration();
+  assert.equal(report.renamed_package_count, 0);
+  assert.equal(report.changed_file_count, 0);
+});
