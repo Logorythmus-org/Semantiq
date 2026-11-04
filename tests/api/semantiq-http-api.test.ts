@@ -32,6 +32,29 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
     await rm(tempStaticDir, { recursive: true, force: true });
   });
 
+  describe("security boundary and body size limits", () => {
+    it("rejects request payload exceeding 64KB size limit", async () => {
+      const oversizedPayload = JSON.stringify({ statement: "a".repeat(70000) });
+      const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: oversizedPayload
+      }).catch((err) => err);
+
+      if (res instanceof Error) {
+        // Fetch connection reset/destroyed on server req.destroy()
+        expect(res).toBeDefined();
+      } else {
+        expect(res.status).toBeGreaterThanOrEqual(400);
+        const json = await res.json().catch(() => null);
+        if (json) {
+          expect(json.success).toBe(false);
+          expect(json.error.message).toContain("size limit");
+        }
+      }
+    });
+  });
+
   describe("security headers across response paths", () => {
     it.each([
       { name: "health JSON", path: "/health", method: "GET", status: 200 },
