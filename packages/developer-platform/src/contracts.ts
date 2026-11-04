@@ -1,13 +1,5 @@
 export type SDKLanguage =
-  | "typescript"
-  | "python"
-  | "rust"
-  | "go"
-  | "csharp"
-  | "java"
-  | "kotlin"
-  | "swift"
-  | "future";
+  "typescript" | "python" | "rust" | "go" | "csharp" | "java" | "kotlin" | "swift" | "future";
 
 export type SDKModuleName =
   | "workspace"
@@ -60,15 +52,7 @@ export type PluginLifecycleState =
   | "archived";
 
 export type PublicApiKind =
-  | "rest"
-  | "graphql"
-  | "websocket"
-  | "event-stream"
-  | "cli"
-  | "mcp"
-  | "sdk"
-  | "batch"
-  | "streaming";
+  "rest" | "graphql" | "websocket" | "event-stream" | "cli" | "mcp" | "sdk" | "batch" | "streaming";
 
 export interface DeveloperApplication {
   readonly id: string;

@@ -273,11 +273,7 @@ export const EPISTEMIC_REPLICATION_DISCLAIMER =
   "Replication demonstrates empirical consistency across contexts, not causal proof or universal truth.";
 
 export type PartnerTrustTier =
-  | "unverified"
-  | "registered"
-  | "verified_academic"
-  | "commercial_audited"
-  | "certified_consortium";
+  "unverified" | "registered" | "verified_academic" | "commercial_audited" | "certified_consortium";
 
 export interface PartnerOrganization {
   readonly id: string;

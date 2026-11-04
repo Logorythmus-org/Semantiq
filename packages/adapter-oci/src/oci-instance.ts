@@ -175,9 +175,10 @@ export class LocalOciInstance extends BaseSandboxInstance {
 
   async captureStateDelta(sinceCheckpointId?: string): Promise<StateDelta> {
     const changes = await this.client
-      .request<
-        Array<{ Path: string; Kind: number }>
-      >("GET", `/containers/${this.containerId}/changes`)
+      .request<Array<{ Path: string; Kind: number }>>(
+        "GET",
+        `/containers/${this.containerId}/changes`
+      )
       .catch(() => []);
 
     const createdFiles: any[] = [];
