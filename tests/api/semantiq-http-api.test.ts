@@ -39,11 +39,11 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       { name: "not-found error", path: "/missing-route", method: "POST", status: 404 },
       { name: "static HTML", path: "/", method: "GET", status: 200 },
       {
-        name: "service error",
+        name: "malformed JSON bad request",
         path: "/api/v1/claims/validate-language",
         method: "POST",
         body: "{",
-        status: 500
+        status: 400
       }
     ])("preserves headers on $name responses", async ({ path, method, body, status }) => {
       const res = await fetch(`${baseUrl}${path}`, {
@@ -55,6 +55,22 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(res.headers.get("x-frame-options")).toBe("DENY");
       expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
       await res.arrayBuffer();
+    });
+  });
+
+  describe("6. Request Payload & Security Validation", () => {
+    it("rejects oversized payloads (>1MB) with HTTP 400 Bad Request", async () => {
+      const oversizedData = "a".repeat(1024 * 1024 + 100);
+      const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statement: oversizedData })
+      });
+      expect(res.status).toBe(400);
+      const json = await res.json();
+      expect(json.success).toBe(false);
+      expect(json.error.code).toBe("BAD_REQUEST");
+      expect(json.error.message).toContain("exceeds maximum allowed size");
     });
   });
 
