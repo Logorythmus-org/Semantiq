@@ -919,9 +919,12 @@ async function readQuestionBody(
 
 async function readJson(request: IncomingMessage): Promise<Record<string, unknown>> {
   let body = "";
+  let totalBytes = 0;
   for await (const chunk of request) {
-    body += String(chunk);
-    if (body.length > 65536) throw new Error("request too large");
+    const chunkBuffer = typeof chunk === "string" ? Buffer.from(chunk) : (chunk as Buffer);
+    totalBytes += chunkBuffer.length;
+    if (totalBytes > 65536) throw new Error("request too large");
+    body += chunkBuffer.toString("utf8");
   }
   if (!body) return {};
   const parsed: unknown = JSON.parse(body);
