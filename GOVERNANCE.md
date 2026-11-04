@@ -50,6 +50,7 @@ production-ready.
 SemantIQ is currently **Public Alpha (Experimental)**.
 
 Repository governance may approve:
+
 - code changes;
 - documentation changes;
 - release decisions;

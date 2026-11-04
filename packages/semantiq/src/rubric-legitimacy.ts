@@ -15,10 +15,7 @@ export interface RubricAssumptionManifest {
 }
 
 export type EquivalenceStatus =
-  | "validated_equivalent"
-  | "translated_unvalidated"
-  | "unknown"
-  | "conceptually_divergent";
+  "validated_equivalent" | "translated_unvalidated" | "unknown" | "conceptually_divergent";
 
 export interface MultilingualValidationRecord {
   readonly recordId: string;

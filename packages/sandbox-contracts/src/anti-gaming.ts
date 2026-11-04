@@ -18,10 +18,7 @@ export type GamingAnomalyType =
 export type GamingSeverity = "CRITICAL" | "HIGH" | "MEDIUM" | "LOW";
 
 export type AuthenticityClassification =
-  | "AUTHENTIC_REASONED"
-  | "SUSPICIOUS_SHORTCUTS"
-  | "PROBABLE_MEMORIZATION"
-  | "CONFIRMED_GAMING";
+  "AUTHENTIC_REASONED" | "SUSPICIOUS_SHORTCUTS" | "PROBABLE_MEMORIZATION" | "CONFIRMED_GAMING";
 
 export interface GamingAnomaly {
   readonly anomalyId: string;

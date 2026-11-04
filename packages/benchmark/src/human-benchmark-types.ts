@@ -7,10 +7,7 @@ export interface HumanSubjectIdentity {
 }
 
 export type HumanBenchmarkSuitability =
-  | "SUITABLE"
-  | "SUITABLE_WITH_ADAPTATION"
-  | "RESEARCH_REVIEW_REQUIRED"
-  | "NOT_SUITABLE";
+  "SUITABLE" | "SUITABLE_WITH_ADAPTATION" | "RESEARCH_REVIEW_REQUIRED" | "NOT_SUITABLE";
 
 export interface HumanBenchmarkConstruct {
   readonly constructId: string;
@@ -31,10 +28,7 @@ export interface HumanBenchmarkConstruct {
 }
 
 export type HumanBenchmarkResponseMode =
-  | "SINGLE_CHOICE"
-  | "SHORT_TEXT"
-  | "LONG_TEXT"
-  | "STRUCTURED_REVISION";
+  "SINGLE_CHOICE" | "SHORT_TEXT" | "LONG_TEXT" | "STRUCTURED_REVISION";
 export type HumanBenchmarkScoringMode = "OBJECTIVE_RULE" | "HUMAN_JUDGE" | "UNSUPPORTED";
 
 export interface HumanBenchmarkItem {
@@ -127,12 +121,7 @@ export interface HumanBenchmarkPresentation {
 }
 
 export type HumanSubjectResponseStatus =
-  | "SUBMITTED"
-  | "SKIPPED"
-  | "ABSTAINED"
-  | "INCOMPLETE"
-  | "INVALID"
-  | "SYSTEM_FAILURE";
+  "SUBMITTED" | "SKIPPED" | "ABSTAINED" | "INCOMPLETE" | "INVALID" | "SYSTEM_FAILURE";
 
 export interface HumanSubjectResponse {
   readonly responseId: string;
