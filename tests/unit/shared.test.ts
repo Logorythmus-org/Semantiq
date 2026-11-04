@@ -7,11 +7,33 @@ import {
 } from "../../packages/shared/src/index.js";
 
 describe("shared logging and errors", () => {
-  it("redacts sensitive logging keys", () => {
-    expect(redactLogContext({ token: "abc", safe: "value", apiKey: "secret" })).toEqual({
+  it("redacts sensitive logging keys at top level and recursively in nested objects and arrays", () => {
+    expect(
+      redactLogContext({
+        token: "abc",
+        safe: "value",
+        apiKey: "secret",
+        nested: {
+          userPassword: "mypassword",
+          config: {
+            authSecret: "supersecret",
+            publicVal: 123
+          }
+        },
+        items: [{ apiToken: "tok123" }, { name: "item1" }]
+      })
+    ).toEqual({
       token: "[redacted]",
       safe: "value",
-      apiKey: "[redacted]"
+      apiKey: "[redacted]",
+      nested: {
+        userPassword: "[redacted]",
+        config: {
+          authSecret: "[redacted]",
+          publicVal: 123
+        }
+      },
+      items: [{ apiToken: "[redacted]" }, { name: "item1" }]
     });
   });
 
@@ -24,6 +46,17 @@ describe("shared logging and errors", () => {
     expect(spy).toHaveBeenCalledTimes(1);
     expect(String(spy.mock.calls[0]?.[0])).toContain("[redacted]");
     spy.mockRestore();
+  });
+
+  it("preserves dates and handles circular references in log context", () => {
+    const date = new Date("2026-01-01T00:00:00.000Z");
+    const circular: Record<string, unknown> = { name: "test", created: date };
+    circular["self"] = circular;
+
+    const result = redactLogContext(circular);
+    expect(result.name).toBe("test");
+    expect(result.created).toBe(date);
+    expect(result.self).toBe("[circular]");
   });
 
   it("serializes application errors without stack traces", () => {
