@@ -23,6 +23,8 @@ python plugins/semantiq-lite/skills/semantiq-lite/scripts/semantiq_lite.py short
 
 `--text` may be replaced with stdin; `--source` can be repeated. No results are stored by the script. Exit codes: 0 = report completed/no wording flags, 1 = claim-check wording flagged/needs review, 2 = usage/dependency error.
 
+Stdin must be valid UTF-8. Malformed bytes stop processing with exit code 2 and a concise error on stderr, without echoing the input or producing a traceback. This also applies to `--json`: stdout remains empty on input errors. Valid Unicode, including Persian text, is preserved; explicit `--text` bypasses stdin.
+
 ## Codex / ChatGPT
 
 Portable manifest: `plugin.json`; Codex compatibility manifest: `.codex-plugin/plugin.json`. Skill: `skills/semantiq-lite/SKILL.md`. For direct local Codex use, copy the skill folder to `${CODEX_HOME:-$HOME/.codex}/skills/semantiq-lite` or install the plugin via a supported plugin mechanism. Ensure the SemantIQ Python SDK is available to that Python environment.

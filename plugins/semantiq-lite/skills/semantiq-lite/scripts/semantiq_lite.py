@@ -111,7 +111,16 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
 
 def main(argv: list[str] | None = None) -> int:
     args = parse_args(argv)
-    statement = args.text if args.text is not None else sys.stdin.read(MAX_TEXT + 1)
+    try:
+        if args.text is None and hasattr(sys.stdin, "reconfigure"):
+            sys.stdin.reconfigure(encoding="utf-8", errors="strict")
+        statement = args.text if args.text is not None else sys.stdin.read(MAX_TEXT + 1)
+    except UnicodeDecodeError:
+        print(
+            "Error: stdin must be valid UTF-8; encode the input as UTF-8 or use --text.",
+            file=sys.stderr,
+        )
+        return 2
     if not statement.strip() or len(statement) > MAX_TEXT:
         print(f"Error: --text/stdin must contain 1 to {MAX_TEXT} characters.", file=sys.stderr)
         return 2
