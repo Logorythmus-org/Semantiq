@@ -4,11 +4,7 @@
  */
 
 export type SecretReferenceSource =
-  | "env_var"
-  | "file_mount"
-  | "vault_ref"
-  | "ephemeral_token"
-  | "synthetic_mock";
+  "env_var" | "file_mount" | "vault_ref" | "ephemeral_token" | "synthetic_mock";
 export type SecretInjectionTarget = "env" | "tmpfs_file" | "stdin_pipe";
 
 export interface SecretRequirement {

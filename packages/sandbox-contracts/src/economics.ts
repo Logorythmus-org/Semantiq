@@ -4,11 +4,7 @@
  */
 
 export type EconomicTier =
-  | "COMMUNITY_FREE"
-  | "SPONSORED_GRANT"
-  | "COMMERCIAL_PAYG"
-  | "ENTERPRISE_RESERVED"
-  | "REPLAY_TRACE";
+  "COMMUNITY_FREE" | "SPONSORED_GRANT" | "COMMERCIAL_PAYG" | "ENTERPRISE_RESERVED" | "REPLAY_TRACE";
 
 export type EconomicBillingUnit = "SECOND" | "MINUTE" | "HOUR" | "RUN" | "TOKEN_ESTIMATE";
 

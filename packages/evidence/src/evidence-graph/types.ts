@@ -16,10 +16,7 @@ export enum RelationStrengthLevel {
 }
 
 export type RelationEvidenceStatus =
-  | "supported"
-  | "mixed"
-  | "counterevidence_only"
-  | "no_observation";
+  "supported" | "mixed" | "counterevidence_only" | "no_observation";
 
 export type EvidencePolarity = "SUPPORTS" | "REFUTES";
 

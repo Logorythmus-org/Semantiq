@@ -1,7 +1,5 @@
 export type FinalLaunchDecisionType =
-  | "AUTHORIZED — LEVEL 2 PUBLIC ALPHA"
-  | "AUTHORIZED WITH CONDITIONS"
-  | "BLOCKED";
+  "AUTHORIZED — LEVEL 2 PUBLIC ALPHA" | "AUTHORIZED WITH CONDITIONS" | "BLOCKED";
 
 export interface FinalLaunchAuthorizationRecord {
   readonly authorizationId: string;

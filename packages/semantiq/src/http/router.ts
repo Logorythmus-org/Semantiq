@@ -477,7 +477,18 @@ export class SemantiqHttpRouter {
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      let totalBytes = 0;
+      const MAX_BODY_SIZE = 65536; // 64 KB limit to prevent DoS via unbounded payload memory usage
+
+      req.on("data", (chunk: Buffer) => {
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_BODY_SIZE) {
+          req.pause();
+          reject(new Error("Request body payload exceeded maximum size limit of 64KB"));
+          return;
+        }
+        chunks.push(chunk);
+      });
       req.on("end", () => {
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();

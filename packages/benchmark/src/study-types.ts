@@ -114,10 +114,7 @@ export interface ControlledExecutionPlanInput {
   readonly seedPolicy: "NOT_APPLICABLE" | "EXPLICIT";
   readonly environmentRequirement: string;
   readonly expectedEvidenceScopes: readonly (
-    | "METRIC_S03"
-    | "EVALUATOR_S04"
-    | "EXECUTION_S09"
-    | "RESULT"
+    "METRIC_S03" | "EVALUATOR_S04" | "EXECUTION_S09" | "RESULT"
   )[];
   readonly scientificAuthority: "NONE";
 }

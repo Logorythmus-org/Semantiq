@@ -6,13 +6,7 @@
 export const EPISTEMIC_CAUSAL_DISCLAIMER = "Matched association is not proof of causal effect.";
 
 export type MatchingDimension =
-  | "environment"
-  | "model"
-  | "population"
-  | "tools"
-  | "memory"
-  | "resource_pressure"
-  | "horizon";
+  "environment" | "model" | "population" | "tools" | "memory" | "resource_pressure" | "horizon";
 
 export interface EnvironmentProfile {
   readonly provider: string;

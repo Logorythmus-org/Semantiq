@@ -52,12 +52,7 @@ export type FeedbackCategory =
   | "Security concern"
   | "Documentation feedback";
 export type Severity =
-  | "Blocker"
-  | "High"
-  | "Medium"
-  | "Low"
-  | "Deferred"
-  | "Accepted alpha limitation";
+  "Blocker" | "High" | "Medium" | "Low" | "Deferred" | "Accepted alpha limitation";
 
 export interface FeatureFlag {
   readonly name: AlphaFlagName;
@@ -97,11 +92,7 @@ export interface ConsentRecord {
   readonly id: string;
   readonly subjectId: string;
   readonly purpose:
-    | "telemetry"
-    | "diagnostics"
-    | "external-ai"
-    | "federation-sharing"
-    | "marketplace-publishing";
+    "telemetry" | "diagnostics" | "external-ai" | "federation-sharing" | "marketplace-publishing";
   readonly granted: boolean;
   readonly timestamp: string;
   readonly evidence: string;
