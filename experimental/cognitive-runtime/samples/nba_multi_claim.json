@@ -1,0 +1,7 @@
+{
+  "version": "0.1", "domain": "nba",
+  "claims": [
+    {"id":"winner","subject":"game:0022600138","predicate":"winner","operator":"eq","value":"HOU","evidence_ids":["nba:game:0022600138:winner"]},
+    {"id":"margin","subject":"game:0022600138","predicate":"margin","operator":"eq","value":40,"evidence_ids":["nba:game:0022600138:margin"]}
+  ]
+}

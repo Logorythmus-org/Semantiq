@@ -1,0 +1,13 @@
+{
+  "name": "semantiq-cognitive",
+  "version": "0.2.0-experimental",
+  "description": "Offline structured multi-claim evaluation across NBA, software, and decision fixtures",
+  "license": "MIT",
+  "keywords": [
+    "semantic-ir",
+    "evidence",
+    "agent-evaluation",
+    "mcp"
+  ],
+  "homepage": "https://github.com/Logorythmus-org/Semantiq"
+}
