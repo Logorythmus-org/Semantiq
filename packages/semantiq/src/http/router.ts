@@ -426,7 +426,14 @@ export class SemantiqHttpRouter {
       }
     } catch (err) {
       const msg = err instanceof Error ? err.message : String(err);
-      this.sendError(res, 500, "SERVICE_ERROR", msg, correlationId);
+      const isPayloadTooLarge = msg.includes("payload size limit exceeded");
+      this.sendError(
+        res,
+        isPayloadTooLarge ? 413 : 500,
+        isPayloadTooLarge ? "PAYLOAD_TOO_LARGE" : "SERVICE_ERROR",
+        msg,
+        correlationId
+      );
       return true;
     }
 
@@ -476,9 +483,24 @@ export class SemantiqHttpRouter {
 
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
+      let size = 0;
+      let limitExceeded = false;
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      const onData = (chunk: Buffer) => {
+        if (limitExceeded) return;
+        size += chunk.length;
+        if (size > 65536) {
+          limitExceeded = true;
+          req.off("data", onData);
+          req.resume();
+          reject(new Error("Request body payload size limit exceeded (max 64KB)"));
+          return;
+        }
+        chunks.push(chunk);
+      };
+      req.on("data", onData);
       req.on("end", () => {
+        if (limitExceeded) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {

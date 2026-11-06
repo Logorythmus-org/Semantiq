@@ -109,6 +109,19 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(json.data.violations[0].prohibitedPhrase).toBe("causes");
     });
 
+    it("rejects payloads exceeding 64KB with 413 PAYLOAD_TOO_LARGE", async () => {
+      const oversizedPayload = JSON.stringify({ statement: "a".repeat(70000) });
+      const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: oversizedPayload
+      });
+      expect(res.status).toBe(413);
+      const json = await res.json();
+      expect(json.success).toBe(false);
+      expect(json.error.code).toBe("PAYLOAD_TOO_LARGE");
+    });
+
     it("POST /api/v1/claims/validate-language passes compliant hedged statement", async () => {
       const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
         method: "POST",
