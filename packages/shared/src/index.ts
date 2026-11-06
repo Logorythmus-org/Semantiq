@@ -17,13 +17,20 @@ export type LogContext = Record<string, unknown>;
 
 const sensitiveKeyPattern = /password|secret|token|key|credential/i;
 
+/** Recursively redacts sensitive keys from log context objects and arrays to prevent leaking credentials. */
 export function redactLogContext(context: LogContext = {}): LogContext {
-  return Object.fromEntries(
-    Object.entries(context).map(([key, value]) => [
-      key,
-      sensitiveKeyPattern.test(key) ? "[redacted]" : value
-    ])
-  );
+  const sanitize = (val: unknown): unknown => {
+    if (val === null || typeof val !== "object") return val;
+    if (Array.isArray(val)) return val.map(sanitize);
+    return Object.fromEntries(
+      Object.entries(val as Record<string, unknown>).map(([key, value]) => [
+        key,
+        sensitiveKeyPattern.test(key) ? "[redacted]" : sanitize(value)
+      ])
+    );
+  };
+
+  return sanitize(context) as LogContext;
 }
 
 export function createConsoleLogger(
