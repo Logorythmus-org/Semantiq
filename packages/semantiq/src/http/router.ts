@@ -19,6 +19,9 @@ import type { SemantiqApplicationService } from "../services/index.js";
 import { SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION } from "../version.js";
 import type { ApiResponse } from "./types.js";
 
+// Security defense: Enforce maximum request body size to protect against memory exhaustion and DoS attacks.
+const MAX_REQUEST_BODY_SIZE_BYTES = 1024 * 1024; // 1MB
+
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -477,8 +480,27 @@ export class SemantiqHttpRouter {
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
-      req.on("end", () => {
+      let totalBytes = 0;
+      let exceeded = false;
+
+      const onData = (chunk: Buffer) => {
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_REQUEST_BODY_SIZE_BYTES) {
+          exceeded = true;
+          req.off("data", onData);
+          req.off("end", onEnd);
+          reject(
+            new Error(
+              `Payload too large: request body exceeds maximum allowed size of ${MAX_REQUEST_BODY_SIZE_BYTES} bytes`
+            )
+          );
+          return;
+        }
+        chunks.push(chunk);
+      };
+
+      const onEnd = () => {
+        if (exceeded) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {
@@ -493,7 +515,10 @@ export class SemantiqHttpRouter {
             )
           );
         }
-      });
+      };
+
+      req.on("data", onData);
+      req.on("end", onEnd);
       req.on("error", reject);
     });
   }
