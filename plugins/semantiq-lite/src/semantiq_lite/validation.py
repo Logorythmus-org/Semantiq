@@ -4,6 +4,7 @@ from __future__ import annotations
 
 import json
 import math
+import sys
 from collections.abc import Mapping
 from dataclasses import asdict
 from importlib.resources import files
@@ -25,11 +26,18 @@ class ContractError(ValueError):
 
 def check_limits(limits: ResourceLimits) -> None:
     values = asdict(limits)
+    for name, value in values.items():
+        if name.endswith("seconds"):
+            # Compare integers directly; converting an arbitrary int to float can overflow.
+            valid = (type(value) is int and 0 < value <= sys.float_info.max) or (
+                type(value) is float and math.isfinite(value) and value > 0
+            )
+        else:
+            # The bounded reader adds one byte; reserve room in a platform-sized index.
+            valid = type(value) is int and 0 < value < sys.maxsize
+        if not valid:
+            raise ContractError("INVALID_CONTRACT", "limits")
     if not Draft202012Validator(SCHEMA["$defs"]["ResourceLimits"]).is_valid(values):
-        raise ContractError("INVALID_CONTRACT", "limits")
-    if any(not math.isfinite(v) for v in values.values()):
-        raise ContractError("INVALID_CONTRACT", "limits")
-    if any(type(v) is not int for k, v in values.items() if not k.endswith("seconds")):
         raise ContractError("INVALID_CONTRACT", "limits")
 
 

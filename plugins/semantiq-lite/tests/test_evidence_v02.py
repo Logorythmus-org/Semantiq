@@ -4,9 +4,11 @@ from __future__ import annotations
 
 import copy
 import json
+import sys
 import tempfile
 import unittest
 from dataclasses import asdict, replace
+from functools import partial
 from pathlib import Path
 
 from jsonschema import Draft202012Validator
@@ -23,7 +25,7 @@ from semantiq_lite import (
     validate_review,
 )
 from semantiq_lite.contracts import DEFAULT_LIMITS
-from semantiq_lite.validation import SCHEMA
+from semantiq_lite.validation import SCHEMA, check_limits
 
 
 def example(text="A reported result."):
@@ -39,6 +41,44 @@ def example(text="A reported result."):
 
 
 class IntegrityTests(unittest.TestCase):
+    def test_numeric_limits_fail_closed(self):
+        data, raw = example()
+        for name in asdict(DEFAULT_LIMITS):
+            for value in (10**400, -1, 0, True, False, float("nan"), float("inf"), float("-inf")):
+                with self.subTest(field=name, value=value):
+                    limits = replace(DEFAULT_LIMITS, **{name: value})
+                    # Dataclass construction does not validate; every API boundary must.
+                    for operation in (
+                        partial(check_limits, limits),
+                        partial(validate_review, data, raw, limits),
+                        partial(dumps_review, data, raw, limits),
+                        partial(snapshot, "s1", b"ok", limits=limits),
+                        partial(load_local, Path("."), "missing.txt", "s1", limits),
+                    ):
+                        with self.assertRaises(ContractError) as caught:
+                            operation()
+                        self.assertEqual(str(caught.exception), "INVALID_CONTRACT: limits")
+                        self.assertEqual(caught.exception.record.code, "INVALID_CONTRACT")
+                        self.assertEqual(caught.exception.record.location, "limits")
+
+    def test_valid_numeric_limits(self):
+        check_limits(DEFAULT_LIMITS)
+        limits = replace(
+            DEFAULT_LIMITS, sources=2, claims=20, source_seconds=0.5, request_seconds=60
+        )
+        data, raw = example()
+        validate_review(data, raw, limits)
+        for name in asdict(DEFAULT_LIMITS):
+            if name.endswith("seconds"):
+                for value in (1, 0.25, sys.float_info.max, int(sys.float_info.max)):
+                    check_limits(replace(DEFAULT_LIMITS, **{name: value}))
+            else:
+                check_limits(replace(DEFAULT_LIMITS, **{name: sys.maxsize - 1}))
+                for value in (sys.maxsize, 1.0, 0.25):
+                    self.failure(
+                        "INVALID_CONTRACT", data, raw, replace(DEFAULT_LIMITS, **{name: value})
+                    )
+
     def test_frozen_examples(self):
         root = Path(__file__).parents[1] / "examples"
         raw = {"synthetic-1": (root / "source.txt").read_bytes()}

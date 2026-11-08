@@ -84,6 +84,12 @@ Hashes do not authenticate an author; exact quotations do not establish truth.
 | Source / request time budgets | 5 / 30 seconds (reserved, unenforced) |
 
 `ResourceLimits` configures positive finite values. No silent truncation occurs.
+The Python execution profile requires count/size limits to be exact integers below
+`sys.maxsize`, reserving one byte for bounded-read overflow detection. Time budgets
+accept positive finite floats or positive integers no larger than `sys.float_info.max`.
+Booleans and oversized integers fail with `INVALID_CONTRACT: limits`, without numeric
+conversion overflow or disclosure of the supplied value. The portable JSON Schema
+continues to describe the wire types; these platform bounds are execution-profile checks.
 The bounded file reader reads at most the smaller applicable raw cap plus one byte.
 Serialization counts UTF-8 bytes incrementally and returns nothing on failure.
 The output ceiling can reject a review otherwise within extracted-text limits.

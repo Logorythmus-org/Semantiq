@@ -3,11 +3,11 @@ import importlib.util
 import io
 import json
 import os
-from pathlib import Path
 import subprocess
 import sys
 import types
 import unittest
+from pathlib import Path
 from unittest.mock import patch
 
 SCRIPT = Path(__file__).parents[1] / "skills" / "semantiq-lite" / "scripts" / "semantiq_lite.py"
@@ -35,7 +35,9 @@ class FakeClient:
 
 class SemantiqLiteTests(unittest.TestCase):
     def setUp(self):
-        self.sdk = patch.dict(sys.modules, {"semantiq": types.SimpleNamespace(SemantiqClient=FakeClient)})
+        self.sdk = patch.dict(
+            sys.modules, {"semantiq": types.SimpleNamespace(SemantiqClient=FakeClient)}
+        )
         self.sdk.start()
 
     def tearDown(self):
@@ -88,7 +90,9 @@ class SemantiqLiteTests(unittest.TestCase):
         self.assertEqual(code, 1)
         self.assertEqual(json.loads(out.getvalue())["status"], "flagged")
         with patch("sys.stdout", new_callable=io.StringIO) as out:
-            code = module.main(["short-report", "--text", "The result improved.", "--source", "ref-1", "--json"])
+            code = module.main([
+                "short-report", "--text", "The result improved.", "--source", "ref-1", "--json"
+            ])
         self.assertEqual(code, 0)
         self.assertEqual(json.loads(out.getvalue())["evidence_limits"]["reference_count"], 1)
 
@@ -133,7 +137,8 @@ class SemantiqLiteTests(unittest.TestCase):
                         self.assertEqual(run.stdout, b"")
                         self.assertEqual(
                             run.stderr.replace(b"\r\n", b"\n"),
-                            b"Error: stdin must be valid UTF-8; encode the input as UTF-8 or use --text.\n",
+                            b"Error: stdin must be valid UTF-8; "
+                            b"encode the input as UTF-8 or use --text.\n",
                         )
 
     def test_ascii_stdin_preserves_json_and_action_exit_codes(self):

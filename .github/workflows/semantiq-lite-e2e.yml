@@ -33,7 +33,7 @@ jobs:
         run: |
           python -m unittest discover -s plugins/semantiq-lite/tests -v
           python -m pytest -q packages/python/tests/test_semantiq_lite_integration.py
-          python -m ruff check plugins/semantiq-lite/src plugins/semantiq-lite/tests/test_evidence_v02.py plugins/semantiq-lite/contracts/build_schema.py plugins/semantiq-lite/examples/build_examples.py
+          python -m ruff check plugins/semantiq-lite/src plugins/semantiq-lite/tests plugins/semantiq-lite/contracts/build_schema.py plugins/semantiq-lite/examples/build_examples.py
           python -m mypy --ignore-missing-imports plugins/semantiq-lite/src
           python -m build plugins/semantiq-lite --outdir /tmp/semantiq-lite-dist
           python -m venv /tmp/semantiq-lite-wheel
