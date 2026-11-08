@@ -132,7 +132,7 @@ class SemantiqLiteTests(unittest.TestCase):
                         self.assertEqual(run.returncode, 2, run.stderr)
                         self.assertEqual(run.stdout, b"")
                         self.assertEqual(
-                            run.stderr,
+                            run.stderr.replace(b"\r\n", b"\n"),
                             b"Error: stdin must be valid UTF-8; encode the input as UTF-8 or use --text.\n",
                         )
 
