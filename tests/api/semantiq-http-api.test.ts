@@ -95,6 +95,31 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
   });
 
   describe("2. Governed Claims & Controlled Language API", () => {
+
+    it("rejects oversized JSON bodies with HTTP 413 instead of a service error", async () => {
+      const response = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statement: "a".repeat(1024 * 1024) })
+      });
+      expect(response.status).toBe(413);
+      const payload = await response.json();
+      expect(payload.success).toBe(false);
+      expect(payload.error.code).toBe("PAYLOAD_TOO_LARGE");
+      expect(payload.error.message).not.toContain("a".repeat(100));
+    });
+
+    it("counts UTF-8 bytes rather than JavaScript string characters", async () => {
+      const response = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statement: "é".repeat(530000) })
+      });
+      expect(response.status).toBe(413);
+      const payload = await response.json();
+      expect(payload.error.code).toBe("PAYLOAD_TOO_LARGE");
+    });
+
     it("POST /api/v1/claims/validate-language detects prohibited causal claims", async () => {
       const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
         method: "POST",
