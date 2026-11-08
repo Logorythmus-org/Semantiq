@@ -1,0 +1,36 @@
+test_bad_id_types (test_mcp_lifecycle.Lifecycle.test_bad_id_types) ... ok
+test_direct_consistency (test_mcp_lifecycle.Lifecycle.test_direct_consistency) ... ok
+test_discovery_schema (test_mcp_lifecycle.Lifecycle.test_discovery_schema) ... ok
+test_early_notification (test_mcp_lifecycle.Lifecycle.test_early_notification) ... ok
+test_handshake (test_mcp_lifecycle.Lifecycle.test_handshake) ... ok
+test_invalid_initialize_retry (test_mcp_lifecycle.Lifecycle.test_invalid_initialize_retry) ... ok
+test_parse_failure_recovery (test_mcp_lifecycle.Lifecycle.test_parse_failure_recovery) ... ok
+test_strict_json (test_mcp_lifecycle.Lifecycle.test_strict_json) ... ok
+test_unknown_tool_notification (test_mcp_lifecycle.Lifecycle.test_unknown_tool_notification) ... ok
+test_version_negotiation (test_mcp_lifecycle.Lifecycle.test_version_negotiation) ... ok
+test_all_three_domains_available (test_phase6.Tests.test_all_three_domains_available) ... ok
+test_duplicate_claim_id_rejected (test_phase6.Tests.test_duplicate_claim_id_rejected) ... ok
+test_execute_never_allows_side_effect (test_phase6.Tests.test_execute_never_allows_side_effect) ... ok
+test_forged_evidence_not_admitted (test_phase6.Tests.test_forged_evidence_not_admitted) ... ok
+test_fresh_stress_except_known_provenance_boundary (test_phase6.Tests.test_fresh_stress_except_known_provenance_boundary) ... ok
+test_main_gold (test_phase6.Tests.test_main_gold) ... ok
+test_mcp_bad_json (test_phase6.Tests.test_mcp_bad_json) ... ok
+test_mcp_real_subprocess_30_calls (test_phase6.Tests.test_mcp_real_subprocess_30_calls) ... ok
+test_mutation_detected_before_rehash (test_phase6.Tests.test_mutation_detected_before_rehash) ... ok
+test_no_external_system_calls (test_phase6.Tests.test_no_external_system_calls) ... ok
+test_schema_unknown_fields_rejected (test_phase6.Tests.test_schema_unknown_fields_rejected) ... ok
+test_three_forged_worlds_remain_unsafe (test_phase6.Tests.test_three_forged_worlds_remain_unsafe) ... ok
+test_unparsed_narrative_not_supported (test_phase6.Tests.test_unparsed_narrative_not_supported) ... ok
+test_missing_value (test_phase7.Phase7.test_missing_value) ... ok
+test_non_json_python_values (test_phase7.Phase7.test_non_json_python_values) ... ok
+test_nonadjacent_conflicts_unknown_target (test_phase7.Phase7.test_nonadjacent_conflicts_unknown_target) ... ok
+test_oversize_recovers (test_phase7.Phase7.test_oversize_recovers) ... ok
+test_process_survives_invalid_packets (test_phase7.Phase7.test_process_survives_invalid_packets) ... ok
+test_schema_invalid_inputs (test_phase7.Phase7.test_schema_invalid_inputs) ... ok
+test_v02_and_no_actions (test_phase7.Phase7.test_v02_and_no_actions) ... ok
+test_metrics_and_missing_telemetry (test_recorded.Recorded.test_metrics_and_missing_telemetry) ... ok
+
+----------------------------------------------------------------------
+Ran 31 tests in 0.175s
+
+OK

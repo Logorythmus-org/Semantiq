@@ -1,0 +1,8 @@
+{
+  "version":"0.1","domain":"decision",
+  "claims":[
+    {"id":"reversible","subject":"scenario:incident","predicate":"reversible","operator":"eq","value":true,"evidence_ids":["decision:scenario:incident:reversible"]},
+    {"id":"data","subject":"scenario:incident","predicate":"data_sufficient","operator":"eq","value":true,"evidence_ids":["decision:scenario:incident:data_sufficient"]},
+    {"id":"hold","subject":"scenario:incident","predicate":"hold_option","operator":"eq","value":true,"evidence_ids":["decision:scenario:incident:hold_option"]}
+  ]
+}

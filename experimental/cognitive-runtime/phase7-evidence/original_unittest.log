@@ -1,0 +1,18 @@
+test_all_three_domains_available (test_phase6.Tests.test_all_three_domains_available) ... ok
+test_duplicate_claim_id_rejected (test_phase6.Tests.test_duplicate_claim_id_rejected) ... ok
+test_execute_never_allows_side_effect (test_phase6.Tests.test_execute_never_allows_side_effect) ... ok
+test_forged_evidence_not_admitted (test_phase6.Tests.test_forged_evidence_not_admitted) ... ok
+test_fresh_stress_except_known_provenance_boundary (test_phase6.Tests.test_fresh_stress_except_known_provenance_boundary) ... ok
+test_main_gold (test_phase6.Tests.test_main_gold) ... ok
+test_mcp_bad_json (test_phase6.Tests.test_mcp_bad_json) ... ok
+test_mcp_real_subprocess_30_calls (test_phase6.Tests.test_mcp_real_subprocess_30_calls) ... ok
+test_mutation_detected_before_rehash (test_phase6.Tests.test_mutation_detected_before_rehash) ... ok
+test_no_external_system_calls (test_phase6.Tests.test_no_external_system_calls) ... ok
+test_schema_unknown_fields_rejected (test_phase6.Tests.test_schema_unknown_fields_rejected) ... ok
+test_three_forged_worlds_remain_unsafe (test_phase6.Tests.test_three_forged_worlds_remain_unsafe) ... ok
+test_unparsed_narrative_not_supported (test_phase6.Tests.test_unparsed_narrative_not_supported) ... ok
+
+----------------------------------------------------------------------
+Ran 13 tests in 0.072s
+
+OK
