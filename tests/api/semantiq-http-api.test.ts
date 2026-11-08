@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { request as httpRequest } from "node:http";
 import {
   createSemantiqHttpServer,
   type SemantiqHttpApplication
@@ -107,6 +108,32 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(payload.success).toBe(false);
       expect(payload.error.code).toBe("PAYLOAD_TOO_LARGE");
       expect(payload.error.message).not.toContain("a".repeat(100));
+    });
+
+    it("rejects chunked request bodies without a Content-Length header", async () => {
+      const result = await new Promise<{ status: number | undefined; body: string }>(
+        (resolve, reject) => {
+          const req = httpRequest(
+            `${baseUrl}/api/v1/claims/validate-language`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Transfer-Encoding": "chunked" }
+            },
+            (res) => {
+              let body = "";
+              res.setEncoding("utf8");
+              res.on("data", (chunk: string) => { body += chunk; });
+              res.on("end", () => resolve({ status: res.statusCode, body }));
+            }
+          );
+          req.on("error", reject);
+          req.write('{"statement":"');
+          for (let i = 0; i < 17; i++) req.write("a".repeat(65536));
+          req.end('"}');
+        }
+      );
+      expect(result.status).toBe(413);
+      expect(JSON.parse(result.body).error.code).toBe("PAYLOAD_TOO_LARGE");
     });
 
     it("counts UTF-8 bytes rather than JavaScript string characters", async () => {
