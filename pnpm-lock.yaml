@@ -27,8 +27,8 @@ importers:
         specifier: 9.39.5
         version: 9.39.5
       '@hyperjump/json-schema':
-        specifier: 1.17.8
-        version: 1.17.8(@hyperjump/browser@1.5.0)
+        specifier: 1.18.0
+        version: 1.18.0(@hyperjump/browser@1.5.0)
       '@playwright/test':
         specifier: 1.64.1
         version: 1.64.1
@@ -927,22 +927,22 @@ packages:
     resolution: {integrity: sha512-h+fGXfmMOAxYjd2aZ4Y5jpP2WRi0TAkBmKNtoNJKcJLOahNrurwHEUgd1/jO2Hs2j/b/G1EhX0edX8ntXkH2MA==}
     engines: {node: '>=18.0.0'}
 
-  '@hyperjump/json-pointer@1.1.2':
-    resolution: {integrity: sha512-zPNgu1zdhtjQHFNLGzvEsLDsLOEvhRj6u6ktIQmlz7YPESv5uF8SnAe3Dq0oL6gZ6OGWSLq2n7pphRNF6Hpg6w==}
+  '@hyperjump/json-pointer@1.1.3':
+    resolution: {integrity: sha512-GVSs+wzefSO5VOEVMuOz118MDJrJtMdm8h+2vlghzMG/5QpboTSQ12gaMKvGQo7S4oPMw9rCyFWNAJ9DUEdA5Q==}
 
-  '@hyperjump/json-schema-formats@1.0.5':
-    resolution: {integrity: sha512-JHMa2YwBmHG7N1LD4sOKx3gfYJjXDiV1MRPIpN2huma/hTLMoCZ/cGe2tCQsfqD9KgjFaRO2mmXFlamwdN3/wQ==}
+  '@hyperjump/json-schema-formats@1.1.0':
+    resolution: {integrity: sha512-vLMIOwMThlgWgPJBV39Ds7kaTaygK0+UxjvQShTmKB8rRy8HXq472jnHP8/uaik+77HDx2M+W5Bvzhq6zFc2zQ==}
 
-  '@hyperjump/json-schema@1.17.8':
-    resolution: {integrity: sha512-XOqbR9GRNHaH4JEXHdbsm7xfYwudZG7HVDq3qPZUb1gi+ZQPklgNvhMi6zf0Plf433qR61MK+xeeprUwUUvGPg==}
+  '@hyperjump/json-schema@1.18.0':
+    resolution: {integrity: sha512-YPLJsCosW6pHhulKrFogUsl1WxQVRy+fY0pROt66FDFygjIWZkMxXyiy8HLRR1JKeAd5OE6NSZs0NVjSBNwb2Q==}
     peerDependencies:
       '@hyperjump/browser': ^1.1.0
 
-  '@hyperjump/pact@1.4.0':
-    resolution: {integrity: sha512-01Q7VY6BcAkp9W31Fv+ciiZycxZHGlR2N6ba9BifgyclHYHdbaZgITo0U6QMhYRlem4k8pf8J31/tApxvqAz8A==}
+  '@hyperjump/pact@1.5.1':
+    resolution: {integrity: sha512-AmMAUpM5FzqMo5Ip4r9XQ7P8eAEuRlyeeMaOPqcv9ItS0Gogl+Sbod19CZZlzSO5n16SNPFijFwEwrid1eCY9Q==}
 
-  '@hyperjump/uri@1.3.6':
-    resolution: {integrity: sha512-9a2/wOIp666Veq1a8QctYPRtyFHH0p1yw8Nt/DEf06M+eDpwBpeuc2rGqqjBthENTOy1NyJ/xhSiDtkjU5LfKA==}
+  '@hyperjump/uri@1.4.0':
+    resolution: {integrity: sha512-A6eBnSLNb6GdJHnYnA0sDutV950mWNmmlWgASwIoZvXqtXcYKBeEhbGrXpHeyHHInC/LHVt8zNanILp2S2oRXg==}
 
   '@isaacs/cliui@8.0.2':
     resolution: {integrity: sha512-O8jcjabXaleOG9DQ0+ARXWZBTfnP4WNAqzuiJK7ll44AmxGKv/J2M4TPjxjY3znBCfvBXFzucm1twdyFybFqEA==}
@@ -1624,8 +1624,8 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
-  idn-hostname@15.1.18:
-    resolution: {integrity: sha512-EavZGx2tKAaLhRWao1JV6SZA2fy3LObtfkb/jaHjJBQ3yvBUaucjFlx9vouRGmdBV+fx91CqxhH9lFDhYuX2xA==}
+  idn-hostname@15.1.19:
+    resolution: {integrity: sha512-pRGRbFpQWCptOBWw9Gn5DXtPdern5/XtdkcXdoEavjd+sh72jNm2eVI1eeysp64UisXPfaqoQrnLUKpSN4hJWw==}
     engines: {node: '>=20.12.0 <21 || >=22.0.0'}
 
   ignore@5.3.2:
@@ -1720,10 +1720,6 @@ packages:
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
-
-  json-stringify-deterministic@1.0.16:
-    resolution: {integrity: sha512-barjhF/wL0ot1i7AVA3gDDfuBIS1Iz7dlYmO6fZnVDUXtB/EJKjqREA/FUndo+kCGYLI67jH3hXKQMwuTFhbpQ==}
-    engines: {node: '>= 4'}
 
   jsonc-parser@3.3.1:
     resolution: {integrity: sha512-HUgH65KyejrUFPvHFPbqOY0rsFip3Bo5wb4ngvdi1EpCYWUQDC5V+Y7mZws+DLkr4M//zQJoanu1SP+87Dv1oQ==}
@@ -2066,8 +2062,8 @@ packages:
   uri-js@4.4.1:
     resolution: {integrity: sha512-7rKUyy33Q1yc98pQ1DAmLtwX109F7TIfWlW1Ydo8Wl1ii1SeHieeh0HHfPeL2fMXK6z0s8ecKs9frCuLJvndBg==}
 
-  uuid@14.0.2:
-    resolution: {integrity: sha512-xZe/16rV4aa+HGSOCiY2YeLT1OybRLrrkL/Rqaq7p7GMVXjFh+6wN4oMYgjFmnSnhY8t6Xpdl2l9qmnHYuMHwQ==}
+  uuid@14.0.3:
+    resolution: {integrity: sha512-Sc5u1VVln93y1Xnz4R+CunOZc7R9LUcTmhj7Rc7Eg3HVcf7rVn2FOoa812fe0W8p3jD7xeoGSYbfqCGGH2B6xw==}
     hasBin: true
 
   verkit@0.5.0:
@@ -2612,33 +2608,32 @@ snapshots:
 
   '@hyperjump/browser@1.5.0':
     dependencies:
-      '@hyperjump/json-pointer': 1.1.2
-      '@hyperjump/uri': 1.3.6
+      '@hyperjump/json-pointer': 1.1.3
+      '@hyperjump/uri': 1.4.0
       content-type: 1.0.5
       just-curry-it: 5.3.0
 
-  '@hyperjump/json-pointer@1.1.2': {}
+  '@hyperjump/json-pointer@1.1.3': {}
 
-  '@hyperjump/json-schema-formats@1.0.5':
+  '@hyperjump/json-schema-formats@1.1.0':
     dependencies:
-      '@hyperjump/uri': 1.3.6
-      idn-hostname: 15.1.18
+      '@hyperjump/uri': 1.4.0
+      idn-hostname: 15.1.19
 
-  '@hyperjump/json-schema@1.17.8(@hyperjump/browser@1.5.0)':
+  '@hyperjump/json-schema@1.18.0(@hyperjump/browser@1.5.0)':
     dependencies:
       '@hyperjump/browser': 1.5.0
-      '@hyperjump/json-pointer': 1.1.2
-      '@hyperjump/json-schema-formats': 1.0.5
-      '@hyperjump/pact': 1.4.0
-      '@hyperjump/uri': 1.3.6
+      '@hyperjump/json-pointer': 1.1.3
+      '@hyperjump/json-schema-formats': 1.1.0
+      '@hyperjump/pact': 1.5.1
+      '@hyperjump/uri': 1.4.0
       content-type: 1.0.5
-      json-stringify-deterministic: 1.0.16
       just-curry-it: 5.3.0
-      uuid: 14.0.2
+      uuid: 14.0.3
 
-  '@hyperjump/pact@1.4.0': {}
+  '@hyperjump/pact@1.5.1': {}
 
-  '@hyperjump/uri@1.3.6': {}
+  '@hyperjump/uri@1.4.0': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -3305,7 +3300,7 @@ snapshots:
 
   husky@9.1.7: {}
 
-  idn-hostname@15.1.18:
+  idn-hostname@15.1.19:
     dependencies:
       punycode: 2.3.1
 
@@ -3384,8 +3379,6 @@ snapshots:
   json-schema-traverse@1.0.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
-
-  json-stringify-deterministic@1.0.16: {}
 
   jsonc-parser@3.3.1: {}
 
@@ -3718,7 +3711,7 @@ snapshots:
     dependencies:
       punycode: 2.3.1
 
-  uuid@14.0.2: {}
+  uuid@14.0.3: {}
 
   verkit@0.5.0: {}
 
