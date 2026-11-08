@@ -96,7 +96,6 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
   });
 
   describe("2. Governed Claims & Controlled Language API", () => {
-
     it("rejects oversized JSON bodies with HTTP 413 instead of a service error", async () => {
       const response = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
         method: "POST",
@@ -122,7 +121,9 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
             (res) => {
               let body = "";
               res.setEncoding("utf8");
-              res.on("data", (chunk: string) => { body += chunk; });
+              res.on("data", (chunk: string) => {
+                body += chunk;
+              });
               res.on("end", () => resolve({ status: res.statusCode, body }));
             }
           );
