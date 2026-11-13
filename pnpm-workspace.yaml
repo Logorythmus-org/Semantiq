@@ -14,3 +14,4 @@ overrides:
   "launch-editor": "2.14.2"
   "vite": "7.3.8"
   "fast-uri": "3.1.9"
+  "minimatch": "11.0.1"
