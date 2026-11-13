@@ -16,7 +16,12 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
   beforeAll(async () => {
     tempStaticDir = join(tmpdir(), `semantiq-static-${Date.now()}`);
     await mkdir(tempStaticDir, { recursive: true });
-    await writeFile(join(tempStaticDir, "index.html"), "<h1>SemantIQ Web UI Mock</h1>");
+    await writeFile(
+      join(tempStaticDir, "index.html"),
+      '<link rel="stylesheet" href="/app.css"><h1>SemantIQ Web UI Mock</h1><script src="/app.js"></script>'
+    );
+    await writeFile(join(tempStaticDir, "app.js"), 'globalThis.semantIQTest = true;');
+    await writeFile(join(tempStaticDir, "app.css"), 'h1 { color: black; }');
 
     app = createSemantiqHttpServer({
       port: 0,
@@ -35,18 +40,43 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
 
   describe("security headers across response paths", () => {
     it.each([
-      { name: "health JSON", path: "/health", method: "GET", status: 200 },
-      { name: "CORS preflight", path: "/api/v1/patterns", method: "OPTIONS", status: 204 },
-      { name: "not-found error", path: "/missing-route", method: "POST", status: 404 },
-      { name: "static HTML", path: "/", method: "GET", status: 200 },
+      {
+        name: "health JSON",
+        path: "/health",
+        method: "GET",
+        status: 200,
+        csp: "default-src 'none'; frame-ancestors 'none'"
+      },
+      {
+        name: "CORS preflight",
+        path: "/api/v1/patterns",
+        method: "OPTIONS",
+        status: 204,
+        csp: "frame-ancestors 'none'"
+      },
+      {
+        name: "not-found error",
+        path: "/missing-route",
+        method: "POST",
+        status: 404,
+        csp: "default-src 'none'; frame-ancestors 'none'"
+      },
+      {
+        name: "static HTML",
+        path: "/",
+        method: "GET",
+        status: 200,
+        csp: "frame-ancestors 'none'"
+      },
       {
         name: "service error",
         path: "/api/v1/claims/validate-language",
         method: "POST",
         body: "{",
-        status: 500
+        status: 500,
+        csp: "default-src 'none'; frame-ancestors 'none'"
       }
-    ])("preserves headers on $name responses", async ({ path, method, body, status }) => {
+    ])("preserves headers on $name responses", async ({ path, method, body, status, csp }) => {
       const res = await fetch(`${baseUrl}${path}`, {
         method,
         ...(body ? { body, headers: { "Content-Type": "application/json" } } : {})
@@ -55,8 +85,19 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(res.headers.get("x-content-type-options")).toBe("nosniff");
       expect(res.headers.get("x-frame-options")).toBe("DENY");
       expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+      expect(res.headers.get("content-security-policy")).toBe(csp);
       await res.arrayBuffer();
     });
+  });
+
+  it("serves optional same-origin UI assets without the JSON-only default-src restriction", async () => {
+    for (const asset of ["/index.html", "/app.js", "/app.css"]) {
+      const response = await fetch(`${baseUrl}${asset}`);
+      expect(response.status).toBe(200);
+      expect(response.headers.get("content-security-policy")).toBe("frame-ancestors 'none'");
+      expect(response.headers.get("x-content-type-options")).toBe("nosniff");
+      expect((await response.text()).length).toBeGreaterThan(0);
+    }
   });
 
   describe("1. Headless Runtime & Health Endpoints", () => {
