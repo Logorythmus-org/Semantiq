@@ -35,11 +35,7 @@ export type ResearchDestination =
 export interface ResearchSource {
   readonly sourceId: string;
   readonly sourceType:
-    | "FIRST_PARTY"
-    | "PROJECT_RECORD"
-    | "THIRD_PARTY"
-    | "HISTORICAL"
-    | "RESEARCH_CONCEPT";
+    "FIRST_PARTY" | "PROJECT_RECORD" | "THIRD_PARTY" | "HISTORICAL" | "RESEARCH_CONCEPT";
   readonly citationOrReference: string;
   readonly provenanceClass: RegistryProvenanceClass;
   readonly rightsClass: RegistryInputRightsClass;
@@ -101,11 +97,7 @@ export interface ConstructAssessmentInput {
   readonly challengingEvidenceReferences: readonly string[];
   readonly operationalizationReferences: readonly string[];
   readonly maturity:
-    | "PROPOSED"
-    | "DEFINED"
-    | "UNDER_ASSESSMENT"
-    | "EVIDENCE_SUPPORTED"
-    | "CONTESTED";
+    "PROPOSED" | "DEFINED" | "UNDER_ASSESSMENT" | "EVIDENCE_SUPPORTED" | "CONTESTED";
   readonly limitations: readonly string[];
   readonly validityStatus:
     | "NOT_ASSESSED"
@@ -260,11 +252,7 @@ export const PROMOTION_GATE_IDS = [
 ] as const;
 export type PromotionGateId = (typeof PROMOTION_GATE_IDS)[number];
 export type PromotionGateStatus =
-  | "SATISFIED"
-  | "PARTIALLY_SATISFIED"
-  | "UNSATISFIED"
-  | "UNKNOWN"
-  | "NOT_APPLICABLE";
+  "SATISFIED" | "PARTIALLY_SATISFIED" | "UNSATISFIED" | "UNKNOWN" | "NOT_APPLICABLE";
 
 export interface PromotionGateEvidence {
   readonly gateId: PromotionGateId;
@@ -360,11 +348,7 @@ export interface PromotionDecision {
 }
 
 export type LifecycleReviewAction =
-  | "DEPRECATION"
-  | "DEMOTION"
-  | "RETRACTION"
-  | "SUPERSESSION"
-  | "ARCHIVAL";
+  "DEPRECATION" | "DEMOTION" | "RETRACTION" | "SUPERSESSION" | "ARCHIVAL";
 
 export interface LifecycleReassessment {
   readonly reassessmentId: string;
