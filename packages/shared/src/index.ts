@@ -32,7 +32,9 @@ export function redactLogContext(context: LogContext = {}): LogContext {
 
     try {
       if (value instanceof Date) {
-        return Number.isNaN(value.getTime()) ? null : Date.prototype.toISOString.call(value);
+        return Number.isNaN(Date.prototype.getTime.call(value))
+          ? null
+          : Date.prototype.toISOString.call(value);
       }
       if (!Array.isArray(value)) {
         const prototype: unknown = Object.getPrototypeOf(value);
