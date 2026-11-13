@@ -132,8 +132,10 @@ describe("Question semantic security boundary", () => {
       headers: { "content-type": "application/json", "x-actor-id": "semantic-sec-owner" },
       body: JSON.stringify(sensitiveBody({ context: ["x".repeat(70_000)] }))
     });
-    expect(oversized.status).toBe(422);
-    expect(JSON.stringify(await oversized.json())).not.toContain("x".repeat(100));
+    expect(oversized.status).toBe(413);
+    const oversizedBody = (await oversized.json()) as { error: { code: string } };
+    expect(oversizedBody.error.code).toBe("PAYLOAD_TOO_LARGE");
+    expect(JSON.stringify(oversizedBody)).not.toContain("x".repeat(100));
 
     const malformed = await fetch(url, {
       method: "PUT",
