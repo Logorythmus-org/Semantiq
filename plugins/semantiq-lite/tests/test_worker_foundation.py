@@ -448,6 +448,17 @@ else:
             except FileNotFoundError:
                 return False
         import ctypes
+
+        kernel, handle = self.windows_process_handle(pid)
+        if not handle:
+            return ctypes.get_last_error() == 5
+        try:
+            return kernel.WaitForSingleObject(handle, 0) == 258
+        finally:
+            kernel.CloseHandle(handle)
+
+    def windows_process_handle(self, pid):
+        import ctypes
         from ctypes import wintypes
 
         kernel = ctypes.WinDLL("kernel32", use_last_error=True)
@@ -455,13 +466,7 @@ else:
         kernel.OpenProcess.restype = wintypes.HANDLE
         kernel.WaitForSingleObject.argtypes = [wintypes.HANDLE, wintypes.DWORD]
         kernel.CloseHandle.argtypes = [wintypes.HANDLE]
-        handle = kernel.OpenProcess(0x100000, False, pid)
-        if not handle:
-            return ctypes.get_last_error() == 5
-        try:
-            return kernel.WaitForSingleObject(handle, 0) == 258
-        finally:
-            kernel.CloseHandle(handle)
+        return kernel, kernel.OpenProcess(0x100000, False, pid)
 
     def test_normal_root_exit_reaps_non_escaping_child(self):
         code = (
@@ -478,8 +483,16 @@ sys.stdout.buffer.write(frame(response)); sys.stdout.buffer.flush()
         supervisor = WorkerSupervisor(limits)
         cleanup = supervisor._cleanup
         captured = []
+        held = []
 
         def record(*args):
+            if sys.platform == "win32":
+                until = time.monotonic() + 0.5
+                while not args[2][1].value() and time.monotonic() < until:
+                    time.sleep(0.005)
+                kernel, handle = self.windows_process_handle(int(args[2][1].value()))
+                self.assertTrue(handle)
+                held.append((kernel, handle))
             result = cleanup(*args)
             captured.append(args[2][1].value())
             return result
@@ -487,7 +500,15 @@ sys.stdout.buffer.write(frame(response)); sys.stdout.buffer.flush()
         with self.fixture(code):
             with patch.object(supervisor, "_cleanup", side_effect=record):
                 self.assertEqual(supervisor.run_synthetic(self.source).raw_bytes, 2)
-        self.assertFalse(self.alive(int(captured[0])))
+        if held:
+            kernel, handle = held[0]
+            try:
+                # Hold identity across cleanup: a reopened PID may already be reused.
+                self.assertEqual(kernel.WaitForSingleObject(handle, 0), 0)
+            finally:
+                kernel.CloseHandle(handle)
+        else:
+            self.assertFalse(self.alive(int(captured[0])))
 
     def test_parent_death_stops_direct_worker(self):
         from semantiq_lite.worker import _executable
