@@ -31,6 +31,9 @@ const MIME_TYPES: Record<string, string> = {
   ".ico": "image/x-icon"
 };
 
+// Maximum allowed incoming JSON request body size (64KB) to prevent DoS attacks via memory exhaustion.
+const MAX_PAYLOAD_BYTES = 65536;
+
 export class SemantiqHttpRouter {
   constructor(
     private readonly service: SemantiqApplicationService,
@@ -45,6 +48,7 @@ export class SemantiqHttpRouter {
     res.setHeader("x-content-type-options", "nosniff");
     res.setHeader("x-frame-options", "DENY");
     res.setHeader("referrer-policy", "strict-origin-when-cross-origin");
+    res.setHeader("content-security-policy", "default-src 'none'; frame-ancestors 'none'");
 
     if (this.enableCors) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -477,8 +481,25 @@ export class SemantiqHttpRouter {
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      let totalBytes = 0;
+      let rejected = false;
+
+      const onData = (chunk: Buffer) => {
+        if (rejected) return;
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_PAYLOAD_BYTES) {
+          rejected = true;
+          req.removeListener("data", onData);
+          req.destroy();
+          reject(new Error("Payload too large: request body exceeds 64KB limit"));
+          return;
+        }
+        chunks.push(chunk);
+      };
+
+      req.on("data", onData);
       req.on("end", () => {
+        if (rejected) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {
@@ -494,7 +515,9 @@ export class SemantiqHttpRouter {
           );
         }
       });
-      req.on("error", reject);
+      req.on("error", (err) => {
+        if (!rejected) reject(err);
+      });
     });
   }
 
