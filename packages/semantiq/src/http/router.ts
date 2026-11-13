@@ -19,6 +19,15 @@ import type { SemantiqApplicationService } from "../services/index.js";
 import { SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION } from "../version.js";
 import type { ApiResponse } from "./types.js";
 
+const MAX_JSON_BODY_BYTES = 1024 * 1024; // 1 MiB; enforced on streamed bytes, not characters.
+
+class RequestBodyTooLargeError extends Error {
+  constructor() {
+    super("Request body exceeds the 1 MiB limit");
+    this.name = "RequestBodyTooLargeError";
+  }
+}
+
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -425,6 +434,10 @@ export class SemantiqHttpRouter {
         }
       }
     } catch (err) {
+      if (err instanceof RequestBodyTooLargeError) {
+        this.sendError(res, 413, "PAYLOAD_TOO_LARGE", err.message, correlationId);
+        return true;
+      }
       const msg = err instanceof Error ? err.message : String(err);
       this.sendError(res, 500, "SERVICE_ERROR", msg, correlationId);
       return true;
@@ -477,8 +490,25 @@ export class SemantiqHttpRouter {
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      let totalBytes = 0;
+      let exceeded = false;
+      const onData = (chunk: Buffer) => {
+        if (exceeded) return;
+        totalBytes += Buffer.byteLength(chunk);
+        if (totalBytes > MAX_JSON_BODY_BYTES) {
+          exceeded = true;
+          chunks.length = 0;
+          req.off("data", onData);
+          // Continue draining without buffering so HTTP 413 can reach the client.
+          req.resume();
+          reject(new RequestBodyTooLargeError());
+          return;
+        }
+        chunks.push(chunk);
+      };
+      req.on("data", onData);
       req.on("end", () => {
+        if (exceeded) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {
