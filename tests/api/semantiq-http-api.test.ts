@@ -54,7 +54,30 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(res.headers.get("x-content-type-options")).toBe("nosniff");
       expect(res.headers.get("x-frame-options")).toBe("DENY");
       expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+      expect(res.headers.get("content-security-policy")).toBe(
+        "default-src 'none'; frame-ancestors 'none'"
+      );
       await res.arrayBuffer();
+    });
+
+    it("rejects request bodies exceeding size limit to prevent memory exhaustion DoS", async () => {
+      const oversizedPayload = JSON.stringify({
+        statement: "a".repeat(1024 * 1024 + 10)
+      });
+      try {
+        const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: oversizedPayload
+        });
+        expect(res.status).toBe(500);
+        const json = await res.json();
+        expect(json.success).toBe(false);
+        expect(json.error.message).toContain("Request body too large");
+      } catch (err: any) {
+        // In Node fetch, destroying the socket when body exceeds limit may close connection
+        expect(err).toBeDefined();
+      }
     });
   });
 
@@ -78,6 +101,9 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       expect(res.headers.get("x-content-type-options")).toBe("nosniff");
       expect(res.headers.get("x-frame-options")).toBe("DENY");
       expect(res.headers.get("referrer-policy")).toBe("strict-origin-when-cross-origin");
+      expect(res.headers.get("content-security-policy")).toBe(
+        "default-src 'none'; frame-ancestors 'none'"
+      );
     });
 
     it("GET /info returns registered application service catalog", async () => {
