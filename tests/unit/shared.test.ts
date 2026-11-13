@@ -50,6 +50,18 @@ describe("shared logging and errors", () => {
     expect(getter).not.toHaveBeenCalled();
   });
 
+  it("does not invoke overridden Date accessors when serializing logs", () => {
+    const date = new Date("2026-01-01T00:00:00.000Z");
+    const getter = vi.fn(() => {
+      throw new Error("accessor must not run");
+    });
+    Object.defineProperty(date, "getTime", { get: getter });
+    expect(redactLogContext({ timestamp: date })).toEqual({
+      timestamp: "2026-01-01T00:00:00.000Z"
+    });
+    expect(getter).not.toHaveBeenCalled();
+  });
+
   it("does not invoke accessor getters on array items", () => {
     const getter = vi.fn(() => "private-array-secret");
     const values: unknown[] = ["public"];
