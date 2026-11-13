@@ -977,7 +977,7 @@ async function readJson(request: IncomingMessage): Promise<Record<string, unknow
           throw new Error("request body must be an object");
         resolve(parsed as Record<string, unknown>);
       } catch (error) {
-        reject(error);
+        reject(error instanceof Error ? error : new Error("Invalid JSON request body"));
       }
     });
     request.on("error", reject);
