@@ -27,11 +27,19 @@ jobs:
       - name: Install actual SemantIQ SDK from checked-out source
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -e ./packages/python pytest
+          python -m pip install -e ./packages/python -e ./plugins/semantiq-lite pytest ruff mypy build
           python -c 'import semantiq; print("Real SDK installed:", semantiq.__version__, semantiq.__file__)'
       - name: Run independent unit and SDK-installed end-to-end tests
         run: |
-          python -m pytest -q plugins/semantiq-lite/tests/test_semantiq_lite.py packages/python/tests/test_semantiq_lite_integration.py
+          python -m unittest discover -s plugins/semantiq-lite/tests -v
+          python -m pytest -q packages/python/tests/test_semantiq_lite_integration.py
+          python -m ruff check plugins/semantiq-lite/src plugins/semantiq-lite/tests plugins/semantiq-lite/contracts/build_schema.py plugins/semantiq-lite/examples/build_examples.py
+          python -m mypy --ignore-missing-imports plugins/semantiq-lite/src
+          python -m build plugins/semantiq-lite --outdir /tmp/semantiq-lite-dist
+          python -m venv /tmp/semantiq-lite-wheel
+          /tmp/semantiq-lite-wheel/bin/python -m pip install /tmp/semantiq-lite-dist/*.whl
+          cd /tmp
+          /tmp/semantiq-lite-wheel/bin/python -c 'from semantiq_lite import snapshot, ReviewResult, validate_review; validate_review(ReviewResult([snapshot("s", b"ok")]), {"s": b"ok"})'
       - name: Install the skill into isolated CODEX_HOME and invoke it
         env:
           CODEX_HOME: ${{ runner.temp }}/codex-home

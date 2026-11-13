@@ -1,0 +1,2 @@
+# Frozen raw bytes include CRLF intentionally; hashes must survive checkout.
+examples/source.txt -text whitespace=cr-at-eol

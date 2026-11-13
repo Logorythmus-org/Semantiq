@@ -1,5 +1,15 @@
 # SemantIQ Lite (experimental)
 
+## Experimental 0.2.0 evidence contract library
+
+Install `python -m pip install ./plugins/semantiq-lite` for the new, separately
+versioned Python API. It validates local UTF-8 text/Markdown snapshots and exact
+quotation anchors, without semantic assessment. See [the contract](CONTRACT.md)
+for APIs, limits, security boundaries and deferred hard deadlines, and
+[the evaluation protocol](EVALUATION.md) for future acceptance design.
+The existing skill and three CLI commands below retain their 0.1.1 behavior.
+For all tests, install both packages plus pytest and run with `PYTHONUTF8=1`.
+
 A minimal **skill-only** plugin for Codex and skill-enabled agent runtimes. It uses the existing SemantIQ Python SDK for controlled-language checks. No own model, server, database, remote API, or numeric truth score.
 
 ## Three actions
