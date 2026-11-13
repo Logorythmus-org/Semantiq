@@ -17,13 +17,69 @@ export type LogContext = Record<string, unknown>;
 
 const sensitiveKeyPattern = /password|secret|token|key|credential/i;
 
+/**
+ * Redact log contexts at every plain-object/array nesting level.
+ * Non-plain objects and inaccessible values are replaced rather than serialized.
+ */
 export function redactLogContext(context: LogContext = {}): LogContext {
-  return Object.fromEntries(
-    Object.entries(context).map(([key, value]) => [
-      key,
-      sensitiveKeyPattern.test(key) ? "[redacted]" : value
-    ])
-  );
+  const ancestors = new WeakSet<object>();
+
+  const sanitize = (value: unknown, depth: number): unknown => {
+    if (typeof value === "bigint") return "[unserializable]";
+    if (value === null || typeof value !== "object") return value;
+    if (depth >= 32) return "[depth-limit]";
+    if (ancestors.has(value)) return "[circular]";
+
+    try {
+      if (value instanceof Date) {
+        return Number.isNaN(Date.prototype.getTime.call(value))
+          ? null
+          : Date.prototype.toISOString.call(value);
+      }
+      if (!Array.isArray(value)) {
+        const prototype: unknown = Object.getPrototypeOf(value);
+        if (prototype !== Object.prototype && prototype !== null) return "[non-plain-object]";
+      }
+
+      ancestors.add(value);
+      try {
+        if (Array.isArray(value)) {
+          const maxItems = Math.min(value.length, 2048);
+          const items: unknown[] = [];
+          for (let index = 0; index < maxItems; index++) {
+            const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+            items.push(
+              descriptor && "value" in descriptor
+                ? sanitize(descriptor.value, depth + 1)
+                : descriptor
+                  ? "[accessor]"
+                  : null
+            );
+          }
+          if (value.length > maxItems) items.push("[truncated]");
+          return items;
+        }
+        return Object.fromEntries(
+          Object.keys(value).map((key) => {
+            if (sensitiveKeyPattern.test(key)) return [key, "[redacted]"];
+            const descriptor = Object.getOwnPropertyDescriptor(value, key);
+            return [
+              key,
+              descriptor && "value" in descriptor
+                ? sanitize(descriptor.value, depth + 1)
+                : "[accessor]"
+            ];
+          })
+        );
+      } finally {
+        ancestors.delete(value);
+      }
+    } catch {
+      return "[unserializable]";
+    }
+  };
+
+  return sanitize(context, 0) as LogContext;
 }
 
 export function createConsoleLogger(
