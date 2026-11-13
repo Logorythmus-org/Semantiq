@@ -20,8 +20,8 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
       join(tempStaticDir, "index.html"),
       '<link rel="stylesheet" href="/app.css"><h1>SemantIQ Web UI Mock</h1><script src="/app.js"></script>'
     );
-    await writeFile(join(tempStaticDir, "app.js"), 'globalThis.semantIQTest = true;');
-    await writeFile(join(tempStaticDir, "app.css"), 'h1 { color: black; }');
+    await writeFile(join(tempStaticDir, "app.js"), "globalThis.semantIQTest = true;");
+    await writeFile(join(tempStaticDir, "app.css"), "h1 { color: black; }");
 
     app = createSemantiqHttpServer({
       port: 0,
