@@ -1,4 +1,5 @@
 import { describe, it, expect, beforeAll, afterAll } from "vitest";
+import { request as httpRequest } from "node:http";
 import {
   createSemantiqHttpServer,
   type SemantiqHttpApplication
@@ -95,6 +96,58 @@ describe("UI-Independent SemantIQ Headless HTTP API (Prompt 25)", () => {
   });
 
   describe("2. Governed Claims & Controlled Language API", () => {
+    it("rejects oversized JSON bodies with HTTP 413 instead of a service error", async () => {
+      const response = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statement: "a".repeat(1024 * 1024) })
+      });
+      expect(response.status).toBe(413);
+      const payload = await response.json();
+      expect(payload.success).toBe(false);
+      expect(payload.error.code).toBe("PAYLOAD_TOO_LARGE");
+      expect(payload.error.message).not.toContain("a".repeat(100));
+    });
+
+    it("rejects chunked request bodies without a Content-Length header", async () => {
+      const result = await new Promise<{ status: number | undefined; body: string }>(
+        (resolve, reject) => {
+          const req = httpRequest(
+            `${baseUrl}/api/v1/claims/validate-language`,
+            {
+              method: "POST",
+              headers: { "Content-Type": "application/json", "Transfer-Encoding": "chunked" }
+            },
+            (res) => {
+              let body = "";
+              res.setEncoding("utf8");
+              res.on("data", (chunk: string) => {
+                body += chunk;
+              });
+              res.on("end", () => resolve({ status: res.statusCode, body }));
+            }
+          );
+          req.on("error", reject);
+          req.write('{"statement":"');
+          for (let i = 0; i < 17; i++) req.write("a".repeat(65536));
+          req.end('"}');
+        }
+      );
+      expect(result.status).toBe(413);
+      expect(JSON.parse(result.body).error.code).toBe("PAYLOAD_TOO_LARGE");
+    });
+
+    it("counts UTF-8 bytes rather than JavaScript string characters", async () => {
+      const response = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ statement: "é".repeat(530000) })
+      });
+      expect(response.status).toBe(413);
+      const payload = await response.json();
+      expect(payload.error.code).toBe("PAYLOAD_TOO_LARGE");
+    });
+
     it("POST /api/v1/claims/validate-language detects prohibited causal claims", async () => {
       const res = await fetch(`${baseUrl}/api/v1/claims/validate-language`, {
         method: "POST",
