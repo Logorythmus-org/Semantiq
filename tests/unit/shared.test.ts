@@ -50,6 +50,22 @@ describe("shared logging and errors", () => {
     expect(getter).not.toHaveBeenCalled();
   });
 
+  it("does not invoke accessor getters on array items", () => {
+    const getter = vi.fn(() => "private-array-secret");
+    const values: unknown[] = ["public"];
+    Object.defineProperty(values, "1", { enumerable: true, get: getter });
+    expect(redactLogContext({ values })).toEqual({ values: ["public", "[accessor]"] });
+    expect(getter).not.toHaveBeenCalled();
+  });
+
+  it("bounds very large log arrays without serializing their tails", () => {
+    const values = Array.from({ length: 2050 }, (_, i) => i);
+    const result = redactLogContext({ values });
+    const output = result["values"] as unknown[];
+    expect(output).toHaveLength(2049);
+    expect(output[2048]).toBe("[truncated]");
+  });
+
   it("produces serializable logs when nested credentials and cycles are present", () => {
     const spy = vi.spyOn(console, "log").mockImplementation(() => undefined);
     try {
