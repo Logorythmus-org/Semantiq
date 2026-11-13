@@ -42,7 +42,20 @@ export function redactLogContext(context: LogContext = {}): LogContext {
       ancestors.add(value);
       try {
         if (Array.isArray(value)) {
-          return value.map((item) => sanitize(item, depth + 1));
+          const maxItems = Math.min(value.length, 2048);
+          const items: unknown[] = [];
+          for (let index = 0; index < maxItems; index++) {
+            const descriptor = Object.getOwnPropertyDescriptor(value, String(index));
+            items.push(
+              descriptor && "value" in descriptor
+                ? sanitize(descriptor.value, depth + 1)
+                : descriptor
+                  ? "[accessor]"
+                  : null
+            );
+          }
+          if (value.length > maxItems) items.push("[truncated]");
+          return items;
         }
         return Object.fromEntries(
           Object.keys(value).map((key) => {
