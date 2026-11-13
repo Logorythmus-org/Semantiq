@@ -906,7 +906,22 @@ async function readQuestionBody(
 ): Promise<Record<string, unknown> | undefined> {
   try {
     return await readJson(request);
-  } catch {
+  } catch (error) {
+    if (error instanceof RequestBodyTooLargeError) {
+      send(
+        response,
+        413,
+        {
+          error: {
+            code: "PAYLOAD_TOO_LARGE",
+            message: "Request body exceeds the 64 KiB limit",
+            correlationId
+          }
+        },
+        correlationId
+      );
+      return undefined;
+    }
     send(
       response,
       422,
@@ -917,17 +932,57 @@ async function readQuestionBody(
   }
 }
 
-async function readJson(request: IncomingMessage): Promise<Record<string, unknown>> {
-  let body = "";
-  for await (const chunk of request) {
-    body += String(chunk);
-    if (body.length > 65536) throw new Error("request too large");
+const MAX_QUESTION_BODY_BYTES = 64 * 1024;
+
+class RequestBodyTooLargeError extends Error {
+  constructor() {
+    super("Request body exceeds the 64 KiB limit");
+    this.name = "RequestBodyTooLargeError";
   }
-  if (!body) return {};
-  const parsed: unknown = JSON.parse(body);
-  if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
-    throw new Error("request body must be an object");
-  return parsed as Record<string, unknown>;
+}
+
+async function readJson(request: IncomingMessage): Promise<Record<string, unknown>> {
+  return new Promise((resolve, reject) => {
+    const chunks: Buffer[] = [];
+    let receivedBytes = 0;
+    let exceeded = false;
+
+    const onData = (chunk: Buffer | string) => {
+      if (exceeded) return;
+      const bytes = typeof chunk === "string" ? Buffer.from(chunk) : chunk;
+      receivedBytes += bytes.byteLength;
+      if (receivedBytes > MAX_QUESTION_BODY_BYTES) {
+        exceeded = true;
+        chunks.length = 0;
+        request.off("data", onData);
+        // Drain instead of destroying the socket so the caller receives HTTP 413.
+        request.resume();
+        reject(new RequestBodyTooLargeError());
+        return;
+      }
+      chunks.push(bytes);
+    };
+
+    request.on("data", onData);
+    request.on("end", () => {
+      if (exceeded) return;
+      try {
+        const body = Buffer.concat(chunks).toString("utf8");
+        if (!body) {
+          resolve({});
+          return;
+        }
+        const parsed: unknown = JSON.parse(body);
+        if (!parsed || typeof parsed !== "object" || Array.isArray(parsed))
+          throw new Error("request body must be an object");
+        resolve(parsed as Record<string, unknown>);
+      } catch (error) {
+        reject(error instanceof Error ? error : new Error("Invalid JSON request body"));
+      }
+    });
+    request.on("error", reject);
+    request.on("aborted", () => reject(new Error("request aborted")));
+  });
 }
 
 function semanticStructureFromBody(
