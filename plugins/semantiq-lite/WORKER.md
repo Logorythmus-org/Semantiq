@@ -8,8 +8,8 @@ PDF/HTML parser, extraction contract, media support, CLI command or release.
 The maintainer's B1-only decision requires fail-closed operation, separate platform
 qualification and normal CI, security assessment and non-author CODEOWNER review.
 The [human decision by Matrix-Engage](https://github.com/Logorythmus-org/Semantiq/issues/261#issuecomment-6840515024)
-accepts B1 with conditions, leaving document processing unauthorized. The issue body
-still says DRAFT; its metadata needs reconciliation with that scoped decision.
+accepts B1 with conditions, leaving document processing unauthorized. The issue's
+top-level metadata records B1 acceptance; B2/B3/B4 decisions remain pending.
 Neither implementation nor passing tests substitute for independent approval.
 
 ## Authorized surface
@@ -88,6 +88,11 @@ bounded grace, so a timeout can return after the work deadline plus cleanup grac
 OS process creation, trusted-file reads and kernel scheduling are not preemptible
 hard real-time guarantees. Cleanup failure overrides success/errors and quarantines
 that supervisor instance. A new instance does not establish host cleanliness.
+
+Partial pipe-thread startup failure still terminates/reaps the worker without
+joining a thread that never started. A failed direct-process kill cannot skip the
+Job cleanup attempt. Reader failures are checked after drain completion as well as
+during monitoring; syntactically complete frames do not override a failed read.
 
 ## Capability evidence and unresolved qualification
 

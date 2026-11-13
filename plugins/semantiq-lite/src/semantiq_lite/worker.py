@@ -372,7 +372,7 @@ class WorkerSupervisor:
             if not release.is_set() and process.returncode == 3:
                 raise WorkerError("ISOLATION_UNAVAILABLE")
             raise WorkerError("WORKER_CRASH")
-        if write_failed.is_set():
+        if write_failed.is_set() or any(d.failed.is_set() for d in drains):
             raise WorkerError("PROTOCOL_ERROR")
         try:
             output = drains[0].value()
@@ -413,7 +413,11 @@ class WorkerSupervisor:
                 # Also cover a process whose Job assignment failed while still gated.
                 if process is not None and process.poll() is None:
                     process.kill()
-                success = job.finish(deadline)
+            except OSError:
+                success = False
+            try:
+                # A failed direct kill must not skip Job termination/handle closure.
+                success = job.finish(deadline) and success
             except OSError:
                 success = False
         elif process is not None and sys.platform == "linux":
@@ -429,6 +433,10 @@ class WorkerSupervisor:
             except (OSError, subprocess.TimeoutExpired):
                 success = False
         for thread in ([writer] if writer else []) + [d.thread for d in drains]:
+            # Thread.start can fail partway through pipe setup. Unstarted threads
+            # own no running operation and cannot be joined.
+            if thread.ident is None:
+                continue
             thread.join(timeout=max(0, deadline - time.monotonic()))
             if thread.is_alive():
                 success = False

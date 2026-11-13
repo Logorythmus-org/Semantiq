@@ -11,6 +11,7 @@ import subprocess
 import sys
 import sysconfig
 import tempfile
+import threading
 import time
 import unittest
 from pathlib import Path
@@ -41,6 +42,15 @@ def header(kind="request"):
 
 
 class WireTests(unittest.TestCase):
+    def test_job_cleanup_attempted_after_direct_kill_failure(self):
+        process = Mock()
+        process.poll.return_value = None
+        process.kill.side_effect = OSError("private-marker")
+        job = Mock()
+        job.finish.return_value = True
+        self.assertFalse(WorkerSupervisor()._cleanup(process, job, [], None))
+        job.finish.assert_called_once()
+
     def test_windows_cleanup_waits_for_process_signal_after_accounting_zero(self):
         from semantiq_lite._worker_windows import NativeJob, _ProcessIds
 
@@ -414,6 +424,36 @@ response=dict(request,kind='response')
         with patch(BASE + ".subprocess.Popen") as spawn:
             self.failure("CLEANUP_FAILED", lambda: supervisor.run_synthetic(self.source))
             spawn.assert_not_called()
+
+    def test_late_stream_read_failure_cannot_be_success(self):
+        supervisor = WorkerSupervisor()
+        cleanup = supervisor._cleanup
+
+        def failed_read(*args):
+            result = cleanup(*args)
+            # Model a reader that observed a read error after the exit poll,
+            # even though it had already collected syntactically valid frames.
+            args[2][0].failed.set()
+            return result
+
+        with patch.object(supervisor, "_cleanup", side_effect=failed_read):
+            self.failure("PROTOCOL_ERROR", lambda: supervisor.run_synthetic(self.source))
+
+    def test_partial_thread_start_failure_is_reaped_and_recoverable(self):
+        actual_start = threading.Thread.start
+        starts = 0
+
+        def start(thread):
+            nonlocal starts
+            starts += 1
+            if starts == 2:
+                raise RuntimeError("private-marker")
+            return actual_start(thread)
+
+        supervisor = WorkerSupervisor()
+        with patch.object(threading.Thread, "start", start):
+            self.failure("ISOLATION_UNAVAILABLE", lambda: supervisor.run_synthetic(self.source))
+        self.assertEqual(supervisor.run_synthetic(self.source).raw_bytes, 2)
 
     def test_concurrent_use_rejected(self):
         supervisor = WorkerSupervisor()
