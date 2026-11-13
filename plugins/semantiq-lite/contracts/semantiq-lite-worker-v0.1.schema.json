@@ -1,0 +1,230 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:semantiq-lite-worker:0.1.0",
+  "description": "Internal B1 protocol; not a review or extraction contract. Runtime framing, duplicate keys, exact Python types, identity, byte limits and handshake ordering require code validation.",
+  "oneOf": [
+    {
+      "$ref": "#/$defs/ready"
+    },
+    {
+      "$ref": "#/$defs/request"
+    },
+    {
+      "$ref": "#/$defs/response"
+    },
+    {
+      "$ref": "#/$defs/capabilities"
+    },
+    {
+      "$ref": "#/$defs/error"
+    }
+  ],
+  "$defs": {
+    "ready": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "semantiq-lite-worker/0.1.0"
+        },
+        "kind": {
+          "const": "ready"
+        },
+        "nonce": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}(?![\\s\\S])"
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "protocol",
+        "kind",
+        "nonce",
+        "manifest_id"
+      ],
+      "additionalProperties": false
+    },
+    "request": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "semantiq-lite-worker/0.1.0"
+        },
+        "kind": {
+          "const": "request"
+        },
+        "nonce": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}(?![\\s\\S])"
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "raw_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "raw_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "protocol",
+        "kind",
+        "nonce",
+        "manifest_id",
+        "source_id",
+        "raw_bytes",
+        "raw_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "semantiq-lite-worker/0.1.0"
+        },
+        "kind": {
+          "const": "response"
+        },
+        "nonce": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{32}(?![\\s\\S])"
+        },
+        "manifest_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        },
+        "source_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "raw_bytes": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 2097152
+        },
+        "raw_sha256": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}(?![\\s\\S])"
+        }
+      },
+      "required": [
+        "protocol",
+        "kind",
+        "nonce",
+        "manifest_id",
+        "source_id",
+        "raw_bytes",
+        "raw_sha256"
+      ],
+      "additionalProperties": false
+    },
+    "capabilities": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "semantiq-lite-worker/0.1.0"
+        },
+        "platform_kind": {
+          "enum": [
+            "WINDOWS_NATIVE",
+            "LINUX_NATIVE",
+            "LINUX_WSL",
+            "UNSUPPORTED"
+          ]
+        },
+        "authorization": {
+          "const": "B1_SYNTHETIC_ONLY"
+        },
+        "untrusted_documents_enabled": {
+          "const": false
+        },
+        "declared_controls": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "type": "string"
+          }
+        },
+        "observations": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "control": {
+                "type": "string"
+              },
+              "state": {
+                "enum": [
+                  "ENFORCED_AND_TESTED",
+                  "IMPLEMENTED_NOT_QUALIFIED",
+                  "UNAVAILABLE",
+                  "NOT_TESTED"
+                ]
+              },
+              "evidence": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "control",
+              "state",
+              "evidence"
+            ],
+            "additionalProperties": false
+          }
+        }
+      },
+      "required": [
+        "protocol",
+        "platform_kind",
+        "authorization",
+        "untrusted_documents_enabled",
+        "declared_controls",
+        "observations"
+      ],
+      "additionalProperties": false
+    },
+    "error": {
+      "type": "object",
+      "properties": {
+        "protocol": {
+          "const": "semantiq-lite-worker/0.1.0"
+        },
+        "code": {
+          "enum": [
+            "INVALID_LIMITS",
+            "INVALID_INPUT",
+            "LIMIT_EXCEEDED",
+            "WORKER_BUSY",
+            "ISOLATION_UNAVAILABLE",
+            "PARSE_TIMEOUT",
+            "WORKER_CRASH",
+            "PROTOCOL_ERROR",
+            "CLEANUP_FAILED"
+          ]
+        },
+        "location": {
+          "const": "worker"
+        }
+      },
+      "required": [
+        "protocol",
+        "code",
+        "location"
+      ],
+      "additionalProperties": false
+    }
+  }
+}
