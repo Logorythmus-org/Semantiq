@@ -19,6 +19,9 @@ import type { SemantiqApplicationService } from "../services/index.js";
 import { SEMANTIQ_MATURITY, SEMANTIQ_RELEASE_VERSION } from "../version.js";
 import type { ApiResponse } from "./types.js";
 
+// Maximum allowable JSON request body size (64 KB) to prevent DoS via memory exhaustion.
+const MAX_JSON_BODY_BYTES = 64 * 1024;
+
 const MIME_TYPES: Record<string, string> = {
   ".html": "text/html",
   ".js": "text/javascript",
@@ -45,6 +48,7 @@ export class SemantiqHttpRouter {
     res.setHeader("x-content-type-options", "nosniff");
     res.setHeader("x-frame-options", "DENY");
     res.setHeader("referrer-policy", "strict-origin-when-cross-origin");
+    res.setHeader("content-security-policy", "default-src 'none'; frame-ancestors 'none'");
 
     if (this.enableCors) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -477,8 +481,29 @@ export class SemantiqHttpRouter {
   private async readJsonBody<T = any>(req: IncomingMessage): Promise<T> {
     return new Promise((resolve, reject) => {
       const chunks: Buffer[] = [];
-      req.on("data", (chunk: Buffer) => chunks.push(chunk));
+      let totalBytes = 0;
+      let limitExceeded = false;
+
+      const onData = (chunk: Buffer) => {
+        if (limitExceeded) return;
+        totalBytes += chunk.length;
+        if (totalBytes > MAX_JSON_BODY_BYTES) {
+          limitExceeded = true;
+          req.off("data", onData);
+          req.pause();
+          reject(
+            new Error(
+              `Payload Too Large: JSON body exceeds maximum size of ${MAX_JSON_BODY_BYTES} bytes`
+            )
+          );
+          return;
+        }
+        chunks.push(chunk);
+      };
+
+      req.on("data", onData);
       req.on("end", () => {
+        if (limitExceeded) return;
         try {
           const raw = Buffer.concat(chunks).toString("utf8").trim();
           if (!raw) {
@@ -494,7 +519,9 @@ export class SemantiqHttpRouter {
           );
         }
       });
-      req.on("error", reject);
+      req.on("error", (err) => {
+        if (!limitExceeded) reject(err);
+      });
     });
   }
 
