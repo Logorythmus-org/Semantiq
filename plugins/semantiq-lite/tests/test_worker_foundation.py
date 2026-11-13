@@ -14,7 +14,7 @@ import tempfile
 import time
 import unittest
 from pathlib import Path
-from unittest.mock import patch
+from unittest.mock import Mock, patch
 
 from semantiq_lite import _worker_wire as wire
 from semantiq_lite.worker import (
@@ -41,6 +41,35 @@ def header(kind="request"):
 
 
 class WireTests(unittest.TestCase):
+    def test_windows_cleanup_waits_for_process_signal_after_accounting_zero(self):
+        from semantiq_lite._worker_windows import NativeJob, _ProcessIds
+
+        job = object.__new__(NativeJob)
+        job.handle = 17
+
+        def query(handle, kind, info, size, returned):
+            if kind == 3:
+                self.assertIsInstance(info._obj, _ProcessIds)
+                info._obj.count = info._obj.assigned = 1
+                info._obj.ids[0] = 123
+            else:
+                info._obj.active = 0
+            return True
+
+        job.query = query
+        job.open_process = Mock(return_value=18)
+        job.kill = Mock(return_value=True)
+        job.close_handle = Mock()
+        job.wait = Mock(side_effect=[258, 0])
+        self.assertTrue(job.finish(time.monotonic() + 1))
+        self.assertEqual(job.wait.call_count, 2)
+        self.assertEqual([call.args[0] for call in job.close_handle.call_args_list], [18, 17])
+
+    def test_manifest_binds_runtime_identity(self):
+        original = wire.manifest_id()
+        with patch.object(wire.sys, "version", "different runtime"):
+            self.assertNotEqual(original, wire.manifest_id())
+
     def test_internal_schema_and_capabilities(self):
         from runpy import run_path
 

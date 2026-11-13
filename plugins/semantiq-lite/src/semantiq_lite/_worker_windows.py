@@ -58,6 +58,10 @@ class _Accounting(c.Structure):
     ]
 
 
+class _ProcessIds(c.Structure):
+    _fields_ = [("assigned", w.DWORD), ("count", w.DWORD), ("ids", c.c_size_t * 64)]
+
+
 class NativeJob:
     # Explicit declarations also describe this Windows-only object to Linux type checks.
     create: Any
@@ -68,6 +72,7 @@ class NativeJob:
     kill: Any
     close_handle: Any
     handle: Any
+    wait: Any
 
     def __init__(self, memory: int, job_memory: int, cpu: int, processes: int) -> None:
         self.kernel: Any
@@ -88,6 +93,7 @@ class NativeJob:
         self.open_process = self._api("OpenProcess", [w.DWORD, w.BOOL, w.DWORD], w.HANDLE)
         self.kill = self._api("TerminateJobObject", [w.HANDLE, w.UINT], w.BOOL)
         self.close_handle = self._api("CloseHandle", [w.HANDLE], w.BOOL)
+        self.wait = self._api("WaitForSingleObject", [w.HANDLE, w.DWORD], w.DWORD)
         self.handle = self.create(None, None)
         if not self.handle:
             raise OSError("CONTROL_UNAVAILABLE")
@@ -118,18 +124,32 @@ class NativeJob:
             self.close_handle(handle)
 
     def finish(self, deadline: float) -> bool:
+        members = []
         try:
+            # Hold process objects, rather than re-opening PIDs after asynchronous exit.
+            ids = _ProcessIds()
+            if not self.query(self.handle, 3, c.byref(ids), c.sizeof(ids), None):
+                return False
+            if ids.count > 64 or ids.assigned > 64:
+                return False
+            for pid in ids.ids[: ids.count]:
+                member = self.open_process(0x100000, False, pid)  # SYNCHRONIZE
+                if not member:
+                    return False
+                members.append(member)
             if not self.kill(self.handle, 124):
                 return False
             while True:
                 info = _Accounting()
                 if not self.query(self.handle, 1, c.byref(info), c.sizeof(info), None):
                     return False
-                if info.active == 0:
+                if info.active == 0 and all(self.wait(member, 0) == 0 for member in members):
                     return True
                 if time.monotonic() >= deadline:
                     return False
                 time.sleep(0.005)
         finally:
+            for member in members:
+                self.close_handle(member)
             self.close_handle(self.handle)
             self.handle = None

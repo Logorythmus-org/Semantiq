@@ -6,6 +6,7 @@ import hashlib
 import json
 import re
 import struct
+import sys
 from pathlib import Path
 from typing import Any
 
@@ -29,7 +30,14 @@ def digest(raw: bytes) -> str:
 def manifest_id() -> str:
     root = Path(__file__).resolve().parent
     return digest(
-        b"worker-source-v1\0"
+        b"worker-runtime-v1\0"
+        + sys.version.encode("utf-8")
+        + b"\0"
+        + sys.implementation.name.encode("ascii")
+        + b"\0"
+        + sys.platform.encode("ascii")
+        + str(struct.calcsize("P")).encode("ascii")
+        + b"\0"
         + (root / "_worker_wire.py").read_bytes()
         + b"\0"
         + (root / "_worker_entry.py").read_bytes()

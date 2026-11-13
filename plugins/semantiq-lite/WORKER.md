@@ -53,8 +53,9 @@ Worker diagnostics never forward raw stderr, input or exception paths.
 Before releasing source bytes, Windows Job assignment must succeed, or the Linux
 worker must establish its parent-death signal and resource limits and acknowledge
 readiness. Nonce and source manifest bind the handshake; source ID, length and SHA-256
-bind the response. The manifest hashes the wire and worker source files: it detects
-source disagreement, **not** malicious package replacement, interpreter compromise,
+bind the response. The manifest hashes the wire and worker source files and runtime
+version/implementation/platform/word size: it detects identity disagreement, **not**
+malicious package replacement, interpreter compromise,
 signature authenticity or runtime attestation.
 
 Default maxima (caller limits may be reduced):
@@ -75,6 +76,11 @@ Windows configures Job process count, process CPU, memory and kill-on-close; its
 enforcement remains unqualified. Linux configures per-process AS/CPU, zero core/file
 growth and descriptor limits. Filesystem writes, reads and network access are not
 confined by these controls.
+
+Windows cleanup holds handles for the bounded set of Job members observed before
+termination and waits for their process signals as well as zero active accounting.
+This avoids treating asynchronous accounting updates as completed process teardown;
+it is not proof against every descendant/parent-death race.
 
 The parent monitors both blocked writers and readers against monotonic deadlines.
 A request budget is shared across sources, not reset per source. Cleanup has its own
