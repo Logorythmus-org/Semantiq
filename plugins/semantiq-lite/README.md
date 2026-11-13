@@ -43,6 +43,9 @@ This repository change **does not install a plugin in ChatGPT**. ChatGPT distrib
 
 ## Tests
 
+The internal [B1 worker foundation](WORKER.md) supports trusted synthetic byte/hash
+tests only. Untrusted PDF/HTML intake remains disabled on every platform.
+
 ~~~bash
 python -m unittest discover -s plugins/semantiq-lite/tests -v
 ~~~
