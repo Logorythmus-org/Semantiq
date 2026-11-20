@@ -21,6 +21,10 @@ import type { ApiResponse } from "./types.js";
 
 const MAX_JSON_BODY_BYTES = 1024 * 1024; // 1 MiB; enforced on streamed bytes, not characters.
 
+// Do not apply the JSON-only directive to optional static UI assets.
+const JSON_CONTENT_SECURITY_POLICY = "default-src 'none'; frame-ancestors 'none'";
+const STATIC_CONTENT_SECURITY_POLICY = "frame-ancestors 'none'";
+
 class RequestBodyTooLargeError extends Error {
   constructor() {
     super("Request body exceeds the 1 MiB limit");
@@ -54,6 +58,8 @@ export class SemantiqHttpRouter {
     res.setHeader("x-content-type-options", "nosniff");
     res.setHeader("x-frame-options", "DENY");
     res.setHeader("referrer-policy", "strict-origin-when-cross-origin");
+    // Frame protection also applies to optional static pages and CORS preflights.
+    res.setHeader("content-security-policy", STATIC_CONTENT_SECURITY_POLICY);
 
     if (this.enableCors) {
       res.setHeader("Access-Control-Allow-Origin", "*");
@@ -548,6 +554,7 @@ export class SemantiqHttpRouter {
       }
     };
     const body = JSON.stringify(payload);
+    res.setHeader("content-security-policy", JSON_CONTENT_SECURITY_POLICY);
     res.writeHead(statusCode, {
       "Content-Type": "application/json",
       "Content-Length": Buffer.byteLength(body)
@@ -581,6 +588,7 @@ export class SemantiqHttpRouter {
       }
     };
     const body = JSON.stringify(payload);
+    res.setHeader("content-security-policy", JSON_CONTENT_SECURITY_POLICY);
     res.writeHead(statusCode, {
       "Content-Type": "application/json",
       "Content-Length": Buffer.byteLength(body)
