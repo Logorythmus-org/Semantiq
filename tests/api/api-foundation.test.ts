@@ -84,6 +84,50 @@ describe("API foundation", () => {
     await application.stop();
   });
 
+  it("returns HTTP 413 for oversized Question JSON bodies and preserves invalid JSON 422", async () => {
+    const question = createMemoryQuestionApplication();
+    const application = createApiApplication({
+      listenPort: 0,
+      questionApplication: question.application
+    });
+    await application.start();
+    try {
+      const address = application.server.address();
+      if (!address || typeof address === "string") throw new Error("API did not bind TCP");
+      const endpoint = `http://127.0.0.1:${address.port}/api/v1/questions`;
+      const oversized = await fetch(endpoint, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ text: "a".repeat(65536), language: "en" })
+      });
+      expect(oversized.status).toBe(413);
+      const oversizedJson = (await oversized.json()) as {
+        error: { code: string; message: string };
+      };
+      expect(oversizedJson.error.code).toBe("PAYLOAD_TOO_LARGE");
+      expect(oversizedJson.error.message).not.toContain("a".repeat(100));
+
+      const multibyte = await fetch(endpoint, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: JSON.stringify({ text: "é".repeat(33000), language: "en" })
+      });
+      expect(multibyte.status).toBe(413);
+      expect(((await multibyte.json()) as { error: { code: string } }).error.code).toBe(
+        "PAYLOAD_TOO_LARGE"
+      );
+
+      const malformed = await fetch(endpoint, {
+        method: "POST",
+        headers: { "content-type": "application/json" },
+        body: "{"
+      });
+      expect(malformed.status).toBe(422);
+    } finally {
+      await application.stop();
+    }
+  });
+
   it("runs the controlled Question mutation lifecycle and revision API", async () => {
     const question = createMemoryQuestionApplication();
     const application = createApiApplication({
