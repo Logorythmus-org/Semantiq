@@ -63,7 +63,7 @@
     "@commitlint/config-conventional": "21.2.3",
     "@eslint/js": "9.39.5",
     "@hyperjump/json-schema": "1.18.0",
-    "@playwright/test": "1.64.1",
+    "@playwright/test": "1.65.0",
     "@types/node": "22.20.5",
     "@vitest/coverage-v8": "5.1.0",
     "ajv": "8.20.0",
