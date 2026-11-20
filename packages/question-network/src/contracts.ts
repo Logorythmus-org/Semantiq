@@ -29,12 +29,7 @@ export type QuestionStatus =
   | "archive";
 
 export type QuestionVisibility =
-  | "private"
-  | "shared"
-  | "team"
-  | "organization"
-  | "public"
-  | "anonymous";
+  "private" | "shared" | "team" | "organization" | "public" | "anonymous";
 
 export type QuestionRelationType =
   | "extends"
@@ -118,12 +113,7 @@ export interface QuestionProfile {
   readonly aiInsightIds: readonly string[];
   readonly futureDirections: readonly string[];
   readonly health:
-    | "healthy"
-    | "needs-evidence"
-    | "contradictory"
-    | "stale"
-    | "high-potential"
-    | "unknown";
+    "healthy" | "needs-evidence" | "contradictory" | "stale" | "high-potential" | "unknown";
 }
 
 export interface QuestionRelation {
@@ -181,12 +171,7 @@ export interface QuestionModerationCase {
   readonly flags: readonly string[];
   readonly aiAssistanceSummary?: string;
   readonly humanDecision?:
-    | "pending"
-    | "approved"
-    | "needs-clarification"
-    | "merged"
-    | "restricted"
-    | "archived";
+    "pending" | "approved" | "needs-clarification" | "merged" | "restricted" | "archived";
   readonly auditIds: readonly string[];
 }
 

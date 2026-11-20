@@ -71,11 +71,7 @@ export interface CoreCompositionTrace {
 }
 
 type PlanBindingFields =
-  | "studyIdentity"
-  | "studyDigest"
-  | "benchmarkIdentity"
-  | "metricIdentity"
-  | "evaluatorIdentity";
+  "studyIdentity" | "studyDigest" | "benchmarkIdentity" | "metricIdentity" | "evaluatorIdentity";
 
 export type CoreCompositionPlanInput = Omit<ControlledExecutionPlanInput, PlanBindingFields> &
   Partial<Pick<ControlledExecutionPlanInput, PlanBindingFields>>;

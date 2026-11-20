@@ -12,11 +12,7 @@ export interface ConflictDisclosureRecord {
   readonly maintainerId: string;
   readonly entityName: string;
   readonly relationshipType:
-    | "employment"
-    | "funding"
-    | "sponsorship"
-    | "model_provider"
-    | "consulting";
+    "employment" | "funding" | "sponsorship" | "model_provider" | "consulting";
   readonly isRecusedFromVoting: boolean;
 }
 

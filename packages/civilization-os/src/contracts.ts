@@ -12,13 +12,7 @@ export type ArchiveObjectType =
   | "asset";
 
 export type GovernanceScope =
-  | "community"
-  | "scientific"
-  | "educational"
-  | "institutional"
-  | "policy"
-  | "ethics"
-  | "version";
+  "community" | "scientific" | "educational" | "institutional" | "policy" | "ethics" | "version";
 
 export interface CivilizationMemoryRecord {
   readonly id: string;

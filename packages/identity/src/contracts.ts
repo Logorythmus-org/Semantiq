@@ -79,13 +79,7 @@ export interface SemanticIdentity {
 export interface AuthenticationRequest {
   readonly provider: string;
   readonly method:
-    | "local"
-    | "oauth2"
-    | "oidc"
-    | "passkey"
-    | "hardware-key"
-    | "biometric"
-    | "decentralized";
+    "local" | "oauth2" | "oidc" | "passkey" | "hardware-key" | "biometric" | "decentralized";
   readonly subjectHint?: string;
   readonly context: AuthorizationContext;
 }
@@ -245,12 +239,7 @@ export interface OwnershipRegistry {
 export interface TrustSignal {
   readonly id: string;
   readonly type:
-    | "identity"
-    | "contribution"
-    | "knowledge"
-    | "benchmark"
-    | "research"
-    | "organization";
+    "identity" | "contribution" | "knowledge" | "benchmark" | "research" | "organization";
   readonly confidence: number;
   readonly evidence: readonly string[];
   readonly explanation: string;

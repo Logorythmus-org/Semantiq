@@ -8,9 +8,9 @@ SemantIQ is **Behavioral Evidence Infrastructure for AI Systems**. Because Seman
 
 SemantIQ is currently a **Public Alpha (Experimental)** project.
 
-| Version | Supported | Security Patch Support |
-| :--- | :---: | :--- |
-| **`0.1.0-alpha.x`** | **YES** | Current Public Alpha line; critical vulnerability fixes are accepted while this line is maintained. |
+| Version                          |          Supported           | Security Patch Support                                                                                          |
+| :------------------------------- | :--------------------------: | :-------------------------------------------------------------------------------------------------------------- |
+| **`0.1.0-alpha.x`**              |           **YES**            | Current Public Alpha line; critical vulnerability fixes are accepted while this line is maintained.             |
 | Other / unreleased version lines | **NO CURRENT SUPPORT CLAIM** | No current `1.0.x` release or support commitment is established by the repository's canonical version surfaces. |
 
 The current provisional software identity is `0.1.0-alpha.2` (Python distribution
